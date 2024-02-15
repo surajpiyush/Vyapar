@@ -53,7 +53,16 @@ const sidebarItems = [
     name: "Reports",
     extraIcon : <IoIosArrowDown/>,
     purchaseToggle : [
-      {name : "Transaction Report",extraIcon: <IoIosArrowDown/>},
+      {name : "Sale", Icon: <PlusIcon/>, navigateurl : "/salereport"},
+      {name : "Purchase", Icon: <PlusIcon/>, navigateurl : "/purchasereport"},
+      {name : "Day Book", Icon: <PlusIcon/>, navigateurl : "/daybookreport"},
+      {name : "All Transaction", Icon: <PlusIcon/>, navigateurl : "/alltransactionreport"},
+      {name : "Cash Flow", Icon: <PlusIcon/>, navigateurl : "/cashflowreport"},
+      {name : "GSTR 1", Icon: <PlusIcon/>, navigateurl : "/gstr1report"},
+      {name : "GSTR 2", Icon: <PlusIcon/>, navigateurl : "/gstr2report"},
+      {name : "GSTR 3B", Icon: <PlusIcon/>, navigateurl : "/gstr3breport"},
+      {name : "GSTR 9", Icon: <PlusIcon/>, navigateurl : "/gstr9report"},
+      {name : "Sale HSN", Icon: <PlusIcon/>, navigateurl : "/salehsnreport"}
 
     ]
   },

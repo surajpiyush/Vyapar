@@ -22,6 +22,16 @@ import SalesOrder from './pages/sales/salesOrder/SalesOrder.jsx';
 import SalesPaymentln from './pages/sales/salesPaymentIn/SalesPaymentIn.jsx';
 import SalesReturn from './pages/sales/salesReturn/SalesReturn.jsx';
 import Busniess from './Component/utils/Busniess.jsx';
+import Sale from "./pages/Sale.js"
+import Purchase from "./pages/Purchase.js"
+import DayBook from "./pages/DayBook.js"
+import AllTransaction from "./pages/AllTransactions.js"
+import CashFlow from "./pages/CashFlow.js"
+import GSTR1 from "./pages/GSTR1.js"
+import GSTR2 from "./pages/GSTR2.js"
+import GSTR3B from "./pages/GSTR3B.js"
+import GSTR9 from './pages/GSTR9.js';
+import SaleHSN from "./pages/SaleHSN.js"
 
 const router = createBrowserRouter([
   {
@@ -103,6 +113,46 @@ const router = createBrowserRouter([
       {
         path : "/salereturn",
         element : <SalesReturn/>
+      },
+      {
+        path : "/salereport",
+        element : <Sale/>
+      },
+      {
+        path : "/purchasereport",
+        element : <Purchase/>
+      },
+      {
+        path : "/daybookreport",
+        element : <DayBook/>
+      },
+      {
+        path : "/alltransactionreport",
+        element : <AllTransaction/>
+      },
+      {
+        path : "/cashflowreport",
+        element : <CashFlow/>
+      },
+      {
+        path : "/gstr1report",
+        element : <GSTR1/>
+      },
+      {
+        path : "/gstr2report",
+        element : <GSTR2/>
+      },
+      {
+        path : "/gstr3breport",
+        element : <GSTR3B/>
+      },
+      {
+        path : "/gstr9report",
+        element : <GSTR9/>
+      },
+      {
+        path : "/salehsnreport",
+        element : <SaleHSN/>
       }
     ]
   }
