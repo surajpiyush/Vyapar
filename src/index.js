@@ -16,6 +16,7 @@ import Addpurchaseorderpage from './Page/Addpurchaseorderpage.jsx';
 import Parties from "./Page/parties/Parties.jsx"
 import Items from './Page/Items/Items.jsx';
 import SalesDeliveryChallan from './pages/sales/salesDeliveryChallan/SalesDeliveryChallan.jsx';
+import Busniess from './Component/utils/Busniess.jsx';
 
 const router = createBrowserRouter([
   {
@@ -73,7 +74,11 @@ const router = createBrowserRouter([
       {
         path: "/saledeliverychallan",
         element: <SalesDeliveryChallan/>
-      }
+      },
+      {
+        path: "/Busniess",
+        element: <Busniess/>
+      },
     ]
   }
 ])
