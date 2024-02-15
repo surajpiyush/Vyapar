@@ -1,15 +1,16 @@
-import axios from 'axios';
-import React, { useState, useEffect } from 'react';
-import { MdOutlineMailOutline } from 'react-icons/md';
-import { IoLockOpenOutline } from 'react-icons/io5';
-import { useNavigate } from 'react-router-dom';
+import axios from "axios";
+import React, { useState, useEffect } from "react";
+import { MdOutlineMailOutline } from "react-icons/md";
+import { IoLockOpenOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
-const apiUrl = 'https://ca-backend-api.onrender.com/companyRegister/auth/signin';
+const apiUrl =
+  "https://ca-backend-api.onrender.com/companyRegister/auth/signin";
 
 function Login() {
   const [inputs, setInputs] = useState({});
-  const [userData, setUserData] = useState('');
-  const [error, setError] = useState('');
+  const [userData, setUserData] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (event) => {
@@ -25,22 +26,28 @@ function Login() {
       const response = await axios.post(apiUrl, { email, password });
       const { data } = response;
       setUserData(data);
-      localStorage.setItem('token', data.result.token);
-      localStorage.setItem("userId",data.result.userId)
+      localStorage.setItem("token", data.result.token);
+      localStorage.setItem("userId", data.result.userId);
       // console.log(data.result)
-      
-      navigate('/company');
+
+      navigate("/company");
     } catch (error) {
-      setError('Invalid email or password. Please try again.');
+      setError("Invalid email or password. Please try again.");
     }
   };
 
   useEffect(() => {
-    console.log('Login userData', userData);
+    console.log("Login userData", userData);
   }, [userData]);
 
   return (
-    <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }} className="Container1">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleLogin();
+      }}
+      className="Container1"
+    >
       <div>
         <h2 className="heading1">Login Here</h2>
         <div className="inputbox1">
@@ -51,7 +58,7 @@ function Login() {
             type="email"
             name="email"
             placeholder="email"
-            value={email || ''}
+            value={email || ""}
             onChange={handleChange}
             className="input1"
           />
@@ -67,7 +74,7 @@ function Login() {
             type="password"
             name="password"
             placeholder="password"
-            value={password || ''}
+            value={password || ""}
             onChange={handleChange}
             className="input1"
           />

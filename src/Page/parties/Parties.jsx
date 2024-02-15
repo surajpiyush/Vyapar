@@ -1,11 +1,37 @@
-import React, { useEffect, useState } from "react";
 import "../../styles/parties.css";
 import party from "../../assets/Images/party.jpg";
 import PartiesTable from "../../components/TableData/PartiesTable";
 import GroupTable from "../../components/TableData/GroupTable";
-import axios from 'axios';
+import { FetchData, SaveParty } from "../../Redux/parties/actions";
+import { SAVE_PARTY_INPUT_CHANGE } from "../../Redux/parties/actionTypes";
+
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 export default function Parties() {
+  const dispatch = useDispatch();
+  const savePartyLoading = useSelector(
+    (state) => state.PartiesReducer.savePartyLoading
+  );
+  const togglePartiesData = useSelector(
+    (state) => state.PartiesReducer.togglePartiesData
+  );
+  const partyName = useSelector((state) => state.PartiesReducer.partyName);
+  const gstNo = useSelector((state) => state.PartiesReducer.gstNo);
+  const phoneNumber = useSelector((state) => state.PartiesReducer.phoneNumber);
+  const GSTType = useSelector((state) => state.PartiesReducer.GSTType);
+  const state = useSelector((state) => state.PartiesReducer.state);
+  const billingAddress = useSelector(
+    (state) => state.PartiesReducer.billingAddress
+  );
+  const shippingAddress = useSelector(
+    (state) => state.PartiesReducer.shippingAddress
+  );
+  const openingBalance = useSelector(
+    (state) => state.PartiesReducer.openingBalance
+  );
+  const asOfDate = useSelector((state) => state.PartiesReducer.asOfDate);
+
   const [partyFormToggle, setPartyFormToggle] = useState(false);
   const [firstSec, setFirstSec] = useState(true);
   const [secondSec, setSecondSec] = useState(false);
@@ -13,28 +39,39 @@ export default function Parties() {
   const [opt, setOpt] = useState(true);
   const [shipAddToggle, setShipAddToggle] = useState(true);
   const [limitToggle, setLimitToggle] = useState("");
-  const [getdata, setGetData] = useState([]);
-  const token = localStorage.getItem("token");
-  const userId = localStorage.getItem("userId");
-  let url = `https://ca-backend-api.onrender.com/${userId}/party/getAll`;
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${token} `,
-        },
-      });
-      setGetData(response.data);
-      console.log(response.data)
-    } catch (error) {
-      console.error("Error fetching data:", error);
+  // Handle Save Function
+  const handleSave = () => {
+    if (!savePartyLoading) {
+      // this local storage key need to be changed after user login details are saved in localstorage
+      const email = localStorage.getItem("userId")?.email;
+      let savePartyData = {
+        partyName,
+        gstNo,
+        phoneNumber,
+        GSTType,
+        state,
+        email: "krishan1@gmail.com",
+        billingAddress,
+        shippingAddress,
+        openingBalance: 1000,
+        asOfDate,
+        creditLimit: 1000,
+      };
+      //  console.log("savePartyData", savePartyData);
+      SaveParty(dispatch, savePartyData);
     }
   };
+
+  // Input Change Function
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    dispatch({ type: SAVE_PARTY_INPUT_CHANGE, payload: value, name });
+  };
+
+  useEffect(() => {
+    FetchData(dispatch);
+  }, [togglePartiesData]);
 
   const togglePartyForm = () => {
     setPartyFormToggle(!partyFormToggle);
@@ -114,12 +151,28 @@ export default function Parties() {
                 type="text"
                 placeholder="Party Name *"
                 className="inp-field"
+                value={partyName}
+                name="partyName"
+                onChange={handleInputChange}
+                required
               />
-              <input type="text" placeholder="GSTIN *" className="inp-field" />
+              <input
+                type="text"
+                placeholder="GSTIN *"
+                className="inp-field"
+                value={gstNo}
+                name="gstNo"
+                onChange={handleInputChange}
+                required
+              />
               <input
                 type="text"
                 placeholder="Phone Number *"
                 className="inp-field"
+                value={phoneNumber}
+                name="phoneNumber"
+                onChange={handleInputChange}
+                required
               />
               <select
                 name=""
@@ -127,8 +180,8 @@ export default function Parties() {
                 className="inp-field"
                 style={{ width: "225px" }}
               >
-                <option value="">Party Group</option>
-                <option value="">+ Add New Group</option>
+                <option value="Party Group">Party Group</option>
+                <option value="+ Add New Group">+ Add New Group</option>
               </select>
             </div>
             <div className="d-flex" style={{ marginTop: "16px" }}>
@@ -182,27 +235,38 @@ export default function Parties() {
                   style={{ display: "flex", flexDirection: "column" }}
                 >
                   <select
-                    name=""
                     id=""
                     className="inp-field"
                     style={{ width: "225px" }}
+                    value={GSTType}
+                    name="GSTType"
+                    onChange={handleInputChange}
+                    required
                   >
-                    <option value="">GST Type</option>
-                    <option value=""></option>
+                    <option value="Primary">Primary</option>
+                    <option value="Secondary">Secondary</option>
                   </select>
                   <select
-                    name=""
                     id=""
                     className="inp-field"
                     style={{ width: "225px" }}
+                    value={state}
+                    name="state"
+                    onChange={handleInputChange}
+                    required
                   >
-                    <option value="">State</option>
-                    <option value=""></option>
+                    <option value="Punjab">Punjab</option>
+                    <option value="Orissa">Orissa</option>
+                    <option value="Maharashtra">Maharashtra</option>
                   </select>
                   <input
                     type="text"
                     placeholder="Party Name *"
                     className="inp-field"
+                    value={partyName}
+                    name="partyName"
+                    onChange={handleInputChange}
+                    required
                   />
                 </div>
                 <hr />
@@ -215,12 +279,15 @@ export default function Parties() {
                     }}
                   >
                     <textarea
-                      name=""
                       id=""
                       cols="20"
                       rows="6"
                       className="inp-field"
                       placeholder="Billing Address"
+                      value={billingAddress}
+                      name="billingAddress"
+                      onChange={handleInputChange}
+                      required
                     ></textarea>
                     <span
                       onClick={toggleShippingAddress}
@@ -234,7 +301,6 @@ export default function Parties() {
 
                   {shipAddToggle && (
                     <textarea
-                      name=""
                       id=""
                       cols="30"
                       rows="6"
@@ -245,6 +311,10 @@ export default function Parties() {
                         top: "-10px",
                         marginLeft: "20px",
                       }}
+                      value={shippingAddress}
+                      name="shippingAddress"
+                      onChange={handleInputChange}
+                      required
                     ></textarea>
                   )}
                 </div>
@@ -260,12 +330,20 @@ export default function Parties() {
                     type="text"
                     placeholder="Opening Balance *"
                     className="inp-field"
+                    value={openingBalance}
+                    name="openingBalance"
+                    onChange={handleInputChange}
+                    required
                   />
                   <input
                     type="text"
                     placeholder="As of date *"
                     className="inp-field"
                     style={{ marginLeft: "20px" }}
+                    value={asOfDate}
+                    name="asOfDate"
+                    onChange={handleInputChange}
+                    required
                   />
                 </div>
                 <hr />
@@ -306,6 +384,10 @@ export default function Parties() {
                         placeholder="As of date *"
                         className="inp-field"
                         style={{ marginLeft: "20px" }}
+                        value={asOfDate}
+                        name="asOfDate"
+                        onChange={handleInputChange}
+                        required
                       />
                     )}
                   </div>
@@ -401,8 +483,12 @@ export default function Parties() {
             )}
             <hr />
             <div className="save-btn-cont">
-              <button>Save & New</button>
-              <button>Save</button>
+              <button onClick={handleSave} disabled={savePartyLoading}>
+                Save & New
+              </button>
+              <button onClick={handleSave} disabled={savePartyLoading}>
+                {savePartyLoading ? "Saving" : "Save"}
+              </button>
             </div>
           </div>
         </div>
@@ -424,14 +510,14 @@ export default function Parties() {
                 </div>
               </div>
             ) : (
-              <div className="" style={{width:"100%"}}>
-              <PartiesTable func={dataFromChild} data={getdata} />
-            </div>
+              <div className="" style={{ width: "100%" }}>
+                <PartiesTable func={dataFromChild} />
+              </div>
             )}
           </div>
         ) : (
-          <div className="" style={{width:"100%"}}>
-            <GroupTable func={dataFromChild} data={getdata} />
+          <div className="" style={{ width: "100%" }}>
+            <GroupTable func={dataFromChild} />
           </div>
         )}
       </div>
