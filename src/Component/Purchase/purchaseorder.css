@@ -1,0 +1,16 @@
+.tale-data td {
+    font-size: small;
+    font-weight: 300;
+}
+
+.purchase-order {
+    background-color: rgb(215, 252, 255);
+}
+
+.table-items-purcahse-order {
+    color: orange;
+}
+
+.table-items-purcahse-convert {
+    color: blue;
+}

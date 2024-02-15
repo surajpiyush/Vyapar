@@ -1,0 +1,54 @@
+.item-form{
+    padding: 20px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    background-color: white;
+    box-shadow: 3px 5px 10px grey;
+}
+
+.select-unit-btn{
+    background-color: coral;
+    color: white;
+    border-width: 0px;
+    height: 40px; 
+    width: 150px;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.input-cont{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.item-inp-field{
+    padding: 10px;
+    width: 120px;
+}
+
+.save-btn-cont{
+    display: flex;
+    gap: 10px;
+    justify-content: end;
+    margin-top: 20px;
+}
+
+.save-btn-cont button{
+    background-color: orange;
+    padding: 8px 40px;
+    border-width: 0px;
+    color: white;
+}
+
+.unit-form{
+    padding: 20px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    background-color: white;
+    box-shadow: 3px 5px 10px grey;
+}
