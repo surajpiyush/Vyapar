@@ -1,114 +1,164 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Authpage from "./Page/Authpage";
-import Homepage from "./Page/Homepage";
-import Companypage from "./Page/Companypage";
-import Purchasebill from "./Page/Purchase/Purchasebill.jsx";
-import Paymentout from "./Page/Purchase/Paymentout.jsx";
-import Purchaseorderpage from "./Page/Purchase/Purchaseorderpage.jsx";
-import Purchasereturnpage from "./Page/Purchase/Purchasereturnpage.jsx";
-import AddPurchase from "./Page/AddPurchasepage.jsx";
-import Addpurchaseorderpage from "./Page/Addpurchaseorderpage.jsx";
-import Parties from "./Page/parties/Parties.jsx";
-import Items from "./Page/Items/Items.jsx";
-import SalesDeliveryChallan from "./pages/sales/salesDeliveryChallan/SalesDeliveryChallan.jsx";
-import SalesEstimates from "./pages/sales/salesEstimates/SalesEstimates.jsx";
-import SalesInvoice from "./pages/sales/salesInvoice/SalesInvoice.jsx";
-import SalesOrder from "./pages/sales/salesOrder/SalesOrder.jsx";
-import SalesPaymentln from "./pages/sales/salesPaymentIn/SalesPaymentIn.jsx";
-import SalesReturn from "./pages/sales/salesReturn/SalesReturn.jsx";
-import Busniess from "./Component/utils/Busniess.jsx";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import Authpage from './Page/Authpage';
+import Homepage from './Page/Homepage';
+import Companypage from './Page/Companypage';
+import Purchasebill from './Page/Purchase/Purchasebill.jsx';
+import Paymentout from './Page/Purchase/Paymentout.jsx';
+import Purchaseorderpage from './Page/Purchase/Purchaseorderpage.jsx';
+import Purchasereturnpage from './Page/Purchase/Purchasereturnpage.jsx';
+import AddPurchase from './Page/AddPurchasepage.jsx';
+import Addpurchaseorderpage from './Page/Addpurchaseorderpage.jsx';
+import Parties from "./Page/parties/Parties.jsx"
+import Items from './Page/Items/Items.jsx';
+import SalesDeliveryChallan from './pages/sales/salesDeliveryChallan/SalesDeliveryChallan.jsx';
+import SalesEstimates from './pages/sales/salesEstimates/SalesEstimates.jsx';
+import SalesInvoice from './pages/sales/salesInvoice/SalesInvoice.jsx';
+import SalesOrder from './pages/sales/salesOrder/SalesOrder.jsx';
+import SalesPaymentln from './pages/sales/salesPaymentIn/SalesPaymentIn.jsx';
+import SalesReturn from './pages/sales/salesReturn/SalesReturn.jsx';
+import Busniess from './Component/utils/Busniess.jsx';
+import Sale from "./pages/Sale.js"
+import Purchase from "./pages/Purchase.js"
+import DayBook from "./pages/DayBook.js"
+import AllTransaction from "./pages/AllTransactions.js"
+import CashFlow from "./pages/CashFlow.js"
+import GSTR1 from "./pages/GSTR1.js"
+import GSTR2 from "./pages/GSTR2.js"
+import GSTR3B from "./pages/GSTR3B.js"
+import GSTR9 from './pages/GSTR9.js';
+import SaleHSN from "./pages/SaleHSN.js"
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <App/>,
     children: [
       {
         path: "/",
-        element: <Homepage />,
+        element: <Homepage/>
       },
       {
         path: "/parties",
-        element: <Parties />,
+        element: <Parties/>
       },
       {
         path: "/items",
-        element: <Items />,
+        element: <Items/>
       },
       {
         path: "/auth",
-        element: <Authpage />,
+        element: <Authpage/>
       },
       {
         path: "/company",
-        element: <Companypage />,
+        element: <Companypage/>
       },
       {
         path: "/purchasebill",
-        element: <Purchasebill />,
+        element: <Purchasebill/>
       },
       {
         path: "/paymentout",
-        element: <Paymentout />,
+        element: <Paymentout/>
       },
       {
         path: "/paymentorder",
-        element: <Purchaseorderpage />,
+        element: <Purchaseorderpage/>
       },
       {
         path: "/purchasereturn",
-        element: <Purchasereturnpage />,
+        element: <Purchasereturnpage/>
       },
       {
         path: "/addpurchase",
-        element: <AddPurchase />,
+        element: <AddPurchase/>
       },
       {
         path: "/addpurchaseorder",
-        element: <Addpurchaseorderpage />,
+        element: <Addpurchaseorderpage/>
       },
       {
         path: "/addpurchasereturn",
-        element: <Addpurchaseorderpage />,
+        element: <Addpurchaseorderpage/>
       },
       {
         path: "/Busniess",
-        element: <Busniess />,
+        element: <Busniess/>
       },
       {
         path: "/saledeliverychallan",
-        element: <SalesDeliveryChallan />,
+        element: <SalesDeliveryChallan/>
       },
       {
-        path: "/salesestimates",
-        element: <SalesEstimates />,
+        path : "/salesestimates",
+        element: <SalesEstimates/>
       },
       {
-        path: "/salesinvoice",
-        element: <SalesInvoice />,
+        path : "/salesinvoice",
+        element : <SalesInvoice/>
       },
       {
-        path: "/salesorder",
-        element: <SalesOrder />,
+        path : "/salesorder",
+        element : <SalesOrder/>
       },
       {
-        path: "/salespaymentin",
-        element: <SalesPaymentln />,
+        path : "/salespaymentin",
+        element : <SalesPaymentln/>
       },
       {
-        path: "/salereturn",
-        element: <SalesReturn />,
+        path : "/salereturn",
+        element : <SalesReturn/>
       },
-    ],
-  },
-]);
+      {
+        path : "/salereport",
+        element : <Sale/>
+      },
+      {
+        path : "/purchasereport",
+        element : <Purchase/>
+      },
+      {
+        path : "/daybookreport",
+        element : <DayBook/>
+      },
+      {
+        path : "/alltransactionreport",
+        element : <AllTransaction/>
+      },
+      {
+        path : "/cashflowreport",
+        element : <CashFlow/>
+      },
+      {
+        path : "/gstr1report",
+        element : <GSTR1/>
+      },
+      {
+        path : "/gstr2report",
+        element : <GSTR2/>
+      },
+      {
+        path : "/gstr3breport",
+        element : <GSTR3B/>
+      },
+      {
+        path : "/gstr9report",
+        element : <GSTR9/>
+      },
+      {
+        path : "/salehsnreport",
+        element : <SaleHSN/>
+      }
+    ]
+  }
+])
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <RouterProvider router={router} />

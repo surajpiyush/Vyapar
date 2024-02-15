@@ -1,5 +1,4 @@
 import React from "react";
-import "../css/SaleDashboard.css";
 import { FaPlus, FaEquals } from "react-icons/fa";
 import TableModel from "./TableModel";
 import SaleDashboardHeader from "./SaleDashboardHeader";

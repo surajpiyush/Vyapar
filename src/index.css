@@ -11,3 +11,433 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+/* css for report */
+
+.RpNav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  /* border: 1px solid red; */
+  align-items: center;
+  margin: 0px 10px 0 10px;
+  padding: 10px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+}
+
+.RpNav > div:first-child {
+  width: 60%;
+}
+
+.RpInput {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 100%;
+}
+
+.RpInput > input {
+  border: none;
+  outline: none;
+  width: 100%;
+}
+
+.RpInput > button {
+
+}
+
+.RpInput > input:hover {
+  border-bottom: 1px solid #000;
+}
+
+.RpInput > button {
+  display:block;
+  border: none;
+  outline: none;
+  background-color: #1789fc;
+  margin:0  ;
+  padding: 2px 18px;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 18px;
+}
+
+
+.Rpbtn-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  text-align: center;
+  border-right: 1px solid black;
+  padding: 0 10px;
+
+}
+
+.Rpbtn-container > div {
+  display: flex;
+  flex-direction: row;
+  /* border: 1px solid red; */
+  justify-content: center;
+  align-items: center;
+  gap:5px;
+  padding: 8px 15px;
+  border-radius: 25px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -1px 5px;
+  cursor: pointer;
+}
+
+.Rpbtn-container > div:first-child {
+  background-color: #ffe5e9;
+  color: #ed1a3b;
+}
+
+.Rpbtn-container > div:nth-child(2) {
+  background-color: #d2e9ff;
+  color: #0075e8;
+
+}
+
+.Rpbtn-container > div:nth-child(3) {
+  background-color: #fff;
+  color: #0075e8;
+}
+
+.RpSetting {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.RpSetting > button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  outline: none;
+  text-align: center;
+  font-size: 30px;
+}
+
+.Rp-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+}
+
+.Rp-container > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+}
+
+.Rp-container > div > div > button {
+  background-color:#f5b358;
+  border: none;
+  outline: none;
+  padding: 5px 15px;
+  border-radius: 5px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+
+
+/* SaleDashboard Css */
+
+
+.sale-dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 10px;
+  /* border: 1px solid red; */
+}
+
+.sale-dashboard-brand {
+  font-size: 1.5rem;
+}
+
+.sale-dashboard-menu {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.sale-dashboard-select {
+  margin-right: 10px;
+  padding: 3px;
+}
+
+.date-filter-div {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  /* border: 1px solid red; */
+  justify-content: center;
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.date-filter-div > p {
+  margin: auto;
+  padding: 3px;
+}
+
+.date-filter-div > p:first-child {
+  background-color:#aaaaaa;
+  border-radius: 5px 0 0 5px;
+  
+}
+
+.date-filter-div > input[type="date"] {
+  padding: 2px;
+  border: none;
+  outline: none;
+} 
+
+
+.sale-dashboard-icons {
+  display: flex;
+  padding: 3px;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px solid red; */
+  /* margin: auto; */
+}
+
+.sale-dashboard-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+  /* gap: 10px; */
+  /* border: 1px solid black; */
+  /* margin: auto; */
+}
+
+.sale-dashboard-icon p {
+  font-size: 0.8rem;
+  margin-top: 5px;
+}
+
+
+/* Sale Dashboard Ammount */
+
+.sale-dashboard-ammount {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 500px;
+  margin: 20px 30px;
+
+  
+}
+
+.sale-dashboard-ammount > div {
+  padding: 10px  80px 10px 10px;
+  border-radius: 10px;
+  margin: 0;
+}
+
+.sale-dashboard-ammount > div:first-child {
+  background-color: #b9f3e7;
+}
+
+.sale-dashboard-ammount > div:nth-child(3) {
+  background-color: #cfe6fe;
+}
+
+.sale-dashboard-ammount > div:nth-child(5) {
+  background-color: #f8c888;
+}
+
+.sale-dashboard-search {
+  display: flex;
+  flex-direction: column;
+  margin: 10px 30px;
+  /* align-items: center; */
+}
+
+.sale-dashboard-search  > span {
+  margin-bottom: 10px; /* Adjust as needed */
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.sale-dashboard-search > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sale-dashboard-search-bar {
+  display: flex;
+  align-items: center;
+  
+}
+
+.sale-dashboard-search-bar input[type="text"] {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  outline: none;
+  margin-right: 10px; /* Adjust as needed */
+}
+
+.sale-dashboard-search-btn button {
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: none;
+  background-color: #007bff; /* Adjust to your desired button color */
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.sale-dashboard-search-btn button:hover {
+  background-color: #0056b3; /* Adjust to your desired hover color */
+}
+
+
+/* Table */
+
+/* Table container */
+.excel-like-table {
+  font-family: Arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+/* Table header */
+.excel-like-table th {
+  border: 1px solid #ddd;
+  font-weight: bold;
+  text-align: left;
+  padding: 10px;
+}
+
+/* Table body */
+.excel-like-table td {
+  padding: 8px;
+  background-color: #cee6f3;
+  border: 1px solid #6eb8e1;
+}
+
+/* Alternate row background color */
+.excel-like-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Hover effect */
+.excel-like-table tbody tr:hover {
+  background-color: #ddd;
+}
+
+
+/* Cash Flow */
+
+.cashflow-Opening-Cash {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  margin-left: 20px;
+  align-items: center; /* Align items to the center vertically */
+  text-align: center;
+}
+
+.cashflow-Opening-Cash > p {
+  color: #28b2a1;
+}
+
+.cashflow-Opening-Cash > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center; /* Align items to the center vertically */
+  justify-content: center;
+  gap: 10px;
+}
+
+.cashflow-Opening-Cash > div > input {
+
+}
+
+
+/* GSTR Header */
+
+.gstr-header-checkbox {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  margin-left: 10px;
+}
+
+.gstr-split-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.gstr-split-container > div {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  width: 100%;
+  border-bottom:2px solid #adadad ;
+  cursor: pointer;
+}
+
+.gstr-split-container > div > span {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 10px;
+  color:#adadad;
+}
+
+.gstr-split-container > .active  {
+  border-bottom:4px solid #0b8fc5 ;
+}
+
+.gstr-split-container > .active > span {
+  color:#000;
+}
+
+
+.nature-of-supplies-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.nature-of-supplies-table th,
+.nature-of-supplies-table td {
+  border: 1px solid #dddddd;
+  padding: 12px;
+  text-align: left;
+}
+
+.nature-of-supplies-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.nature-of-supplies-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.nature-of-supplies-table tbody tr:hover {
+  background-color: #dddddd;
+}
