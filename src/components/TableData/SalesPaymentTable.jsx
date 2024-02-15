@@ -9,9 +9,9 @@ export default function SalesPaymentTable(Props) {
   };
 
   return (
-    <div className="" style={{ width: "100vw" }}>
+    <div className="" >
       <div className="d-flex">
-        <div className="grp-cont2">
+        <div className="">
           <div className="grp-cont-invoice">
             <div className="">
               <div className="d-between" style={{alignItems : "center"}}>

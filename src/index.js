@@ -16,6 +16,11 @@ import Addpurchaseorderpage from './Page/Addpurchaseorderpage.jsx';
 import Parties from "./Page/parties/Parties.jsx"
 import Items from './Page/Items/Items.jsx';
 import SalesDeliveryChallan from './pages/sales/salesDeliveryChallan/SalesDeliveryChallan.jsx';
+import SalesEstimates from './pages/sales/salesEstimates/SalesEstimates.jsx';
+import SalesInvoice from './pages/sales/salesInvoice/SalesInvoice.jsx';
+import SalesOrder from './pages/sales/salesOrder/SalesOrder.jsx';
+import SalesPaymentln from './pages/sales/salesPaymentIn/SalesPaymentIn.jsx';
+import SalesReturn from './pages/sales/salesReturn/SalesReturn.jsx';
 import Busniess from './Component/utils/Busniess.jsx';
 
 const router = createBrowserRouter([
@@ -72,13 +77,33 @@ const router = createBrowserRouter([
         element: <Addpurchaseorderpage/>
       },
       {
+        path: "/Busniess",
+        element: <Busniess/>
+      },
+      {
         path: "/saledeliverychallan",
         element: <SalesDeliveryChallan/>
       },
       {
-        path: "/Busniess",
-        element: <Busniess/>
+        path : "/salesestimates",
+        element: <SalesEstimates/>
       },
+      {
+        path : "/salesinvoice",
+        element : <SalesInvoice/>
+      },
+      {
+        path : "/salesorder",
+        element : <SalesOrder/>
+      },
+      {
+        path : "/salespaymentin",
+        element : <SalesPaymentln/>
+      },
+      {
+        path : "/salereturn",
+        element : <SalesReturn/>
+      }
     ]
   }
 ])

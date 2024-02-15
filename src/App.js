@@ -19,12 +19,12 @@ function App() {
 
   return (
     <div className='app-container'>
-      <Routes>
-        {/* <Route path='/' element={<Home />}></Route> */}
-        {/* <Route path='/items' element={<Items />}></Route> */}
-        {/* <Route path='/parties' element={<Parties />}></Route> */}
+      {/* <Routes>
+        <Route path='/' element={<Home />}></Route>
+        <Route path='/items' element={<Items />}></Route>
+        <Route path='/parties' element={<Parties />}></Route>
         <Route path='/saledeliverychallan' element={<SalesDeliveryChallan/>}></Route>
-      </Routes>
+      </Routes> */}
       <Navbar/>
       <div className="app-page-div">
         <section className="app-sidebar">

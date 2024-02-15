@@ -25,7 +25,12 @@ const sidebarItems = [
     name: "Sale",
     extraIcon: <IoIosArrowDown />,
     purchaseToggle : [
-      {name : "Sale Delivery Challan", Icon : <PlusIcon/>,navigateurl : "/saledeliverychallan"}
+      {name : "Sale Delivery Challan", Icon : <PlusIcon/>,navigateurl : "/saledeliverychallan"},
+      {name : "Sale Estimates", Icon : <PlusIcon/>,navigateurl : "/salesestimates"},
+      {name : "Sale Invoice", Icon : <PlusIcon/>,navigateurl : "/salesinvoice"},
+      {name : "Sale Order", Icon : <PlusIcon/>,navigateurl : "/salesorder"},
+      {name : "Sale PaymentIn", Icon : <PlusIcon/>,navigateurl : "/salespaymentin"},
+      {name : "Sale Return", Icon : <PlusIcon/>,navigateurl : "/salereturn"}
     ]
    },
   {
@@ -43,7 +48,16 @@ const sidebarItems = [
   { Icon: <CiMoneyBill />, name: "Expenses" },
   { Icon: <FaWallet />, name: "Cash & Bank", extraIcon: <IoIosArrowDown /> },
   { Icon: <IoStorefrontSharp />, name: "My Online Store" },
-  { Icon: <IoStatsChart />, name: "Reports" },
+  { 
+    Icon: <IoStatsChart />,
+    name: "Reports",
+    extraIcon : <IoIosArrowDown/>,
+    purchaseToggle : [
+      {name : "Transaction Report",extraIcon: <IoIosArrowDown/>},
+
+    ]
+  },
+
 ];
 
 const Sidebar = () => {

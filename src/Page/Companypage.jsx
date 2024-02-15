@@ -61,7 +61,7 @@ const Companypage = () => {
     </section>
     <section className="comapny-bottom-section">
         <button className="comapny-bottom-section-button">Restore Backup</button>
-        <button className='comapny-bottom-section-button2'>New Companay</button>
+        <button className='comapny-bottom-section-button2' onClick={() => navigate("/Busniess")}>New Companay</button>
     </section>
     <section className="company-login">
         <Link to="/auth" className='company-login-link'>LogIn</Link>
