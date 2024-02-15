@@ -20,7 +20,14 @@ const sidebarItems = [
   { Icon: <GoHomeFill />, name: "Home" },
   { Icon: <HiMiniUsers />, name: "Parties", extraIcon: <FaPlus />},
   { Icon: <BiSitemap />, name: "Items", extraIcon: <FaPlus /> },
-  { Icon: <BiSitemap />, name: "Sale", extraIcon: <IoIosArrowDown /> },
+  { 
+    Icon: <BiSitemap />,
+    name: "Sale",
+    extraIcon: <IoIosArrowDown />,
+    purchaseToggle : [
+      {name : "Sale Delivery Challan", Icon : <PlusIcon/>,navigateurl : "/saledeliverychallan"}
+    ]
+   },
   {
     Icon: <IoCart />,
     name: "Purchase",
@@ -130,6 +137,7 @@ const Sidebar = () => {
                   ))}
                 </div>
               )}
+              
             </aside>
      
             {items.extraIcon && (

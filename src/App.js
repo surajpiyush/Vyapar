@@ -10,6 +10,7 @@ import Stockinventory from './Component/Stockinventory/Stockinventory.jsx';
 import { Outlet, Route, Routes } from 'react-router-dom'
 import Items from "./Page/Items/Items.jsx"
 import Parties from "./Page/parties/Parties.jsx"
+import SalesDeliveryChallan from "./pages/sales/salesDeliveryChallan/SalesDeliveryChallan.jsx"
 
 
 
@@ -18,11 +19,12 @@ function App() {
 
   return (
     <div className='app-container'>
-      {/* <Routes>
-        <Route path='/' element={<Home />}></Route>
-        <Route path='/items' element={<Items />}></Route>
-        <Route path='/parties' element={<Parties />}></Route>
-      </Routes> */}
+      <Routes>
+        {/* <Route path='/' element={<Home />}></Route> */}
+        {/* <Route path='/items' element={<Items />}></Route> */}
+        {/* <Route path='/parties' element={<Parties />}></Route> */}
+        <Route path='/saledeliverychallan' element={<SalesDeliveryChallan/>}></Route>
+      </Routes>
       <Navbar/>
       <div className="app-page-div">
         <section className="app-sidebar">

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "../../Css/parties.css";
+import "../../styles/parties.css";
 import party from "../../assets/Images/party.jpg";
-import PartiesTable from "../../Component/TableData/PartiesTable";
-import GroupTable from "../../Component/TableData/GroupTable";
+import PartiesTable from "../../components/TableData/PartiesTable";
+import GroupTable from "../../components/TableData/GroupTable";
 import axios from 'axios';
 
 export default function Parties() {

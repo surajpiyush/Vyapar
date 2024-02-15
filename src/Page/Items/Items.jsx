@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-                                             import "../../Css/Items.css"
-import ItemsForm from "../../Component/addForm/ItemsForm";
-import ProductsTable from "../../Component/TableData/ProductsTable";
-import ServicesTable from "../../Component/TableData/ServicesTable";
+import "../../styles/Items.css"
+import ItemsForm from "../../components/addForm/ItemsForm";
+import ProductsTable from "../../components/TableData/ProductsTable";
+import ServicesTable from "../../components/TableData/ServicesTable";
 import party from "../../assets/Images/party.jpg";
-import CategoryTable from "../../Component/TableData/CategoryTable";
-import UnitsTable from "../../Component/TableData/UnitsTable";
-import CategoryForm from "../../Component/addForm/CategoryForm";
-import UnitForm from "../../Component/addForm/UnitForm";
-import StockAdjustment from "../../Component/addForm/StockAdjustment";
+import CategoryTable from "../../components/TableData/CategoryTable";
+import UnitsTable from "../../components/TableData/UnitsTable";
+import CategoryForm from "../../components/addForm/CategoryForm";
+import UnitForm from "../../components/addForm/UnitForm";
+import StockAdjustment from "../../components/addForm/StockAdjustment";
 
 export default function Items() {
   const [firstSec, setFirstSec] = useState(true);

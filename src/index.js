@@ -15,6 +15,7 @@ import AddPurchase from './Page/AddPurchasepage.jsx';
 import Addpurchaseorderpage from './Page/Addpurchaseorderpage.jsx';
 import Parties from "./Page/parties/Parties.jsx"
 import Items from './Page/Items/Items.jsx';
+import SalesDeliveryChallan from './pages/sales/salesDeliveryChallan/SalesDeliveryChallan.jsx';
 
 const router = createBrowserRouter([
   {
@@ -69,6 +70,10 @@ const router = createBrowserRouter([
         path: "/addpurchasereturn",
         element: <Addpurchaseorderpage/>
       },
+      {
+        path: "/saledeliverychallan",
+        element: <SalesDeliveryChallan/>
+      }
     ]
   }
 ])
