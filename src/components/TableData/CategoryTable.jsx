@@ -1,12 +1,14 @@
-import React from "react";
 import "../../styles/parties.css";
 
+import { useSelector } from "react-redux";
+
 export default function CategoryTable(Props) {
+  const partiesData = useSelector((state) => state.PartiesReducer.partiesData);
 
   const openForm = () => {
-    console.log("Working")
+    console.log("Working");
     Props.func(true);
-  }
+  };
 
   return (
     <div className="" style={{ width: "100vw" }}>
@@ -21,9 +23,13 @@ export default function CategoryTable(Props) {
               <p>Use contact from your Phone or Gmail to create parties.</p>
             </div>
           </div> */}
-          <div className=""  style={{marginTop : "20px"}}>
+          <div className="" style={{ marginTop: "20px" }}>
             <div className="d-around">
-              <input type="text" className="search-party" placeholder="Search"/>
+              <input
+                type="text"
+                className="search-party"
+                placeholder="Search"
+              />
               <button className="add-party-btn" onClick={openForm}>
                 + Add Category <i className="fa fa-angle-down"></i>
               </button>
@@ -45,33 +51,43 @@ export default function CategoryTable(Props) {
         <div className="grp-cont2">
           <div className="grp-cont2a">
             <div className="">
-                
-                <div className="d-between">
-                    <p>ITEMS NOT IN ANY CATEGORY</p>
-                    <button className="party-button">Move to this Category</button>
-                </div>
-                <div className="d-between">
-                    <p>0.00</p>
-                </div>
+              <div className="d-between">
+                <p>ITEMS NOT IN ANY CATEGORY</p>
+                <button className="party-button">Move to this Category</button>
+              </div>
+              <div className="d-between">
+                <p>0.00</p>
+              </div>
             </div>
           </div>
           <div className="grp-cont2b">
             <div className="d-between">
-                <h3>Items</h3>
-                <input type="text" placeholder="Search" className="search-party" style={{width : "200px"}} />
+              <h3>Items</h3>
+              <input
+                type="text"
+                placeholder="Search"
+                className="search-party"
+                style={{ width: "200px" }}
+              />
             </div>
             <div className="">
-                <table>
-                    <tr>
-                        <th >Name <i className="fa fa-filter"></i></th>
-                        
-                        <th >Quantity <i className="fa fa-filter"></i></th>
-                        <th >Stock Value <i className="fa fa-filter"></i></th>
-                    </tr>
-                    <tr>
-                        <td></td>
-                    </tr>
-                </table>
+              <table>
+                <tr>
+                  <th>
+                    Name <i className="fa fa-filter"></i>
+                  </th>
+
+                  <th>
+                    Quantity <i className="fa fa-filter"></i>
+                  </th>
+                  <th>
+                    Stock Value <i className="fa fa-filter"></i>
+                  </th>
+                </tr>
+                <tr>
+                  <td></td>
+                </tr>
+              </table>
             </div>
           </div>
         </div>
