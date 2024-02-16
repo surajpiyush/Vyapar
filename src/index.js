@@ -32,6 +32,7 @@ import GSTR2 from "./pages/GSTR2.js"
 import GSTR3B from "./pages/GSTR3B.js"
 import GSTR9 from './pages/GSTR9.js';
 import SaleHSN from "./pages/SaleHSN.js"
+import Formpage from './Page/Formpage/Formpage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -153,7 +154,11 @@ const router = createBrowserRouter([
       {
         path : "/salehsnreport",
         element : <SaleHSN/>
-      }
+      },
+      {
+        path: "/formpage",
+        element: <Formpage/>
+      },
     ]
   }
 ])
