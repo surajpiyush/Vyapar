@@ -1,19 +1,37 @@
 import "./Editframe.css";
 import { USER_DETAILS } from "../../Redux/business/actionTypes";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { RxCross2 } from "react-icons/rx";
+import { UpdateCompanyProfile } from "../../Redux/business/action";
 
 const Editframe = () => {
+  const dispatch = useDispatch();
+
+  const isLoading = useSelector((state) => state.BusinessReducer.isLoading);
   const toggleUpdate = useSelector(
     (state) => state.BusinessReducer.toggleUpdate
   );
-  const [userdata, setUserData] = useState({});
+  const [userdata, setUserData] = useState({
+    companyName: "",
+    email: "",
+    phoneNumber: "",
+    state: "",
+    businessAddress: "",
+    businessCategory: "",
+    businessType: "",
+    businessDescription: "",
+    gstinNumber: "",
+    signature: "",
+    companyLogo: "",
+  });
 
   useEffect(() => {
-    const userDataLS = JSON.parse(localStorage.getItem(USER_DETAILS));
-    setUserData(userDataLS);
+    const userDetailLS = JSON.parse(localStorage.getItem(USER_DETAILS));
+    setUserData((prev) => {
+      return { ...prev, ...userDetailLS };
+    });
   }, [toggleUpdate]);
 
   const handleInputChange = (e) => {
@@ -21,6 +39,11 @@ const Editframe = () => {
     setUserData((prev) => {
       return { ...prev, [name]: value };
     });
+  };
+
+  const handleSava = () => {
+    console.log(userdata);
+    UpdateCompanyProfile(dispatch, userdata);
   };
 
   return (
@@ -66,8 +89,10 @@ const Editframe = () => {
           <div>
             <label htmlFor="#">Phone No.</label>
             <input
-              type="text"
-              name="businessname"
+              type="number"
+              value={userdata?.phoneNumber}
+              onChange={handleInputChange}
+              name="phoneNumber"
               placeholder="mobile number"
             />
           </div>
@@ -98,20 +123,32 @@ const Editframe = () => {
             </div>
             <div>
               <label htmlFor="#">pincode</label>
-              <input type="text" name="businessname" placeholder="Pincode" />
+              <input
+                type="text"
+                value={userdata?.pinCode}
+                onChange={handleInputChange}
+                name="pinCode"
+                placeholder="Pincode"
+              />
             </div>
             <div>
-              <label htmlFor="#">State</label>
-              <select name="#">
-                <option value="">None</option>
-                <option value="">None</option>
+              <label htmlFor="state">State</label>
+              <select
+                value={userdata?.state}
+                onChange={handleInputChange}
+                name="state"
+              >
+                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                <option value="Bihar">Bihar</option>
               </select>
             </div>
             <div>
               <label htmlFor="#">Business Description</label>
               <input
                 type="text"
-                name="businessname"
+                value={userdata?.businessDescription}
+                onChange={handleInputChange}
+                name="businessDescription"
                 placeholder="Business Description"
               />
             </div>
@@ -119,16 +156,22 @@ const Editframe = () => {
           <aside className="edit-firm-footer-aside2">
             <div>
               <label htmlFor="#">Business Type</label>
-              <select name="#">
-                <option value="">None</option>
-                <option value="">None</option>
+              <select
+                value={userdata?.businessType}
+                onChange={handleInputChange}
+                name="businessType"
+              >
+                <option value="Option A">Option A</option>
+                <option value="Option B">Option B</option>
               </select>
             </div>
             <div>
               <label htmlFor="#">Business Category</label>
               <input
                 type="text"
-                name="businessname"
+                value={userdata?.businessCategory}
+                onChange={handleInputChange}
+                name="businessCategory"
                 placeholder="Business Category"
               />
             </div>
@@ -141,7 +184,9 @@ const Editframe = () => {
         </section>
       </section>
       <div className="edit-firm-save-button">
-        <button className="">Save</button>
+        <button className="" onClick={handleSava}>
+          {isLoading ? "Saving" : "Save"}
+        </button>
       </div>
     </div>
   );

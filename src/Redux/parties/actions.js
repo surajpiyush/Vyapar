@@ -22,7 +22,9 @@ import axios from "axios";
 // ----------------------- Fetch All Parties Data Function ---- Didn't applied function curring due to thunk error in store.js
 export const FetchData = async (dispatch) => {
   dispatch({ type: FETCH_PARTIES_LOADING });
-  const { userId, token } = JSON.parse(localStorage.getItem(USER_DETAILS));
+  // const { userId, token } = JSON.parse(localStorage.getItem(USER_DETAILS));
+  const userId = localStorage.getItem("userId");
+  const token = localStorage.getItem("token");
 
   try {
     const response = await axios.get(
@@ -45,7 +47,9 @@ export const FetchData = async (dispatch) => {
 // ------------------------- Save Party Function ---- Didn't applied function curring due to thunk error in store.js
 export const SaveParty = async (dispatch, data, setPartyFormToggle) => {
   dispatch({ type: SAVE_PARTY_LOADING });
-  const { userId, token } = JSON.parse(localStorage.getItem(USER_DETAILS));
+  // const { userId, token } = JSON.parse(localStorage.getItem(USER_DETAILS));
+  const userId = localStorage.getItem("userId");
+  const token = localStorage.getItem("token");
 
   try {
     const response = await axios.post(
@@ -72,7 +76,11 @@ export const SaveParty = async (dispatch, data, setPartyFormToggle) => {
 // ------------------------- Save Party Function ---- Didn't applied function curring due to thunk error in store.js
 export const GetAllGroups = async (dispatch, data, setPartyFormToggle) => {
   dispatch({ type: SAVE_PARTY_LOADING });
-  const { userId, token } = JSON.parse(localStorage.getItem(USER_DETAILS));
+  // const { userId, token } = JSON.parse(localStorage.getItem(USER_DETAILS));
+  const userId = localStorage.getItem("userId");
+  const token = localStorage.getItem("token");
+
+  // This request needs to be edited
 
   try {
     const response = await axios.post(

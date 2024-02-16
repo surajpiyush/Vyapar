@@ -1,19 +1,36 @@
-import { ISERROR, ISLOADING, SUCCESS, INPUTCHANGE } from "./actionTypes";
+import {
+  ISERROR,
+  ISLOADING,
+  SUCCESS,
+  INPUTCHANGE,
+  SET_CURRENT_COMPANY,
+  UPDATE_PROFILE_SUCCESS,
+  FETCH_COMPANIES_SUCCESS,
+} from "./actionTypes";
 
 // Initial States
 const initState = {
   isLoading: false,
   isError: false,
-  data: {},
-  toggleUpdate: false,
+  allCompaniesData: [],
+
+  // Register Company
   companyName: "",
   email: "",
   password: "",
+  toggleUpdate: false,
+
+  // Current Company States
+  currentCompId: "",
+  currentCompanyName: "",
+  currentEmail: "",
+  phoneNumber: "",
 };
 
 // Reducer Function
 export const reducer = (state = initState, { type, payload, name }) => {
   switch (type) {
+    // Register Company Action
     case ISLOADING: {
       return {
         ...state,
@@ -36,6 +53,28 @@ export const reducer = (state = initState, { type, payload, name }) => {
         companyName: "",
         email: "",
         password: "",
+      };
+    }
+    // Update Company Profile Actions
+    case SET_CURRENT_COMPANY: {
+      return {
+        ...state,
+        toggleUpdate: !state.toggleUpdate,
+        ...payload,
+      };
+    }
+    case UPDATE_PROFILE_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+    // Get all companies data
+    case FETCH_COMPANIES_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        allCompaniesData: payload,
       };
     }
     case INPUTCHANGE: {
