@@ -41,6 +41,7 @@ const initialState = {
   asOfDate: "",
   creditLimit: "",
 };
+console.log("test1");
 
 export const reducer = (state = initialState, { type, payload, name }) => {
   switch (type) {
