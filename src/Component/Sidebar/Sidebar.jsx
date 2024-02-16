@@ -128,7 +128,7 @@ const Sidebar = () => {
         </div>
         <h3 className="sidebar-top-heading">{profileData ? profileData.company[0].companyName : "Loading..."}</h3>
         <div className="sidebar-left-icon">
-          <MdOutlineArrowForwardIos />
+        <button onClick={() => navigate("/formpage")}><MdOutlineArrowForwardIos /></button> 
         </div>
       </section>
 
