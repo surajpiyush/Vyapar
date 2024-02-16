@@ -15,68 +15,107 @@ import { IoStatsChart } from "react-icons/io5";
 import { PlusIcon } from "../utils/reactIcons";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { USER_DETAILS } from "../../Redux/business/actionTypes";
 
 const sidebarItems = [
   { Icon: <GoHomeFill />, name: "Home" },
-  { Icon: <HiMiniUsers />, name: "Parties", extraIcon: <FaPlus />},
+  { Icon: <HiMiniUsers />, name: "Parties", extraIcon: <FaPlus /> },
   { Icon: <BiSitemap />, name: "Items", extraIcon: <FaPlus /> },
-  { 
+  {
     Icon: <BiSitemap />,
     name: "Sale",
     extraIcon: <IoIosArrowDown />,
-    purchaseToggle : [
-      {name : "Sale Delivery Challan", Icon : <PlusIcon/>,navigateurl : "/saledeliverychallan"},
-      {name : "Sale Estimates", Icon : <PlusIcon/>,navigateurl : "/salesestimates"},
-      {name : "Sale Invoice", Icon : <PlusIcon/>,navigateurl : "/salesinvoice"},
-      {name : "Sale Order", Icon : <PlusIcon/>,navigateurl : "/salesorder"},
-      {name : "Sale PaymentIn", Icon : <PlusIcon/>,navigateurl : "/salespaymentin"},
-      {name : "Sale Return", Icon : <PlusIcon/>,navigateurl : "/salereturn"}
-    ]
-   },
+    purchaseToggle: [
+      {
+        name: "Sale Delivery Challan",
+        Icon: <PlusIcon />,
+        navigateurl: "/saledeliverychallan",
+      },
+      {
+        name: "Sale Estimates",
+        Icon: <PlusIcon />,
+        navigateurl: "/salesestimates",
+      },
+      {
+        name: "Sale Invoice",
+        Icon: <PlusIcon />,
+        navigateurl: "/salesinvoice",
+      },
+      { name: "Sale Order", Icon: <PlusIcon />, navigateurl: "/salesorder" },
+      {
+        name: "Sale PaymentIn",
+        Icon: <PlusIcon />,
+        navigateurl: "/salespaymentin",
+      },
+      { name: "Sale Return", Icon: <PlusIcon />, navigateurl: "/salereturn" },
+    ],
+  },
   {
     Icon: <IoCart />,
     name: "Purchase",
     extraIcon: <IoIosArrowDown />,
     purchaseToggle: [
-      { name: "Purchase Bills", Icon: <PlusIcon />, navigateurl: "/purchasebill" },
+      {
+        name: "Purchase Bills",
+        Icon: <PlusIcon />,
+        navigateurl: "/purchasebill",
+      },
       { name: "Payment Out", Icon: <PlusIcon />, navigateurl: "/paymentout" },
-      { name: "Purchase Order", Icon: <PlusIcon />, navigateurl: "/paymentorder" },
-      { name: "Purchase Return/ Dr. Note", Icon: <PlusIcon />, navigateurl: "/purchasereturn" },
+      {
+        name: "Purchase Order",
+        Icon: <PlusIcon />,
+        navigateurl: "/paymentorder",
+      },
+      {
+        name: "Purchase Return/ Dr. Note",
+        Icon: <PlusIcon />,
+        navigateurl: "/purchasereturn",
+      },
     ],
   },
   { Icon: <CiMoneyBill />, name: "Quick Billing" },
   { Icon: <CiMoneyBill />, name: "Expenses" },
   { Icon: <FaWallet />, name: "Cash & Bank", extraIcon: <IoIosArrowDown /> },
   { Icon: <IoStorefrontSharp />, name: "My Online Store" },
-  { 
+  {
     Icon: <IoStatsChart />,
     name: "Reports",
-    extraIcon : <IoIosArrowDown/>,
-    purchaseToggle : [
-      {name : "Sale", Icon: <PlusIcon/>, navigateurl : "/salereport"},
-      {name : "Purchase", Icon: <PlusIcon/>, navigateurl : "/purchasereport"},
-      {name : "Day Book", Icon: <PlusIcon/>, navigateurl : "/daybookreport"},
-      {name : "All Transaction", Icon: <PlusIcon/>, navigateurl : "/alltransactionreport"},
-      {name : "Cash Flow", Icon: <PlusIcon/>, navigateurl : "/cashflowreport"},
-      {name : "GSTR 1", Icon: <PlusIcon/>, navigateurl : "/gstr1report"},
-      {name : "GSTR 2", Icon: <PlusIcon/>, navigateurl : "/gstr2report"},
-      {name : "GSTR 3B", Icon: <PlusIcon/>, navigateurl : "/gstr3breport"},
-      {name : "GSTR 9", Icon: <PlusIcon/>, navigateurl : "/gstr9report"},
-      {name : "Sale HSN", Icon: <PlusIcon/>, navigateurl : "/salehsnreport"}
-
-    ]
+    extraIcon: <IoIosArrowDown />,
+    purchaseToggle: [
+      { name: "Sale", Icon: <PlusIcon />, navigateurl: "/salereport" },
+      { name: "Purchase", Icon: <PlusIcon />, navigateurl: "/purchasereport" },
+      { name: "Day Book", Icon: <PlusIcon />, navigateurl: "/daybookreport" },
+      {
+        name: "All Transaction",
+        Icon: <PlusIcon />,
+        navigateurl: "/alltransactionreport",
+      },
+      { name: "Cash Flow", Icon: <PlusIcon />, navigateurl: "/cashflowreport" },
+      { name: "GSTR 1", Icon: <PlusIcon />, navigateurl: "/gstr1report" },
+      { name: "GSTR 2", Icon: <PlusIcon />, navigateurl: "/gstr2report" },
+      { name: "GSTR 3B", Icon: <PlusIcon />, navigateurl: "/gstr3breport" },
+      { name: "GSTR 9", Icon: <PlusIcon />, navigateurl: "/gstr9report" },
+      { name: "Sale HSN", Icon: <PlusIcon />, navigateurl: "/salehsnreport" },
+    ],
   },
-
 ];
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+  const toggleUpdate = useSelector(
+    (state) => state.BusinessReducer.toggleUpdate
+  );
   const [activeItems, setActiveItems] = useState("Home");
   const [toggleNavItems, setToggleNavItems] = useState(false);
   const [activeNestedItems, setActiveNestedItems] = useState(0);
   const [profileData, setProfileData] = useState(null);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
+  useEffect(() => {
+    const UserDetails = JSON.parse(localStorage.getItem(USER_DETAILS));
+    setProfileData(UserDetails);
+  }, [toggleUpdate]);
 
   const handleNestedSibarItems = () => {
     setToggleNavItems(!toggleNavItems);
@@ -102,23 +141,6 @@ const Sidebar = () => {
     }
   };
 
-  const getProfile = async () => {
-    try {
-      const response = await axios.get(
-        "https://ca-backend-api.onrender.com/companyRegister/auth/getProfile",
-        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
-      );
-      setProfileData(response.data);
-      // console.log(response.data);
-    } catch (error) {
-      setError("Error fetching profile data");
-    }
-  };
-  
-  useEffect(() => {
-    getProfile();
-  }, []);
-
   return (
     <div className="sidebar-container">
       <section className="sidebar-top-section">
@@ -126,9 +148,13 @@ const Sidebar = () => {
           <img src={Logo} alt="logo" className="sidebar-top-img" />
           <span className="sidebar-top-img-plus">+</span>
         </div>
-        <h3 className="sidebar-top-heading">{profileData ? profileData.company[0].companyName : "Loading..."}</h3>
+        <h3 className="sidebar-top-heading">
+          {profileData?.companyName ? profileData.companyName : "Loading..."}
+        </h3>
         <div className="sidebar-left-icon">
-        <button onClick={() => navigate("/formpage")}><MdOutlineArrowForwardIos /></button> 
+          <button onClick={() => navigate("/formpage")}>
+            <MdOutlineArrowForwardIos />
+          </button>
         </div>
       </section>
 
@@ -136,33 +162,50 @@ const Sidebar = () => {
         {sidebarItems.map((items, index) => (
           <div
             onClick={() => handleActiveItems(items.name)}
-            className={`sidebar-items-div ${activeItems === items.name && "active-nav-border"}`}
+            className={`sidebar-items-div ${
+              activeItems === items.name && "active-nav-border"
+            }`}
+            key={index}
           >
             <aside>
-              <div className="sidevar-items-aside1" onClick={() => handleLayout(items.name)}>
+              <div
+                className="sidevar-items-aside1"
+                onClick={() => handleLayout(items.name)}
+              >
                 <div className="sidebar-items-con">{items.Icon}</div>
                 <div className="sidebar-items-text">{items.name}</div>
               </div>
-              {activeItems === items.name && toggleNavItems && items.purchaseToggle && (
-                <div className="nested-items-container" onClick={(e) => e.stopPropagation()}>
-                  {items.purchaseToggle.map((nestedItems, nestedindex) => (
-                    <aside
-                      key={nestedindex}
-                      onClick={() => {
-                        handleActiveNestedItems(nestedindex);
-                        navigate(nestedItems.navigateurl);
-                      }}
-                      className={`sidevar-nested-items ${activeNestedItems === nestedindex && "active-nav-border"}`}
-                    >
-                      <div className="sidebar-items-con">{nestedItems.name}</div>
-                      <div className="sidebar-items-text">{nestedItems.Icon}</div>
-                    </aside>
-                  ))}
-                </div>
-              )}
-              
+              {activeItems === items.name &&
+                toggleNavItems &&
+                items.purchaseToggle && (
+                  <div
+                    className="nested-items-container"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {items.purchaseToggle.map((nestedItems, nestedindex) => (
+                      <aside
+                        key={nestedindex}
+                        onClick={() => {
+                          handleActiveNestedItems(nestedindex);
+                          navigate(nestedItems.navigateurl);
+                        }}
+                        className={`sidevar-nested-items ${
+                          activeNestedItems === nestedindex &&
+                          "active-nav-border"
+                        }`}
+                      >
+                        <div className="sidebar-items-con">
+                          {nestedItems.name}
+                        </div>
+                        <div className="sidebar-items-text">
+                          {nestedItems.Icon}
+                        </div>
+                      </aside>
+                    ))}
+                  </div>
+                )}
             </aside>
-     
+
             {items.extraIcon && (
               <div className="sidebar-items-extra-icon">{items.extraIcon}</div>
             )}
@@ -171,9 +214,9 @@ const Sidebar = () => {
       </div>
 
       <div className="profile-container">
-        {profileData ? (
+        {profileData?.token ? (
           <>
-            <div className="profile-name">{profileData.fullName}</div>
+            <div className="profile-name">{profileData.name}</div>
             <div className="profile-email">{profileData.email}</div>
           </>
         ) : (

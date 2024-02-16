@@ -5,6 +5,7 @@ const initState = {
   isLoading: false,
   isError: false,
   data: {},
+  toggleUpdate: false,
   companyName: "",
   email: "",
   password: "",
@@ -31,10 +32,10 @@ export const reducer = (state = initState, { type, payload, name }) => {
       return {
         ...state,
         isLoading: false,
-        data: payload,
-        // companyName: "",
-        // email: "",
-        // password: "",
+        toggleUpdate: !state.toggleUpdate,
+        companyName: "",
+        email: "",
+        password: "",
       };
     }
     case INPUTCHANGE: {

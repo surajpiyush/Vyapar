@@ -2,7 +2,12 @@ import "../../styles/parties.css";
 import party from "../../assets/Images/party.jpg";
 import PartiesTable from "../../components/TableData/PartiesTable";
 import GroupTable from "../../components/TableData/GroupTable";
-import { FetchData, SaveParty } from "../../Redux/parties/actions";
+import {
+  FetchData,
+  GetAllGroups,
+  SaveParty,
+} from "../../Redux/parties/actions";
+import { USER_DETAILS } from "../../Redux/business/actionTypes";
 import { SAVE_PARTY_INPUT_CHANGE } from "../../Redux/parties/actionTypes";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -44,22 +49,21 @@ export default function Parties() {
   const handleSave = () => {
     if (!savePartyLoading) {
       // this local storage key need to be changed after user login details are saved in localstorage
-      const email = localStorage.getItem("userId")?.email;
+      const email = localStorage.getItem(USER_DETAILS)?.email;
       let savePartyData = {
         partyName,
         gstNo,
         phoneNumber,
         GSTType,
         state,
-        email: "krishan1@gmail.com",
+        email,
         billingAddress,
         shippingAddress,
-        openingBalance: 1000,
+        openingBalance,
         asOfDate,
         creditLimit: 1000,
       };
-      //  console.log("savePartyData", savePartyData);
-      SaveParty(dispatch, savePartyData);
+      SaveParty(dispatch, savePartyData, setPartyFormToggle);
     }
   };
 
@@ -74,6 +78,7 @@ export default function Parties() {
   }, [togglePartiesData]);
 
   const togglePartyForm = () => {
+    // GetAllGroups(dispatch);
     setPartyFormToggle(!partyFormToggle);
   };
 
@@ -166,7 +171,9 @@ export default function Parties() {
                 required
               />
               <input
-                type="text"
+                type="number"
+                max={10}
+                maxLength={10}
                 placeholder="Phone Number *"
                 className="inp-field"
                 value={phoneNumber}
@@ -336,7 +343,7 @@ export default function Parties() {
                     required
                   />
                   <input
-                    type="text"
+                    type="date"
                     placeholder="As of date *"
                     className="inp-field"
                     style={{ marginLeft: "20px" }}

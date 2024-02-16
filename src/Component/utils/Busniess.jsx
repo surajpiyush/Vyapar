@@ -1,6 +1,7 @@
 import { INPUTCHANGE } from "../../Redux/business/actionTypes";
 import { SendRegisterRequest } from "../../Redux/business/action";
 
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { IoLockOpenOutline } from "react-icons/io5";
@@ -8,6 +9,8 @@ import { CgOrganisation } from "react-icons/cg";
 
 function Busniess() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const isLoading = useSelector((state) => state.BusinessReducer.isLoading);
   const companyName = useSelector((state) => state.BusinessReducer.companyName);
@@ -25,7 +28,7 @@ function Busniess() {
     e.preventDefault();
     if (!isLoading) {
       const sendData = { companyName, email, password };
-      SendRegisterRequest(dispatch, sendData);
+      SendRegisterRequest(dispatch, sendData, navigate, location);
     }
   };
 

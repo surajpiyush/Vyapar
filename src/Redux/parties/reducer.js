@@ -41,7 +41,6 @@ const initialState = {
   asOfDate: "",
   creditLimit: "",
 };
-console.log("test1");
 
 export const reducer = (state = initialState, { type, payload, name }) => {
   switch (type) {
@@ -65,7 +64,7 @@ export const reducer = (state = initialState, { type, payload, name }) => {
     case SAVE_PARTY_SUCCESS:
       return {
         ...state,
-        savePartyLoading: true,
+        savePartyLoading: false,
         togglePartiesData: !state.togglePartiesData,
       };
     case SAVE_PARTY_INPUT_CHANGE:

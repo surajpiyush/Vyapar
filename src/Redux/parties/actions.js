@@ -1,3 +1,4 @@
+import { USER_DETAILS } from "../business/actionTypes";
 import {
   FETCH_PARTIES_LOADING,
   FETCH_PARTIES_ERROR,
@@ -21,12 +22,8 @@ import axios from "axios";
 // ----------------------- Fetch All Parties Data Function ---- Didn't applied function curring due to thunk error in store.js
 export const FetchData = async (dispatch) => {
   dispatch({ type: FETCH_PARTIES_LOADING });
+  const { userId, token } = JSON.parse(localStorage.getItem(USER_DETAILS));
 
-  // const userId = localStorage.getItem("userId");
-  // const token = localStorage.getItem("token");
-  const userId = "65c5cfc509b34ca8a0187497";
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWM1Y2ZjNTA5YjM0Y2E4YTAxODc0OTciLCJpYXQiOjE3MDgwMjUxOTIsImV4cCI6MTcwODExMTU5Mn0.Ba5HsRW1K1STFbCfo_qs8-U3kPz2x3fU4vyGProBvNs";
   try {
     const response = await axios.get(
       `https://ca-backend-api.onrender.com/${userId}/party/getAll`,
@@ -46,14 +43,10 @@ export const FetchData = async (dispatch) => {
 };
 
 // ------------------------- Save Party Function ---- Didn't applied function curring due to thunk error in store.js
-export const SaveParty = async (dispatch, data) => {
+export const SaveParty = async (dispatch, data, setPartyFormToggle) => {
   dispatch({ type: SAVE_PARTY_LOADING });
+  const { userId, token } = JSON.parse(localStorage.getItem(USER_DETAILS));
 
-  // const userId = localStorage.getItem("userId");
-  // const token = localStorage.getItem("token");
-  const userId = "65c5cfc509b34ca8a0187497";
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWM1Y2ZjNTA5YjM0Y2E4YTAxODc0OTciLCJpYXQiOjE3MDgwMjUxOTIsImV4cCI6MTcwODExMTU5Mn0.Ba5HsRW1K1STFbCfo_qs8-U3kPz2x3fU4vyGProBvNs";
   try {
     const response = await axios.post(
       `https://ca-backend-api.onrender.com/${userId}/party`,
@@ -67,32 +60,40 @@ export const SaveParty = async (dispatch, data) => {
     console.log("Business Route Response:", response?.data);
 
     dispatch({ type: SAVE_PARTY_SUCCESS });
+    setPartyFormToggle((prev) => !prev);
     alert("Party Saved ✔️");
   } catch (error) {
     dispatch({ type: SAVE_PARTY_ERROR });
     console.log("Saving Party Error Response:", error);
-    alert(error?.response?.data?.message || "Something Went Wrong!");
+    alert(error?.response?.data || "Something Went Wrong!");
   }
 };
 
-const baseurl =
-  "https://ca-backend-api.onrender.com/65ccae24608012f092d9dc75/party";
-const partiesReq = () => ({ type: PARTIES_POST_REQUEST });
-const partiesSucc = (payload) => ({ type: PARTIES_POST_SUCCESS, payload });
-const partiesFailed = () => ({ type: PARTIES_POST_FAILED });
-// -------------------------parties data post in server---------------------------------------
+// ------------------------- Save Party Function ---- Didn't applied function curring due to thunk error in store.js
+export const GetAllGroups = async (dispatch, data, setPartyFormToggle) => {
+  dispatch({ type: SAVE_PARTY_LOADING });
+  const { userId, token } = JSON.parse(localStorage.getItem(USER_DETAILS));
 
-export const partiesPost = (formData) => async (dispatch) => {
-  dispatch(partiesReq());
-  return await axios
-    .post(`${baseurl}`, formData)
-    .then((res) => {
-      dispatch(partiesSucc(res.data));
-      console.log(res.data);
-    })
-    .catch((err) => {
-      dispatch(partiesReq(err));
-    });
+  try {
+    const response = await axios.post(
+      `https://ca-backend-api.onrender.com/${userId}/party`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${token} `,
+        },
+      }
+    );
+    console.log("Business Route Response:", response?.data);
+
+    dispatch({ type: SAVE_PARTY_SUCCESS });
+    setPartyFormToggle((prev) => !prev);
+    alert("Party Saved ✔️");
+  } catch (error) {
+    dispatch({ type: SAVE_PARTY_ERROR });
+    console.log("Saving Party Error Response:", error);
+    alert(error?.response?.data || "Something Went Wrong!");
+  }
 };
 
 // **************************************//
