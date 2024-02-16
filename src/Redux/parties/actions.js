@@ -97,8 +97,8 @@ export const partiesPost = (formData) => async (dispatch) => {
 
 // **************************************//
 
-const baseurlPurchase =
-  "https://ca-backend-api.onrender.com/65bbb395b587fda4e5433bd2/";
+const postPurchaseBillUrl =
+  "https://ca-backend-api.onrender.com/65c5d0d209b34ca8a018749d/purchase/create";
 const purchaseBillReq = () => ({ type: PARTIES_PURCHASE_BILL_REQUEST });
 const purchaseBillSucc = (payload) => ({
   type: PARTIES_PURCHASE_BILL_SUCCESS,
@@ -108,13 +108,14 @@ const purchaseBillFailed = () => ({ type: PARTIES_PURCHASE_BILL_FAILURE });
 
 // *******************************
 
-export const postPurchaseBill = () => async (dispatch) => {
+export const postPurchaseBill = (data) => async (dispatch) => {
   dispatch(purchaseBillReq());
+  purchaseBillReq(dispatch);
   try {
-    const response = await axios.post(baseurlPurchase, null, {
+    const response = await axios.post(postPurchaseBillUrl, data, {
       headers: {
-        token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWM1Y2ZjNTA5YjM0Y2E4YTAxODc0OTciLCJpYXQiOjE3MDc1NjE4NTYsImV4cCI6MTcwNzY0ODI1Nn0.5KqzfiqNtAtwZSCTc-PnITpvDUJRW5IkwlRVsesLmXQ",
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWM1Y2ZjNTA5YjM0Y2E4YTAxODc0OTciLCJpYXQiOjE3MDgwODgyNjIsImV4cCI6MTcwODE3NDY2Mn0.vrVm4-qmI74kgNXo9FmvI9BeWQ5dVFoJvqaqwGrcjJM",
       },
     });
     dispatch(purchaseBillSucc(response.data));
@@ -125,6 +126,8 @@ export const postPurchaseBill = () => async (dispatch) => {
 };
 
 // *********************************************
+const getAllPurchaseBillUrl =
+  "https://ca-backend-api.onrender.com/65c5d0d209b34ca8a018749d/purchase/getAll";
 
 const getPurchaseBillReq = () => ({ type: PARTIES_PURCHASE_BILL_REQUEST });
 const getPurchaseBillSucc = (payload) => ({
@@ -133,23 +136,31 @@ const getPurchaseBillSucc = (payload) => ({
 });
 const getPurchaseBillFailed = () => ({ type: PARTIES_PURCHASE_BILL_FAILURE });
 
-// *********************************************
-
-export const getPurchaseBill = () => async (dispatch) => {
+export const getPurchaseBill = (startDate, endDate) => async (dispatch) => {
   dispatch(getPurchaseBillReq());
-  return axios
-    .get(baseurlPurchase)
-    .then((response) => {
-      dispatch(getPurchaseBillSucc(response.data));
-      console.log(response.data);
-    })
-    .catch((err) => {
-      dispatch(getPurchaseBillFailed(err));
+
+  try {
+    const response = await axios.get(getAllPurchaseBillUrl, {
+      params: {
+        startDate,
+        endDate,
+      },
+      headers: {
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWM1Y2ZjNTA5YjM0Y2E4YTAxODc0OTciLCJpYXQiOjE3MDgwODgyNjIsImV4cCI6MTcwODE3NDY2Mn0.vrVm4-qmI74kgNXo9FmvI9BeWQ5dVFoJvqaqwGrcjJM",
+      },
     });
+
+    dispatch(getPurchaseBillSucc(response.data));
+    console.log(response.data);
+  } catch (err) {
+    dispatch(getPurchaseBillFailed(err));
+  }
 };
 
 // ******************************************************
-
+const getPurhchaseInvoiceUrl =
+  "https://ca-backend-api.onrender.com/65c5d0d209b34ca8a018749d/purchase/getInvoice/65c9d463d8d06ffd61e50eb8";
 const getPurchaseInvoiceReq = () => ({ type: PARTIES_POST_REQUEST });
 const getPurchaseInvoiceSucc = (payload) => ({
   type: PARTIES_POST_SUCCESS,
@@ -160,8 +171,13 @@ const getPurchaseInvoiceFailed = () => ({ type: PARTIES_POST_FAILED });
 // *******************************************
 export const getPurchaseInvoice = () => async (dispatch) => {
   dispatch(getPurchaseInvoiceReq());
-  return axios
-    .get(baseurlPurchase)
+  return await axios
+    .get(getPurhchaseInvoiceUrl, {
+      headers: {
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWM1Y2ZjNTA5YjM0Y2E4YTAxODc0OTciLCJpYXQiOjE3MDgwODgyNjIsImV4cCI6MTcwODE3NDY2Mn0.vrVm4-qmI74kgNXo9FmvI9BeWQ5dVFoJvqaqwGrcjJM",
+      },
+    })
     .then((response) => {
       dispatch(getPurchaseInvoiceSucc(response.data));
       console.log(response.data);
@@ -172,8 +188,8 @@ export const getPurchaseInvoice = () => async (dispatch) => {
 };
 // ***********************************************
 
-const baseurlPaymentOut =
-  "https://ca-backend-api.onrender.com/65bbb395b587fda4e5433bd2/";
+const postPurchaseOutUrl =
+  "https://ca-backend-api.onrender.com/65c5d0d209b34ca8a018749d/purchaseOut/create";
 const postPurchaseOutReq = () => ({ type: PARTIES_PAYMENT_OUT_REQUEST });
 const postPurchaseOutSucc = (payload) => ({
   type: PARTIES_PAYMENT_OUT_SUCCESS,
@@ -183,13 +199,13 @@ const postPurchaseOutFailed = () => ({ type: PARTIES_PAYMENT_OUT_FAILURE });
 
 // *************************************************
 
-export const postPurchaseOut = () => async (dispatch) => {
+export const postPurchaseOut = (postData) => async (dispatch) => {
   dispatch(postPurchaseOutReq());
-  return axios
-    .post(baseurlPaymentOut, null, {
+  return await axios
+    .post(postPurchaseOutUrl, postData, {
       headers: {
-        token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWM1Y2ZjNTA5YjM0Y2E4YTAxODc0OTciLCJpYXQiOjE3MDc1NjE4NTYsImV4cCI6MTcwNzY0ODI1Nn0.5KqzfiqNtAtwZSCTc-PnITpvDUJRW5IkwlRVsesLmXQ",
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWM1Y2ZjNTA5YjM0Y2E4YTAxODc0OTciLCJpYXQiOjE3MDgwODgyNjIsImV4cCI6MTcwODE3NDY2Mn0.vrVm4-qmI74kgNXo9FmvI9BeWQ5dVFoJvqaqwGrcjJM",
       },
     })
     .then((response) => {
@@ -203,6 +219,7 @@ export const postPurchaseOut = () => async (dispatch) => {
 
 // *************************************************
 
+const getAllPurchaseOutUrl = `https://ca-backend-api.onrender.com/65c5d0d209b34ca8a018749d/purchaseOut/getAll`;
 const getAllPurchaseOutReq = () => ({ type: PARTIES_PAYMENT_OUT_REQUEST });
 const getAllPurchaseOutSucc = (payload) => ({
   type: PARTIES_PAYMENT_OUT_SUCCESS,
@@ -212,20 +229,27 @@ const getAllPurchaseOutFailed = () => ({ type: PARTIES_PAYMENT_OUT_FAILURE });
 
 // **************************************************
 
-export const getAllPurchaseOut = () => async (dispatch) => {
+export const getAllPurchaseOut = (startDate, endDate) => async (dispatch) => {
   dispatch(getAllPurchaseOutReq());
-  return axios
-    .get(baseurlPaymentOut)
-    .then((response) => {
-      dispatch(getAllPurchaseOutSucc(response.data));
-      console.log(response.data);
-    })
-    .catch((err) => {
-      dispatch(getAllPurchaseOutFailed(err));
-    });
-};
-// ****************************************************
 
+  const getAllPurchaseOutUrl = `https://ca-backend-api.onrender.com/65c5d0d209b34ca8a018749d/purchaseOut/getAll?startDate=${startDate}&endDate=${endDate}`;
+
+  try {
+    const response = await axios.get(getAllPurchaseOutUrl, {
+      headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWM1Y2ZjNTA5YjM0Y2E4YTAxODc0OTciLCJpYXQiOjE3MDgwODgyNjIsImV4cCI6MTcwODE3NDY2Mn0.vrVm4-qmI74kgNXo9FmvI9BeWQ5dVFoJvqaqwGrcjJM`,
+      },
+    });
+    dispatch(getAllPurchaseOutSucc(response.data));
+    console.log(response.data);
+  } catch (error) {
+    dispatch(getAllPurchaseOutFailed(error));
+  }
+};
+
+// ****************************************************
+const getPurchaseOutInvoiceBillUrl =
+  "https://ca-backend-api.onrender.com/65c5d0d209b34ca8a018749d/purchaseOut/getInvoice/65cafba19fb84738a529c1c9";
 const getAllPurchaseOutInvoiceReq = () => ({
   type: PARTIES_PAYMENT_OUT_REQUEST,
 });
@@ -241,8 +265,12 @@ const getAllPurchaseOutInvoiceFailed = () => ({
 
 export const getAllPurchaseOutInvoice = () => async (dispatch) => {
   dispatch(getAllPurchaseOutInvoiceReq());
-  return axios
-    .get(baseurlPaymentOut)
+  return await axios
+    .get(getPurchaseOutInvoiceBillUrl, {
+      headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWM1Y2ZjNTA5YjM0Y2E4YTAxODc0OTciLCJpYXQiOjE3MDgwODgyNjIsImV4cCI6MTcwODE3NDY2Mn0.vrVm4-qmI74kgNXo9FmvI9BeWQ5dVFoJvqaqwGrcjJM`,
+      },
+    })
     .then((response) => {
       dispatch(getAllPurchaseOutInvoiceSucc(response.data));
       console.log(response.data);
