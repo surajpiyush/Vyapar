@@ -1,13 +1,14 @@
 import { createStore, applyMiddleware, combineReducers, compose } from "redux";
 import { thunk } from "redux-thunk";
 
+import { reducer as ItemReducer } from "./items/reducer";
 import { reducer as partiesReducer } from "./parties/reducer";
 import { reducer as businessReducer } from "./business/reducer";
 import purchaseBillReducer from "./purchaseBillSlice";
 import paymentOutReducer from "./paymentOutSlice";
 
 const rootReducer = combineReducers({
-  parties: partiesReducer,
+  parties: partiesReducer, ItemReducer,
   business: businessReducer,
   purchaseBill: purchaseBillReducer,
   paymentOut: paymentOutReducer,

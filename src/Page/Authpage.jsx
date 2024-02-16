@@ -28,7 +28,7 @@ const Authpage = () => {
 
    return (
       <div className="body" style={{ height: "100vh", width: "100vw" }}>
-         <div className="tab-container">
+         <div className="tab-container" >
             <section className="tab-button">
                <button
                   onClick={handleRegisterTab}
@@ -36,8 +36,6 @@ const Authpage = () => {
                      backgroundColor: tabItems.registertab && "#abc0ff",
                      color: tabItems.registertab && "white",
                   }}
-                 
-                  
                   className="tab-items"
                >
                   Signup
