@@ -144,15 +144,12 @@ const getPurchaseBillSucc = (payload) => ({
 });
 const getPurchaseBillFailed = () => ({ type: PARTIES_PURCHASE_BILL_FAILURE });
 
-export const getPurchaseBill = (startDate, endDate) => async (dispatch) => {
+export const getPurchaseBill = (data) => async (dispatch) => {
   dispatch(getPurchaseBillReq());
-
+  console.log(data);
   try {
     const response = await axios.get(getAllPurchaseBillUrl, {
-      params: {
-        startDate,
-        endDate,
-      },
+      params: data,
       headers: {
         Authorization:
           "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWM1Y2ZjNTA5YjM0Y2E4YTAxODc0OTciLCJpYXQiOjE3MDgwODgyNjIsImV4cCI6MTcwODE3NDY2Mn0.vrVm4-qmI74kgNXo9FmvI9BeWQ5dVFoJvqaqwGrcjJM",
@@ -169,12 +166,14 @@ export const getPurchaseBill = (startDate, endDate) => async (dispatch) => {
 // ******************************************************
 const getPurhchaseInvoiceUrl =
   "https://ca-backend-api.onrender.com/65c5d0d209b34ca8a018749d/purchase/getInvoice/65c9d463d8d06ffd61e50eb8";
-const getPurchaseInvoiceReq = () => ({ type: PARTIES_POST_REQUEST });
+const getPurchaseInvoiceReq = () => ({ type: PARTIES_PURCHASE_BILL_REQUEST });
 const getPurchaseInvoiceSucc = (payload) => ({
-  type: PARTIES_POST_SUCCESS,
+  type: PARTIES_PURCHASE_BILL_SUCCESS,
   payload,
 });
-const getPurchaseInvoiceFailed = () => ({ type: PARTIES_POST_FAILED });
+const getPurchaseInvoiceFailed = () => ({
+  type: PARTIES_PURCHASE_BILL_FAILURE,
+});
 
 // *******************************************
 export const getPurchaseInvoice = () => async (dispatch) => {
