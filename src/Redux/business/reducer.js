@@ -59,8 +59,8 @@ export const reducer = (state = initState, { type, payload, name }) => {
     case SET_CURRENT_COMPANY: {
       return {
         ...state,
-        toggleUpdate: !state.toggleUpdate,
         ...payload,
+        toggleUpdate: !state.toggleUpdate,
       };
     }
     case UPDATE_PROFILE_SUCCESS: {

@@ -1,7 +1,8 @@
-import { useState } from "react";
 import party from "../../../assets/Images/party.jpg";
 import SalesDeliveryForm from "../../../components/addForm/SalesDeliveryForm";
 import SalesDeliveryChallanTable from "../../../components/TableData/SalesDeliveryChallanTable";
+
+import { useState } from "react";
 
 export default function SalesDeliveryChallan() {
   const data = [];

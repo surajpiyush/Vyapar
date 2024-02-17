@@ -63,7 +63,7 @@ const Editframe = () => {
 
   // Send Profile Update Request
   const handleSave = () => {
-    UpdateCompanyProfile(dispatch, companyData._id, companyData);
+    UpdateCompanyProfile(dispatch, companyData._id, formDataToSend);
   };
 
   return (

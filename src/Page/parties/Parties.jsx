@@ -2,11 +2,7 @@ import "../../styles/parties.css";
 import party from "../../assets/Images/party.jpg";
 import PartiesTable from "../../components/TableData/PartiesTable";
 import GroupTable from "../../components/TableData/GroupTable";
-import {
-  FetchData,
-  GetAllGroups,
-  SaveParty,
-} from "../../Redux/parties/actions";
+import { FetchAllParties, SaveParty } from "../../Redux/parties/actions";
 import { USER_DETAILS } from "../../Redux/business/actionTypes";
 import { SAVE_PARTY_INPUT_CHANGE } from "../../Redux/parties/actionTypes";
 
@@ -74,7 +70,7 @@ export default function Parties() {
   };
 
   useEffect(() => {
-    FetchData(dispatch);
+    FetchAllParties(dispatch);
   }, [togglePartiesData]);
 
   const togglePartyForm = () => {
