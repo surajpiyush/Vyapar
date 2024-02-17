@@ -48,7 +48,7 @@ const Purchase = () => {
           </select>
           </div>
           <div>
-            <button>Save</button>
+            <button onClick={alert("Please provide the input boxes")} >Save</button>
           </div>
          
         </section>
