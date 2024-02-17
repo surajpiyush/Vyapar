@@ -6,18 +6,13 @@
 }
 
 .transactions-buttons {
-    padding: 20px 0;
+    padding: 10px 0;
     display: flex;
-    justify-content: right;
-    border-radius: 25%;
+    justify-content: space-between;
 }
-input{
 
-    border: none;
-}
 .transactions-buttons input {
     padding: 3px;
-    text-align: center;
     border-radius: 5px;
     border: 1px solid gray ;
 }
