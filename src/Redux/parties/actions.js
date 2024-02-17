@@ -20,7 +20,7 @@ import {
 import axios from "axios";
 
 // ----------------------- Fetch All Parties Data Function ---- Didn't applied function curring due to thunk error in store.js
-export const FetchData = async (dispatch) => {
+export const FetchAllParties = async (dispatch) => {
   dispatch({ type: FETCH_PARTIES_LOADING });
   // const { userId, token } = JSON.parse(localStorage.getItem(USER_DETAILS));
   const userId = localStorage.getItem("userId");

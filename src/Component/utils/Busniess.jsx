@@ -1,4 +1,3 @@
-import { INPUTCHANGE } from "../../Redux/business/actionTypes";
 import { SendRegisterRequest } from "../../Redux/business/action";
 
 import { useLocation, useNavigate } from "react-router-dom";
@@ -6,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { IoLockOpenOutline } from "react-icons/io5";
 import { CgOrganisation } from "react-icons/cg";
+import { useState } from "react";
 
 function Busniess() {
   const dispatch = useDispatch();
@@ -13,22 +13,25 @@ function Busniess() {
   const location = useLocation();
 
   const isLoading = useSelector((state) => state.BusinessReducer.isLoading);
-  const companyName = useSelector((state) => state.BusinessReducer.companyName);
-  const email = useSelector((state) => state.BusinessReducer.email);
-  const password = useSelector((state) => state.BusinessReducer.password);
+  const [formData, setFormdata] = useState({
+    companyName: "",
+    email: "",
+    phoneNumber: "",
+  });
 
   // Input Change Function
   const handleChange = (event) => {
     const { name, value } = event.target;
-    dispatch({ type: INPUTCHANGE, payload: value, name });
+    setFormdata((prev) => {
+      return { ...prev, [name]: value };
+    });
   };
 
   // Handle Submit Function
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!isLoading) {
-      const sendData = { companyName, email, password };
-      SendRegisterRequest(dispatch, sendData, navigate, location);
+      SendRegisterRequest(dispatch, formData, navigate, location);
     }
   };
 
@@ -44,7 +47,7 @@ function Busniess() {
             type="text"
             name="companyName"
             placeholder="companyName"
-            value={companyName}
+            value={formData.companyName}
             onChange={handleChange}
             className="input"
             required
@@ -61,7 +64,7 @@ function Busniess() {
             type="email"
             name="email"
             placeholder="email"
-            value={email}
+            value={formData.email}
             onChange={handleChange}
             className="input1"
             required
@@ -75,10 +78,10 @@ function Busniess() {
             Enter your password:
           </label>
           <input
-            type="password"
-            name="password"
-            placeholder="password"
-            value={password}
+            type="text"
+            name="phoneNumber"
+            placeholder="Phone Number"
+            value={formData.phoneNumber}
             onChange={handleChange}
             className="input1"
             required

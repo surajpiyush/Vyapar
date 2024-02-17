@@ -25,7 +25,10 @@ export const FetchAllCompanies = async (dispatch) => {
     );
     // console.log("Fetching All Companies Response:", response?.data);
 
-    dispatch({ type: FETCH_COMPANIES_SUCCESS, payload: response?.data?.data });
+    dispatch({
+      type: FETCH_COMPANIES_SUCCESS,
+      payload: response?.data?.data,
+    });
   } catch (error) {
     dispatch({ type: ISERROR });
     console.log("Fetching All Companies Error Response:", error);
@@ -41,18 +44,21 @@ export const SendRegisterRequest = async (
   location
 ) => {
   dispatch({ type: ISLOADING });
+  const token = localStorage.getItem("token");
+
   try {
     const response = await axios.post(
-      "https://ca-backend-api.onrender.com/companyRegister/auth/signup",
-      data
+      "https://ca-backend-api.onrender.com/firm_registration",
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${token} `,
+        },
+      }
     );
-    //  console.log("Business Added", response?.data);
-    const previousUserLSData = localStorage.getItem(USER_DETAILS);
-    const newUserLSData = {
-      ...previousUserLSData,
-      ...response?.data?.companyData,
-    };
-    localStorage.setItem(USER_DETAILS, JSON.stringify(newUserLSData));
+    console.log("Business Added", response?.data?.FirmData);
+    let newCurrentCompanyData = response?.data?.FirmData;
+    localStorage.setItem(USER_DETAILS, JSON.stringify(newCurrentCompanyData));
     dispatch({ type: SUCCESS });
     alert("Business Added ✔️");
     navigate("/", {
@@ -77,6 +83,7 @@ export const UpdateCompanyProfile = async (dispatch, firmId, data) => {
       {
         headers: {
           Authorization: `Bearer ${token} `,
+          "Content-Type": "multipart/form-data",
         },
       }
     );
@@ -84,9 +91,10 @@ export const UpdateCompanyProfile = async (dispatch, firmId, data) => {
     const newUserLSData = {
       ...prevousUserLSData,
       ...data,
-      _id: data._id,
     };
+    console.log("newUserLSData", newUserLSData);
     localStorage.setItem(USER_DETAILS, JSON.stringify(newUserLSData));
+    // console.log("response", response.data);
     dispatch({ type: UPDATE_PROFILE_SUCCESS });
     alert("Profile Updated Successfully ✔️");
   } catch (error) {

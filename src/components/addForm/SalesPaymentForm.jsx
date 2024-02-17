@@ -1,23 +1,71 @@
-import React, { useState } from "react";
 import "../../styles/sales.css";
 
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { PostSalesPayment } from "../../Redux/sales/action";
+import { FetchAllParties } from "../../Redux/parties/actions";
+
 export default function SalesPaymentForm(Props) {
+  const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state.SalesReducer.isLoading);
+  const partiesLoading = useSelector((state) => state.PartiesReducer.isLoading);
+  const partiesData = useSelector((state) => state.PartiesReducer.partiesData);
+
+  const [paymentData, setPaymentData] = useState({
+    type: "Payment-In",
+    status: "Received",
+    party: "Bhuvensh",
+    receiptNo: 1,
+    date: "2024-02-10",
+    paymentType: [
+      {
+        cash: 5000,
+        cheque: { refreanceNo: "123456", checkAmount: 3000 },
+        bankDetail: {
+          accountName: "XYZ Bank",
+          openingBalance: 10000,
+          asOfDate: "2023-12-31",
+        },
+      },
+    ],
+    addDescription: "Payment received for services",
+    recived: 8000,
+    total: 8000,
+  });
+
+  const [paymentCount, setPaymentCount] = useState([]);
+
+  // for fetching all parties list on form mount
+  useEffect(() => {
+    FetchAllParties(dispatch);
+  }, []);
+
+  // Input Change Function
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setPaymentData((prev) => {
+      return { ...prev, [name]: value };
+    });
+  };
+
+  const handleSubmit = () => {
+    PostSalesPayment(dispatch, paymentData);
+  };
+
   const closeForm = () => {
     Props.func();
   };
 
-  const [paymentCount, setPaymentCount] = useState([]);
-
   const addPaymentType = () => {
-    setPaymentCount(prevCount => [...prevCount, 1]);
+    setPaymentCount((prevCount) => [...prevCount, 1]);
   };
 
   const deletePaymentRow = (ind) => {
-    const arr = paymentCount.filter((item,index)=>{
-      return index !== ind
-    })
+    const arr = paymentCount.filter((item, index) => {
+      return index !== ind;
+    });
     setPaymentCount(arr);
-  }
+  };
 
   return (
     <div className="payment-form-cont">
@@ -58,6 +106,24 @@ export default function SalesPaymentForm(Props) {
           </div>
           <div className="">
             <div className="mt-10">
+              <label htmlFor="">Party</label>
+              <select
+                name="party"
+                value={paymentData.party}
+                onChange={handleInputChange}
+                style={{ width: "200px" }}
+              >
+                <option value="">
+                  {partiesLoading ? "Loading Parties" : "Select Party"}
+                </option>
+                {partiesData?.map((item, ind) => (
+                  <option value={item.partyName} key={ind + item._id}>
+                    {item.partyName}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="mt-10">
               <label htmlFor="">Reciept Number</label>
               <input type="text" style={{ width: "200px" }} />
             </div>
@@ -82,12 +148,12 @@ export default function SalesPaymentForm(Props) {
               </select>
               <br />
               <p
-                style={{ color: "blue", marginTop: "10px",cursor : "pointer" }}
+                style={{ color: "blue", marginTop: "10px", cursor: "pointer" }}
                 onClick={addPaymentType}
               >
                 + Add Payment Type
               </p>
-              {paymentCount?.map((item,index) => {
+              {paymentCount?.map((item, index) => {
                 return (
                   <div className="d-flex" style={{ gap: "20px" }}>
                     <select name="" id="" className="sale-select">
@@ -98,7 +164,12 @@ export default function SalesPaymentForm(Props) {
                       placeholder="Amount *"
                       className="invoice-input"
                     />
-                    <i className="fa fa-trash" onClick={()=>{deletePaymentRow(index)}}></i>
+                    <i
+                      className="fa fa-trash"
+                      onClick={() => {
+                        deletePaymentRow(index);
+                      }}
+                    ></i>
                   </div>
                 );
               })}
@@ -123,7 +194,9 @@ export default function SalesPaymentForm(Props) {
         <hr />
         <div className="d-end" style={{ gap: "10px", marginTop: "20px" }}>
           <button className="sales-btn1">Share</button>
-          <button className="sales-btn2">Save</button>
+          <button className="sales-btn2" onClick={handleSubmit}>
+            {isLoading ? "Saving" : "Save"}
+          </button>
         </div>
       </div>
     </div>

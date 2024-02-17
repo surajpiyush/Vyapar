@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import SalesEstimatesTable from "../../../components/TableData/SalesEstimatesTable";
 import party from "../../../assets/Images/party.jpg";
 import SalesEstimatesForm from "../../../components/addForm/SalesEstimatesForm";
+import { PostSalesEstimates } from "../../../Redux/sales/action";
 
 export default function SalesEstimates() {
   const data = [];
@@ -12,8 +13,8 @@ export default function SalesEstimates() {
   };
 
   const formOpen = () => {
-    setOpenForm(true)
-  }
+    setOpenForm(true);
+  };
 
   return (
     <div>
@@ -26,14 +27,19 @@ export default function SalesEstimates() {
               <div className="">
                 <img src={party} alt="" className="party-img" />
                 <p>Add Estimates to manage your full Stock Inventory.</p>
-                <button className="party-button" onClick={() => {
+                <button
+                  className="party-button"
+                  onClick={() => {
                     setOpenForm(true);
-                  }}>Add Estimates</button>
+                  }}
+                >
+                  Add Estimates
+                </button>
               </div>
             </div>
           ) : (
             <div className="">
-              <SalesEstimatesTable func={formOpen}/>
+              <SalesEstimatesTable func={formOpen} />
             </div>
           )}
         </div>
