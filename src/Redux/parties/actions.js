@@ -110,7 +110,6 @@ const purchaseBillFailed = () => ({ type: PARTIES_PURCHASE_BILL_FAILURE });
 
 export const postPurchaseBill = (data) => async (dispatch) => {
   dispatch(purchaseBillReq());
-  purchaseBillReq(dispatch);
   try {
     const response = await axios.post(postPurchaseBillUrl, data, {
       headers: {
