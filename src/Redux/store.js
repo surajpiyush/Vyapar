@@ -7,17 +7,15 @@ import {
 import { thunk } from "redux-thunk";
 
 import { reducer as ItemReducer } from "./items/reducer";
-import { reducer as PartiesReducer } from "./parties/reducer";
+import {reducer as PurchaseReducer} from "./purchase/reducer"
 import { reducer as BusinessReducer } from "./business/reducer";
-import purchaseBillReducer from "./purchaseBillSlice";
-import paymentOutReducer from "./paymentOutSlice";
+
 
 const rootReducer = combineReducers({
   ItemReducer,
-  PartiesReducer,
   BusinessReducer,
-  purchaseBillReducer: purchaseBillReducer,
-  paymentOutReducer: paymentOutReducer,
+  PurchaseReducer
+ 
 });
 
 // Enhance store with Redux DevTools Extension
