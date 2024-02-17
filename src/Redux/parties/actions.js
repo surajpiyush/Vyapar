@@ -127,7 +127,7 @@ export const postPurchaseBill = (data) => async (dispatch) => {
       },
     });
     dispatch(purchaseBillSucc(response.data));
-    console.log(response.data);
+    // console.log(response.data);
   } catch (err) {
     dispatch(purchaseBillFailed(err));
   }
@@ -140,25 +140,25 @@ const getAllPurchaseBillUrl =
 const getPurchaseBillReq = () => ({ type: PARTIES_PURCHASE_BILL_REQUEST });
 const getPurchaseBillSucc = (payload) => ({
   type: PARTIES_PURCHASE_BILL_SUCCESS,
-  payload,
+  payload: payload,
 });
 const getPurchaseBillFailed = () => ({ type: PARTIES_PURCHASE_BILL_FAILURE });
 
-export const getPurchaseBill = (data) => async (dispatch) => {
+export const getPurchaseBill = () => async (dispatch) => {
+  console.log("data");
   dispatch(getPurchaseBillReq());
-  console.log(data);
   try {
     const response = await axios.get(getAllPurchaseBillUrl, {
-      params: data,
       headers: {
         Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWM1Y2ZjNTA5YjM0Y2E4YTAxODc0OTciLCJpYXQiOjE3MDgwODgyNjIsImV4cCI6MTcwODE3NDY2Mn0.vrVm4-qmI74kgNXo9FmvI9BeWQ5dVFoJvqaqwGrcjJM",
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWM1Y2ZjNTA5YjM0Y2E4YTAxODc0OTciLCJpYXQiOjE3MDgxNjExOTksImV4cCI6MTcwODI0NzU5OX0.WuS20yytZs1_7Hg67CeTYTctHNU4tqkbemGGmqYY8Kg",
       },
     });
 
-    dispatch(getPurchaseBillSucc(response.data));
-    console.log(response.data);
+    console.log(response);
+    dispatch(getPurchaseBillSucc(response));
   } catch (err) {
+    console.log("ERROOR");
     dispatch(getPurchaseBillFailed(err));
   }
 };

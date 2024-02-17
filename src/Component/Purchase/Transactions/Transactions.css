@@ -1,63 +1,65 @@
-
 .transactions-container {
-    padding: 10px 10px 30px 10px;
-    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-    margin-top: 20px;
+  padding: 10px 10px 30px 10px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  margin-top: 20px;
 }
 
 .transactions-buttons {
-    padding: 10px 0;
-    display: flex;
-    justify-content: space-between;
+  padding: 20px 0;
+  display: flex;
+  justify-content: right;
+  border-radius: 25%;
 }
-
+input {
+  border: none;
+}
 .transactions-buttons input {
-    padding: 3px;
-    border-radius: 5px;
-    border: 1px solid gray ;
+  padding: 3px;
+  text-align: center;
+  border-radius: 5px;
+  border: 1px solid gray;
 }
 
 .transactions-buttons input:focus {
-    outline: none;
+  outline: none;
 }
 
 .transactions-buttons button {
-    padding: 10px 10px;
-    background-color: rgb(39, 39, 255);
-    color: white;
-    border: none;
-    border-radius: 5px;
+  padding: 10px 10px;
+  background-color: rgb(39, 39, 255);
+  color: white;
+  border: none;
+  border-radius: 5px;
 }
 
 .transaction-tables {
-    display: flex;
-    border: solid 1px gray ;
-    padding: 0 5px;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  border: solid 1px gray;
+  padding: 0 5px;
+  justify-content: space-between;
+  align-items: center;
 }
 
- .transaction-table {
-    display: flex;
-    border-right: solid 1px gray;
-    padding: 6px 0px 6px 3px;
-    font-size: 14px;
-    justify-content: space-between;
-    width: 100%;
-    color: gray;
+.transaction-table {
+  display: flex;
+  border-right: solid 1px gray;
+  padding: 6px 0px 6px 3px;
+  font-size: 14px;
+  justify-content: space-between;
+  width: 100%;
+  color: gray;
+}
 
- }
+.transaction-table-table {
+  padding: 10px;
+}
 
- .transaction-table-table {
-    padding: 10px;
- }
+.transaction-section-items {
+  display: flex;
+  justify-content: space-between;
+}
 
- .transaction-section-items {
-    display: flex;
-    justify-content: space-between;
- }
-
- .transaction-table-table {
-    border: 1px solid gray;
-    width: 100%;
- }
+.transaction-table-table {
+  border: 1px solid gray;
+  width: 100%;
+}

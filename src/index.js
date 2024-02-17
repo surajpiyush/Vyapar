@@ -3,11 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import {
-  BrowserRouter,
-  RouterProvider,
-  createBrowserRouter,
-} from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Authpage from "./Page/Authpage";
 import Homepage from "./Page/Homepage";
 import Companypage from "./Page/Companypage";
@@ -173,9 +169,6 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
     <React.StrictMode>
-      {/* <BrowserRouter>
-        <App />
-      </BrowserRouter> */}
       <RouterProvider router={router} />
     </React.StrictMode>
   </Provider>
