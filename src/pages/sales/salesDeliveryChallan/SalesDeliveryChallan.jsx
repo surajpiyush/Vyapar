@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import SalesDeliveryChallanTable from "../../../components/TableData/SalesDeliveryChallanTable";
+import { useState } from "react";
 import party from "../../../assets/Images/party.jpg";
 import SalesDeliveryForm from "../../../components/addForm/SalesDeliveryForm";
+import SalesDeliveryChallanTable from "../../../components/TableData/SalesDeliveryChallanTable";
 
 export default function SalesDeliveryChallan() {
   const data = [];
@@ -9,16 +9,16 @@ export default function SalesDeliveryChallan() {
 
   const closeForm = () => {
     setOpenForm(false);
-  }
+  };
 
   const formOpen = () => {
-    setOpenForm(true)
-  }
+    setOpenForm(true);
+  };
 
   return (
     <div>
       {openForm ? (
-        <SalesDeliveryForm func={closeForm}/>
+        <SalesDeliveryForm func={closeForm} />
       ) : (
         <div className="d-cen b-cont text-center">
           {!(data.length > 0) ? (

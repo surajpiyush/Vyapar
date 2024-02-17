@@ -37,7 +37,7 @@ export const FetchData = async (dispatch) => {
     );
 
     dispatch({ type: FETCH_PARTIES_SUCCESS, payload: response.data.data });
-    console.log("Parties Fetch Data Response:-", response);
+    // console.log("Parties Fetch Data Response:-", response);
   } catch (error) {
     dispatch({ type: FETCH_PARTIES_ERROR });
     console.error("Error Fetching Parties Data:", error);
@@ -61,7 +61,7 @@ export const SaveParty = async (dispatch, data, setPartyFormToggle) => {
         },
       }
     );
-    console.log("Business Route Response:", response?.data);
+    // console.log("Save Party Response:", response?.data);
 
     dispatch({ type: SAVE_PARTY_SUCCESS });
     setPartyFormToggle((prev) => !prev);
@@ -92,14 +92,14 @@ export const GetAllGroups = async (dispatch, data, setPartyFormToggle) => {
         },
       }
     );
-    console.log("Business Route Response:", response?.data);
+    console.log("Getting All Groups Response:", response?.data);
 
     dispatch({ type: SAVE_PARTY_SUCCESS });
     setPartyFormToggle((prev) => !prev);
-    alert("Party Saved ✔️");
+    // alert("Party Saved ✔️");
   } catch (error) {
     dispatch({ type: SAVE_PARTY_ERROR });
-    console.log("Saving Party Error Response:", error);
+    console.log("Getting All Groups Response:", error);
     alert(error?.response?.data || "Something Went Wrong!");
   }
 };

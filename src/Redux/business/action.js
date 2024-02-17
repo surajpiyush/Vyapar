@@ -12,10 +12,7 @@ import axios from "axios";
 // Company Register Request ---- Didn't applied function curring due to thunk error in store.js
 export const FetchAllCompanies = async (dispatch) => {
   dispatch({ type: ISLOADING });
-  // const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
-  // const token =
-  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWM1Y2ZjNTA5YjM0Y2E4YTAxODc0OTciLCJpYXQiOjE3MDc1NDk0NDEsImV4cCI6MTcwNzYzNTg0MX0.fAxYV41o_71t6FWieQ3zonPm5spdQnw6gi4PSJ778rs";
 
   try {
     const response = await axios.get(
@@ -26,7 +23,7 @@ export const FetchAllCompanies = async (dispatch) => {
         },
       }
     );
-    console.log("Fetching All Companies Response:", response?.data);
+    // console.log("Fetching All Companies Response:", response?.data);
 
     dispatch({ type: FETCH_COMPANIES_SUCCESS, payload: response?.data?.data });
   } catch (error) {
@@ -44,19 +41,18 @@ export const SendRegisterRequest = async (
   location
 ) => {
   dispatch({ type: ISLOADING });
-  localStorage.removeItem(USER_DETAILS);
   try {
     const response = await axios.post(
-      "https://ca-backend-api.onrender.com/companyRegister/auth/signin",
+      "https://ca-backend-api.onrender.com/companyRegister/auth/signup",
       data
     );
-
-    const { name, companyName, email, userId, token, phoneNumber } =
-      response?.data?.result;
-    localStorage.setItem(
-      USER_DETAILS,
-      JSON.stringify({ name, companyName, email, userId, token, phoneNumber })
-    );
+    //  console.log("Business Added", response?.data);
+    const previousUserLSData = localStorage.getItem(USER_DETAILS);
+    const newUserLSData = {
+      ...previousUserLSData,
+      ...response?.data?.companyData,
+    };
+    localStorage.setItem(USER_DETAILS, JSON.stringify(newUserLSData));
     dispatch({ type: SUCCESS });
     alert("Business Added ✔️");
     navigate("/", {
@@ -71,13 +67,12 @@ export const SendRegisterRequest = async (
 };
 
 // Update Company Profile ---- Didn't applied function curring due to thunk error in store.js
-export const UpdateCompanyProfile = async (dispatch, data) => {
+export const UpdateCompanyProfile = async (dispatch, firmId, data) => {
   dispatch({ type: ISLOADING });
-  const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
   try {
     const response = await axios.put(
-      `https://ca-backend-api.onrender.com/firm_registration/${userId}`,
+      `https://ca-backend-api.onrender.com/firm_registration/${firmId}`,
       data,
       {
         headers: {
@@ -85,10 +80,15 @@ export const UpdateCompanyProfile = async (dispatch, data) => {
         },
       }
     );
-    console.log("Profile Update Response:", response?.data);
-
+    const prevousUserLSData = JSON.parse(localStorage.getItem(USER_DETAILS));
+    const newUserLSData = {
+      ...prevousUserLSData,
+      ...data,
+      _id: data.firmId,
+    };
+    localStorage.setItem(USER_DETAILS, JSON.stringify(newUserLSData));
     dispatch({ type: UPDATE_PROFILE_SUCCESS });
-    alert("Profile Added Successfully ✔️");
+    alert("Profile Updated Successfully ✔️");
   } catch (error) {
     dispatch({ type: ISERROR });
     console.log("Updating Profile Error Response:", error);

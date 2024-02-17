@@ -43,7 +43,7 @@ function Busniess() {
           <input
             type="text"
             name="companyName"
-            placeholder="comapnyName"
+            placeholder="companyName"
             value={companyName}
             onChange={handleChange}
             className="input"

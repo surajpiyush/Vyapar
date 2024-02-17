@@ -1,18 +1,13 @@
-import { useState } from "react";
 import "./Css/styles.css";
 import "./Css/styles1.css";
 import "./App.css";
 import Navbar from "./Component/Navbar/Navbar.jsx";
 import Sidebar from "./Component/Sidebar/Sidebar.jsx";
 import Header from "./Component/Layourt/Header.jsx";
-import Home from "./Component/Layourt/Home/Home.jsx";
-import Stockinventory from "./Component/Stockinventory/Stockinventory.jsx";
-import { Outlet, Route, Routes } from "react-router-dom";
-import Items from "./Page/Items/Items.jsx";
-import Parties from "./Page/parties/Parties.jsx";
-import SalesDeliveryChallan from "./pages/sales/salesDeliveryChallan/SalesDeliveryChallan.jsx";
-import { Provider } from "react-redux";
 import { store } from "./Redux/store.js";
+
+import { Provider } from "react-redux";
+import { Outlet } from "react-router-dom";
 
 function App() {
   return (

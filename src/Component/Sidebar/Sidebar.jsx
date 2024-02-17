@@ -1,7 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { MdOutlineArrowForwardIos } from "react-icons/md";
-import Logo from "../../assets/Shop.svg";
 import "./Sidebar.css";
+import Logo from "../../assets/Shop.svg";
+import { PlusIcon } from "../utils/reactIcons";
+import { USER_DETAILS } from "../../Redux/business/actionTypes";
+
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { MdOutlineArrowForwardIos } from "react-icons/md";
 import { GoHomeFill } from "react-icons/go";
 import { HiMiniUsers } from "react-icons/hi2";
 import { FaPlus } from "react-icons/fa";
@@ -12,11 +17,6 @@ import { CiMoneyBill } from "react-icons/ci";
 import { FaWallet } from "react-icons/fa";
 import { IoStorefrontSharp } from "react-icons/io5";
 import { IoStatsChart } from "react-icons/io5";
-import { PlusIcon } from "../utils/reactIcons";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { useSelector } from "react-redux";
-import { USER_DETAILS } from "../../Redux/business/actionTypes";
 
 const sidebarItems = [
   { Icon: <GoHomeFill />, name: "Home" },

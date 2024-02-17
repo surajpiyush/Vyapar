@@ -8,12 +8,11 @@ import { UpdateCompanyProfile } from "../../Redux/business/action";
 
 const Editframe = () => {
   const dispatch = useDispatch();
-
   const isLoading = useSelector((state) => state.BusinessReducer.isLoading);
   const toggleUpdate = useSelector(
     (state) => state.BusinessReducer.toggleUpdate
   );
-  const [userdata, setUserData] = useState({
+  const [companyData, setCompanyData] = useState({
     companyName: "",
     email: "",
     phoneNumber: "",
@@ -23,27 +22,49 @@ const Editframe = () => {
     businessType: "",
     businessDescription: "",
     gstinNumber: "",
-    signature: "",
-    companyLogo: "",
+    signature: null,
+    companyLogo: null,
+    firmId: "",
   });
+  const [formDataToSend, setFormDataToSend] = useState(new FormData());
 
   useEffect(() => {
+    const newFormDataToSend = new FormData();
+    Object.entries(companyData).forEach(([key, value]) => {
+      newFormDataToSend.append(key, value);
+    });
+    setFormDataToSend(newFormDataToSend);
+  }, [companyData]);
+
+  // UseEffect to set current company data on edit company profile mount
+  useEffect(() => {
     const userDetailLS = JSON.parse(localStorage.getItem(USER_DETAILS));
-    setUserData((prev) => {
-      return { ...prev, ...userDetailLS };
+    setCompanyData((prev) => {
+      return {
+        ...prev,
+        ...userDetailLS,
+        firmId: userDetailLS._id,
+      };
     });
   }, [toggleUpdate]);
 
+  // Input Change Function
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setUserData((prev) => {
-      return { ...prev, [name]: value };
-    });
+    const name = e.target.name;
+    if (name == "signature" || name == "companyLogo") {
+      setCompanyData((prev) => {
+        return { ...prev, [name]: e.target.files[0] };
+      });
+    } else {
+      setCompanyData((prev) => {
+        return { ...prev, [name]: e.target.value };
+      });
+    }
   };
 
-  const handleSava = () => {
-    console.log(userdata);
-    UpdateCompanyProfile(dispatch, userdata);
+  // Send Profile Update Request
+  const handleSave = () => {
+    UpdateCompanyProfile(dispatch, companyData.firmId, companyData);
   };
 
   return (
@@ -61,14 +82,20 @@ const Editframe = () => {
       <section className="edit-firm-middle-section">
         <aside className="edit-firm-middle-aside1">
           <div>
-            Add <br /> Logo
+            <label htmlFor="companyLogo">Add Logo</label>
+            <input
+              type="file"
+              name="companyLogo"
+              accept="image/*"
+              onChange={handleInputChange}
+            />
           </div>
         </aside>
         <aside className="edit-firm-middle-aside2">
           <div>
             <label htmlFor="#">Business Name</label>
             <input
-              value={userdata?.companyName}
+              value={companyData.companyName}
               onChange={handleInputChange}
               name="companyName"
               type="text"
@@ -79,7 +106,7 @@ const Editframe = () => {
             <label htmlFor="#">GSTIN</label>
             <input
               type="text"
-              value={userdata?.gstinNumber}
+              value={companyData.gstinNumber}
               onChange={handleInputChange}
               name="gstinNumber"
               placeholder="GSTIN"
@@ -90,7 +117,7 @@ const Editframe = () => {
             <label htmlFor="#">Phone No.</label>
             <input
               type="number"
-              value={userdata?.phoneNumber}
+              value={companyData.phoneNumber}
               onChange={handleInputChange}
               name="phoneNumber"
               placeholder="mobile number"
@@ -100,7 +127,7 @@ const Editframe = () => {
             <label htmlFor="#">Email ID</label>
             <input
               type="text"
-              value={userdata?.email}
+              value={companyData.email}
               onChange={handleInputChange}
               name="email"
               placeholder="Eamil ID"
@@ -125,7 +152,7 @@ const Editframe = () => {
               <label htmlFor="#">pincode</label>
               <input
                 type="text"
-                value={userdata?.pinCode}
+                value={companyData.pinCode}
                 onChange={handleInputChange}
                 name="pinCode"
                 placeholder="Pincode"
@@ -134,7 +161,7 @@ const Editframe = () => {
             <div>
               <label htmlFor="state">State</label>
               <select
-                value={userdata?.state}
+                value={companyData.state}
                 onChange={handleInputChange}
                 name="state"
               >
@@ -146,7 +173,7 @@ const Editframe = () => {
               <label htmlFor="#">Business Description</label>
               <input
                 type="text"
-                value={userdata?.businessDescription}
+                value={companyData.businessDescription}
                 onChange={handleInputChange}
                 name="businessDescription"
                 placeholder="Business Description"
@@ -157,7 +184,7 @@ const Editframe = () => {
             <div>
               <label htmlFor="#">Business Type</label>
               <select
-                value={userdata?.businessType}
+                value={companyData.businessType}
                 onChange={handleInputChange}
                 name="businessType"
               >
@@ -169,22 +196,26 @@ const Editframe = () => {
               <label htmlFor="#">Business Category</label>
               <input
                 type="text"
-                value={userdata?.businessCategory}
+                value={companyData.businessCategory}
                 onChange={handleInputChange}
                 name="businessCategory"
                 placeholder="Business Category"
               />
             </div>
             <div className="add-signatures">
-              <p>
-                Add <br /> Signature
-              </p>
+              <label htmlFor="signature">Add Signature</label>
+              <input
+                type="file"
+                accept="image/*"
+                name="signature"
+                onChange={handleInputChange}
+              />
             </div>
           </aside>
         </section>
       </section>
       <div className="edit-firm-save-button">
-        <button className="" onClick={handleSava}>
+        <button className="" onClick={handleSave}>
           {isLoading ? "Saving" : "Save"}
         </button>
       </div>
