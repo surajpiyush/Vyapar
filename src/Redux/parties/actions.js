@@ -160,12 +160,14 @@ export const getPurchaseBill = (startDate, endDate) => async (dispatch) => {
 // ******************************************************
 const getPurhchaseInvoiceUrl =
   "https://ca-backend-api.onrender.com/65c5d0d209b34ca8a018749d/purchase/getInvoice/65c9d463d8d06ffd61e50eb8";
-const getPurchaseInvoiceReq = () => ({ type: PARTIES_POST_REQUEST });
+const getPurchaseInvoiceReq = () => ({ type: PARTIES_PURCHASE_BILL_REQUEST });
 const getPurchaseInvoiceSucc = (payload) => ({
-  type: PARTIES_POST_SUCCESS,
+  type: PARTIES_PURCHASE_BILL_SUCCESS,
   payload,
 });
-const getPurchaseInvoiceFailed = () => ({ type: PARTIES_POST_FAILED });
+const getPurchaseInvoiceFailed = () => ({
+  type: PARTIES_PURCHASE_BILL_FAILURE,
+});
 
 // *******************************************
 export const getPurchaseInvoice = () => async (dispatch) => {
