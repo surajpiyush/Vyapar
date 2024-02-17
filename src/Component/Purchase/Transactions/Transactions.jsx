@@ -40,8 +40,13 @@ const Transactions = () => {
   const [showAllPurchaseBills, setShowAllPurchaseBills] = useState(false);
   const [showPurchaseInvoiceById, setshowPurchaseInvoiceById] = useState(false);
 
-  const startDate = "2023-01-20";
-  const endDate = "2024-02-24";
+  // const startDate = "2023-01-20";
+  // const endDate = "2024-02-24";
+
+  const data_To_Send = {
+    startDate: "2023-01-20",
+    endDate: "2024-02-24",
+  };
 
   const dataPost = {
     partyName: "Bhuvensh",
@@ -116,8 +121,8 @@ const Transactions = () => {
     dispatch(postPurchaseBill(dataPost));
   };
 
-  const allPurchaseBills = (startDate, endDate) => {
-    dispatch(getPurchaseBill(startDate, endDate));
+  const allPurchaseBills = (data_To_Send) => {
+    dispatch(getPurchaseBill(data_To_Send));
   };
 
   const getPurchaseInvoiceByid = () => {
@@ -130,7 +135,7 @@ const Transactions = () => {
 
   useEffect(() => {
     if (showAllPurchaseBills) {
-      allPurchaseBills(startDate, endDate);
+      allPurchaseBills(data_To_Send);
     }
   }, [showAllPurchaseBills]);
 

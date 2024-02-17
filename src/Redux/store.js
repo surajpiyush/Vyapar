@@ -9,8 +9,6 @@ import paymentOutReducer from "./paymentOutSlice";
 const rootReducer = combineReducers({
   parties: partiesReducer,
   business: businessReducer,
-  purchaseBill: purchaseBillReducer,
-  paymentOut: paymentOutReducer,
 });
 
 // Enhance store with Redux DevTools Extension

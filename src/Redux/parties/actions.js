@@ -135,15 +135,12 @@ const getPurchaseBillSucc = (payload) => ({
 });
 const getPurchaseBillFailed = () => ({ type: PARTIES_PURCHASE_BILL_FAILURE });
 
-export const getPurchaseBill = (startDate, endDate) => async (dispatch) => {
+export const getPurchaseBill = (data) => async (dispatch) => {
   dispatch(getPurchaseBillReq());
-
+  console.log(data);
   try {
     const response = await axios.get(getAllPurchaseBillUrl, {
-      params: {
-        startDate,
-        endDate,
-      },
+      params: data,
       headers: {
         Authorization:
           "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWM1Y2ZjNTA5YjM0Y2E4YTAxODc0OTciLCJpYXQiOjE3MDgwODgyNjIsImV4cCI6MTcwODE3NDY2Mn0.vrVm4-qmI74kgNXo9FmvI9BeWQ5dVFoJvqaqwGrcjJM",
