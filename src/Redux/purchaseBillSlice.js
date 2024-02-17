@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const purchaseBillSlice = createSlice({
   name: "purchaseBill",
   initialState: {
-    data: [],
+    purchaseBillData: [],
     isLoading: false,
     isError: false,
   },
@@ -14,7 +14,7 @@ const purchaseBillSlice = createSlice({
     },
     purchaseBillSuccess: (state, action) => {
       state.isLoading = false;
-      state.data = action.payload;
+      state.purchaseBillData = action.payload;
     },
     purchaseBillFailure: (state) => {
       state.isLoading = false;

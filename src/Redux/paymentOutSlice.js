@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const paymentOutSlice = createSlice({
   name: "paymentOut",
   initialState: {
-    data: [],
+    paymentOutData: [],
     isLoading: false,
     isError: false,
   },
@@ -14,7 +14,7 @@ const paymentOutSlice = createSlice({
     },
     paymentOutSuccess: (state, action) => {
       state.isLoading = false;
-      state.data = action.payload;
+      state.paymentOutData = action.payload;
     },
     paymentOutFailure: (state) => {
       state.isLoading = false;
