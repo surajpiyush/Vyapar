@@ -1,10 +1,22 @@
-import { useState } from "react";
-import Register from "../Component/Rigistared.jsx";
-import Login from "../Component/Login.jsx";
 import "../Css/styles.css";
 import "../Css/styles1.css";
+import SignUp from "../Component/SignUp.jsx";
+import Login from "../Component/Login.jsx";
+
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 const Authpage = () => {
+  const navigate = useNavigate();
+  const [userEmail, setUserEmail] = useState("");
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/");
+    }
+  }, []);
+
   const [tabItems, setTabItems] = useState({
     logintab: true,
     registertab: false,
@@ -53,12 +65,12 @@ const Authpage = () => {
         </section>
         {tabItems.registertab && (
           <section className="regsiter-tab">
-            <Register func={handleLogInTab} />
+            <SignUp func={handleLogInTab} setUserEmail={setUserEmail} />
           </section>
         )}
         {tabItems.logintab && (
           <section className="login-tab">
-            <Login />
+            <Login userEmail={userEmail} />
           </section>
         )}
       </div>
