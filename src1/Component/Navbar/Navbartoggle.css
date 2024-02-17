@@ -1,0 +1,29 @@
+.toggle-main-conatiner {
+    position: fixed;
+    z-index: 20;
+    height: 100%;
+    width: 100%;
+}
+
+.toggle-navbar-container {
+  
+    background-color: rgb(197, 197, 197);
+   
+    padding: 10px 0px;
+    width: 200px;
+    margin-top: 10px;
+}
+
+.toggle-items {
+    padding: 5px 20px;
+    font-size: 14px;
+    font-weight: 400;
+    color: rgb(39, 39, 39);
+    cursor: pointer;
+    
+}
+
+.toggle-items:hover {
+    background-color: rgb(90, 90, 90);
+    color: white;
+} 

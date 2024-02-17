@@ -1,0 +1,218 @@
+
+
+.comapny-container {
+   display: grid;
+   align-items: center;
+   justify-content: center;
+   height: 100vh;
+}
+
+.company-topbar {
+    background-color: black;
+    padding: 10px 20px;
+    color: white;
+    width: 1000px;
+    border-radius: 10px 10px 0 0;
+}
+
+.comapny-top-section {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    align-items: center;
+}
+
+.comapny-top-section h4 {
+    font-size: 25px;
+    color: rgb(212, 212, 212);
+}
+
+.comapny-top-section div {
+    position: relative;
+}
+
+.comapny-top-section input {
+    padding: 10px 10px 10px 30px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 10px;
+}
+
+.comapny-top-section input:focus {
+    outline: none;
+}
+
+.comapny-top-section span {
+    position: absolute;
+    left: 5px;
+    color: black;
+    top: 4px;
+    font-size: 25px;
+}
+
+.compnay-top-tab {
+    display: flex;
+    gap: 20px;
+    padding: 10px 0;
+    color: rgb(212, 212, 212);
+}
+
+.active-tab-item {
+    border-bottom: solid 4px white;
+}
+
+.comany-section-2 {
+    background-color: rgba(231, 231, 231, 0.582);
+    padding: 20px;
+}
+
+.comany-section-2-top {
+    display: flex;
+    justify-content: space-between;
+    color: rgb(59, 59, 59);
+}
+
+.comany-section-2-top-para {
+    font-size: 18px;
+}
+
+.company-section-2-div {
+    display: flex;
+    justify-content: start;
+    gap: 20px;
+    align-items: center;
+}
+
+.company-section-2-div input {
+    padding: 4px;
+    max-width: 150px;
+}
+
+.company-section-2-div-line {
+    width: 2px;
+    height: 30px;
+    background-color: gray;
+}
+
+.company-section-2-div-refresh {
+    background-color: rgb(185, 185, 185);
+    padding: 8px 10px;
+    font-size: 20px;
+    border-radius: 100%;
+    color: blue;
+    font-weight: 900;
+}
+
+.company-section-items {
+    padding: 20px 20px;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    border-radius: 5px;
+    background-color: white;
+    margin: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.company-section-items-name {
+    font-size: 20px;
+    color: rgb(46, 46, 46);
+}
+
+.company-section-items-middle {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    color: gray;
+}
+
+.company-section-items-middle div {
+    font-size: 30px;
+}
+.company-section-items-middle p {
+    font-size: 14px;
+}
+
+.company-section-items-right {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.company-section-items-right button {
+    padding: 8px 20px;
+    background-color: rgb(37, 52, 255);
+    color: white;
+    font-size: 17px;
+    border: none;
+    width: 100px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.company-section-items-right button:hover {
+    background-color: rgb(103, 113, 255);
+}
+
+.company-section-items-right-dot {
+    font-size: 20px;
+}
+
+.comapny-bottom-section {
+    padding: 20px 20px;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    border-radius: 0 0 5px ;
+    background-color: white;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 20px;
+}
+
+.comapny-bottom-section button {
+    padding: 15px 20px;
+    border-radius: 10px;
+    font-size: 15px;
+    cursor: pointer;
+    width: 150px;
+    font-weight: 500;
+}
+
+.comapny-bottom-section button:hover {
+    scale: 1.1;
+}
+
+.comapny-bottom-section-button {
+    background-color: white;
+    border: solid 1px rgb(37, 37, 255);
+    color: blue;
+    font-weight: 400;
+}
+
+.comapny-bottom-section-button2 {
+    background-color: rgb(45, 45, 255);
+    color: white;
+    border: none;
+}
+
+.company-login {
+    padding: 20px 20px;
+    border-radius: 0 0 5px ;
+    background-color: white;
+    display: grid;
+    justify-content: end;
+    align-items: center;
+    border-top: solid 1px gray;
+}
+
+.company-login-link {
+    text-align: end;
+    text-decoration: none;
+    color: blue;
+}
+
+.company-login p {
+    font-size: 14px;
+    color: gray;
+}
+

@@ -1,0 +1,66 @@
+
+.stock-privacy-container {
+    padding: 40px 10px;
+}
+
+.stock-privacy-card, .stock-stock-value-section, .low-stocks-section, .cash-bank-card, .stock-sale-card, .stock-purchase-orders-card {
+    padding: 10px;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    border-radius: 5px;
+}
+
+.stock-privacy-card {
+    display: flex;
+    justify-content: space-between;
+}
+
+.toggleicon {
+    font-size: 30px;
+}
+
+.stock-stock-value-section h4, .low-stocks-section h4, .low-stocks-section, .cash-bank-card h4  {
+    font-size: 14px;
+    color: rgb(123, 123, 123);
+    font-weight: 400;
+}
+
+.stock-headers, .stock-sale-section h4, .stock-purchase-orders-card h4, .stock-sale-card h4 {
+    font-size: 16px;
+    padding: 10px 0 0;
+    color: rgb(123, 123, 123);
+}
+
+.purchase-amount-div {
+    display: flex;
+    padding: 10px 0 0 0;
+    font-size: 16px;
+}
+
+.low-stocks-section {
+    margin-top: 10px;
+}
+
+.low-stocks-section p {
+    text-align: center;
+    padding: 20px 10px;
+    color: rgb(164, 164, 164);
+}
+
+.cash-bank-section {
+    padding: 0px 0;
+}
+
+.cash-bank-card , .stock-sale-card{
+    margin: 10px 0;
+} 
+
+.stock-sale-card div, .stock-purchase-orders-card div, .stock-purchase-orders-card div {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+}
+
+.stock-sale-card div p, .stock-purchase-orders-card p {
+    font-size: 12px;
+    color: gray;
+}

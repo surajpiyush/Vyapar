@@ -1,0 +1,32 @@
+
+.company-nav-item {
+    position: relative;
+    cursor: pointer;
+}
+
+.nav-nav {
+    background-color: #e4e4e4;
+    padding: 0;
+    margin: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 20;
+}
+
+.nav-ul {
+    display: flex;
+    gap: 15px;
+    text-decoration: none;
+    list-style-type: none;
+    align-items: center;
+    padding: 5px;
+}
+
+.nav-li {
+    text-decoration: none;
+}
+
+.nav-li-img {
+    max-width: 30px;
+}

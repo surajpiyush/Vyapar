@@ -1,0 +1,80 @@
+
+
+.addpurchase-table {
+    width: 100%;
+    background-color: white;
+}
+
+.addpurchase-tr {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    border: 1px solid gray;
+}
+
+.addpurchase-td-1 {
+    width: 200px;
+}
+
+.addpurchase-tr td {
+    border-right: 1px solid gray;
+    padding: 3px 10px;
+    width: 100%;
+}
+.addpurchase-tr td select {
+    border-right: 1px solid gray;
+    padding: 3px 10px;
+    width: 100%;
+}
+
+.add-purchase-items-payment {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+
+.add-purchase-items-payment-div {
+    display: flex;
+    gap: 10px;
+    padding: 10px 0;
+}
+.add-purchase-items-payment-div select {
+    padding: 4px 10px;
+}
+.add-purchase-items-payment-div select option {
+    padding: 4px 10px;
+}
+
+.add-purchase-items-payment-div button {
+    background-color: transparent;
+    border: navajowhite;
+    color: blue;
+}
+
+.add-purchase-items-payment-div div {
+    background-color: rgb(211, 211, 211);
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    font-size: small;
+}
+
+.add-purchase-items-payment-div2 {
+    align-items: center;
+}
+
+.add-purchase-items-payment-div-input {
+    width: fit-content;
+    width: 40px;
+}
+
+.add-purchase-items-payment-div-3 {
+    background-color: transparent;
+    display: flex;
+    gap: 10px;
+}
+
+.add-purchase-items-payment-div-3 input {
+    padding: 4px;
+}

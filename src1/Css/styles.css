@@ -1,0 +1,125 @@
+
+.tab-container {
+  max-width: 300px;
+  margin: 0 auto;
+  border-width: 2px;
+  padding: 10px;
+  background-color: #4b75f2;
+}
+
+.tab-button {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-width: 2px;
+  border-color: #043be0;
+  padding: 10px;
+  /* background-color: gray; */
+  color: white;
+}
+
+.tab-items {
+  width: 100%;
+  padding: 5px;
+  font-size: 16px;
+  border-width: 1px, 0;
+  border-color: #4b75f2;
+
+}
+
+  .rounded-lg {
+    border-radius: 0.5rem;
+  }
+  .bg-white {
+    background-color: #fff;
+  }
+  .border {
+    border-width: 1px;
+  }
+  .border-gray-400 {
+    border-color: #cbd5e0;
+  }
+  .text-gray-800 {
+    color: #2d3748;
+  }
+  .font-semibold {
+    font-weight: 600;
+  }
+  .focus\:border-orange-500:focus, .focus\:outline-none:focus {
+    outline: 2px solid #f59e0b;
+    outline-offset: 2px;
+  }
+  .input {
+    display: block;
+    width: calc(100% - 1.5rem);
+    padding: 0.6rem 2.5rem;
+    border: 1px solid #cbd5e0;
+    border-radius: 0.5rem;
+    color: #2d3748;
+    font-weight: 600;
+    outline: none;
+    transition: border-color 0.3s ease-in-out;
+  
+  }
+  .input:focus {
+    border-color: #0d2009;
+  }
+  .button {
+    width: 8rem;
+    background-color: #043be0;
+    color: #fff;
+    font-weight: 500;
+    padding: 0.5rem 1.5rem;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    margin: 10px 0;
+    font-size: 16px;
+  }
+  .button:hover {
+    background-color: #4b75f2;
+  }
+  .Container{
+    padding: 6px;
+    display: flex;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+    max-width: 550px;
+    margin: 0 auto;
+    padding-right: 10px;
+    margin-left: 20px;
+
+  }
+  .inputbox{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 3px 0;
+    position: relative;
+  }
+  /* .email{
+    display: flex;
+    flex-direction: column;
+  }
+  .companyName{
+    display: flex;
+    flex-direction: column;
+  }
+  .password{
+    display: flex;
+    flex-direction: column;
+  } */
+
+.react-icon {
+  position:  absolute;
+  top: 12px;
+  left: 10px;
+  font-size: 20px;
+  color: gray;
+}
+.heading{
+  color: #fff;
+}
+
+  
