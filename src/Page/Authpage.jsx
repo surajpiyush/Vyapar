@@ -53,7 +53,7 @@ const Authpage = () => {
         </section>
         {tabItems.registertab && (
           <section className="regsiter-tab">
-            <Register />
+            <Register func={handleLogInTab} />
           </section>
         )}
         {tabItems.logintab && (

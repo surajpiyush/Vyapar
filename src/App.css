@@ -5,7 +5,12 @@
 }
 
 .app-container {
+
+  font-family: 'Roboto';
+  width: '100%';
+
   font-family: "Roboto";
+
 }
 
 .app-page-div {

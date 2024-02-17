@@ -1,16 +1,29 @@
+import {
+  legacy_createStore,
+  applyMiddleware,
+  combineReducers,
+  compose,
+} from "redux";
 import { thunk } from "redux-thunk";
-import { applyMiddleware, combineReducers, legacy_createStore } from "redux";
 
+import { reducer as ItemReducer } from "./items/reducer";
 import { reducer as PartiesReducer } from "./parties/reducer";
 import { reducer as BusinessReducer } from "./business/reducer";
 import purchaseBillReducer from "./purchaseBillSlice";
 import paymentOutReducer from "./paymentOutSlice";
 
-let rootReducer = combineReducers({
+const rootReducer = combineReducers({
+  ItemReducer,
   PartiesReducer,
   BusinessReducer,
-  purchaseBill: purchaseBillReducer,
-  paymentOut: paymentOutReducer,
+  purchaseBillReducer: purchaseBillReducer,
+  paymentOutReducer: paymentOutReducer,
 });
 
-export const store = legacy_createStore(rootReducer, applyMiddleware(thunk));
+// Enhance store with Redux DevTools Extension
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+export const store = legacy_createStore(
+  rootReducer,
+  composeEnhancers(applyMiddleware(thunk))
+);

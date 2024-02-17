@@ -24,7 +24,7 @@ const Editframe = () => {
     gstinNumber: "",
     signature: null,
     companyLogo: null,
-    firmId: "",
+    _id: "",
   });
   const [formDataToSend, setFormDataToSend] = useState(new FormData());
 
@@ -43,7 +43,6 @@ const Editframe = () => {
       return {
         ...prev,
         ...userDetailLS,
-        firmId: userDetailLS._id,
       };
     });
   }, [toggleUpdate]);
@@ -64,7 +63,7 @@ const Editframe = () => {
 
   // Send Profile Update Request
   const handleSave = () => {
-    UpdateCompanyProfile(dispatch, companyData.firmId, companyData);
+    UpdateCompanyProfile(dispatch, companyData._id, companyData);
   };
 
   return (

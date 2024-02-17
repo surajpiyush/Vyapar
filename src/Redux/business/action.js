@@ -84,7 +84,7 @@ export const UpdateCompanyProfile = async (dispatch, firmId, data) => {
     const newUserLSData = {
       ...prevousUserLSData,
       ...data,
-      _id: data.firmId,
+      _id: data._id,
     };
     localStorage.setItem(USER_DETAILS, JSON.stringify(newUserLSData));
     dispatch({ type: UPDATE_PROFILE_SUCCESS });
