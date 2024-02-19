@@ -13,14 +13,14 @@ export default function ItemsForm(Props) {
    const items = useSelector((store) => store.ItemReducer.items);
    const [formData, setFormData] = useState({
       itemName: "",
-      category: "",
-      itemHsn: 0,
+      category: "65d080c09b0c34b0924bd909",
+      itemHsn: 456789,
       description: "This is a sample item",
-      itemCode: 0,
+      itemCode: 789,
       seleteUnit: [{ baseUnit: "Piece", secondaryUnit: "Box" }],
       batchTracking: "Yes",
       serialTracking: "No",
-      stockQuantity: 1020,
+      stockQuantity: 10,
       mrp: [{ mrp: 150, disOnMrpForSale: "5%", disOnMrpForWholesale: "10%" }],
       salePrice: [
          {
@@ -76,7 +76,7 @@ export default function ItemsForm(Props) {
          return;
       }
       dispatch(addItem(formData));
-      alert("added Successfully")
+      alert("added Successfully");
       Props.func(false);
    };
 
@@ -157,19 +157,26 @@ export default function ItemsForm(Props) {
                      className="d-flex input-cont"
                      style={{ marginTop: "20px", padding: "0px 20px" }}
                   >
-                     <select
+                     {/* <select
                         name="category"
                         id="category"
                         className="inp-field"
                         style={{ width: "225px" }}
                         value={formData.category}
-                        onChange={handleChange}
+                        // onChange={handleChange}
                      >
                         <option value="">Category</option>
                         <option value="shoes">Shoes</option>
                         <option value="shirt">Shirt</option>
                         <option value="jeans">Jeans</option>
-                     </select>
+                     </select> */}
+
+                     <input
+                        className="inp-field"
+                        type="text"
+                        name=""
+                        placeholder="Please enter the id of category"
+                     />
 
                      <input
                         type="number"

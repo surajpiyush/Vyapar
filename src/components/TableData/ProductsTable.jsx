@@ -6,6 +6,7 @@ import { ImSpinner3 as BasicSpinner } from "react-icons/im";
 import { LuFilter as FilterIcon } from "react-icons/lu";
 import { IoIosArrowRoundUp as UpArrowIcon } from "react-icons/io";
 import axios from "axios";
+import { tab } from "@testing-library/user-event/dist/tab";
 
 export default function ProductsTable(Props) {
    const [data, setData] = useState([]);
@@ -68,9 +69,9 @@ export default function ProductsTable(Props) {
    };
 
    const handleStatusToggle = (index) => {
-      const updatedTableData = [...tableData]; // Create a shallow copy of the array
-      updatedTableData[index].status = !updatedTableData[index].status; // Toggle the status for the specific row
-      setTableData(updatedTableData); // Update the state with the modified array
+      const updatedTableData = [...tableData];
+      updatedTableData[index].status = !updatedTableData[index].status;
+      setTableData(updatedTableData);
    };
 
    return (
@@ -233,26 +234,30 @@ export default function ProductsTable(Props) {
                            />
                         ) : (
                            <tbody>
-                              {tableData.map((e, index) => (
-                                 <tr key={index}>
-                                    <td>{e.type}</td>
-                                    <td>{e.invoiceOrRefNo}</td>
-                                    <td>{e.name}</td>
-                                    <td>{e.date}</td>
-                                    <td>{e.quantity}</td>
-                                    <td>-</td>
-                                    <td>
-                                       <button
-                                          style={{ border: "none" }}
-                                          onClick={() =>
-                                             handleStatusToggle(index)
-                                          }
-                                       >
-                                          {e.status ? "Paid" : "Unpaid"}
-                                       </button>
-                                    </td>
-                                 </tr>
-                              ))}
+                              {!tableData.length ? (
+                                <h1>There are no transections</h1>
+                              ) : (
+                                 tableData?.map((e, index) => (
+                                    <tr key={index}>
+                                       <td>{e.type}</td>
+                                       <td>{e.invoiceOrRefNo}</td>
+                                       <td>{e.name}</td>
+                                       <td>{e.date}</td>
+                                       <td>{e.quantity}</td>
+                                       <td>-</td>
+                                       <td>
+                                          <button
+                                             style={{ border: "none" }}
+                                             onClick={() =>
+                                                handleStatusToggle(index)
+                                             }
+                                          >
+                                             {e.status ? "Paid" : "Unpaid"}
+                                          </button>
+                                       </td>
+                                    </tr>
+                                 ))
+                              )}
                            </tbody>
                         )}
                      </table>
