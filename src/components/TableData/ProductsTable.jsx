@@ -2,21 +2,32 @@ import React, { useEffect, useState } from "react";
 import "../../styles/parties.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getitems } from "../../Redux/items/actions";
+import { ImSpinner3 as BasicSpinner } from "react-icons/im";
+import { LuFilter as FilterIcon } from "react-icons/lu";
+import { IoIosArrowRoundUp as UpArrowIcon } from "react-icons/io";
+import axios from "axios";
+import { tab } from "@testing-library/user-event/dist/tab";
 
 export default function ProductsTable(Props) {
    const [data, setData] = useState([]);
    const dispatch = useDispatch();
+   const [status, setStatus] = useState(true);
    const [searchTerm, setSearchTerm] = useState("");
    const [filteredItems, setFilteredItems] = useState([]);
-   const items = useSelector((store) => store.ItemReducer.items);
+   const [tableData, setTableData] = useState([]);
+   const items = useSelector((store) => store.ItemReducer);
+   // console.log(items)
+   const companyId = localStorage.getItem("userId");
+   const token = localStorage.getItem("token");
    // console.log(items);
-//-----------<<<<<<<<<<<<<<<<<<<<<<<<GETING THE DATA FROM BACKEND>>>>>>>>>>>>>>>>>>>>>>-------------
+   //-----------<<<<<<<<<<<<<<<<<<<<<<<<GETING THE DATA FROM BACKEND>>>>>>>>>>>>>>>>>>>>>>-------------
    useEffect(() => {
       dispatch(getitems()).then((res) => {
-         // console.log(res.data.data);
+         console.log(res.data.data);
          setData(res.data.data);
       });
    }, [dispatch]);
+   // console.log(data)
 
    const openForm = () => {
       console.log("Working");
@@ -26,7 +37,27 @@ export default function ProductsTable(Props) {
    const openAdjustItem = () => {
       Props.adjustForm(true);
    };
-//----------------<<<<<<<<<<<<<<<<<<<<<<<Searching>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>---------------
+   const handleShow = (item) => {
+      console.log(item);
+      axios
+         .get(
+            `https://ca-backend-api.onrender.com/${companyId}/item/itemById/${item._id}`,
+            {
+               headers: {
+                  Authorization: `Bearer ${token}`,
+               },
+            }
+         )
+         .then((res) => {
+            console.log(res.data.data.allData);
+            setTableData(res.data.data.allData.purchaseBill);
+         })
+         .catch((err) => {
+            console.error("Error fetching item by ID:", err);
+         });
+   };
+
+   //----------------<<<<<<<<<<<<<<<<<<<<<<<Searching>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>---------------
    const handleSearch = (e) => {
       const searchTerm = e.target.value.toLowerCase();
       setSearchTerm(searchTerm);
@@ -36,6 +67,13 @@ export default function ProductsTable(Props) {
 
       setFilteredItems(filteredData);
    };
+
+   const handleStatusToggle = (index) => {
+      const updatedTableData = [...tableData];
+      updatedTableData[index].status = !updatedTableData[index].status;
+      setTableData(updatedTableData);
+   };
+
    return (
       <div className="" style={{ width: "100vw" }}>
          <div className="d-flex">
@@ -67,33 +105,60 @@ export default function ProductsTable(Props) {
                   className=""
                   style={{ marginTop: "20px", textAlign: "center" }}
                >
-                  <table>
-                     <tr>
-                        <th style={{ width: "100px" }}>ITEM</th>
-                        <th style={{ width: "100px" }}>QUANTITY</th>
-                        {/* <th style={{ width: "100px" }}>CATEGORY</th> */}
-                     </tr>
-                     {!searchTerm
-                        ? data.map((e, index) => (
-                             <tr key={index}>
-                                <td>{e.itemName}</td>
-                                <td>
-                                   {Math.floor(Math.random() * 10) +
-                                      Math.floor(Math.random() * 10)}
-                                </td>
-                                {/* <td>{e.category}</td> */}
-                             </tr>
-                          ))
-                        : filteredItems.map((e, index) => (
-                             <tr key={index}>
-                                <td>{e.itemName}</td>
-                                <td>
-                                   {Math.floor(Math.random() * 10) +
-                                      Math.floor(Math.random() * 10)}
-                                </td>
-                                {/* <td>{e.category}</td> */}
-                             </tr>
-                          ))}
+                  <table
+                     className="partiestable-outer"
+                     style={{ marginTop: "20px", textAlign: "center" }}
+                  >
+                     <thead>
+                        <tr>
+                           <th>
+                              <span>
+                                 <UpArrowIcon />
+                                 <p>ITEM</p>
+                              </span>
+                              <FilterIcon />
+                           </th>
+                           <th>QUANTITY</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        {items.isLoading ? (
+                           <BasicSpinner
+                              style={{
+                                 width: "200%",
+                                 margin: "60px auto",
+                                 fontSize: "30px",
+                              }}
+                           />
+                        ) : !searchTerm ? (
+                           data.map((e, index) => (
+                              <tr
+                                 key={index}
+                                 onClick={() => {
+                                    handleShow(e);
+                                 }}
+                              >
+                                 <td>{e.itemName}</td>
+                                 <td>
+                                    {Math.floor(Math.random() * 10) +
+                                       Math.floor(Math.random() * 10)}
+                                 </td>
+                                 {/* <td>{e.category}</td> */}
+                              </tr>
+                           ))
+                        ) : (
+                           filteredItems?.map((e, index) => (
+                              <tr key={index}>
+                                 <td>{e.itemName}</td>
+                                 <td>
+                                    {Math.floor(Math.random() * 10) +
+                                       Math.floor(Math.random() * 10)}
+                                 </td>
+                                 {/* <td>{e.category}</td> */}
+                              </tr>
+                           ))
+                        )}
+                     </tbody>
                   </table>
                </div>
             </div>
@@ -133,32 +198,68 @@ export default function ProductsTable(Props) {
                   </div>
                   <div className="">
                      <table>
-                        <tr>
-                           <th>
-                              Type <i className="fa fa-filter"></i>
-                           </th>
-                           <th>
-                              Invoice/Ref <i className="fa fa-filter"></i>
-                           </th>
-                           <th>
-                              Name <i className="fa fa-filter"></i>
-                           </th>
-                           <th>
-                              Date <i className="fa fa-filter"></i>
-                           </th>
-                           <th>
-                              Quantity <i className="fa fa-filter"></i>
-                           </th>
-                           <th>
-                              Price/Unit <i className="fa fa-filter"></i>
-                           </th>
-                           <th>
-                              Status <i className="fa fa-filter"></i>
-                           </th>
-                        </tr>
-                        <tr>
-                           <td></td>
-                        </tr>
+                        <thead>
+                           <tr>
+                              <th>
+                                 Type <i className="fa fa-filter"></i>
+                              </th>
+                              <th>
+                                 Invoice/Ref <i className="fa fa-filter"></i>
+                              </th>
+                              <th>
+                                 Name <i className="fa fa-filter"></i>
+                              </th>
+                              <th>
+                                 Date <i className="fa fa-filter"></i>
+                              </th>
+                              <th>
+                                 Quantity <i className="fa fa-filter"></i>
+                              </th>
+                              <th>
+                                 Price/Unit <i className="fa fa-filter"></i>
+                              </th>
+                              <th>
+                                 Status <i className="fa fa-filter"></i>
+                              </th>
+                           </tr>
+                        </thead>
+
+                        {items.isLoading ? (
+                           <BasicSpinner
+                              style={{
+                                 width: "200%",
+                                 margin: "60px auto",
+                                 fontSize: "30px",
+                              }}
+                           />
+                        ) : (
+                           <tbody>
+                              {!tableData.length ? (
+                                <h1>There are no transections</h1>
+                              ) : (
+                                 tableData?.map((e, index) => (
+                                    <tr key={index}>
+                                       <td>{e.type}</td>
+                                       <td>{e.invoiceOrRefNo}</td>
+                                       <td>{e.name}</td>
+                                       <td>{e.date}</td>
+                                       <td>{e.quantity}</td>
+                                       <td>-</td>
+                                       <td>
+                                          <button
+                                             style={{ border: "none" }}
+                                             onClick={() =>
+                                                handleStatusToggle(index)
+                                             }
+                                          >
+                                             {e.status ? "Paid" : "Unpaid"}
+                                          </button>
+                                       </td>
+                                    </tr>
+                                 ))
+                              )}
+                           </tbody>
+                        )}
                      </table>
                   </div>
                </div>

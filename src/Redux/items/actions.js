@@ -6,46 +6,40 @@ import {
    ITEM_REQUEST,
 } from "./actionTypes";
 
-const token = localStorage.getItem("token"); // Replace "yourTokenKey" with the actual key used to store the token
+const token = localStorage.getItem("token"); 
+const userId = localStorage.getItem("userId");
 const baseURL = "https://ca-backend-api.onrender.com";
-export const addItem = (newItem, token) => async (dispatch) => {
+
+export const addItem = (newItem) => async (dispatch) => {
    dispatch({ type: ITEM_REQUEST });
 
-   try {
-      const res = await axios.post(
-         `${baseURL}/65b0d66ab97a739aba4e508f/insertItem`,
-         newItem,
-         {
-            headers: { Authorization: `Bearer ${token}` },
-         }
-      );
+   axios
+      .post(`${baseURL}/${userId}/insertItem`, newItem, {
+         headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+         console.log(res);
+         dispatch({ type: POST_ITEM_SUCCESS, payload: res.data });
+      })
 
-      dispatch({ type: POST_ITEM_SUCCESS, payload: res.data });
-   } catch (err) {
-      console.error("Error adding item:", err);
-      dispatch({ type: ITEM_FAILURE });
-   }
+      .catch((err) => dispatch({ type: ITEM_FAILURE }));
 };
 
 export const getitems = () => async (dispatch) => {
    dispatch({ type: ITEM_REQUEST });
 
    try {
-      //   const token = /* fetch your token */;
       if (!token) {
          dispatch({ type: ITEM_FAILURE });
          return;
       }
 
-      const response = await axios.get(
-         `${baseURL}/65b0d66ab97a739aba4e508f/item/allItem`,
-         {
-            headers: {
-               Authorization: `Bearer ${token}`,
-            },
-         }
-      );
-
+      const response = await axios.get(`${baseURL}/${userId}/item/allItem`, {
+         headers: {
+            Authorization: `Bearer ${token}`,
+         },
+      }); 
+      // console.log(response)
       dispatch({ type: GET_ITEM_SUCCESS, payload: response.data });
       return response;
    } catch (error) {
