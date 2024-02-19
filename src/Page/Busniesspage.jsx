@@ -1,7 +1,8 @@
-import { useState } from "react";
-import Busniess from "../Component/utils/Busniess.jsx";
 import "../Css/styles.css";
 import "../Css/styles1.css";
+
+import { useState } from "react";
+import Busniess from "../Component/utils/Busniess.jsx";
 
 const Busniesspage = () => {
   const [tabItems, setTabItems] = useState({
@@ -27,7 +28,7 @@ const Busniesspage = () => {
             }}
             className="tab-items"
           >
-            ADDBUSINES
+            ADD BUSINESS
           </button>
         </section>
 

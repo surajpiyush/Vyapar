@@ -132,3 +132,88 @@
 .heading {
   color: #fff;
 }
+
+/* Add Business Css */
+.addBusinessFormOuter {
+  margin: 120px auto;
+  width: 550px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  text-align: center;
+  padding: 50px;
+  border-radius: 12px;
+}
+.formHeading {
+  text-align: left;
+  font-size: 34px;
+  margin: 8px 0px 20px;
+  font-family: Poppins;
+}
+.inputCont {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+.inputCont > input {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid var(--greyA);
+  padding: 0px 0px 10px 0px;
+  font-size: 18px;
+  margin-top: 20px;
+}
+.inputCont > input:focus {
+  outline: none;
+}
+.inputCont p {
+  font-size: 14px;
+  text-align: left;
+  color: var(--greyA);
+  margin-top: 10px;
+}
+.inputCont p > span {
+  cursor: pointer;
+  color: var(--redA);
+  margin-left: 5px;
+}
+.addBtn {
+  cursor: pointer;
+  margin: -10px 0px 0px;
+  background-color: var(--redB);
+  border-radius: 5px;
+  font-size: 18px;
+  color: white;
+  text-align: center;
+  border: none;
+  padding: 12px 30px;
+}
+.addBtn:hover {
+  background-color: red;
+}
+/* 
+.button {
+  width: 100%;
+  text-align: center;
+}
+.button > button {
+  border: 1px solid red;
+  margin: 12px auto 12px;
+  width: fit-content;
+  background-color: #043be0;
+  color: #fff;
+  font-weight: 500;
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+  margin: 10px 0;
+  font-size: 16px;
+}
+.button > button:hover {
+  background-color: #4b75f2;
+}
+box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+*/

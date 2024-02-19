@@ -2,22 +2,27 @@ import "./Navbar.css";
 import Logo from "../../assets/Shop.svg";
 import NavbarToggle from "./Navbartoggle";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { IoMdRefresh } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const [toggleNav, setToggleNav] = useState(false);
+
+  // Logout Function
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    alert("Logout Successfull");
+    navigate("/auth");
+  };
 
   const handleCloseToogle = () => {
     if (toggleNav) {
       setToggleNav(false);
     }
   };
-
-  useEffect(() => {
-    const Auth = localStorage.getItem;
-    console.log();
-  }, []);
 
   return (
     <nav className="nav-nav" onClick={handleCloseToogle}>
@@ -34,6 +39,9 @@ const Navbar = () => {
         </li>
         <li className="nav-li">Help</li>
         <li className="nav-li">Shotcuts</li>
+        <li className="nav-li" onClick={handleLogout}>
+          Logout
+        </li>
         <li className="nav-li">
           <IoMdRefresh />
         </li>

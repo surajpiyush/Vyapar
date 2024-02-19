@@ -28,7 +28,7 @@ function Login({ userEmail }) {
       setUserData(response?.data);
       localStorage.setItem("token", response?.data?.result.token);
       localStorage.setItem("userId", response?.data?.result.userId);
-      navigate("/");
+      navigate("/company");
     } catch (error) {
       console.log("Login Error:", error);
       setError("Invalid email or password. Please try again.");
@@ -36,10 +36,6 @@ function Login({ userEmail }) {
       setLoading(false);
     }
   };
-
-  //   useEffect(() => {
-  //     console.log("Login userData", userData);
-  //   }, [userData]);
 
   return (
     <form

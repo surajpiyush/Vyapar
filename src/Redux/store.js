@@ -24,3 +24,12 @@ export const store = createStore(
   rootReducer,
   composeEnhancers(applyMiddleware(thunk))
 );
+
+/* Notes:
+
+Local Storage Keys:
+token : "VYAPAR_TOKEN" 
+userId : "VYAPAR_USERID" 
+current Active Company : "VYAPAR_CURRENT_COMPANY" 
+
+*/
