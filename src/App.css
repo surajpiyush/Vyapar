@@ -5,9 +5,13 @@
 }
 :root {
   --blueA: blue;
+  --blueB: #098df9;
   --greyA: grey;
   --redA: red;
   --redB: rgb(252, 44, 44);
+  --yellowA: rgb(255, 204, 0);
+  --overlayBg: rgba(0, 0, 0, 0.377);
+  --overlayBg2: rgba(0, 0, 0, 0.544);
 }
 
 .app-container {

@@ -2,6 +2,7 @@ import {
   FETCH_PARTIES_LOADING,
   FETCH_PARTIES_ERROR,
   FETCH_PARTIES_SUCCESS,
+  CHANGE_CURRENT_PARTY,
   SAVE_PARTY_LOADING,
   SAVE_PARTY_ERROR,
   SAVE_PARTY_SUCCESS,
@@ -25,13 +26,17 @@ const initialState = {
   purchaseBillData: [],
   paymentOutData: [],
 
-  savePartyLoading: false,
+  // Current Party
+  currentParty: "",
+
+  postPartyLoading: false,
   savePartyError: false,
   togglePartiesData: false,
 
   partyName: "",
   gstNo: "",
   phoneNumber: "",
+  partyGroup: "",
   GSTType: "",
   state: "",
   email: "",
@@ -40,6 +45,7 @@ const initialState = {
   openingBalance: "",
   asOfDate: "",
   creditLimit: "",
+  email: "",
 };
 
 export const reducer = (state = initialState, { type, payload, name }) => {
@@ -53,18 +59,23 @@ export const reducer = (state = initialState, { type, payload, name }) => {
       return {
         ...state,
         isLoading: false,
+        currentParty: payload[0]._id || "",
         partiesData: payload,
       };
 
+    // Change Current Party
+    case CHANGE_CURRENT_PARTY:
+      return { ...state, currentParty: payload };
+
     // Save Party Actions
     case SAVE_PARTY_LOADING:
-      return { ...state, savePartyLoading: true, savePartyError: false };
+      return { ...state, postPartyLoading: true, savePartyError: false };
     case SAVE_PARTY_ERROR:
-      return { ...state, savePartyLoading: false, savePartyError: true };
+      return { ...state, postPartyLoading: false, savePartyError: true };
     case SAVE_PARTY_SUCCESS:
       return {
         ...state,
-        savePartyLoading: false,
+        postPartyLoading: false,
         togglePartiesData: !state.togglePartiesData,
       };
     case SAVE_PARTY_INPUT_CHANGE:

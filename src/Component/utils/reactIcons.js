@@ -7,11 +7,11 @@ import { IoIosShareAlt } from "react-icons/io";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 
 export {
-    FaPlus as PlusIcon,
-    IoIosArrowDown as ArrowDownIcon,
-    TiEquals as EqualIcon,
-    CiFilter as FilterIcon,
-    AiFillPrinter as PrinterIcon,
-    IoIosShareAlt as ShareIcon,
-    HiOutlineDotsVertical as DotsIcon
-}
+  FaPlus as PlusIcon,
+  IoIosArrowDown as ArrowDownIcon,
+  TiEquals as EqualIcon,
+  CiFilter as FilterIcon,
+  AiFillPrinter as PrinterIcon,
+  IoIosShareAlt as ShareIcon,
+  HiOutlineDotsVertical as DotsIcon,
+};

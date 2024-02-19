@@ -1,16 +1,25 @@
 import "../../styles/parties.css";
+//import {GetCurrentPartyData} fro
 
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { LuFilter as FilterIcon } from "react-icons/lu";
 import { IoIosArrowRoundUp as UpArrowIcon } from "react-icons/io";
 import { PiDotsThreeVerticalBold as VerticalDots } from "react-icons/pi";
 import { ImSpinner3 as BasicSpinner } from "react-icons/im";
 
 export default function PartiesTable({ func }) {
+  const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.PartiesReducer.isLoading);
   const partiesData = useSelector((state) => state.PartiesReducer.partiesData);
+  const currentParty = useSelector(
+    (state) => state.PartiesReducer.currentParty
+  );
   const [impParties, setImpParties] = useState();
+
+  useEffect(() => {
+    // GetCurrentPartyData(dispatch, currentParty);
+  }, [currentParty]);
 
   const openImportParties = () => {
     // console.log("Import Parties");
@@ -118,7 +127,15 @@ export default function PartiesTable({ func }) {
             ) : (
               <tbody>
                 {partiesData.map((item, ind) => (
-                  <tr key={ind + item._id}>
+                  <tr
+                    key={ind + item._id}
+                    onClick={() =>
+                      dispatch({
+                        type: "CHANGE_CURRENT_PARTY",
+                        payload: item._id,
+                      })
+                    }
+                  >
                     <td>{item.partyName}</td>
                     <td>
                       <span>
@@ -135,9 +152,9 @@ export default function PartiesTable({ func }) {
         <div className="grp-cont2">
           <div className="grp-cont2a">
             <div className="">
-              <h5>NAme</h5>
+              <h5>{currentParty?.partyName}</h5>
               <div className="d-between">
-                <p>PhoneNo : 8923434546</p>
+                <p>PhoneNo : {currentParty?.partyName}</p>
                 <p>Address : fendi dnw</p>
               </div>
               <div className="d-between">

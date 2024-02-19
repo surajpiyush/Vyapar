@@ -94,24 +94,24 @@ const router = createBrowserRouter([
         element: <Busniess />,
       },
       {
-        path: "/saledeliverychallan",
-        element: <SalesDeliveryChallan />,
+        path: "/invoices",
+        element: <SalesInvoice />,
       },
       {
         path: "/salesestimates",
         element: <SalesEstimates />,
       },
       {
-        path: "/salesinvoice",
-        element: <SalesInvoice />,
+        path: "/paymentin",
+        element: <SalesPaymentln />,
       },
       {
-        path: "/salesorder",
+        path: "/saleorder",
         element: <SalesOrder />,
       },
       {
-        path: "/salespaymentin",
-        element: <SalesPaymentln />,
+        path: "/deliverychallan",
+        element: <SalesDeliveryChallan />,
       },
       {
         path: "/salereturn",
