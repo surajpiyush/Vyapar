@@ -75,13 +75,9 @@ export default function ItemsForm(Props) {
 
          return;
       }
-      if (optToggle) {
-         dispatch(addItem(formData, token));
-      } else {
-         console.log(123)
-         // alert("this is a service tab");
-         console.log(optToggle)
-      }
+      dispatch(addItem(formData));
+      alert("added Successfully")
+      Props.func(false);
    };
 
    // ---------------<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>---------------

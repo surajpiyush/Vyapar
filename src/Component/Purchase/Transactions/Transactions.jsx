@@ -78,10 +78,7 @@ const Transactions = () => {
         </section>
         {/* {transactionFilterItems?Map((data)=>)} */}
         {transcationsItems.map((e) => {
-          {
-            /* console.log(e) */
-          }
-
+  
           return (
             <section className="transaction-tables">
               <div className="transaction-table">
