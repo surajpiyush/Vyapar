@@ -6,7 +6,7 @@ import {
    ITEM_REQUEST,
 } from "./actionTypes";
 
-const token = localStorage.getItem("token"); // Replace "yourTokenKey" with the actual key used to store the token
+const token = localStorage.getItem("token"); 
 const userId = localStorage.getItem("userId");
 const baseURL = "https://ca-backend-api.onrender.com";
 export const addItem = (newItem) => async (dispatch) => {
@@ -17,7 +17,7 @@ export const addItem = (newItem) => async (dispatch) => {
          headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
-         // console.log(res);
+         console.log(res);
          dispatch({ type: POST_ITEM_SUCCESS, payload: res.data });
       })
 
@@ -28,7 +28,6 @@ export const getitems = () => async (dispatch) => {
    dispatch({ type: ITEM_REQUEST });
 
    try {
-      //   const token = /* fetch your token */;
       if (!token) {
          dispatch({ type: ITEM_FAILURE });
          return;
