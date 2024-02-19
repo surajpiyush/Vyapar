@@ -23,6 +23,7 @@ function App() {
 
   return (
     <div>
+      {/* console.log */}
       <div className="app-container">
         {!ignoreRoutes.includes(location.pathname) && <Navbar />}
         {!ignoreRoutes.includes(location.pathname) && (
