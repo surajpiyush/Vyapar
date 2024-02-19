@@ -90,7 +90,7 @@ const router = createBrowserRouter([
         element: <Addpurchaseorderpage />,
       },
       {
-        path: "/Busniess",
+        path: "/business",
         element: <Busniess />,
       },
       {

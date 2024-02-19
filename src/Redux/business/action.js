@@ -32,16 +32,17 @@ export const FetchAllCompanies = async (dispatch) => {
   } catch (error) {
     dispatch({ type: ISERROR });
     console.log("Fetching All Companies Error Response:", error);
-    alert(error?.response?.data?.message || "Something Went Wrong!");
+    // alert(error?.response?.data?.message || "Something Went Wrong!");
   }
 };
 
-// Company Register Request ---- Didn't applied function curring due to thunk error in store.js
-export const SendRegisterRequest = async (
+// New Company Add Request ---- Didn't applied function curring due to thunk error in store.js
+export const AddBusinessLoginRequest = async (
   dispatch,
   data,
   navigate,
-  location
+  location,
+  setFormdata
 ) => {
   dispatch({ type: ISLOADING });
   const token = localStorage.getItem("token");
@@ -56,10 +57,15 @@ export const SendRegisterRequest = async (
         },
       }
     );
-    console.log("Business Added", response?.data?.FirmData);
+    console.log("Business Added", response?.data);
     let newCurrentCompanyData = response?.data?.FirmData;
     localStorage.setItem(USER_DETAILS, JSON.stringify(newCurrentCompanyData));
     dispatch({ type: SUCCESS });
+    setFormdata({
+      companyName: "",
+      email: "",
+      phoneNumber: "",
+    });
     alert("Business Added ✔️");
     navigate("/", {
       state: { redirectTo: location.pathname },

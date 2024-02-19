@@ -19,11 +19,13 @@ function App() {
     }
   }, []);
 
+  const ignoreRoutes = ["/auth", "/company", "/business"];
+
   return (
     <div>
       <div className="app-container">
-        {location.pathname != "/auth" && <Navbar />}
-        {location.pathname != "/auth" && (
+        {!ignoreRoutes.includes(location.pathname) && <Navbar />}
+        {!ignoreRoutes.includes(location.pathname) && (
           <div className="app-page-div">
             <section className="app-sidebar">
               <Sidebar />
@@ -39,7 +41,7 @@ function App() {
           </div>
         )}
 
-        {location.pathname == "/auth" && <Outlet />}
+        {ignoreRoutes.includes(location.pathname) && <Outlet />}
       </div>
     </div>
   );
