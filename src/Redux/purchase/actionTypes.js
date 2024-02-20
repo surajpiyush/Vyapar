@@ -1,4 +1,3 @@
-
 // requesting and falure handeling
 export const ISLOADING = "ISLOADING";
 export const PURCHASE_REQUEST = "PURCHASE_REQUEST";

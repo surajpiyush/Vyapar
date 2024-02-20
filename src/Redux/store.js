@@ -7,10 +7,10 @@ import { reducer as BusinessReducer } from "./business/reducer";
 // import { reducer as PurchaseReducer } from "./purchase/reducer";
 import SalesReducer from "./sales/reducer";
 const rootReducer = combineReducers({
-   ItemReducer,
-   PartiesReducer,
-   BusinessReducer,
-   SalesReducer,
+  ItemReducer,
+  PartiesReducer,
+  BusinessReducer,
+  SalesReducer,
   //  PurchaseReducer,
 });
 
@@ -18,8 +18,8 @@ const rootReducer = combineReducers({
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export const store = createStore(
-   rootReducer,
-   composeEnhancers(applyMiddleware(thunk))
+  rootReducer,
+  composeEnhancers(applyMiddleware(thunk))
 );
 
 /* Notes:
