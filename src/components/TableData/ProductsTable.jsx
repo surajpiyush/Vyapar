@@ -23,8 +23,9 @@ export default function ProductsTable(Props) {
    //-----------<<<<<<<<<<<<<<<<<<<<<<<<GETING THE DATA FROM BACKEND>>>>>>>>>>>>>>>>>>>>>>-------------
    useEffect(() => {
       dispatch(getitems()).then((res) => {
-         console.log(res.data.data);
+         // console.log(res.data);
          setData(res.data.data);
+         
       });
    }, [dispatch]);
    // console.log(data)
@@ -235,14 +236,15 @@ export default function ProductsTable(Props) {
                         ) : (
                            <tbody>
                               {!tableData.length ? (
-                                <h1>There are no transections</h1>
+                                 <h1>There are no transections</h1>
                               ) : (
                                  tableData?.map((e, index) => (
                                     <tr key={index}>
                                        <td>{e.type}</td>
                                        <td>{e.invoiceOrRefNo}</td>
                                        <td>{e.name}</td>
-                                       <td>{e.date}</td>
+                                       <td>{new Date(e.date).toLocaleDateString()}</td>
+
                                        <td>{e.quantity}</td>
                                        <td>-</td>
                                        <td>

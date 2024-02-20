@@ -6,30 +6,33 @@ import {
    PURCHASE_REQUEST,
 } from "./actionTypes";
 
-const token = localStorage.getItem("token");
-const baseURL = "https://ca-backend-api.onrender.com";
+   const token = localStorage.getItem("token");
+   const userId = localStorage.getItem("userId");
+   const baseURL = "https://ca-backend-api.onrender.com";
 
 export const addPurchaseBill = (newItem) => async (dispatch) => {
    dispatch({ type: PURCHASE_REQUEST });
 
    try {
-      // const res = await axios.post(
-      //    `${baseURL}/65bbb395b587fda4e5433bd2/`,
-      //    newItem,
-      //    {
-      //       headers: { Authorization: `Bearer ${token}` },
-      //    }
-      // );
-      let res = newItem;
-      console.log(`your item ${newItem} has been send to backend`);
-      alert("Your bill has been posted to backend");
+      const res = await axios.post(
+         `${baseURL}/${userId}/purchase/create`,
+         newItem,
+         {
+            headers: { Authorization: `Bearer ${token}` },
+         }
+      );
 
-      dispatch({ type: POST_PURCHASEBILL_SUCCESS, payload: res });
+      console.log(`Your item has been sent to the backend:`, newItem);
+      // Consider using a notification library or updating the UI instead of alert
+      alert("Your bill has been posted to the backend");
+
+      dispatch({ type: POST_PURCHASEBILL_SUCCESS, payload: res.data });
    } catch (err) {
       console.error("Error adding item:", err);
       dispatch({ type: PURCHASE_FAILURE });
    }
 };
+
 
 export const getPurchaseBill = () => (dispatch) => {
    dispatch({ type: PURCHASE_REQUEST });
@@ -40,13 +43,15 @@ export const getPurchaseBill = () => (dispatch) => {
    }
 
    axios
-      .get(`${baseURL}/65c5d0d209b34ca8a018749d/purchase/getAll`, {
+      .get(`https://ca-backend-api.onrender.com/65c5d0d209b34ca8a018749d/purchase/getAll`, {
          headers: {
             Authorization: `Bearer ${token}`,
          },
       })
       .then((res) => {
-         dispatch({ type: GET_PURCHASEBILL_SUCCESS, payload: res });
+         console.log(res)
+         dispatch({ type: GET_PURCHASEBILL_SUCCESS, payload: res.data });
+         // return res  
       })
       .catch((ERR) => {
          // console.log(ERR)
