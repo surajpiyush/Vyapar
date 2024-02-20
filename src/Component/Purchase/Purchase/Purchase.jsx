@@ -5,36 +5,47 @@ import { connect, useDispatch, useSelector } from "react-redux";
 import { addPurchaseBill } from "../../../Redux/purchase/action";
 import { getitems } from "../../../Redux/items/actions";
 import axios from "axios";
+import { FetchAllParties } from "../../../Redux/parties/actions";
 
 const Purchase = () => {
    const store = useSelector((store) => store);
+   const partiesData = useSelector((state) => state.PartiesReducer.partiesData);
+   // console.log(partiesData)
    const item = store.ItemReducer;
-   console.log(item);
+   const party = store.PartiesReducer;
+   // console.log(party);
    const dispatch = useDispatch();
-   const userId = localStorage.getItem("userId")
-
-
-
+   const companyID = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
+   const token = localStorage.getItem("token");
+   const userId = localStorage.getItem("userId");
    const mobileNumber = 75210256;
    const [data, setData] = useState({
       partyName: "",
-      number: mobileNumber,
+      phoneNumber: "",
       billNumber: 0,
       date: "",
       state: "",
+      openingBalance: "",
    });
 
    useEffect(() => {
-      dispatch(getitems());
+      FetchAllParties(dispatch);
    }, []);
 
-   const getData = (id)=>{
-     axios.get(`https://ca-backend-api.onrender.com/${userId}/item/allItem/${id}`)
-    .then((res)=>{console.log(res)
-    
-    })
-    .catch((err)=>console.log(err))
-  }
+   const getData = (id) => {
+      console.log(id);
+      axios
+         .get(`https://ca-backend-api.onrender.com/${companyID}/party/${id}`, {
+            headers: {
+               Authorization: `Bearer ${token}`,
+            },
+         })
+         .then((res) => {
+            console.log(res.data.data);
+            setData(res.data.data.party);
+         })
+         .catch((err) => console.log(err));
+   };
 
    const handleChange = (e) => {
       const { name, value } = e.target;
@@ -42,11 +53,6 @@ const Purchase = () => {
          ...prevFormData,
          [name]: value,
       }));
-   };
-
-   const handleSave = () => {
-      console.log(data);
-      dispatch(addPurchaseBill());
    };
 
    return (
@@ -60,18 +66,20 @@ const Purchase = () => {
                      onChange={(e) => getData(e.target.value)}
                      className="addpurchase-section-select"
                   >
-                     {item.items.data?.map((e) => (
-                        <option key={e.itemName} value={e._id}>
-                           {e.itemName}
+                     {partiesData?.map((e) => (
+                        <option key={e.partyName} value={e._id}>
+                           {e.partyName}
                         </option>
                      ))}
                   </select>
-
+                  <p>
+                     Balance: {data.openingBalance ? data.openingBalance : 0}
+                  </p>
                   <input
                      type="text"
                      name="number"
                      placeholder="Phone no."
-                     value={data.number}
+                     value={data.phoneNumber}
                      onChange={handleChange}
                   />
                </aside>
@@ -119,23 +127,7 @@ const Purchase = () => {
             </section>
          </section>
          <section>
-            <Addpurchaseitem  />
-         </section>
-         <section className="addpurchase-footer">
-            <div>
-               <select name="" id="">
-                  <option value="">Share</option>
-               </select>
-            </div>
-            <div>
-               <button
-                  onClick={() => {
-                     handleSave();
-                  }}
-               >
-                  Save
-               </button>
-            </div>
+            <Addpurchaseitem data={data} />
          </section>
       </div>
    );
