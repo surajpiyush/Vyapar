@@ -93,6 +93,7 @@ const router = createBrowserRouter([
         path: "/business",
         element: <Busniess />,
       },
+      // Sales Routes
       {
         path: "/invoices",
         element: <SalesInvoice />,

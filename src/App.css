@@ -1,12 +1,15 @@
 * {
-  box-sizing: border-box;
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 :root {
   --blueA: blue;
   --blueB: #098df9;
   --greyA: grey;
+  --greyB: rgb(234, 234, 234);
+  --greyC: rgb(200, 200, 200);
   --redA: red;
   --redB: rgb(252, 44, 44);
   --yellowA: rgb(255, 204, 0);

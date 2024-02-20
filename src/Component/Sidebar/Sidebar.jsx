@@ -24,6 +24,10 @@ const Sidebar = () => {
     setProfileData(UserDetails);
   }, [toggleUpdate]);
 
+  useEffect(() => {
+    setToggleNavItems(true);
+  }, [activeItems]);
+
   const handleNestedSibarItems = () => {
     setToggleNavItems(!toggleNavItems);
   };
@@ -68,7 +72,13 @@ const Sidebar = () => {
       <div className="sidebar-main">
         {SidebarItems.map((items, index) => (
           <div
-            onClick={() => handleActiveItems(items.name)}
+            onClick={() => {
+              handleActiveItems(items.name);
+              if (items.name == "Sale" || items.name == "Purchase") {
+                navigate(items?.to);
+                setToggleNavItems(!toggleNavItems);
+              }
+            }}
             className={`sidebar-items-div ${
               activeItems === items.name && "active-nav-border"
             }`}
@@ -82,8 +92,8 @@ const Sidebar = () => {
                 <div className="sidebar-items-con">{items.Icon}</div>
                 <div className="sidebar-items-text">{items.name}</div>
               </div>
-              {activeItems === items.name &&
-                toggleNavItems &&
+              {toggleNavItems &&
+                activeItems === items.name &&
                 items.purchaseToggle && (
                   <div
                     className="nested-items-container"
@@ -121,10 +131,10 @@ const Sidebar = () => {
       </div>
 
       <div className="profile-container">
-        {profileData?.token ? (
+        {profileData?.companyName ? (
           <>
-            <div className="profile-name">{profileData.name}</div>
-            <div className="profile-email">{profileData.email}</div>
+            {/* <div className="profile-name">{profileData?.email}</div> */}
+            {/* <div className="profile-email">{profileData?.phoneNumber}</div> */}
           </>
         ) : (
           <p className="error-message">{error}</p>

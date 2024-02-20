@@ -19,6 +19,7 @@ export const SidebarItems = [
     Icon: <BiSitemap />,
     name: "Sale",
     extraIcon: <IoIosArrowDown />,
+    to: "/invoices",
     purchaseToggle: [
       {
         name: "Sale Invoices",
@@ -52,6 +53,7 @@ export const SidebarItems = [
     Icon: <IoCart />,
     name: "Purchase",
     extraIcon: <IoIosArrowDown />,
+    to: "/purchasebill",
     purchaseToggle: [
       {
         name: "Purchase Bills",
