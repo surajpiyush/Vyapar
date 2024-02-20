@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
    DotsIcon,
    FilterIcon,
@@ -14,19 +14,28 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const Addpurchaseitem = () => {
+const Addpurchaseitem = ({ data, setData }) => {
+   // console.log(data);
    const [hoveredIndex, setHoveredIndex] = useState(null);
    const dispatch = useDispatch();
-   const navigate = useNavigate()
+   const navigate = useNavigate();
+   const baseURL = "https://ca-backend-api.onrender.com";
    const token = localStorage.getItem("token");
    const companyID = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
-   const baseURL = "https://ca-backend-api.onrender.com";
-
+   
+   const [formData, setformData] = useState({});
+   
+   
+   
+   
+   
+   
+   
    const [rows, setRows] = useState([
       {
          id: 1,
          item: "",
-         qty: "1",
+         qty: "",
          unit: "",
          price: "",
          discount: "",
@@ -34,81 +43,6 @@ const Addpurchaseitem = () => {
          amount: "",
       },
    ]);
-
-   const d = {
-      partyName: "Krishan",
-      phoneNumber: 1234567890,
-      poNo: "PO123",
-      poDate: "2024-02-16T00:00:00.000Z",
-      eWayBill: "EWB123",
-      billNumber: "BILL123",
-      billDate: "2024-02-16T00:00:00.000Z",
-      time: "10:00 AM",
-      paymentTerms: "Net 30",
-      dueDate: "2024-03-17T00:00:00.000Z",
-      stateOfSupply: "Some State",
-      priceUnitWithTax: true,
-      sale: [
-         {
-            category: "65c5cfc509b34ca8a0187497",
-            itemName: "mobile",
-            itemCode: "001",
-            hsnCode: "HSN001",
-            serialNo: "SN001",
-            description: "Description of item 1",
-            batchNo: 1,
-            modelNo: 123,
-            expDate: "2025-02-16T00:00:00.000Z",
-            mfgDate: "2023-02-16T00:00:00.000Z",
-            customField: "Custom field 1",
-            size: "Large",
-            qty: 10,
-            unit: "pcs",
-            priceUnit: 100,
-            discountpersant: 5,
-            discountAmount: 5,
-            taxPersant: "12%",
-            taxAmount: 12,
-            amount: 950,
-         },
-      ],
-      paymentType: [
-         {
-            cash: 800,
-            cheque: {
-               refreanceNo: "REF123",
-               checkAmount: 150,
-            },
-            bankDetail: {
-               accountName: "ABC Bank",
-               openingBalance: 5000,
-               asOfDate: "2024-02-16T00:00:00.000Z",
-            },
-            default: "cash",
-         },
-      ],
-      addDescription: "Additional description here",
-      discount: {
-         discountPersent: 2,
-         discountAmount: 2,
-      },
-      tax: {
-         tax: "GST",
-         taxamount: 10,
-      },
-      roundOff: 0,
-      total: 950,
-      paid: 950,
-      balance: 0,
-   };
-
-   const handleCellClick = (rowIndex, fieldName) => {
-      const updatedRows = [...rows];
-      updatedRows[rowIndex][fieldName] = "";
-      setRows(updatedRows);
-   };
-   //  console.log(rows);
-
    const handleAddRow = () => {
       const newRow = {
          id: rows.length + 1,
@@ -127,17 +61,8 @@ const Addpurchaseitem = () => {
       updatedRows.splice(rowIndex, 1);
       setRows(updatedRows);
    };
-   const handleSave = () => {
-      axios
-         .post(`${baseURL}/${companyID}/purchase/create`, d, {
-            headers: { Authorization: `Bearer ${token}` },
-         })
-         .then((res) => {
-          alert("Data added")
-          navigate("/purchasebill")
-         })
-         .catch((err) => console.log(err));
-   };
+
+
 
    return (
       <div>
@@ -186,32 +111,32 @@ const Addpurchaseitem = () => {
 
                      <td
                         className="addpurchase-td-1"
-                        onClick={() => handleCellClick(index, "item")}
+                      
                      >
                         <input type="text" className="rowInput" />
-                        {/* {row.item} */}
+                      
                      </td>
-                     <td onClick={() => handleCellClick(index, "qty")}>
+                     <td >
                         <input type="text" className="rowInput" />
                         {row.qty}
                      </td>
-                     <td onClick={() => handleCellClick(index, "unit")}>
+                     <td >
                         <input type="text" className="rowInput" />
                         {row.unit}
                      </td>
-                     <td onClick={() => handleCellClick(index, "price")}>
+                     <td >
                         <input type="text" className="rowInput" />
                         {row.price}
                      </td>
-                     <td onClick={() => handleCellClick(index, "discount")}>
+                     <td >
                         <select name="" id="">
                            <option value="">Select</option>
                         </select>
                      </td>
-                     <td onClick={() => handleCellClick(index, "tax")}>
+                     <td >
                         <input type="text" className="rowInput" />
                      </td>
-                     <td onClick={() => handleCellClick(index, "amount")}>
+                     <td >
                         <input type="text" className="rowInput" />
                      </td>
                   </tr>
@@ -283,24 +208,6 @@ const Addpurchaseitem = () => {
                   </aside>
                </div>
             </aside>
-         </section>
-         <section className="addpurchase-footer">
-            <div>
-               <select name="" id="">
-                  <option value="">Share</option>
-               </select>
-            </div>
-            <div>
-               <button
-                  onClick={() => {
-                    console.log("Clicked")
-                     handleSave();
-
-                  }}
-               >
-                  Save
-               </button>
-            </div>
          </section>
       </div>
    );
