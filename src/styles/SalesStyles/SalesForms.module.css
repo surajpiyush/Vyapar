@@ -232,7 +232,7 @@
     height: 40px;
 
     th {
-      border: 0.5px solid var(--greyc);
+      border: 0.5px solid var(--greyC);
       font-size: 12px;
       font-weight: 400;
     }
@@ -247,7 +247,7 @@
     background-color: white;
 
     td {
-      border: 0.5px solid var(--greyc);
+      border: 0.5px solid var(--greyC);
     }
 
     td:focus {
@@ -350,6 +350,7 @@
     width: 35%;
     height: 100%;
     padding-top: 3px;
+    white-space: nowrap;
   }
 }
 .amountHead {
@@ -371,6 +372,15 @@
   }
 }
 /* Table Body */
+.tableInputs {
+  width: 100%;
+  height: 40px;
+  border: none;
+}
+.tableInputs:focus {
+  outline: none;
+  border: 0.5px solid var(--blueB);
+}
 .serialNumberBody {
   div {
     display: flex;
@@ -395,16 +405,24 @@
   display: block;
 }
 .itemNameBody {
-  padding-left: 5px;
-  font-size: 14px;
-  font-weight: 200;
-  text-align: left;
+  input {
+    background: transparent;
+    border: none;
+    padding-left: 5px;
+    font-size: 14px;
+    font-weight: 200;
+    text-align: left;
+  }
 }
 .qtyBody {
-  text-align: right;
-  padding-right: 5px;
-  font-size: 14px;
-  font-weight: 200;
+  input {
+    background: transparent;
+    border: none;
+    text-align: right;
+    padding-right: 5px;
+    font-size: 14px;
+    font-weight: 200;
+  }
 }
 .unitBody {
   text-align: left;
@@ -428,22 +446,25 @@
   font-size: 14px;
   font-weight: 200;
 
-  div:focus {
+  input {
+    background-color: transparent;
+    border: none;
+  }
+  input:focus {
     outline: none;
     border: 1px solid var(--blueB);
     background-color: white;
   }
-
-  div:nth-of-type(1) {
+  input:nth-of-type(1) {
     width: 41%;
     height: 40px;
   }
-  div:nth-of-type(2) {
+  input:nth-of-type(2) {
     width: 60%;
     height: 40px;
     border-left: 0.5px solid var(--greyC);
   }
-  div:nth-of-type(2):focus {
+  input:nth-of-type(2):focus {
     border-left: 1px solid var(--blueB);
   }
 }
@@ -460,6 +481,10 @@
     align-items: center;
     font-size: 14px;
     font-weight: 200;
+  }
+
+  input {
+    background-color: transparent;
   }
 
   div:focus {
@@ -512,14 +537,17 @@
   justify-content: space-between;
 
   button {
+    width: 85px;
     background: transparent;
     border: 0.5px solid var(--blueB);
-    padding: 6px 8px;
+    padding: 3px 6px 3px 8px;
     border-radius: 5px;
     color: var(--blueB);
     font-weight: 600;
     cursor: pointer;
     padding-left: 3px;
+    font-size: 14px;
+    font-weight: 400;
     margin-left: 3px;
   }
 
@@ -780,6 +808,29 @@
 .totalBottomDiv input:focus {
   outline: none;
   border-color: var(--blueB);
+}
+.bottomRecievedOuterDiv {
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+  gap: 0px;
+  margin-top: 15px;
+}
+.bottomBalanceOuterDiv {
+  text-align: right;
+
+  div {
+    margin-top: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  p:nth-of-type(1) {
+    margin-right: 40px;
+  }
 }
 
 /* Footer Css */

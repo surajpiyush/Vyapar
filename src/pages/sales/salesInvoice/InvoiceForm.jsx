@@ -12,6 +12,7 @@ import {
   MenuGroup,
   MenuOptionGroup,
   MenuDivider,
+  useToast,
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,6 +27,7 @@ import { ImCheckboxUnchecked as EmptyCheckedBox } from "react-icons/im";
 import { BiSolidCheckboxChecked as CheckedBox } from "react-icons/bi";
 
 const InvoiceForm = () => {
+  const toast = useToast();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.SalesReducer.isLoading);
   const partiesLoading = useSelector((state) => state.PartiesReducer.isLoading);
@@ -33,6 +35,7 @@ const InvoiceForm = () => {
 
   const [toggleDesc, setToggleDesc] = useState(false);
   const [toggleRoundOff, setToggleRoundOff] = useState(false);
+  const [toggleReceived, setToggleReceived] = useState(false);
   const [toggleCheckReferenceInp, setToggleCheckReferenceInp] = useState(false);
   const [paymentTypeSelectTag, setPaymentTypeSelectTag] = useState("Cash");
   const [checkReferenceInpval, setCheckReferenceInpval] = useState("");
@@ -148,7 +151,10 @@ const InvoiceForm = () => {
   };
 
   const handleSubmit = () => {
-    PostSalesInvoice(dispatch, invoiceData);
+    const data = { type: invoiceData.type };
+    console.log("data", data);
+
+    // PostSalesInvoice(dispatch, invoiceData,toast,);
   };
 
   // Add Row Function
@@ -422,9 +428,19 @@ const InvoiceForm = () => {
                       />
                     </div>
                   </td>
-                  <td className={css.itemNameBody} contentEditable></td>
-                  <td className={css.qtyBody} contentEditable>
-                    {item.qty}
+                  <td className={css.itemNameBody}>
+                    <input
+                      type="text"
+                      value={item.itemName}
+                      className={css.tableInputs}
+                    />
+                  </td>
+                  <td className={css.qtyBody}>
+                    <input
+                      type="number"
+                      value={item.qty}
+                      className={css.tableInputs}
+                    />
                   </td>
                   <td className={css.unitBody} placeholder="None">
                     <select name="" id="">
@@ -436,12 +452,27 @@ const InvoiceForm = () => {
                       <option value="Can">Can</option>
                     </select>
                   </td>
-                  <td className={css.qtyBody} contentEditable>
-                    {item.priceUnit}
+                  <td className={css.qtyBody}>
+                    <input
+                      type="number"
+                      value={item.priceUnit}
+                      placeholder="0"
+                      className={css.tableInputs}
+                    />
                   </td>
                   <td className={css.DiscountBody}>
-                    <div contentEditable>{item.discountAmount}</div>
-                    <div contentEditable>{item.discountpersant}</div>
+                    <input
+                      type="number"
+                      value={item.discountAmount}
+                      placeholder="0"
+                      className={css.tableInputs}
+                    />
+                    <input
+                      type="number"
+                      value={item.discountpersant}
+                      placeholder="0"
+                      className={css.tableInputs}
+                    />
                   </td>
                   <td className={css.ItemTaxBody}>
                     <span>
@@ -464,7 +495,14 @@ const InvoiceForm = () => {
                           <option value="GST@28%">GST@28%</option>
                         </select>
                       </div>
-                      <div contentEditable>{item.taxAmount}</div>
+                      <div>
+                        <input
+                          type="number"
+                          value={item.taxAmount}
+                          placeholder="0"
+                          className={css.tableInputs}
+                        />
+                      </div>
                     </span>
                   </td>
                   <td className={css.qtyBody} contentEditable>
@@ -673,13 +711,56 @@ const InvoiceForm = () => {
                 />
               </div>
             </div>
+            {invoiceData.total >= 1 && (
+              <div className={css.bottomRecievedOuterDiv}>
+                <div className={css.totalBottomDiv}>
+                  <p>Received</p>
+                  <input
+                    type="number"
+                    placeholder="0"
+                    disabled={!toggleReceived}
+                    value={invoiceData?.recived}
+                    name="recived"
+                    onChange={handleInputChange}
+                  />
+                </div>
+                {toggleReceived ? (
+                  <CheckedBox
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setToggleReceived((prev) => !prev);
+                    }}
+                    className={css.checkedInpRoundOff}
+                  />
+                ) : (
+                  <EmptyCheckedBox
+                    className={css.unCheckedInpRoundOff}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setToggleReceived((prev) => !prev);
+                    }}
+                  />
+                )}
+              </div>
+            )}
+            {invoiceData.total >= 1 && (
+              <div className={css.bottomBalanceOuterDiv}>
+                <div>
+                  <span></span>
+                  <p>Balance</p>
+                  <p>{invoiceData.total}</p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
 
       {/* Footer */}
       <div className={css.FooterOuter}>
-        <button type="submit">{isLoading ? "Saving" : "Save"}</button>
+        <button onClick={handleSubmit} type="submit">
+          {isLoading ? "Saving" : "Save"}
+        </button>
         <div className={css.shareBtn}>
           <p>Share</p>
           <ArrowDown />
