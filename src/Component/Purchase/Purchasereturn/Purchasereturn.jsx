@@ -8,32 +8,25 @@ import {
 import { useNavigate } from "react-router-dom";
 import { ImSpinner3 as BasicSpinner } from "react-icons/im";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { getPurchaseReturn } from "../../../Redux/purchase/action";
 
 const Purchasereturn = () => {
    const navigate = useNavigate();
    const token = localStorage.getItem("token");
    const companyID = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
    const baseURL = "https://ca-backend-api.onrender.com";
-   const [data, setData] = useState([]);
    // console.log(userId["_id"])
    const date = { startDate: "2023-01-20", endDate: "2024-02-24" };
+   const dispatch = useDispatch();
+   const store = useSelector((store) => store.PurchaseReducer);
+  const data = store?.purchaseReturnData
 
+   // console.log(store)
    useEffect(() => {
-      axios
-         .get(
-            `${baseURL}/${companyID}/purchaseReturn/getAll?startDate=${date.startDate}&endDate=${date.endDate}`,
-            {
-               headers: {
-                  Authorization: `Bearer ${token}`,
-               },
-            }
-         )
-         .then((res) => setData(res.data.data))
-         .catch((err) => {
-            console.log(err.response.data.msg);
-         });
-      //  alert(err.response.data.msg)
-   }, []);
+      dispatch(getPurchaseReturn({ date }));
+   }, [dispatch]);
+
    console.log(data);
    return (
       <div className="payment-out-container">
@@ -87,9 +80,9 @@ const Purchasereturn = () => {
                      <div className="table-items">Print</div>
                      <FilterIcon />
                   </th>
-               </tr>
+               </tr> 
             </thead>
-            {!data.length ? (
+            {store.isLoading ? (
                <BasicSpinner
                   style={{
                      width: "100%",

@@ -9,33 +9,25 @@ import {
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ImSpinner3 as BasicSpinner } from "react-icons/im";
+import { useDispatch, useSelector } from "react-redux";
+import { getPurchaseOrder } from "../../Redux/purchase/action";
 
 const Pourchaseorder = () => {
    const navigate = useNavigate();
+   const store = useSelector((store) => store.PurchaseReducer);
    const token = localStorage.getItem("token");
    const companyID = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
    const baseURL = "https://ca-backend-api.onrender.com";
-   const [data, setData] = useState([]);
    // console.log(userId["_id"])
    const date = { startDate: "2023-01-20", endDate: "2024-02-24" };
-
+   const dispatch = useDispatch();
+   const data = store.purchaseOrderData;
+   // console.log(store);
    useEffect(() => {
-      axios
-         .get(
-            `${baseURL}/${companyID}/purchaseOrder/getAll?startDate=${date.startDate}&endDate=${date.endDate}`,
-            {
-               headers: {
-                  Authorization: `Bearer ${token}`,
-               },
-            }
-         )
-         .then((res) => setData(res.data.data))
-         .catch((err) => {
-            console.log(err.response.data.msg);
-         });
-      //  alert(err.response.data.msg)
+      dispatch(getPurchaseOrder({ date }));
    }, []);
-   console.log(data);
+
+   // console.log(data);
    return (
       <div className="payment-out-container">
          <h4>Transactions</h4>
@@ -87,7 +79,7 @@ const Pourchaseorder = () => {
                   </th>
                </tr>
             </thead>
-            {!data.length ? (
+            {store.isLoading ? (
                <BasicSpinner
                   style={{
                      width: "100%",

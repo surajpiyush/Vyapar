@@ -14,7 +14,7 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const Addpurchaseitem = ({ data, setData }) => {
+const Addpurchaseitem = () => {
    // console.log(data);
    const [hoveredIndex, setHoveredIndex] = useState(null);
    const dispatch = useDispatch();
@@ -22,15 +22,9 @@ const Addpurchaseitem = ({ data, setData }) => {
    const baseURL = "https://ca-backend-api.onrender.com";
    const token = localStorage.getItem("token");
    const companyID = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
-   
+
    const [formData, setformData] = useState({});
-   
-   
-   
-   
-   
-   
-   
+
    const [rows, setRows] = useState([
       {
          id: 1,
@@ -61,7 +55,6 @@ const Addpurchaseitem = ({ data, setData }) => {
       updatedRows.splice(rowIndex, 1);
       setRows(updatedRows);
    };
-
 
 
    return (
@@ -109,34 +102,30 @@ const Addpurchaseitem = ({ data, setData }) => {
                         />
                      </td>
 
-                     <td
-                        className="addpurchase-td-1"
-                      
-                     >
+                     <td className="addpurchase-td-1">
                         <input type="text" className="rowInput" />
-                      
                      </td>
-                     <td >
+                     <td>
                         <input type="text" className="rowInput" />
                         {row.qty}
                      </td>
-                     <td >
+                     <td>
                         <input type="text" className="rowInput" />
                         {row.unit}
                      </td>
-                     <td >
+                     <td>
                         <input type="text" className="rowInput" />
                         {row.price}
                      </td>
-                     <td >
+                     <td>
                         <select name="" id="">
                            <option value="">Select</option>
                         </select>
                      </td>
-                     <td >
+                     <td>
                         <input type="text" className="rowInput" />
                      </td>
-                     <td >
+                     <td>
                         <input type="text" className="rowInput" />
                      </td>
                   </tr>

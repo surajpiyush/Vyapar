@@ -35,6 +35,7 @@ import SaleHSN from "./pages/SaleHSN.js";
 import Formpage from "./Page/Formpage/Formpage.jsx";
 import { Provider } from "react-redux";
 import { store } from "./Redux/store.js";
+import AddPurchasereturn from "./Component/Purchase/AddPurchasereturn.jsx";
 
 const router = createBrowserRouter([
   {
@@ -87,7 +88,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/addpurchasereturn",
-        element: <Addpurchaseorderpage />,
+        element: <AddPurchasereturn />,
       },
       {
         path: "/business",

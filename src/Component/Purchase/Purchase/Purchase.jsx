@@ -7,28 +7,34 @@ import { getitems } from "../../../Redux/items/actions";
 import axios from "axios";
 import { FetchAllParties } from "../../../Redux/parties/actions";
 import { useNavigate } from "react-router-dom";
+import { CiGlass } from "react-icons/ci";
 
 const Purchase = () => {
    const store = useSelector((store) => store);
    const partiesData = useSelector((state) => state.PartiesReducer.partiesData);
-   // console.log(partiesData)
+   // console.log(partiesData);
+const token = localStorage.getItem("token")
    const item = store.ItemReducer;
-   const party = store.PartiesReducer;
+   const party = store.PurchaseReducer;
    // console.log(party);
    const dispatch = useDispatch();
    const companyID = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
-   const token = localStorage.getItem("token");
-   const userId = localStorage.getItem("userId");
    const navigate = useNavigate();
-   const baseURL = "https://ca-backend-api.onrender.com";
-   const d = {
+
+   const handleSave = () => {
+      console.log(data)
+      dispatch(addPurchaseBill(data))
+      // alert("added Succesfully")
+      navigate("/purchasebill");
+   };
+   const [data, setData] = useState({
       partyName: "Krishan",
       phoneNumber: 1234567890,
       poNo: "PO123",
       poDate: "2024-02-16T00:00:00.000Z",
       eWayBill: "EWB123",
       billNumber: "BILL123",
-      billDate: "2024-02-16T00:00:00.000Z",
+      billDate: new Date(),
       time: "10:00 AM",
       paymentTerms: "Net 30",
       dueDate: "2024-03-17T00:00:00.000Z",
@@ -45,7 +51,8 @@ const Purchase = () => {
             batchNo: 1,
             modelNo: 123,
             expDate: "2025-02-16T00:00:00.000Z",
-            mfgDate: "2023-02-16T00:00:00.000Z",
+            mfgDate: new Date(),
+
             customField: "Custom field 1",
             size: "Large",
             qty: 10,
@@ -68,7 +75,7 @@ const Purchase = () => {
             bankDetail: {
                accountName: "ABC Bank",
                openingBalance: 5000,
-               asOfDate: "2024-02-16T00:00:00.000Z",
+               asOfDate: new Date(),
             },
             default: "cash",
          },
@@ -86,33 +93,14 @@ const Purchase = () => {
       total: 950,
       paid: 950,
       balance: 0,
-   };
-   const handleSave = () => {
-      axios
-         .post(`${baseURL}/${companyID}/purchase/create`, d, {
-            headers: { Authorization: `Bearer ${token}` },
-         })
-         .then((res) => {
-            alert("Data added");
-            navigate("/purchasebill");
-         })
-         .catch((err) => console.log(err));
-   };
-   const [data, setData] = useState({
-      partyName: "",
-      phoneNumber: "",
-      billNumber: 0,
-      date: "",
-      state: "",
-      openingBalance: "",
    });
 
    useEffect(() => {
       FetchAllParties(dispatch);
-   }, [dispatch]);
-console.log(data)
+   }, []);
+   const [open,setOpen] = useState(0)
    const getData = (id) => {
-      console.log(id);
+      // console.log(id);
       axios
          .get(`https://ca-backend-api.onrender.com/${companyID}/party/${id}`, {
             headers: {
@@ -120,30 +108,16 @@ console.log(data)
             },
          })
          .then((res) => {
-            console.log(res.data.data);
-            setData(res.data.data.party);
-         })
-         .catch((err) => console.log(err));
-
-
-         axios.get(`https://ca-backend-api.onrender.com/${companyID}/item/itemById/${id}`, {
-            headers: {
-               Authorization: `Bearer ${token}`,
-            },
-         }) 
-         .then((res) => {
-            console.log(res.data.data);
+            console.log(res.data.data.party[0].p);
             // setData(res.data.data.party);
+            setOpen(res.data.data.party[0]?.openingBalance)
+            setData({
+               ...data,
+               phoneNumber: res?.data?.data?.party[0]?.phoneNumber,
+               partyName:res?.data?.data?.party[0]?.partyName,
+            });
          })
          .catch((err) => console.log(err));
-   };
-
-   const handleChange = (e) => {
-      const { name, value } = e.target;
-      setData((prevFormData) => ({
-         ...prevFormData,
-         [name]: value,
-      }));
    };
 
    return (
@@ -154,24 +128,40 @@ console.log(data)
                <aside className="addpurchase-section-top-section-select">
                   <select
                      name="partyName"
-                     onChange={(e) => getData(e.target.value)}
+                     onChange={(e) => {
+                        const selectedParty = partiesData.find(
+                           (party) => party.partyName === e.target.value
+                        );
+
+                        if (selectedParty) {
+                           const partyId = selectedParty?._id?.toString();
+                              getData(partyId);
+                           setData({
+                              ...data,
+                              partyName: selectedParty.partyName,
+                           });
+                           
+                        }
+                     }}
                      className="addpurchase-section-select"
                   >
-                     {partiesData?.map((e) => (
-                        <option key={e.partyName} value={e._id}>
-                           {e.partyName}
+                  <option value="Select">Select Your comapny</option>
+                     {partiesData?.map((party) => (
+                        <option key={party.id} value={party.partyName}>
+                           {party.partyName}
                         </option>
                      ))}
                   </select>
+
                   <p>
-                     Balance: {data.openingBalance ? data.openingBalance : 0}
+                     Balance: {open ? open : 0}
                   </p>
                   <input
                      type="text"
                      name="number"
                      placeholder="Phone no."
                      value={data.phoneNumber}
-                     onChange={handleChange}
+                     // onChange={handleChange}
                   />
                </aside>
                <aside className="addpurchasebill-aside">
@@ -184,7 +174,7 @@ console.log(data)
                         type="number"
                         name="billNumber"
                         className="addpurchasebill-aside-items-p"
-                        onChange={handleChange}
+                        // onChange={handleChange}
                      />
                   </div>
                   <div className="addpurchasebill-aside-items">
@@ -194,7 +184,7 @@ console.log(data)
                      <input
                         type="date"
                         name="date"
-                        onChange={handleChange}
+                        // onChange={handleChange}
                         className="addpurchasebill-aside-items-bill-date"
                      />
                   </div>
@@ -208,17 +198,17 @@ console.log(data)
                      <select
                         name="state"
                         className="addpurchasebill-aside-items-bill-select"
-                        onChange={handleChange}
+                        // onChange={handleChange}
                      >
-                        <option value="#">Items</option>
-                        <option value="#">Items</option>
+                        <option value="#">Some State</option>
+                        <option value="#">Some State</option>
                      </select>
                   </div>
                </aside>
             </section>
          </section>
          <section>
-            <Addpurchaseitem data={data} setData= {setData} />
+            <Addpurchaseitem  />
          </section>
          <section className="addpurchase-footer">
             <div>
