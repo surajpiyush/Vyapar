@@ -1,9 +1,5 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Authpage from "./Page/Authpage";
 import Homepage from "./Page/Homepage";
 import Companypage from "./Page/Companypage";
@@ -33,9 +29,15 @@ import GSTR3B from "./pages/GSTR3B.js";
 import GSTR9 from "./pages/GSTR9.js";
 import SaleHSN from "./pages/SaleHSN.js";
 import Formpage from "./Page/Formpage/Formpage.jsx";
-import { Provider } from "react-redux";
 import { store } from "./Redux/store.js";
 import AddPurchasereturn from "./Component/Purchase/AddPurchasereturn.jsx";
+
+import React from "react";
+import ReactDOM from "react-dom/client";
+import reportWebVitals from "./reportWebVitals";
+import { Provider } from "react-redux";
+import { ChakraProvider } from "@chakra-ui/react";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
   {
@@ -170,9 +172,11 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
-    <React.StrictMode>
-      <RouterProvider router={router} />
-    </React.StrictMode>
+    <ChakraProvider>
+      <React.StrictMode>
+        <RouterProvider router={router} />
+      </React.StrictMode>
+    </ChakraProvider>
   </Provider>
 );
 
