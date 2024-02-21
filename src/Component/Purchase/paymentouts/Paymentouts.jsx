@@ -6,21 +6,28 @@ import {
    PrinterIcon,
    ShareIcon,
 } from "../../utils/reactIcons";
-import { ImSpinner3 as BasicSpinner } from "react-icons/im";      
+import { ImSpinner3 as BasicSpinner } from "react-icons/im";
 
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { getPaymentOutBill } from "../../../Redux/purchase/action";
 
 const Paymentouts = () => {
    const dispatch = useDispatch();
-   const [data, setData] = useState([]);
+   // const [data, setData] = useState([]);
    const companyID = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
    const token = localStorage.getItem("token");
-
+   const store = useSelector((store) => store.PurchaseReducer);
+   console.log(store);
+   const data = store?.paymentOutData;
    const date = {
       startDate: "2023-01-20",
       endDate: "2024-02-24",
    };
+   useEffect(() => {
+      dispatch(getPaymentOutBill({ date }));
+   }, []);
+   // console.log(data)
    const postData = {
       type: "Purchase-Out",
       status: "Pending",
@@ -49,20 +56,6 @@ const Paymentouts = () => {
       total: 0,
    };
 
-   useEffect(() => {
-      axios
-         .get(
-            `https://ca-backend-api.onrender.com/${companyID}/purchaseOut/getAll?startDate=${date.startDate}&endDate=${date.endDate}`,
-            {
-               headers: {
-                  Authorization: `Bearer ${token}`,
-               },
-            }
-         )
-         .then((res) => setData(res.data.data))
-         .catch((err) => console.log(err));
-   }, []);
-   console.log(data);
    return (
       <>
          <div className="payment-out-container">
@@ -118,7 +111,7 @@ const Paymentouts = () => {
                      </th>
                   </tr>
                </thead>
-               {!data.length ? (
+               {store.isLoading ? (
                   <BasicSpinner
                      style={{
                         width: "100%",

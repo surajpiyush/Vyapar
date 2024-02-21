@@ -9,25 +9,23 @@ import axios from "axios";
 import { tab } from "@testing-library/user-event/dist/tab";
 
 export default function ProductsTable(Props) {
-   const [data, setData] = useState([]);
    const dispatch = useDispatch();
    const [status, setStatus] = useState(true);
    const [searchTerm, setSearchTerm] = useState("");
    const [filteredItems, setFilteredItems] = useState([]);
    const [tableData, setTableData] = useState([]);
    const items = useSelector((store) => store.ItemReducer);
-   // console.log(items)
+   // const [data, setData] = useState([]);
+   console.log(items);
+   const data = items.items.data;
    const companyId = localStorage.getItem("userId");
    const token = localStorage.getItem("token");
    // console.log(items);
    //-----------<<<<<<<<<<<<<<<<<<<<<<<<GETING THE DATA FROM BACKEND>>>>>>>>>>>>>>>>>>>>>>-------------
    useEffect(() => {
-      dispatch(getitems()).then((res) => {
-         // console.log(res.data);
-         setData(res.data.data);
-         
-      });
-   }, [dispatch]);
+      dispatch(getitems())
+      
+   }, []);
    // console.log(data)
 
    const openForm = () => {
@@ -132,7 +130,7 @@ export default function ProductsTable(Props) {
                               }}
                            />
                         ) : !searchTerm ? (
-                           data.map((e, index) => (
+                           data?.map((e, index) => (
                               <tr
                                  key={index}
                                  onClick={() => {
@@ -243,7 +241,11 @@ export default function ProductsTable(Props) {
                                        <td>{e.type}</td>
                                        <td>{e.invoiceOrRefNo}</td>
                                        <td>{e.name}</td>
-                                       <td>{new Date(e.date).toLocaleDateString()}</td>
+                                       <td>
+                                          {new Date(
+                                             e.date
+                                          ).toLocaleDateString()}
+                                       </td>
 
                                        <td>{e.quantity}</td>
                                        <td>-</td>

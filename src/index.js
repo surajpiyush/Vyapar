@@ -30,6 +30,7 @@ import GSTR9 from "./pages/GSTR9.js";
 import SaleHSN from "./pages/SaleHSN.js";
 import Formpage from "./Page/Formpage/Formpage.jsx";
 import { store } from "./Redux/store.js";
+import AddPurchasereturn from "./Component/Purchase/AddPurchasereturn.jsx";
 
 import React from "react";
 import ReactDOM from "react-dom/client";
@@ -89,7 +90,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/addpurchasereturn",
-        element: <Addpurchaseorderpage />,
+        element: <AddPurchasereturn />,
       },
       {
         path: "/business",

@@ -34,33 +34,20 @@ const Transactions = () => {
 
    const navigate = useNavigate();
    const dispatch = useDispatch();
-   const [showAllPurchaseBills, setShowAllPurchaseBills] = useState([]);
    const companyID = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
    const token = localStorage.getItem("token");
-   // console.log(userId, token);
-
+   const store = useSelector((store) => store.PurchaseReducer);
+   const showAllPurchaseBills = store.purchaseBillData
+   // console.log(store)
    const date = {
       startDate: "2023-01-20",
       endDate: "2024-02-24",
    };
-   useEffect(() => {
-      axios
-         .get(
-            `https://ca-backend-api.onrender.com/${companyID}/purchase/getAll?startDate=${date.startDate}&endDate=${date.endDate}`,
 
-            {
-               headers: {
-                  Authorization: `Bearer ${token}`,
-               },
-            }
-         )
-         .then((result) => {
-            console.log(result);
-            setShowAllPurchaseBills(result.data.data);
-         })
-         .catch((err) => {
-            console.log(err);
-         });
+   useEffect(() => {
+      // getPurchaseBill(dispatch(date))
+      dispatch(getPurchaseBill({ date }));
+     
    }, []);
 
    return (
@@ -106,7 +93,7 @@ const Transactions = () => {
                </div>
             </section>
 
-            {showAllPurchaseBills.length ? (
+            {!store.isLoading ? (
                showAllPurchaseBills.map((e) => (
                   <section className="transaction-tables">
                      <div className="transaction-table">
@@ -150,12 +137,12 @@ const Transactions = () => {
                ))
             ) : (
                <BasicSpinner
-                     style={{
-                        width: "100%",
-                        margin: "60px auto",
-                        fontSize: "30px",
-                     }}
-                  />
+                  style={{
+                     width: "100%",
+                     margin: "60px auto",
+                     fontSize: "30px",
+                  }}
+               />
             )}
          </div>
       </>

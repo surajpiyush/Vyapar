@@ -1,5 +1,5 @@
 import React from 'react';
-import "./Addpurchaseitems.css";
+// import "./Addpurchaseitems.css";
 import { CiFileOn } from "react-icons/ci";
 import { CiImageOn } from "react-icons/ci";
 

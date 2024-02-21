@@ -16,8 +16,8 @@ import {
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { FiPlusCircle as PlusIcon } from "react-icons/fi";
 import { IoIosArrowDown as ArrowDown } from "react-icons/io";
+import { FiPlusCircle as PlusIcon } from "react-icons/fi";
 import { MdDelete as DeleteIcon } from "react-icons/md";
 import { TbArrowsMove as MoveIcon } from "react-icons/tb";
 import { AiFillFileAdd as AddDecriptionIcon } from "react-icons/ai";

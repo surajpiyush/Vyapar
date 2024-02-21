@@ -10,7 +10,7 @@ const token = localStorage.getItem("token");
 const userId = localStorage.getItem("userId");
 const baseURL = "https://ca-backend-api.onrender.com";
 
-export const addItem = (newItem) => async (dispatch) => {
+export const addItem = (newItem) => (dispatch) => {
   dispatch({ type: ITEM_REQUEST });
 
   axios
