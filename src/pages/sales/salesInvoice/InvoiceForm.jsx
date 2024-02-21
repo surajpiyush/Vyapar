@@ -39,6 +39,7 @@ const InvoiceForm = () => {
   const [toggleCheckReferenceInp, setToggleCheckReferenceInp] = useState(false);
   const [paymentTypeSelectTag, setPaymentTypeSelectTag] = useState("Cash");
   const [checkReferenceInpval, setCheckReferenceInpval] = useState("");
+  const [currentCustomerData, setCurrentCustomerData] = useState({});
 
   const [invoiceData, setInvoiceData] = useState({
     type: "Credit",
@@ -47,16 +48,16 @@ const InvoiceForm = () => {
     billingName: "John Doe",
     billingAddress: "",
     phoneNumber: "",
-    eWayBill: "ABC123456",
-    poNo: "PO123",
-    poDate: "2024-02-09",
-    invoiceNumber: "INV123",
-    invoiceDate: "2024-02-09",
-    time: "10:00 AM",
-    paymentTerm: "Net 30",
-    dueDate: "2024-03-10",
-    stateOfSupply: "Some State",
-    priceUnitWithTax: true,
+    eWayBill: "ABC123456", // *
+    poNo: "PO123", // *
+    poDate: "2024-02-09", // *
+    invoiceNumber: "",
+    invoiceDate: "",
+    stateOfSupply: "",
+    time: "10:00 AM", // *
+    paymentTerm: "Net 30", // *
+    dueDate: "2024-03-10", // *
+    priceUnitWithTax: "false",
     sale: [
       {
         category: "Category A",
@@ -72,7 +73,7 @@ const InvoiceForm = () => {
         customField: "Custom Field Value",
         size: "Size A",
         qty: 2,
-        unit: "None",
+        unit: "",
         priceUnit: 100,
         discountpersant: 5,
         discountAmount: 10,
@@ -128,10 +129,40 @@ const InvoiceForm = () => {
     ],
   */
 
+  // Submit Request Function
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = {
+      type: invoiceData.type,
+      status: "Pending",
+      // invoice data need to be changed to customer id after krishna sir change it in backend
+      customerName: currentCustomerData?.partyName,
+      billingName: currentCustomerData?.partyName,
+      billingAddress: invoiceData?.billingAddress,
+      phoneNumber: invoiceData?.phoneNumber,
+      invoiceNumber: invoiceData?.invoiceNumber,
+      invoiceDate: invoiceData?.invoiceDate,
+      stateOfSupply: invoiceData?.stateOfSupply,
+      priceUnitWithTax: invoiceData?.priceUnitWithTax == "true",
+      sale: invoiceData?.sale,
+    };
+    console.log("data", data);
+
+    // PostSalesInvoice(dispatch, invoiceData,toast,);
+  };
+
   // for fetching all parties list on form mount
   useEffect(() => {
     FetchAllParties(dispatch);
   }, []);
+
+  // This useEffect changes current customer/party Data
+  useEffect(() => {
+    const currentPartyData = partiesData.filter(
+      (item) => item._id == invoiceData.customerName
+    );
+    setCurrentCustomerData(currentPartyData[0]);
+  }, [invoiceData.customerName]);
 
   // To Show Reference Input
   useEffect(() => {
@@ -150,11 +181,18 @@ const InvoiceForm = () => {
     });
   };
 
-  const handleSubmit = () => {
-    const data = { type: invoiceData.type };
-    console.log("data", data);
-
-    // PostSalesInvoice(dispatch, invoiceData,toast,);
+  // Items Change Function
+  const handleItemsChange = (e, item, index) => {
+    const { name, value } = e.target;
+    let newSaleData = invoiceData?.sale.map((ite, ind) => {
+      if (ind != index) return ite;
+      let newObj = { ...ite, [name]: value };
+      return newObj;
+    });
+    console.log("newSaleData", newSaleData);
+    setInvoiceData((prev) => {
+      return { ...prev, sale: newSaleData };
+    });
   };
 
   // Add Row Function
@@ -197,7 +235,7 @@ const InvoiceForm = () => {
     });
   };
   return (
-    <div className={css.formOuter}>
+    <form onSubmit={handleSubmit} className={css.formOuter}>
       <div className={css.topheader}>
         <p>Sale</p>
         <div>
@@ -245,6 +283,7 @@ const InvoiceForm = () => {
                 onChange={handleInputChange}
                 className={css.selectTag}
                 placeholder="test"
+                required
               >
                 <option value="">
                   {invoiceData.type == "Credit"
@@ -255,8 +294,8 @@ const InvoiceForm = () => {
                   <option value="">Loading Parties</option>
                 ) : (
                   partiesData?.map((item, ind) => (
-                    <option value={item.partyName} key={ind + item._id}>
-                      {item.partyName}
+                    <option value={item._id} key={ind + item._id}>
+                      {item?.partyName}
                     </option>
                   ))
                 )}
@@ -269,6 +308,7 @@ const InvoiceForm = () => {
                 name="phoneNumber"
                 onChange={handleInputChange}
                 className={css.input}
+                required
               />
               <label
                 htmlFor=""
@@ -279,27 +319,26 @@ const InvoiceForm = () => {
                 Phone No.
               </label>
             </div>
-            {invoiceData.type == "Cash" && (
-              <div className={css.inputDiv}>
-                <textarea
-                  value={invoiceData.billingAddress}
-                  name="billingAddress"
-                  onChange={handleInputChange}
-                  className={css.input}
-                  style={{ height: "110px", width: "230px" }}
-                />
-                <label
-                  htmlFor=""
-                  className={
-                    invoiceData.billingAddress
-                      ? css.activeLabel
-                      : css.inactiveLabel
-                  }
-                >
-                  Billing Address
-                </label>
-              </div>
-            )}
+            <div className={css.inputDiv}>
+              <textarea
+                value={invoiceData.billingAddress}
+                name="billingAddress"
+                onChange={handleInputChange}
+                className={css.input}
+                style={{ height: "110px", width: "230px" }}
+                required
+              />
+              <label
+                htmlFor=""
+                className={
+                  invoiceData.billingAddress
+                    ? css.activeLabel
+                    : css.inactiveLabel
+                }
+              >
+                Billing Address
+              </label>
+            </div>
           </div>
 
           <div className={css.rightSideCont}>
@@ -308,7 +347,11 @@ const InvoiceForm = () => {
               <input
                 type="text"
                 placeholder="1"
+                name="invoiceNumber"
+                value={invoiceData?.invoiceNumber}
+                onChange={handleInputChange}
                 className={css.invoiceNumInp}
+                required
               />
             </div>
             <div>
@@ -316,15 +359,21 @@ const InvoiceForm = () => {
               <input
                 type="date"
                 placeholder="Invoice Date"
+                name="invoiceDate"
+                value={invoiceData?.invoiceDate}
+                onChange={handleInputChange}
                 className={css.invoiceDateSelectInp}
+                required
               />
             </div>
             <div>
               <p>State of supply</p>
               <select
-                name="stateofsupply"
-                id=""
+                name="stateOfSupply"
+                value={invoiceData?.stateOfSupply}
+                onChange={handleInputChange}
                 className={css.invoiceDateSelectInp}
+                required
               >
                 <option value="">State</option>
                 <option value="Andhra Pradesh">Andhra Pradesh</option>
@@ -382,9 +431,13 @@ const InvoiceForm = () => {
                 <th className={css.unitHead}>UNIT</th>
                 <th className={css.priceUnitHead}>
                   <p>PRICE/UNIT</p>
-                  <select name="" id="">
-                    <option value="">Without Tax</option>
-                    <option value="">With Tax</option>
+                  <select
+                    name="priceUnitWithTax"
+                    value={invoiceData.priceUnitWithTax}
+                    onChange={handleInputChange}
+                  >
+                    <option value="false">Without Tax</option>
+                    <option value="true">With Tax</option>
                   </select>
                 </th>
                 <th className={css.discountHead}>
@@ -431,31 +484,50 @@ const InvoiceForm = () => {
                   <td className={css.itemNameBody}>
                     <input
                       type="text"
+                      name="itemName"
                       value={item.itemName}
+                      onChange={(e) => handleItemsChange(e, item, ind)}
                       className={css.tableInputs}
+                      required
                     />
                   </td>
                   <td className={css.qtyBody}>
                     <input
                       type="number"
                       value={item.qty}
+                      onChange={handleInputChange}
                       className={css.tableInputs}
                     />
                   </td>
                   <td className={css.unitBody} placeholder="None">
-                    <select name="" id="">
+                    {/* <select name="" id="" >
                       <option value="">None</option>
                       <option value="Bags">Bags</option>
                       <option value="Bottles">Bottles</option>
                       <option value="Box">Box</option>
                       <option value="Bundle">Bundle</option>
                       <option value="Can">Can</option>
-                    </select>
+                    </select> */}
+                    <input
+                      type="text"
+                      value={item.unit}
+                      onChange={handleInputChange}
+                      className={css.tableInputs}
+                      placeholder="NONE"
+                      style={{
+                        background: "transparent",
+                        fontSize: "14px",
+                        fontWeight: 400,
+                        textAlign: "left",
+                      }}
+                      // required
+                    />
                   </td>
                   <td className={css.qtyBody}>
                     <input
                       type="number"
                       value={item.priceUnit}
+                      onChange={handleInputChange}
                       placeholder="0"
                       className={css.tableInputs}
                     />
@@ -464,12 +536,14 @@ const InvoiceForm = () => {
                     <input
                       type="number"
                       value={item.discountAmount}
+                      onChange={handleInputChange}
                       placeholder="0"
                       className={css.tableInputs}
                     />
                     <input
                       type="number"
                       value={item.discountpersant}
+                      onChange={handleInputChange}
                       placeholder="0"
                       className={css.tableInputs}
                     />
@@ -495,18 +569,23 @@ const InvoiceForm = () => {
                           <option value="GST@28%">GST@28%</option>
                         </select>
                       </div>
-                      <div>
-                        <input
-                          type="number"
-                          value={item.taxAmount}
-                          placeholder="0"
-                          className={css.tableInputs}
-                        />
-                      </div>
+                      <input
+                        type="number"
+                        value={item.taxAmount}
+                        onChange={handleInputChange}
+                        placeholder="0"
+                        className={css.tableInputs}
+                      />
                     </span>
                   </td>
-                  <td className={css.qtyBody} contentEditable>
-                    {item.amount}
+                  <td className={css.qtyBody}>
+                    <input
+                      type="number"
+                      value={item.amount}
+                      onChange={handleInputChange}
+                      placeholder="0"
+                      className={css.tableInputs}
+                    />
                   </td>
                 </tr>
               ))}
@@ -758,15 +837,13 @@ const InvoiceForm = () => {
 
       {/* Footer */}
       <div className={css.FooterOuter}>
-        <button onClick={handleSubmit} type="submit">
-          {isLoading ? "Saving" : "Save"}
-        </button>
+        <button type="submit">{isLoading ? "Saving" : "Save"}</button>
         <div className={css.shareBtn}>
           <p>Share</p>
           <ArrowDown />
         </div>
       </div>
-    </div>
+    </form>
   );
 };
 

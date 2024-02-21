@@ -20,10 +20,6 @@ export default function SalesInvoice() {
     setOpenForm(false);
   };
 
-  useEffect(() => {
-    console.log(css);
-  }, []);
-
   const formOpen = () => {
     setOpenForm(true);
   };

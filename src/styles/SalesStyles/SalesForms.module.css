@@ -354,6 +354,8 @@
   }
 }
 .amountHead {
+  width: 110px;
+
   div {
     height: 100%;
     display: flex;
@@ -361,7 +363,6 @@
     justify-content: space-between;
     padding: 0px 10px;
   }
-
   p {
     font-size: 13px;
   }
@@ -449,6 +450,7 @@
   input {
     background-color: transparent;
     border: none;
+    text-align: right;
   }
   input:focus {
     outline: none;
@@ -487,16 +489,17 @@
     background-color: transparent;
   }
 
-  div:focus {
+  input:focus {
     outline: none;
     border: 1px solid var(--blueB);
     background-color: white;
   }
   div:nth-of-type(1) {
-    width: 53%;
+    width: 53.5%;
     height: 40px;
     font-size: 14px;
     font-weight: 200;
+    border-right: 0.5px solid var(--greyC);
 
     select {
       border: none;
@@ -510,13 +513,9 @@
       overflow: auto;
     }
   }
-  div:nth-of-type(2) {
+  input {
     flex: 2;
-    height: 40px;
-    border-left: 0.5px solid var(--greyC);
-  }
-  div:nth-of-type(2):focus {
-    border-left: 1px solid var(--blueB);
+    text-align: right;
   }
 }
 .ItemTaxBody div {
