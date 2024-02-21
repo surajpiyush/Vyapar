@@ -14,50 +14,117 @@ import { addPurchaseBill } from "../../../Redux/purchase/action";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { IoIosArrowDown as ArrowDown } from "react-icons/io";
 import { FiPlusCircle as PlusIcon } from "react-icons/fi";
 import { MdDelete as DeleteIcon } from "react-icons/md";
 import { TbArrowsMove as MoveIcon } from "react-icons/tb";
+import { AiFillFileAdd as AddDecriptionIcon } from "react-icons/ai";
+import { HiMiniDocumentText as AddDocumentIcon } from "react-icons/hi2";
+import { BiSolidCameraPlus as AddCameraIcon } from "react-icons/bi";
+import { ImCheckboxUnchecked as EmptyCheckedBox } from "react-icons/im";
+import { BiSolidCheckboxChecked as CheckedBox } from "react-icons/bi";
 import { getitems } from "../../../Redux/items/actions";
-
-const Addpurchaseitem = () => {
+import {
+   Menu,
+   MenuButton,
+   MenuList,
+   MenuItem,
+   Button,
+   MenuItemOption,
+   MenuGroup,
+   MenuOptionGroup,
+   MenuDivider,
+   useToast,
+} from "@chakra-ui/react";
+const Addpurchaseitem = ({ data }) => {
    // console.log(data);
    const [hoveredIndex, setHoveredIndex] = useState(null);
    const dispatch = useDispatch();
    const navigate = useNavigate();
-   const baseURL = "https://ca-backend-api.onrender.com";
-   const token = localStorage.getItem("token");
-   const companyID = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
+
    const item = useSelector((store) => store.ItemReducer);
-   const data = item.items.data;
-   console.log(item);
-   const [formData, setformData] = useState({});
+   const isLoading = useSelector((store) => store.PurchaseReducer.isLoading);
+   // const data = item.items.data;
+   // console.log(item);
+   const [formData, setFormData] = useState([
+      {
+         category: "65c5cfc509b34ca8a0187497",
+         itemName: "mobile",
+         itemCode: "001",
+         hsnCode: "HSN001",
+         description: "Description of item 1",
+         count: 1,
+         qty: 10,
+         freeqty: 0,
+         unit: "pcs",
+         priceUnit: 100,
+         discountAmount: 5,
+         discountpersant: 5,
+         taxPersant: "12%",
+         amount: 950,
+
+         // there is place for them in frontend
+         taxAmount: 12, // to be calculated
+         batchNo: 1,
+         modelNo: 123,
+         expDate: "2025-02-16T00:00:00.000Z",
+         mfgDate: new Date(),
+         customField: "Custom field 1",
+         size: "Large",
+      },
+   ]);
+
+   const [toggleDesc, setToggleDesc] = useState(false);
+   const [toggleRoundOff, setToggleRoundOff] = useState(false);
+   const [toggleReceived, setToggleReceived] = useState(false);
+   const [toggleCheckReferenceInp, setToggleCheckReferenceInp] =
+      useState(false);
+   const [paymentTypeSelectTag, setPaymentTypeSelectTag] = useState("Cash");
+   const [checkReferenceInpval, setCheckReferenceInpval] = useState("");
+   const [currentCustomerData, setCurrentCustomerData] = useState({});
 
    const [rows, setRows] = useState([
       {
          id: 1,
-         item: "",
-         qty: "",
-         unit: "",
-         price: "",
-         discount: "",
-         tax: "",
-         amount: "",
+         category: "65c5cfc509b34ca8a0187497",
+         itemName: "mobile",
+         itemCode: "001",
+         hsnCode: "HSN001",
+         description: "Description of item 1",
+         count: 1,
+         qty: 10,
+         freeqty: 0,
+         unit: "pcs",
+         priceUnit: 100,
+         discountAmount: 5,
+         discountpersant: 5,
+         taxPersant: "12%",
+         amount: 950,
       },
    ]);
    const handleAddRow = () => {
       const newRow = {
          id: rows.length + 1,
-         item: "",
-         qty: "1",
-         unit: "",
-         price: "",
-         discount: "",
-         tax: "",
-         amount: "",
+         category: "65c5cfc509b34ca8a0187497",
+         itemName: "mobile",
+         itemCode: "001",
+         hsnCode: "HSN001",
+         description: "Description of item 1",
+         count: 1,
+         qty: 10,
+         freeqty: 0,
+         unit: "pcs",
+         priceUnit: 100,
+         discountAmount: 5,
+         discountpersant: 5,
+         taxPersant: "12%",
+         amount: 950,
       };
       setRows([...rows, newRow]);
+      setFormData([...formData, newRow]);
+      console.log(formData);
    };
-   const handleDeleteRow = (rowIndex) => {
+   const handleDeleteRow = (row,rowIndex) => {
       const updatedRows = [...rows];
       updatedRows.splice(rowIndex, 1);
       setRows(updatedRows);
@@ -67,123 +134,21 @@ const Addpurchaseitem = () => {
       dispatch(getitems());
    }, []);
 
-   const [invoiceData, setInvoiceData] = useState([{
-      itemName: "pen",
-      category: "65d080c09b0c34b0924bd909",
-      itemHsn: 456789,
-      description: "This is a sample item",
-      itemCode: 789,
-      seleteUnit: [{ baseUnit: "Piece", secondaryUnit: "Box" }],
-      batchTracking: "Yes",
-      serialTracking: "No",
-      stockQuantity: 100,
-      mrp: [{ mrp: 150, disOnMrpForSale: "5%", disOnMrpForWholesale: "10%" }],
-      salePrice: [
-         {
-            salePriceWithTax: 120,
-            salePriceWithoutTax: 100,
-            disOnSalePriceAmount: 5,
-            disOnSalePricePerceantage: "5%",
-         },
-      ],
-      wholesalePrice: [
-         {
-            wholesalePriceWithoutTax: 90,
-            wholesalePriceWithTax: 100,
-            minimumWholesaleQty: 10,
-         },
-      ],
-      purchasePrice: [
-         { purchasePriceWithTax: 80, purchasePriceWithoutTax: 70 },
-      ],
-      taxRate: "18%",
-      stock: [
-         {
-            openingQuantity: 50,
-            atPrice: 75,
-            asOfDate: "2024-01-27",
-            minStockToMaintain: 20,
-            location: "Warehouse A",
-         },
-      ],
-   }]);
-
    // Input Change Function
    const handleInputChange = (e) => {
       const { name, value } = e.target;
-      setInvoiceData((prev) => {
+      setFormData((prev) => {
          return { ...prev, [name]: value };
       });
    };
 
    const handleSubmit = () => {
-      const data = { type: invoiceData.type };
-      console.log("data", data);
-
-      // PostSalesInvoice(dispatch, invoiceData,toast,);
+      data.sale = formData;
+      // console.log("data", data);
+dispatch(addPurchaseBill(data))
+      
    };
 
-   // Add Row Function
-   // const handleAddRow = (e) => {
-   //    e.stopPropagation();
-   //    setInvoiceData((prev) => {
-   //       let newRowData = {
-   //          itemName: "pen",
-   //          category: "65d080c09b0c34b0924bd909",
-   //          itemHsn: 456789,
-   //          description: "This is a sample item",
-   //          itemCode: 789,
-   //          seleteUnit: [{ baseUnit: "Piece", secondaryUnit: "Box" }],
-   //          batchTracking: "Yes",
-   //          serialTracking: "No",
-   //          stockQuantity: 100,
-   //          mrp: [
-   //             { mrp: 150, disOnMrpForSale: "5%", disOnMrpForWholesale: "10%" },
-   //          ],
-   //          salePrice: [
-   //             {
-   //                salePriceWithTax: 120,
-   //                salePriceWithoutTax: 100,
-   //                disOnSalePriceAmount: 5,
-   //                disOnSalePricePerceantage: "5%",
-   //             },
-   //          ],
-   //          wholesalePrice: [
-   //             {
-   //                wholesalePriceWithoutTax: 90,
-   //                wholesalePriceWithTax: 100,
-   //                minimumWholesaleQty: 10,
-   //             },
-   //          ],
-   //          purchasePrice: [
-   //             { purchasePriceWithTax: 80, purchasePriceWithoutTax: 70 },
-   //          ],
-   //          taxRate: "18%",
-   //          stock: [
-   //             {
-   //                openingQuantity: 50,
-   //                atPrice: 75,
-   //                asOfDate: "2024-01-27",
-   //                minStockToMaintain: 20,
-   //                location: "Warehouse A",
-   //             },
-   //          ],
-   //       };
-   //       let obj = { ...prev, [newRowData] };
-   //       return obj;
-   //    });
-   // };
-
-   // // Delete Row Function
-   // const handleDeleteRow = (e, index, item) => {
-   //    e.stopPropagation();
-   //    const deletedRowdata = invoiceData.sale.filter(
-   //       (ite, ind) => ind != index
-   //    );
-   //    setInvoiceData((prev) => {
-   //       return { ...prev, deletedRowdata };
-   //    });
-   // };
    return (
       <div>
          <div className={css.ItemsOuter}>
@@ -224,64 +189,66 @@ const Addpurchaseitem = () => {
                   </tr>
                </thead>
                <tbody>
-               {rows.map((row, index) => (
-                  <tr
-                  className={css.addRowTr}
-                     // className="addpurchase-tr"
-                     key={row.id}
-                     onMouseEnter={() => setHoveredIndex(index)}
-                     onMouseLeave={() => setHoveredIndex(null)}
-                  >
-                     <td
-                        className="addpurchase-td"
-                        style={{
-                           display: "flex",
-                           alignItems: "center",
-                           fontSize: "1.5rem",
-                           justifyContent: "space-between",
-                           padding: "10px",
-                        }}
+                  {rows.map((row, index) => (
+                     <tr
+                        className={css.addRowTr}
+                        // className="addpurchase-tr"
+                        key={row.id}
+                        onMouseEnter={() => setHoveredIndex(index)}
+                        onMouseLeave={() => setHoveredIndex(null)}
                      >
-                        <span>{row.id}</span>
-                        <BsTrash
-                           onClick={() => handleDeleteRow(index)}
+                        <td
+                           className="addpurchase-td"
                            style={{
-                              cursor: "pointer",
-                              opacity: hoveredIndex === index ? 1 : 0,
-                              transition: "opacity 0.3s ease",
-                              marginLeft: "15px",
+                              display: "flex",
+                              alignItems: "center",
+                              fontSize: "1.5rem",
+                              justifyContent: "space-between",
+                              padding: "10px",
                            }}
-                        />
-                     </td>
+                        >
+                           <span>{index+1}</span>
+                           <BsTrash
+                              onClick={() => handleDeleteRow(row,index)}
+                              style={{
+                                 cursor: "pointer",
+                                 opacity: hoveredIndex === index ? 1 : 0,
+                                 transition: "opacity 0.3s ease",
+                                 marginLeft: "15px",
+                              }}
+                           />
+                        </td>
 
-                     <td className="addpurchase-td-1">
-                        <input type="text" className="rowInput" />
-                     </td>
-                     <td>
-                        <input type="text" className="rowInput" />
-                        {row.qty}
-                     </td>
-                     <td>
-                        <input type="text" className="rowInput" />
-                        {row.unit}
-                     </td>
-                     <td>
-                        <input type="text" className="rowInput" />
-                        {row.price}
-                     </td>
-                     <td>
-                        <select name="" id="">
-                           <option value="">Select</option>
-                        </select>
-                     </td>
-                     <td>
-                        <input type="text" className="rowInput" />
-                     </td>
-                     <td>
-                        <input type="text" className="rowInput" />
-                     </td>
-                  </tr>
-               ))}
+                        <td className="addpurchase-td-1">
+                           <input type="text" className="rowInput" />
+                        </td>
+                        <td>
+                           <input type="text" className="rowInput" />
+                           {row.qty}
+                        </td>
+                        <td>
+                           <input type="text" className="rowInput" />
+                           {row.unit}
+                        </td>
+                        <td>
+                           <input type="text" className="rowInput" />
+                           {row.price}
+                        </td>
+                        <td>
+                           <select name="" id="">
+                              <option value="5%">5%</option>
+                           <option value="10%">10%</option>
+                              <option value="20%">20%</option>
+                           </select>
+                        </td>
+                        <td>
+                           <input type="text" className="rowInput" />
+                        </td>
+                        <td>
+                           <input type="text" className="rowInput" />
+                        </td>
+                     </tr>
+                  ))}
                   <tr className={css.addRowTr}>
                      <td></td>
                      <td>
@@ -300,60 +267,247 @@ const Addpurchaseitem = () => {
                </tbody>
             </table>
          </div>
-         
-         <section className="add-purchase-items-payment">
-            <aside className="add-purchase-items-payment-aside">
-               <div className="add-purchase-items-payment-div">
-                  <label htmlFor="">Payment Type</label>
-                  <select name="" id="">
-                     <option value="">Casch</option>
-                     <option value="">Select Items</option>
-                     <option value="">Select Items</option>
-                  </select>
+
+         {/* Bottom Section */}
+         <div className={css.bottomSectionOuter}>
+            <div className={css.bottomLeftSideCont}>
+               <div
+                  style={{
+                     display: "flex",
+                     alignItems: "Center",
+                     gap: "40px",
+                  }}
+               >
+                  {formData.total >= 1 && (
+                     <div style={{ position: "relative" }}>
+                        <Menu>
+                           <MenuButton
+                              as={Button}
+                              className={css.PartyTypeMenuBtn}
+                              rightIcon={<ArrowDown />}
+                              style={{ width: "150px" }}
+                           >
+                              {paymentTypeSelectTag}
+                           </MenuButton>
+                           <p className={css.PartyTypelabel}>Party Type</p>
+                           <MenuList className={css.menuListCss}>
+                              <MenuItem className={css.AddBankAccount}>
+                                 <PlusIcon />
+                                 Add Bank A/C
+                              </MenuItem>
+                              <MenuItem
+                                 style={{
+                                    color:
+                                       paymentTypeSelectTag == "Cash"
+                                          ? "var(--blueB)"
+                                          : "var(--greyA)",
+                                    background:
+                                       paymentTypeSelectTag == "Cash"
+                                          ? "var(--greyB)"
+                                          : "white",
+                                 }}
+                                 onClick={() => setPaymentTypeSelectTag("Cash")}
+                                 className={css.menuItemCss}
+                              >
+                                 Cash
+                              </MenuItem>
+                              <MenuItem
+                                 style={{
+                                    color:
+                                       paymentTypeSelectTag == "Cheque"
+                                          ? "var(--blueB)"
+                                          : "var(--greyA)",
+                                    background:
+                                       paymentTypeSelectTag == "Cheque"
+                                          ? "var(--greyB)"
+                                          : "white",
+                                 }}
+                                 onClick={() =>
+                                    setPaymentTypeSelectTag("Cheque")
+                                 }
+                                 className={css.menuItemCss}
+                              >
+                                 Cheque
+                              </MenuItem>
+                           </MenuList>
+                        </Menu>
+                     </div>
+                  )}
+                  {toggleCheckReferenceInp && (
+                     <div className={css.inputDiv}>
+                        <input
+                           type="number"
+                           value={checkReferenceInpval}
+                           name="checkReferenceInpval"
+                           onChange={(e) =>
+                              setCheckReferenceInpval(e.target.value)
+                           }
+                           className={css.BottomInput}
+                           style={{ width: "150px" }}
+                        />
+                        <label
+                           htmlFor=""
+                           className={
+                              checkReferenceInpval
+                                 ? css.BottomInpActiveLabel
+                                 : css.BottomInpInactiveLabel
+                           }
+                        >
+                           Reference No.
+                        </label>
+                     </div>
+                  )}
                </div>
-               <div className="add-purchase-items-payment-div">
-                  <button>+Add Payment type</button>
-               </div>
-               <div className="add-purchase-items-payment-div">
-                  <div>
-                     <CiFileOn />
-                     <p>Add Description</p>
+
+               {toggleDesc ? (
+                  <div className={css.inputDiv}>
+                     <textarea
+                        value={formData.addDescription}
+                        name="addDescription"
+                        onChange={handleInputChange}
+                        className={css.input}
+                        style={{ height: "110px", width: "230px" }}
+                     />
+                     <label
+                        htmlFor="addDescription"
+                        className={
+                           formData.addDescription
+                              ? css.activeLabel
+                              : css.inactiveLabel
+                        }
+                     >
+                        Description
+                     </label>
                   </div>
-               </div>
-               <div className="add-purchase-items-payment-div">
-                  <div>
-                     <CiImageOn />
-                     <p>Add Image</p>
-                  </div>
-               </div>
-            </aside>
-            <aside className="add-purchase-items-payment-aside">
-               <div className="add-purchase-items-payment-div add-purchase-items-payment-div2">
-                  <input
-                     className="add-purchase-items-payment-div-checkbox"
-                     type="checkbox"
-                     name=""
-                  />
-                  <label
-                     className="add-purchase-items-payment-div-label"
-                     htmlFor=""
+               ) : (
+                  <div
+                     onClick={(e) => {
+                        e.stopPropagation();
+                        setToggleDesc(true);
+                     }}
+                     className={css.addDecriptionDiv}
+                     style={{ width: "150px" }}
                   >
-                     Roun Off
-                  </label>
-                  <input
-                     className="add-purchase-items-payment-div-input"
-                     type="text"
-                     name=""
-                     id=""
-                     placeholder="0"
-                  />
-                  <aside className="add-purchase-items-payment-div-3">
-                     <label htmlFor="#">Total</label>
-                     <input type="text" name="" />
-                  </aside>
+                     <AddDecriptionIcon />
+                     <p>ADD DESCRIPTION</p>
+                  </div>
+               )}
+               <div
+                  onClick={(e) => {
+                     e.stopPropagation();
+                     setToggleDesc(true);
+                  }}
+                  className={css.addDecriptionDiv}
+                  style={{ width: "150px" }}
+               >
+                  <AddCameraIcon />
+                  <p>ADD IMAGE</p>
                </div>
-            </aside>
-         </section>
+               <div
+                  onClick={(e) => {
+                     e.stopPropagation();
+                     setToggleDesc(true);
+                  }}
+                  className={css.addDecriptionDiv}
+                  style={{ width: "150px" }}
+               >
+                  <AddDocumentIcon />
+                  <p>ADD DOCUMENT</p>
+               </div>
+            </div>
+
+            <div className={css.bottomRightSideCont}>
+               <div className={css.rightSideUpperInputsDiv}>
+                  <div className={css.roundOffDiv}>
+                     {toggleRoundOff ? (
+                        <CheckedBox
+                           onClick={(e) => {
+                              e.stopPropagation();
+                              setToggleRoundOff((prev) => !prev);
+                           }}
+                           className={css.checkedInpRoundOff}
+                        />
+                     ) : (
+                        <EmptyCheckedBox
+                           className={css.unCheckedInpRoundOff}
+                           onClick={(e) => {
+                              e.stopPropagation();
+                              setToggleRoundOff((prev) => !prev);
+                           }}
+                        />
+                     )}
+                     <p>Round Off</p>
+                     <input
+                        type="number"
+                        placeholder="0"
+                        disabled={!toggleRoundOff}
+                        className={css.roundOffNumInp}
+                     />
+                  </div>
+                  <div className={css.totalBottomDiv}>
+                     <p>Total</p>
+                     <input
+                        type="number"
+                        value={formData?.total}
+                        name="total"
+                        onChange={handleInputChange}
+                     />
+                  </div>
+               </div>
+               {formData.total >= 1 && (
+                  <div className={css.bottomRecievedOuterDiv}>
+                     <div className={css.totalBottomDiv}>
+                        <p>Received</p>
+                        <input
+                           type="number"
+                           placeholder="0"
+                           disabled={!toggleReceived}
+                           value={formData?.recived}
+                           name="recived"
+                           onChange={handleInputChange}
+                        />
+                     </div>
+                     {toggleReceived ? (
+                        <CheckedBox
+                           onClick={(e) => {
+                              e.stopPropagation();
+                              setToggleReceived((prev) => !prev);
+                           }}
+                           className={css.checkedInpRoundOff}
+                        />
+                     ) : (
+                        <EmptyCheckedBox
+                           className={css.unCheckedInpRoundOff}
+                           onClick={(e) => {
+                              e.stopPropagation();
+                              setToggleReceived((prev) => !prev);
+                           }}
+                        />
+                     )}
+                  </div>
+               )}
+               {formData.total >= 1 && (
+                  <div className={css.bottomBalanceOuterDiv}>
+                     <div>
+                        <span></span>
+                        <p>Balance</p>
+                        <p>{formData.total}</p>
+                     </div>
+                  </div>
+               )}
+            </div>
+         </div>
+
+         {/* Footer */}
+         <div className={css.FooterOuter}>
+            <button onClick={() => handleSubmit()}>
+               {isLoading ? "Saving" : "Save"}
+            </button>
+            <div className={css.shareBtn}>
+               <p>Share</p>
+               <ArrowDown />
+            </div>
+         </div>
       </div>
    );
 };

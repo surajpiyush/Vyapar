@@ -53,12 +53,12 @@ const Purchase = () => {
       });
    };
 
-   const handleSave = () => {
-      console.log(data);
-      dispatch(addPurchaseBill(data));
-      // alert("added Succesfully")
-      navigate("/purchasebill");
-   };
+   // const handleSave = () => {
+      // console.log(data);   
+      // dispatch(addPurchaseBill(data));
+      // // alert("added Succesfully")
+      // navigate("/purchasebill");
+   // };
    const [data, setData] = useState({
       partyName: "Krishan",
       phoneNumber: 1234567890,
@@ -72,31 +72,7 @@ const Purchase = () => {
       dueDate: "2024-03-17T00:00:00.000Z",
       stateOfSupply: "Some State",
       priceUnitWithTax: true,
-      sale: [
-         {
-            category: "65c5cfc509b34ca8a0187497",
-            itemName: "mobile",
-            itemCode: "001",
-            hsnCode: "HSN001",
-            serialNo: "SN001",
-            description: "Description of item 1",
-            batchNo: 1,
-            modelNo: 123,
-            expDate: "2025-02-16T00:00:00.000Z",
-            mfgDate: new Date(),
-
-            customField: "Custom field 1",
-            size: "Large",
-            qty: 10,
-            unit: "pcs",
-            priceUnit: 100,
-            discountpersant: 5,
-            discountAmount: 5,
-            taxPersant: "12%",
-            taxAmount: 12,
-            amount: 950,
-         },
-      ],
+      sale: [],
       paymentType: [
          {
             cash: 800,
@@ -140,7 +116,7 @@ const Purchase = () => {
             },
          })
          .then((res) => {
-            console.log(res.data.data.party[0].p);
+            // console.log(res.data.data.party[0].p);
             // setData(res.data.data.party);
             setOpen(res.data.data.party[0]?.openingBalance);
             setData({
@@ -213,13 +189,12 @@ const Purchase = () => {
                            <option value="">Loading Parties</option>
                         ) : (
                            partiesData?.map((party) => (
-                           <option key={party.id} value={party.partyName}>
-                              {party.partyName}
-                           </option>
-                        ))
+                              <option key={party.id} value={party.partyName}>
+                                 {party.partyName}
+                              </option>
+                           ))
                         )}
                      </select>
-                    
                   </div>
                   <div className={css.inputDiv}>
                      {" "}
@@ -245,24 +220,123 @@ const Purchase = () => {
                         Phone No.
                      </label>
                   </div>
-                  
+               </div>
+               <div className={css.selectOuter}>
+                  <div className={css.inputDiv}>
+                     <label
+                        htmlFor="PO No"
+                        className={
+                           data.phoneNumber
+                              ? css.activeLabel
+                              : css.inactiveLabel
+                        }
+                     >
+                        PO No.
+                     </label>
+                     <input
+                        type="text"
+                        name="poNo"
+                        // placeholder="PO No."
+                        // value={data.phoneNumber}
+                        className={css.input}
+                        // onChange={handleChange}
+                     />
+                  </div>
+                  <br />
+                  <div className={css.inputDiv}>
+                     <label
+                        htmlFor="PO Date"
+                        className={
+                           data.phoneNumber
+                              ? css.activeLabel
+                              : css.inactiveLabel
+                        }
+                     >
+                        PO No.
+                     </label>
+                     <input
+                        type="Date"
+                        name="poDate"
+                        // placeholder="PO Date"
+                        // value={data.phoneNumber}
+                        className={css.input}
+                        onChange={(e) => handleInputChange(e)}
+                     />
+                  </div>
+                  <br />
+                  <div className={css.inputDiv}>
+                     <label
+                        htmlFor="PO No"
+                        className={
+                           data.phoneNumber
+                              ? css.activeLabel
+                              : css.inactiveLabel
+                        }
+                     >
+                        E-Way Bill
+                     </label>
+                     <input
+                        type="text"
+                        name="eWayBill"
+                        // placeholder="PO No."
+                        // value={data.phoneNumber}
+                        className={css.input}
+                        // onChange={handleChange}
+                     />
+                  </div>
                </div>
 
                <div className={css.rightSideCont}>
                   <div>
-                     <p>Invoice Number</p>
+                     <p>Bill Number</p>
                      <input
                         type="text"
                         placeholder="1"
                         className={css.invoiceNumInp}
+                        onChange={(e) => handleInputChange(e)}
+                        name="billNumber"
                      />
                   </div>
                   <div>
-                     <p>Invoice Date</p>
+                     <p>Bill Date</p>
                      <input
                         type="date"
                         placeholder="Invoice Date"
                         className={css.invoiceDateSelectInp}
+                        onChange={(e) => handleInputChange(e)}
+                        name="billNumber"
+                     />
+                  </div>
+                  <div>
+                     <p>Time</p>
+                     <input
+                        type="time"
+                        placeholder="Invoice Date"
+                        className={css.invoiceDateSelectInp}
+                        onChange={(e) => handleInputChange(e)}
+                        name="time"
+                     />
+                  </div>
+
+                
+                  <div>
+                     <p>Payment Terms</p>
+                    <select name="paymentTerms" onChange={(e)=>handleInputChange(e)}>
+                     <option value="">Due On Recipt</option>
+                     <option value="net 15">Net 15</option>
+                     <option value="net 30">Net 30</option>
+                     <option value="net 45">Net 45</option>
+                     <option value="net 60">Net 60</option>
+                    </select>
+                  </div>
+                  <div>
+                     <p>Due Date</p>
+                     <input
+                        type="date"
+                        placeholder="Due Date"
+                        className={css.invoiceDateSelectInp}
+                        onChange={(e) => handleInputChange(e)}
+                        name="dueDate"
                      />
                   </div>
                   <div>
@@ -271,6 +345,7 @@ const Purchase = () => {
                         name="stateofsupply"
                         id=""
                         className={css.invoiceDateSelectInp}
+                        onSelect={(e)=>handleInputChange(e)}
                      >
                         <option value="">State</option>
                         <option value="Andhra Pradesh">Andhra Pradesh</option>
@@ -321,25 +396,10 @@ const Purchase = () => {
                </div>
             </div>
          </section>
+         <br /><br />
+        
          <section>
             <Addpurchaseitem data={data} />
-         </section>
-         <section className="addpurchase-footer">
-            <div>
-               <select name="" id="">
-                  <option value="">Share</option>
-               </select>
-            </div>
-            <div>
-               <button
-                  onClick={() => {
-                     console.log("Clicked");
-                     handleSave();
-                  }}
-               >
-                  Save
-               </button>
-            </div>
          </section>
       </div>
    );

@@ -37,7 +37,7 @@ const Transactions = () => {
    const companyID = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
    const token = localStorage.getItem("token");
    const store = useSelector((store) => store.PurchaseReducer);
-   const showAllPurchaseBills = store.purchaseBillData
+   const showAllPurchaseBills = store.purchaseBillData;
    // console.log(store)
    const date = {
       startDate: "2023-01-20",
@@ -47,7 +47,6 @@ const Transactions = () => {
    useEffect(() => {
       // getPurchaseBill(dispatch(date))
       dispatch(getPurchaseBill({ date }));
-     
    }, []);
 
    return (
@@ -81,6 +80,10 @@ const Transactions = () => {
                </div>
                <div className="transaction-table">
                   <p>BALANCE DUE</p>
+                  <FilterIcon />
+               </div>
+               <div className="transaction-table">
+                  <p>STATUS</p>
                   <FilterIcon />
                </div>
                <div className="transaction-table">
@@ -122,6 +125,9 @@ const Transactions = () => {
                      </div>
                      <div className="transaction-table">
                         <p className="transaction-table">{e.balance}</p>
+                     </div>
+                     <div className="transaction-table">
+                        <p className="transaction-table">{e.status}</p>
                      </div>
                      <div className="transaction-table">
                         <p>
