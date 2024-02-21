@@ -28,22 +28,22 @@ export const addItem = (newItem) => (dispatch) => {
 export const getitems = () => async (dispatch) => {
   dispatch({ type: ITEM_REQUEST });
 
-  try {
-    if (!token) {
-      dispatch({ type: ITEM_FAILURE });
-      return;
-    }
+  if (!token) {
+    dispatch({ type: ITEM_FAILURE });
+    return;
+  }
 
-    const response = await axios.get(`${baseURL}/${userId}/item/allItem`, {
+  axios
+    .get(`${baseURL}/${userId}/item/allItem`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+    })
+    .then((response) => {
+      dispatch({ type: GET_ITEM_SUCCESS, payload: response.data });
+    })
+    .catch((error) => {
+      dispatch({ type: ITEM_FAILURE });
     });
-    // console.log(response)
-    dispatch({ type: GET_ITEM_SUCCESS, payload: response.data });
-    return response;
-  } catch (error) {
-    dispatch({ type: ITEM_FAILURE });
-    throw error;
-  }
+  // throw error;
 };
