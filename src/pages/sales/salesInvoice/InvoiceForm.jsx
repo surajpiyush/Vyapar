@@ -1,5 +1,9 @@
 import css from "../../../styles/SalesStyles/SalesForms.module.css";
-import { PostSalesInvoice } from "../../../Redux/sales/action";
+import {
+  CalculateFinalAmount,
+  PostSalesInvoice,
+} from "../../../Redux/sales/action";
+import { GetSingleItem, GetAllItems } from "../../../Redux/items/actions";
 import { FetchAllParties } from "../../../Redux/parties/actions";
 
 import {
@@ -13,6 +17,7 @@ import {
   MenuOptionGroup,
   MenuDivider,
   useToast,
+  Input,
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,13 +30,29 @@ import { HiMiniDocumentText as AddDocumentIcon } from "react-icons/hi2";
 import { BiSolidCameraPlus as AddCameraIcon } from "react-icons/bi";
 import { ImCheckboxUnchecked as EmptyCheckedBox } from "react-icons/im";
 import { BiSolidCheckboxChecked as CheckedBox } from "react-icons/bi";
+import ItemsForm from "../../../components/addForm/ItemsForm";
 
 const InvoiceForm = () => {
   const toast = useToast();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.SalesReducer.isLoading);
   const partiesLoading = useSelector((state) => state.PartiesReducer.isLoading);
+  const togglePartiesData = useSelector(
+    (state) => state.PartiesReducer.togglePartiesData
+  );
   const partiesData = useSelector((state) => state.PartiesReducer.partiesData);
+  const toggleItems = useSelector((state) => state.ItemReducer.toggleItems);
+  const getAllItemsLoading = useSelector(
+    (state) => state.ItemReducer.getAllItemsLoading
+  );
+  const toggleGetItemSuccess = useSelector(
+    (state) => state.ItemReducer.toggleGetItemSuccess
+  );
+  const singleItemData = useSelector(
+    (state) => state.ItemReducer.singleItemData
+  );
+
+  const items = useSelector((state) => state.ItemReducer.items);
 
   const [toggleDesc, setToggleDesc] = useState(false);
   const [toggleRoundOff, setToggleRoundOff] = useState(false);
@@ -40,6 +61,28 @@ const InvoiceForm = () => {
   const [paymentTypeSelectTag, setPaymentTypeSelectTag] = useState("Cash");
   const [checkReferenceInpval, setCheckReferenceInpval] = useState("");
   const [currentCustomerData, setCurrentCustomerData] = useState({});
+  const [selectedpartyName, setSelectedPartyName] = useState("");
+  const [topMarginAddDescriptionInp, setTopMarginAddDescriptionInp] =
+    useState("");
+  const [showItemsListMenu, setShowItemsListMenu] = useState(false);
+  const [indexSaleItem, setIndexSaleItem] = useState(0);
+
+  const [itemObj, setItemObj] = useState({
+    itemName: "",
+    qty: "",
+    unit: "",
+    priceUnit: "",
+    discountpersant: "",
+    discountAmount: "",
+    taxPersant: "",
+    taxAmount: "",
+    amount: "",
+  });
+  const [itemSearchterm, setItemSearchterm] = useState("");
+  const [foundItems, setFoundItems] = useState([]);
+  const [itemIdToGet, setItemIdToGet] = useState("");
+  const [rowFooterData, setRowFooterData] = useState({});
+  const [showItemForm, setShowItemForm] = useState(false);
 
   const [invoiceData, setInvoiceData] = useState({
     type: "Credit",
@@ -60,26 +103,26 @@ const InvoiceForm = () => {
     priceUnitWithTax: "false",
     sale: [
       {
-        category: "Category A",
-        itemName: "mobile",
-        itemCode: "ABC123",
-        hsnCode: "HSN123",
-        serialNo: "S123",
-        description: "Description of item 1",
-        batchNo: 1,
-        modelNo: 123,
-        expDate: "2025-02-09",
-        mfgDate: "2023-01-01",
-        customField: "Custom Field Value",
-        size: "Size A",
-        qty: 2,
+        itemName: "",
+        qty: "",
         unit: "",
-        priceUnit: 100,
-        discountpersant: 5,
-        discountAmount: 10,
-        taxPersant: "5%",
-        taxAmount: 5,
-        amount: 195,
+        priceUnit: "",
+        discountpersant: "",
+        discountAmount: "",
+        taxPersant: "",
+        taxAmount: "",
+        amount: "",
+        // category: "Category A",
+        // itemCode: "ABC123",
+        // hsnCode: "HSN123",
+        // serialNo: "S123",
+        //  description: "Description of item 1",
+        //  batchNo: 1,
+        //  modelNo: 123,
+        //  expDate: "2025-02-09",
+        //  mfgDate: "2023-01-01",
+        //  customField: "Custom Field Value",
+        //  size: "Size A",
       },
     ],
     paymentType: [
@@ -109,8 +152,8 @@ const InvoiceForm = () => {
     total: 0,
     recived: 350,
     balance: -155,
-    firmId: "609c17662c40e244bc6ebd4a",
-    userId: "609c17662c40e244bc6ebd4b",
+    firmId: "",
+    userId: "",
   });
   /* Payment Type
  paymentType: [
@@ -129,6 +172,23 @@ const InvoiceForm = () => {
     ],
   */
 
+  useEffect(() => {
+    let footerObj = { totalQty: 0, totalAmount: 0 };
+    invoiceData?.sale?.forEach((item) => {
+      if (Number(item?.qty)) {
+        footerObj.totalQty += Number(item?.qty);
+      }
+      if (Number(item?.qty) && Number(item?.priceUnit)) {
+        footerObj.totalAmount += Number(item?.qty) * Number(item?.priceUnit);
+      }
+    });
+    //  console.log(footerObj);
+    setRowFooterData(footerObj);
+  }, [
+    invoiceData?.sale[indexSaleItem]?.qty,
+    invoiceData?.sale[indexSaleItem]?.priceUnit,
+  ]);
+
   // Submit Request Function
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -136,8 +196,8 @@ const InvoiceForm = () => {
       type: invoiceData.type,
       status: "Pending",
       // invoice data need to be changed to customer id after krishna sir change it in backend
-      customerName: currentCustomerData?.partyName,
-      billingName: currentCustomerData?.partyName,
+      customerName: invoiceData?.customerName,
+      billingName: invoiceData?.customerName,
       billingAddress: invoiceData?.billingAddress,
       phoneNumber: invoiceData?.phoneNumber,
       invoiceNumber: invoiceData?.invoiceNumber,
@@ -145,24 +205,85 @@ const InvoiceForm = () => {
       stateOfSupply: invoiceData?.stateOfSupply,
       priceUnitWithTax: invoiceData?.priceUnitWithTax == "true",
       sale: invoiceData?.sale,
+      firmId: invoiceData?.firmId,
+      userId: invoiceData?.userId,
+      addDescription: invoiceData?.addDescription,
+      total: rowFooterData?.totalAmount,
+      tax: {
+        tax: "5%",
+        taxamount: 5,
+      },
+      roundOff: 0,
+      recived: 350,
+      balance: -155,
     };
     console.log("data", data);
 
-    // PostSalesInvoice(dispatch, invoiceData,toast,);
+    PostSalesInvoice(dispatch, toast, invoiceData);
   };
+
+  // useEffect to set current user Name
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    setInvoiceData((prev) => {
+      return { ...prev, userId };
+    });
+  }, []);
 
   // for fetching all parties list on form mount
   useEffect(() => {
     FetchAllParties(dispatch);
-  }, []);
+  }, [togglePartiesData]);
+
+  // for fetching all items list on form mount
+  useEffect(() => {
+    dispatch(GetAllItems());
+  }, [toggleItems]);
+
+  // Search Item
+  useEffect(() => {
+    const regex = new RegExp(itemSearchterm, "i");
+    const foundItem = items?.filter((ite) => regex.test(ite.itemName));
+    setFoundItems(foundItem);
+  }, [itemSearchterm]);
+
+  // send single item get request
+  useEffect(() => {
+    let newSaleData = invoiceData?.sale?.map((item, ind) => {
+      if (ind == indexSaleItem) {
+        return itemObj;
+      } else {
+        return item;
+      }
+    });
+
+    setInvoiceData((prev) => {
+      return { ...prev, sale: newSaleData };
+    });
+  }, [itemIdToGet]);
 
   // This useEffect changes current customer/party Data
   useEffect(() => {
     const currentPartyData = partiesData.filter(
-      (item) => item._id == invoiceData.customerName
+      (item) => item._id == selectedpartyName
     );
-    setCurrentCustomerData(currentPartyData[0]);
-  }, [invoiceData.customerName]);
+    if (currentPartyData.length > 0) {
+      setCurrentCustomerData(currentPartyData[0]);
+    }
+  }, [selectedpartyName]);
+
+  useEffect(() => {
+    let obj = {
+      customerName: currentCustomerData?.partyName || "",
+      billingName: currentCustomerData?.partyName || "",
+      phoneNumber: currentCustomerData?.phoneNumber || "",
+      stateOfSupply: currentCustomerData?.stateOfSupply || "",
+      firmId: currentCustomerData?._id || "",
+    };
+    setInvoiceData((prev) => {
+      return { ...prev, ...obj };
+    });
+  }, [currentCustomerData]);
 
   // To Show Reference Input
   useEffect(() => {
@@ -173,8 +294,16 @@ const InvoiceForm = () => {
     }
   }, [paymentTypeSelectTag]);
 
+  // Party Select tag input change
+  const handlePartySelectChange = (e) => {
+    e.stopPropagation();
+    const { name, value } = e.target;
+    setSelectedPartyName(value);
+  };
+
   // Input Change Function
   const handleInputChange = (e) => {
+    e.stopPropagation();
     const { name, value } = e.target;
     setInvoiceData((prev) => {
       return { ...prev, [name]: value };
@@ -182,14 +311,34 @@ const InvoiceForm = () => {
   };
 
   // Items Change Function
-  const handleItemsChange = (e, item, index) => {
+  const handleItemsChange = (e) => {
+    e.stopPropagation();
     const { name, value } = e.target;
-    let newSaleData = invoiceData?.sale.map((ite, ind) => {
-      if (ind != index) return ite;
-      let newObj = { ...ite, [name]: value };
-      return newObj;
+    let currSaleItem = { ...invoiceData?.sale[indexSaleItem], [name]: value };
+    let newSaleData = invoiceData?.sale.map((ite, ind) =>
+      ind == indexSaleItem ? currSaleItem : ite
+    );
+    setInvoiceData((prev) => {
+      return { ...prev, sale: newSaleData };
     });
-    console.log("newSaleData", newSaleData);
+  };
+
+  // handleNumericChanges
+  const handleNumericChanges = (e, item) => {
+    const { name, value } = e.target;
+    // console.log("item", item);
+    const ans = CalculateFinalAmount(
+      item?.qty,
+      item?.priceUnit,
+      item?.discountpersant,
+      item?.discountAmount,
+      item?.taxPersant
+    );
+
+    let currSaleItem = { ...invoiceData?.sale[indexSaleItem], ...ans };
+    let newSaleData = invoiceData?.sale.map((ite, ind) =>
+      ind == indexSaleItem ? currSaleItem : ite
+    );
     setInvoiceData((prev) => {
       return { ...prev, sale: newSaleData };
     });
@@ -200,26 +349,35 @@ const InvoiceForm = () => {
     e.stopPropagation();
     setInvoiceData((prev) => {
       let newRowData = {
-        category: "Category A",
-        itemName: "mobile",
-        itemCode: "ABC123",
-        hsnCode: "HSN123",
-        serialNo: "S123",
-        description: "Description of item 1",
-        batchNo: 1,
-        modelNo: 123,
-        expDate: "2025-02-09",
-        mfgDate: "2023-01-01",
-        customField: "Custom Field Value",
-        size: "Size A",
-        qty: 2,
-        unit: "None",
-        priceUnit: 100,
-        discountpersant: 5,
-        discountAmount: 10,
-        taxPersant: "5%",
-        taxAmount: 5,
-        amount: 195,
+        itemName: "",
+        qty: 1,
+        unit: "",
+        priceUnit: 0,
+        discountpersant: 0,
+        discountAmount: 0,
+        taxPersant: "",
+        taxAmount: 0,
+        amount: 0,
+        // category: "",
+        // itemName: "",
+        // itemCode: "",
+        // hsnCode: "",
+        // serialNo: "",
+        // description: "",
+        // batchNo: 1,
+        // modelNo: 1,
+        // expDate: "",
+        // mfgDate: "",
+        // customField: "",
+        // size: "",
+        // qty: 1,
+        // unit: "None",
+        // priceUnit: "",
+        // discountpersant: "",
+        // discountAmount: "",
+        // taxPersant: "",
+        // taxAmount: "",
+        // amount: "",
       };
       let obj = { ...prev, sale: [...prev.sale, newRowData] };
       return obj;
@@ -229,7 +387,9 @@ const InvoiceForm = () => {
   // Delete Row Function
   const handleDeleteRow = (e, index, item) => {
     e.stopPropagation();
-    const deletedRowdata = invoiceData.sale.filter((ite, ind) => ind != index);
+    const deletedRowdata = invoiceData.sale.filter(
+      (ite, ind) => ind != indexSaleItem
+    );
     setInvoiceData((prev) => {
       return { ...prev, sale: deletedRowdata };
     });
@@ -273,14 +433,16 @@ const InvoiceForm = () => {
       </div>
 
       <div className={css.ContentContainerDiv}>
+        {showItemForm && <ItemsForm func={setShowItemForm} />}
+
         {/* Middle  */}
         <div className={css.middleOuter}>
           <div className={css.leftSideCont}>
             <div className={css.selectOuter}>
               <select
                 name="customerName"
-                value={invoiceData.customerName}
-                onChange={handleInputChange}
+                value={selectedpartyName}
+                onChange={handlePartySelectChange}
                 className={css.selectTag}
                 placeholder="test"
                 required
@@ -463,44 +625,120 @@ const InvoiceForm = () => {
               </tr>
             </thead>
             <tbody>
-              {invoiceData.sale?.map((item, ind) => (
-                <tr
-                  style={{
-                    background:
-                      ind % 2 == 0 ? "var(--greyishBlue)" : "var(--greyB)",
-                  }}
-                  key={ind + item?.itemName}
-                >
-                  <td className={css.serialNumberBody}>
-                    <div>
-                      <MoveIcon className={css.serialIconsBody} />
-                      <p>{ind + 1}</p>
-                      <DeleteIcon
-                        onClick={(e) => handleDeleteRow(e, ind, item)}
-                        className={css.serialIconsBody}
+              {invoiceData.sale?.map((item, ind) => {
+                const calculated = CalculateFinalAmount(
+                  item?.qty,
+                  item?.priceUnit,
+                  item?.discountpersant,
+                  item?.discountAmount,
+                  item?.taxPersant
+                );
+                item = { ...item, calculated };
+                // console.log("calculated", calculated);
+                return (
+                  <tr
+                    style={{
+                      background:
+                        ind % 2 == 0 ? "var(--greyishBlue)" : "var(--greyB)",
+                    }}
+                    key={ind + item?.itemName}
+                    onFocus={() => {
+                      setIndexSaleItem(ind);
+                      setShowItemsListMenu(true);
+                    }}
+                    onBlur={() => {
+                      setShowItemsListMenu(false);
+                    }}
+                  >
+                    <td className={css.serialNumberBody}>
+                      <div>
+                        <MoveIcon className={css.serialIconsBody} />
+                        <p>{ind + 1}</p>
+                        <DeleteIcon
+                          onClick={(e) => handleDeleteRow(e, ind, item)}
+                          className={css.serialIconsBody}
+                        />
+                      </div>
+                    </td>
+                    <td
+                      className={css.itemNameBody}
+                      style={{ position: "relative" }}
+                      onFocus={() => setShowItemsListMenu(true)}
+                    >
+                      <Menu isOpen={showItemsListMenu && ind == indexSaleItem}>
+                        <input
+                          type="text"
+                          name="itemName"
+                          value={item.itemName}
+                          onChange={(e) => {
+                            handleItemsChange(e);
+                            setItemSearchterm(e.target.value);
+                          }}
+                          className={css.tableInputs}
+                          required
+                          onFocus={() => {
+                            setIndexSaleItem(ind);
+                            setShowItemsListMenu(true);
+                          }}
+                          onBlur={() => setShowItemsListMenu(false)}
+                        />
+                        <MenuList
+                          style={{
+                            position: "absolute",
+                            marginTop: `140px`,
+                          }}
+                          onFocus={() => setShowItemsListMenu(true)}
+                        >
+                          <MenuItem onClick={() => setShowItemForm(true)}>
+                            Add Item
+                          </MenuItem>
+                          {item?.itemName.length > 0 &&
+                            foundItems?.map((item) => (
+                              <MenuItem
+                                key={item?._id}
+                                onClick={() => {
+                                  setItemObj(item);
+                                  setItemIdToGet(item?._id);
+                                  setShowItemsListMenu(false);
+                                }}
+                              >
+                                {item?.itemName}
+                              </MenuItem>
+                            ))}
+                        </MenuList>
+                      </Menu>
+                    </td>
+                    <td className={css.qtyBody}>
+                      <input
+                        type="number"
+                        value={item?.qty}
+                        name="qty"
+                        placeholder="1"
+                        onChange={handleItemsChange}
+                        // onChange={(e) => {
+                        //   const ans = CalculateFinalAmount(
+                        //     e.target.value,
+                        //     item.priceUnit,
+                        //     item.discountpersant,
+                        //     item.discountAmount,
+                        //     item.taxPersant
+                        //   );
+                        //   let currSaleItem = {
+                        //     ...invoiceData?.sale[indexSaleItem],
+                        //     ...ans,
+                        //   };
+                        //   let newSaleData = invoiceData?.sale.map((ite, ind) =>
+                        //     ind == indexSaleItem ? currSaleItem : ite
+                        //   );
+                        //   setInvoiceData((prev) => {
+                        //     return { ...prev, sale: newSaleData };
+                        //   });
+                        // }}
+                        className={css.tableInputs}
                       />
-                    </div>
-                  </td>
-                  <td className={css.itemNameBody}>
-                    <input
-                      type="text"
-                      name="itemName"
-                      value={item.itemName}
-                      onChange={(e) => handleItemsChange(e, item, ind)}
-                      className={css.tableInputs}
-                      required
-                    />
-                  </td>
-                  <td className={css.qtyBody}>
-                    <input
-                      type="number"
-                      value={item.qty}
-                      onChange={handleInputChange}
-                      className={css.tableInputs}
-                    />
-                  </td>
-                  <td className={css.unitBody} placeholder="None">
-                    {/* <select name="" id="" >
+                    </td>
+                    <td className={css.unitBody} placeholder="None">
+                      {/* <select name="" id="" >
                       <option value="">None</option>
                       <option value="Bags">Bags</option>
                       <option value="Bottles">Bottles</option>
@@ -508,101 +746,217 @@ const InvoiceForm = () => {
                       <option value="Bundle">Bundle</option>
                       <option value="Can">Can</option>
                     </select> */}
-                    <input
-                      type="text"
-                      value={item.unit}
-                      onChange={handleInputChange}
-                      className={css.tableInputs}
-                      placeholder="NONE"
-                      style={{
-                        background: "transparent",
-                        fontSize: "14px",
-                        fontWeight: 400,
-                        textAlign: "left",
-                      }}
-                      // required
-                    />
-                  </td>
-                  <td className={css.qtyBody}>
-                    <input
-                      type="number"
-                      value={item.priceUnit}
-                      onChange={handleInputChange}
-                      placeholder="0"
-                      className={css.tableInputs}
-                    />
-                  </td>
-                  <td className={css.DiscountBody}>
-                    <input
-                      type="number"
-                      value={item.discountAmount}
-                      onChange={handleInputChange}
-                      placeholder="0"
-                      className={css.tableInputs}
-                    />
-                    <input
-                      type="number"
-                      value={item.discountpersant}
-                      onChange={handleInputChange}
-                      placeholder="0"
-                      className={css.tableInputs}
-                    />
-                  </td>
-                  <td className={css.ItemTaxBody}>
-                    <span>
-                      <div>
-                        <select name="" id="">
-                          <option value="">None</option>
-                          <option value="IGST@0%">IGST@0%</option>
-                          <option value="GST@0%">GST@0%</option>
-                          <option value="IGST@0.25%">IGST@0.25%</option>
-                          <option value="GST@0.25%">GST@0.25%</option>
-                          <option value="IGST@3%">IGST@3%</option>
-                          <option value="GST@3%">GST@3%</option>
-                          <option value="IGST@5%">IGST@5%</option>
-                          <option value="GST@5%">GST@5%</option>
-                          <option value="IGST@12%">IGST@12%</option>
-                          <option value="GST@12%">GST@12%</option>
-                          <option value="IGST@18%">IGST@18%</option>
-                          <option value="GST@18%">GST@18%</option>
-                          <option value="IGST@28%">IGST@28%</option>
-                          <option value="GST@28%">GST@28%</option>
-                        </select>
-                      </div>
+                      <input
+                        type="text"
+                        value={item.unit}
+                        className={css.tableInputs}
+                        name="unit"
+                        placeholder="NONE"
+                        onChange={handleItemsChange}
+                        style={{
+                          background: "transparent",
+                          fontSize: "14px",
+                          fontWeight: 400,
+                          textAlign: "left",
+                        }}
+                        // required
+                      />
+                    </td>
+                    <td className={css.qtyBody}>
                       <input
                         type="number"
-                        value={item.taxAmount}
-                        onChange={handleInputChange}
+                        value={item.priceUnit}
                         placeholder="0"
+                        name="priceUnit"
+                        onChange={handleItemsChange}
+                        // onChange={(e) => {
+                        //   const ans = CalculateFinalAmount(
+                        //     item.qty,
+                        //     e.target.value,
+                        //     item.discountpersant,
+                        //     item.discountAmount,
+                        //     item.taxPersant
+                        //   );
+
+                        //   let currSaleItem = {
+                        //     ...invoiceData?.sale[indexSaleItem],
+                        //     ...ans,
+                        //   };
+                        //   let newSaleData = invoiceData?.sale.map((ite, ind) =>
+                        //     ind == indexSaleItem ? currSaleItem : ite
+                        //   );
+                        //   setInvoiceData((prev) => {
+                        //     return { ...prev, sale: newSaleData };
+                        //   });
+                        // }}
                         className={css.tableInputs}
                       />
-                    </span>
-                  </td>
-                  <td className={css.qtyBody}>
-                    <input
-                      type="number"
-                      value={item.amount}
-                      onChange={handleInputChange}
-                      placeholder="0"
-                      className={css.tableInputs}
-                    />
-                  </td>
-                </tr>
-              ))}
+                    </td>
+                    <td className={css.DiscountBody}>
+                      <input
+                        type="number"
+                        value={item.discountpersant}
+                        placeholder="0"
+                        name="discountpersant"
+                        onChange={handleItemsChange}
+                        // onChange={(e) => {
+                        //   const ans = CalculateFinalAmount(
+                        //     item.qty,
+                        //     item.priceUnit,
+                        //     e.target.value,
+                        //     item.discountAmount,
+                        //     item.taxPersant
+                        //   );
+                        //   let currSaleItem = {
+                        //     ...invoiceData?.sale[indexSaleItem],
+                        //     ...ans,
+                        //   };
+                        //   let newSaleData = invoiceData?.sale.map((ite, ind) =>
+                        //     ind == indexSaleItem ? currSaleItem : ite
+                        //   );
+                        //   setInvoiceData((prev) => {
+                        //     return { ...prev, sale: newSaleData };
+                        //   });
+                        // }}
+                        className={css.tableInputs}
+                      />
+                      <input
+                        type="number"
+                        //  value={item.discountAmount}
+                        value={item.discountAmount}
+                        placeholder="0"
+                        name="discountAmount"
+                        onChange={handleItemsChange}
+                        // onChange={(e) => {
+                        //   const ans = CalculateFinalAmount(
+                        //     item.qty,
+                        //     item.priceUnit,
+                        //     item.discountpersant,
+                        //     e.target.value,
+                        //     item.taxPersant
+                        //   );
+                        //   console.log("ans", ans);
+                        //   let currSaleItem = {
+                        //     ...invoiceData?.sale[indexSaleItem],
+                        //     ...ans,
+                        //   };
+                        //   let newSaleData = invoiceData?.sale.map((ite, ind) =>
+                        //     ind == indexSaleItem ? currSaleItem : ite
+                        //   );
+                        //   setInvoiceData((prev) => {
+                        //     return { ...prev, sale: newSaleData };
+                        //   });
+                        // }}
+                        className={css.tableInputs}
+                      />
+                    </td>
+                    <td className={css.ItemTaxBody}>
+                      <span>
+                        <div>
+                          <select
+                            value={item.taxPersant}
+                            name="taxPersant"
+                            // onChange={(e) => {
+                            //   const ans = CalculateFinalAmount(
+                            //     item.qty,
+                            //     item.priceUnit,
+                            //     item.discountpersant,
+                            //     item.discountAmount,
+                            //     Number(e.target.value)
+                            //   );
+                            //   let currSaleItem = {
+                            //     ...invoiceData?.sale[indexSaleItem],
+                            //     ...ans,
+                            //   };
+                            //   let newSaleData = invoiceData?.sale.map(
+                            //     (ite, ind) =>
+                            //       ind == indexSaleItem ? currSaleItem : ite
+                            //   );
+                            //   setInvoiceData((prev) => {
+                            //     return { ...prev, sale: newSaleData };
+                            //   });
+                            // }}
+                            onChange={handleItemsChange}
+                          >
+                            <option value="">None</option>
+                            <option value="0">IGST@0%</option>
+                            <option value="0">GST@0%</option>
+                            <option value="0.25">IGST@0.25%</option>
+                            <option value="0.25">GST@0.25%</option>
+                            <option value="3">IGST@3%</option>
+                            <option value="3">GST@3%</option>
+                            <option value="5">IGST@5%</option>
+                            <option value="5">GST@5%</option>
+                            <option value="12">IGST@12%</option>
+                            <option value="12">GST@12%</option>
+                            <option value="18">IGST@18%</option>
+                            <option value="18">GST@18%</option>
+                            <option value="28">IGST@28%</option>
+                            <option value="28">GST@28%</option>
+                          </select>
+                        </div>
+                        <input
+                          type="number"
+                          value={item.taxAmount}
+                          placeholder="0"
+                          name="taxAmount"
+                          onChange={(e) => handleNumericChanges(e, item)}
+                          className={css.tableInputs}
+                          readOnly
+                        />
+                      </span>
+                    </td>
+                    <td className={css.qtyBody}>
+                      <input
+                        type="number"
+                        value={(item?.qty * item?.priceUnit).toFixed(2)}
+                        placeholder="0"
+                        name="amount"
+                        // onChange={(e) => {
+                        //   const ans = CalculateFinalAmount(
+                        //     item.qty,
+                        //     item.priceUnit,
+                        //     item.discountpersant,
+                        //     item.discountAmount,
+                        //     item.taxPersant
+                        //   );
+                        //   let currSaleItem = {
+                        //     ...invoiceData?.sale[indexSaleItem],
+                        //     ...ans,
+                        //   };
+                        //   let newSaleData = invoiceData?.sale.map((ite, ind) =>
+                        //     ind == indexSaleItem ? currSaleItem : ite
+                        //   );
+                        //   setInvoiceData((prev) => {
+                        //     return { ...prev, sale: newSaleData };
+                        //   });
+                        // }}
+                        onChange={handleItemsChange}
+                        className={css.tableInputs}
+                        readOnly
+                      />
+                    </td>
+                  </tr>
+                );
+              })}
               <tr className={css.addRowTr}>
                 <td></td>
                 <td>
                   <div className={css.actualAddRowTd}>
-                    <button onClick={handleAddRow}>ADD ROW</button>
+                    <button onClick={handleAddRow} type="button">
+                      ADD ROW
+                    </button>
                     <p>Total</p>
                   </div>
                 </td>
-                <td className={css.addRowChildTd}>1</td>
+                <td className={css.addRowChildTd}>{rowFooterData?.totalQty}</td>
                 <td></td>
                 <td></td>
                 <td className={css.addRowChildTd}>0</td>
                 <td className={css.addRowChildTd}>0</td>
-                <td className={css.addRowChildTd}>10</td>
+                <td className={css.addRowChildTd}>
+                  {rowFooterData?.totalAmount}
+                </td>
               </tr>
             </tbody>
           </table>
@@ -620,12 +974,17 @@ const InvoiceForm = () => {
             >
               {invoiceData.total >= 1 && (
                 <div style={{ position: "relative" }}>
-                  <Menu>
+                  <Menu
+                    offset={[0, 0]}
+                    onOpen={() => setTopMarginAddDescriptionInp("110px")}
+                    onClose={() => setTopMarginAddDescriptionInp("0px")}
+                  >
                     <MenuButton
                       as={Button}
                       className={css.PartyTypeMenuBtn}
                       rightIcon={<ArrowDown />}
                       style={{ width: "150px" }}
+                      type="button"
                     >
                       {paymentTypeSelectTag}
                     </MenuButton>
@@ -696,13 +1055,19 @@ const InvoiceForm = () => {
             </div>
 
             {toggleDesc ? (
-              <div className={css.inputDiv}>
+              <div
+                className={css.inputDiv}
+                style={{ marginTop: topMarginAddDescriptionInp }}
+              >
                 <textarea
                   value={invoiceData.addDescription}
                   name="addDescription"
                   onChange={handleInputChange}
                   className={css.input}
-                  style={{ height: "110px", width: "230px" }}
+                  style={{
+                    height: "110px",
+                    width: "230px",
+                  }}
                 />
                 <label
                   htmlFor="addDescription"
@@ -722,7 +1087,9 @@ const InvoiceForm = () => {
                   setToggleDesc(true);
                 }}
                 className={css.addDecriptionDiv}
-                style={{ width: "150px" }}
+                style={{
+                  width: "150px",
+                }}
               >
                 <AddDecriptionIcon />
                 <p>ADD DESCRIPTION</p>
@@ -731,7 +1098,6 @@ const InvoiceForm = () => {
             <div
               onClick={(e) => {
                 e.stopPropagation();
-                setToggleDesc(true);
               }}
               className={css.addDecriptionDiv}
               style={{ width: "150px" }}
@@ -742,7 +1108,6 @@ const InvoiceForm = () => {
             <div
               onClick={(e) => {
                 e.stopPropagation();
-                setToggleDesc(true);
               }}
               className={css.addDecriptionDiv}
               style={{ width: "150px" }}

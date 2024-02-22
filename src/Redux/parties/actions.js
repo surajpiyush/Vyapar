@@ -20,12 +20,12 @@ import axios from "axios";
 // ----------------------- Fetch All Parties Data Function ---- Didn't applied function curring due to thunk error in store.js
 export const FetchAllParties = async (dispatch) => {
   dispatch({ type: FETCH_PARTIES_LOADING });
-  const companyID = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const userId = JSON.parse(localStorage.getItem(USER_DETAILS))?.userId;
   const token = localStorage.getItem("token");
 
   try {
     const response = await axios.get(
-      `https://ca-backend-api.onrender.com/${companyID}/party/getAll`,
+      `https://ca-backend-api.onrender.com/${userId}/party/getAll`,
       {
         headers: {
           Authorization: `Bearer ${token} `,
@@ -33,6 +33,7 @@ export const FetchAllParties = async (dispatch) => {
       }
     );
 
+    // console.log("Parties Data:", response?.data);
     dispatch({ type: FETCH_PARTIES_SUCCESS, payload: response?.data?.data });
   } catch (error) {
     dispatch({ type: FETCH_PARTIES_ERROR });

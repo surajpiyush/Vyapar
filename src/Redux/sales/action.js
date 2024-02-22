@@ -95,7 +95,8 @@ export const PostSalesEstimates = async (dispatch, data) => {
 };
 
 // Post Sales Invoice Request
-export const PostSalesInvoice = async (dispatch, data) => {
+export const PostSalesInvoice = async (dispatch, toast, data) => {
+  toast.closeAll();
   dispatch(IS_LOADING());
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
@@ -113,11 +114,16 @@ export const PostSalesInvoice = async (dispatch, data) => {
     //  console.log("Post Sales Estimate Response:", response?.data);
 
     dispatch(POST_SALES_INVOICE_SUCCESS());
-    alert("Sales Invoice Added ✔️");
+    toast({ title: "Sales Invoice Added", status: "success" });
+    // alert("Sales Invoice Added ✔️");
   } catch (error) {
     dispatch(IS_ERROR());
     console.log("Post Sales Invoice Response:", error);
-    alert(error?.response?.data?.message || "Something Went Wrong!");
+    toast({
+      title: "Something Went Wrong!",
+      description: error?.response?.data?.message,
+      status: "error",
+    });
   }
 };
 
@@ -201,3 +207,60 @@ export const PostSalesPayment = async (dispatch, data) => {
     alert(error?.response?.data?.message || "Something Went Wrong!");
   }
 };
+
+// Calculator Funtion ----------------
+export function CalculateFinalAmount(
+  qty = 1,
+  priceUnit = 0,
+  discountpersant = 0,
+  discountAmount = 0,
+  taxPersant = 0
+) {
+  let totalPrice = qty * priceUnit;
+
+  // Apply discount if discount percent or discount amount is provided
+  let discountedAmount;
+  let calculatedDiscountPercent;
+  if (discountpersant) {
+    discountedAmount = totalPrice * (discountpersant / 100);
+    totalPrice -= discountedAmount;
+    calculatedDiscountPercent = discountpersant;
+  } else if (discountAmount) {
+    discountedAmount = discountAmount;
+    totalPrice -= discountAmount;
+    calculatedDiscountPercent = (discountAmount / totalPrice) * 100;
+  }
+
+  // Parse and calculate tax amount
+  let parsedTaxPercent = parseFloat(taxPersant);
+  let taxAmount = isNaN(parsedTaxPercent)
+    ? 0
+    : totalPrice * (parsedTaxPercent / 100);
+
+  // Return the final amount rounded to two decimal places
+  let obj = {
+    qty,
+    priceUnit,
+    amount: parseFloat(totalPrice.toFixed(2)),
+    taxAmount:
+      parseFloat(taxAmount.toFixed(2)) == 0
+        ? ""
+        : parseFloat(taxAmount.toFixed(2)),
+  };
+  if (typeof discountedAmount == "string") {
+    obj.discountAmount = "";
+  } else {
+    obj.discountAmount = discountedAmount
+      ? parseFloat(discountedAmount.toFixed(2))
+      : "";
+  }
+  if (typeof discountpersant == "string") {
+    obj.discountpersant = "";
+  } else {
+    obj.discountpersant = calculatedDiscountPercent
+      ? parseFloat(calculatedDiscountPercent.toFixed(2))
+      : "";
+  }
+
+  return obj;
+}

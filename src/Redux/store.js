@@ -11,7 +11,7 @@ const rootReducer = combineReducers({
   PartiesReducer,
   BusinessReducer,
   SalesReducer,
-   PurchaseReducer,
+  PurchaseReducer,
 });
 
 // Enhance store with Redux DevTools Extension
