@@ -94,8 +94,43 @@ export const PostSalesEstimates = async (dispatch, data) => {
   }
 };
 
+// ------------------------------------- INVOICE --------------------------------
 // Post Sales Invoice Request
 export const PostSalesInvoice = async (dispatch, toast, data) => {
+  toast.closeAll();
+  dispatch(IS_LOADING());
+  const userId = localStorage.getItem("userId");
+  const token = localStorage.getItem("token");
+
+  try {
+    const response = await axios.post(
+      `https://ca-backend-api.onrender.com/${userId}/sale/create`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${token} `,
+        },
+      }
+    );
+    //  console.log("Post Sales Estimate Response:", response?.data);
+
+    dispatch(POST_SALES_INVOICE_SUCCESS());
+    toast({ title: "Sales Invoice Added", status: "success" });
+    // alert("Sales Invoice Added ✔️");
+  } catch (error) {
+    dispatch(IS_ERROR());
+    console.log("Post Sales Invoice Response:", error);
+    toast({
+      title: "Something Went Wrong!",
+      description: error?.response?.data?.message,
+      status: "error",
+      position: "top",
+    });
+  }
+};
+
+// Get All Sales Invoice Request
+export const GetAllSalesInvoice = async (dispatch, toast, data) => {
   toast.closeAll();
   dispatch(IS_LOADING());
   const userId = localStorage.getItem("userId");

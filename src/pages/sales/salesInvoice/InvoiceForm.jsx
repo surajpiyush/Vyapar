@@ -141,17 +141,17 @@ const InvoiceForm = () => {
     ],
     addDescription: "",
     discount: {
-      discountPersent: 10,
-      discountAmount: 20,
+      discountPersent: 0,
+      discountAmount: 0,
     },
     tax: {
-      tax: "5%",
-      taxamount: 5,
+      tax: "0%",
+      taxamount: 0,
     },
     roundOff: 0,
     total: 0,
-    recived: 350,
-    balance: -155,
+    recived: 0,
+    balance: 0,
     firmId: "",
     userId: "",
   });
@@ -210,14 +210,14 @@ const InvoiceForm = () => {
       addDescription: invoiceData?.addDescription,
       total: rowFooterData?.totalAmount,
       tax: {
-        tax: "5%",
-        taxamount: 5,
+        tax: "0%",
+        taxamount: 0,
       },
       roundOff: 0,
-      recived: 350,
-      balance: -155,
+      recived: invoiceData?.recived,
+      balance: invoiceData?.balance,
     };
-    console.log("data", data);
+    // console.log("data", data);
 
     PostSalesInvoice(dispatch, toast, invoiceData);
   };
@@ -1149,18 +1149,18 @@ const InvoiceForm = () => {
                 <p>Total</p>
                 <input
                   type="number"
-                  value={rowFooterData?.totalAmount}
-                  // value={
-                  //   toggleRoundOff
-                  //     ? Math.round(rowFooterData?.totalAmount)
-                  //     : rowFooterData?.totalAmount
-                  // }
+                  // value={rowFooterData?.totalAmount}
+                  value={
+                    toggleRoundOff
+                      ? Math.round(rowFooterData?.totalAmount)
+                      : rowFooterData?.totalAmount
+                  }
                   name="total"
                   onChange={handleInputChange}
                 />
               </div>
             </div>
-            {invoiceData.total >= 1 && (
+            {rowFooterData?.totalAmount >= 1 && (
               <div className={css.bottomRecievedOuterDiv}>
                 <div className={css.totalBottomDiv}>
                   <p>Received</p>
