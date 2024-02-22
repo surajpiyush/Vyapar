@@ -7,6 +7,8 @@ const salesSlice = createSlice({
     isError: false,
     toggleSalesSuccess: false,
     paymentOutData: [],
+
+    invoicesList: [],
   },
   reducers: {
     IS_LOADING: (state) => {
@@ -28,10 +30,17 @@ const salesSlice = createSlice({
       state.isLoading = false;
       state.toggleSalesSuccess = !state.toggleSalesSuccess;
     },
+
     POST_SALES_INVOICE_SUCCESS: (state) => {
       state.isLoading = false;
       state.toggleSalesSuccess = !state.toggleSalesSuccess;
     },
+    GET_SALES_INVOICE_SUCCESS: (state, action) => {
+      // console.log("action", action);
+      state.isLoading = false;
+      state.invoicesList = action.payload;
+    },
+
     POST_SALES_ORDER_SUCCESS: (state) => {
       state.isLoading = false;
       state.toggleSalesSuccess = !state.toggleSalesSuccess;
@@ -54,6 +63,7 @@ export const {
   GET_DELIVERY_CHALLAN_SUCCESS,
   POST_SALES_ESTIMATE_SUCCESS,
   POST_SALES_INVOICE_SUCCESS,
+  GET_SALES_INVOICE_SUCCESS,
   POST_SALES_ORDER_SUCCESS,
   POST_SALES_RETURNS_SUCCESS,
   POST_SALES_PAYMENT_SUCCESS,

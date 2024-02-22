@@ -32,7 +32,7 @@ import { ImCheckboxUnchecked as EmptyCheckedBox } from "react-icons/im";
 import { BiSolidCheckboxChecked as CheckedBox } from "react-icons/bi";
 import ItemsForm from "../../../components/addForm/ItemsForm";
 
-const InvoiceForm = () => {
+const InvoiceForm = ({ setOpenForm }) => {
   const toast = useToast();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.SalesReducer.isLoading);
@@ -219,7 +219,7 @@ const InvoiceForm = () => {
     };
     // console.log("data", data);
 
-    PostSalesInvoice(dispatch, toast, invoiceData);
+    PostSalesInvoice(dispatch, toast, invoiceData, setOpenForm);
   };
 
   // useEffect to set current user Name
@@ -971,7 +971,7 @@ const InvoiceForm = () => {
                 gap: "40px",
               }}
             >
-              {invoiceData.total >= 1 && (
+              {rowFooterData?.totalAmount > 0 && (
                 <div style={{ position: "relative" }}>
                   <Menu
                     offset={[0, 0]}
@@ -1041,6 +1041,7 @@ const InvoiceForm = () => {
                   />
                   <label
                     htmlFor=""
+                    style={{ background: "var(--greyB)" }}
                     className={
                       checkReferenceInpval
                         ? css.BottomInpActiveLabel
@@ -1160,7 +1161,7 @@ const InvoiceForm = () => {
                 />
               </div>
             </div>
-            {rowFooterData?.totalAmount >= 1 && (
+            {rowFooterData?.totalAmount > 0 && (
               <div className={css.bottomRecievedOuterDiv}>
                 <div className={css.totalBottomDiv}>
                   <p>Received</p>
@@ -1192,7 +1193,7 @@ const InvoiceForm = () => {
                 )}
               </div>
             )}
-            {invoiceData.total >= 1 && (
+            {rowFooterData?.totalAmount > 0 && (
               <div className={css.bottomBalanceOuterDiv}>
                 <div>
                   <span></span>

@@ -1,3 +1,4 @@
+import { USER_DETAILS } from "../business/actionTypes";
 import {
   IS_LOADING,
   IS_ERROR,
@@ -5,6 +6,7 @@ import {
   GET_DELIVERY_CHALLAN_SUCCESS,
   POST_SALES_ESTIMATE_SUCCESS,
   POST_SALES_INVOICE_SUCCESS,
+  GET_SALES_INVOICE_SUCCESS,
   POST_SALES_ORDER_SUCCESS,
   POST_SALES_RETURNS_SUCCESS,
   POST_SALES_PAYMENT_SUCCESS,
@@ -96,15 +98,17 @@ export const PostSalesEstimates = async (dispatch, data) => {
 
 // ------------------------------------- INVOICE --------------------------------
 // Post Sales Invoice Request
-export const PostSalesInvoice = async (dispatch, toast, data) => {
+export const PostSalesInvoice = async (dispatch, toast, data, setOpenForm) => {
   toast.closeAll();
   dispatch(IS_LOADING());
-  const userId = localStorage.getItem("userId");
+  console.log("data", data);
+  // const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
+  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
   try {
     const response = await axios.post(
-      `https://ca-backend-api.onrender.com/${userId}/sale/create`,
+      `https://ca-backend-api.onrender.com/${FirmId}/sale/create`,
       data,
       {
         headers: {
@@ -115,7 +119,8 @@ export const PostSalesInvoice = async (dispatch, toast, data) => {
     //  console.log("Post Sales Estimate Response:", response?.data);
 
     dispatch(POST_SALES_INVOICE_SUCCESS());
-    toast({ title: "Sales Invoice Added", status: "success" });
+    setOpenForm(false);
+    toast({ title: "Sales Invoice Added", status: "success", position: "top" });
     // alert("Sales Invoice Added ✔️");
   } catch (error) {
     dispatch(IS_ERROR());
@@ -130,36 +135,29 @@ export const PostSalesInvoice = async (dispatch, toast, data) => {
 };
 
 // Get All Sales Invoice Request
-export const GetAllSalesInvoice = async (dispatch, toast, data) => {
-  toast.closeAll();
+export const GetAllSalesInvoice = async (dispatch, startDate, endDate) => {
   dispatch(IS_LOADING());
-  const userId = localStorage.getItem("userId");
+  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
   const token = localStorage.getItem("token");
 
   try {
-    const response = await axios.post(
-      `https://ca-backend-api.onrender.com/${userId}/sale/create`,
-      data,
+    const response = await axios.get(
+      `https://ca-backend-api.onrender.com/${firmId}/sale/getAll?startDate=${startDate}&endDate=${endDate}`,
+
       {
         headers: {
           Authorization: `Bearer ${token} `,
         },
       }
     );
-    //  console.log("Post Sales Estimate Response:", response?.data);
 
-    dispatch(POST_SALES_INVOICE_SUCCESS());
-    toast({ title: "Sales Invoice Added", status: "success" });
+    console.log("Getting All Invoices Response:", response?.data);
+    dispatch(GET_SALES_INVOICE_SUCCESS(response?.data?.data));
+
     // alert("Sales Invoice Added ✔️");
   } catch (error) {
     dispatch(IS_ERROR());
-    console.log("Post Sales Invoice Response:", error);
-    toast({
-      title: "Something Went Wrong!",
-      description: error?.response?.data?.message,
-      status: "error",
-      position: "top",
-    });
+    console.log("Error Getting All Invoices Response:", error);
   }
 };
 
