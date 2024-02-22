@@ -123,6 +123,7 @@ export const PostSalesInvoice = async (dispatch, toast, data) => {
       title: "Something Went Wrong!",
       description: error?.response?.data?.message,
       status: "error",
+      position: "top",
     });
   }
 };

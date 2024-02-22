@@ -256,7 +256,6 @@ const InvoiceForm = () => {
         return item;
       }
     });
-
     setInvoiceData((prev) => {
       return { ...prev, sale: newSaleData };
     });
@@ -1068,6 +1067,7 @@ const InvoiceForm = () => {
                     height: "110px",
                     width: "230px",
                   }}
+                  required
                 />
                 <label
                   htmlFor="addDescription"
@@ -1149,7 +1149,12 @@ const InvoiceForm = () => {
                 <p>Total</p>
                 <input
                   type="number"
-                  value={invoiceData?.total}
+                  value={rowFooterData?.totalAmount}
+                  // value={
+                  //   toggleRoundOff
+                  //     ? Math.round(rowFooterData?.totalAmount)
+                  //     : rowFooterData?.totalAmount
+                  // }
                   name="total"
                   onChange={handleInputChange}
                 />
