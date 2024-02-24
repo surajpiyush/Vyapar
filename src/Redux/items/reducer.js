@@ -31,7 +31,7 @@ const initialState = {
 export const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case ITEM_REQUEST: {
-      return { ...state, isLoading: true };
+      return { ...state, isLoading: true, isError: false };
     }
     case GET_ITEM_SUCCESS: {
       return { ...state, isLoading: false, items: payload };

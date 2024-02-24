@@ -20,12 +20,12 @@ import axios from "axios";
 // ----------------------- Fetch All Parties Data Function ---- Didn't applied function curring due to thunk error in store.js
 export const FetchAllParties = async (dispatch) => {
   dispatch({ type: FETCH_PARTIES_LOADING });
-  const userId = JSON.parse(localStorage.getItem(USER_DETAILS))?.userId;
+  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
   const token = localStorage.getItem("token");
-
+  // console.log("firmId", firmId);
   try {
     const response = await axios.get(
-      `https://ca-backend-api.onrender.com/${userId}/party/getAll`,
+      `https://ca-backend-api.onrender.com/${firmId}/party/getAll`,
       {
         headers: {
           Authorization: `Bearer ${token} `,
@@ -36,13 +36,14 @@ export const FetchAllParties = async (dispatch) => {
     // console.log("Parties Data:", response?.data);
     dispatch({ type: FETCH_PARTIES_SUCCESS, payload: response?.data?.data });
   } catch (error) {
-    dispatch({ type: FETCH_PARTIES_ERROR });
     console.error("Error Fetching Parties Data:", error);
+    dispatch({ type: FETCH_PARTIES_ERROR });
   }
 };
 
 // ------------------------- Save Party Function ---- Didn't applied function curring due to thunk error in store.js
-export const SaveParty = async (dispatch, data, setPartyFormToggle) => {
+export const SaveParty = async (dispatch, data, setPartyFormToggle, toast) => {
+  toast.closeAll();
   dispatch({ type: SAVE_PARTY_LOADING });
   const companyID = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
   const token = localStorage.getItem("token");
@@ -58,14 +59,18 @@ export const SaveParty = async (dispatch, data, setPartyFormToggle) => {
       }
     );
     // console.log("Save Party Response:", response?.data);
-
     dispatch({ type: SAVE_PARTY_SUCCESS });
+    toast({ title: "Party Added", status: "success", position: "top" });
     setPartyFormToggle((prev) => !prev);
-    alert("Party Saved ✔️");
   } catch (error) {
-    dispatch({ type: SAVE_PARTY_ERROR });
     console.log("Saving Party Error Response:", error);
-    alert(error?.response?.data || "Something Went Wrong!");
+    toast({
+      title: "Something Went Wrong",
+      description: error?.response?.data,
+      status: "error",
+      position: "top",
+    });
+    dispatch({ type: SAVE_PARTY_ERROR });
   }
 };
 
@@ -206,11 +211,11 @@ const getPurchaseInvoiceFailed = () => ({
 // *******************************************
 export const getPurchaseInvoice = () => async (dispatch) => {
   dispatch(getPurchaseInvoiceReq());
+  const token = localStorage.getItem("token");
   return await axios
     .get(getPurhchaseInvoiceUrl, {
       headers: {
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWM1Y2ZjNTA5YjM0Y2E4YTAxODc0OTciLCJpYXQiOjE3MDgwODgyNjIsImV4cCI6MTcwODE3NDY2Mn0.vrVm4-qmI74kgNXo9FmvI9BeWQ5dVFoJvqaqwGrcjJM",
+        Authorization: `Bearer ${token}`,
       },
     })
     .then((response) => {

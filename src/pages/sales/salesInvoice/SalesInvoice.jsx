@@ -1,25 +1,23 @@
-// import "../../../styles/parties.css";
-// import "../../../styles/sales.css";
 import css from "../../../styles/SalesStyles/Invoice.module.css";
 import party from "../../../assets/Images/party.jpg";
 import InvoiceForm from "./InvoiceForm";
 import SalesInvoiceTable from "../../../components/TableData/SalesInvoiceTable";
-import SalesInvoiceForm from "../../../components/addForm/SalesInvoiceForm";
+import FirstTimeFormToggle from "../../../Component/FirstTimeFormToggle";
+import { GetAllSalesInvoice } from "../../../Redux/sales/action";
 
 import React, { useEffect, useState } from "react";
-import FirstTimeFormToggle from "../../../Component/FirstTimeFormToggle";
 import { IoCalculator as CalculatorIcon } from "react-icons/io5";
 import { MdOutlineSettings as SettingIcon } from "react-icons/md";
 import { IoMdCloseCircle as CloseIcon } from "react-icons/io";
 import { IoCloseOutline as CrossIcon } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import { GetAllSalesInvoice } from "../../../Redux/sales/action";
 import { useToast } from "@chakra-ui/react";
 
 export default function SalesInvoice() {
   const toast = useToast();
   const dispatch = useDispatch();
-  const [startDate, setStartDate] = useState("");
+  const [openForm, setOpenForm] = useState(false);
+  const [startDate, setStartDate] = useState("2024-02-01");
   const [endDate, setEndDate] = useState(
     new Date().toISOString().split("T")[0]
   );
@@ -28,26 +26,11 @@ export default function SalesInvoice() {
   );
   const isLoading = useSelector((state) => state.SalesReducer.isLoading);
   const invoicesList = useSelector((state) => state.SalesReducer.invoicesList);
-  const data = [];
 
   useEffect(() => {
-    const startDate = "2024-02-09";
-    const currentDateObj = new Date();
-    const formattedCurrentDate = currentDateObj.toISOString().split("T")[0];
     GetAllSalesInvoice(dispatch, startDate, endDate);
     //  console.log("invoicesList", invoicesList);
   }, [toggleSalesSuccess, startDate, endDate]);
-
-  useEffect(() => {
-    const defaultDateString = "2024-03-10";
-    setStartDate(defaultDateString);
-
-    const currentDateObj = new Date();
-    const formattedCurrentDate = currentDateObj.toISOString().split("T")[0];
-    setEndDate(formattedCurrentDate);
-  }, []);
-
-  const [openForm, setOpenForm] = useState(false);
 
   const closeForm = () => {
     setOpenForm(false);
@@ -102,15 +85,15 @@ export default function SalesInvoice() {
             </div>
             <div className="d-flex" style={{ gap: "20px" }}>
               <div className="d-flex-col">
-                <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                <i className="fa fa-bar-chart" aria-hidden="true"></i>
                 <span>Graph</span>
               </div>
               <div className="d-flex-col">
-                <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                <i className="fa fa-bar-chart" aria-hidden="true"></i>
                 <span>Excel Report</span>
               </div>
               <div className="d-flex-col">
-                <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                <i className="fa fa-bar-chart" aria-hidden="true"></i>
                 <span>Print</span>
               </div>
             </div>
@@ -172,8 +155,24 @@ export default function SalesInvoice() {
                   </p>
                 </div>
                 <div>
-                  <CalculatorIcon />
-                  <SettingIcon />
+                  <CalculatorIcon
+                    onClick={() =>
+                      toast({
+                        title: "Feature currently in development",
+                        status: "info",
+                        position: "top",
+                      })
+                    }
+                  />
+                  <SettingIcon
+                    onClick={() =>
+                      toast({
+                        title: "Feature currently in development",
+                        status: "info",
+                        position: "top",
+                      })
+                    }
+                  />
                   <CloseIcon onClick={() => setOpenForm(false)} />
                 </div>
               </div>
@@ -181,7 +180,7 @@ export default function SalesInvoice() {
             </div>
           ) : (
             <div className="d-cen b-cont text-center">
-              {!invoicesList.length > 0 ? (
+              {!invoicesList.length > 0 && !isLoading ? (
                 <FirstTimeFormToggle
                   img={party}
                   onClick={() => setOpenForm(true)}

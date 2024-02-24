@@ -8,8 +8,10 @@ import { SAVE_PARTY_INPUT_CHANGE } from "../../Redux/parties/actionTypes";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { useToast } from "@chakra-ui/react";
 
 export default function Parties() {
+  const toast = useToast();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.PartiesReducer.isLoading);
   const postPartyLoading = useSelector(
@@ -53,7 +55,7 @@ export default function Parties() {
       let savePartyData = {
         partyName,
         gstNo,
-        partyGroup,
+        //  partyGroup,
         phoneNumber,
         GSTType,
         state,
@@ -65,7 +67,7 @@ export default function Parties() {
         creditLimit,
       };
       // console.log("savePartyData", savePartyData);
-      SaveParty(dispatch, savePartyData, setPartyFormIsOpen);
+      SaveParty(dispatch, savePartyData, setPartyFormIsOpen, toast);
     }
   };
 
@@ -195,7 +197,7 @@ export default function Parties() {
                     onChange={handleInputChange}
                     required
                   />
-                  <select
+                  {/* <select
                     placeholder="Party Group"
                     value={partyGroup}
                     name="partyGroup"
@@ -205,7 +207,7 @@ export default function Parties() {
                   >
                     <option value="Party Group">Party Group</option>
                     <option value="+AddNewGroup">+ Add New Group</option>
-                  </select>
+                  </select> */}
                 </div>
                 <div className="d-flex" style={{ marginTop: "16px" }}>
                   <div

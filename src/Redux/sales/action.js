@@ -101,7 +101,7 @@ export const PostSalesEstimates = async (dispatch, data) => {
 export const PostSalesInvoice = async (dispatch, toast, data, setOpenForm) => {
   toast.closeAll();
   dispatch(IS_LOADING());
-  console.log("data", data);
+  // console.log("data", data);
   // const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
@@ -117,7 +117,6 @@ export const PostSalesInvoice = async (dispatch, toast, data, setOpenForm) => {
       }
     );
     //  console.log("Post Sales Estimate Response:", response?.data);
-
     dispatch(POST_SALES_INVOICE_SUCCESS());
     setOpenForm(false);
     toast({ title: "Sales Invoice Added", status: "success", position: "top" });
@@ -127,7 +126,7 @@ export const PostSalesInvoice = async (dispatch, toast, data, setOpenForm) => {
     console.log("Post Sales Invoice Response:", error);
     toast({
       title: "Something Went Wrong!",
-      description: error?.response?.data?.message,
+      description: error?.response?.data?.message || "",
       status: "error",
       position: "top",
     });
@@ -139,17 +138,14 @@ export const GetAllSalesInvoice = async (dispatch, startDate, endDate) => {
   dispatch(IS_LOADING());
   const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
   const token = localStorage.getItem("token");
-
+  const API_URL = `https://ca-backend-api.onrender.com/${firmId}/sale/getAll?startDate=${startDate}&endDate=${endDate}`;
+  console.log("API_URL", API_URL);
   try {
-    const response = await axios.get(
-      `https://ca-backend-api.onrender.com/${firmId}/sale/getAll?startDate=${startDate}&endDate=${endDate}`,
-
-      {
-        headers: {
-          Authorization: `Bearer ${token} `,
-        },
-      }
-    );
+    const response = await axios.get(API_URL, {
+      headers: {
+        Authorization: `Bearer ${token} `,
+      },
+    });
 
     console.log("Getting All Invoices Response:", response?.data);
     dispatch(GET_SALES_INVOICE_SUCCESS(response?.data?.data));

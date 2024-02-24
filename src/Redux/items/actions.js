@@ -13,23 +13,41 @@ import {
 } from "./actionTypes";
 import { USER_DETAILS } from "../business/actionTypes";
 
+const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 const token = localStorage.getItem("token");
 const userId = localStorage.getItem("userId");
 const baseURL = "https://ca-backend-api.onrender.com";
 
-export const addItem = (newItem) => (dispatch) => {
+export const addItem = (newItem, closeForm, toast) => async (dispatch) => {
+  toast.closeAll();
   dispatch({ type: ITEM_REQUEST });
+  try {
+    const response = await axios.post(
+      `${baseURL}/${firmId}/insertItem`,
+      newItem,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
 
-  axios
-    .post(`${baseURL}/${userId}/insertItem`, newItem, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-    .then((res) => {
-      console.log(res);
-      dispatch({ type: POST_ITEM_SUCCESS, payload: res.data });
-    })
-
-    .catch((err) => dispatch({ type: ITEM_FAILURE }));
+    // console.log("Adding Item Response:", response?.data);
+    dispatch({ type: POST_ITEM_SUCCESS, payload: response?.data });
+    toast({
+      title: "Item Added Successfully",
+      status: "success",
+      position: "top",
+    });
+    closeForm(false);
+  } catch (error) {
+    console.log("Adding Items Error", error);
+    dispatch({ type: ITEM_FAILURE });
+    toast({
+      title: "Something Went Wrong!",
+      description: error?.response?.data?.message || "",
+      status: "error",
+      position: "top",
+    });
+  }
 };
 
 export const getitems = () => async (dispatch) => {
@@ -81,12 +99,11 @@ export const GetSingleItem = async (dispatch, itemId) => {
   }
 };
 
-// Get Single item
+// Get All items List
 export const GetAllItems = () => async (dispatch) => {
   dispatch({ type: LOADING_GET_ALL_ITEMS });
   const token = localStorage.getItem("token");
-  //  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
-  const FirmId = "65c5d0d209b34ca8a018749d";
+  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
   try {
     const response = await axios.get(
@@ -97,8 +114,7 @@ export const GetAllItems = () => async (dispatch) => {
         },
       }
     );
-
-    //  console.log("Get All Items Response:", response.data);
+    // console.log("Get All Items Response:", response.data);
     dispatch({ type: SUCCESS_GET_ALL_ITEMS, payload: response?.data?.data });
   } catch (error) {
     console.log("Getting All Items Error:", error);

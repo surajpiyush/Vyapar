@@ -3,14 +3,17 @@ import "../../styles/Items.css";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { addItem } from "../../Redux/items/actions";
+import { useToast } from "@chakra-ui/react";
 
-export default function ItemsForm(Props) {
+export default function ItemsForm({ closeForm }) {
+  const toast = useToast();
   const [optToggle, setOptToggle] = useState(true);
   const [productOptToggle, setProductOptToggle] = useState(true);
   const [wsToggle, setWsToggle] = useState(false);
   // -----------------------------------------------------INTERGRATION IN POSTING A NEW ITEM----------------------------------------
   const dispatch = useDispatch();
   const items = useSelector((store) => store.ItemReducer.items);
+  const itemIsLoading = useSelector((store) => store.ItemReducer.isLoading);
   const [formData, setFormData] = useState({
     itemName: "",
     category: "65d080c09b0c34b0924bd909",
@@ -66,22 +69,13 @@ export default function ItemsForm(Props) {
   };
 
   const handleSave = () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      alert("Please login");
-      console.error("Token not available. Please log in.");
-
-      return;
-    }
-    dispatch(addItem(formData));
-    alert("added Successfully");
-    Props.func(false);
+    dispatch(addItem(formData, closeForm, toast));
   };
 
   // ---------------<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>---------------
-  const closeForm = () => {
-    console.log("Working");
-    Props.func(false);
+  const handleCloseForm = () => {
+    // console.log("Working");
+    closeForm(false);
   };
 
   return (
@@ -110,7 +104,7 @@ export default function ItemsForm(Props) {
                 }}
               >
                 Product
-              </span>{" "}
+              </span>
               /{" "}
               <span
                 style={{ cursor: "pointer" }}
@@ -125,7 +119,7 @@ export default function ItemsForm(Props) {
 
           <div className="icon-cont">
             <i className="fa fa-cog"></i>
-            <i className="fa fa-close" onClick={closeForm}></i>
+            <i className="fa fa-close" onClick={handleCloseForm}></i>
           </div>
         </div>
         <hr />
@@ -152,7 +146,9 @@ export default function ItemsForm(Props) {
                 onChange={handleChange}
                 placeholder="Item HSN"
               />
-              <button className="select-unit-btn">Select Unit</button>
+              <button type="button" className="select-unit-btn">
+                Select Unit
+              </button>
             </div>
             <div
               className="d-flex input-cont"
@@ -415,6 +411,7 @@ export default function ItemsForm(Props) {
             <hr />
             <div className="save-btn-cont">
               <button
+                type="button"
                 onClick={() => {
                   alert(
                     "You can just only save the data!! Product is under development"
@@ -424,11 +421,12 @@ export default function ItemsForm(Props) {
                 Save & New
               </button>
               <button
+                type="button"
                 onClick={() => {
                   handleSave();
                 }}
               >
-                Save
+                {itemIsLoading ? "Saving" : "Save"}
               </button>
             </div>
           </div>
@@ -449,7 +447,9 @@ export default function ItemsForm(Props) {
                 placeholder="Service HNS *"
                 className="inp-field"
               />
-              <button className="select-unit-btn">Select Unit</button>
+              <button type="button" className="select-unit-btn">
+                Select Unit
+              </button>
             </div>
             <div
               className="d-flex input-cont"
@@ -603,8 +603,12 @@ export default function ItemsForm(Props) {
             </div>
             <hr />
             <div className="save-btn-cont">
-              <button>Save & New</button>
-              <button>Save</button>
+              <button onClick={handleSave} type="button">
+                Save & New
+              </button>
+              <button onClick={handleSave} type="button">
+                {itemIsLoading ? "Saving" : "Save"}
+              </button>
             </div>
           </div>
         )}

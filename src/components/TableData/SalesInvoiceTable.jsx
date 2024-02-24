@@ -1,17 +1,10 @@
-import React, { useEffect, useState } from "react";
 import "../../styles/parties.css";
 import "../../styles/sales.css";
-import { useDispatch, useSelector } from "react-redux";
-import { GetAllSalesInvoice } from "../../Redux/sales/action";
+import { useSelector } from "react-redux";
 
-export default function SalesInvoiceTable(Props) {
+export default function SalesInvoiceTable({ func }) {
   const isError = useSelector((state) => state.SalesReducer.isError);
   const invoicesList = useSelector((state) => state.SalesReducer.invoicesList);
-
-  const openForm = () => {
-    console.log("Working");
-    Props.func(true);
-  };
 
   function formatDate(dateString) {
     // Convert the string to a Date object
@@ -30,6 +23,10 @@ export default function SalesInvoiceTable(Props) {
 
     return formattedDate;
   }
+
+  const openForm = () => {
+    func(true);
+  };
 
   return (
     <div className="" style={{ width: "100vw" }}>
@@ -96,46 +93,12 @@ export default function SalesInvoiceTable(Props) {
                         <th>{item?.invoiceNumber}</th>
                         <th>{item?.partyName}</th>
                         <th>{item?.transactionType}</th>
+                        <th></th>
                         {/* <th>{item?.paymentType[0]}</th> */}
                         <th>{item?.amount}</th>
                         <th>{item?.balanceDue}</th>
                       </tr>
                     ))}
-
-                    {/* 
-                  
-                  amount
-: 
-195
-balanceDue
-: 
--155
-dueDate
-: 
-"2024-03-10T00:00:00.000Z"
-invoiceDate
-: 
-"2024-02-09T00:00:00.000Z"
-invoiceNumber
-: 
-"INV123"
-partyName
-: 
-"ajay"
-paymentType
-: 
-[]
-status
-: 
-"Partial"
-transactionType
-: 
-"Credit"
-_id
-: 
-"65d772b69b77ac88b7fff575"
-                  
-                  */}
                   </tbody>
                 </table>
               )}

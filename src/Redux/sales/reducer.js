@@ -36,7 +36,6 @@ const salesSlice = createSlice({
       state.toggleSalesSuccess = !state.toggleSalesSuccess;
     },
     GET_SALES_INVOICE_SUCCESS: (state, action) => {
-      // console.log("action", action);
       state.isLoading = false;
       state.invoicesList = action.payload;
     },
