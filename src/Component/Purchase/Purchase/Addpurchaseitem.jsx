@@ -100,6 +100,7 @@ const Addpurchaseitem = ({ data }) => {
       },
    ]);
    const handleAddRow = () => {
+      
       const newRow = {
          category: "65c5cfc509b34ca8a0187497",
          itemName: "mobile",
@@ -149,8 +150,8 @@ const Addpurchaseitem = ({ data }) => {
    };
    const handleSubmit = () => {
       data.sale = formData;
-
       dispatch(addPurchaseBill(data));
+      navigate("/purchasebill");
    };
 
    return (
@@ -499,8 +500,8 @@ const Addpurchaseitem = ({ data }) => {
                      <textarea
                         value={formData.addDescription}
                         name="addDescription"
-                        onChange={(e)=>{
-                           data.addDescription = e.target.value
+                        onChange={(e) => {
+                           data.addDescription = e.target.value;
                         }}
                         className={css.input}
                         style={{ height: "110px", width: "230px" }}
@@ -603,7 +604,6 @@ const Addpurchaseitem = ({ data }) => {
                         type="number"
                         value={formData?.total}
                         name="total"
-                       
                      />
                   </div>
                </div>

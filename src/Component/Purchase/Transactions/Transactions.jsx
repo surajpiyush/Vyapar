@@ -130,13 +130,13 @@ const Transactions = () => {
                            <p className="transaction-table">{e.partyName}</p>
                         </div>
                         <div className="transaction-table">
-                           <p className="transaction-table">-</p>
+                           <p className="transaction-table">Cash</p>
                         </div>
                         <div className="transaction-table">
-                           <p className="transaction-table">{e.amount}</p>
+                           <p className="transaction-table">0</p>
                         </div>
                         <div className="transaction-table">
-                           <p className="transaction-table">{e.balance}</p>
+                           <p className="transaction-table">0</p>
                         </div>
                         <div className="transaction-table">
                            <p className="transaction-table">{e.status}</p>
