@@ -177,7 +177,7 @@ export const getPurchaseOrder =
          })
          .catch((ERR) => {
             console.log(ERR);
-            alert(`${ERR.response.data.msg}`);
+            // alert(`${ERR.response.data.msg}`);
             dispatch({ type: PURCHASE_FAILURE });
          });
    };
@@ -206,7 +206,7 @@ export const getPurchaseReturn =
          })
          .catch((ERR) => {
             console.log(ERR);
-            alert(`${ERR.response.data.msg}`);
-            dispatch({ type: PURCHASE_FAILURE });
+            // alert(`${ERR.response.data.msg}`);
+            dispatch({ type: PURCHASE_FAILURE });  
          });
    };
