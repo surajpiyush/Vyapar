@@ -13,6 +13,10 @@ const salesSlice = createSlice({
     toggleEstimates: false,
     estimatesList: [],
 
+    // PAYMENT-IN
+    togglePaymentIn: false,
+    paymentInList: [],
+
     paymentOutData: [],
   },
   reducers: {
@@ -43,6 +47,12 @@ const salesSlice = createSlice({
       state.estimatesList = action.payload;
     },
 
+    // PAYMENT-IN
+    POST_PAYMENT_IN_SUCCESS: (state) => {
+      state.isLoading = false;
+      state.togglePaymentIn = !state.togglePaymentIn;
+    },
+
     // DELIVERY
     POST_DELIVERY_CHALLAN_SUCCESS: (state) => {
       state.isLoading = false;
@@ -60,10 +70,6 @@ const salesSlice = createSlice({
       state.isLoading = false;
       state.toggleSalesSuccess = !state.toggleSalesSuccess;
     },
-    POST_SALES_PAYMENT_SUCCESS: (state) => {
-      state.isLoading = false;
-      state.toggleSalesSuccess = !state.toggleSalesSuccess;
-    },
   },
 });
 
@@ -77,11 +83,12 @@ export const {
   POST_ESTIMATE_SUCCESS,
   GET_ESTIMATE_SUCCESS,
 
+  POST_PAYMENT_IN_SUCCESS,
+
   POST_DELIVERY_CHALLAN_SUCCESS,
   GET_DELIVERY_CHALLAN_SUCCESS,
 
   POST_SALES_ORDER_SUCCESS,
   POST_SALES_RETURNS_SUCCESS,
-  POST_SALES_PAYMENT_SUCCESS,
 } = salesSlice.actions;
 export default salesSlice.reducer;
