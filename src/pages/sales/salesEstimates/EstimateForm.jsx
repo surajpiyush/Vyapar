@@ -18,7 +18,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { IoIosArrowDown as ArrowDown } from "react-icons/io";
 import { FiPlusCircle as PlusIcon } from "react-icons/fi";
 import { AiFillFileAdd as AddDecriptionIcon } from "react-icons/ai";
-import { HiMiniDocumentText as AddDocumentIcon } from "react-icons/hi2";
 import { BiSolidCameraPlus as AddCameraIcon } from "react-icons/bi";
 import { ImCheckboxUnchecked as EmptyCheckedBox } from "react-icons/im";
 import { BiSolidCheckboxChecked as CheckedBox } from "react-icons/bi";
