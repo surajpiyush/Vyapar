@@ -29,7 +29,7 @@ export const SidebarItems = [
       {
         name: "Estimate/ Quatation",
         Icon: <PlusIcon />,
-        navigateurl: "/salesestimates",
+        navigateurl: "/estimates",
       },
       {
         name: "Payment In",

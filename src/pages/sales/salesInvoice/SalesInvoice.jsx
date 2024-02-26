@@ -5,13 +5,13 @@ import SalesInvoiceTable from "../../../components/TableData/SalesInvoiceTable";
 import FirstTimeFormToggle from "../../../Component/FirstTimeFormToggle";
 import { GetAllSalesInvoice } from "../../../Redux/sales/action";
 
-import React, { useEffect, useState } from "react";
+import { useToast } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { IoCalculator as CalculatorIcon } from "react-icons/io5";
 import { MdOutlineSettings as SettingIcon } from "react-icons/md";
 import { IoMdCloseCircle as CloseIcon } from "react-icons/io";
 import { IoCloseOutline as CrossIcon } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import { useToast } from "@chakra-ui/react";
 
 export default function SalesInvoice() {
   const toast = useToast();
@@ -29,12 +29,7 @@ export default function SalesInvoice() {
 
   useEffect(() => {
     GetAllSalesInvoice(dispatch, startDate, endDate);
-    //  console.log("invoicesList", invoicesList);
   }, [toggleSalesSuccess, startDate, endDate]);
-
-  const closeForm = () => {
-    setOpenForm(false);
-  };
 
   const formOpen = () => {
     setOpenForm(true);
@@ -141,7 +136,6 @@ export default function SalesInvoice() {
         </div>
       </div>
 
-      {/*  */}
       {isLoading && <p>Loading Invoices</p>}
       <div>
         <div>
