@@ -1,12 +1,9 @@
 import css from "../../../styles/SalesStyles/SalesForms.module.css";
 import ItemsForm from "../../../components/addForm/ItemsForm";
-import ItemsTableBody from "./ItemsTableBody";
-import {
-  CalculateFinalAmount,
-  PostSalesInvoice,
-} from "../../../Redux/sales/action";
-import { GetAllItems } from "../../../Redux/items/actions";
+import ItemsTableBodyEstimate from "./ItemsTableBodyEstimate";
 import { FetchAllParties } from "../../../Redux/parties/actions";
+import { GetAllItems } from "../../../Redux/items/actions";
+import { PostEstimates } from "../../../Redux/sales/action";
 
 import {
   useToast,
@@ -26,38 +23,34 @@ import { BiSolidCameraPlus as AddCameraIcon } from "react-icons/bi";
 import { ImCheckboxUnchecked as EmptyCheckedBox } from "react-icons/im";
 import { BiSolidCheckboxChecked as CheckedBox } from "react-icons/bi";
 
-const InvoiceForm = ({ setOpenForm }) => {
+const EstimateForm = ({ setOpenForm }) => {
   const toast = useToast();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.SalesReducer.isLoading);
   const partiesLoading = useSelector((state) => state.PartiesReducer.isLoading);
+  const partiesData = useSelector((state) => state.PartiesReducer.partiesData);
   const togglePartiesData = useSelector(
     (state) => state.PartiesReducer.togglePartiesData
   );
-  const partiesData = useSelector((state) => state.PartiesReducer.partiesData);
-  const toggleItems = useSelector((state) => state.ItemReducer.toggleItems);
   const getAllItemsLoading = useSelector(
     (state) => state.ItemReducer.getAllItemsLoading
   );
-  const invoicesList = useSelector((state) => state.SalesReducer.invoicesList);
   const items = useSelector((state) => state.ItemReducer.items);
+  const toggleItems = useSelector((state) => state.ItemReducer.toggleItems);
+  const estimatesList = useSelector(
+    (state) => state.SalesReducer.estimatesList
+  );
 
-  const [currentCustomerData, setCurrentCustomerData] = useState({});
   const [toggleDesc, setToggleDesc] = useState(false);
-  const [toggleRoundOff, setToggleRoundOff] = useState(false);
-  const [toggleReceived, setToggleReceived] = useState(false);
-  const [toggleCheckReferenceInp, setToggleCheckReferenceInp] = useState(false);
-  const [paymentTypeSelectTag, setPaymentTypeSelectTag] = useState("Cash");
-  const [checkReferenceInpval, setCheckReferenceInpval] = useState("");
-  const [topMarginAddDescInp, setTopMarginAddDescInp] = useState("");
-  const [showItemsListMenu, setShowItemsListMenu] = useState(false);
-  const [indexSaleItem, setIndexSaleItem] = useState(0);
-  const [rowFooterData, setRowFooterData] = useState({});
   const [showItemForm, setShowItemForm] = useState(false);
-  const [receiveAmount, setReceiveAmount] = useState("");
-  const [balanceAmount, setBalanceAmount] = useState("");
+  const [rowFooterData, setRowFooterData] = useState({});
+  const [toggleRoundOff, setToggleRoundOff] = useState(false);
+  const [indexEstimateItem, setIndexEstimateItem] = useState(0);
+  const [showItemsListMenu, setShowItemsListMenu] = useState(false);
+  const [currentCustomerData, setCurrentCustomerData] = useState({});
+  const [topMarginAddDescInp, setTopMarginAddDescInp] = useState("0px");
 
-  const [invoiceItems, setInvoiceItems] = useState([
+  const [estimateItems, setEstimatesItems] = useState([
     {
       itemName: "",
       qty: "",
@@ -70,22 +63,26 @@ const InvoiceForm = ({ setOpenForm }) => {
       amount: "",
     },
   ]);
-  const [invoiceData, setInvoiceData] = useState({
-    type: "Credit",
+  const [estimateData, setEstimateData] = useState({
+    type: "Estimate",
     status: "Pending",
     customerName: "",
-    billingAddress: "",
-    billingName: "",
-    phoneNumber: "",
-    invoiceNumber: invoicesList.length + 1 || "",
+    refNo: estimatesList.length + 1 || "",
     invoiceDate: new Date().toISOString().split("T")[0],
     stateOfSupply: "",
-    priceUnitWithTax: "false",
+    priceUnitWithTax: false,
     addDescription: "",
-    total: "",
-    recived: "",
-    balance: "",
   });
+
+  // for fetching all parties list on form mount
+  useEffect(() => {
+    FetchAllParties(dispatch);
+  }, [togglePartiesData]);
+
+  // for fetching all items list on form mount
+  useEffect(() => {
+    dispatch(GetAllItems());
+  }, [toggleItems]);
 
   // Update total footer values
   useEffect(() => {
@@ -95,7 +92,7 @@ const InvoiceForm = ({ setOpenForm }) => {
       totalTaxAmount: 0,
       totalAmount: 0,
     };
-    invoiceItems?.forEach((item) => {
+    estimateItems?.forEach((item) => {
       if (Number(item?.qty)) {
         footerObj.totalQty += Number(item?.qty);
       }
@@ -114,96 +111,36 @@ const InvoiceForm = ({ setOpenForm }) => {
     footerObj.totalAmount = footerObj.totalAmount.toFixed(2);
     setRowFooterData(footerObj);
   }, [
-    invoiceItems[indexSaleItem]?.qty,
-    invoiceItems[indexSaleItem]?.priceUnit,
-    invoiceItems[indexSaleItem]?.discountpersant,
-    invoiceItems[indexSaleItem]?.discountAmount,
-    invoiceItems[indexSaleItem]?.taxPersant,
-    invoiceItems[indexSaleItem]?.taxAmount,
-    invoiceItems[indexSaleItem]?.amount,
+    estimateItems[indexEstimateItem]?.qty,
+    estimateItems[indexEstimateItem]?.priceUnit,
+    estimateItems[indexEstimateItem]?.discountpersant,
+    estimateItems[indexEstimateItem]?.discountAmount,
+    estimateItems[indexEstimateItem]?.taxPersant,
+    estimateItems[indexEstimateItem]?.taxAmount,
+    estimateItems[indexEstimateItem]?.amount,
   ]);
 
-  // Submit Request Function
+  //   Form Submission Function
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = {
-      ...invoiceData,
-      priceUnitWithTax: invoiceData?.priceUnitWithTax == "true",
-      sale: invoiceItems,
-      balance:
-        balanceAmount || toggleRoundOff
-          ? Math.round(rowFooterData?.totalAmount)
-          : rowFooterData?.totalAmount,
+      ...estimateData,
+      customerName: currentCustomerData?.partyName || "",
+      // customerName: currentCustomerData?._id || "",
+      customerId: currentCustomerData?._id || "",
+      estimate: estimateItems,
       total: toggleRoundOff
         ? Math.round(rowFooterData?.totalAmount)
         : rowFooterData?.totalAmount,
-      // paymentType: [
-      //   { type: paymentTypeSelectTag, amount: 0 },
-      //   { type: "Cheque", amount: 0, refreanceNo: "Test" },
-      //   {
-      //     type: "XYZ",
-      //     accountName: "ABC",
-      //     openingBalance: 100,
-      //     asOfDate: "2024-02-01",
-      //   },
-      // ],
-      // paymentType: [
-      //   {
-      //     cash: 150,
-      //     cheque: {
-      //       refreanceNo: "CHK123",
-      //       checkAmount: 200,
-      //     },
-      //     bankDetail: {
-      //       accountName: "Account Name",
-      //       openingBalance: 1000,
-      //       asOfDate: "2024-02-09",
-      //     },
-      //   },
-      // ],
     };
-    //  console.log("data", data);
-
-    PostSalesInvoice(dispatch, toast, data, setOpenForm);
+    PostEstimates(dispatch, data, setOpenForm, toast);
+    // console.log("data", { data: data });
   };
-
-  // for fetching all parties list on form mount
-  useEffect(() => {
-    FetchAllParties(dispatch);
-  }, [togglePartiesData]);
-
-  // for fetching all items list on form mount
-  useEffect(() => {
-    dispatch(GetAllItems());
-  }, [toggleItems]);
-
-  // for changing current firm data
-  useEffect(() => {
-    let obj = {
-      customerName: currentCustomerData?.partyName || "",
-      billingName: currentCustomerData?.partyName || "",
-      phoneNumber: currentCustomerData?.phoneNumber || "",
-      billingAddress: currentCustomerData?.billingAddress || "",
-      openingBalance: currentCustomerData?.openingBalance || "",
-    };
-    setInvoiceData((prev) => {
-      return { ...prev, ...obj };
-    });
-  }, [currentCustomerData]);
-
-  // To Show Reference Input
-  useEffect(() => {
-    if (paymentTypeSelectTag == "Cheque") {
-      setToggleCheckReferenceInp(true);
-    } else {
-      setToggleCheckReferenceInp(false);
-    }
-  }, [paymentTypeSelectTag]);
 
   // Input Change Function
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setInvoiceData((prev) => {
+    setEstimateData((prev) => {
       return { ...prev, [name]: value };
     });
   };
@@ -211,28 +148,16 @@ const InvoiceForm = ({ setOpenForm }) => {
   // Found items list click handler
   const handleMenuItemClick = (index, itemDetail) => {
     let currSaleItem = {
-      ...invoiceItems[index],
+      ...estimateItems[index],
       itemId: itemDetail?._id,
       itemName: itemDetail?.itemName,
       taxPersant: itemDetail?.taxRate.split("%")[0] || "",
     };
-    let newSaleData = invoiceItems.map((ite, ind) =>
+    let newSaleData = estimateItems.map((ite, ind) =>
       ind == index ? currSaleItem : ite
     );
-    setInvoiceItems(newSaleData);
+    setEstimatesItems(newSaleData);
   };
-
-  // for changing balance amount
-  useEffect(() => {
-    let initAmount = toggleRoundOff
-      ? Math.round(rowFooterData?.totalAmount)
-      : rowFooterData?.totalAmount;
-    let recieved = invoiceData?.recived || 0;
-    let bal = initAmount - recieved;
-    setBalanceAmount(
-      bal.toFixed(2) ? bal.toFixed(2) : rowFooterData?.totalAmount
-    );
-  }, [invoiceData?.recived, toggleRoundOff, rowFooterData?.totalAmount]);
 
   // Add Row Function
   const handleAddRow = (e) => {
@@ -248,62 +173,32 @@ const InvoiceForm = ({ setOpenForm }) => {
       taxAmount: "",
       amount: "",
     };
-    setInvoiceItems((prev) => [...prev, newRowData]);
+    setEstimatesItems((prev) => [...prev, newRowData]);
   };
+
   // Delete Row Function
   const handleDeleteRow = (e, index) => {
     e.stopPropagation();
-    const deletedRowdata = invoiceItems.filter((_, ind) => ind != index);
-    setInvoiceItems(deletedRowdata);
+    const deletedRowdata = estimateItems.filter((_, ind) => ind != index);
+    setEstimatesItems(deletedRowdata);
   };
+
   return (
     <form onSubmit={handleSubmit} className={css.formOuter}>
+      {showItemForm && <ItemsForm closeForm={setShowItemForm} />}
+
       <div className={css.topheader}>
-        <p>Sale</p>
-        <div>
-          <h4
-            style={{
-              color: invoiceData.type == "Credit" ? "var(--blueA)" : "black",
-            }}
-          >
-            Credit
-          </h4>
-          <div className={css.checkbox_wrapper_14}>
-            <input
-              id="s1-14"
-              type="checkbox"
-              className={css.switch}
-              checked={invoiceData.type == "Cash"}
-              onChange={(e) =>
-                setInvoiceData((prev) => {
-                  return {
-                    ...prev,
-                    type: e.target.checked ? "Cash" : "Credit",
-                  };
-                })
-              }
-            />
-          </div>
-          <h4
-            style={{
-              color: invoiceData.type == "Cash" ? "var(--blueA)" : "black",
-            }}
-          >
-            Cash
-          </h4>
-        </div>
+        <p>Estimate/Quotation</p>
       </div>
 
       <div className={css.ContentContainerDiv}>
-        {showItemForm && <ItemsForm closeForm={setShowItemForm} />}
-
-        {/* Middle  */}
+        {/* Middle Section */}
         <div className={css.middleOuter}>
           <div className={css.leftSideCont}>
             <div className={css.selectOuter}>
               <select
                 name="customerName"
-                value={currentCustomerData?._id}
+                value={currentCustomerData?._id || ""}
                 onChange={(e) => {
                   e.stopPropagation();
                   const currentPartyData = partiesData.filter(
@@ -316,11 +211,7 @@ const InvoiceForm = ({ setOpenForm }) => {
                 className={css.selectTag}
                 required
               >
-                <option value="">
-                  {invoiceData.type == "Credit"
-                    ? "Search by Name/Phone"
-                    : "Billing Name (Optional)"}
-                </option>
+                <option value="">Search by Name/Phone</option>
                 {partiesLoading ? (
                   <option value="">Loading Parties</option>
                 ) : (
@@ -332,54 +223,16 @@ const InvoiceForm = ({ setOpenForm }) => {
                 )}
               </select>
             </div>
-            <div className={css.inputDiv}>
-              <input
-                type="number"
-                value={invoiceData.phoneNumber}
-                name="phoneNumber"
-                onChange={handleInputChange}
-                className={css.input}
-                required
-              />
-              <label
-                htmlFor=""
-                className={
-                  invoiceData.phoneNumber ? css.activeLabel : css.inactiveLabel
-                }
-              >
-                Phone No.
-              </label>
-            </div>
-            <div className={css.inputDiv}>
-              <textarea
-                value={invoiceData.billingAddress}
-                name="billingAddress"
-                onChange={handleInputChange}
-                className={css.input}
-                style={{ height: "110px", width: "230px" }}
-                required
-              />
-              <label
-                htmlFor=""
-                className={
-                  invoiceData.billingAddress
-                    ? css.activeLabel
-                    : css.inactiveLabel
-                }
-              >
-                Billing Address
-              </label>
-            </div>
           </div>
 
           <div className={css.rightSideCont}>
             <div>
-              <p>Invoice Number</p>
+              <p>Ref No.</p>
               <input
                 type="text"
                 placeholder="1"
-                name="invoiceNumber"
-                value={invoiceData?.invoiceNumber}
+                name="refNo"
+                value={estimateData?.refNo}
                 onChange={handleInputChange}
                 className={css.invoiceNumInp}
                 required
@@ -391,7 +244,7 @@ const InvoiceForm = ({ setOpenForm }) => {
                 type="date"
                 placeholder="Invoice Date"
                 name="invoiceDate"
-                value={invoiceData?.invoiceDate}
+                value={estimateData?.invoiceDate}
                 onChange={handleInputChange}
                 className={css.invoiceDateSelectInp}
               />
@@ -400,7 +253,7 @@ const InvoiceForm = ({ setOpenForm }) => {
               <p>State of supply</p>
               <select
                 name="stateOfSupply"
-                value={invoiceData?.stateOfSupply}
+                value={estimateData?.stateOfSupply}
                 onChange={handleInputChange}
                 className={css.invoiceDateSelectInp}
                 required
@@ -463,7 +316,7 @@ const InvoiceForm = ({ setOpenForm }) => {
                   <p>PRICE/UNIT</p>
                   <select
                     name="priceUnitWithTax"
-                    value={invoiceData.priceUnitWithTax}
+                    value={estimateData?.priceUnitWithTax}
                     onChange={handleInputChange}
                   >
                     <option value="false">Without Tax</option>
@@ -493,22 +346,22 @@ const InvoiceForm = ({ setOpenForm }) => {
               </tr>
             </thead>
             <tbody>
-              {invoiceItems?.map((item, ind) => {
+              {estimateItems?.map((item, ind) => {
                 return (
-                  <ItemsTableBody
+                  <ItemsTableBodyEstimate
                     ind={ind}
                     item={item}
-                    invoiceItems={invoiceItems}
-                    setInvoiceItems={setInvoiceItems}
-                    handleDeleteRow={handleDeleteRow}
-                    handleMenuItemClick={handleMenuItemClick}
-                    setShowItemsListMenu={setShowItemsListMenu}
-                    setShowItemForm={setShowItemForm}
-                    setIndexSaleItem={setIndexSaleItem}
                     items={items}
-                    getAllItemsLoading={getAllItemsLoading}
+                    estimateItems={estimateItems}
                     showItemsListMenu={showItemsListMenu}
-                    indexSaleItem={indexSaleItem}
+                    indexEstimateItem={indexEstimateItem}
+                    getAllItemsLoading={getAllItemsLoading}
+                    handleDeleteRow={handleDeleteRow}
+                    setShowItemForm={setShowItemForm}
+                    setEstimatesItems={setEstimatesItems}
+                    handleMenuItemClick={handleMenuItemClick}
+                    setIndexEstimateItem={setIndexEstimateItem}
+                    setShowItemsListMenu={setShowItemsListMenu}
                     key={ind}
                   />
                 );
@@ -549,103 +402,13 @@ const InvoiceForm = ({ setOpenForm }) => {
           className={css.bottomSectionOuter}
         >
           <div className={css.bottomLeftSideCont}>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "Center",
-                gap: "40px",
-                zIndex: 600,
-              }}
-            >
-              {rowFooterData?.totalAmount > 0 && (
-                <div style={{ position: "relative", zIndex: 600 }}>
-                  <Menu
-                    offset={[0, 0]}
-                    onOpen={() => setTopMarginAddDescInp("110px")}
-                    onClose={() => setTopMarginAddDescInp("0px")}
-                  >
-                    <MenuButton
-                      as={Button}
-                      className={css.PartyTypeMenuBtn}
-                      rightIcon={<ArrowDown />}
-                      style={{ width: "150px" }}
-                      type="button"
-                    >
-                      {paymentTypeSelectTag}
-                    </MenuButton>
-                    <p className={css.PartyTypelabel}>Payment Type</p>
-                    <MenuList className={css.menuListCss}>
-                      <MenuItem className={css.AddBankAccount}>
-                        <PlusIcon />
-                        Add Bank A/C
-                      </MenuItem>
-                      <MenuItem
-                        style={{
-                          color:
-                            paymentTypeSelectTag == "Cash"
-                              ? "var(--blueB)"
-                              : "var(--greyA)",
-                          background:
-                            paymentTypeSelectTag == "Cash"
-                              ? "var(--greyB)"
-                              : "white",
-                        }}
-                        onClick={() => setPaymentTypeSelectTag("Cash")}
-                        className={css.menuItemCss}
-                      >
-                        Cash
-                      </MenuItem>
-                      <MenuItem
-                        style={{
-                          color:
-                            paymentTypeSelectTag == "Cheque"
-                              ? "var(--blueB)"
-                              : "var(--greyA)",
-                          background:
-                            paymentTypeSelectTag == "Cheque"
-                              ? "var(--greyB)"
-                              : "white",
-                        }}
-                        onClick={() => setPaymentTypeSelectTag("Cheque")}
-                        className={css.menuItemCss}
-                      >
-                        Cheque
-                      </MenuItem>
-                    </MenuList>
-                  </Menu>
-                </div>
-              )}
-              {toggleCheckReferenceInp && (
-                <div className={css.inputDiv} style={{ zIndex: 600 }}>
-                  <input
-                    type="number"
-                    value={checkReferenceInpval}
-                    name="checkReferenceInpval"
-                    onChange={(e) => setCheckReferenceInpval(e.target.value)}
-                    className={css.BottomInput}
-                    style={{ width: "150px", zIndex: 600 }}
-                  />
-                  <label
-                    style={{ background: "var(--greyB)", zIndex: 600 }}
-                    className={
-                      checkReferenceInpval
-                        ? css.BottomInpActiveLabel
-                        : css.BottomInpInactiveLabel
-                    }
-                  >
-                    Reference No.
-                  </label>
-                </div>
-              )}
-            </div>
-
             {toggleDesc ? (
               <div
                 className={css.inputDiv}
                 style={{ marginTop: topMarginAddDescInp }}
               >
                 <textarea
-                  value={invoiceData.addDescription}
+                  value={estimateData?.addDescription}
                   name="addDescription"
                   onChange={handleInputChange}
                   className={css.input}
@@ -658,7 +421,7 @@ const InvoiceForm = ({ setOpenForm }) => {
                 <label
                   htmlFor="addDescription"
                   className={
-                    invoiceData.addDescription
+                    estimateData.addDescription
                       ? css.activeLabel
                       : css.inactiveLabel
                   }
@@ -695,21 +458,6 @@ const InvoiceForm = ({ setOpenForm }) => {
             >
               <AddCameraIcon />
               <p>ADD IMAGE</p>
-            </div>
-            <div
-              onClick={(e) => {
-                e.stopPropagation();
-                toast({
-                  title: "Feature currently in development",
-                  status: "info",
-                  position: "top",
-                });
-              }}
-              className={css.addDecriptionDiv}
-              style={{ width: "150px" }}
-            >
-              <AddDocumentIcon />
-              <p>ADD DOCUMENT</p>
             </div>
           </div>
 
@@ -763,47 +511,6 @@ const InvoiceForm = ({ setOpenForm }) => {
                 />
               </div>
             </div>
-            {rowFooterData?.totalAmount > 0 && (
-              <div className={css.bottomRecievedOuterDiv}>
-                <div className={css.totalBottomDiv}>
-                  <p>Received</p>
-                  <input
-                    type="number"
-                    placeholder="0"
-                    disabled={!toggleReceived}
-                    value={invoiceData?.recived}
-                    name="recived"
-                    onChange={handleInputChange}
-                  />
-                </div>
-                {toggleReceived ? (
-                  <CheckedBox
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setToggleReceived((prev) => !prev);
-                    }}
-                    className={css.checkedInpRoundOff}
-                  />
-                ) : (
-                  <EmptyCheckedBox
-                    className={css.unCheckedInpRoundOff}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setToggleReceived((prev) => !prev);
-                    }}
-                  />
-                )}
-              </div>
-            )}
-            {rowFooterData?.totalAmount > 0 && (
-              <div className={css.bottomBalanceOuterDiv}>
-                <div>
-                  <span></span>
-                  <p>Balance</p>
-                  <p>{balanceAmount}</p>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>
@@ -829,4 +536,4 @@ const InvoiceForm = ({ setOpenForm }) => {
   );
 };
 
-export default InvoiceForm;
+export default EstimateForm;

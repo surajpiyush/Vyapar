@@ -3,12 +3,17 @@ import { createSlice } from "@reduxjs/toolkit";
 const salesSlice = createSlice({
   name: "Sales",
   initialState: {
+    // INVOICE
     isLoading: false,
     isError: false,
-    toggleSalesSuccess: false,
-    paymentOutData: [],
-
     invoicesList: [],
+    toggleSalesSuccess: false,
+
+    // ESTIMATES
+    toggleEstimates: false,
+    estimatesList: [],
+
+    paymentOutData: [],
   },
   reducers: {
     IS_LOADING: (state) => {
@@ -19,18 +24,7 @@ const salesSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
     },
-    POST_DELIVERY_CHALLAN_SUCCESS: (state) => {
-      state.isLoading = false;
-      state.toggleSalesSuccess = !state.toggleSalesSuccess;
-    },
-    GET_DELIVERY_CHALLAN_SUCCESS: (state) => {
-      state.isLoading = false;
-    },
-    POST_SALES_ESTIMATE_SUCCESS: (state) => {
-      state.isLoading = false;
-      state.toggleSalesSuccess = !state.toggleSalesSuccess;
-    },
-
+    // INVOICE
     POST_SALES_INVOICE_SUCCESS: (state) => {
       state.isLoading = false;
       state.toggleSalesSuccess = !state.toggleSalesSuccess;
@@ -38,6 +32,24 @@ const salesSlice = createSlice({
     GET_SALES_INVOICE_SUCCESS: (state, action) => {
       state.isLoading = false;
       state.invoicesList = action.payload;
+    },
+    // ESTIMATES
+    POST_ESTIMATE_SUCCESS: (state) => {
+      state.isLoading = false;
+      state.toggleEstimates = !state.toggleEstimates;
+    },
+    GET_ESTIMATE_SUCCESS: (state, action) => {
+      state.isLoading = false;
+      state.estimatesList = action.payload;
+    },
+
+    // DELIVERY
+    POST_DELIVERY_CHALLAN_SUCCESS: (state) => {
+      state.isLoading = false;
+      state.toggleSalesSuccess = !state.toggleSalesSuccess;
+    },
+    GET_DELIVERY_CHALLAN_SUCCESS: (state) => {
+      state.isLoading = false;
     },
 
     POST_SALES_ORDER_SUCCESS: (state) => {
@@ -58,11 +70,16 @@ const salesSlice = createSlice({
 export const {
   IS_LOADING,
   IS_ERROR,
-  POST_DELIVERY_CHALLAN_SUCCESS,
-  GET_DELIVERY_CHALLAN_SUCCESS,
-  POST_SALES_ESTIMATE_SUCCESS,
+
   POST_SALES_INVOICE_SUCCESS,
   GET_SALES_INVOICE_SUCCESS,
+
+  POST_ESTIMATE_SUCCESS,
+  GET_ESTIMATE_SUCCESS,
+
+  POST_DELIVERY_CHALLAN_SUCCESS,
+  GET_DELIVERY_CHALLAN_SUCCESS,
+
   POST_SALES_ORDER_SUCCESS,
   POST_SALES_RETURNS_SUCCESS,
   POST_SALES_PAYMENT_SUCCESS,

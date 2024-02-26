@@ -1,6 +1,5 @@
 import css from "../../../styles/SalesStyles/SalesForms.module.css";
 
-import { memo, useEffect, useState } from "react";
 import {
   Menu,
   MenuList,
@@ -12,24 +11,25 @@ import {
   MenuGroup,
   MenuOptionGroup,
 } from "@chakra-ui/react";
+import { memo, useEffect, useState } from "react";
 import { MdDelete as DeleteIcon } from "react-icons/md";
 import { TbArrowsMove as MoveIcon } from "react-icons/tb";
 
-const ItemsTableBody = memo(
+const ItemsTableBodyEstimate = memo(
   ({
     ind,
     item,
-    invoiceItems,
-    setInvoiceItems,
-    handleDeleteRow,
-    handleMenuItemClick,
-    showItemsListMenu,
-    indexSaleItem,
-    setShowItemsListMenu,
-    setIndexSaleItem,
-    setShowItemForm,
-    getAllItemsLoading,
     items,
+    estimateItems,
+    showItemsListMenu,
+    indexEstimateItem,
+    getAllItemsLoading,
+    handleDeleteRow,
+    setShowItemForm,
+    setEstimatesItems,
+    handleMenuItemClick,
+    setIndexEstimateItem,
+    setShowItemsListMenu,
   }) => {
     const [foundItems, setFoundItems] = useState([]);
 
@@ -46,11 +46,11 @@ const ItemsTableBody = memo(
     // Sale Items Change Function
     const handleTableInputChange = (e, index) => {
       const { name, value } = e.target;
-      let currSaleItem = { ...invoiceItems[index], [name]: value };
-      let newSaleData = invoiceItems.map((ite, ind) =>
+      let currSaleItem = { ...estimateItems[index], [name]: value };
+      let newSaleData = estimateItems.map((ite, ind) =>
         ind == index ? currSaleItem : ite
       );
-      setInvoiceItems(newSaleData);
+      setEstimatesItems(newSaleData);
     };
 
     function AmountCalculator() {
@@ -107,16 +107,16 @@ const ItemsTableBody = memo(
       const { amount, taxAmount, discountPercent, discountAmount } =
         AmountCalculator();
       let currSaleItem = {
-        ...invoiceItems[ind],
+        ...estimateItems[ind],
         amount,
         taxAmount,
         discountAmount,
         discountpersant: discountPercent,
       };
-      let newSaleData = invoiceItems.map((ite, index) =>
+      let newSaleData = estimateItems.map((ite, index) =>
         index == ind ? currSaleItem : ite
       );
-      setInvoiceItems(newSaleData);
+      setEstimatesItems(newSaleData);
     }, [
       item.qty,
       item.priceUnit,
@@ -127,14 +127,14 @@ const ItemsTableBody = memo(
 
     return (
       <tr
-        onClick={() => setIndexSaleItem(ind)}
+        onClick={() => setIndexEstimateItem(ind)}
         style={{
           background: ind % 2 == 0 ? "var(--greyishBlue)" : "var(--greyB)",
         }}
       >
         <td
           className={css.serialNumberBody}
-          onClick={() => setIndexSaleItem(ind)}
+          onClick={() => setIndexEstimateItem(ind)}
         >
           <div>
             <MoveIcon className={css.serialIconsBody} />
@@ -148,12 +148,12 @@ const ItemsTableBody = memo(
         <td
           onFocus={() => {
             setShowItemsListMenu(true);
-            setIndexSaleItem(ind);
+            setIndexEstimateItem(ind);
           }}
           onBlur={() => {
             setShowItemsListMenu(false);
           }}
-          onClick={() => setIndexSaleItem(ind)}
+          onClick={() => setIndexEstimateItem(ind)}
           className={css.itemNameBody}
         >
           <input
@@ -169,7 +169,7 @@ const ItemsTableBody = memo(
             className={css.tableInputs}
             required
           />
-          <Menu isOpen={showItemsListMenu && ind == indexSaleItem}>
+          <Menu isOpen={showItemsListMenu && ind == indexEstimateItem}>
             <MenuList
               style={{
                 marginTop: `${foundItems.length > 0 ? 240 : 160}px`,
@@ -201,7 +201,7 @@ const ItemsTableBody = memo(
             </MenuList>
           </Menu>
         </td>
-        <td className={css.qtyBody} onClick={() => setIndexSaleItem(ind)}>
+        <td className={css.qtyBody} onClick={() => setIndexEstimateItem(ind)}>
           <input
             type="number"
             name="qty"
@@ -211,7 +211,7 @@ const ItemsTableBody = memo(
             className={css.tableInputs}
           />
         </td>
-        <td className={css.unitBody} onClick={() => setIndexSaleItem(ind)}>
+        <td className={css.unitBody} onClick={() => setIndexEstimateItem(ind)}>
           <select
             name="unit"
             value={item.unit}
@@ -242,7 +242,7 @@ const ItemsTableBody = memo(
             <option value="TABLETS">TABLETS (TBS)</option>
           </select>
         </td>
-        <td className={css.qtyBody} onClick={() => setIndexSaleItem(ind)}>
+        <td className={css.qtyBody} onClick={() => setIndexEstimateItem(ind)}>
           <input
             type="number"
             name="priceUnit"
@@ -252,7 +252,10 @@ const ItemsTableBody = memo(
             className={css.tableInputs}
           />
         </td>
-        <td className={css.DiscountBody} onClick={() => setIndexSaleItem(ind)}>
+        <td
+          className={css.DiscountBody}
+          onClick={() => setIndexEstimateItem(ind)}
+        >
           <input
             type="number"
             name="discountpersant"
@@ -266,13 +269,15 @@ const ItemsTableBody = memo(
             type="number"
             name="discountAmount"
             value={AmountCalculator()?.discountAmount}
-            // value={item.discountAmount}
             onChange={(e) => handleTableInputChange(e, ind)}
             placeholder="0"
             className={css.tableInputs}
           />
         </td>
-        <td className={css.ItemTaxBody} onClick={() => setIndexSaleItem(ind)}>
+        <td
+          className={css.ItemTaxBody}
+          onClick={() => setIndexEstimateItem(ind)}
+        >
           <span>
             <div>
               <select
@@ -300,7 +305,6 @@ const ItemsTableBody = memo(
             <input
               type="number"
               value={AmountCalculator()?.taxAmount}
-              // value={item.taxAmount}
               name="taxAmount"
               onChange={(e) => handleTableInputChange(e, item)}
               placeholder="0"
@@ -310,11 +314,10 @@ const ItemsTableBody = memo(
             />
           </span>
         </td>
-        <td className={css.qtyBody} onClick={() => setIndexSaleItem(ind)}>
+        <td className={css.qtyBody} onClick={() => setIndexEstimateItem(ind)}>
           <input
             type="number"
             value={AmountCalculator()?.amount}
-            //  value={(item?.qty * item?.priceUnit).toFixed(2)}
             name="amount"
             onChange={(e) => handleTableInputChange(e, ind)}
             placeholder="0"
@@ -328,4 +331,4 @@ const ItemsTableBody = memo(
   }
 );
 
-export default ItemsTableBody;
+export default ItemsTableBodyEstimate;

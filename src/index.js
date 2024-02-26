@@ -102,7 +102,7 @@ const router = createBrowserRouter([
         element: <SalesInvoice />,
       },
       {
-        path: "/salesestimates",
+        path: "/estimates",
         element: <SalesEstimates />,
       },
       {
