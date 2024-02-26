@@ -36,7 +36,7 @@ const initialState = {
 export const reducer = (state = initialState, { type, payload }) => {
    switch (type) {
       case PURCHASE_REQUEST: {
-         return { ...state, isLoading: true  };
+         return { ...state, isLoading: true };
       }
       case GET_PURCHASEBILL_SUCCESS: {
          return {
@@ -71,23 +71,23 @@ export const reducer = (state = initialState, { type, payload }) => {
          return {
             ...state,
             isLoading: false,
-            items: [...state.purchaseBillData, payload],
+            purchaseBillData: [...state.purchaseBillData, payload],
          };
       }
       case POST_PURCHASEORDER_SUCCESS: {
          return {
             ...state,
             isLoading: false,
-            items: [...state.purchaseOrderData, payload],
+            purchaseOrderData: [...state.purchaseOrderData, payload],
          };
       }
 
-      case POST_PURCHASERETURN_SUCCESS:{
-        return {
-          ...state,
-          isLoading: false,
-          items: [...state.purchaseReturnData, payload],
-       };
+      case POST_PURCHASERETURN_SUCCESS: {
+         return {
+            ...state,
+            isLoading: false,
+            purchaseReturnData: [...state.purchaseReturnData, payload],
+         };
       }
 
       case PURCHASE_FAILURE: {

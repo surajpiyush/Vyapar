@@ -54,20 +54,24 @@ const Purchase = () => {
    };
 
    // const handleSave = () => {
-      // console.log(data);   
-      // dispatch(addPurchaseBill(data));
-      // // alert("added Succesfully")
-      // navigate("/purchasebill");
+   // console.log(data);
+   // dispatch(addPurchaseBill(data));
+   // // alert("added Succesfully")
+   // navigate("/purchasebill");
    // };
    const [data, setData] = useState({
       partyName: "Krishan",
-      phoneNumber: 1234567890,
+      phoneNumber: "",
       poNo: "PO123",
-      poDate: "2024-02-16T00:00:00.000Z",
+      poDate: new Date().toISOString().split("T")[0],
       eWayBill: "EWB123",
       billNumber: "BILL123",
-      billDate: new Date(),
-      time: "10:00 AM",
+      billDate: new Date().toISOString().split("T")[0],
+      time: new Date().toLocaleTimeString("en-US", {
+         hour: "2-digit",
+         minute: "2-digit",
+         hour12: false,
+      }),
       paymentTerms: "Net 30",
       dueDate: "2024-03-17T00:00:00.000Z",
       stateOfSupply: "Some State",
@@ -75,19 +79,21 @@ const Purchase = () => {
       sale: [],
       paymentType: [
          {
-            cash: 800,
-            cheque: {
-               refreanceNo: "REF123",
-               checkAmount: 150,
-            },
-            bankDetail: {
-               accountName: "ABC Bank",
-               openingBalance: 5000,
-               asOfDate: new Date(),
-            },
-            default: "cash",
+           types: String,
+           amount: 450,
          },
-      ],
+         {
+           types: String,
+           amount: 1520,
+           refreanceNo: String,
+         },
+         {
+           types: String,
+           accountName: String,
+           openingBalance: 1000,
+           asOfDate: Date,
+         },
+       ],
       addDescription: "Additional description here",
       discount: {
          discountPersent: 2,
@@ -121,6 +127,7 @@ const Purchase = () => {
             setOpen(res.data.data.party[0]?.openingBalance);
             setData({
                ...data,
+               balance: res.data.data.party[0]?.openingBalance,
                phoneNumber: res?.data?.data?.party[0]?.phoneNumber,
                partyName: res?.data?.data?.party[0]?.partyName,
             });
@@ -136,33 +143,7 @@ const Purchase = () => {
                <div className={css.leftSideCont}>
                   <div className={css.selectOuter}>
                      {/* -----------<<<<<<<<<<< Search box >>>>>>>>>>>>------------- */}
-                     {/* <div
-                        className="search-box-container"
-                        onClick={() => setVisible(true)}
-                       >
-                        <input
-                           type="text"
-                           value={searchInput} className={css.selectTag}
-                           onChange={handleSearchChange}
-                           placeholder="Search for your company"
-                           // className="search-box"
-                        />
-                        {visible ? (
-                           <div className="suggestions-container">
-                              {suggestedParties.map((party) => (
-                                 <div
-                                    key={party.id}
-                                    className="suggestion-item"
-                                    onClick={() => handlePartySelect(party)}
-                                 >
-                                    {party.partyName}
-                                 </div>
-                              ))}
-                           </div>
-                        ) : (
-                           ""
-                        )}
-                     </div> */}
+
                      <select
                         value={partiesData.partyName}
                         // onChange={handleInputChange}
@@ -204,7 +185,7 @@ const Purchase = () => {
                      <input
                         type="text"
                         name="number"
-                        placeholder="Phone no."
+                        placeholder="Phone No."
                         value={data.phoneNumber}
                         className={css.input}
                         // onChange={handleChange}
@@ -252,13 +233,13 @@ const Purchase = () => {
                               : css.inactiveLabel
                         }
                      >
-                        PO No.
+                        PO Date
                      </label>
                      <input
                         type="Date"
                         name="poDate"
                         // placeholder="PO Date"
-                        // value={data.phoneNumber}
+                        defaultValue={new Date().toISOString().split("T")[0]}
                         className={css.input}
                         onChange={(e) => handleInputChange(e)}
                      />
@@ -278,10 +259,8 @@ const Purchase = () => {
                      <input
                         type="text"
                         name="eWayBill"
-                        // placeholder="PO No."
-                        // value={data.phoneNumber}
+                        onChange={(e) => handleInputChange(e)}
                         className={css.input}
-                        // onChange={handleChange}
                      />
                   </div>
                </div>
@@ -304,30 +283,38 @@ const Purchase = () => {
                         placeholder="Invoice Date"
                         className={css.invoiceDateSelectInp}
                         onChange={(e) => handleInputChange(e)}
-                        name="billNumber"
+                        name="billDate"
+                        defaultValue={new Date().toISOString().split("T")[0]}
                      />
                   </div>
                   <div>
                      <p>Time</p>
                      <input
                         type="time"
-                        placeholder="Invoice Date"
+                        placeholder="Invoice Time"
                         className={css.invoiceDateSelectInp}
                         onChange={(e) => handleInputChange(e)}
                         name="time"
+                        defaultValue={new Date().toLocaleTimeString("en-US", {
+                           hour: "2-digit",
+                           minute: "2-digit",
+                           hour12: false,
+                        })}
                      />
                   </div>
 
-                
                   <div>
                      <p>Payment Terms</p>
-                    <select name="paymentTerms" onChange={(e)=>handleInputChange(e)}>
-                     <option value="">Due On Recipt</option>
-                     <option value="net 15">Net 15</option>
-                     <option value="net 30">Net 30</option>
-                     <option value="net 45">Net 45</option>
-                     <option value="net 60">Net 60</option>
-                    </select>
+                     <select
+                        name="paymentTerms"
+                        onChange={(e) => handleInputChange(e)}
+                     >
+                        <option value="">Due On Recipt</option>
+                        <option value="net 15">Net 15</option>
+                        <option value="net 30">Net 30</option>
+                        <option value="net 45">Net 45</option>
+                        <option value="net 60">Net 60</option>
+                     </select>
                   </div>
                   <div>
                      <p>Due Date</p>
@@ -342,10 +329,10 @@ const Purchase = () => {
                   <div>
                      <p>State of supply</p>
                      <select
-                        name="stateofsupply"
+                        name="stateOfSupply"
                         id=""
                         className={css.invoiceDateSelectInp}
-                        onSelect={(e)=>handleInputChange(e)}
+                        onSelect={(e) => handleInputChange(e)}
                      >
                         <option value="">State</option>
                         <option value="Andhra Pradesh">Andhra Pradesh</option>
@@ -396,8 +383,9 @@ const Purchase = () => {
                </div>
             </div>
          </section>
-         <br /><br />
-        
+         <br />
+         <br />
+
          <section>
             <Addpurchaseitem data={data} />
          </section>

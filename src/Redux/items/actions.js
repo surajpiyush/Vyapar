@@ -65,6 +65,7 @@ export const getitems = () => async (dispatch) => {
       },
     })
     .then((response) => {
+      // console.log(response)
       dispatch({ type: GET_ITEM_SUCCESS, payload: response.data });
     })
     .catch((error) => {

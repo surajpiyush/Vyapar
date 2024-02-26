@@ -29,8 +29,8 @@ export const addPurchaseBill = (newItem) => (dispatch) => {
          }
       )
       .then((res) => {
-         console.log(res);
-         dispatch({ type: POST_PURCHASEBILL_SUCCESS, payload: res.data });
+         console.log(res.data.data);
+         dispatch({ type: POST_PURCHASEBILL_SUCCESS, payload:res.data.data });
          alert("Bill Added ✔️");
       })
       .catch((ERR) => {
@@ -118,7 +118,7 @@ export const getPurchaseBill =
          })
          .catch((ERR) => {
             console.log(ERR);
-            alert(`${ERR.response.data.msg}`);
+            // alert(`${ERR.response.data.msg}`);
             dispatch({ type: PURCHASE_FAILURE });
          });
    };
