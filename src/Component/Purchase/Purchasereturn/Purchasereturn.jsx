@@ -10,142 +10,168 @@ import { ImSpinner3 as BasicSpinner } from "react-icons/im";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { getPurchaseReturn } from "../../../Redux/purchase/action";
+import FirstTimeFormToggle from "../../FirstTimeFormToggle";
+import party from "../../../assets/Images/party.jpg";
 
-const Purchasereturn = () => {
+const Purchasereturn = ({ func }) => {
    const navigate = useNavigate();
-   const token = localStorage.getItem("token");
-   const companyID = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
-   const baseURL = "https://ca-backend-api.onrender.com";
-   // console.log(userId["_id"])
-   const date = { startDate: "2023-01-20", endDate: "2024-02-24" };
+ 
+   const date = { startDate: "2023-01-20", endDate: "2025-02-24" };
    const dispatch = useDispatch();
    const store = useSelector((store) => store.PurchaseReducer);
-  const data = store?.purchaseReturnData
+   const data = store?.purchaseReturnData;
 
    // console.log(store)
    useEffect(() => {
       dispatch(getPurchaseReturn({ date }));
    }, [dispatch]);
 
+   const openForm = () => {
+      func(true);
+   };
    console.log(data);
    return (
-      <div className="payment-out-container">
-         <div className="transactions-buttons">
-            <input type="text" />
-            <button onClick={(e) => navigate("/addpurchasereturn")}>
-               <span>+</span> Add Payment-out
-            </button>
-         </div>
+      <>
+         {!store.isLoading && !data.length ? (
+            <FirstTimeFormToggle
+               img={party}
+               onClick={() => {
+                  openForm();
+               }}
+               BtnText="Make Your First Purchase Return Order "
+               MiddleText="No data is available for Debit-Note .
+               Please try again after making relevant changes."
+            />
+         ) : (
+            <div className="payment-out-container">
+               <div className="transactions-buttons">
+                  <input type="text" />
+                  <button onClick={() => openForm()}>
+                     <span>+</span> Add Payment-out
+                  </button>
+               </div>
 
-         <table className="table">
-            <thead className="table-head">
-               <tr className="tabel-row">
-                  <th className="table-h">
-                     <div className="table-items">#</div>
-                     <div></div>
-                  </th>
-                  <th className="table-h">
-                     <div className="table-items">Date</div>
-                     <FilterIcon />
-                  </th>
-                  <th className="table-h">
-                     <div className="table-items">Ref No.</div>
-                     <FilterIcon />
-                  </th>
-                  <th className="table-h">
-                     <div className="table-items">PartyName</div>
-                     <FilterIcon />
-                  </th>
-                  <th className="table-h">
-                     <div className="table-items">CategoryName</div>
-                     <FilterIcon />
-                  </th>
-                  <th className="table-h">
-                     <div className="table-items">Type</div>
-                     <FilterIcon />
-                  </th>
-                  <th className="table-h">
-                     <div className="table-items">Total</div>
-                     <FilterIcon />
-                  </th>
-                  <th className="table-h">
-                     <div className="table-items">Recevied</div>
-                     <FilterIcon />
-                  </th>
-                  <th className="table-h">
-                     <div className="table-items">Balance</div>
-                     <FilterIcon />
-                  </th>
-                  <th className="table-h">
-                     <div className="table-items">Print</div>
-                     <FilterIcon />
-                  </th>
-               </tr> 
-            </thead>
-            {store.isLoading ? (
-               <BasicSpinner
-                  style={{
-                     width: "100%",
-                     margin: "60px auto",
-                     fontSize: "30px",
-                  }}
-               />
-            ) : (
-               <tbody>
-                  {data.map((e, i) => (
-                     <tr className="tabel-row tale-data">
+               <table className="table">
+                  <thead className="table-head">
+                     <tr className="tabel-row">
                         <th className="table-h">
-                           <div className="table-items">{i + 1}</div>
+                           <div className="table-items">#</div>
+                           <div></div>
                         </th>
                         <th className="table-h">
-                           <div className="table-items">
-                              {new Date(e.billDate).toLocaleDateString(
-                                 "en-IN",
-                                 {
-                                    day: "2-digit",
-                                    month: "2-digit",
-                                    year: "numeric",
-                                 }
-                              )}
-                           </div>
-                        </th>
-
-                        <th className="table-h">
-                           <div className="table-items">{e.returnNumber}</div>
+                           <div className="table-items">Date</div>
+                           <FilterIcon />
                         </th>
                         <th className="table-h">
-                           <div className="table-items">{e.partyName}</div>
+                           <div className="table-items">Ref No.</div>
+                           <FilterIcon />
                         </th>
                         <th className="table-h">
-                           <div className="table-items">{e.categoryName}</div>
+                           <div className="table-items">PartyName</div>
+                           <FilterIcon />
                         </th>
                         <th className="table-h">
-                           <div className="table-items">-</div>
+                           <div className="table-items">CategoryName</div>
+                           <FilterIcon />
                         </th>
                         <th className="table-h">
-                           <div className="table-items">
-                              ₹{e.total ? e.total : e.balanceDue}
-                           </div>
+                           <div className="table-items">Type</div>
+                           <FilterIcon />
                         </th>
                         <th className="table-h">
-                           <div className="table-items">₹{e.balanceDue}</div>
+                           <div className="table-items">Total</div>
+                           <FilterIcon />
                         </th>
                         <th className="table-h">
-                           <div className="table-items">₹{e.amount}</div>
+                           <div className="table-items">Recevied</div>
+                           <FilterIcon />
                         </th>
                         <th className="table-h">
-                           <div className="table-items">
-                              <PrinterIcon onClick={() => window.print()} />
-                              <ShareIcon />
-                              <DotsIcon />
-                           </div>
+                           <div className="table-items">Balance</div>
+                           <FilterIcon />
+                        </th>
+                        <th className="table-h">
+                           <div className="table-items">Print</div>
+                           <FilterIcon />
                         </th>
                      </tr>
-                  ))}
-               </tbody>
-            )}
-         </table>
-      </div>
+                  </thead>
+                  {store.isLoading ? (
+                     <BasicSpinner
+                        style={{
+                           width: "100%",
+                           margin: "60px auto",
+                           fontSize: "30px",
+                        }}
+                     />
+                  ) : (
+                     <tbody>
+                        {data?.map((e, i) => (
+                           <tr className="tabel-row tale-data">
+                              <th className="table-h">
+                                 <div className="table-items">{i + 1}</div>
+                              </th>
+                              <th className="table-h">
+                                 <div className="table-items">
+                                    {new Date(e.billDate).toLocaleDateString(
+                                       "en-IN",
+                                       {
+                                          day: "2-digit",
+                                          month: "2-digit",
+                                          year: "numeric",
+                                       }
+                                    )}
+                                 </div>
+                              </th>
+
+                              <th className="table-h">
+                                 <div className="table-items">
+                                    {e.returnNumber}
+                                 </div>
+                              </th>
+                              <th className="table-h">
+                                 <div className="table-items">
+                                 {e?.partyData[0]?.partyName}
+                                 </div>
+                              </th>
+                              <th className="table-h">
+                                 <div className="table-items">
+                                    {e.categoryName}
+                                 </div>
+                              </th>
+                              <th className="table-h">
+                                 <div className="table-items">-</div>
+                              </th>
+                              <th className="table-h">
+                                 <div className="table-items">
+                                    ₹{e.total ? e.total : e.balanceDue}
+                                 </div>
+                              </th>
+                              <th className="table-h">
+                                 <div className="table-items">
+                                    ₹{e.balanceDue}
+                                 </div>
+                              </th>
+                              <th className="table-h">
+                                 <div className="table-items">₹{e.amount}</div>
+                              </th>
+                              <th className="table-h">
+                                 <div className="table-items">
+                                    <PrinterIcon
+                                       onClick={() => window.print()}
+                                    />
+                                    <ShareIcon />
+                                    <DotsIcon />
+                                 </div>
+                              </th>
+                           </tr>
+                        ))}
+                     </tbody>
+                  )}
+               </table>
+            </div>
+         )}
+      </>
    );
 };
 

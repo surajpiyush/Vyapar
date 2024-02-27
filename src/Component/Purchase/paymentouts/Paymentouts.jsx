@@ -1,3 +1,4 @@
+import party from "../../../assets/Images/party.jpg";
 import React, { useEffect, useState } from "react";
 import "./Paymentouts.css";
 import {
@@ -9,21 +10,20 @@ import {
 import { ImSpinner3 as BasicSpinner } from "react-icons/im";
 
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
 import { getPaymentOutBill } from "../../../Redux/purchase/action";
+import FirstTimeFormToggle from "../../FirstTimeFormToggle";
 
-const Paymentouts = ({func}) => {
+const Paymentouts = ({ func }) => {
    const dispatch = useDispatch();
-   // const [data, setData] = useState([]);
-   const companyID = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
-   const token = localStorage.getItem("token");
+
    const store = useSelector((store) => store.PurchaseReducer);
+   const data = store.paymentOutData;
    console.log(store);
-   const data = store?.paymentOutData;
    const date = {
       startDate: "2023-01-20",
       endDate: "2025-02-24",
    };
+   // console.log(store);
    useEffect(() => {
       dispatch(getPaymentOutBill({ date }));
    }, []);
@@ -57,13 +57,28 @@ const Paymentouts = ({func}) => {
    };
    const openForm = () => {
       func(true);
-    };
+   };
    return (
       <>
+      {!store.isLoading && !data.length ? (
+            <FirstTimeFormToggle
+               img={party}
+               onClick={() => {
+                     openForm();
+                  }}
+               BtnText="Make Your First Payment-Out Order "
+               MiddleText="No data is available for Payment-Out.
+               Please try again after making relevant changes."
+            />
+         ) :(
          <div className="payment-out-container">
             <div className="transactions-buttons">
                {/* <input type="text" /> */}
-               <button onClick={()=>{openForm()}}>
+               <button
+                  onClick={() => {
+                     openForm();
+                  }}
+               >
                   <span>+</span> Add Payment-out
                </button>
             </div>
@@ -138,8 +153,8 @@ const Paymentouts = ({func}) => {
                               <div className="table-items">{e.refNo}</div>
                            </th>
                            <th className="table-h">
-                              <div className="table-items">{e.partyName}</div>
-                           </th>
+                              <div className="table-items">{e?.partyData[0]?.partyName}</div>
+                           </th> 
                            <th className="table-h">
                               <div className="table-items">
                                  {e.categotyName ? e.categotyName : "-"}
@@ -176,6 +191,7 @@ const Paymentouts = ({func}) => {
                <p>Balance: ₹0.00</p>
             </div>
          </div>
+         )}
       </>
    );
 };

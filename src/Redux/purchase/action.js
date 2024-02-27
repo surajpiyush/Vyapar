@@ -71,25 +71,25 @@ export const addPurchaseOrder = (newItem) => (dispatch) => {
 };
 
 export const addPurchaseReturn = (newItem) => (dispatch) => {
-  console.log(newItem)
+//   console.log(newItem)
   dispatch({ type: PURCHASE_REQUEST });
   // console.log(companyID)
   axios
      .post(
         `https://ca-backend-api.onrender.com/${companyID}/purchaseReturn/create`,
-        newItem,
+        newItem,  
         {
            headers: { Authorization: `Bearer ${token}` },
         }
      )
      .then((res) => {
-        console.log(res);
+      //   console.log(res);
         dispatch({ type: POST_PURCHASERETURN_SUCCESS, payload: res.data });
         alert("Bill Added ✔️");
      })
      .catch((ERR) => {
         console.log(ERR);
-        alert(`${ERR.response.data.msg}`);
+      //   alert(`${ERR.response.data.msg}`);
         dispatch({ type: PURCHASE_FAILURE });
      });
   // console.log(`Your item has been sent to the backend:`, newItem);
@@ -148,7 +148,7 @@ export const getPaymentOutBill =
          })
          .catch((ERR) => {
             console.log(ERR);
-            alert(`${ERR.response.data.msg}`);
+            // alert(`${ERR.response.data.msg}`);
             dispatch({ type: PURCHASE_FAILURE });
          });
    };

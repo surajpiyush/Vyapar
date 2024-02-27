@@ -163,7 +163,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
          size: "Large",
       },
    ]);
-
+// console.log(formData[0])
    // Update total footer values
    useEffect(() => {
       let footerObj = {

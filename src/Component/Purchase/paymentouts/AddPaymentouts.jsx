@@ -1,6 +1,9 @@
-import css from "../../styles/SalesStyles/SalesForms.module.css";
+import css from "../../../styles/SalesStyles/SalesForms.module.css";
 import React, { useEffect, useState } from "react";
 
+import "./Paymentouts.css";
+
+import { addPurchaseBill } from "../../../Redux/purchase/action";
 import { useDispatch, useSelector } from "react-redux";
 import { IoIosArrowDown as ArrowDown } from "react-icons/io";
 import { FiPlusCircle as PlusIcon } from "react-icons/fi";
@@ -21,13 +24,12 @@ import {
 } from "@chakra-ui/react";
 
 // =================================================================
-import ItemsForm from "../../components/addForm/ItemsForm";
+import ItemsForm from "../../../components/addForm/ItemsForm";
 
-import { GetAllItems } from "../../Redux/items/actions";
-import { FetchAllParties } from "../../Redux/parties/actions";
-import { addPurchaseReturn } from "../../Redux/purchase/action";
+import { GetAllItems } from "../../../Redux/items/actions";
+import { FetchAllParties } from "../../../Redux/parties/actions";
 
-const Addpurchasereturnitrm = ({ setOpenForm }) => {
+const AddPaymentouts = ({ setOpenForm }) => {
    // ==========================================================================
    const toast = useToast();
    const dispatch = useDispatch();
@@ -63,84 +65,48 @@ const Addpurchasereturnitrm = ({ setOpenForm }) => {
    const [balanceAmount, setBalanceAmount] = useState("");
 
    const [data, setData] = useState({
-      type: "Debit Note",
+      type: "Purchase-Out",
       status: "Pending",
       partyName: "",
-      phoneNumber: 1234567890,
-      returnNumber: "RN123",
-      billNumber: "BILL123",
-      billDate: "2024-02-16",
-      date: "2024-02-16",
+      receiptNumber: "RO123",
+      date: "2024-02-16T00:00:00.000Z",
       time: "10:00 AM",
-      stateOfSupply: "2024-02-16T00:00:00.000Z",
-      priceUnitWithTax: true,
-      purchaseOrder: [],
+      description: "Purchase return of items",
       paymentType: [
-         {
-            cash: 0,
-            cheque: {
-               refreanceNo: "REF123",
-               checkAmount: 150,
-            },
-            bankDetail: {
-               accountName: "ABC Bank",
-               openingBalance: 5000,
-               asOfDate: "2024-02-16T00:00:00.000Z",
-            },
-            default: "cheque",
-         },
-      ],
-      addDescription: "Additional description here",
-      discount: {
-         discountPersent: 2,
-         discountAmount: 2,
-      },
-      tax: {
-         tax: "GST",
-         taxamount: 10,
-      },
-      roundOff: 0,
-      total: 950,
-      advanceAmount: 0,
-      balance: 950,
+        {
+            types: String,
+            amount: Number,
+          },
+          {
+            types: String,
+            amount: Number,
+            refreanceNo: String,
+          },
+          {
+            types: String,
+            accountName: String,
+            openingBalance: Number,
+            asOfDate: Date,
+          },
+      ],
+      paid: 0,
+      discount: 0,
+      total: 0,
    });
 
-   const [formData, setFormData] = useState([
-      {
-         category: "65c5cfc509b34ca8a0187497",
-         itemName: "65d346274b3a635d1031b700",
-         itemCode: "001",
-         hsnCode: "HSN001",
-         serialNo: "SN001",
-         description: "Description of item 1",
-         batchNo: 1,
-         modelNo: 123,
-         expDate: "2025-02-16T00:00:00.000Z",
-         mfgDate: "2023-02-16T00:00:00.000Z",
-         customField: "Custom field 1",
-         size: "Large",
-         qty: 10,
-         unit: "pcs",
-         priceUnit: 100,
-         discountpersant: 5,
-         discountAmount: 5,
-         taxPersant: "12%",
-         taxAmount: 12,
-         amount: 950,
-      },
-   ]);
-console.log(formData[0])
+   
+  
    // Submit Request Function
    const handleSubmit = (e) => {
       e.preventDefault();
-      const purchaseOrderData = {
+      const purchaseBillData = {
          ...data,
          priceUnitWithTax: data?.priceUnitWithTax == "true",
-         purchaseOrder: [...data.purchaseOrder, formData],
+         sale: [...data.sale, payment],
       };
-      console.log("data", purchaseOrderData);
+      console.log("data", purchaseBillData);
 
-      dispatch(addPurchaseReturn(purchaseOrderData));
+      dispatch(addPurchaseBill(purchaseBillData));
       // addPurchaseBill(dispatch(purchaseBillData))
       setOpenForm(false);
       // PostSalesInvoice(dispatch, toast, data, setOpenForm);
@@ -151,24 +117,7 @@ console.log(formData[0])
       FetchAllParties(dispatch);
    }, [togglePartiesData]);
 
-   // for fetching all items list on form mount
-   useEffect(() => {
-      dispatch(GetAllItems());
-   }, [toggleItems]);
-
-   // for changing current firm data
-   useEffect(() => {
-      let obj = {
-         // customerName: currentCustomerData?.partyName || "",
-         //  billingName: currentCustomerData?.partyName || "",
-         phoneNumber: currentCustomerData?.phoneNumber || "",
-         //  billingAddress: currentCustomerData?.billingAddress || "",
-         balance: currentCustomerData?.openingBalance || "",
-      };
-      setData((prev) => {
-         return { ...prev, ...obj };
-      });
-   }, [currentCustomerData]);
+  
 
    // To Show Reference Input
    useEffect(() => {
@@ -179,14 +128,8 @@ console.log(formData[0])
       }
    }, [paymentTypeSelectTag]);
 
-   const handleInputChange = (e) => {
-      const { name, value } = e.target;
-      setFormData((prev) => {
-        console.log(prev)
-         return { ...prev, [name]: value };
-      });
-      // console.log(formData)
-   };
+ 
+
    const handleChange = (e) => {
       const { name, value } = e.target;
       setData((prev) => {
@@ -195,67 +138,11 @@ console.log(formData[0])
       // console.log(payment)
    };
 
-   const [rows, setRows] = useState([
-      {
-         id: 1,
-         category: "65c5cfc509b34ca8a0187497",
-         itemName: "mobile",
-         itemCode: "001",
-         hsnCode: "HSN001",
-         description: "Description of item 1",
-         count: 1,
-         qty: 10,
-         freeqty: 0,
-         unit: "pcs",
-         priceUnit: 100,
-         discountAmount: 5,
-         discountpersant: 5,
-         taxPersant: "12%",
-         amount: 950,
-      },
-   ]);
-
-   const handleAddRow = () => {
-      const newRow = {
-         category: "65c5cfc509b34ca8a0187497",
-         itemName: "mobile",
-         itemCode: "001",
-         hsnCode: "HSN001",
-         description: "Description of item 1",
-         count: 1,
-         qty: 10,
-         freeqty: 0,
-         unit: "pcs",
-         priceUnit: 100,
-         discountAmount: 5,
-         discountpersant: 5,
-         taxPersant: "12%",
-         amount: 950,
-
-         // there is place for them in frontend
-         taxAmount: 12, // to be calculated
-         batchNo: 1,
-         modelNo: 123,
-         expDate: "2025-02-16T00:00:00.000Z",
-         mfgDate: new Date(),
-         customField: "Custom field 1",
-         size: "Large",
-      };
-      setRows([...rows, newRow]);
-      setFormData([...formData, newRow]);
-      // console.log(payment);
-   };
-
-   const handleDeleteRow = (row, rowIndex) => {
-      const updatedRows = [...rows];
-      updatedRows.splice(rowIndex, 1);
-      setRows(updatedRows);
-   };
 
    return (
       <form onSubmit={handleSubmit} className={css.formOuter}>
          <div className={css.topheader}>
-            <p>Debit Note</p>
+            <p>Payment- Out</p>
          </div>
 
          <div className={css.ContentContainerDiv}>
@@ -317,18 +204,61 @@ console.log(formData[0])
                      </label>
                   </div>
                </div>
-
-               <div className={css.rightSideCont}>
-                  <div>
-                     <p>Return Number</p>
+               <div>
+                  <div className={css.inputDiv}>
+                     <label
+                        htmlFor="PO No"
+                        className={
+                           data.partyName ? css.activeLabel : css.inactiveLabel
+                        }
+                     >
+                        PO No.
+                     </label>
                      <input
                         type="text"
-                        placeholder="1"
-                        className={css.invoiceNumInp}
+                        name="poNo"
+                        className={css.input}
                         onChange={(e) => handleChange(e)}
-                        name="returnNumber"
                      />
                   </div>
+                  <br />
+                  <div className={css.inputDiv}>
+                     <label
+                        htmlFor="PO Date"
+                        className={
+                           data.partyName ? css.activeLabel : css.inactiveLabel
+                        }
+                     >
+                        PO Date
+                     </label>
+                     <input
+                        type="Date"
+                        name="poDate"
+                        defaultValue={new Date().toISOString().split("T")[0]}
+                        className={css.input}
+                        onChange={(e) => handleChange(e)}
+                     />
+                  </div>
+                  <br />
+                  <div className={css.inputDiv}>
+                     <label
+                        htmlFor="PO No"
+                        className={
+                           data.partyName ? css.activeLabel : css.inactiveLabel
+                        }
+                     >
+                        E-Way Bill
+                     </label>
+                     <input
+                        type="text"
+                        name="eWayBill"
+                        onChange={(e) => handleChange(e)}
+                        className={css.input}
+                     />
+                  </div>
+               </div>
+
+               <div className={css.rightSideCont}>
                   <div>
                      <p>Bill Number</p>
                      <input
@@ -343,6 +273,7 @@ console.log(formData[0])
                      <p>Bill Date</p>
                      <input
                         type="date"
+                        placeholder="Invoice Date"
                         className={css.invoiceDateSelectInp}
                         onChange={(e) => handleChange(e)}
                         name="billDate"
@@ -353,6 +284,7 @@ console.log(formData[0])
                      <p>Time</p>
                      <input
                         type="time"
+                        placeholder="Invoice Time"
                         className={css.invoiceDateSelectInp}
                         onChange={(e) => handleChange(e)}
                         name="time"
@@ -365,13 +297,26 @@ console.log(formData[0])
                   </div>
 
                   <div>
+                     <p>Payment Terms</p>
+                     <select
+                        name="paymentTerms"
+                        onChange={(e) => handleChange(e)}
+                     >
+                        <option value="">Due On Recipt</option>
+                        <option value="net 15">Net 15</option>
+                        <option value="net 30">Net 30</option>
+                        <option value="net 45">Net 45</option>
+                        <option value="net 60">Net 60</option>
+                     </select>
+                  </div>
+                  <div>
                      <p>Due Date</p>
                      <input
                         type="date"
-                        placeholder=" Date"
+                        placeholder="Due Date"
                         className={css.invoiceDateSelectInp}
                         onChange={(e) => handleChange(e)}
-                        name="date"
+                        name="dueDate"
                      />
                   </div>
                   <div>
@@ -380,7 +325,7 @@ console.log(formData[0])
                         name="stateOfSupply"
                         id=""
                         className={css.invoiceDateSelectInp}
-                        onChange={(e) => handleChange(e)}
+                        onSelect={(e) => handleChange(e)}
                      >
                         <option value="">State</option>
                         <option value="Andhra Pradesh">Andhra Pradesh</option>
@@ -526,11 +471,10 @@ console.log(formData[0])
                                        const itemId =
                                           selectedItem?._id?.toString();
                                        // console.log(itemId)
-                                       setFormData({
-                                          ...formData[0],
+                                       setPayment({
+                                          ...payment,
                                           itemName: itemId,
                                        });
-                                       
                                        // now from this itemId you need to fetch the data of that perticular item and display in that row
                                        // getData(partyId);
                                        // setData({
@@ -747,6 +691,51 @@ console.log(formData[0])
                         <td className={css.addRowChildTd}>10</td>
                      </tr>
                   </tbody>
+                  {/* <tbody>
+              {payment?.map((item, ind) => {
+                return (
+                  <ItemsTableBody
+                    ind={ind}
+                    item={item}
+                    payment={payment}
+                  setPayment={setPayment}
+                    handleDeleteRow={handleDeleteRow}
+                    handleMenuItemClick={handleMenuItemClick}
+                    setShowItemsListMenu={setShowItemsListMenu}
+                    setShowItemForm={setShowItemForm}
+                    setIndexSaleItem={setIndexSaleItem}
+                    items={items}
+                    getAllItemsLoading={getAllItemsLoading}
+                    showItemsListMenu={showItemsListMenu}
+                    indexSaleItem={indexSaleItem}
+                    key={ind}
+                  />
+                );
+              })}
+              <tr className={css.addRowTr}>
+                <td></td>
+                <td>
+                  <div className={css.actualAddRowTd}>
+                    <button onClick={handleAddRow} type="button">
+                      ADD ROW
+                    </button>
+                    <p>Total</p>
+                  </div>
+                </td>
+                <td className={css.addRowChildTd}>{rowFooterData?.totalQty}</td>
+                <td></td>
+                <td></td>
+                <td className={css.addRowChildTd}>
+                  {rowFooterData?.totalDiscountAmount}
+                </td>
+                <td className={css.addRowChildTd}>
+                  {rowFooterData?.totalTaxAmount}
+                </td>
+                <td className={css.addRowChildTd}>
+                  {rowFooterData?.totalAmount}
+                </td>
+              </tr>
+            </tbody> */}
                </table>
             </div>
 
@@ -866,7 +855,7 @@ console.log(formData[0])
                         <textarea
                            value={data.addDescription}
                            name="addDescription"
-                           onChange={(e) => handleChange(e)}
+                           onChange={(e) => handleInputChange(e)}
                            className={css.input}
                            style={{
                               height: "110px",
@@ -1048,4 +1037,4 @@ console.log(formData[0])
    );
 };
 
-export default Addpurchasereturnitrm;
+export default AddPaymentouts;

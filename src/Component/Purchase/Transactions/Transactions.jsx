@@ -23,16 +23,7 @@ const transactionFilterItems = [
 ];
 
 const Transactions = ({func}) => {
-   const transcationsItems = [
-      {
-         date: "11/01/2024",
-         invoice: "hgtjj98j",
-         partyName: "gg",
-         paymentType: "cash",
-         ampunt: "0",
-         balance: "0",
-      },
-   ];
+
    const openForm = () => {
       func(true);
     };
@@ -129,7 +120,7 @@ const Transactions = ({func}) => {
                            {/* <p></p> */}
                         </div>
                         <div className="transaction-table">
-                           <p className="transaction-table">{e.partyName}</p>
+                           <p className="transaction-table">{e?.partyData[0]?.partyName}</p>
                         </div>
                         <div className="transaction-table">
                            <p className="transaction-table">Cash</p>
