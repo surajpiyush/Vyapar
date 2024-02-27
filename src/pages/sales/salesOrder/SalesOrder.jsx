@@ -1,28 +1,39 @@
 import css from "../../../styles/SalesStyles/Order.module.css";
 import party from "../../../assets/Images/party.jpg";
-import SalesOrderTable from "../../../components/TableData/SalesOrderTable";
-import FirstTimeFormToggle from "../../../Component/FirstTimeFormToggle";
 import OrderForm from "./OrderForm";
+import TableSaleOrder from "./TableSaleOrder";
+import FirstTimeFormToggle from "../../../Component/FirstTimeFormToggle";
+import { GetAllSaleOrders } from "../../../Redux/sales/action";
 
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useToast } from "@chakra-ui/react";
 import { IoCalculator as CalculatorIcon } from "react-icons/io5";
 import { MdOutlineSettings as SettingIcon } from "react-icons/md";
 import { IoMdCloseCircle as CloseIcon } from "react-icons/io";
 import { IoCloseOutline as CrossIcon } from "react-icons/io5";
+import { IoSearch as SearchIcon } from "react-icons/io5";
+import { FiPlusCircle as PlusIcon } from "react-icons/fi";
+import { CiFilter as FilterIcon } from "react-icons/ci";
 
 export default function SalesOrder() {
   const toast = useToast();
   const dispatch = useDispatch();
+  const isError = useSelector((state) => state.SalesReducer.isError);
+  const isLoading = useSelector((state) => state.SalesReducer.isLoading);
+  const toggleSaleOrder = useSelector(
+    (state) => state.SalesReducer.toggleSaleOrder
+  );
+  const saleOrderList = useSelector(
+    (state) => state.SalesReducer.saleOrderList
+  );
 
-  const data = [];
   const [openForm, setOpenForm] = useState(false);
   const [toggleSections, setToggleSections] = useState(false);
 
-  const closeForm = () => {
-    setOpenForm(false);
-  };
+  useEffect(() => {
+    GetAllSaleOrders(dispatch);
+  }, [toggleSaleOrder]);
 
   const formOpen = () => {
     setOpenForm(true);
@@ -85,20 +96,105 @@ export default function SalesOrder() {
               <OrderForm setOpenForm={setOpenForm} />
             </div>
           )}
+
           <div className="d-cen b-cont text-center text-center">
-            {!data.length > 0 ? (
-              <FirstTimeFormToggle
-                img={party}
-                onClick={formOpen}
-                BtnText="Add Your First Sale Order"
-                MiddleText="Make & share sale orders & convert them to sale invoice instantly."
-              />
-            ) : (
-              <div className="">
-                <SalesOrderTable func={formOpen} />
+            <div className={css.TableOuter}>
+              <div className={css.saleOrderUpperNav}>
+                <div className={css.leftSideDivSaleOuter}>
+                  <p>TRANSACTIONS</p>
+                  <div className={css.saleOrderSearchDiv}>
+                    <SearchIcon />
+                    <div>
+                      <input type="text" />
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <button
+                    type="button"
+                    onClick={formOpen}
+                    className={css.addSaleOrderBtn}
+                  >
+                    <PlusIcon /> Add Sale Order
+                  </button>
+                </div>
               </div>
-            )}
+              <div className={css.TabelOuterDivSaleOrder}>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>
+                        <div>
+                          PARTY <FilterIcon />
+                        </div>
+                      </th>
+                      <th>
+                        <div>
+                          NO. <FilterIcon />
+                        </div>
+                      </th>
+                      <th>
+                        <div>
+                          DATE <FilterIcon />
+                        </div>
+                      </th>
+                      <th>
+                        <div>
+                          DUE DATE <FilterIcon />
+                        </div>
+                      </th>
+                      <th>
+                        <div>
+                          TOTAL AMOUNT <FilterIcon />
+                        </div>
+                      </th>
+                      <th>
+                        <div>
+                          BALANCE <FilterIcon />
+                        </div>
+                      </th>
+                      <th>
+                        <div>
+                          TYPE <FilterIcon />
+                        </div>
+                      </th>
+                      <th>
+                        <div>
+                          STATUS <FilterIcon />
+                        </div>
+                      </th>
+                      <th>
+                        <div>
+                          ACTION <FilterIcon />
+                        </div>
+                      </th>
+                      <th></th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {saleOrderList?.map((item, ind) => (
+                      <TableSaleOrder
+                        {...item}
+                        ind={ind}
+                        key={ind + item?._id}
+                      />
+                    ))}
+                  </tbody>
+                </table>
+                {isLoading && <h2>Loading Sale Orders...</h2>}
+              </div>
+            </div>
           </div>
+
+          {!isLoading && !saleOrderList.length > 0 && (
+            <FirstTimeFormToggle
+              img={party}
+              onClick={formOpen}
+              BtnText="Add Your First Sale Order"
+              MiddleText="Make & share sale orders & convert them to sale invoice instantly."
+            />
+          )}
         </div>
       ) : (
         // Online Orders Section

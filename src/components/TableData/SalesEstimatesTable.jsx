@@ -1,6 +1,3 @@
-// import "../../styles/parties.css";
-// import "../../styles/sales.css";
-
 import { useToast } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 

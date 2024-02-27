@@ -63,6 +63,7 @@ const OrderForm = ({ setOpenForm }) => {
   const [orderTableItems, setOrderTableItems] = useState([
     {
       itemName: "",
+      mainName: "",
       qty: "",
       unit: "",
       priceUnit: "",
@@ -85,55 +86,49 @@ const OrderForm = ({ setOpenForm }) => {
     dueDate: new Date().toISOString().split("T")[0],
     stateOfSupply: "",
     priceUnitWithTax: false,
-    //  addDescription: "",
-    //  total: "",
-    //  recived: "",
-    // balance: "",
+    total: "",
+    advancedAmount: "",
+    balance: "",
   });
 
   // Submit Request Function
   const handleSubmit = (e) => {
+    let total = toggleRoundOff
+      ? Math.round(rowFooterData?.totalAmount)
+      : rowFooterData?.totalAmount;
     e.preventDefault();
     const data = {
       ...orderData,
-      saleOrder: orderTableItems,
+      total,
       priceUnitWithTax: orderData?.priceUnitWithTax == "true",
-      // sale: orderTableItems,
-      // balance:
-      //   balanceAmount || toggleRoundOff
-      //     ? Math.round(rowFooterData?.totalAmount)
-      //     : rowFooterData?.totalAmount,
-      // total: toggleRoundOff
-      //   ? Math.round(rowFooterData?.totalAmount)
-      //   : rowFooterData?.totalAmount,
-      // paymentType: [
-      //   { type: paymentTypeSelectTag, amount: 0 },
-      //   { type: "Cheque", amount: 0, refreanceNo: "Test" },
-      //   {
-      //     type: "XYZ",
-      //     accountName: "ABC",
-      //     openingBalance: 100,
-      //     asOfDate: "2024-02-01",
-      //   },
-      // ],
-      // paymentType: [
-      //   {
-      //     cash: 150,
-      //     cheque: {
-      //       refreanceNo: "CHK123",
-      //       checkAmount: 200,
-      //     },
-      //     bankDetail: {
-      //       accountName: "Account Name",
-      //       openingBalance: 1000,
-      //       asOfDate: "2024-02-09",
-      //     },
-      //   },
-      // ],
+      saleOrder: orderTableItems,
+      paymentType: [
+        { types: paymentTypeSelectTag, amount: 0 },
+        { types: "Cheque", amount: 0, refreanceNo: "Test" },
+        {
+          types: "XYZ",
+          accountName: "ABC",
+          openingBalance: 100,
+          asOfDate: "2024-02-01",
+        },
+      ],
+      balance: balanceAmount,
     };
-    // PostSaleOrder(dispatch, toast, data, setOpenForm);
+    PostSaleOrder(dispatch, data, setOpenForm, toast);
+  };
 
-    console.log("orderData", data);
+  // Found items list click handler
+  const handleMenuItemClick = (index, itemDetail) => {
+    let currSaleItem = {
+      ...orderTableItems[index],
+      itemName: itemDetail?._id,
+      mainName: itemDetail?.itemName,
+      taxPersant: itemDetail?.taxRate.split("%")[0] || "",
+    };
+    let newSaleData = orderTableItems.map((ite, ind) =>
+      ind == index ? currSaleItem : ite
+    );
+    setOrderTableItems(newSaleData);
   };
 
   // Update total footer values
@@ -213,37 +208,24 @@ const OrderForm = ({ setOpenForm }) => {
     });
   };
 
-  // Found items list click handler
-  const handleMenuItemClick = (index, itemDetail) => {
-    let currSaleItem = {
-      ...orderTableItems[index],
-      itemId: itemDetail?._id,
-      itemName: itemDetail?.itemName,
-      taxPersant: itemDetail?.taxRate.split("%")[0] || "",
-    };
-    let newSaleData = orderTableItems.map((ite, ind) =>
-      ind == index ? currSaleItem : ite
-    );
-    setOrderTableItems(newSaleData);
-  };
-
   // for changing balance amount
   useEffect(() => {
     let initAmount = toggleRoundOff
       ? Math.round(rowFooterData?.totalAmount)
       : rowFooterData?.totalAmount;
-    let recieved = orderData?.recived || 0;
-    let bal = initAmount - recieved;
+    let advancedAmount = orderData?.advancedAmount || 0;
+    let bal = initAmount - advancedAmount;
     setBalanceAmount(
       bal.toFixed(2) ? bal.toFixed(2) : rowFooterData?.totalAmount
     );
-  }, [orderData?.recived, toggleRoundOff, rowFooterData?.totalAmount]);
+  }, [orderData?.advancedAmount, toggleRoundOff, rowFooterData?.totalAmount]);
 
   // Add Row Function
   const handleAddRow = (e) => {
     e.stopPropagation();
     let newRowData = {
       itemName: "",
+      mainName: "",
       qty: "",
       unit: "",
       priceUnit: "",
@@ -323,7 +305,6 @@ const OrderForm = ({ setOpenForm }) => {
                 Phone No.
               </label>
             </div>
-            {/* {currentCustomerData?._id && ( */}
             {orderData?.party && (
               <div className={css.inputDiv}>
                 <textarea
@@ -528,7 +509,7 @@ const OrderForm = ({ setOpenForm }) => {
         </div>
 
         {/* Bottom Section */}
-        {/* <div
+        <div
           style={{
             marginTop: showItemsListMenu ? "100px" : "0px",
             transition: "margin-top 0.5s ease-in",
@@ -753,14 +734,14 @@ const OrderForm = ({ setOpenForm }) => {
             {rowFooterData?.totalAmount > 0 && (
               <div className={css.bottomRecievedOuterDiv}>
                 <div className={css.totalBottomDiv}>
-                  <p>Received</p>
+                  <p>Advance Amount</p>
                   <input
                     type="number"
+                    name="advancedAmount"
+                    value={orderData?.advancedAmount}
+                    onChange={handleInputChange}
                     placeholder="0"
                     disabled={!toggleReceived}
-                    value={orderData?.recived}
-                    name="recived"
-                    onChange={handleInputChange}
                   />
                 </div>
                 {toggleReceived ? (
@@ -792,7 +773,7 @@ const OrderForm = ({ setOpenForm }) => {
               </div>
             )}
           </div>
-        </div> */}
+        </div>
       </div>
 
       {/* Footer */}
