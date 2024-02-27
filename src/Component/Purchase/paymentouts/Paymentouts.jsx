@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { getPaymentOutBill } from "../../../Redux/purchase/action";
 
-const Paymentouts = () => {
+const Paymentouts = ({func}) => {
    const dispatch = useDispatch();
    // const [data, setData] = useState([]);
    const companyID = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
@@ -22,7 +22,7 @@ const Paymentouts = () => {
    const data = store?.paymentOutData;
    const date = {
       startDate: "2023-01-20",
-      endDate: "2024-02-24",
+      endDate: "2025-02-24",
    };
    useEffect(() => {
       dispatch(getPaymentOutBill({ date }));
@@ -55,13 +55,15 @@ const Paymentouts = () => {
       discount: 0,
       total: 0,
    };
-
+   const openForm = () => {
+      func(true);
+    };
    return (
       <>
          <div className="payment-out-container">
             <div className="transactions-buttons">
                {/* <input type="text" /> */}
-               <button onClick={() => alert("UI is under work")}>
+               <button onClick={()=>{openForm()}}>
                   <span>+</span> Add Payment-out
                </button>
             </div>
