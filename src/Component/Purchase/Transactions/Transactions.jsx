@@ -120,7 +120,7 @@ const Transactions = ({func}) => {
                            {/* <p></p> */}
                         </div>
                         <div className="transaction-table">
-                           <p className="transaction-table">{e.partyName}</p>
+                           <p className="transaction-table">{e?.partyData[0]?.partyName}</p>
                         </div>
                         <div className="transaction-table">
                            <p className="transaction-table">Cash</p>

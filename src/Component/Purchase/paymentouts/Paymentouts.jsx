@@ -1,3 +1,4 @@
+import party from "../../../assets/Images/party.jpg";
 import React, { useEffect, useState } from "react";
 import "./Paymentouts.css";
 import {
@@ -10,6 +11,7 @@ import { ImSpinner3 as BasicSpinner } from "react-icons/im";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getPaymentOutBill } from "../../../Redux/purchase/action";
+import FirstTimeFormToggle from "../../FirstTimeFormToggle";
 
 const Paymentouts = ({ func }) => {
    const dispatch = useDispatch();
@@ -58,6 +60,17 @@ const Paymentouts = ({ func }) => {
    };
    return (
       <>
+      {!store.isLoading && !data.length ? (
+            <FirstTimeFormToggle
+               img={party}
+               onClick={() => {
+                     openForm();
+                  }}
+               BtnText="Make Your First Payment-Out Order "
+               MiddleText="No data is available for Payment-Out.
+               Please try again after making relevant changes."
+            />
+         ) :(
          <div className="payment-out-container">
             <div className="transactions-buttons">
                {/* <input type="text" /> */}
@@ -140,8 +153,8 @@ const Paymentouts = ({ func }) => {
                               <div className="table-items">{e.refNo}</div>
                            </th>
                            <th className="table-h">
-                              <div className="table-items">{e.partyName}</div>
-                           </th>
+                              <div className="table-items">{e?.partyData[0]?.partyName}</div>
+                           </th> 
                            <th className="table-h">
                               <div className="table-items">
                                  {e.categotyName ? e.categotyName : "-"}
@@ -178,6 +191,7 @@ const Paymentouts = ({ func }) => {
                <p>Balance: ₹0.00</p>
             </div>
          </div>
+         )}
       </>
    );
 };

@@ -16,25 +16,25 @@ import { IoCloseOutline as CrossIcon } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import AddPaymentouts from "../../Component/Purchase/paymentouts/AddPaymentouts";
 const Paymentout = () => {
-  const toast = useToast();
-  const dispatch = useDispatch();
-  const [openForm, setOpenForm] = useState(false);
-  const [startDate, setStartDate] = useState("2024-02-01");
-  const [endDate, setEndDate] = useState(
-     new Date().toISOString().split("T")[0]
-  );
-  const toggleSalesSuccess = useSelector(
-     (state) => state.SalesReducer.toggleSalesSuccess
-  );
-  const isLoading = useSelector((state) => state.SalesReducer.isLoading);
+   const toast = useToast();
+   const dispatch = useDispatch();
+   const [openForm, setOpenForm] = useState(false);
+   const [startDate, setStartDate] = useState("2024-02-01");
+   const [endDate, setEndDate] = useState(
+      new Date().toISOString().split("T")[0]
+   );
+   const toggleSalesSuccess = useSelector(
+      (state) => state.SalesReducer.toggleSalesSuccess
+   );
+   const isLoading = useSelector((state) => state.SalesReducer.isLoading);
 
-  useEffect(() => {
-     GetAllSalesInvoice(dispatch, startDate, endDate);
-  }, [toggleSalesSuccess, startDate, endDate]);
+   useEffect(() => {
+      GetAllSalesInvoice(dispatch, startDate, endDate);
+   }, [toggleSalesSuccess, startDate, endDate]);
 
-  const formOpen = () => {
-     setOpenForm(true);
-  };
+   const formOpen = () => {
+      setOpenForm(true);
+   };
 
    return (
       <div className="purchase-bill-container">

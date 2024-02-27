@@ -103,11 +103,11 @@ const Pourchaseorder = ({func}) => {
                      />
                   ) : (
                      <tbody>
-                        {data.map((e) => (
+                        {data?.map((e) => (
                            <tr className="tabel-row tale-data purchase-order">
                               <th className="table-h">
                                  <div className="table-items">
-                                    {e.partyName}
+                                 {e?.partyData[0]?.partyName}
                                  </div>
                               </th>
                               <th className="table-h">

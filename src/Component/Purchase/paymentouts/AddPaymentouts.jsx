@@ -67,13 +67,27 @@ const AddPaymentouts = ({ setOpenForm }) => {
    const [data, setData] = useState({
       type: "Purchase-Out",
       status: "Pending",
-      partyName: "Bhuvensh",
+      partyName: "",
       receiptNumber: "RO123",
       date: "2024-02-16T00:00:00.000Z",
       time: "10:00 AM",
       description: "Purchase return of items",
       paymentType: [
-       
+        {
+            types: String,
+            amount: Number,
+          },
+          {
+            types: String,
+            amount: Number,
+            refreanceNo: String,
+          },
+          {
+            types: String,
+            accountName: String,
+            openingBalance: Number,
+            asOfDate: Date,
+          },
       ],
       paid: 0,
       discount: 0,
@@ -81,26 +95,7 @@ const AddPaymentouts = ({ setOpenForm }) => {
    });
 
    
-   const [payment, setPayment] = useState([
-    {
-        types: String,
-        amount: Number,
-      },
-      {
-        types: String,
-        amount: Number,
-        refreanceNo: String,
-      },
-      {
-        types: String,
-        accountName: String,
-        openingBalance: Number,
-        asOfDate: Date,
-      },
-   ]);
-
-  ;
-
+  
    // Submit Request Function
    const handleSubmit = (e) => {
       e.preventDefault();
@@ -122,24 +117,7 @@ const AddPaymentouts = ({ setOpenForm }) => {
       FetchAllParties(dispatch);
    }, [togglePartiesData]);
 
-   // for fetching all items list on form mount
-   useEffect(() => {
-      dispatch(GetAllItems());
-   }, [toggleItems]);
-
-   // for changing current firm data
-   useEffect(() => {
-      let obj = {
-         customerName: currentCustomerData?.partyName || "",
-         billingName: currentCustomerData?.partyName || "",
-         phoneNumber: currentCustomerData?.phoneNumber || "",
-         billingAddress: currentCustomerData?.billingAddress || "",
-         balance: currentCustomerData?.openingBalance || "",
-      };
-      setData((prev) => {
-         return { ...prev, ...obj };
-      });
-   }, [currentCustomerData]);
+  
 
    // To Show Reference Input
    useEffect(() => {
@@ -150,14 +128,7 @@ const AddPaymentouts = ({ setOpenForm }) => {
       }
    }, [paymentTypeSelectTag]);
 
-   // Input Change Function
-   const handleInputChange = (e) => {
-      const { name, value } = e.target;
-      setPayment((prev) => {
-         return { ...prev, [name]: value };
-      });
-      // console.log(payment)
-   };
+ 
 
    const handleChange = (e) => {
       const { name, value } = e.target;
@@ -167,79 +138,11 @@ const AddPaymentouts = ({ setOpenForm }) => {
       // console.log(payment)
    };
 
-   // for changing balance amount
-   useEffect(() => {
-      let initAmount = toggleRoundOff
-         ? Math.round(rowFooterData?.totalAmount)
-         : rowFooterData?.totalAmount;
-      let recieved = data?.recived || 0;
-      let bal = initAmount - recieved;
-      setBalanceAmount(
-         bal.toFixed(2) ? bal.toFixed(2) : rowFooterData?.totalAmount
-      );
-   }, [data?.recived, toggleRoundOff, rowFooterData?.totalAmount]);
-
-   const [rows, setRows] = useState([
-      {
-         id: 1,
-         category: "65c5cfc509b34ca8a0187497",
-         itemName: "mobile",
-         itemCode: "001",
-         hsnCode: "HSN001",
-         description: "Description of item 1",
-         count: 1,
-         qty: 10,
-         freeqty: 0,
-         unit: "pcs",
-         priceUnit: 100,
-         discountAmount: 5,
-         discountpersant: 5,
-         taxPersant: "12%",
-         amount: 950,
-      },
-   ]);
-
-   const handleAddRow = () => {
-      const newRow = {
-         category: "65c5cfc509b34ca8a0187497",
-         itemName: "mobile",
-         itemCode: "001",
-         hsnCode: "HSN001",
-         description: "Description of item 1",
-         count: 1,
-         qty: 10,
-         freeqty: 0,
-         unit: "pcs",
-         priceUnit: 100,
-         discountAmount: 5,
-         discountpersant: 5,
-         taxPersant: "12%",
-         amount: 950,
-
-         // there is place for them in frontend
-         taxAmount: 12, // to be calculated
-         batchNo: 1,
-         modelNo: 123,
-         expDate: "2025-02-16T00:00:00.000Z",
-         mfgDate: new Date(),
-         customField: "Custom field 1",
-         size: "Large",
-      };
-      setRows([...rows, newRow]);
-      setPayment([...payment, newRow]);
-      // console.log(payment);
-   };
-
-   const handleDeleteRow = (row, rowIndex) => {
-      const updatedRows = [...rows];
-      updatedRows.splice(rowIndex, 1);
-      setRows(updatedRows);
-   };
 
    return (
       <form onSubmit={handleSubmit} className={css.formOuter}>
          <div className={css.topheader}>
-            <p>Purchase</p>
+            <p>Payment- Out</p>
          </div>
 
          <div className={css.ContentContainerDiv}>
