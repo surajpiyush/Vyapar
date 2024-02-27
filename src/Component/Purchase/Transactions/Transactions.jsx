@@ -22,7 +22,7 @@ const transactionFilterItems = [
    },
 ];
 
-const Transactions = () => {
+const Transactions = ({func}) => {
    const transcationsItems = [
       {
          date: "11/01/2024",
@@ -33,36 +33,38 @@ const Transactions = () => {
          balance: "0",
       },
    ];
-
+   const openForm = () => {
+      func(true);
+    };
    const navigate = useNavigate();
    const dispatch = useDispatch();
    const companyID = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
    const token = localStorage.getItem("token");
    const store = useSelector((store) => store.PurchaseReducer);
    const showAllPurchaseBills = store.purchaseBillData;
-   // console.log(store)
+   console.log(store)
    const date = {
       startDate: "2023-01-20",
-      endDate: "2024-02-24",
+      endDate: "2025-02-24",
    };
-   console.log(store);
+   // console.log(store);
    useEffect(() => {
       dispatch(getPurchaseBill({ date }));
    }, []);
-   console.log(showAllPurchaseBills);
+   // console.log(showAllPurchaseBills);
    return (
       <>
          {!store.isLoading && !showAllPurchaseBills.length ? (
             <FirstTimeFormToggle
                   img={party}
-                  onClick={() => navigate("/addpurchase")}
+                  onClick={() => openForm()}
                   BtnText="Add Your First Purchase Invoice"
                   MiddleText="Make Purchase invoices & Print or share with your customers directly via WhatsApp or Email."
                 />
          ) : (
             <div className="transactions-container">
                <div className="transactions-buttons">
-                  <button onClick={() => navigate("/addpurchase")}>
+                  <button onClick={() => openForm()}>
                      <span>+</span> Add Purchase
                   </button>
                </div>
