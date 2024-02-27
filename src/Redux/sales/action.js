@@ -6,11 +6,11 @@ import {
   GET_SALES_INVOICE_SUCCESS,
   POST_ESTIMATE_SUCCESS,
   GET_ESTIMATE_SUCCESS,
+  POST_PAYMENT_IN_SUCCESS,
   POST_DELIVERY_CHALLAN_SUCCESS,
   GET_DELIVERY_CHALLAN_SUCCESS,
   POST_SALES_ORDER_SUCCESS,
   POST_SALES_RETURNS_SUCCESS,
-  POST_SALES_PAYMENT_SUCCESS,
 } from "./reducer";
 
 import axios from "axios";
@@ -132,6 +132,42 @@ export const GetAllEstimates = async (dispatch, startDate, endDate) => {
   }
 };
 
+// --------------------------------------- PAYMENT IN ------------------------------------
+// Post Payment-In Request
+export const PostPaymentIn = async (dispatch, data, closeForm, toast) => {
+  dispatch(IS_LOADING());
+  toast.closeAll();
+
+  try {
+    const response = await axios.post(
+      `${API_URL}/${firmId}/sale/salePaymentIn`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log("Post Payment-In Response:", response?.data);
+    dispatch(POST_PAYMENT_IN_SUCCESS());
+    toast({
+      title: "Payment-In Successfull ✔️",
+      status: "success",
+      position: "top",
+    });
+    closeForm(false);
+  } catch (error) {
+    dispatch(IS_ERROR());
+    console.log("Error Post Payment-In:", error);
+    toast({
+      title: "Something Went Wrong!",
+      description: error?.response?.data?.message || "",
+      status: "error",
+      position: "top",
+    });
+  }
+};
+
 // --------------------------------------- DELIVERY ------------------------------------
 // Post Delivery Challan Request
 export const PostDeliveryChallan = async (dispatch, data) => {
@@ -243,85 +279,3 @@ export const PostSalesReturn = async (dispatch, data) => {
 };
 
 // Post Sales Return Request
-export const PostSalesPayment = async (dispatch, data) => {
-  dispatch(IS_LOADING());
-  const userId = localStorage.getItem("userId");
-  const token = localStorage.getItem("token");
-
-  try {
-    const response = await axios.post(
-      `https://ca-backend-api.onrender.com/${userId}/sale/salePaymentIn`,
-      data,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    //  console.log("Post Sales Returns Response:", response?.data);
-
-    dispatch(POST_SALES_PAYMENT_SUCCESS());
-    alert("Sales Payment Successfull ✔️");
-  } catch (error) {
-    dispatch(IS_ERROR());
-    console.log("Post Sales Payment Response:", error);
-    alert(error?.response?.data?.message || "Something Went Wrong!");
-  }
-};
-
-// Calculator Funtion ----------------
-export function CalculateFinalAmount(
-  qty = 1,
-  priceUnit = 0,
-  discountpersant = 0,
-  discountAmount = 0,
-  taxPersant = 0
-) {
-  let totalPrice = qty * priceUnit;
-
-  // Apply discount if discount percent or discount amount is provided
-  let discountedAmount;
-  let calculatedDiscountPercent;
-  if (discountpersant) {
-    discountedAmount = totalPrice * (discountpersant / 100);
-    totalPrice -= discountedAmount;
-    calculatedDiscountPercent = discountpersant;
-  } else if (discountAmount) {
-    discountedAmount = discountAmount;
-    totalPrice -= discountAmount;
-    calculatedDiscountPercent = (discountAmount / totalPrice) * 100;
-  }
-
-  // Parse and calculate tax amount
-  let parsedTaxPercent = parseFloat(taxPersant);
-  let taxAmount = isNaN(parsedTaxPercent)
-    ? 0
-    : totalPrice * (parsedTaxPercent / 100);
-
-  // Return the final amount rounded to two decimal places
-  let obj = {
-    qty,
-    priceUnit,
-    amount: parseFloat(totalPrice.toFixed(2)),
-    taxAmount:
-      parseFloat(taxAmount.toFixed(2)) == 0
-        ? ""
-        : parseFloat(taxAmount.toFixed(2)),
-  };
-  if (typeof discountedAmount == "string") {
-    obj.discountAmount = "";
-  } else {
-    obj.discountAmount = discountedAmount
-      ? parseFloat(discountedAmount.toFixed(2))
-      : "";
-  }
-  if (typeof discountpersant == "string") {
-    obj.discountpersant = "";
-  } else {
-    obj.discountpersant = calculatedDiscountPercent
-      ? parseFloat(calculatedDiscountPercent.toFixed(2))
-      : "";
-  }
-
-  return obj;
-}

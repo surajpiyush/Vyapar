@@ -2,20 +2,19 @@ import React from "react";
 import "../../styles/parties.css";
 import "../../styles/sales.css";
 
-export default function SalesPaymentTable(Props) {
+export default function SalesPaymentTable({ func }) {
   const openForm = () => {
-    console.log("Working");
-    Props.func(true);
+    func(true);
   };
 
   return (
-    <div className="" >
+    <div className="">
       <div className="d-flex">
         <div className="">
           <div className="grp-cont-invoice">
             <div className="">
-              <div className="d-between" style={{alignItems : "center"}}>
-                <div className="d-flex" style={{ gap: "10px"}}>
+              <div className="d-between" style={{ alignItems: "center" }}>
+                <div className="d-flex" style={{ gap: "10px" }}>
                   <div className="">
                     <select name="" id="" className="invoice-select">
                       <option value="">This Month</option>
@@ -54,15 +53,18 @@ export default function SalesPaymentTable(Props) {
                   </div>
                 </div>
               </div>
-              <div className="d-flex" style={{ gap: "20px",marginTop : "20px" }}>
-              <div className="" style={{ marginLeft: "10px" }}>
-                    <select name="" id="" className="invoice-select2">
-                      <option value="">Payment In</option>
-                      <option value="">All Transactions</option>
-                      <option value="">Sale</option>
-                      <option value="">Purchase</option>
-                    </select>
-                  </div>
+              <div
+                className="d-flex"
+                style={{ gap: "20px", marginTop: "20px" }}
+              >
+                <div className="" style={{ marginLeft: "10px" }}>
+                  <select name="" id="" className="invoice-select2">
+                    <option value="">Payment In</option>
+                    <option value="">All Transactions</option>
+                    <option value="">Sale</option>
+                    <option value="">Purchase</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
@@ -70,23 +72,21 @@ export default function SalesPaymentTable(Props) {
             <div className="d-between">
               <h3>Transactions</h3>
               <button className="add-party-btn add-sale-btn" onClick={openForm}>
-                + Add Payment In 
+                + Add Payment In
               </button>
             </div>
-            <div style={{textAlign : "start"}}>
-            <input
+            <div style={{ textAlign: "start" }}>
+              <input
                 type="text"
                 placeholder="Search"
                 className="search-party"
                 style={{ width: "200px" }}
               />
             </div>
-            <div className="" style={{marginTop : "30px"}}>
+            <div className="" style={{ marginTop: "30px" }}>
               <table>
                 <tr>
-                <th>
-                    # 
-                  </th>
+                  <th>#</th>
                   <th>
                     Date <i className="fa fa-filter"></i>
                   </th>

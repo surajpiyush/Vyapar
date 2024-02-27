@@ -2,11 +2,17 @@ import React, { useState } from "react";
 import party from "../../../assets/Images/party.jpg";
 import SalesOrderTable from "../../../components/TableData/SalesOrderTable";
 import SalesOrderForm from "../../../components/addForm/SalesOrderForm";
+import { useDispatch } from "react-redux";
+import { useToast } from "@chakra-ui/react";
+import FirstTimeFormToggle from "../../../Component/FirstTimeFormToggle";
 
 export default function SalesOrder() {
+  const toast = useToast();
+  const dispatch = useDispatch();
+
   const data = [];
   const [openForm, setOpenForm] = useState(false);
-  const [opt, setOpt] = useState(true);
+  const [toggleSections, setToggleSections] = useState(false);
 
   const closeForm = () => {
     setOpenForm(false);
@@ -16,21 +22,13 @@ export default function SalesOrder() {
     setOpenForm(true);
   };
 
-  const handleOption = (val) => {
-    if (val === 0) {
-      setOpt(true);
-    } else {
-      setOpt(false);
-    }
-  };
-
   return (
     <div>
       <div className="nav">
         <div
           className="nav-opt"
           onClick={() => {
-            handleOption(0);
+            setToggleSections(true);
           }}
         >
           SALE ORDERS
@@ -38,54 +36,47 @@ export default function SalesOrder() {
         <div
           className="nav-opt"
           onClick={() => {
-            handleOption(1);
+            setToggleSections(false);
           }}
         >
           ONLINE ORDERS
         </div>
       </div>
-      {
-        opt ?    <div className="">
-        {openForm ? (
-          <SalesOrderForm func={closeForm} />
-        ) : (
-          <div className="d-cen b-cont text-center text-center">
-            {!(data.length > 0) ? (
-              <div className="">
+      {!toggleSections ? (
+        // Sale Orders Section
+        <div className="">
+          {openForm ? (
+            <SalesOrderForm func={closeForm} />
+          ) : (
+            <div className="d-cen b-cont text-center text-center">
+              {!data.length > 0 ? (
+                <FirstTimeFormToggle
+                  img={party}
+                  onClick={formOpen}
+                  BtnText="Add Your First Sale Order"
+                  MiddleText="Make & share sale orders & convert them to sale invoice instantly."
+                />
+              ) : (
                 <div className="">
-                  <img src={party} alt="" className="party-img" />
-                  <p>Add Order to manage your full Stock Inventory.</p>
-                  <button
-                    className="party-button"
-                    onClick={() => {
-                      setOpenForm(true);
-                    }}
-                  >
-                    Add Order
-                  </button>
+                  <SalesOrderTable func={formOpen} />
                 </div>
-              </div>
-            ) : (
-              <div className="">
-                <SalesOrderTable func={formOpen} />
-              </div>
-            )}
+              )}
+            </div>
+          )}
+        </div>
+      ) : (
+        // Online Orders Section
+        <div className="d-cen b-cont text-center">
+          <div className="">
+            <img src={party} alt="" className="party-img" />
+            <p style={{ fontWeight: "bold" }}>No Online Orders</p>
+            <p>Share your Online Store to get orders.</p>
+            <button className="party-button">
+              <i className="fa fa-share"></i> <span>Share Store</span>
+            </button>
           </div>
-        )}
-      </div> : <div className="d-cen b-cont text-center">
-      <div className="">
-                  <img src={party} alt="" className="party-img" />
-                  <p style={{fontWeight : "bold"}}>No Online Orders</p>
-                  <p>
-                  Share your Online Store to get orders.
-                  </p>
-                  <button className="party-button">
-                    <i className="fa fa-share"></i> <span>Share Store</span>
-                  </button>
-                </div>
-      </div>
-      }
-   
+        </div>
+      )}
     </div>
   );
 }
