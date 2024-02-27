@@ -4,6 +4,7 @@ import {
    GET_PURCHASEBILL_SUCCESS,
    GET_PURCHASEORDER_SUCCESS,
    GET_PURCHASERETURN_SUCCESS,
+   POST_PAYOUT_SUCCESS,
    POST_PURCHASEBILL_SUCCESS,
    POST_PURCHASEORDER_SUCCESS,
    POST_PURCHASERETURN_SUCCESS,
@@ -97,6 +98,32 @@ export const addPurchaseReturn = (newItem) => (dispatch) => {
   // alert("Your bill has been posted to the backend");
 };
 
+export const addPayOut = (newItem) => (dispatch) => {
+   //   console.log(newItem)
+     dispatch({ type: PURCHASE_REQUEST });
+     // console.log(companyID)
+     axios
+        .post(
+           `https://ca-backend-api.onrender.com/${companyID}/purchaseOut/create`,
+           newItem,  
+           {
+              headers: { Authorization: `Bearer ${token}` },
+           }
+        )
+        .then((res) => {
+         //   console.log(res);
+           dispatch({ type: POST_PAYOUT_SUCCESS, payload: res.data });
+           alert("Bill Added ✔️");
+        })
+        .catch((ERR) => {
+           console.log(ERR);
+         //   alert(`${ERR.response.data.msg}`);
+           dispatch({ type: PURCHASE_FAILURE });
+        });
+     // console.log(`Your item has been sent to the backend:`, newItem);
+     // // Consider using a notification library or updating the UI instead of alert
+     // alert("Your bill has been posted to the backend");
+   };
 
 export const getPurchaseBill =
    ({ date }) =>

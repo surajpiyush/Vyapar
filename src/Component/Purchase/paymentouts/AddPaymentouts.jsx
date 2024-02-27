@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 import "./Paymentouts.css";
 
-import { addPurchaseBill } from "../../../Redux/purchase/action";
+import { addPayOut, addPurchaseBill } from "../../../Redux/purchase/action";
 import { useDispatch, useSelector } from "react-redux";
 import { IoIosArrowDown as ArrowDown } from "react-icons/io";
 import { FiPlusCircle as PlusIcon } from "react-icons/fi";
@@ -73,40 +73,38 @@ const AddPaymentouts = ({ setOpenForm }) => {
       time: "10:00 AM",
       description: "Purchase return of items",
       paymentType: [
-        {
+         {
             types: String,
             amount: Number,
-          },
-          {
+         },
+         {
             types: String,
             amount: Number,
             refreanceNo: String,
-          },
-          {
+         },
+         {
             types: String,
             accountName: String,
             openingBalance: Number,
             asOfDate: Date,
-          },
-      ],
+         },
+      ],
       paid: 0,
       discount: 0,
       total: 0,
    });
 
-   
-  
    // Submit Request Function
    const handleSubmit = (e) => {
       e.preventDefault();
-      const purchaseBillData = {
-         ...data,
-         priceUnitWithTax: data?.priceUnitWithTax == "true",
-         sale: [...data.sale, payment],
-      };
-      console.log("data", purchaseBillData);
+      // const purchaseBillData = {
+      //    ...data,
+      //    //    priceUnitWithTax: data?.priceUnitWithTax == "true",
+      //    // sale: [...data.sale,],
+      // };
+      console.log("data", data);
 
-      dispatch(addPurchaseBill(purchaseBillData));
+      dispatch(addPayOut(data));
       // addPurchaseBill(dispatch(purchaseBillData))
       setOpenForm(false);
       // PostSalesInvoice(dispatch, toast, data, setOpenForm);
@@ -117,8 +115,6 @@ const AddPaymentouts = ({ setOpenForm }) => {
       FetchAllParties(dispatch);
    }, [togglePartiesData]);
 
-  
-
    // To Show Reference Input
    useEffect(() => {
       if (paymentTypeSelectTag == "Cheque") {
@@ -128,8 +124,6 @@ const AddPaymentouts = ({ setOpenForm }) => {
       }
    }, [paymentTypeSelectTag]);
 
- 
-
    const handleChange = (e) => {
       const { name, value } = e.target;
       setData((prev) => {
@@ -137,7 +131,6 @@ const AddPaymentouts = ({ setOpenForm }) => {
       });
       // console.log(payment)
    };
-
 
    return (
       <form onSubmit={handleSubmit} className={css.formOuter}>
@@ -183,100 +176,27 @@ const AddPaymentouts = ({ setOpenForm }) => {
                         {data.balance ? <>Balance: {data.balance}</> : ""}
                      </p>
                   </div>
-                  <div className={css.inputDiv}>
-                     <input
-                        type="number"
-                        value={data.phoneNumber}
-                        name="phoneNumber"
-                        onChange={(e) => handleChange(e)}
-                        className={css.input}
-                        required
-                     />
-                     <label
-                        htmlFor=""
-                        className={
-                           data.phoneNumber
-                              ? css.activeLabel
-                              : css.inactiveLabel
-                        }
-                     >
-                        Phone No.
-                     </label>
-                  </div>
-               </div>
-               <div>
-                  <div className={css.inputDiv}>
-                     <label
-                        htmlFor="PO No"
-                        className={
-                           data.partyName ? css.activeLabel : css.inactiveLabel
-                        }
-                     >
-                        PO No.
-                     </label>
-                     <input
-                        type="text"
-                        name="poNo"
-                        className={css.input}
-                        onChange={(e) => handleChange(e)}
-                     />
-                  </div>
-                  <br />
-                  <div className={css.inputDiv}>
-                     <label
-                        htmlFor="PO Date"
-                        className={
-                           data.partyName ? css.activeLabel : css.inactiveLabel
-                        }
-                     >
-                        PO Date
-                     </label>
-                     <input
-                        type="Date"
-                        name="poDate"
-                        defaultValue={new Date().toISOString().split("T")[0]}
-                        className={css.input}
-                        onChange={(e) => handleChange(e)}
-                     />
-                  </div>
-                  <br />
-                  <div className={css.inputDiv}>
-                     <label
-                        htmlFor="PO No"
-                        className={
-                           data.partyName ? css.activeLabel : css.inactiveLabel
-                        }
-                     >
-                        E-Way Bill
-                     </label>
-                     <input
-                        type="text"
-                        name="eWayBill"
-                        onChange={(e) => handleChange(e)}
-                        className={css.input}
-                     />
-                  </div>
                </div>
 
                <div className={css.rightSideCont}>
                   <div>
-                     <p>Bill Number</p>
+                     <p>Recipt Number</p>
                      <input
                         type="text"
                         placeholder="1"
                         className={css.invoiceNumInp}
                         onChange={(e) => handleChange(e)}
-                        name="billNumber"
+                        name="receiptNumber"
                      />
                   </div>
                   <div>
-                     <p>Bill Date</p>
+                     <p> Date</p>
                      <input
                         type="date"
                         placeholder="Invoice Date"
                         className={css.invoiceDateSelectInp}
                         onChange={(e) => handleChange(e)}
-                        name="billDate"
+                        name="date"
                         defaultValue={new Date().toISOString().split("T")[0]}
                      />
                   </div>
@@ -296,450 +216,46 @@ const AddPaymentouts = ({ setOpenForm }) => {
                      />
                   </div>
 
-                  <div>
-                     <p>Payment Terms</p>
-                     <select
-                        name="paymentTerms"
-                        onChange={(e) => handleChange(e)}
-                     >
-                        <option value="">Due On Recipt</option>
-                        <option value="net 15">Net 15</option>
-                        <option value="net 30">Net 30</option>
-                        <option value="net 45">Net 45</option>
-                        <option value="net 60">Net 60</option>
-                     </select>
-                  </div>
-                  <div>
-                     <p>Due Date</p>
+                  <br />
+                  <br />
+                  <br />
+                  <br />
+
+                  <div className={css.totalBottomDiv}>
+                     <p>Paid</p>
                      <input
-                        type="date"
-                        placeholder="Due Date"
-                        className={css.invoiceDateSelectInp}
+                        type="number"
+                        name="paid"
                         onChange={(e) => handleChange(e)}
-                        name="dueDate"
                      />
                   </div>
-                  <div>
-                     <p>State of supply</p>
-                     <select
-                        name="stateOfSupply"
-                        id=""
-                        className={css.invoiceDateSelectInp}
-                        onSelect={(e) => handleChange(e)}
-                     >
-                        <option value="">State</option>
-                        <option value="Andhra Pradesh">Andhra Pradesh</option>
-                        <option value="Arunachal Pradesh">
-                           Arunachal Pradesh
-                        </option>
-                        <option value="Assam">Assam</option>
-                        <option value="Bihar">Bihar</option>
-                        <option value="Chhattisgarh">Chhattisgarh</option>
-                        <option value="Goa">Goa</option>
-                        <option value="Gujarat">Gujarat</option>
-                        <option value="Haryana">Haryana</option>
-                        <option value="Himachal Pradesh">
-                           Himachal Pradesh
-                        </option>
-                        <option value="Jharkhand">Jharkhand</option>
-                        <option value="Karnataka">Karnataka</option>
-                        <option value="Kerala">Kerala</option>
-                        <option value="Madhya Pradesh">Madhya Pradesh</option>
-                        <option value="Maharashtra">Maharashtra</option>
-                        <option value="Manipur">Manipur</option>
-                        <option value="Meghalaya">Meghalaya</option>
-                        <option value="Mizoram">Mizoram</option>
-                        <option value="Nagaland">Nagaland</option>
-                        <option value="Odisha">Odisha</option>
-                        <option value="Punjab">Punjab</option>
-                        <option value="Rajasthan">Rajasthan</option>
-                        <option value="Sikkim">Sikkim</option>
-                        <option value="Tamil Nadu">Tamil Nadu</option>
-                        <option value="Telangana">Telangana</option>
-                        <option value="Tripura">Tripura</option>
-                        <option value="Uttar Pradesh">Uttar Pradesh</option>
-                        <option value="Uttarakhand">Uttarakhand</option>
-                        <option value="West Bengal">West Bengal</option>
-                        <option value="Andaman and Nicobar Islands">
-                           Andaman and Nicobar Islands
-                        </option>
-                        <option value="Chandigarh">Chandigarh</option>
-                        <option value="Dadra and Nagar Haveli">
-                           Dadra and Nagar Haveli
-                        </option>
-                        <option value="Daman and Diu">Daman and Diu</option>
-                        <option value="Lakshadweep">Lakshadweep</option>
-                        <option value="Delhi">Delhi</option>
-                        <option value="Puducherry">Puducherry</option>
-                     </select>
+                  <div className={css.totalBottomDiv}>
+                     <p>Discount</p>
+                     <input
+                        type="number"
+                        name="discount"
+                        onChange={(e) => handleChange(e)}
+                     />
+                  </div>
+                  <div className={css.totalBottomDiv}>
+                     <p>Total</p>
+                     <input
+                        type="number"
+                        name="total"
+                        value={
+                           toggleRoundOff
+                              ? Math.round(rowFooterData?.totalAmount)
+                              : rowFooterData?.totalAmount
+                        }
+                        onChange={(e) => handleChange(e)}
+                     />
                   </div>
                </div>
             </div>
-
-            {/* Items Section */}
-            <div className={css.ItemsOuter} style={{ maxWidth: "100%" }}>
-               <table>
-                  <thead>
-                     <tr>
-                        <th className={css.serialNumberHead}>#</th>
-                        <th className={css.itemNameHead}>CATEGORY</th>
-                        <th className={css.itemNameHead}>ITEM</th>
-                        <th className={css.itemNameHead}>ITEM CODE</th>
-                        <th className={css.itemNameHead}>HSN CODE</th>
-                        <th className={css.itemNameHead}>DESCRIPTION</th>
-                        <th className={css.itemNameHead}>COUNT</th>
-                        <th className={css.qtyHead}>QTY</th>
-                        <th className={css.itemNameHead}>FREE QTY</th>
-                        <th className={css.unitHead}>UNIT</th>
-
-                        <th className={css.priceUnitHead}>
-                           <p>PRICE/UNIT</p>
-                           <select
-                              name="priceUnitWithTax"
-                              value={data.priceUnitWithTax}
-                              onChange={(e) => handleInputChange(e)}
-                           >
-                              <option value="false">Without Tax</option>
-                              <option value="true">With Tax</option>
-                           </select>
-                        </th>
-                        <th className={css.discountHead}>
-                           <p>Discount</p>
-                           <div>
-                              <p className={css.precentageIconHead}>%</p>
-                              <p className={css.amountHead}>AMOUNT</p>
-                           </div>
-                        </th>
-                        <th className={css.taxHead}>
-                           <p>TAX</p>
-                           <div>
-                              <p className={css.precentageIconHead}>%</p>
-                              <p className={css.amountHead}>AMOUNT</p>
-                           </div>
-                        </th>
-                        <th className={css.amountHead}>
-                           <div>
-                              <p>Amount</p>
-                              <PlusIcon />
-                           </div>
-                        </th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     {rows.map((row, index) => (
-                        <tr
-                           className={css.serialNumberBody}
-                           // className="addpurchase-tr"
-                           key={row.id}
-                        >
-                           <td
-                              className={css.serialNumberBody}
-                              onClick={() => setIndexSaleItem(index)}
-                           >
-                              <div>
-                                 <MoveIcon className={css.serialIconsBody} />
-                                 <p>{index + 1}</p>
-                                 <DeleteIcon
-                                    onClick={() => handleDeleteRow(row, index)}
-                                    className={css.serialIconsBody}
-                                 />
-                              </div>
-                           </td>
-                           <td className={css.itemNameBody}>
-                              <select name="category" id="">
-                                 <option value="">Category</option>
-                                 <option value="show">Show</option>
-                                 <option value="tab">Tab</option>
-                                 <option value="medicine">medicine</option>
-                                 <option value="cloths">Cloths</option>{" "}
-                              </select>
-                           </td>
-                           <td className={css.itemNameBody}>
-                              <select
-                                 // value={items.itemName}
-                                 // onChange={(e)=>handleInputChange(e)}
-                                 // className={css.tableInputs}
-                                 placeholder="test"
-                                 name="itemName"
-                                 onChange={(e) => {
-                                    const selectedItem = items.find(
-                                       (item) =>
-                                          item.itemName === e.target.value
-                                    );
-
-                                    if (selectedItem) {
-                                       const itemId =
-                                          selectedItem?._id?.toString();
-                                       // console.log(itemId)
-                                       setPayment({
-                                          ...payment,
-                                          itemName: itemId,
-                                       });
-                                       // now from this itemId you need to fetch the data of that perticular item and display in that row
-                                       // getData(partyId);
-                                       // setData({
-                                       //    ...data,
-                                       //    partyName: selectedParty.partyName,
-                                       // });
-                                    }
-                                 }}
-                              >
-                                 <option value="">{"Item Name"}</option>
-                                 {getAllItemsLoading ? (
-                                    <option value="">Loading Items</option>
-                                 ) : (
-                                    items?.map((item) => {
-                                       return (
-                                          <option
-                                             key={item.id}
-                                             value={item.itemName}
-                                          >
-                                             {item.itemName}
-                                          </option>
-                                       );
-                                    })
-                                 )}
-                              </select>
-                           </td>
-                           <td>
-                              <input
-                                 type="text"
-                                 className={css.tableInputs}
-                                 name="itemCode"
-                                 onChange={(e) => handleInputChange(e)}
-                              />
-                           </td>
-                           <td>
-                              <input
-                                 type="text"
-                                 className={css.tableInputs}
-                                 name="hsnCode"
-                                 onChange={(e) => handleInputChange(e)}
-                              />
-                           </td>
-                           <td>
-                              <input
-                                 type="text"
-                                 className={css.tableInputs}
-                                 name="description"
-                                 onChange={(e) => handleInputChange(e)}
-                              />
-                           </td>
-                           <td>
-                              <input
-                                 type="text"
-                                 className={css.tableInputs}
-                                 name="count"
-                                 onChange={(e) => handleInputChange(e)}
-                              />
-                           </td>
-                           <td>
-                              <input
-                                 type="text"
-                                 className={css.tableInputs}
-                                 name="qty"
-                                 onChange={(e) => handleInputChange(e)}
-                              />
-                           </td>
-                           <td>
-                              <input
-                                 type="text"
-                                 className={css.tableInputs}
-                                 name="freeqty"
-                                 onChange={(e) => handleInputChange(e)}
-                              />
-                           </td>
-                           <td className={css.unitBody}>
-                              <select
-                                 name="unit"
-                                 onChange={(e) => handleInputChange(e)}
-                                 placeholder="None"
-                              >
-                                 <option value="">None</option>
-                                 <option value="BAGS">BAGS (BAG)</option>
-                                 <option value="BOTTLES">BOTTLES (BTL)</option>
-                                 <option value="BOX">BOX (BOX)</option>
-                                 <option value="BUNDLES">
-                                    BUNDLES (BUNDLE)
-                                 </option>
-                                 <option value="CANS">CANS (CAN)</option>
-                                 <option value="CARTONS">CARTONS (CTN)</option>
-                                 <option value="DOZENS">DOZENS (DZN)</option>
-                                 <option value="GRAMMES">GRAMMES (GM)</option>
-                                 <option value="KILOGRAMS">
-                                    KILOGRAMS (KG)
-                                 </option>
-                                 <option value="LITRE">LITRE (LTR)</option>
-                                 <option value="METERS">METERS (MTR)</option>
-                                 <option value="MILILITRE">
-                                    MILILITRE (ML)
-                                 </option>
-                                 <option value="NUMBERS">NUMBERS (NOS)</option>
-                                 <option value="PACKS">PACKS (PAC)</option>
-                                 <option value="PAIRS">PAIRS (PRS)</option>
-                                 <option value="PIECES">PIECES (PCS)</option>
-                                 <option value="QUINTAL">QUINTAL (QTL)</option>
-                                 <option value="ROLLS">ROLLS (ROL)</option>
-                                 <option value="SQUARE FEET">
-                                    SQUARE FEET (SQF)
-                                 </option>
-                                 <option value="SQUARE METERS">
-                                    SQUARE METERS (SQM)
-                                 </option>
-                                 <option value="TABLETS">TABLETS (TBS)</option>
-                              </select>
-                           </td>
-                           <td className={css.qtyBody}>
-                              <input
-                                 type="number"
-                                 name="priceUnit"
-                                 onChange={(e) => handleInputChange(e)}
-                                 placeholder="0"
-                                 className={css.tableInputs}
-                              />
-                           </td>
-
-                           <td className={css.DiscountBody}>
-                              <input
-                                 type="number"
-                                 name="discountpersant"
-                                 // value={AmountCalculator()?.discountPercent}
-                                 // value={item.discountpersant}
-                                 onChange={(e) => handleInputChange(e)}
-                                 placeholder="0"
-                                 className={css.tableInputs}
-                              />
-                              <input
-                                 type="number"
-                                 name="discountAmount"
-                                 // value={AmountCalculator()?.discountAmount}
-                                 // value={item.discountAmount}
-                                 onChange={(e) => handleInputChange(e)}
-                                 placeholder="0"
-                                 className={css.tableInputs}
-                              />
-                           </td>
-                           {/* <td>
-                              <input
-                                 type="text"
-                                 className="rowInput"
-                                 name="taxPersant"
-                                 onChange={(e) => handleInputChange(e)}
-                              />
-                           </td> */}
-                           <td className={css.ItemTaxBody}>
-                              <span>
-                                 <div>
-                                    <select
-                                       name="taxPersant"
-                                       //  value={item.taxPersant}
-                                       onChange={(e) => handleInputChange(e)}
-                                    >
-                                       <option value="">None</option>
-                                       <option value="0">IGST@0%</option>
-                                       <option value="0">GST@0%</option>
-                                       <option value="0.25">IGST@0.25%</option>
-                                       <option value="0.25">GST@0.25%</option>
-                                       <option value="3">IGST@3%</option>
-                                       <option value="3">GST@3%</option>
-                                       <option value="5">IGST@5%</option>
-                                       <option value="5">GST@5%</option>
-                                       <option value="12">IGST@12%</option>
-                                       <option value="12">GST@12%</option>
-                                       <option value="18">IGST@18%</option>
-                                       <option value="18">GST@18%</option>
-                                       <option value="28">IGST@28%</option>
-                                       <option value="28">GST@28%</option>
-                                    </select>
-                                 </div>
-                                 <input
-                                    type="number"
-                                    //   value={AmountCalculator()?.taxAmount}
-                                    // value={item.taxAmount}
-                                    name="taxAmount"
-                                    onChange={(e) => handleInputChange(e)}
-                                    placeholder="0"
-                                    className={css.tableInputs}
-                                    // readOnly
-                                    // disabled
-                                 />
-                              </span>
-                           </td>
-                           <td>
-                              <input
-                                 type="text"
-                                 className={css.tableInputs}
-                                 name="amount"
-                                 onChange={(e) => handleInputChange(e)}
-                              />
-                           </td>
-                        </tr>
-                     ))}
-                     <tr className={css.addRowTr}>
-                        <td></td>
-                        <td>
-                           <div className={css.actualAddRowTd}>
-                              <button onClick={handleAddRow}>ADD ROW</button>
-                              <p>Total</p>
-                           </div>
-                        </td>
-                        <td className={css.addRowChildTd}>1</td>
-                        <td></td>
-                        <td></td>
-                        <td className={css.addRowChildTd}>0</td>
-                        <td className={css.addRowChildTd}>0</td>
-                        <td className={css.addRowChildTd}>10</td>
-                     </tr>
-                  </tbody>
-                  {/* <tbody>
-              {payment?.map((item, ind) => {
-                return (
-                  <ItemsTableBody
-                    ind={ind}
-                    item={item}
-                    payment={payment}
-                  setPayment={setPayment}
-                    handleDeleteRow={handleDeleteRow}
-                    handleMenuItemClick={handleMenuItemClick}
-                    setShowItemsListMenu={setShowItemsListMenu}
-                    setShowItemForm={setShowItemForm}
-                    setIndexSaleItem={setIndexSaleItem}
-                    items={items}
-                    getAllItemsLoading={getAllItemsLoading}
-                    showItemsListMenu={showItemsListMenu}
-                    indexSaleItem={indexSaleItem}
-                    key={ind}
-                  />
-                );
-              })}
-              <tr className={css.addRowTr}>
-                <td></td>
-                <td>
-                  <div className={css.actualAddRowTd}>
-                    <button onClick={handleAddRow} type="button">
-                      ADD ROW
-                    </button>
-                    <p>Total</p>
-                  </div>
-                </td>
-                <td className={css.addRowChildTd}>{rowFooterData?.totalQty}</td>
-                <td></td>
-                <td></td>
-                <td className={css.addRowChildTd}>
-                  {rowFooterData?.totalDiscountAmount}
-                </td>
-                <td className={css.addRowChildTd}>
-                  {rowFooterData?.totalTaxAmount}
-                </td>
-                <td className={css.addRowChildTd}>
-                  {rowFooterData?.totalAmount}
-                </td>
-              </tr>
-            </tbody> */}
-               </table>
-            </div>
+            <div className={css.bottomRightSideCont}></div>
 
             {/* Bottom Section */}
+
             <div
                style={{
                   marginTop: showItemsListMenu ? "100px" : "0px",
@@ -756,7 +272,15 @@ const AddPaymentouts = ({ setOpenForm }) => {
                         zIndex: 600,
                      }}
                   >
-                     {rowFooterData?.totalAmount > 0 && (
+                     <div
+                        style={{
+                           display: "flex",
+                           alignItems: "Center",
+                           gap: "40px",
+                           zIndex: 600,
+                        }}
+                     >
+                        
                         <div style={{ position: "relative", zIndex: 600 }}>
                            <Menu
                               offset={[0, 0]}
@@ -817,34 +341,39 @@ const AddPaymentouts = ({ setOpenForm }) => {
                               </MenuList>
                            </Menu>
                         </div>
-                     )}
-                     {toggleCheckReferenceInp && (
-                        <div className={css.inputDiv} style={{ zIndex: 600 }}>
-                           <input
-                              type="number"
-                              value={checkReferenceInpval}
-                              name="checkReferenceInpval"
-                              onChange={(e) =>
-                                 setCheckReferenceInpval(e.target.value)
-                              }
-                              className={css.BottomInput}
-                              style={{ width: "150px", zIndex: 600 }}
-                           />
-                           <label
-                              style={{
-                                 background: "var(--greyB)",
-                                 zIndex: 600,
-                              }}
-                              className={
-                                 checkReferenceInpval
-                                    ? css.BottomInpActiveLabel
-                                    : css.BottomInpInactiveLabel
-                              }
+                        
+                        {toggleCheckReferenceInp && (
+                           <div
+                              className={css.inputDiv}
+                              style={{ zIndex: 600 }}
                            >
-                              Reference No.
-                           </label>
-                        </div>
-                     )}
+                              <input
+                                 type="number"
+                                 value={checkReferenceInpval}
+                                 name="checkReferenceInpval"
+                                 onChange={(e) =>
+                                    setCheckReferenceInpval(e.target.value)
+                                 }
+                                 className={css.BottomInput}
+                                 style={{ width: "150px", zIndex: 600 }}
+                              />
+                              <label
+                                 style={{
+                                    background: "var(--greyB)",
+                                    zIndex: 600,
+                                 }}
+                                 className={
+                                    checkReferenceInpval
+                                       ? css.BottomInpActiveLabel
+                                       : css.BottomInpInactiveLabel
+                                 }
+                              >
+                                 Reference No.
+                              </label>
+                           </div>
+                        )}
+                     </div>
+                    
                   </div>
 
                   {toggleDesc ? (
@@ -853,9 +382,9 @@ const AddPaymentouts = ({ setOpenForm }) => {
                         style={{ marginTop: topMarginAddDescInp }}
                      >
                         <textarea
-                           value={data.addDescription}
-                           name="addDescription"
-                           onChange={(e) => handleInputChange(e)}
+                           value={data.description}
+                           name="description"
+                           onChange={(e) => handleChange(e)}
                            className={css.input}
                            style={{
                               height: "110px",
@@ -864,9 +393,9 @@ const AddPaymentouts = ({ setOpenForm }) => {
                            required
                         />
                         <label
-                           htmlFor="addDescription"
+                           htmlFor="description"
                            className={
-                              data.addDescription
+                              data?.description
                                  ? css.activeLabel
                                  : css.inactiveLabel
                            }
@@ -919,99 +448,6 @@ const AddPaymentouts = ({ setOpenForm }) => {
                      <AddDocumentIcon />
                      <p>ADD DOCUMENT</p>
                   </div>
-               </div>
-
-               <div className={css.bottomRightSideCont}>
-                  <div className={css.rightSideUpperInputsDiv}>
-                     <div className={css.roundOffDiv}>
-                        {toggleRoundOff ? (
-                           <CheckedBox
-                              onClick={(e) => {
-                                 e.stopPropagation();
-                                 setToggleRoundOff((prev) => !prev);
-                              }}
-                              className={css.checkedInpRoundOff}
-                           />
-                        ) : (
-                           <EmptyCheckedBox
-                              className={css.unCheckedInpRoundOff}
-                              onClick={(e) => {
-                                 e.stopPropagation();
-                                 setToggleRoundOff((prev) => !prev);
-                              }}
-                           />
-                        )}
-                        <p>Round Off</p>
-                        <input
-                           type="number"
-                           placeholder="0"
-                           value={
-                              toggleRoundOff
-                                 ? rowFooterData.totalAmount -
-                                   Math.round(rowFooterData.totalAmount)
-                                 : ""
-                           }
-                           disabled
-                           className={css.roundOffNumInp}
-                        />
-                     </div>
-                     <div className={css.totalBottomDiv}>
-                        <p>Total</p>
-                        <input
-                           type="number"
-                           name="total"
-                           value={
-                              toggleRoundOff
-                                 ? Math.round(rowFooterData?.totalAmount)
-                                 : rowFooterData?.totalAmount
-                           }
-                           onChange={(e) => handleInputChange(e)}
-                           readOnly
-                           disabled
-                        />
-                     </div>
-                  </div>
-                  {rowFooterData?.totalAmount > 0 && (
-                     <div className={css.bottomRecievedOuterDiv}>
-                        <div className={css.totalBottomDiv}>
-                           <p>Received</p>
-                           <input
-                              type="number"
-                              placeholder="0"
-                              disabled={!toggleReceived}
-                              value={data?.recived}
-                              name="recived"
-                              onChange={(e) => handleInputChange(e)}
-                           />
-                        </div>
-                        {toggleReceived ? (
-                           <CheckedBox
-                              onClick={(e) => {
-                                 e.stopPropagation();
-                                 setToggleReceived((prev) => !prev);
-                              }}
-                              className={css.checkedInpRoundOff}
-                           />
-                        ) : (
-                           <EmptyCheckedBox
-                              className={css.unCheckedInpRoundOff}
-                              onClick={(e) => {
-                                 e.stopPropagation();
-                                 setToggleReceived((prev) => !prev);
-                              }}
-                           />
-                        )}
-                     </div>
-                  )}
-                  {rowFooterData?.totalAmount > 0 && (
-                     <div className={css.bottomBalanceOuterDiv}>
-                        <div>
-                           <span></span>
-                           <p>Balance</p>
-                           <p>{balanceAmount}</p>
-                        </div>
-                     </div>
-                  )}
                </div>
             </div>
          </div>

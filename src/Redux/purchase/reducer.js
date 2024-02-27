@@ -3,8 +3,10 @@ import {
    GET_PURCHASEBILL_SUCCESS,
    GET_PURCHASEORDER_SUCCESS,
    GET_PURCHASERETURN_SUCCESS,
+   POST_PAYOUT_SUCCESS,
    POST_PURCHASEBILL_SUCCESS,
    POST_PURCHASEORDER_SUCCESS,
+  
    POST_PURCHASERETURN_SUCCESS,
    PURCHASE_FAILURE,
    PURCHASE_REQUEST,
@@ -87,6 +89,13 @@ export const reducer = (state = initialState, { type, payload }) => {
             ...state,
             isLoading: false,
             purchaseReturnData: [...state.purchaseReturnData, payload],
+         };
+      }
+      case POST_PAYOUT_SUCCESS: {
+         return {
+            ...state,
+            isLoading: false,
+            purchaseOutData: [...state.paymentOutData, payload],
          };
       }
 
