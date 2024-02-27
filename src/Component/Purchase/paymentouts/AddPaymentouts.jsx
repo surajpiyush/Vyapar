@@ -1,9 +1,9 @@
-import css from "../../styles/SalesStyles/SalesForms.module.css";
+import css from "../../../styles/SalesStyles/SalesForms.module.css";
 import React, { useEffect, useState } from "react";
 
-// import "./Paymentouts.css";
+import "./Paymentouts.css";
 
-import { addPurchaseBill, addPurchaseOrder } from "../../Redux/purchase/action";
+import { addPurchaseBill } from "../../../Redux/purchase/action";
 import { useDispatch, useSelector } from "react-redux";
 import { IoIosArrowDown as ArrowDown } from "react-icons/io";
 import { FiPlusCircle as PlusIcon } from "react-icons/fi";
@@ -24,12 +24,12 @@ import {
 } from "@chakra-ui/react";
 
 // =================================================================
-import ItemsForm from "../../components/addForm/ItemsForm";
+import ItemsForm from "../../../components/addForm/ItemsForm";
 
-import { GetAllItems } from "../../Redux/items/actions";
-import { FetchAllParties } from "../../Redux/parties/actions";
+import { GetAllItems } from "../../../Redux/items/actions";
+import { FetchAllParties } from "../../../Redux/parties/actions";
 
-const Addpurchaseorderitems = ({ setOpenForm }) => {
+const AddPaymentouts = ({ setOpenForm }) => {
    // ==========================================================================
    const toast = useToast();
    const dispatch = useDispatch();
@@ -65,84 +65,55 @@ const Addpurchaseorderitems = ({ setOpenForm }) => {
    const [balanceAmount, setBalanceAmount] = useState("");
 
    const [data, setData] = useState({
-      type: "Purchase Order",
+      type: "Purchase-Out",
       status: "Pending",
-      partyName: "65b0dcfac6cbbb47477128cb",
-      orderNumber: "PO123",
-      orderDate: new Date().toISOString().split("T")[0],
+      partyName: "Bhuvensh",
+      receiptNumber: "RO123",
+      date: "2024-02-16T00:00:00.000Z",
       time: "10:00 AM",
-      dueDate: "2024-03-17T00:00:00.000Z",
-      stateOfSupply: "2024-02-16T00:00:00.000Z",
-      priceUnitWithTax: true,
-      purchaseOrder: [],
+      description: "Purchase return of items",
       paymentType: [
-         {
-            cash: 800,
-            cheque: {
-               refreanceNo: "REF123",
-               checkAmount: 150,
-            },
-            bankDetail: {
-               accountName: "ABC Bank",
-               openingBalance: 5000,
-               asOfDate: "2024-02-16T00:00:00.000Z",
-            },
-            default: "cash",
-         },
-      ],
-      addDescription: "Additional description here",
-      discount: {
-         discountPersent: 2,
-         discountAmount: 2,
-      },
-      tax: {
-         tax: "GST",
-         taxamount: 10,
-      },
-      roundOff: 0,
-      total: 950,
-      advanceAmount: 0,
-      balance: 950,
+       
+      ],
+      paid: 0,
+      discount: 0,
+      total: 0,
    });
 
-   const [purchaseOrder, setPurchaseOrder] = useState([
-      {
-         category: "65c5cfc509b34ca8a0187497",
-         itemName: "65d346274b3a635d1031b700",
-         itemCode: "001",
-         hsnCode: "HSN001",
-         serialNo: "SN001",
-         description: "Description of item 1",
-         batchNo: 1,
-         modelNo: 123,
-         expDate: "2025-02-16T00:00:00.000Z",
-         mfgDate: new Date().toISOString().split("T")[0],
-         customField: "Custom field 1",
-         size: "Large",
-         qty: 10,
-         unit: "pcs",
-         priceUnit: 100,
-         discountpersant: 5,
-         discountAmount: 5,
-         taxPersant: "12%",
-         taxAmount: 12,
-         amount: 950,
+   
+   const [payment, setPayment] = useState([
+    {
+        types: String,
+        amount: Number,
       },
+      {
+        types: String,
+        amount: Number,
+        refreanceNo: String,
+      },
+      {
+        types: String,
+        accountName: String,
+        openingBalance: Number,
+        asOfDate: Date,
+      },
    ]);
+
+  ;
 
    // Submit Request Function
    const handleSubmit = (e) => {
       e.preventDefault();
-      const purchaseOrderData = {
+      const purchaseBillData = {
          ...data,
          priceUnitWithTax: data?.priceUnitWithTax == "true",
-         purchaseOrder: [...data.purchaseOrder, purchaseOrder],
+         sale: [...data.sale, payment],
       };
-      console.log("data", purchaseOrderData);
+      console.log("data", purchaseBillData);
 
-      dispatch(addPurchaseOrder(purchaseOrderData));
+      dispatch(addPurchaseBill(purchaseBillData));
       // addPurchaseBill(dispatch(purchaseBillData))
-      setOpenForm(false);  
+      setOpenForm(false);
       // PostSalesInvoice(dispatch, toast, data, setOpenForm);
    };
 
@@ -182,7 +153,7 @@ const Addpurchaseorderitems = ({ setOpenForm }) => {
    // Input Change Function
    const handleInputChange = (e) => {
       const { name, value } = e.target;
-      setPurchaseOrder((prev) => {
+      setPayment((prev) => {
          return { ...prev, [name]: value };
       });
       // console.log(payment)
@@ -255,7 +226,7 @@ const Addpurchaseorderitems = ({ setOpenForm }) => {
          size: "Large",
       };
       setRows([...rows, newRow]);
-      setPurchaseOrder([...purchaseOrder, newRow]);
+      setPayment([...payment, newRow]);
       // console.log(payment);
    };
 
@@ -268,7 +239,7 @@ const Addpurchaseorderitems = ({ setOpenForm }) => {
    return (
       <form onSubmit={handleSubmit} className={css.formOuter}>
          <div className={css.topheader}>
-            <p>Purchase Order</p>
+            <p>Purchase</p>
          </div>
 
          <div className={css.ContentContainerDiv}>
@@ -309,26 +280,100 @@ const Addpurchaseorderitems = ({ setOpenForm }) => {
                         {data.balance ? <>Balance: {data.balance}</> : ""}
                      </p>
                   </div>
+                  <div className={css.inputDiv}>
+                     <input
+                        type="number"
+                        value={data.phoneNumber}
+                        name="phoneNumber"
+                        onChange={(e) => handleChange(e)}
+                        className={css.input}
+                        required
+                     />
+                     <label
+                        htmlFor=""
+                        className={
+                           data.phoneNumber
+                              ? css.activeLabel
+                              : css.inactiveLabel
+                        }
+                     >
+                        Phone No.
+                     </label>
+                  </div>
+               </div>
+               <div>
+                  <div className={css.inputDiv}>
+                     <label
+                        htmlFor="PO No"
+                        className={
+                           data.partyName ? css.activeLabel : css.inactiveLabel
+                        }
+                     >
+                        PO No.
+                     </label>
+                     <input
+                        type="text"
+                        name="poNo"
+                        className={css.input}
+                        onChange={(e) => handleChange(e)}
+                     />
+                  </div>
+                  <br />
+                  <div className={css.inputDiv}>
+                     <label
+                        htmlFor="PO Date"
+                        className={
+                           data.partyName ? css.activeLabel : css.inactiveLabel
+                        }
+                     >
+                        PO Date
+                     </label>
+                     <input
+                        type="Date"
+                        name="poDate"
+                        defaultValue={new Date().toISOString().split("T")[0]}
+                        className={css.input}
+                        onChange={(e) => handleChange(e)}
+                     />
+                  </div>
+                  <br />
+                  <div className={css.inputDiv}>
+                     <label
+                        htmlFor="PO No"
+                        className={
+                           data.partyName ? css.activeLabel : css.inactiveLabel
+                        }
+                     >
+                        E-Way Bill
+                     </label>
+                     <input
+                        type="text"
+                        name="eWayBill"
+                        onChange={(e) => handleChange(e)}
+                        className={css.input}
+                     />
+                  </div>
                </div>
 
                <div className={css.rightSideCont}>
                   <div>
-                     <p>Order Number</p>
+                     <p>Bill Number</p>
                      <input
                         type="text"
                         placeholder="1"
                         className={css.invoiceNumInp}
                         onChange={(e) => handleChange(e)}
-                        name="orderNumber"
+                        name="billNumber"
                      />
                   </div>
                   <div>
-                     <p>Order Date</p>
+                     <p>Bill Date</p>
                      <input
                         type="date"
+                        placeholder="Invoice Date"
                         className={css.invoiceDateSelectInp}
                         onChange={(e) => handleChange(e)}
-                        name="orderDate"
+                        name="billDate"
                         defaultValue={new Date().toISOString().split("T")[0]}
                      />
                   </div>
@@ -336,6 +381,7 @@ const Addpurchaseorderitems = ({ setOpenForm }) => {
                      <p>Time</p>
                      <input
                         type="time"
+                        placeholder="Invoice Time"
                         className={css.invoiceDateSelectInp}
                         onChange={(e) => handleChange(e)}
                         name="time"
@@ -347,6 +393,19 @@ const Addpurchaseorderitems = ({ setOpenForm }) => {
                      />
                   </div>
 
+                  <div>
+                     <p>Payment Terms</p>
+                     <select
+                        name="paymentTerms"
+                        onChange={(e) => handleChange(e)}
+                     >
+                        <option value="">Due On Recipt</option>
+                        <option value="net 15">Net 15</option>
+                        <option value="net 30">Net 30</option>
+                        <option value="net 45">Net 45</option>
+                        <option value="net 60">Net 60</option>
+                     </select>
+                  </div>
                   <div>
                      <p>Due Date</p>
                      <input
@@ -509,9 +568,9 @@ const Addpurchaseorderitems = ({ setOpenForm }) => {
                                        const itemId =
                                           selectedItem?._id?.toString();
                                        // console.log(itemId)
-                                       setPurchaseOrder({
-                                          ...purchaseOrder,
-                                          itemName: itemId,    
+                                       setPayment({
+                                          ...payment,
+                                          itemName: itemId,
                                        });
                                        // now from this itemId you need to fetch the data of that perticular item and display in that row
                                        // getData(partyId);
@@ -717,7 +776,7 @@ const Addpurchaseorderitems = ({ setOpenForm }) => {
                         <td></td>
                         <td>
                            <div className={css.actualAddRowTd}>
-                              <button onClick=  {handleAddRow}>ADD ROW</button>
+                              <button onClick={handleAddRow}>ADD ROW</button>
                               <p>Total</p>
                            </div>
                         </td>
@@ -729,6 +788,51 @@ const Addpurchaseorderitems = ({ setOpenForm }) => {
                         <td className={css.addRowChildTd}>10</td>
                      </tr>
                   </tbody>
+                  {/* <tbody>
+              {payment?.map((item, ind) => {
+                return (
+                  <ItemsTableBody
+                    ind={ind}
+                    item={item}
+                    payment={payment}
+                  setPayment={setPayment}
+                    handleDeleteRow={handleDeleteRow}
+                    handleMenuItemClick={handleMenuItemClick}
+                    setShowItemsListMenu={setShowItemsListMenu}
+                    setShowItemForm={setShowItemForm}
+                    setIndexSaleItem={setIndexSaleItem}
+                    items={items}
+                    getAllItemsLoading={getAllItemsLoading}
+                    showItemsListMenu={showItemsListMenu}
+                    indexSaleItem={indexSaleItem}
+                    key={ind}
+                  />
+                );
+              })}
+              <tr className={css.addRowTr}>
+                <td></td>
+                <td>
+                  <div className={css.actualAddRowTd}>
+                    <button onClick={handleAddRow} type="button">
+                      ADD ROW
+                    </button>
+                    <p>Total</p>
+                  </div>
+                </td>
+                <td className={css.addRowChildTd}>{rowFooterData?.totalQty}</td>
+                <td></td>
+                <td></td>
+                <td className={css.addRowChildTd}>
+                  {rowFooterData?.totalDiscountAmount}
+                </td>
+                <td className={css.addRowChildTd}>
+                  {rowFooterData?.totalTaxAmount}
+                </td>
+                <td className={css.addRowChildTd}>
+                  {rowFooterData?.totalAmount}
+                </td>
+              </tr>
+            </tbody> */}
                </table>
             </div>
 
@@ -1030,4 +1134,4 @@ const Addpurchaseorderitems = ({ setOpenForm }) => {
    );
 };
 
-export default Addpurchaseorderitems;
+export default AddPaymentouts;

@@ -14,6 +14,7 @@ import { MdOutlineSettings as SettingIcon } from "react-icons/md";
 import { IoMdCloseCircle as CloseIcon } from "react-icons/io";
 import { IoCloseOutline as CrossIcon } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
+import AddPaymentouts from "../../Component/Purchase/paymentouts/AddPaymentouts";
 const Paymentout = () => {
   const toast = useToast();
   const dispatch = useDispatch();
@@ -71,7 +72,7 @@ const Paymentout = () => {
                            <CloseIcon onClick={() => setOpenForm(false)} />
                         </div>
                      </div>
-                     <AddPurchaseItem setOpenForm={setOpenForm} />
+                     <AddPaymentouts setOpenForm={setOpenForm} />
                   </div>
                ) : (
                   <div>{!isLoading && <Paymentouts func={formOpen} />}</div>

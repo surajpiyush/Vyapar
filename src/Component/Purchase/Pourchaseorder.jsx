@@ -14,28 +14,29 @@ import { getPurchaseOrder } from "../../Redux/purchase/action";
 import FirstTimeFormToggle from "../FirstTimeFormToggle";
 import party from "../../assets/Images/party.jpg";
 
-const Pourchaseorder = () => {
+const Pourchaseorder = ({func}) => {
    const navigate = useNavigate();
    const store = useSelector((store) => store.PurchaseReducer);
-   const token = localStorage.getItem("token");
-   const companyID = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
-   const baseURL = "https://ca-backend-api.onrender.com";
-   // console.log(userId["_id"])
-   const date = { startDate: "2023-01-20", endDate: "2024-02-24" };
+
+   const date = { startDate: "2023-01-20", endDate: "2025-02-24" };
    const dispatch = useDispatch();
    const data = store.purchaseOrderData;
    // console.log(store);
    useEffect(() => {
       dispatch(getPurchaseOrder({ date }));
    }, []);
-
-   console.log(data);
+   const openForm = () => {
+      func(true);
+   };
+   // console.log(data);
    return (
       <>
          {!store.isLoading && !data.length ? (
             <FirstTimeFormToggle
                img={party}
-               onClick={() => navigate("/addpurchaseorder")}
+               onClick={() => {
+                     openForm();
+                  }}
                BtnText="Add Your First Purchase Order"
                MiddleText="Make & share purchase orders with your parties & convert them to purchase bill instantly."
             />
@@ -44,7 +45,9 @@ const Pourchaseorder = () => {
                <h4>Transactions</h4>
                <div className="transactions-buttons">
                   <input type="text" />
-                  <button onClick={() => navigate("/addpurchaseorder")}>
+                  <button onClick={() => {
+                     openForm();
+                  }}>
                      <span>+</span> Add Purchase order
                   </button>
                </div>
@@ -114,12 +117,17 @@ const Pourchaseorder = () => {
                               </th>
                               <th className="table-h">
                                  <div className="table-items">
-                                 {new Date(e.date).toLocaleDateString(undefined)}
+                                    {new Date(e.date).toLocaleDateString(
+                                       undefined
+                                    )}
                                  </div>
                               </th>
                               <th className="table-h">
-                              {new Date(e.dueDate).toLocaleDateString(undefined)} </th>
-                                 {/* <div className="table-items">
+                                 {new Date(e.dueDate).toLocaleDateString(
+                                    undefined
+                                 )}{" "}
+                              </th>
+                              {/* <div className="table-items">
                                     {new Date(e.billDate).toLocaleDateString(
                                        "en-IN",
                                        {
@@ -129,7 +137,6 @@ const Pourchaseorder = () => {
                                        }
                                     )}
                                  </div> */}
-                            
 
                               <th className="table-h">
                                  <div className="table-items">₹{e.total}</div>

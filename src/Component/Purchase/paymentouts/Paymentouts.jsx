@@ -9,21 +9,19 @@ import {
 import { ImSpinner3 as BasicSpinner } from "react-icons/im";
 
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
 import { getPaymentOutBill } from "../../../Redux/purchase/action";
 
-const Paymentouts = ({func}) => {
+const Paymentouts = ({ func }) => {
    const dispatch = useDispatch();
-   // const [data, setData] = useState([]);
-   const companyID = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
-   const token = localStorage.getItem("token");
+
    const store = useSelector((store) => store.PurchaseReducer);
+   const data = store.paymentOutData;
    console.log(store);
-   const data = store?.paymentOutData;
    const date = {
       startDate: "2023-01-20",
       endDate: "2025-02-24",
    };
+   // console.log(store);
    useEffect(() => {
       dispatch(getPaymentOutBill({ date }));
    }, []);
@@ -57,13 +55,17 @@ const Paymentouts = ({func}) => {
    };
    const openForm = () => {
       func(true);
-    };
+   };
    return (
       <>
          <div className="payment-out-container">
             <div className="transactions-buttons">
                {/* <input type="text" /> */}
-               <button onClick={()=>{openForm()}}>
+               <button
+                  onClick={() => {
+                     openForm();
+                  }}
+               >
                   <span>+</span> Add Payment-out
                </button>
             </div>

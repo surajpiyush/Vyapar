@@ -148,7 +148,7 @@ export const getPaymentOutBill =
          })
          .catch((ERR) => {
             console.log(ERR);
-            alert(`${ERR.response.data.msg}`);
+            // alert(`${ERR.response.data.msg}`);
             dispatch({ type: PURCHASE_FAILURE });
          });
    };
