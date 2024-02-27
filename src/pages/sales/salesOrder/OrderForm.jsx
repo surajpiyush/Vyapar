@@ -1,9 +1,6 @@
 import css from "../../../styles/SalesStyles/SalesForms.module.css";
-import ItemsForm from "../../../components/addForm/ItemsForm";
-import ItemsTableBodyEstimate from "./ItemsTableBodyEstimate";
-import { FetchAllParties } from "../../../Redux/parties/actions";
 import { GetAllItems } from "../../../Redux/items/actions";
-import { PostEstimates } from "../../../Redux/sales/action";
+import { FetchAllParties } from "../../../Redux/parties/actions";
 
 import {
   useToast,
@@ -18,38 +15,52 @@ import { useDispatch, useSelector } from "react-redux";
 import { IoIosArrowDown as ArrowDown } from "react-icons/io";
 import { FiPlusCircle as PlusIcon } from "react-icons/fi";
 import { AiFillFileAdd as AddDecriptionIcon } from "react-icons/ai";
+import { HiMiniDocumentText as AddDocumentIcon } from "react-icons/hi2";
 import { BiSolidCameraPlus as AddCameraIcon } from "react-icons/bi";
 import { ImCheckboxUnchecked as EmptyCheckedBox } from "react-icons/im";
 import { BiSolidCheckboxChecked as CheckedBox } from "react-icons/bi";
+import ItemsTableBody from "../salesInvoice/ItemsTableBody";
+import ItemsForm from "../../../components/addForm/ItemsForm";
+import { PostSaleOrder, PostSalesInvoice } from "../../../Redux/sales/action";
+import ItemsTableBodySaleOrder from "./ItemsTableBodySaleOrder";
 
-const EstimateForm = ({ setOpenForm }) => {
+const OrderForm = ({ setOpenForm }) => {
   const toast = useToast();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.SalesReducer.isLoading);
   const partiesLoading = useSelector((state) => state.PartiesReducer.isLoading);
-  const partiesData = useSelector((state) => state.PartiesReducer.partiesData);
   const togglePartiesData = useSelector(
     (state) => state.PartiesReducer.togglePartiesData
   );
+  const partiesData = useSelector((state) => state.PartiesReducer.partiesData);
+  const toggleItems = useSelector((state) => state.ItemReducer.toggleItems);
   const getAllItemsLoading = useSelector(
     (state) => state.ItemReducer.getAllItemsLoading
   );
   const items = useSelector((state) => state.ItemReducer.items);
-  const toggleItems = useSelector((state) => state.ItemReducer.toggleItems);
-  const estimatesList = useSelector(
-    (state) => state.SalesReducer.estimatesList
+  const paymentInList = useSelector(
+    (state) => state.SalesReducer.paymentInList
+  );
+  const saleOrderList = useSelector(
+    (state) => state.SalesReducer.saleOrderList
   );
 
-  const [toggleDesc, setToggleDesc] = useState(false);
-  const [showItemForm, setShowItemForm] = useState(false);
-  const [rowFooterData, setRowFooterData] = useState({});
-  const [toggleRoundOff, setToggleRoundOff] = useState(false);
-  const [indexEstimateItem, setIndexEstimateItem] = useState(0);
-  const [showItemsListMenu, setShowItemsListMenu] = useState(false);
   const [currentCustomerData, setCurrentCustomerData] = useState({});
-  const [topMarginAddDescInp, setTopMarginAddDescInp] = useState("0px");
+  const [toggleDesc, setToggleDesc] = useState(false);
+  const [toggleRoundOff, setToggleRoundOff] = useState(false);
+  const [toggleReceived, setToggleReceived] = useState(false);
+  const [toggleCheckReferenceInp, setToggleCheckReferenceInp] = useState(false);
+  const [paymentTypeSelectTag, setPaymentTypeSelectTag] = useState("Cash");
+  const [checkReferenceInpval, setCheckReferenceInpval] = useState("");
+  const [topMarginAddDescInp, setTopMarginAddDescInp] = useState("");
+  const [showItemsListMenu, setShowItemsListMenu] = useState(false);
+  const [indexOrderTableItem, setIndexOrderTableItem] = useState(0);
+  const [rowFooterData, setRowFooterData] = useState({});
+  const [showItemForm, setShowItemForm] = useState(false);
+  const [receiveAmount, setReceiveAmount] = useState("");
+  const [balanceAmount, setBalanceAmount] = useState("");
 
-  const [estimateItems, setEstimatesItems] = useState([
+  const [orderTableItems, setOrderTableItems] = useState([
     {
       itemName: "",
       qty: "",
@@ -62,26 +73,68 @@ const EstimateForm = ({ setOpenForm }) => {
       amount: "",
     },
   ]);
-  const [estimateData, setEstimateData] = useState({
-    type: "Estimate",
+  const [orderData, setOrderData] = useState({
+    type: "Sale Order",
     status: "Pending",
-    customerName: "",
-    refNo: estimatesList.length + 1 || "",
-    invoiceDate: new Date().toISOString().split("T")[0],
+    party: "",
+    billingName: "",
+    phoneNumber: "",
+    billingAddress: "",
+    orderNo: saleOrderList.length + 1 || "",
+    orderDate: new Date().toISOString().split("T")[0],
+    dueDate: new Date().toISOString().split("T")[0],
     stateOfSupply: "",
     priceUnitWithTax: false,
-    addDescription: "",
+    //  addDescription: "",
+    //  total: "",
+    //  recived: "",
+    // balance: "",
   });
 
-  // for fetching all parties list on form mount
-  useEffect(() => {
-    FetchAllParties(dispatch);
-  }, [togglePartiesData]);
+  // Submit Request Function
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = {
+      ...orderData,
+      saleOrder: orderTableItems,
+      priceUnitWithTax: orderData?.priceUnitWithTax == "true",
+      // sale: orderTableItems,
+      // balance:
+      //   balanceAmount || toggleRoundOff
+      //     ? Math.round(rowFooterData?.totalAmount)
+      //     : rowFooterData?.totalAmount,
+      // total: toggleRoundOff
+      //   ? Math.round(rowFooterData?.totalAmount)
+      //   : rowFooterData?.totalAmount,
+      // paymentType: [
+      //   { type: paymentTypeSelectTag, amount: 0 },
+      //   { type: "Cheque", amount: 0, refreanceNo: "Test" },
+      //   {
+      //     type: "XYZ",
+      //     accountName: "ABC",
+      //     openingBalance: 100,
+      //     asOfDate: "2024-02-01",
+      //   },
+      // ],
+      // paymentType: [
+      //   {
+      //     cash: 150,
+      //     cheque: {
+      //       refreanceNo: "CHK123",
+      //       checkAmount: 200,
+      //     },
+      //     bankDetail: {
+      //       accountName: "Account Name",
+      //       openingBalance: 1000,
+      //       asOfDate: "2024-02-09",
+      //     },
+      //   },
+      // ],
+    };
+    // PostSaleOrder(dispatch, toast, data, setOpenForm);
 
-  // for fetching all items list on form mount
-  useEffect(() => {
-    dispatch(GetAllItems());
-  }, [toggleItems]);
+    console.log("orderData", data);
+  };
 
   // Update total footer values
   useEffect(() => {
@@ -91,7 +144,7 @@ const EstimateForm = ({ setOpenForm }) => {
       totalTaxAmount: 0,
       totalAmount: 0,
     };
-    estimateItems?.forEach((item) => {
+    orderTableItems?.forEach((item) => {
       if (Number(item?.qty)) {
         footerObj.totalQty += Number(item?.qty);
       }
@@ -110,36 +163,52 @@ const EstimateForm = ({ setOpenForm }) => {
     footerObj.totalAmount = footerObj.totalAmount.toFixed(2);
     setRowFooterData(footerObj);
   }, [
-    estimateItems[indexEstimateItem]?.qty,
-    estimateItems[indexEstimateItem]?.priceUnit,
-    estimateItems[indexEstimateItem]?.discountpersant,
-    estimateItems[indexEstimateItem]?.discountAmount,
-    estimateItems[indexEstimateItem]?.taxPersant,
-    estimateItems[indexEstimateItem]?.taxAmount,
-    estimateItems[indexEstimateItem]?.amount,
+    orderTableItems[indexOrderTableItem]?.qty,
+    orderTableItems[indexOrderTableItem]?.priceUnit,
+    orderTableItems[indexOrderTableItem]?.discountpersant,
+    orderTableItems[indexOrderTableItem]?.discountAmount,
+    orderTableItems[indexOrderTableItem]?.taxPersant,
+    orderTableItems[indexOrderTableItem]?.taxAmount,
+    orderTableItems[indexOrderTableItem]?.amount,
   ]);
 
-  //   Form Submission Function
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const data = {
-      ...estimateData,
-      // customerName: currentCustomerData?.partyName || "",
-      customerName: currentCustomerData?._id || "",
-      customerId: currentCustomerData?._id || "",
-      estimate: estimateItems,
-      total: toggleRoundOff
-        ? Math.round(rowFooterData?.totalAmount)
-        : rowFooterData?.totalAmount,
+  // for fetching all parties list on form mount
+  useEffect(() => {
+    FetchAllParties(dispatch);
+  }, [togglePartiesData]);
+
+  // for fetching all items list on form mount
+  useEffect(() => {
+    dispatch(GetAllItems());
+  }, [toggleItems]);
+
+  // for updating Firm Data
+  useEffect(() => {
+    let obj = {
+      party: currentCustomerData?._id || "",
+      billingName: currentCustomerData?.partyName || "",
+      phoneNumber: currentCustomerData?.phoneNumber || "",
+      billingAddress: currentCustomerData?.billingAddress || "",
+      openingBalance: currentCustomerData?.openingBalance || "",
     };
-    PostEstimates(dispatch, data, setOpenForm, toast);
-    // console.log("estimateData", data });
-  };
+    setOrderData((prev) => {
+      return { ...prev, ...obj };
+    });
+  }, [currentCustomerData]);
+
+  // To Show Reference Input
+  useEffect(() => {
+    if (paymentTypeSelectTag == "Cheque") {
+      setToggleCheckReferenceInp(true);
+    } else {
+      setToggleCheckReferenceInp(false);
+    }
+  }, [paymentTypeSelectTag]);
 
   // Input Change Function
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEstimateData((prev) => {
+    setOrderData((prev) => {
       return { ...prev, [name]: value };
     });
   };
@@ -147,16 +216,28 @@ const EstimateForm = ({ setOpenForm }) => {
   // Found items list click handler
   const handleMenuItemClick = (index, itemDetail) => {
     let currSaleItem = {
-      ...estimateItems[index],
+      ...orderTableItems[index],
       itemId: itemDetail?._id,
       itemName: itemDetail?.itemName,
       taxPersant: itemDetail?.taxRate.split("%")[0] || "",
     };
-    let newSaleData = estimateItems.map((ite, ind) =>
+    let newSaleData = orderTableItems.map((ite, ind) =>
       ind == index ? currSaleItem : ite
     );
-    setEstimatesItems(newSaleData);
+    setOrderTableItems(newSaleData);
   };
+
+  // for changing balance amount
+  useEffect(() => {
+    let initAmount = toggleRoundOff
+      ? Math.round(rowFooterData?.totalAmount)
+      : rowFooterData?.totalAmount;
+    let recieved = orderData?.recived || 0;
+    let bal = initAmount - recieved;
+    setBalanceAmount(
+      bal.toFixed(2) ? bal.toFixed(2) : rowFooterData?.totalAmount
+    );
+  }, [orderData?.recived, toggleRoundOff, rowFooterData?.totalAmount]);
 
   // Add Row Function
   const handleAddRow = (e) => {
@@ -172,32 +253,31 @@ const EstimateForm = ({ setOpenForm }) => {
       taxAmount: "",
       amount: "",
     };
-    setEstimatesItems((prev) => [...prev, newRowData]);
+    setOrderTableItems((prev) => [...prev, newRowData]);
   };
-
   // Delete Row Function
   const handleDeleteRow = (e, index) => {
     e.stopPropagation();
-    const deletedRowdata = estimateItems.filter((_, ind) => ind != index);
-    setEstimatesItems(deletedRowdata);
+    const deletedRowdata = orderTableItems.filter((_, ind) => ind != index);
+    setOrderTableItems(deletedRowdata);
   };
 
   return (
     <form onSubmit={handleSubmit} className={css.formOuter}>
-      {showItemForm && <ItemsForm closeForm={setShowItemForm} />}
-
       <div className={css.topheader}>
-        <p>Estimate/Quotation</p>
+        <p>Sale Order</p>
       </div>
 
       <div className={css.ContentContainerDiv}>
-        {/* Middle Section */}
+        {showItemForm && <ItemsForm closeForm={setShowItemForm} />}
+
+        {/* Middle  */}
         <div className={css.middleOuter}>
           <div className={css.leftSideCont}>
             <div className={css.selectOuter}>
               <select
-                name="customerName"
-                value={currentCustomerData?._id || ""}
+                name="billingName"
+                value={currentCustomerData?._id}
                 onChange={(e) => {
                   e.stopPropagation();
                   const currentPartyData = partiesData.filter(
@@ -210,7 +290,11 @@ const EstimateForm = ({ setOpenForm }) => {
                 className={css.selectTag}
                 required
               >
-                <option value="">Search by Name/Phone</option>
+                <option value="">
+                  {orderData.type == "Credit"
+                    ? "Search by Name/Phone"
+                    : "Billing Name (Optional)"}
+                </option>
                 {partiesLoading ? (
                   <option value="">Loading Parties</option>
                 ) : (
@@ -222,37 +306,89 @@ const EstimateForm = ({ setOpenForm }) => {
                 )}
               </select>
             </div>
+            <div className={css.inputDiv}>
+              <input
+                type="number"
+                name="phoneNumber"
+                value={orderData?.phoneNumber}
+                onChange={handleInputChange}
+                className={css.input}
+                required
+              />
+              <label
+                className={
+                  orderData?.phoneNumber ? css.activeLabel : css.inactiveLabel
+                }
+              >
+                Phone No.
+              </label>
+            </div>
+            {/* {currentCustomerData?._id && ( */}
+            {orderData?.party && (
+              <div className={css.inputDiv}>
+                <textarea
+                  name="billingAddress"
+                  value={orderData?.billingAddress}
+                  onChange={handleInputChange}
+                  style={{ height: "110px", width: "230px" }}
+                  className={css.input}
+                  required
+                />
+                <label
+                  className={
+                    orderData?.billingAddress
+                      ? css.activeLabel
+                      : css.inactiveLabel
+                  }
+                >
+                  Billing Address
+                </label>
+              </div>
+            )}
           </div>
 
           <div className={css.rightSideCont}>
             <div>
-              <p>Ref No.</p>
+              <p>Order No.</p>
               <input
                 type="text"
-                placeholder="1"
-                name="refNo"
-                value={estimateData?.refNo}
+                name="orderNo"
+                value={orderData?.orderNo}
                 onChange={handleInputChange}
+                placeholder="1"
                 className={css.invoiceNumInp}
                 required
               />
             </div>
             <div>
-              <p>Invoice Date</p>
+              <p>Order Date</p>
               <input
                 type="date"
+                name="orderDate"
+                value={orderData?.orderDate}
                 placeholder="Invoice Date"
-                name="invoiceDate"
-                value={estimateData?.invoiceDate}
                 onChange={handleInputChange}
                 className={css.invoiceDateSelectInp}
+                required
+              />
+            </div>
+            <div>
+              <p>Due Date</p>
+              <input
+                type="date"
+                name="dueDate"
+                value={orderData?.dueDate}
+                onChange={handleInputChange}
+                placeholder="Due Date"
+                className={css.invoiceDateSelectInp}
+                required
               />
             </div>
             <div>
               <p>State of supply</p>
               <select
                 name="stateOfSupply"
-                value={estimateData?.stateOfSupply}
+                value={orderData?.stateOfSupply}
                 onChange={handleInputChange}
                 className={css.invoiceDateSelectInp}
                 required
@@ -315,11 +451,11 @@ const EstimateForm = ({ setOpenForm }) => {
                   <p>PRICE/UNIT</p>
                   <select
                     name="priceUnitWithTax"
-                    value={estimateData?.priceUnitWithTax}
+                    value={orderData?.priceUnitWithTax}
                     onChange={handleInputChange}
                   >
-                    <option value="false">Without Tax</option>
-                    <option value="true">With Tax</option>
+                    <option value={false}>Without Tax</option>
+                    <option value={true}>With Tax</option>
                   </select>
                 </th>
                 <th className={css.discountHead}>
@@ -345,23 +481,22 @@ const EstimateForm = ({ setOpenForm }) => {
               </tr>
             </thead>
             <tbody>
-              {estimateItems?.map((item, ind) => {
+              {orderTableItems?.map((item, ind) => {
                 return (
-                  <ItemsTableBodyEstimate
+                  <ItemsTableBodySaleOrder
                     ind={ind}
                     item={item}
                     items={items}
-                    estimateItems={estimateItems}
+                    orderTableItems={orderTableItems}
                     showItemsListMenu={showItemsListMenu}
-                    indexEstimateItem={indexEstimateItem}
                     getAllItemsLoading={getAllItemsLoading}
-                    handleDeleteRow={handleDeleteRow}
+                    indexOrderTableItem={indexOrderTableItem}
                     setShowItemForm={setShowItemForm}
-                    setEstimatesItems={setEstimatesItems}
-                    handleMenuItemClick={handleMenuItemClick}
-                    setIndexEstimateItem={setIndexEstimateItem}
+                    setOrderTableItems={setOrderTableItems}
                     setShowItemsListMenu={setShowItemsListMenu}
-                    key={ind}
+                    setIndexOrderTableItem={setIndexOrderTableItem}
+                    handleDeleteRow={handleDeleteRow}
+                    handleMenuItemClick={handleMenuItemClick}
                   />
                 );
               })}
@@ -393,7 +528,7 @@ const EstimateForm = ({ setOpenForm }) => {
         </div>
 
         {/* Bottom Section */}
-        <div
+        {/* <div
           style={{
             marginTop: showItemsListMenu ? "100px" : "0px",
             transition: "margin-top 0.5s ease-in",
@@ -401,13 +536,103 @@ const EstimateForm = ({ setOpenForm }) => {
           className={css.bottomSectionOuter}
         >
           <div className={css.bottomLeftSideCont}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "Center",
+                gap: "40px",
+                zIndex: 600,
+              }}
+            >
+              {rowFooterData?.totalAmount > 0 && (
+                <div style={{ position: "relative", zIndex: 600 }}>
+                  <Menu
+                    offset={[0, 0]}
+                    onOpen={() => setTopMarginAddDescInp("110px")}
+                    onClose={() => setTopMarginAddDescInp("0px")}
+                  >
+                    <MenuButton
+                      as={Button}
+                      className={css.PartyTypeMenuBtn}
+                      rightIcon={<ArrowDown />}
+                      style={{ width: "150px" }}
+                      type="button"
+                    >
+                      {paymentTypeSelectTag}
+                    </MenuButton>
+                    <p className={css.PartyTypelabel}>Payment Type</p>
+                    <MenuList className={css.menuListCss}>
+                      <MenuItem className={css.AddBankAccount}>
+                        <PlusIcon />
+                        Add Bank A/C
+                      </MenuItem>
+                      <MenuItem
+                        style={{
+                          color:
+                            paymentTypeSelectTag == "Cash"
+                              ? "var(--blueB)"
+                              : "var(--greyA)",
+                          background:
+                            paymentTypeSelectTag == "Cash"
+                              ? "var(--greyB)"
+                              : "white",
+                        }}
+                        onClick={() => setPaymentTypeSelectTag("Cash")}
+                        className={css.menuItemCss}
+                      >
+                        Cash
+                      </MenuItem>
+                      <MenuItem
+                        style={{
+                          color:
+                            paymentTypeSelectTag == "Cheque"
+                              ? "var(--blueB)"
+                              : "var(--greyA)",
+                          background:
+                            paymentTypeSelectTag == "Cheque"
+                              ? "var(--greyB)"
+                              : "white",
+                        }}
+                        onClick={() => setPaymentTypeSelectTag("Cheque")}
+                        className={css.menuItemCss}
+                      >
+                        Cheque
+                      </MenuItem>
+                    </MenuList>
+                  </Menu>
+                </div>
+              )}
+              {toggleCheckReferenceInp && (
+                <div className={css.inputDiv} style={{ zIndex: 600 }}>
+                  <input
+                    type="number"
+                    value={checkReferenceInpval}
+                    name="checkReferenceInpval"
+                    onChange={(e) => setCheckReferenceInpval(e.target.value)}
+                    className={css.BottomInput}
+                    style={{ width: "150px", zIndex: 600 }}
+                  />
+                  <label
+                    style={{ background: "var(--greyB)", zIndex: 600 }}
+                    className={
+                      checkReferenceInpval
+                        ? css.BottomInpActiveLabel
+                        : css.BottomInpInactiveLabel
+                    }
+                  >
+                    Reference No.
+                  </label>
+                </div>
+              )}
+            </div>
+
             {toggleDesc ? (
               <div
                 className={css.inputDiv}
                 style={{ marginTop: topMarginAddDescInp }}
               >
                 <textarea
-                  value={estimateData?.addDescription}
+                  value={orderData.addDescription}
                   name="addDescription"
                   onChange={handleInputChange}
                   className={css.input}
@@ -420,7 +645,7 @@ const EstimateForm = ({ setOpenForm }) => {
                 <label
                   htmlFor="addDescription"
                   className={
-                    estimateData.addDescription
+                    orderData.addDescription
                       ? css.activeLabel
                       : css.inactiveLabel
                   }
@@ -457,6 +682,21 @@ const EstimateForm = ({ setOpenForm }) => {
             >
               <AddCameraIcon />
               <p>ADD IMAGE</p>
+            </div>
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                toast({
+                  title: "Feature currently in development",
+                  status: "info",
+                  position: "top",
+                });
+              }}
+              className={css.addDecriptionDiv}
+              style={{ width: "150px" }}
+            >
+              <AddDocumentIcon />
+              <p>ADD DOCUMENT</p>
             </div>
           </div>
 
@@ -510,8 +750,49 @@ const EstimateForm = ({ setOpenForm }) => {
                 />
               </div>
             </div>
+            {rowFooterData?.totalAmount > 0 && (
+              <div className={css.bottomRecievedOuterDiv}>
+                <div className={css.totalBottomDiv}>
+                  <p>Received</p>
+                  <input
+                    type="number"
+                    placeholder="0"
+                    disabled={!toggleReceived}
+                    value={orderData?.recived}
+                    name="recived"
+                    onChange={handleInputChange}
+                  />
+                </div>
+                {toggleReceived ? (
+                  <CheckedBox
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setToggleReceived((prev) => !prev);
+                    }}
+                    className={css.checkedInpRoundOff}
+                  />
+                ) : (
+                  <EmptyCheckedBox
+                    className={css.unCheckedInpRoundOff}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setToggleReceived((prev) => !prev);
+                    }}
+                  />
+                )}
+              </div>
+            )}
+            {rowFooterData?.totalAmount > 0 && (
+              <div className={css.bottomBalanceOuterDiv}>
+                <div>
+                  <span></span>
+                  <p>Balance</p>
+                  <p>{balanceAmount}</p>
+                </div>
+              </div>
+            )}
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* Footer */}
@@ -535,4 +816,4 @@ const EstimateForm = ({ setOpenForm }) => {
   );
 };
 
-export default EstimateForm;
+export default OrderForm;

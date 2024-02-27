@@ -64,12 +64,12 @@ const PaymentInForm = ({ closeForm }) => {
     e.preventDefault();
     const data = {
       ...paymentData,
-      paymentType: paymentArr,
       party: currentCustomerData?._id || "",
+      paymentType: paymentArr,
       recived: totalAmount,
       total: totalAmount,
     };
-    console.log("data", data);
+    // console.log("partyData", data);
     PostPaymentIn(dispatch, data, closeForm, toast);
   };
 

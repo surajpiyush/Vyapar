@@ -7,9 +7,10 @@ import {
   POST_ESTIMATE_SUCCESS,
   GET_ESTIMATE_SUCCESS,
   POST_PAYMENT_IN_SUCCESS,
+  POST_SALE_ORDER_SUCCESS,
+  GET_All_SALE_ORDER_SUCCESS,
   POST_DELIVERY_CHALLAN_SUCCESS,
   GET_DELIVERY_CHALLAN_SUCCESS,
-  POST_SALES_ORDER_SUCCESS,
   POST_SALES_RETURNS_SUCCESS,
 } from "./reducer";
 
@@ -148,7 +149,7 @@ export const PostPaymentIn = async (dispatch, data, closeForm, toast) => {
         },
       }
     );
-    console.log("Post Payment-In Response:", response?.data);
+    // console.log("Post Payment-In Response:", response?.data);
     dispatch(POST_PAYMENT_IN_SUCCESS());
     toast({
       title: "Payment-In Successfull ✔️",
@@ -167,6 +168,52 @@ export const PostPaymentIn = async (dispatch, data, closeForm, toast) => {
     });
   }
 };
+
+// --------------------------------------- SALE ORDER ------------------------------------
+// Post Sale Order Request
+export const PostSaleOrder = async (dispatch, data, setOpenForm, toast) => {
+  dispatch(IS_LOADING());
+  toast.closeAll();
+
+  try {
+    const response = await axios.post(
+      `${API_URL}/${firmId}/sale/saleOrder`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${token} `,
+        },
+      }
+    );
+    console.log("Post Sale Order Response:", response?.data);
+    dispatch(POST_SALE_ORDER_SUCCESS());
+    setOpenForm(false);
+    toast({
+      title: "Sales Order Added ✔️",
+      status: "success",
+      position: "top",
+    });
+  } catch (error) {
+    dispatch(IS_ERROR());
+    toast({
+      title: "Something Went Wrong!",
+      description: error?.response?.data?.message || "",
+      status: "error",
+      position: "top",
+    });
+    console.log("Error Post Sale Order:", error);
+  }
+};
+
+// ********************************************************************************************
+// ********************************************************************************************
+// ********************************************************************************************
+// ********************************************************************************************
+// ********************************************************************************************
+// ********************************************************************************************
+// ********************************************************************************************
+// ********************************************************************************************
+// ********************************************************************************************
 
 // --------------------------------------- DELIVERY ------------------------------------
 // Post Delivery Challan Request
@@ -220,33 +267,6 @@ export const GetAllDeliveryChallans = async (dispatch, startDate, endDate) => {
   } catch (error) {
     dispatch(IS_ERROR());
     console.log("Getting All Delivery Challans Response:", error);
-    alert(error?.response?.data?.message || "Something Went Wrong!");
-  }
-};
-
-// Post Sales Order Request
-export const PostSalesOrder = async (dispatch, data) => {
-  dispatch(IS_LOADING());
-  const userId = localStorage.getItem("userId");
-  const token = localStorage.getItem("token");
-
-  try {
-    const response = await axios.post(
-      `https://ca-backend-api.onrender.com/${userId}/sale/saleOrder`,
-      data,
-      {
-        headers: {
-          Authorization: `Bearer ${token} `,
-        },
-      }
-    );
-    //  console.log("Post Sales Estimate Response:", response?.data);
-
-    dispatch(POST_SALES_ORDER_SUCCESS());
-    alert("Sales Order Added ✔️");
-  } catch (error) {
-    dispatch(IS_ERROR());
-    console.log("Post Sales Order Response:", error);
     alert(error?.response?.data?.message || "Something Went Wrong!");
   }
 };
