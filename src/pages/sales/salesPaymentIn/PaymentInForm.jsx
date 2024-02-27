@@ -25,7 +25,7 @@ const PaymentInForm = ({ closeForm }) => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [toggleDesc, setToggleDesc] = useState(false);
   const [currentCustomerData, setCurrentCustomerData] = useState({});
-  const [paymentArr, setPaymentArr] = useState([{ type: "Cash", amount: 0 }]);
+  const [paymentArr, setPaymentArr] = useState([{ types: "Cash", amount: 0 }]);
   const [paymentData, setPaymentData] = useState({
     type: "Payment-In",
     status: "Received",
@@ -65,29 +65,18 @@ const PaymentInForm = ({ closeForm }) => {
     const data = {
       ...paymentData,
       paymentType: paymentArr,
-      party: currentCustomerData?.partyName || "",
+      party: currentCustomerData?._id || "",
       recived: totalAmount,
       total: totalAmount,
-      //   paymentType: [
-      //     {
-      //       cash: 5000,
-      //       cheque: { refreanceNo: "123456", checkAmount: 3000 },
-      //       bankDetail: {
-      //         accountName: "XYZ Bank",
-      //         openingBalance: 10000,
-      //         asOfDate: "2023-12-31",
-      //       },
-      //     },
-      //   ],
     };
-    //  console.log("data", data);
+    console.log("data", data);
     PostPaymentIn(dispatch, data, closeForm, toast);
   };
 
   //   Add payment type option
   const handleAddPayType = () => {
     let newObj = {
-      type: "Cash",
+      types: "Cash",
       amount: 0,
     };
     setPaymentArr((prev) => [...prev, newObj]);
@@ -171,14 +160,14 @@ const PaymentInForm = ({ closeForm }) => {
                 <div key={ind} className={css.paymentInnerOuterDivs}>
                   <div className={css.selectOuter}>
                     <select
-                      name="type"
-                      value={item?.type}
+                      name="types"
+                      value={item?.types}
                       onChange={(e) => {
                         setPaymentArr((prev) => {
                           return prev.map((ite, index) =>
                             index != ind
                               ? ite
-                              : { ...ite, type: e.target.value }
+                              : { ...ite, types: e.target.value }
                           );
                         });
                       }}
@@ -221,7 +210,7 @@ const PaymentInForm = ({ closeForm }) => {
                       <DeleteIcon onClick={() => handleDeletePayType(ind)} />
                     )}
                   </div>
-                  {item?.type != "Cash" && (
+                  {item?.types != "Cash" && (
                     <div className={css.inputDiv}>
                       <input
                         type="number"
