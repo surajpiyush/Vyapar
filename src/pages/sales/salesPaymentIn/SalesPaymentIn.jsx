@@ -12,6 +12,7 @@ import { IoMdCloseCircle as CloseIcon } from "react-icons/io";
 import { IoCloseOutline as CrossIcon } from "react-icons/io5";
 
 export default function SalesPaymentIn() {
+  const toast = useToast();
   const data = [1];
   const [openForm, setOpenForm] = useState(false);
 
@@ -54,7 +55,7 @@ export default function SalesPaymentIn() {
                   })
                 }
               />
-              <CloseIcon onClick={() => setOpenForm(false)} />
+              {/* <CloseIcon onClick={() => setOpenForm(false)} /> */}
             </div>
           </div>
           {/* <EstimateForm setOpenForm={setOpenForm} /> */}
