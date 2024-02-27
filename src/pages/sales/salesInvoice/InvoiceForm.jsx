@@ -1,10 +1,7 @@
 import css from "../../../styles/SalesStyles/SalesForms.module.css";
 import ItemsForm from "../../../components/addForm/ItemsForm";
 import ItemsTableBody from "./ItemsTableBody";
-import {
-  CalculateFinalAmount,
-  PostSalesInvoice,
-} from "../../../Redux/sales/action";
+import { PostSalesInvoice } from "../../../Redux/sales/action";
 import { GetAllItems } from "../../../Redux/items/actions";
 import { FetchAllParties } from "../../../Redux/parties/actions";
 
@@ -177,10 +174,10 @@ const InvoiceForm = ({ setOpenForm }) => {
     dispatch(GetAllItems());
   }, [toggleItems]);
 
-  // for changing current firm data
+  //  for updating Firm Data
   useEffect(() => {
     let obj = {
-      customerName: currentCustomerData?.partyName || "",
+      customerName: currentCustomerData?._id || "",
       billingName: currentCustomerData?.partyName || "",
       phoneNumber: currentCustomerData?.phoneNumber || "",
       billingAddress: currentCustomerData?.billingAddress || "",

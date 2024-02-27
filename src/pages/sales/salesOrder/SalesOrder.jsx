@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import css from "../../../styles/SalesStyles/Order.module.css";
 import party from "../../../assets/Images/party.jpg";
 import SalesOrderTable from "../../../components/TableData/SalesOrderTable";
-import SalesOrderForm from "../../../components/addForm/SalesOrderForm";
+import FirstTimeFormToggle from "../../../Component/FirstTimeFormToggle";
+import OrderForm from "./OrderForm";
+
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useToast } from "@chakra-ui/react";
-import FirstTimeFormToggle from "../../../Component/FirstTimeFormToggle";
+import { IoCalculator as CalculatorIcon } from "react-icons/io5";
+import { MdOutlineSettings as SettingIcon } from "react-icons/md";
+import { IoMdCloseCircle as CloseIcon } from "react-icons/io";
+import { IoCloseOutline as CrossIcon } from "react-icons/io5";
 
 export default function SalesOrder() {
   const toast = useToast();
@@ -45,24 +51,54 @@ export default function SalesOrder() {
       {!toggleSections ? (
         // Sale Orders Section
         <div className="">
-          {openForm ? (
-            <SalesOrderForm func={closeForm} />
-          ) : (
-            <div className="d-cen b-cont text-center text-center">
-              {!data.length > 0 ? (
-                <FirstTimeFormToggle
-                  img={party}
-                  onClick={formOpen}
-                  BtnText="Add Your First Sale Order"
-                  MiddleText="Make & share sale orders & convert them to sale invoice instantly."
-                />
-              ) : (
-                <div className="">
-                  <SalesOrderTable func={formOpen} />
+          {openForm && (
+            <div className={css.formOuter}>
+              <div className={css.upperNav}>
+                <div>
+                  <p className={css.activeForm}>
+                    <span>Sale Order #1</span>
+                    <CrossIcon />
+                  </p>
                 </div>
-              )}
+                <div>
+                  <CalculatorIcon
+                    onClick={() =>
+                      toast({
+                        title: "Feature currently in development",
+                        status: "info",
+                        position: "top",
+                      })
+                    }
+                  />
+                  <SettingIcon
+                    onClick={() =>
+                      toast({
+                        title: "Feature currently in development",
+                        status: "info",
+                        position: "top",
+                      })
+                    }
+                  />
+                  <CloseIcon onClick={() => setOpenForm(false)} />
+                </div>
+              </div>
+              <OrderForm setOpenForm={setOpenForm} />
             </div>
           )}
+          <div className="d-cen b-cont text-center text-center">
+            {!data.length > 0 ? (
+              <FirstTimeFormToggle
+                img={party}
+                onClick={formOpen}
+                BtnText="Add Your First Sale Order"
+                MiddleText="Make & share sale orders & convert them to sale invoice instantly."
+              />
+            ) : (
+              <div className="">
+                <SalesOrderTable func={formOpen} />
+              </div>
+            )}
+          </div>
         </div>
       ) : (
         // Online Orders Section

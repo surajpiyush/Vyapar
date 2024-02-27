@@ -26,41 +26,7 @@ export default function SalesPaymentIn() {
 
   return (
     <div>
-      {/* {openForm && <PaymentInForm closeForm={closeForm} />} */}
-      {openForm && (
-        <div className={css.formOuter}>
-          <div className={css.upperNav}>
-            <div>
-              <p className={css.activeForm}>
-                <span>Estimate #1</span>
-                <CrossIcon />
-              </p>
-            </div>
-            <div>
-              <CalculatorIcon
-                onClick={() =>
-                  toast({
-                    title: "Feature currently in development",
-                    status: "info",
-                    position: "top",
-                  })
-                }
-              />
-              <SettingIcon
-                onClick={() =>
-                  toast({
-                    title: "Feature currently in development",
-                    status: "info",
-                    position: "top",
-                  })
-                }
-              />
-              {/* <CloseIcon onClick={() => setOpenForm(false)} /> */}
-            </div>
-          </div>
-          {/* <EstimateForm setOpenForm={setOpenForm} /> */}
-        </div>
-      )}
+      {openForm && <PaymentInForm closeForm={closeForm} />}
 
       <div className="d-cen b-cont text-center">
         {!(data.length > 0) ? (

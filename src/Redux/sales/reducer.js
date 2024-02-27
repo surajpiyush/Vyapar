@@ -3,11 +3,12 @@ import { createSlice } from "@reduxjs/toolkit";
 const salesSlice = createSlice({
   name: "Sales",
   initialState: {
-    // INVOICE
     isLoading: false,
     isError: false,
-    invoicesList: [],
+
+    // INVOICE
     toggleSalesSuccess: false,
+    invoicesList: [],
 
     // ESTIMATES
     toggleEstimates: false,
@@ -16,6 +17,10 @@ const salesSlice = createSlice({
     // PAYMENT-IN
     togglePaymentIn: false,
     paymentInList: [],
+
+    // Sale Order
+    toggleSaleOrder: false,
+    saleOrderList: [],
 
     paymentOutData: [],
   },
@@ -28,7 +33,8 @@ const salesSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
     },
-    // INVOICE
+
+    // INVOICE -------------------------------------------------------
     POST_SALES_INVOICE_SUCCESS: (state) => {
       state.isLoading = false;
       state.toggleSalesSuccess = !state.toggleSalesSuccess;
@@ -37,7 +43,8 @@ const salesSlice = createSlice({
       state.isLoading = false;
       state.invoicesList = action.payload;
     },
-    // ESTIMATES
+
+    // ESTIMATES ------------------------------------------------------
     POST_ESTIMATE_SUCCESS: (state) => {
       state.isLoading = false;
       state.toggleEstimates = !state.toggleEstimates;
@@ -47,12 +54,25 @@ const salesSlice = createSlice({
       state.estimatesList = action.payload;
     },
 
-    // PAYMENT-IN
+    // PAYMENT-IN ------------------------------------------------------
     POST_PAYMENT_IN_SUCCESS: (state) => {
       state.isLoading = false;
       state.togglePaymentIn = !state.togglePaymentIn;
     },
 
+    // Sale Order ------------------------------------------------------
+    POST_SALE_ORDER_SUCCESS: (state) => {
+      state.isLoading = false;
+      state.toggleSaleOrder = !state.toggleSaleOrder;
+    },
+    GET_All_SALE_ORDER_SUCCESS: (state, action) => {
+      state.isLoading = false;
+      state.saleOrderList = action.payload;
+    },
+
+    // *******************************************************************
+    // *******************************************************************
+    // *******************************************************************
     // DELIVERY
     POST_DELIVERY_CHALLAN_SUCCESS: (state) => {
       state.isLoading = false;
@@ -62,10 +82,6 @@ const salesSlice = createSlice({
       state.isLoading = false;
     },
 
-    POST_SALES_ORDER_SUCCESS: (state) => {
-      state.isLoading = false;
-      state.toggleSalesSuccess = !state.toggleSalesSuccess;
-    },
     POST_SALES_RETURNS_SUCCESS: (state) => {
       state.isLoading = false;
       state.toggleSalesSuccess = !state.toggleSalesSuccess;
@@ -85,10 +101,12 @@ export const {
 
   POST_PAYMENT_IN_SUCCESS,
 
+  POST_SALE_ORDER_SUCCESS,
+  GET_All_SALE_ORDER_SUCCESS,
+
   POST_DELIVERY_CHALLAN_SUCCESS,
   GET_DELIVERY_CHALLAN_SUCCESS,
 
-  POST_SALES_ORDER_SUCCESS,
   POST_SALES_RETURNS_SUCCESS,
 } = salesSlice.actions;
 export default salesSlice.reducer;
