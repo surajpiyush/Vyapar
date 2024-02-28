@@ -209,6 +209,7 @@ const ItemsTableBodySaleOrder = memo(
             onChange={(e) => handleTableInputChange(e, ind)}
             placeholder="0"
             className={css.tableInputs}
+            required
           />
         </td>
         <td
@@ -253,6 +254,7 @@ const ItemsTableBodySaleOrder = memo(
             onChange={(e) => handleTableInputChange(e, ind)}
             placeholder="0"
             className={css.tableInputs}
+            required
           />
         </td>
         <td
@@ -263,7 +265,6 @@ const ItemsTableBodySaleOrder = memo(
             type="number"
             name="discountpersant"
             value={AmountCalculator()?.discountPercent}
-            // value={item.discountpersant}
             onChange={(e) => handleTableInputChange(e, ind)}
             placeholder="0"
             className={css.tableInputs}

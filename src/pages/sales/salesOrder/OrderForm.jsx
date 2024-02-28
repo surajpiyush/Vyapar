@@ -1,6 +1,9 @@
 import css from "../../../styles/SalesStyles/SalesForms.module.css";
+import ItemsForm from "../../../components/addForm/ItemsForm";
+import ItemsTableBodySaleOrder from "./ItemsTableBodySaleOrder";
 import { GetAllItems } from "../../../Redux/items/actions";
 import { FetchAllParties } from "../../../Redux/parties/actions";
+import { PostSaleOrder } from "../../../Redux/sales/action";
 
 import {
   useToast,
@@ -19,10 +22,6 @@ import { HiMiniDocumentText as AddDocumentIcon } from "react-icons/hi2";
 import { BiSolidCameraPlus as AddCameraIcon } from "react-icons/bi";
 import { ImCheckboxUnchecked as EmptyCheckedBox } from "react-icons/im";
 import { BiSolidCheckboxChecked as CheckedBox } from "react-icons/bi";
-import ItemsTableBody from "../salesInvoice/ItemsTableBody";
-import ItemsForm from "../../../components/addForm/ItemsForm";
-import { PostSaleOrder, PostSalesInvoice } from "../../../Redux/sales/action";
-import ItemsTableBodySaleOrder from "./ItemsTableBodySaleOrder";
 
 const OrderForm = ({ setOpenForm }) => {
   const toast = useToast();
@@ -38,9 +37,6 @@ const OrderForm = ({ setOpenForm }) => {
     (state) => state.ItemReducer.getAllItemsLoading
   );
   const items = useSelector((state) => state.ItemReducer.items);
-  const paymentInList = useSelector(
-    (state) => state.SalesReducer.paymentInList
-  );
   const saleOrderList = useSelector(
     (state) => state.SalesReducer.saleOrderList
   );
@@ -57,7 +53,6 @@ const OrderForm = ({ setOpenForm }) => {
   const [indexOrderTableItem, setIndexOrderTableItem] = useState(0);
   const [rowFooterData, setRowFooterData] = useState({});
   const [showItemForm, setShowItemForm] = useState(false);
-  const [receiveAmount, setReceiveAmount] = useState("");
   const [balanceAmount, setBalanceAmount] = useState("");
 
   const [orderTableItems, setOrderTableItems] = useState([

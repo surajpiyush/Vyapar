@@ -22,15 +22,20 @@ const PaymentInForm = ({ closeForm }) => {
   const togglePartiesData = useSelector(
     (state) => state.PartiesReducer.togglePartiesData
   );
+  const paymentInList = useSelector(
+    (state) => state.SalesReducer.paymentInList
+  );
+
   const [totalAmount, setTotalAmount] = useState(0);
   const [toggleDesc, setToggleDesc] = useState(false);
   const [currentCustomerData, setCurrentCustomerData] = useState({});
   const [paymentArr, setPaymentArr] = useState([{ types: "Cash", amount: 0 }]);
+
   const [paymentData, setPaymentData] = useState({
     type: "Payment-In",
     status: "Received",
     party: "",
-    receiptNo: [].length + 1 || "",
+    receiptNo: paymentInList.length + 1 || "",
     date: new Date().toISOString().split("T")[0],
     addDescription: "",
     recived: 0,

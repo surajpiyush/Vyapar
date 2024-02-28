@@ -1,40 +1,30 @@
 import { FormatDate } from "../../../Redux/sales/action";
 
-const TableSaleOrder = ({
-  ind,
+const TableDeliveryChallan = ({
+  invoiceDate,
   partyName,
-  no,
-  date,
+  challanNumber,
   dueDate,
-  total,
-  balance,
-  type,
+  amount,
   status,
   action,
-  // paymentType,
 }) => {
   return (
     <tr>
       <td>
+        <div>{FormatDate(invoiceDate)}</div>
+      </td>
+      <td>
         <div>{partyName}</div>
       </td>
       <td>
-        <div>{no}</div>
-      </td>
-      <td>
-        <div>{FormatDate(date)}</div>
+        <div>{challanNumber}</div>
       </td>
       <td>
         <div>{FormatDate(dueDate)}</div>
       </td>
       <td>
-        <div style={{ textAlign: "right" }}>{total}</div>
-      </td>
-      <td>
-        <div style={{ textAlign: "right" }}>{balance}</div>
-      </td>
-      <td>
-        <div>{type}</div>
+        <div style={{ textAlign: "right" }}>{amount}</div>
       </td>
       <td>
         <div>{status}</div>
@@ -42,9 +32,10 @@ const TableSaleOrder = ({
       <td>
         <div>{action}</div>
       </td>
+
       <td></td>
     </tr>
   );
 };
 
-export default TableSaleOrder;
+export default TableDeliveryChallan;

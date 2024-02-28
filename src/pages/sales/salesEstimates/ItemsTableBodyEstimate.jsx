@@ -35,13 +35,13 @@ const ItemsTableBodyEstimate = memo(
 
     // Itemslist Suggestions
     useEffect(() => {
-      const regex = new RegExp(item?.itemName, "i");
-      const found = items?.filter((ite) => regex.test(ite.itemName));
-      if (item?.itemName.length < 1) {
+      const regex = new RegExp(item?.mainName, "i");
+      const found = items?.filter((ite) => regex.test(ite.mainName));
+      if (item?.mainName.length < 1) {
         return setFoundItems(items);
       }
       setFoundItems(found);
-    }, [item?.itemName]);
+    }, [item?.mainName]);
 
     // Sale Items Change Function
     const handleTableInputChange = (e, index) => {
@@ -158,8 +158,8 @@ const ItemsTableBodyEstimate = memo(
         >
           <input
             type="text"
-            name="itemName"
-            value={item?.itemName}
+            name="mainName"
+            value={item?.mainName}
             onChange={(e) => {
               handleTableInputChange(e, ind);
             }}
@@ -209,6 +209,7 @@ const ItemsTableBodyEstimate = memo(
             onChange={(e) => handleTableInputChange(e, ind)}
             placeholder="0"
             className={css.tableInputs}
+            required
           />
         </td>
         <td className={css.unitBody} onClick={() => setIndexEstimateItem(ind)}>
@@ -250,6 +251,7 @@ const ItemsTableBodyEstimate = memo(
             onChange={(e) => handleTableInputChange(e, ind)}
             placeholder="0"
             className={css.tableInputs}
+            required
           />
         </td>
         <td

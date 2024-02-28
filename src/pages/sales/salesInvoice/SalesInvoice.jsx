@@ -1,17 +1,20 @@
 import css from "../../../styles/SalesStyles/Invoice.module.css";
 import party from "../../../assets/Images/party.jpg";
 import InvoiceForm from "./InvoiceForm";
-import SalesInvoiceTable from "../../../components/TableData/SalesInvoiceTable";
 import FirstTimeFormToggle from "../../../Component/FirstTimeFormToggle";
+import TableInvoice from "./TableInvoice";
 import { GetAllSalesInvoice } from "../../../Redux/sales/action";
 
 import { useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { IoCalculator as CalculatorIcon } from "react-icons/io5";
 import { MdOutlineSettings as SettingIcon } from "react-icons/md";
 import { IoMdCloseCircle as CloseIcon } from "react-icons/io";
 import { IoCloseOutline as CrossIcon } from "react-icons/io5";
-import { useDispatch, useSelector } from "react-redux";
+import { IoSearch as SearchIcon } from "react-icons/io5";
+import { FiPlusCircle as PlusIcon } from "react-icons/fi";
+import { CiFilter as FilterIcon } from "react-icons/ci";
 
 export default function SalesInvoice() {
   const toast = useToast();
@@ -37,6 +40,41 @@ export default function SalesInvoice() {
 
   return (
     <div>
+      {openForm && (
+        <div className={css.formOuter}>
+          <div className={css.upperNav}>
+            <div>
+              <p className={css.activeForm}>
+                <span>Sale #1</span>
+                <CrossIcon />
+              </p>
+            </div>
+            <div>
+              <CalculatorIcon
+                onClick={() =>
+                  toast({
+                    title: "Feature currently in development",
+                    status: "info",
+                    position: "top",
+                  })
+                }
+              />
+              <SettingIcon
+                onClick={() =>
+                  toast({
+                    title: "Feature currently in development",
+                    status: "info",
+                    position: "top",
+                  })
+                }
+              />
+              <CloseIcon onClick={() => setOpenForm(false)} />
+            </div>
+          </div>
+          <InvoiceForm setOpenForm={setOpenForm} />
+        </div>
+      )}
+
       <div className="grp-cont-invoice">
         <div className="">
           <div className="d-between" style={{ alignItems: "center" }}>
@@ -136,60 +174,115 @@ export default function SalesInvoice() {
         </div>
       </div>
 
-      {isLoading && <p>Loading Invoices</p>}
-      <div>
-        <div>
-          {openForm ? (
-            <div className={css.formOuter}>
-              <div className={css.upperNav}>
+      {/* Top Nav */}
+      <div className="d-cen b-cont text-center text-center">
+        <div className={css.TableOuter}>
+          <div className={css.saleOrderUpperNav}>
+            <div className={css.leftSideDivSaleOuter}>
+              <p>TRANSACTIONS</p>
+              <div className={css.saleOrderSearchDiv}>
+                <SearchIcon />
                 <div>
-                  <p className={css.activeForm}>
-                    <span>Sale #1</span>
-                    <CrossIcon />
-                  </p>
-                </div>
-                <div>
-                  <CalculatorIcon
-                    onClick={() =>
-                      toast({
-                        title: "Feature currently in development",
-                        status: "info",
-                        position: "top",
-                      })
-                    }
-                  />
-                  <SettingIcon
-                    onClick={() =>
-                      toast({
-                        title: "Feature currently in development",
-                        status: "info",
-                        position: "top",
-                      })
-                    }
-                  />
-                  <CloseIcon onClick={() => setOpenForm(false)} />
+                  <input type="text" />
                 </div>
               </div>
-              <InvoiceForm setOpenForm={setOpenForm} />
             </div>
-          ) : (
-            <div className="d-cen b-cont text-center">
-              {!invoicesList.length > 0 && !isLoading ? (
-                <FirstTimeFormToggle
-                  img={party}
-                  onClick={() => setOpenForm(true)}
-                  BtnText="Add Your First Sale Invoice"
-                  MiddleText="Make Sale invoices & Print or share with your customers directly via WhatsApp or Email."
-                />
-              ) : (
-                <div className={css.Outer}>
-                  {!isLoading && <SalesInvoiceTable func={formOpen} />}
-                </div>
-              )}
+            <div>
+              <button
+                type="button"
+                onClick={formOpen}
+                className={css.addSaleOrderBtn}
+              >
+                <PlusIcon /> Add Sale
+              </button>
             </div>
-          )}
+          </div>
+          <div className={css.TabelOuterDivSaleOrder}>
+            <table>
+              <thead>
+                <tr>
+                  <th>
+                    <div>
+                      DATE <FilterIcon />
+                    </div>
+                  </th>
+                  <th>
+                    <div>
+                      INVOICE NO. <FilterIcon />
+                    </div>
+                  </th>
+                  <th>
+                    <div>
+                      PARTY NAME. <FilterIcon />
+                    </div>
+                  </th>
+                  <th>
+                    <div>
+                      TRANSACTION TYPE <FilterIcon />
+                    </div>
+                  </th>
+                  <th>
+                    <div>
+                      PAYMENT TYPE <FilterIcon />
+                    </div>
+                  </th>
+                  <th>
+                    <div>
+                      AMOUNT <FilterIcon />
+                    </div>
+                  </th>
+                  <th>
+                    <div>
+                      BALANCE DUE <FilterIcon />
+                    </div>
+                  </th>
+                  <th>
+                    <div>
+                      DUE DATE <FilterIcon />
+                    </div>
+                  </th>
+                  <th>
+                    <div>
+                      STATUS
+                      <FilterIcon />
+                    </div>
+                  </th>
+                  <th></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {!isLoading &&
+                  invoicesList?.map((item, ind) => (
+                    <TableInvoice {...item} ind={ind} key={ind + item?._id} />
+                  ))}
+              </tbody>
+            </table>
+            {isLoading && (
+              <h2
+                style={{
+                  color: "green",
+                  textAlign: "center",
+                  margin: "20px auto",
+                }}
+              >
+                Loading Invoices...
+              </h2>
+            )}
+          </div>
         </div>
       </div>
+
+      {invoicesList?.length <= 0 && !isLoading && (
+        <div style={{ marginTop: "-500px" }}>
+          <FirstTimeFormToggle
+            img={party}
+            onClick={() => setOpenForm(true)}
+            BtnText="Add Your First Sale Invoice"
+            MiddleText="Make Sale invoices & Print or share with your customers directly via WhatsApp or Email."
+          />
+        </div>
+      )}
     </div>
   );
 }

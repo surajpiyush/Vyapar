@@ -19,7 +19,6 @@ import { CiFilter as FilterIcon } from "react-icons/ci";
 export default function SalesOrder() {
   const toast = useToast();
   const dispatch = useDispatch();
-  const isError = useSelector((state) => state.SalesReducer.isError);
   const isLoading = useSelector((state) => state.SalesReducer.isLoading);
   const toggleSaleOrder = useSelector(
     (state) => state.SalesReducer.toggleSaleOrder
@@ -59,6 +58,7 @@ export default function SalesOrder() {
           ONLINE ORDERS
         </div>
       </div>
+
       {!toggleSections ? (
         // Sale Orders Section
         <div className="">
@@ -173,27 +173,40 @@ export default function SalesOrder() {
                   </thead>
 
                   <tbody>
-                    {saleOrderList?.map((item, ind) => (
-                      <TableSaleOrder
-                        {...item}
-                        ind={ind}
-                        key={ind + item?._id}
-                      />
-                    ))}
+                    {!isLoading &&
+                      saleOrderList?.map((item, ind) => (
+                        <TableSaleOrder
+                          {...item}
+                          ind={ind}
+                          key={ind + item?._id}
+                        />
+                      ))}
                   </tbody>
                 </table>
-                {isLoading && <h2>Loading Sale Orders...</h2>}
+                {isLoading && (
+                  <h2
+                    style={{
+                      color: "green",
+                      textAlign: "center",
+                      margin: "20px auto",
+                    }}
+                  >
+                    Loading Sale Orders...
+                  </h2>
+                )}
               </div>
             </div>
           </div>
 
           {!isLoading && !saleOrderList.length > 0 && (
-            <FirstTimeFormToggle
-              img={party}
-              onClick={formOpen}
-              BtnText="Add Your First Sale Order"
-              MiddleText="Make & share sale orders & convert them to sale invoice instantly."
-            />
+            <div style={{ marginTop: "-500px" }}>
+              <FirstTimeFormToggle
+                img={party}
+                onClick={formOpen}
+                BtnText="Add Your First Sale Order"
+                MiddleText="Make & share sale orders & convert them to sale invoice instantly."
+              />
+            </div>
           )}
         </div>
       ) : (

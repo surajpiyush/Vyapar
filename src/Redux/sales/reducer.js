@@ -22,7 +22,13 @@ const salesSlice = createSlice({
     toggleSaleOrder: false,
     saleOrderList: [],
 
-    paymentOutData: [],
+    // Delivery Challan
+    toggleDeliveryChallan: false,
+    deliveryChallanList: [],
+
+    // Sale Return /  Credit Note
+    toggleCreditNote: false,
+    creditNotesList: [],
   },
   reducers: {
     IS_LOADING: (state) => {
@@ -74,21 +80,24 @@ const salesSlice = createSlice({
       state.saleOrderList = action.payload;
     },
 
-    // *******************************************************************
-    // *******************************************************************
-    // *******************************************************************
-    // DELIVERY
+    // DELIVERY CHALLAN ------------------------------------------------------
     POST_DELIVERY_CHALLAN_SUCCESS: (state) => {
       state.isLoading = false;
-      state.toggleSalesSuccess = !state.toggleSalesSuccess;
+      state.toggleDeliveryChallan = !state.toggleDeliveryChallan;
     },
-    GET_DELIVERY_CHALLAN_SUCCESS: (state) => {
+    GET_ALL_DELIVERY_CHALLAN_SUCCESS: (state, action) => {
       state.isLoading = false;
+      state.deliveryChallanList = action.payload;
     },
 
-    POST_SALES_RETURNS_SUCCESS: (state) => {
+    // SALE RETURN / CREDIT NOTE ------------------------------------------------------
+    POST_CREDIT_NOTE_SUCCESS: (state) => {
       state.isLoading = false;
-      state.toggleSalesSuccess = !state.toggleSalesSuccess;
+      state.toggleCreditNote = !state.toggleCreditNote;
+    },
+    GET_ALL_CREDIT_NOTES_SUCCESS: (state, action) => {
+      state.isLoading = false;
+      state.creditNotesList = action.payload;
     },
   },
 });
@@ -110,8 +119,9 @@ export const {
   GET_All_SALE_ORDER_SUCCESS,
 
   POST_DELIVERY_CHALLAN_SUCCESS,
-  GET_DELIVERY_CHALLAN_SUCCESS,
+  GET_ALL_DELIVERY_CHALLAN_SUCCESS,
 
-  POST_SALES_RETURNS_SUCCESS,
+  POST_CREDIT_NOTE_SUCCESS,
+  GET_ALL_CREDIT_NOTES_SUCCESS,
 } = salesSlice.actions;
 export default salesSlice.reducer;

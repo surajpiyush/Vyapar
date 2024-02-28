@@ -51,12 +51,12 @@ const InvoiceForm = ({ setOpenForm }) => {
   const [indexSaleItem, setIndexSaleItem] = useState(0);
   const [rowFooterData, setRowFooterData] = useState({});
   const [showItemForm, setShowItemForm] = useState(false);
-  const [receiveAmount, setReceiveAmount] = useState("");
   const [balanceAmount, setBalanceAmount] = useState("");
 
   const [invoiceItems, setInvoiceItems] = useState([
     {
       itemName: "",
+      mainName: "",
       qty: "",
       unit: "",
       priceUnit: "",
@@ -134,34 +134,20 @@ const InvoiceForm = ({ setOpenForm }) => {
       total: toggleRoundOff
         ? Math.round(rowFooterData?.totalAmount)
         : rowFooterData?.totalAmount,
-      // paymentType: [
-      //   { type: paymentTypeSelectTag, amount: 0 },
-      //   { type: "Cheque", amount: 0, refreanceNo: "Test" },
-      //   {
-      //     type: "XYZ",
-      //     accountName: "ABC",
-      //     openingBalance: 100,
-      //     asOfDate: "2024-02-01",
-      //   },
-      // ],
-      // paymentType: [
-      //   {
-      //     cash: 150,
-      //     cheque: {
-      //       refreanceNo: "CHK123",
-      //       checkAmount: 200,
-      //     },
-      //     bankDetail: {
-      //       accountName: "Account Name",
-      //       openingBalance: 1000,
-      //       asOfDate: "2024-02-09",
-      //     },
-      //   },
-      // ],
+      paymentType: [
+        { types: paymentTypeSelectTag, amount: 0 },
+        { types: "Cheque", amount: 0, refreanceNo: "Test" },
+        {
+          types: "XYZ",
+          accountName: "ABC",
+          openingBalance: 100,
+          asOfDate: "2024-02-01",
+        },
+      ],
     };
-    //  console.log("data", data);
+    PostSalesInvoice(dispatch, data, setOpenForm, toast);
 
-    PostSalesInvoice(dispatch, toast, data, setOpenForm);
+    // console.log("invoiceData", data);
   };
 
   // for fetching all parties list on form mount
@@ -209,8 +195,8 @@ const InvoiceForm = ({ setOpenForm }) => {
   const handleMenuItemClick = (index, itemDetail) => {
     let currSaleItem = {
       ...invoiceItems[index],
-      itemId: itemDetail?._id,
-      itemName: itemDetail?.itemName,
+      itemName: itemDetail?._id,
+      mainName: itemDetail?.itemName,
       taxPersant: itemDetail?.taxRate.split("%")[0] || "",
     };
     let newSaleData = invoiceItems.map((ite, ind) =>
@@ -236,6 +222,7 @@ const InvoiceForm = ({ setOpenForm }) => {
     e.stopPropagation();
     let newRowData = {
       itemName: "",
+      mainName: "",
       qty: "",
       unit: "",
       priceUnit: "",
@@ -611,6 +598,62 @@ const InvoiceForm = ({ setOpenForm }) => {
                     </MenuList>
                   </Menu>
                 </div>
+                // <div style={{ position: "relative", zIndex: 600 }}>
+                //   <Menu
+                //     offset={[0, 0]}
+                //     onOpen={() => setTopMarginAddDescInp("110px")}
+                //     onClose={() => setTopMarginAddDescInp("0px")}
+                //   >
+                //     <MenuButton
+                //       as={Button}
+                //       className={css.PartyTypeMenuBtn}
+                //       rightIcon={<ArrowDown />}
+                //       style={{ width: "150px" }}
+                //       type="button"
+                //     >
+                //       {paymentTypeSelectTag}
+                //     </MenuButton>
+                //     <p className={css.PartyTypelabel}>Payment Type</p>
+                //     <MenuList className={css.menuListCss}>
+                //       <MenuItem className={css.AddBankAccount}>
+                //         <PlusIcon />
+                //         Add Bank A/C
+                //       </MenuItem>
+                //       <MenuItem
+                //         style={{
+                //           color:
+                //             paymentTypeSelectTag == "Cash"
+                //               ? "var(--blueB)"
+                //               : "var(--greyA)",
+                //           background:
+                //             paymentTypeSelectTag == "Cash"
+                //               ? "var(--greyB)"
+                //               : "white",
+                //         }}
+                //         onClick={() => setPaymentTypeSelectTag("Cash")}
+                //         className={css.menuItemCss}
+                //       >
+                //         Cash
+                //       </MenuItem>
+                //       <MenuItem
+                //         style={{
+                //           color:
+                //             paymentTypeSelectTag == "Cheque"
+                //               ? "var(--blueB)"
+                //               : "var(--greyA)",
+                //           background:
+                //             paymentTypeSelectTag == "Cheque"
+                //               ? "var(--greyB)"
+                //               : "white",
+                //         }}
+                //         onClick={() => setPaymentTypeSelectTag("Cheque")}
+                //         className={css.menuItemCss}
+                //       >
+                //         Cheque
+                //       </MenuItem>
+                //     </MenuList>
+                //   </Menu>
+                // </div>
               )}
               {toggleCheckReferenceInp && (
                 <div className={css.inputDiv} style={{ zIndex: 600 }}>

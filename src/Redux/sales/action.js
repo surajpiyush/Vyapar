@@ -11,8 +11,9 @@ import {
   POST_SALE_ORDER_SUCCESS,
   GET_All_SALE_ORDER_SUCCESS,
   POST_DELIVERY_CHALLAN_SUCCESS,
-  GET_DELIVERY_CHALLAN_SUCCESS,
-  POST_SALES_RETURNS_SUCCESS,
+  GET_ALL_DELIVERY_CHALLAN_SUCCESS,
+  POST_CREDIT_NOTE_SUCCESS,
+  GET_ALL_CREDIT_NOTES_SUCCESS,
 } from "./reducer";
 
 import axios from "axios";
@@ -24,7 +25,7 @@ const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
 // --------------------------------------- INVOICE ------------------------------------
 // Post Sales Invoice Request
-export const PostSalesInvoice = async (dispatch, toast, data, setOpenForm) => {
+export const PostSalesInvoice = async (dispatch, data, setOpenForm, toast) => {
   toast.closeAll();
   dispatch(IS_LOADING());
 
@@ -42,7 +43,6 @@ export const PostSalesInvoice = async (dispatch, toast, data, setOpenForm) => {
     dispatch(POST_SALES_INVOICE_SUCCESS());
     setOpenForm(false);
     toast({ title: "Sales Invoice Added", status: "success", position: "top" });
-    // alert("Sales Invoice Added ✔️");
   } catch (error) {
     dispatch(IS_ERROR());
     console.log("Post Sales Invoice Response:", error);
@@ -69,7 +69,7 @@ export const GetAllSalesInvoice = async (dispatch, startDate, endDate) => {
       }
     );
 
-    // console.log("Getting All Invoices Response:", response?.data);
+    console.log("Getting All Invoices Response:", response?.data);
     dispatch(GET_SALES_INVOICE_SUCCESS(response?.data?.data));
   } catch (error) {
     dispatch(IS_ERROR());
@@ -248,26 +248,20 @@ export const GetAllSaleOrders = async (dispatch) => {
   }
 };
 
-// ********************************************************************************************
-// ********************************************************************************************
-// ********************************************************************************************
-// ********************************************************************************************
-// ********************************************************************************************
-// ********************************************************************************************
-// ********************************************************************************************
-// ********************************************************************************************
-// ********************************************************************************************
-
-// --------------------------------------- DELIVERY ------------------------------------
+// --------------------------------------- DELIVERY CHALLAN ------------------------------------
 // Post Delivery Challan Request
-export const PostDeliveryChallan = async (dispatch, data) => {
+export const PostDeliveryChallan = async (
+  dispatch,
+  data,
+  setOpenForm,
+  toast
+) => {
   dispatch(IS_LOADING());
-  const userId = localStorage.getItem("userId");
-  const token = localStorage.getItem("token");
+  toast.closeAll();
 
   try {
     const response = await axios.post(
-      `https://ca-backend-api.onrender.com/${userId}/sale/deliveryChallan`,
+      `${API_URL}/${firmId}/sale/deliveryChallan`,
       data,
       {
         headers: {
@@ -276,69 +270,122 @@ export const PostDeliveryChallan = async (dispatch, data) => {
         },
       }
     );
-    console.log("Save Delivery Challan Response:", response?.data);
 
+    // console.log("Post Delivery Challan Response:", response?.data);
     dispatch(POST_DELIVERY_CHALLAN_SUCCESS());
-    alert("Dellivery Challan Added ✔️");
+    setOpenForm(false);
+    toast({
+      title: "Dellivery Challan Added ✔️",
+      status: "success",
+      position: "top",
+    });
   } catch (error) {
     dispatch(IS_ERROR());
-    console.log("Save Delivery Challan Response:", error);
-    alert(error?.response?.data?.message || "Something Went Wrong!");
+    toast({
+      title: "Something Went Wrong!",
+      description: error?.response?.data?.message || "",
+      status: "error",
+      position: "top",
+    });
+    console.log("Error Post Delivery Challan:", error);
   }
 };
 
-// Post Delivery Challan Request
-export const GetAllDeliveryChallans = async (dispatch, startDate, endDate) => {
+// Get All Delivery Challans Request
+export const GetAllDeliveryChallans = async (dispatch) => {
   dispatch(IS_LOADING());
-  const userId = localStorage.getItem("userId");
-  const token = localStorage.getItem("token");
-  const data = { startDate, endDate };
 
   try {
     const response = await axios.get(
-      `https://ca-backend-api.onrender.com/${userId}/sale/deliveryChallan/getAll`,
-      data,
+      `${API_URL}/${firmId}/sale/deliveryChallan/getAll`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
     );
-    console.log("Getting All Delivery Challans Response:", response?.data);
-
-    dispatch(GET_DELIVERY_CHALLAN_SUCCESS());
+    // console.log("Getting All Delivery Challans Response:", response?.data);
+    dispatch(GET_ALL_DELIVERY_CHALLAN_SUCCESS(response?.data?.data));
   } catch (error) {
     dispatch(IS_ERROR());
-    console.log("Getting All Delivery Challans Response:", error);
-    alert(error?.response?.data?.message || "Something Went Wrong!");
+    console.log("Error Getting All Delivery Challans:", error);
   }
 };
 
-// Post Sales Return Request
-export const PostSalesReturn = async (dispatch, data) => {
+// --------------------------------------- SALE RETURN / CREDIT NOTE ------------------------------------
+// Post Credit Note Request
+export const PostCreditNote = async (dispatch, data, setOpenForm, toast) => {
   dispatch(IS_LOADING());
-  const userId = localStorage.getItem("userId");
-  const token = localStorage.getItem("token");
+  toast.closeAll();
 
   try {
     const response = await axios.post(
-      `https://ca-backend-api.onrender.com/${userId}/sale/saleReturnCredit`,
+      `${API_URL}/${firmId}/sale/saleReturnCredit`,
       data,
+      {
+        headers: {
+          Authorization: `Bearer ${token} `,
+          // "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    // console.log("Post Credit Note Response:", response?.data);
+    dispatch(POST_CREDIT_NOTE_SUCCESS());
+    setOpenForm(false);
+    toast({
+      title: "Credit Note Added ✔️",
+      status: "success",
+      position: "top",
+    });
+  } catch (error) {
+    dispatch(IS_ERROR());
+    toast({
+      title: "Something Went Wrong!",
+      description: error?.response?.data?.message || "",
+      status: "error",
+      position: "top",
+    });
+    console.log("Error Post Credit Note:", error);
+  }
+};
+
+// Get All Credit Notes Request
+export const GetAllCreditNotes = async (dispatch, startDate, endDate) => {
+  dispatch(IS_LOADING());
+
+  try {
+    const response = await axios.get(
+      `${API_URL}/${firmId}/sale/saleReturnCredit/getAll?startDate=${startDate}&endDate=${endDate}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
     );
-    //  console.log("Post Sales Returns Response:", response?.data);
-
-    dispatch(POST_SALES_RETURNS_SUCCESS());
-    alert("Sales Returns Added ✔️");
+    // console.log("Getting All Credit Notes Response:", response?.data);
+    dispatch(GET_ALL_CREDIT_NOTES_SUCCESS(response?.data?.data));
   } catch (error) {
     dispatch(IS_ERROR());
-    console.log("Post Sales Returns Response:", error);
-    alert(error?.response?.data?.message || "Something Went Wrong!");
+    console.log("Error Getting All Credit Notes:", error);
   }
 };
 
-// Post Sales Return Request
+// This function takes a  date as param and returns it as DD/MM/YYYY
+export const FormatDate = (dateString) => {
+  // Convert the string to a Date object
+  const date = new Date(dateString);
+
+  // Extract the year, month, and day from the Date object
+  const year = date.getFullYear();
+  // Note: getMonth() returns 0-indexed months, so you need to add 1 to get the correct month
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+
+  // Format the date in the desired form
+  const formattedDate = `${year}-${month < 10 ? "0" + month : month}-${
+    day < 10 ? "0" + day : day
+  }`;
+
+  return formattedDate;
+};
