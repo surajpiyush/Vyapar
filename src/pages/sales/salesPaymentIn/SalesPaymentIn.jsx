@@ -1,19 +1,16 @@
 import css from "../../../styles/SalesStyles/PaymentIn.module.css";
 import PaymentInForm from "./PaymentInForm";
+import TablePaymentIn from "./TablePaymentIn";
 import { GetAllPaymentIn } from "../../../Redux/sales/action";
 
 import { useEffect, useState } from "react";
-import { useToast } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { IoSearch as SearchIcon } from "react-icons/io5";
 import { FiPlusCircle as PlusIcon } from "react-icons/fi";
 import { CiFilter as FilterIcon } from "react-icons/ci";
-import TablePaymentIn from "./TablePaymentIn";
 
 export default function SalesPaymentIn() {
-  const toast = useToast();
   const dispatch = useDispatch();
-  const isError = useSelector((state) => state.SalesReducer.isError);
   const isLoading = useSelector((state) => state.SalesReducer.isLoading);
   const togglePaymentIn = useSelector(
     (state) => state.SalesReducer.togglePaymentIn
@@ -186,12 +183,35 @@ export default function SalesPaymentIn() {
                 </tr>
               </thead>
               <tbody>
-                {paymentInList?.map((item, ind) => (
-                  <TablePaymentIn {...item} ind={ind} key={ind + item?._id} />
-                ))}
+                {!isLoading &&
+                  paymentInList?.map((item, ind) => (
+                    <TablePaymentIn {...item} ind={ind} key={ind + item?._id} />
+                  ))}
               </tbody>
             </table>
-            {isLoading && <h2>Loading Payment-In Data...</h2>}
+            {isLoading && (
+              <h2
+                style={{
+                  color: "green",
+                  textAlign: "center",
+                  margin: "20px auto",
+                }}
+              >
+                Loading Payment-In Data...
+              </h2>
+            )}
+            {!isLoading && paymentInList?.length <= 0 && (
+              <h2
+                style={{
+                  color: "Red",
+                  textAlign: "center",
+                  margin: "20px auto",
+                  color: "red",
+                }}
+              >
+                No Payment-In Data Available for the specified dates...
+              </h2>
+            )}
           </div>
         </div>
       </div>

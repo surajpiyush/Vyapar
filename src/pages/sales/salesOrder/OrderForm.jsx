@@ -53,7 +53,6 @@ const OrderForm = ({ setOpenForm }) => {
   const [indexOrderTableItem, setIndexOrderTableItem] = useState(0);
   const [rowFooterData, setRowFooterData] = useState({});
   const [showItemForm, setShowItemForm] = useState(false);
-  const [receiveAmount, setReceiveAmount] = useState("");
   const [balanceAmount, setBalanceAmount] = useState("");
 
   const [orderTableItems, setOrderTableItems] = useState([

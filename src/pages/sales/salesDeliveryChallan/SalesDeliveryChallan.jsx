@@ -1,7 +1,9 @@
 import css from "../../../styles/SalesStyles/DeliveryChallan.module.css";
 import party from "../../../assets/Images/party.jpg";
-import SalesDeliveryChallanTable from "../../../components/TableData/SalesDeliveryChallanTable";
 import FormDeliveryChallan from "./FormDeliveryChallan";
+import TableDeliveryChallan from "./TableDeliveryChallan";
+import FirstTimeFormToggle from "../../../Component/FirstTimeFormToggle";
+import { GetAllDeliveryChallans } from "../../../Redux/sales/action";
 
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,9 +15,6 @@ import { IoCloseOutline as CrossIcon } from "react-icons/io5";
 import { IoSearch as SearchIcon } from "react-icons/io5";
 import { FiPlusCircle as PlusIcon } from "react-icons/fi";
 import { CiFilter as FilterIcon } from "react-icons/ci";
-import FirstTimeFormToggle from "../../../Component/FirstTimeFormToggle";
-import { GetAllDeliveryChallans } from "../../../Redux/sales/action";
-import TableDeliveryChallan from "./TableDeliveryChallan";
 
 export default function SalesDeliveryChallan() {
   const toast = useToast();
@@ -112,16 +111,27 @@ export default function SalesDeliveryChallan() {
               </thead>
 
               <tbody>
-                {deliveryChallanList?.map((item, ind) => (
-                  <TableDeliveryChallan
-                    {...item}
-                    ind={ind}
-                    key={ind + item?._id}
-                  />
-                ))}
+                {!isLoading &&
+                  deliveryChallanList?.map((item, ind) => (
+                    <TableDeliveryChallan
+                      {...item}
+                      ind={ind}
+                      key={ind + item?._id}
+                    />
+                  ))}
               </tbody>
             </table>
-            {isLoading && <h2>Loading Delivery Challans...</h2>}
+            {isLoading && (
+              <h2
+                style={{
+                  color: "green",
+                  textAlign: "center",
+                  margin: "20px auto",
+                }}
+              >
+                Loading Delivery Challans...
+              </h2>
+            )}
           </div>
         </div>
       </div>
@@ -162,13 +172,15 @@ export default function SalesDeliveryChallan() {
         </div>
       )}
 
-      {!isLoading && !deliveryChallanList.length > 0 && (
-        <FirstTimeFormToggle
-          img={party}
-          onClick={formOpen}
-          BtnText="Add Your First Delivery Challan"
-          MiddleText="Add Delivery Challan to manage your full Stock Inventory."
-        />
+      {!isLoading && deliveryChallanList.length <= 0 && (
+        <div style={{ marginTop: "-500px" }}>
+          <FirstTimeFormToggle
+            img={party}
+            onClick={formOpen}
+            BtnText="Add Your First Delivery Challan"
+            MiddleText="Add Delivery Challan to manage your full Stock Inventory."
+          />
+        </div>
       )}
     </div>
   );

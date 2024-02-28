@@ -206,6 +206,7 @@ const ItemsTableBodyDeliveryChallan = ({
           onChange={(e) => handleTableInputChange(e, ind)}
           placeholder="0"
           className={css.tableInputs}
+          required
         />
       </td>
       <td className={css.unitBody} onClick={() => setIndexOrderTableItem(ind)}>
@@ -247,6 +248,7 @@ const ItemsTableBodyDeliveryChallan = ({
           onChange={(e) => handleTableInputChange(e, ind)}
           placeholder="0"
           className={css.tableInputs}
+          required
         />
       </td>
       <td

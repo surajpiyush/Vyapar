@@ -209,6 +209,7 @@ const ItemsTableBodyEstimate = memo(
             onChange={(e) => handleTableInputChange(e, ind)}
             placeholder="0"
             className={css.tableInputs}
+            required
           />
         </td>
         <td className={css.unitBody} onClick={() => setIndexEstimateItem(ind)}>
@@ -250,6 +251,7 @@ const ItemsTableBodyEstimate = memo(
             onChange={(e) => handleTableInputChange(e, ind)}
             placeholder="0"
             className={css.tableInputs}
+            required
           />
         </td>
         <td

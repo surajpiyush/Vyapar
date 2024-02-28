@@ -25,7 +25,7 @@ const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
 // --------------------------------------- INVOICE ------------------------------------
 // Post Sales Invoice Request
-export const PostSalesInvoice = async (dispatch, toast, data, setOpenForm) => {
+export const PostSalesInvoice = async (dispatch, data, setOpenForm, toast) => {
   toast.closeAll();
   dispatch(IS_LOADING());
 
@@ -43,7 +43,6 @@ export const PostSalesInvoice = async (dispatch, toast, data, setOpenForm) => {
     dispatch(POST_SALES_INVOICE_SUCCESS());
     setOpenForm(false);
     toast({ title: "Sales Invoice Added", status: "success", position: "top" });
-    // alert("Sales Invoice Added ✔️");
   } catch (error) {
     dispatch(IS_ERROR());
     console.log("Post Sales Invoice Response:", error);
@@ -70,7 +69,7 @@ export const GetAllSalesInvoice = async (dispatch, startDate, endDate) => {
       }
     );
 
-    // console.log("Getting All Invoices Response:", response?.data);
+    console.log("Getting All Invoices Response:", response?.data);
     dispatch(GET_SALES_INVOICE_SUCCESS(response?.data?.data));
   } catch (error) {
     dispatch(IS_ERROR());
@@ -370,4 +369,23 @@ export const GetAllCreditNotes = async (dispatch, startDate, endDate) => {
     dispatch(IS_ERROR());
     console.log("Error Getting All Credit Notes:", error);
   }
+};
+
+// This function takes a  date as param and returns it as DD/MM/YYYY
+export const FormatDate = (dateString) => {
+  // Convert the string to a Date object
+  const date = new Date(dateString);
+
+  // Extract the year, month, and day from the Date object
+  const year = date.getFullYear();
+  // Note: getMonth() returns 0-indexed months, so you need to add 1 to get the correct month
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+
+  // Format the date in the desired form
+  const formattedDate = `${year}-${month < 10 ? "0" + month : month}-${
+    day < 10 ? "0" + day : day
+  }`;
+
+  return formattedDate;
 };

@@ -1,9 +1,7 @@
 import css from "../../../styles/SalesStyles/CreditNotes.module.css";
 import FormCreditNote from "./FormCreditNote";
-import { GetAllCreditNotes } from "../../../Redux/sales/action";
 import TableCreditNotes from "./TableCreditNotes";
-import FirstTimeFormToggle from "../../../Component/FirstTimeFormToggle";
-import SalesReturnTable from "../../../components/TableData/SaleReturnTable";
+import { GetAllCreditNotes } from "../../../Redux/sales/action";
 
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,7 +17,6 @@ import { CiFilter as FilterIcon } from "react-icons/ci";
 export default function SalesReturn() {
   const toast = useToast();
   const dispatch = useDispatch();
-  const isError = useSelector((state) => state.SalesReducer.isError);
   const isLoading = useSelector((state) => state.SalesReducer.isLoading);
   const toggleCreditNote = useSelector(
     (state) => state.SalesReducer.toggleCreditNote
@@ -223,42 +220,41 @@ export default function SalesReturn() {
                 </tr>
               </thead>
               <tbody>
-                {creditNotesList?.map((item, ind) => (
-                  <TableCreditNotes {...item} ind={ind} key={ind + item?._id} />
-                ))}
+                {!isLoading &&
+                  creditNotesList?.map((item, ind) => (
+                    <TableCreditNotes
+                      {...item}
+                      ind={ind}
+                      key={ind + item?._id}
+                    />
+                  ))}
               </tbody>
             </table>
-            {isLoading && <h2>Loading Credit Notes Data...</h2>}
+            {isLoading && (
+              <h2
+                style={{
+                  color: "green",
+                  textAlign: "center",
+                  margin: "20px auto",
+                }}
+              >
+                Loading Credit Notes Data...
+              </h2>
+            )}
+            {!isLoading && creditNotesList?.length <= 0 && (
+              <h2
+                style={{
+                  textAlign: "center",
+                  margin: "20px auto",
+                  color: "red",
+                }}
+              >
+                No Credit Notes data available for the specified dates
+              </h2>
+            )}
           </div>
         </div>
       </div>
-
-      {/* {openForm ? (
-       
-      ) : (
-        <div className="d-cen b-cont text-center">
-          {!(creditNotesList.length > 0) ? (
-            <div className="">
-              <div className="">
-                <img src={party} alt="" className="party-img" />
-                <p>Add Return to manage your full Stock Inventory.</p>
-                <button
-                  className="party-button"
-                  onClick={() => {
-                    setOpenForm(true);
-                  }}
-                >
-                  Add Return
-                </button>
-              </div>
-            </div>
-          ) : (
-            <div className="">
-              <SalesReturnTable func={formOpen} />
-            </div>
-          )}
-        </div>
-      )} */}
     </div>
   );
 }
