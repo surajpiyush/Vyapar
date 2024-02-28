@@ -11,7 +11,7 @@ import {
   POST_SALE_ORDER_SUCCESS,
   GET_All_SALE_ORDER_SUCCESS,
   POST_DELIVERY_CHALLAN_SUCCESS,
-  GET_DELIVERY_CHALLAN_SUCCESS,
+  GET_ALL_DELIVERY_CHALLAN_SUCCESS,
   POST_SALES_RETURNS_SUCCESS,
 } from "./reducer";
 
@@ -248,26 +248,20 @@ export const GetAllSaleOrders = async (dispatch) => {
   }
 };
 
-// ********************************************************************************************
-// ********************************************************************************************
-// ********************************************************************************************
-// ********************************************************************************************
-// ********************************************************************************************
-// ********************************************************************************************
-// ********************************************************************************************
-// ********************************************************************************************
-// ********************************************************************************************
-
-// --------------------------------------- DELIVERY ------------------------------------
+// --------------------------------------- DELIVERY CHALLAN ------------------------------------
 // Post Delivery Challan Request
-export const PostDeliveryChallan = async (dispatch, data) => {
+export const PostDeliveryChallan = async (
+  dispatch,
+  data,
+  setOpenForm,
+  toast
+) => {
   dispatch(IS_LOADING());
-  const userId = localStorage.getItem("userId");
-  const token = localStorage.getItem("token");
+  toast.closeAll();
 
   try {
     const response = await axios.post(
-      `https://ca-backend-api.onrender.com/${userId}/sale/deliveryChallan`,
+      `${API_URL}/${firmId}/sale/deliveryChallan`,
       data,
       {
         headers: {
@@ -276,28 +270,36 @@ export const PostDeliveryChallan = async (dispatch, data) => {
         },
       }
     );
-    console.log("Save Delivery Challan Response:", response?.data);
 
+    console.log("Post Delivery Challan Response:", response?.data);
     dispatch(POST_DELIVERY_CHALLAN_SUCCESS());
-    alert("Dellivery Challan Added ✔️");
+    setOpenForm(false);
+    toast({
+      title: "Dellivery Challan Added ✔️",
+      status: "success",
+      position: "top",
+    });
   } catch (error) {
     dispatch(IS_ERROR());
-    console.log("Save Delivery Challan Response:", error);
-    alert(error?.response?.data?.message || "Something Went Wrong!");
+    toast({
+      title: "Something Went Wrong!",
+      description: error?.response?.data?.message || "",
+      status: "error",
+      position: "top",
+    });
+    console.log("Error Post Delivery Challan:", error);
   }
 };
 
-// Post Delivery Challan Request
-export const GetAllDeliveryChallans = async (dispatch, startDate, endDate) => {
+// Get All Delivery Challans Request
+export const GetAllDeliveryChallans = async (dispatch) => {
   dispatch(IS_LOADING());
-  const userId = localStorage.getItem("userId");
-  const token = localStorage.getItem("token");
-  const data = { startDate, endDate };
+  const startDate = "2024-02-01";
+  const endDate = new Date().toISOString().split("T")[0];
 
   try {
     const response = await axios.get(
-      `https://ca-backend-api.onrender.com/${userId}/sale/deliveryChallan/getAll`,
-      data,
+      `${API_URL}/${firmId}/sale/deliveryChallan/getAll?startDate=${startDate}&endDate=${endDate}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -305,14 +307,22 @@ export const GetAllDeliveryChallans = async (dispatch, startDate, endDate) => {
       }
     );
     console.log("Getting All Delivery Challans Response:", response?.data);
-
-    dispatch(GET_DELIVERY_CHALLAN_SUCCESS());
+    dispatch(GET_ALL_DELIVERY_CHALLAN_SUCCESS(response?.data?.data));
   } catch (error) {
     dispatch(IS_ERROR());
-    console.log("Getting All Delivery Challans Response:", error);
-    alert(error?.response?.data?.message || "Something Went Wrong!");
+    console.log("Error Getting All Delivery Challans:", error);
   }
 };
+
+// ********************************************************************************************
+// ********************************************************************************************
+// ********************************************************************************************
+// ********************************************************************************************
+// ********************************************************************************************
+// ********************************************************************************************
+// ********************************************************************************************
+// ********************************************************************************************
+// ********************************************************************************************
 
 // Post Sales Return Request
 export const PostSalesReturn = async (dispatch, data) => {

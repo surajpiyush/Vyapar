@@ -22,6 +22,10 @@ const salesSlice = createSlice({
     toggleSaleOrder: false,
     saleOrderList: [],
 
+    // Delivery Challan
+    toggleDeliveryChallan: false,
+    deliveryChallanList: [],
+
     paymentOutData: [],
   },
   reducers: {
@@ -74,17 +78,19 @@ const salesSlice = createSlice({
       state.saleOrderList = action.payload;
     },
 
-    // *******************************************************************
-    // *******************************************************************
-    // *******************************************************************
-    // DELIVERY
+    // DELIVERY CHALLAN ------------------------------------------------------
     POST_DELIVERY_CHALLAN_SUCCESS: (state) => {
       state.isLoading = false;
-      state.toggleSalesSuccess = !state.toggleSalesSuccess;
+      state.toggleDeliveryChallan = !state.toggleDeliveryChallan;
     },
-    GET_DELIVERY_CHALLAN_SUCCESS: (state) => {
+    GET_ALL_DELIVERY_CHALLAN_SUCCESS: (state, action) => {
       state.isLoading = false;
+      state.deliveryChallanList = action.payload;
     },
+
+    // *******************************************************************
+    // *******************************************************************
+    // *******************************************************************
 
     POST_SALES_RETURNS_SUCCESS: (state) => {
       state.isLoading = false;
@@ -110,7 +116,7 @@ export const {
   GET_All_SALE_ORDER_SUCCESS,
 
   POST_DELIVERY_CHALLAN_SUCCESS,
-  GET_DELIVERY_CHALLAN_SUCCESS,
+  GET_ALL_DELIVERY_CHALLAN_SUCCESS,
 
   POST_SALES_RETURNS_SUCCESS,
 } = salesSlice.actions;

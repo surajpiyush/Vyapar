@@ -21,10 +21,14 @@ import { ImCheckboxUnchecked as EmptyCheckedBox } from "react-icons/im";
 import { BiSolidCheckboxChecked as CheckedBox } from "react-icons/bi";
 import ItemsTableBody from "../salesInvoice/ItemsTableBody";
 import ItemsForm from "../../../components/addForm/ItemsForm";
-import { PostSaleOrder, PostSalesInvoice } from "../../../Redux/sales/action";
-import ItemsTableBodySaleOrder from "./ItemsTableBodySaleOrder";
+import {
+  PostDeliveryChallan,
+  PostSaleOrder,
+  PostSalesInvoice,
+} from "../../../Redux/sales/action";
+import ItemsTableBodyDeliveryChallan from "./ItemsTableBodyDeliveryChallan";
 
-const OrderForm = ({ setOpenForm }) => {
+const FormDeliveryChallan = ({ setOpenForm }) => {
   const toast = useToast();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.SalesReducer.isLoading);
@@ -37,9 +41,8 @@ const OrderForm = ({ setOpenForm }) => {
   const getAllItemsLoading = useSelector(
     (state) => state.ItemReducer.getAllItemsLoading
   );
-  const items = useSelector((state) => state.ItemReducer.items);
-  const saleOrderList = useSelector(
-    (state) => state.SalesReducer.saleOrderList
+  const deliveryChallanList = useSelector(
+    (state) => state.SalesReducer.deliveryChallanList
   );
 
   const [currentCustomerData, setCurrentCustomerData] = useState({});
@@ -54,7 +57,6 @@ const OrderForm = ({ setOpenForm }) => {
   const [indexOrderTableItem, setIndexOrderTableItem] = useState(0);
   const [rowFooterData, setRowFooterData] = useState({});
   const [showItemForm, setShowItemForm] = useState(false);
-  const [receiveAmount, setReceiveAmount] = useState("");
   const [balanceAmount, setBalanceAmount] = useState("");
 
   const [orderTableItems, setOrderTableItems] = useState([
@@ -72,20 +74,20 @@ const OrderForm = ({ setOpenForm }) => {
     },
   ]);
   const [orderData, setOrderData] = useState({
-    type: "Sale Order",
+    type: "Delivery Challan",
     status: "Pending",
     party: "",
     billingName: "",
     phoneNumber: "",
     billingAddress: "",
-    orderNo: saleOrderList.length + 1 || "",
-    orderDate: new Date().toISOString().split("T")[0],
+    challanNumber: deliveryChallanList.length + 1 || "",
+    invoiceDate: new Date().toISOString().split("T")[0],
     dueDate: new Date().toISOString().split("T")[0],
     stateOfSupply: "",
     priceUnitWithTax: false,
     total: "",
-    advancedAmount: "",
-    balance: "",
+    // advancedAmount: "",
+    // balance: "",
   });
 
   // Submit Request Function
@@ -98,20 +100,12 @@ const OrderForm = ({ setOpenForm }) => {
       ...orderData,
       total,
       priceUnitWithTax: orderData?.priceUnitWithTax == "true",
-      saleOrder: orderTableItems,
-      paymentType: [
-        { types: paymentTypeSelectTag, amount: 0 },
-        { types: "Cheque", amount: 0, refreanceNo: "Test" },
-        {
-          types: "XYZ",
-          accountName: "ABC",
-          openingBalance: 100,
-          asOfDate: "2024-02-01",
-        },
-      ],
-      balance: balanceAmount,
+      saleDeliveryChallan: orderTableItems,
+      // balance: balanceAmount,
     };
-    PostSaleOrder(dispatch, data, setOpenForm, toast);
+    PostDeliveryChallan(dispatch, data, setOpenForm, toast);
+
+    // console.log("Delivery Challan Data:", data);
   };
 
   // Found items list click handler
@@ -244,7 +238,7 @@ const OrderForm = ({ setOpenForm }) => {
   return (
     <form onSubmit={handleSubmit} className={css.formOuter}>
       <div className={css.topheader}>
-        <p>Sale Order</p>
+        <p>Delivery Challan</p>
       </div>
 
       <div className={css.ContentContainerDiv}>
@@ -327,11 +321,11 @@ const OrderForm = ({ setOpenForm }) => {
 
           <div className={css.rightSideCont}>
             <div>
-              <p>Order No.</p>
+              <p>Challan No.</p>
               <input
-                type="text"
-                name="orderNo"
-                value={orderData?.orderNo}
+                type="number"
+                name="challanNumber"
+                value={orderData?.challanNumber}
                 onChange={handleInputChange}
                 placeholder="1"
                 className={css.invoiceNumInp}
@@ -339,11 +333,11 @@ const OrderForm = ({ setOpenForm }) => {
               />
             </div>
             <div>
-              <p>Order Date</p>
+              <p>Invoice Date</p>
               <input
                 type="date"
-                name="orderDate"
-                value={orderData?.orderDate}
+                name="invoiceDate"
+                value={orderData?.invoiceDate}
                 placeholder="Invoice Date"
                 onChange={handleInputChange}
                 className={css.invoiceDateSelectInp}
@@ -461,10 +455,9 @@ const OrderForm = ({ setOpenForm }) => {
             <tbody>
               {orderTableItems?.map((item, ind) => {
                 return (
-                  <ItemsTableBodySaleOrder
+                  <ItemsTableBodyDeliveryChallan
                     ind={ind}
                     item={item}
-                    items={items}
                     orderTableItems={orderTableItems}
                     showItemsListMenu={showItemsListMenu}
                     getAllItemsLoading={getAllItemsLoading}
@@ -514,7 +507,7 @@ const OrderForm = ({ setOpenForm }) => {
           className={css.bottomSectionOuter}
         >
           <div className={css.bottomLeftSideCont}>
-            <div
+            {/* <div
               style={{
                 display: "flex",
                 alignItems: "Center",
@@ -602,7 +595,7 @@ const OrderForm = ({ setOpenForm }) => {
                   </label>
                 </div>
               )}
-            </div>
+            </div> */}
 
             {toggleDesc ? (
               <div
@@ -728,7 +721,7 @@ const OrderForm = ({ setOpenForm }) => {
                 />
               </div>
             </div>
-            {rowFooterData?.totalAmount > 0 && (
+            {/* {rowFooterData?.totalAmount > 0 && (
               <div className={css.bottomRecievedOuterDiv}>
                 <div className={css.totalBottomDiv}>
                   <p>Advance Amount</p>
@@ -768,7 +761,7 @@ const OrderForm = ({ setOpenForm }) => {
                   <p>{balanceAmount}</p>
                 </div>
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>
@@ -794,4 +787,4 @@ const OrderForm = ({ setOpenForm }) => {
   );
 };
 
-export default OrderForm;
+export default FormDeliveryChallan;
