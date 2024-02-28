@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BsFiletypeJson, BsFiletypeXlsx } from "react-icons/bs";
 import { MdOutlinePrint } from "react-icons/md";
 import GSTRHearder from "../components/GSTRHearder";
 import GSTRsale from "../components/GSTRsale";
+import { useDispatch, useSelector } from "react-redux";
+import { getSaleReport } from "../Redux/report/action";
 
 const GSTR1 = () => {
   const [isChecked, setIsChecked] = useState(false);
@@ -24,36 +26,19 @@ const GSTR1 = () => {
     setSale(false);
   };
 
-  const data = [
-    {
-      id: 1,
-      invoiceNo: "001",
-      date: "2024-02-09",
-      partyName: "John Doe",
-      transactionType: "sale",
-      paymentType: "cash",
-      amount: 1000,
-      balance: 500,
-    },
-  ];
-
   const SaletableHeader2 = [
     "GSTIN/UIN",
     "Party Name",
     "Invoice NO.",
     "Date",
     "Value",
-    "Integrated Tax",
-    "Central Tax",
-    "State/UT Tax",
+    // "Integrated Tax",
+    // "Central Tax",
+    // "State/UT Tax",
   ];
   const SaletableHeader1 = [
     "Invoice Details",
-    "Tax Rate",
-    "Cess Rate",
-    "Taxable Value",
-    "Amount",
-    "Place of Supply (Name Of State)",
+    
   ];
 
   const SaleReturntableHeader2 = [
@@ -78,6 +63,34 @@ const GSTR1 = () => {
     "Place of Supply (Name Of State)",
   ];
 
+
+  const data = [
+    {
+      id: 1,
+      invoiceNo: "001",
+      date: "2024-02-09",
+      partyName: "John Doe",
+      transactionType: "sale",
+      paymentType: "cash",
+      amount: 1000,
+      balance: 500,
+    },
+  ];
+
+  // const store = useSelector((store)=>store.ReportReducer)
+  // const data = store.saleReportData
+  // // console.log(data)   
+  // const date = {
+  //   startDate: "2023-01-20",
+  //   endDate: "2025-02-24",
+  // }
+
+  // const dispatch = useDispatch()
+  // useEffect(()=>{
+  //   dispatch(getSaleReport({date}))
+  // },[])
+
+
   return (
     <div>
       <GSTRHearder isChecked={isChecked} check={check} />
@@ -94,8 +107,8 @@ const GSTR1 = () => {
           </div>
         </div>
         <div>
-         {sale && <GSTRsale tableHeader1={SaletableHeader1} tableHeader2={SaletableHeader2} data={data}/>}
-         {saleReturn && <GSTRsale tableHeader1={SaleReturntableHeader1} tableHeader2={SaleReturntableHeader2} data={data}/>}
+         {sale && <GSTRsale tableHeader1={SaletableHeader1} tableHeader2={SaletableHeader2} data={data?.getSale}/>}
+         {saleReturn && <GSTRsale tableHeader1={SaleReturntableHeader1} tableHeader2={SaleReturntableHeader2} data={data?.getSaleReturn}/>}
         </div>
       </div>
     </div>

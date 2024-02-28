@@ -19,13 +19,13 @@ const GSTRsale = ({tableHeader1,tableHeader2,data}) => {
             <tbody>
               {data?.map((item) => (
                 <tr key={item.id}>
-                  <td>{item.date}</td>
-                  <td>{item.invoiceNo}</td>
+                  <td>-</td>
                   <td>{item.partyName}</td>
-                  <td>{item.transactionType}</td>
-                  <td>{item.paymentType}</td>
-                  <td>{item.amount}</td>
+                  <td>{item.invoiceNumber}</td>
+                  <td>{new Date(item.invoiceDate).toLocaleDateString('en-GB')}</td>
                   <td>{item.balance}</td>
+                  {/* <td>{item.transactionType}</td>
+                  <td>{item.amount}</td> */}
                 </tr>
               ))}
             </tbody>

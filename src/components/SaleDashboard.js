@@ -7,6 +7,7 @@ import ReportBtn from "./ReportBtn";
   
 
 const SaleDashboard = ({data,tableHeader,btnText}) => {
+  // console.log(data)
   return (
     <div className="sale-dashboard">
       {/* header */}

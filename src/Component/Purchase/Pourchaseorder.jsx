@@ -3,11 +3,9 @@ import "./purchaseorder.css";
 import {
    DotsIcon,
    FilterIcon,
-   PrinterIcon,
-   ShareIcon,
+   
 } from "../utils/reactIcons";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { ImSpinner3 as BasicSpinner } from "react-icons/im";
 import { useDispatch, useSelector } from "react-redux";
 import { getPurchaseOrder } from "../../Redux/purchase/action";
@@ -157,6 +155,7 @@ const Pourchaseorder = ({func}) => {
                                  <div className="table-items table-items-purcahse-convert">
                                     {e.action}
                                  </div>
+                                 
                                  <DotsIcon />
                               </th>
                            </tr>

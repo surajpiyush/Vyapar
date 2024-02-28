@@ -1,401 +1,392 @@
 import css from "../../../styles/SalesStyles/SalesForms.module.css";
-import React, { useEffect, useState } from "react";
-import Addpurchaseitem from "./Addpurchaseitem";
-import "./Addpurchase.css";
-import { connect, useDispatch, useSelector } from "react-redux";
-import { addPurchaseBill } from "../../../Redux/purchase/action";
-import { getitems } from "../../../Redux/items/actions";
-import axios from "axios";
-import { FetchAllParties } from "../../../Redux/parties/actions";
-import { useNavigate } from "react-router-dom";
-import { CiGlass } from "react-icons/ci";
-import PurchaseBill from "../../../Page/Purchase/Purchasebill";
 
-const Purchase = () => {
-   const [searchInput, setSearchInput] = useState("");
-   const [visible, setVisible] = useState(false);
-   const store = useSelector((store) => store);
-   const partiesData = useSelector((state) => state.PartiesReducer.partiesData);
-   const [suggestedParties, setSuggestedParties] = useState([...partiesData]);
-   // console.log(partiesData);
-   const isLoading = useSelector((state) => state.SalesReducer.isLoading);
-   const partiesLoading = useSelector(
-      (state) => state.PartiesReducer.isLoading
-   );
-   const token = localStorage.getItem("token");
-   const item = store.ItemReducer;
-   const party = store.PurchaseReducer;
-   // console.log(party);
-   const dispatch = useDispatch();
-   const companyID = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
-   const navigate = useNavigate();
+import { memo, useEffect, useState } from "react";
+import {
+   Menu,
+   MenuList,
+   MenuItem,
+   MenuDivider,
+   
+} from "@chakra-ui/react";
+import { MdDelete as DeleteIcon } from "react-icons/md";
+import { TbArrowsMove as MoveIcon } from "react-icons/tb";
 
-   const handleSearchChange = (e) => {
-      // setVisible(true)
-      const inputValue = e.target.value;
-      setSearchInput(inputValue);
+const ItemsTableBody = memo(
+   ({
+      ind,
+      item,
+      invoiceItems,
+      setInvoiceItems,
+      handleDeleteRow,
+      handleMenuItemClick,
+      showItemsListMenu,
+      indexSaleItem,
+      setShowItemsListMenu,
+      setIndexSaleItem,
+      setShowItemForm,
+      getAllItemsLoading,
+      items,
+   }) => {
+      const [foundItems, setFoundItems] = useState([]);
+      // Itemslist Suggestions
+      useEffect(() => {
+         const regex = new RegExp(item?.itemName, "i");
+         const found = items?.filter((ite) => regex.test(ite.itemName));
+         if (item?.itemName.length < 1) {
+            return setFoundItems(items);
+         }
 
-      // Filter parties based on the input value
-      const filteredParties = partiesData.filter((party) =>
-         party.partyName.toLowerCase().includes(inputValue.toLowerCase())
+         setFoundItems(found);
+      }, [item?.itemName]);
+
+      // Sale Items Change Function
+      const handleTableInputChange = (e, index) => {
+         const { name, value } = e.target;
+         let currSaleItem = { ...invoiceItems[index], [name]: value };
+         let newSaleData = invoiceItems.map((ite, ind) =>
+            ind == index ? currSaleItem : ite
+         );
+         setInvoiceItems(newSaleData);
+      };
+
+      function AmountCalculator() {
+         const parseToNumber = (value) => (value ? parseFloat(value) : 0);
+
+         let amount = parseToNumber(item?.amount) || 0;
+         let taxAmount = parseToNumber(item?.taxAmount) || 0;
+         let discountPercent = parseToNumber(item?.discountpersant) || 0;
+         let discountAmount = parseToNumber(item?.discountAmount) || 0;
+         let taxPercent = parseToNumber(item?.taxPersant) || 0;
+         let pricePerUnit = parseToNumber(item?.priceUnit) || 0;
+         let qty = parseToNumber(item?.qty) || 0;
+
+         amount = qty * pricePerUnit;
+
+         if (discountPercent > 0) {
+            discountAmount = (amount * discountPercent) / 100;
+            amount -= discountAmount;
+         } else if (discountAmount > 0) {
+            discountPercent = (discountAmount / amount) * 100;
+            amount -= discountAmount;
+         }
+
+         if (taxPercent > 0) {
+            taxAmount = (amount * taxPercent) / 100;
+            amount += taxAmount;
+         } else if (taxAmount > 0) {
+            taxPercent = (taxAmount / amount) * 100;
+            amount += taxAmount;
+         }
+
+         return {
+            amount:
+               parseFloat(amount.toFixed(2)) == 0
+                  ? ""
+                  : parseFloat(amount.toFixed(2)),
+            taxAmount:
+               parseFloat(taxAmount.toFixed(2)) == 0
+                  ? ""
+                  : parseFloat(taxAmount.toFixed(2)),
+            discountPercent:
+               parseFloat(discountPercent.toFixed(2)) == 0
+                  ? ""
+                  : parseFloat(discountPercent.toFixed(2)),
+            discountAmount:
+               parseFloat(discountAmount.toFixed(2)) == 0
+                  ? ""
+                  : parseFloat(discountAmount.toFixed(2)),
+         };
+      }
+
+      useEffect(() => {
+         AmountCalculator();
+         const { amount, taxAmount, discountPercent, discountAmount } =
+            AmountCalculator();
+         let currSaleItem = {
+            ...invoiceItems[ind],
+            amount,
+            taxAmount,
+            discountAmount,
+            discountpersant: discountPercent,
+         };
+         let newSaleData = invoiceItems.map((ite, index) =>
+            index == ind ? currSaleItem : ite
+         );
+         setInvoiceItems(newSaleData);
+      }, [
+         item.qty,
+         item.priceUnit,
+         item.discountpersant,
+         item.discountpersant,
+         item.taxPersant,
+      ]);
+
+      return (
+         <tr
+            onClick={() => setIndexSaleItem(ind)}
+            style={{
+               background: ind % 2 == 0 ? "var(--greyishBlue)" : "var(--greyB)",
+            }}
+         >
+            <td
+               className={css.serialNumberBody}
+               onClick={() => setIndexSaleItem(ind)}
+            >
+               <div>
+                  <MoveIcon className={css.serialIconsBody} />
+                  <p>{ind + 1}</p>
+                  <DeleteIcon
+                     onClick={(e) => handleDeleteRow(e, ind)}
+                     className={css.serialIconsBody}
+                  />
+               </div>
+            </td>
+            <td className={css.itemNameBody}>
+               <select name="category" id="">
+                  <option value="">Category</option>
+                  <option value="show">Show</option>
+                  <option value="tab">Tab</option>
+                  <option value="medicine">medicine</option>
+                  <option value="cloths">Cloths</option>{" "}
+               </select>
+            </td>
+            <td
+               onFocus={() => {
+                  setShowItemsListMenu(true);
+                  setIndexSaleItem(ind);
+               }}
+               onBlur={() => {
+                  setShowItemsListMenu(false);
+               }}
+               onClick={() => setIndexSaleItem(ind)}
+               className={css.itemNameBody}
+            >
+               <input
+                  type="text"
+                  name="itemName"
+                  value={item?.itemName}
+                  onChange={(e) => {
+                     handleTableInputChange(e, ind);
+                  }}
+                  onBlur={() => {
+                     setShowItemsListMenu(false);
+                  }}
+                  className={css.tableInputs}
+                  required
+               />
+               <Menu isOpen={showItemsListMenu && ind == indexSaleItem}>
+                  <MenuList
+                     style={{
+                        marginTop: `${foundItems.length > 0 ? 240 : 160}px`,
+                        maxHeight: "150px",
+                        marginLeft: "50px",
+                        zIndex: 2500,
+                        overflow: "auto",
+                        position: "absolute",
+                     }}
+                     onClick={() => setShowItemsListMenu(true)}
+                  >
+                     <MenuItem onClick={() => setShowItemForm(true)}>
+                        Add Item
+                     </MenuItem>
+                     <MenuDivider />
+                     {getAllItemsLoading && <MenuItem>Loading Items</MenuItem>}
+                     {!getAllItemsLoading &&
+                        foundItems?.map((itemList) => (
+                           <MenuItem
+                              key={itemList?._id}
+                              onClick={() => {
+                                 handleMenuItemClick(ind, itemList);
+                                 setShowItemsListMenu(false);
+                              }}
+                           >
+                              {itemList?.itemName}
+                           </MenuItem>
+                        ))}
+                  </MenuList>
+               </Menu>
+            </td>
+
+            <td className={css.qtyBody} onClick={() => setIndexSaleItem(ind)}>
+               <input
+                  type="text"
+                  className={css.tableInputs}
+                  name="itemCode"
+                  onChange={(e) => handleTableInputChange(e, ind)}
+                  disabled
+               />
+            </td>
+            <td className={css.qtyBody} onClick={() => setIndexSaleItem(ind)}>
+               <input
+                  type="text"
+                  name="hsnCode"
+                  // value={item?.qty}
+                  onChange={(e) => handleTableInputChange(e, ind)}
+                  placeholder=""
+                  className={css.tableInputs}
+               />
+            </td>
+            <td className={css.qtyBody} onClick={() => setIndexSaleItem(ind)}>
+               <input
+                  type="text"
+                  className={css.tableInputs}
+                  name="description"
+                  // value={item?.desciption}
+                  onChange={(e) => handleTableInputChange(e, ind)}
+                  placeholder="0"
+               />
+            </td>
+            <td className={css.qtyBody} onClick={() => setIndexSaleItem(ind)}>
+               <input
+                  type="number"
+                  className={css.tableInputs}
+                  name="count"
+                  // value={item?.count}
+                  onChange={(e) => handleTableInputChange(e, ind)}
+                  placeholder="0"
+               />
+            </td>
+            <td className={css.qtyBody} onClick={() => setIndexSaleItem(ind)}>
+               <input
+                  type="number"
+                  name="qty"
+                  // value={item?.qty}
+                  onChange={(e) => handleTableInputChange(e, ind)}
+                  placeholder="0"
+                  className={css.tableInputs}
+               />
+            </td>
+            <td className={css.qtyBody} onClick={() => setIndexSaleItem(ind)}>
+               <input
+                  type="number"
+                  name="freeqty"
+                  onChange={(e) => handleTableInputChange(e, ind)}
+                  placeholder="0"
+                  className={css.tableInputs}
+               />
+            </td>
+            <td className={css.unitBody} onClick={() => setIndexSaleItem(ind)}>
+               <select
+                  name="unit"
+                  value={item.unit}
+                  onChange={(e) => handleTableInputChange(e, ind)}
+                  placeholder="None"
+               >
+                  <option value="">None</option>
+                  <option value="BAGS">BAGS (BAG)</option>
+                  <option value="BOTTLES">BOTTLES (BTL)</option>
+                  <option value="BOX">BOX (BOX)</option>
+                  <option value="BUNDLES">BUNDLES (BUNDLE)</option>
+                  <option value="CANS">CANS (CAN)</option>
+                  <option value="CARTONS">CARTONS (CTN)</option>
+                  <option value="DOZENS">DOZENS (DZN)</option>
+                  <option value="GRAMMES">GRAMMES (GM)</option>
+                  <option value="KILOGRAMS">KILOGRAMS (KG)</option>
+                  <option value="LITRE">LITRE (LTR)</option>
+                  <option value="METERS">METERS (MTR)</option>
+                  <option value="MILILITRE">MILILITRE (ML)</option>
+                  <option value="NUMBERS">NUMBERS (NOS)</option>
+                  <option value="PACKS">PACKS (PAC)</option>
+                  <option value="PAIRS">PAIRS (PRS)</option>
+                  <option value="PIECES">PIECES (PCS)</option>
+                  <option value="QUINTAL">QUINTAL (QTL)</option>
+                  <option value="ROLLS">ROLLS (ROL)</option>
+                  <option value="SQUARE FEET">SQUARE FEET (SQF)</option>
+                  <option value="SQUARE METERS">SQUARE METERS (SQM)</option>
+                  <option value="TABLETS">TABLETS (TBS)</option>
+               </select>
+            </td>
+            <td className={css.qtyBody} onClick={() => setIndexSaleItem(ind)}>
+               <input
+                  type="number"
+                  name="priceUnit"
+                 
+                  onChange={(e) => handleTableInputChange(e, ind)}
+                  placeholder="0"
+                  className={css.tableInputs}
+               />
+            </td>
+
+            <td
+               className={css.DiscountBody}
+               onClick={() => setIndexSaleItem(ind)}
+            >
+               <input
+                  type="number"
+                  name="discountpersant"
+                  value={AmountCalculator()?.discountPercent}
+                 
+                  onChange={(e) => handleTableInputChange(e, ind)}
+                  placeholder="0"
+                  className={css.tableInputs}
+               />
+               <input
+                  type="number"
+                  name="discountAmount"
+                  value={AmountCalculator()?.discountAmount}
+                 
+                  onChange={(e) => handleTableInputChange(e, ind)}
+                  placeholder="0"
+                  className={css.tableInputs}
+               />
+            </td>
+            <td
+               className={css.ItemTaxBody}
+               onClick={() => setIndexSaleItem(ind)}
+            >
+               <span>
+                  <div>
+                     <select
+                        name="taxPersant"
+                        value={item.taxPersant}
+                        onChange={(e) => handleTableInputChange(e, ind)}
+                     >
+                        <option value="">None</option>
+                        <option value="0">IGST@0%</option>
+                        <option value="0">GST@0%</option>
+                        <option value="0.25">IGST@0.25%</option>
+                        <option value="0.25">GST@0.25%</option>
+                        <option value="3">IGST@3%</option>
+                        <option value="3">GST@3%</option>
+                        <option value="5">IGST@5%</option>
+                        <option value="5">GST@5%</option>
+                        <option value="12">IGST@12%</option>
+                        <option value="12">GST@12%</option>
+                        <option value="18">IGST@18%</option>
+                        <option value="18">GST@18%</option>
+                        <option value="28">IGST@28%</option>
+                        <option value="28">GST@28%</option>
+                     </select>
+                  </div>
+                  <input
+                     type="number"
+                     value={AmountCalculator()?.taxAmount}
+                     // value={item.taxAmount}
+                     name="taxAmount"
+                     onChange={(e) => handleTableInputChange(e, item)}
+                     placeholder="0"
+                     className={css.tableInputs}
+                     readOnly
+                     disabled
+                  />
+               </span>
+            </td>
+            <td className={css.qtyBody} onClick={() => setIndexSaleItem(ind)}>
+               <input
+                  type="number"
+                  value={AmountCalculator()?.amount}
+                  //  value={(item?.qty * item?.priceUnit).toFixed(2)}
+                  name="amount"
+                  onChange={(e) => handleTableInputChange(e, ind)}
+                  placeholder="0"
+                  className={css.tableInputs}
+                  readOnly
+                  disabled
+               />
+            </td>
+         </tr>
       );
+   }
+);
 
-      setSuggestedParties(filteredParties);
-   };
-
-   const handlePartySelect = (selectedParty) => {
-      // Handle party selection logic here
-      console.log("Selected party:", selectedParty);
-   };
-   const handleInputChange = (e) => {
-      const { name, value } = e.target;
-      setData((prev) => {
-         return { ...prev, [name]: value };
-      });
-   };
-
-   // const handleSave = () => {
-   // console.log(data);
-   // dispatch(addPurchaseBill(data));
-   // // alert("added Succesfully")
-   // navigate("/purchasebill");
-   // };
-   const [data, setData] = useState({
-      partyName: "Krishan",
-      phoneNumber: "",
-      poNo: "PO123",
-      poDate: new Date().toISOString().split("T")[0],
-      eWayBill: "EWB123",
-      billNumber: "BILL123",
-      billDate: new Date().toISOString().split("T")[0],
-      time: new Date().toLocaleTimeString("en-US", {
-         hour: "2-digit",
-         minute: "2-digit",
-         hour12: false,
-      }),
-      paymentTerms: "Net 30",
-      dueDate: "2024-03-17T00:00:00.000Z",
-      stateOfSupply: "Some State",
-      priceUnitWithTax: true,
-      sale: [],
-      paymentType: [
-         {
-           types: String,
-           amount: 450,
-         },
-         {
-           types: String,
-           amount: 1520,
-           refreanceNo: String,
-         },
-         {
-           types: String,
-           accountName: String,
-           openingBalance: 1000,
-           asOfDate: Date,
-         },
-       ],
-      addDescription: "Additional description here",
-      discount: {
-         discountPersent: 2,
-         discountAmount: 2,
-      },
-      tax: {
-         tax: "GST",
-         taxamount: 10,
-      },
-      roundOff: 0,
-      total: 950,
-      paid: 950,
-      balance: 0,
-   });
-
-   useEffect(() => {
-      FetchAllParties(dispatch);
-   }, [visible]);
-   const [open, setOpen] = useState(0);
-   const getData = (id) => {
-      // console.log(id);
-      axios
-         .get(`https://ca-backend-api.onrender.com/${companyID}/party/${id}`, {
-            headers: {
-               Authorization: `Bearer ${token}`,
-            },
-         })
-         .then((res) => {
-            // console.log(res.data.data.party[0].p);
-            // setData(res.data.data.party);
-            setOpen(res.data.data.party[0]?.openingBalance);
-            setData({
-               ...data,
-               balance: res.data.data.party[0]?.openingBalance,
-               phoneNumber: res?.data?.data?.party[0]?.phoneNumber,
-               partyName: res?.data?.data?.party[0]?.partyName,
-            });
-         })
-         .catch((err) => console.log(err));
-   };
-
-   return (
-      // <div className="addpurchase-container">
-      //    <section className="addpurchase-section-top">
-      //       <h4>Purchase</h4>
-      //       <div className={css.middleOuter}>
-      //          <div className={css.leftSideCont}>
-      //             <div className={css.selectOuter}>
-      //                {/* -----------<<<<<<<<<<< Search box >>>>>>>>>>>>------------- */}
-
-      //                <select
-      //                   value={partiesData.partyName}
-      //                   // onChange={handleInputChange}
-      //                   className={css.selectTag}
-      //                   placeholder="test"
-      //                   name="partyName"
-      //                   onChange={(e) => {
-      //                      const selectedParty = partiesData.find(
-      //                         (party) => party.partyName === e.target.value
-      //                      );
-
-      //                      if (selectedParty) {
-      //                         const partyId = selectedParty?._id?.toString();
-      //                         getData(partyId);
-      //                         setData({
-      //                            ...data,
-      //                            partyName: selectedParty.partyName,
-      //                         });
-      //                      }
-      //                   }}
-      //                >
-      //                   <option value="">{"Party Name"}</option>
-      //                   {partiesLoading ? (
-      //                      <option value="">Loading Parties</option>
-      //                   ) : (
-      //                      partiesData?.map((party) => (
-      //                         <option key={party.id} value={party.partyName}>
-      //                            {party.partyName}
-      //                         </option>
-      //                      ))
-      //                   )}
-      //                </select>
-      //             </div>
-      //             <div className={css.inputDiv}>
-      //                {" "}
-      //                <p>Balance: {open ? open : 0}</p>
-      //             </div>
-      //             <div className={css.inputDiv}>
-      //                <input
-      //                   type="text"
-      //                   name="number"
-      //                   placeholder="Phone No."
-      //                   value={data.phoneNumber}
-      //                   className={css.input}
-      //                   // onChange={handleChange}
-      //                />
-      //                <label
-      //                   htmlFor=""
-      //                   className={
-      //                      data.phoneNumber
-      //                         ? css.activeLabel
-      //                         : css.inactiveLabel
-      //                   }
-      //                >
-      //                   Phone No.
-      //                </label>
-      //             </div>
-      //          </div>
-               // <div className={css.selectOuter}>
-               //    <div className={css.inputDiv}>
-               //       <label   
-               //          htmlFor="PO No"
-               //          className={
-               //             data.phoneNumber
-               //                ? css.activeLabel
-               //                : css.inactiveLabel
-               //          }
-               //       >
-               //          PO No.
-               //       </label>
-               //       <input
-               //          type="text"
-               //          name="poNo"
-               //          // placeholder="PO No."
-               //          // value={data.phoneNumber}
-               //          className={css.input}
-               //          // onChange={handleChange}
-               //       />
-               //    </div>
-               //    <br />
-               //    <div className={css.inputDiv}>
-               //       <label
-               //          htmlFor="PO Date"
-               //          className={
-               //             data.phoneNumber
-               //                ? css.activeLabel
-               //                : css.inactiveLabel
-               //          }
-               //       >
-               //          PO Date
-               //       </label>
-               //       <input
-               //          type="Date"
-               //          name="poDate"
-               //          // placeholder="PO Date"
-               //          defaultValue={new Date().toISOString().split("T")[0]}
-               //          className={css.input}
-               //          onChange={(e) => handleInputChange(e)}
-               //       />
-               //    </div>
-               //    <br />
-               //    <div className={css.inputDiv}>
-               //       <label
-               //          htmlFor="PO No"
-               //          className={
-               //             data.phoneNumber
-               //                ? css.activeLabel
-               //                : css.inactiveLabel
-               //          }
-               //       >
-               //          E-Way Bill
-               //       </label>
-               //       <input
-               //          type="text"
-               //          name="eWayBill"
-               //          onChange={(e) => handleInputChange(e)}
-               //          className={css.input}
-               //       />
-               //    </div>
-               // </div>
-
-               // <div className={css.rightSideCont}>
-               //    <div>
-               //       <p>Bill Number</p>
-               //       <input
-               //          type="text"
-               //          placeholder="1"
-               //          className={css.invoiceNumInp}
-               //          onChange={(e) => handleInputChange(e)}
-               //          name="billNumber"
-               //       />
-               //    </div>
-               //    <div>
-               //       <p>Bill Date</p>
-               //       <input
-               //          type="date"
-               //          placeholder="Invoice Date"
-               //          className={css.invoiceDateSelectInp}
-               //          onChange={(e) => handleInputChange(e)}
-               //          name="billDate"
-               //          defaultValue={new Date().toISOString().split("T")[0]}
-               //       />
-               //    </div>
-               //    <div>
-               //       <p>Time</p>
-               //       <input
-               //          type="time"
-               //          placeholder="Invoice Time"
-               //          className={css.invoiceDateSelectInp}
-               //          onChange={(e) => handleInputChange(e)}
-               //          name="time"
-               //          defaultValue={new Date().toLocaleTimeString("en-US", {
-               //             hour: "2-digit",
-               //             minute: "2-digit",
-               //             hour12: false,
-               //          })}
-               //       />
-               //    </div>
-
-               //    <div>
-               //       <p>Payment Terms</p>
-               //       <select
-               //          name="paymentTerms"
-               //          onChange={(e) => handleInputChange(e)}
-               //       >
-               //          <option value="">Due On Recipt</option>
-               //          <option value="net 15">Net 15</option>
-               //          <option value="net 30">Net 30</option>
-               //          <option value="net 45">Net 45</option>
-               //          <option value="net 60">Net 60</option>
-               //       </select>
-               //    </div>
-               //    <div>
-               //       <p>Due Date</p>
-               //       <input
-               //          type="date"
-               //          placeholder="Due Date"
-               //          className={css.invoiceDateSelectInp}
-               //          onChange={(e) => handleInputChange(e)}
-               //          name="dueDate"
-               //       />
-               //    </div>
-               //    <div>
-               //       <p>State of supply</p>
-               //       <select
-               //          name="stateOfSupply"
-               //          id=""
-               //          className={css.invoiceDateSelectInp}
-               //          onSelect={(e) => handleInputChange(e)}
-               //       >
-               //          <option value="">State</option>
-               //          <option value="Andhra Pradesh">Andhra Pradesh</option>
-               //          <option value="Arunachal Pradesh">
-               //             Arunachal Pradesh
-               //          </option>
-               //          <option value="Assam">Assam</option>
-               //          <option value="Bihar">Bihar</option>
-               //          <option value="Chhattisgarh">Chhattisgarh</option>
-               //          <option value="Goa">Goa</option>
-               //          <option value="Gujarat">Gujarat</option>
-               //          <option value="Haryana">Haryana</option>
-               //          <option value="Himachal Pradesh">
-               //             Himachal Pradesh
-               //          </option>
-               //          <option value="Jharkhand">Jharkhand</option>
-               //          <option value="Karnataka">Karnataka</option>
-               //          <option value="Kerala">Kerala</option>
-               //          <option value="Madhya Pradesh">Madhya Pradesh</option>
-               //          <option value="Maharashtra">Maharashtra</option>
-               //          <option value="Manipur">Manipur</option>
-               //          <option value="Meghalaya">Meghalaya</option>
-               //          <option value="Mizoram">Mizoram</option>
-               //          <option value="Nagaland">Nagaland</option>
-               //          <option value="Odisha">Odisha</option>
-               //          <option value="Punjab">Punjab</option>
-               //          <option value="Rajasthan">Rajasthan</option>
-               //          <option value="Sikkim">Sikkim</option>
-               //          <option value="Tamil Nadu">Tamil Nadu</option>
-               //          <option value="Telangana">Telangana</option>
-               //          <option value="Tripura">Tripura</option>
-               //          <option value="Uttar Pradesh">Uttar Pradesh</option>
-               //          <option value="Uttarakhand">Uttarakhand</option>
-               //          <option value="West Bengal">West Bengal</option>
-               //          <option value="Andaman and Nicobar Islands">
-               //             Andaman and Nicobar Islands
-               //          </option>
-               //          <option value="Chandigarh">Chandigarh</option>
-               //          <option value="Dadra and Nagar Haveli">
-               //             Dadra and Nagar Haveli
-               //          </option>
-               //          <option value="Daman and Diu">Daman and Diu</option>
-               //          <option value="Lakshadweep">Lakshadweep</option>
-               //          <option value="Delhi">Delhi</option>
-               //          <option value="Puducherry">Puducherry</option>
-               //       </select>
-               //    </div>
-               // </div>
-      //       </div>
-      //    </section>
-      //    <br />
-      //    <br />
-
-      //    <section>
-      //    </section>
-      // </div>
-      <>
-      {/* <PurchaseBill /> */}
-            {/* <Addpurchaseitem /> */}
-         {/* <PurchaseForm /> */}
-      </>
-   );
-};
-
-export default Purchase;
+export default ItemsTableBody;

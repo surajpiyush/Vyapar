@@ -5,6 +5,7 @@ import {
    FilterIcon,
    PrinterIcon,
    ShareIcon,
+   DeleteIcon,
 } from "../../utils/reactIcons";
 import party from "../../../assets/Images/party.jpg";
 import { ImSpinner3 as BasicSpinner } from "react-icons/im";
@@ -13,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getPurchaseBill } from "../../../Redux/purchase/action";
 import axios from "axios";
 import FirstTimeFormToggle from "../../FirstTimeFormToggle";
+import { getSaleReport } from "../../../Redux/report/action";
 
 const transactionFilterItems = [
    {
@@ -31,8 +33,8 @@ const Transactions = ({ func }) => {
    const companyID = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
    const token = localStorage.getItem("token");
    const store = useSelector((store) => store.PurchaseReducer);
-   const showAllPurchaseBills = store.purchaseBillData;
-   console.log(store);
+   let showAllPurchaseBills = store.purchaseBillData;
+   // console.log(store);
    const date = {
       startDate: "2023-01-20",
       endDate: "2025-02-24",
@@ -40,8 +42,21 @@ const Transactions = ({ func }) => {
    // console.log(store);
    useEffect(() => {
       dispatch(getPurchaseBill({ date }));
+      // dispatch(getSaleReport({ date }));
    }, []);
-   // console.log(showAllPurchaseBills);
+
+
+
+   const handleDelete = (invoiceNumber) => {
+      // Filter the data to remove the item with the matching invoice number
+      const updatedPurchaseBills = showAllPurchaseBills.filter(
+         (bill) => bill.invoice !== invoiceNumber
+      );
+      alert("data removed")
+      showAllPurchaseBills = updatedPurchaseBills;
+   };
+
+   console.log(showAllPurchaseBills);
    return (
       <>
          {!store.isLoading && !showAllPurchaseBills.length ? (
@@ -98,62 +113,68 @@ const Transactions = ({ func }) => {
                </section>
 
                {!store.isLoading && showAllPurchaseBills.length ? (
-                  showAllPurchaseBills?.map((e) =>{
-
-                  
-                     console.log(e?.partyData)
+                  showAllPurchaseBills?.map((e) => {
                      return (
+                        <section className="transaction-tables">
+                           <div className="transaction-table">
+                              <p className="transaction-table ">
+                                 {" "}
+                                 {new Date(e.billDate).toLocaleDateString(
+                                    "en-IN",
+                                    {
+                                       day: "2-digit",
+                                       month: "2-digit",
+                                       year: "numeric",
+                                    }
+                                 )}
+                              </p>
+                           </div>
+                           <div className="transaction-table">
+                              <p className="transaction-table ">{e.invoice}</p>
 
-                   
-                     <section className="transaction-tables">
-                        <div className="transaction-table">
-                           <p className="transaction-table ">
-                              {" "}
-                              {new Date(e.billDate).toLocaleDateString(
-                                 "en-IN",
-                                 {
-                                    day: "2-digit",
-                                    month: "2-digit",
-                                    year: "numeric",
-                                 }
-                              )}
-                           </p>
-                        </div>
-                        <div className="transaction-table">
-                           <p className="transaction-table ">{e.invoice}</p>
-
-                           {/* <p></p> */}
-                        </div>
-                        <div className="transaction-table">
-                           <p className="transaction-table">
-                           
+                              {/* <p></p> */}
+                           </div>
+                           <div className="transaction-table">
+                              <p className="transaction-table">
                                  {e?.partyData?.partyName}
-                           </p>
-                        </div>
-                        <div className="transaction-table">
-                           <p className="transaction-table">Cash</p>
-                        </div>
-                        <div className="transaction-table">
-                           <p className="transaction-table">0</p>
-                        </div>
-                        <div className="transaction-table">
-                           <p className="transaction-table">0</p>
-                        </div>
-                        <div className="transaction-table">
-                           <p className="transaction-table">{e.status}</p>
-                        </div>
-                        <div className="transaction-table">
-                           <p>
-                              <PrinterIcon /> <ShareIcon />
-                           </p>
-                           {/* <FilterIcon/> */}
-                        </div>
-                        <div className="transaction-table">
-                           <p></p>
-                           <DotsIcon />
-                        </div>
-                     </section>
-                  )})
+                              </p>
+                           </div>
+                           <div className="transaction-table">
+                              <p className="transaction-table">Cash</p>
+                           </div>
+                           <div className="transaction-table">
+                              <p className="transaction-table">0</p>
+                           </div>
+                           <div className="transaction-table">
+                              <p className="transaction-table">0</p>
+                           </div>
+                           <div className="transaction-table">
+                              <p className="transaction-table">{e.status}</p>
+                           </div>
+                           <div className="transaction-table">
+                              <p
+                                 style={{
+                                    display: "flex",
+                                    justifyContent: "space-around",
+                                 }}
+                              >
+                                 <PrinterIcon onClick={() => window.print()} />{" "}
+                                 <ShareIcon />
+                              </p>
+                              {/* <FilterIcon/> */}
+                           </div>
+                           <div
+                              className="transaction-table"
+                              style={{ alignItem: "center" }}
+                           >
+                              <DeleteIcon
+                                 onClick={() => handleDelete(e.invoice)}
+                              />
+                              <DotsIcon />
+                           </div>
+                        </section>
+                     );
+                  })
                ) : (
                   <BasicSpinner
                      style={{
