@@ -10,9 +10,9 @@ const TablePaymentIn = ({
   total,
   recived,
   balance,
-  duedate,
-  paymentType,
-  status,
+  // duedate,
+  // paymentType,
+  //  status,
 }) => {
   function formatDate(dateString) {
     // Convert the string to a Date object

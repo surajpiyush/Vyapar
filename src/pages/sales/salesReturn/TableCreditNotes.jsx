@@ -3,7 +3,7 @@ import { IoIosShareAlt as ShareIcon } from "react-icons/io";
 
 const TableCreditNotes = ({
   ind,
-  dueDate,
+  date,
   refNo,
   partyName,
   categoryName,
@@ -37,7 +37,7 @@ const TableCreditNotes = ({
         <div>{ind + 1}</div>
       </td>
       <td>
-        <div>{formatDate(dueDate)}</div>
+        <div>{formatDate(date)}</div>
       </td>
       <td>
         <div style={{ textAlign: "right" }}>{refNo}</div>

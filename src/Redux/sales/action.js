@@ -295,12 +295,10 @@ export const PostDeliveryChallan = async (
 // Get All Delivery Challans Request
 export const GetAllDeliveryChallans = async (dispatch) => {
   dispatch(IS_LOADING());
-  const startDate = "2024-02-01";
-  const endDate = new Date().toISOString().split("T")[0];
 
   try {
     const response = await axios.get(
-      `${API_URL}/${firmId}/sale/deliveryChallan/getAll?startDate=${startDate}&endDate=${endDate}`,
+      `${API_URL}/${firmId}/sale/deliveryChallan/getAll`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -366,7 +364,7 @@ export const GetAllCreditNotes = async (dispatch, startDate, endDate) => {
         },
       }
     );
-    console.log("Getting All Credit Notes Response:", response?.data);
+    // console.log("Getting All Credit Notes Response:", response?.data);
     dispatch(GET_ALL_CREDIT_NOTES_SUCCESS(response?.data?.data));
   } catch (error) {
     dispatch(IS_ERROR());

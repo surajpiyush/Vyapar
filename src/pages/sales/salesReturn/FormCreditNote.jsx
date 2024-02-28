@@ -100,7 +100,6 @@ const FormCreditNote = ({ setOpenForm }) => {
       priceUnitWithTax: orderData?.priceUnitWithTax == "true",
       saleOrder: orderTableItems,
       balance: balanceAmount,
-      dueDate: orderData?.date,
       paymentType: [
         { types: paymentTypeSelectTag, amount: 0 },
         { types: "Cheque", amount: 0, refreanceNo: "Test" },
@@ -113,8 +112,7 @@ const FormCreditNote = ({ setOpenForm }) => {
       ],
     };
     PostCreditNote(dispatch, data, setOpenForm, toast);
-
-    console.log("Credit Data:", data);
+    // console.log("Credit Data:", data);
   };
 
   // Found items list click handler

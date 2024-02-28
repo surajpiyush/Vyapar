@@ -2,7 +2,7 @@ import React from "react";
 
 const TableDeliveryChallan = ({
   invoiceDate,
-  partyData,
+  partyName,
   challanNumber,
   dueDate,
   amount,
@@ -32,7 +32,7 @@ const TableDeliveryChallan = ({
         <div>{formatDate(invoiceDate)}</div>
       </td>
       <td>
-        <div>{partyData?.partyName}</div>
+        <div>{partyName}</div>
       </td>
       <td>
         <div>{challanNumber}</div>
