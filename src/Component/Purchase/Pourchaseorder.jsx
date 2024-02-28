@@ -107,7 +107,7 @@ const Pourchaseorder = ({func}) => {
                            <tr className="tabel-row tale-data purchase-order">
                               <th className="table-h">
                                  <div className="table-items">
-                                 {e?.partyData[0]?.partyName}
+                                 {e?.partyData?.partyName}
                                  </div>
                               </th>
                               <th className="table-h">

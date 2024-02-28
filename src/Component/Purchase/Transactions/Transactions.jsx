@@ -22,18 +22,17 @@ const transactionFilterItems = [
    },
 ];
 
-const Transactions = ({func}) => {
-
+const Transactions = ({ func }) => {
    const openForm = () => {
       func(true);
-    };
+   };
    const navigate = useNavigate();
    const dispatch = useDispatch();
    const companyID = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
    const token = localStorage.getItem("token");
    const store = useSelector((store) => store.PurchaseReducer);
    const showAllPurchaseBills = store.purchaseBillData;
-   console.log(store)
+   console.log(store);
    const date = {
       startDate: "2023-01-20",
       endDate: "2025-02-24",
@@ -47,11 +46,11 @@ const Transactions = ({func}) => {
       <>
          {!store.isLoading && !showAllPurchaseBills.length ? (
             <FirstTimeFormToggle
-                  img={party}
-                  onClick={() => openForm()}
-                  BtnText="Add Your First Purchase Invoice"
-                  MiddleText="Make Purchase invoices & Print or share with your customers directly via WhatsApp or Email."
-                />
+               img={party}
+               onClick={() => openForm()}
+               BtnText="Add Your First Purchase Invoice"
+               MiddleText="Make Purchase invoices & Print or share with your customers directly via WhatsApp or Email."
+            />
          ) : (
             <div className="transactions-container">
                <div className="transactions-buttons">
@@ -99,7 +98,13 @@ const Transactions = ({func}) => {
                </section>
 
                {!store.isLoading && showAllPurchaseBills.length ? (
-                  showAllPurchaseBills.map((e) => (
+                  showAllPurchaseBills?.map((e) =>{
+
+                  
+                     console.log(e?.partyData)
+                     return (
+
+                   
                      <section className="transaction-tables">
                         <div className="transaction-table">
                            <p className="transaction-table ">
@@ -120,7 +125,10 @@ const Transactions = ({func}) => {
                            {/* <p></p> */}
                         </div>
                         <div className="transaction-table">
-                           <p className="transaction-table">{e?.partyData[0]?.partyName}</p>
+                           <p className="transaction-table">
+                           
+                                 {e?.partyData?.partyName}
+                           </p>
                         </div>
                         <div className="transaction-table">
                            <p className="transaction-table">Cash</p>
@@ -145,7 +153,7 @@ const Transactions = ({func}) => {
                            <DotsIcon />
                         </div>
                      </section>
-                  ))
+                  )})
                ) : (
                   <BasicSpinner
                      style={{

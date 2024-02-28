@@ -153,7 +153,7 @@ const Paymentouts = ({ func }) => {
                               <div className="table-items">{e.refNo}</div>
                            </th>
                            <th className="table-h">
-                              <div className="table-items">{e?.partyData[0]?.partyName}</div>
+                              <div className="table-items">{e?.partyData?.partyName}</div>
                            </th> 
                            <th className="table-h">
                               <div className="table-items">
