@@ -52,6 +52,7 @@ const EstimateForm = ({ setOpenForm }) => {
   const [estimateItems, setEstimatesItems] = useState([
     {
       itemName: "",
+      mainName: "",
       qty: "",
       unit: "",
       priceUnit: "",
@@ -72,6 +73,22 @@ const EstimateForm = ({ setOpenForm }) => {
     priceUnitWithTax: false,
     addDescription: "",
   });
+
+  //   Form Submission Function
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = {
+      ...estimateData,
+      customerName: currentCustomerData?._id || "",
+      customerId: currentCustomerData?._id || "",
+      estimate: estimateItems,
+      total: toggleRoundOff
+        ? Math.round(rowFooterData?.totalAmount)
+        : rowFooterData?.totalAmount,
+    };
+    PostEstimates(dispatch, data, setOpenForm, toast);
+    console.log("estimateData", data);
+  };
 
   // for fetching all parties list on form mount
   useEffect(() => {
@@ -119,23 +136,6 @@ const EstimateForm = ({ setOpenForm }) => {
     estimateItems[indexEstimateItem]?.amount,
   ]);
 
-  //   Form Submission Function
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const data = {
-      ...estimateData,
-      // customerName: currentCustomerData?.partyName || "",
-      customerName: currentCustomerData?._id || "",
-      customerId: currentCustomerData?._id || "",
-      estimate: estimateItems,
-      total: toggleRoundOff
-        ? Math.round(rowFooterData?.totalAmount)
-        : rowFooterData?.totalAmount,
-    };
-    PostEstimates(dispatch, data, setOpenForm, toast);
-    // console.log("estimateData", data });
-  };
-
   // Input Change Function
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -148,8 +148,8 @@ const EstimateForm = ({ setOpenForm }) => {
   const handleMenuItemClick = (index, itemDetail) => {
     let currSaleItem = {
       ...estimateItems[index],
-      itemId: itemDetail?._id,
-      itemName: itemDetail?.itemName,
+      itemName: itemDetail?._id,
+      mainName: itemDetail?.itemName,
       taxPersant: itemDetail?.taxRate.split("%")[0] || "",
     };
     let newSaleData = estimateItems.map((ite, ind) =>
@@ -163,6 +163,7 @@ const EstimateForm = ({ setOpenForm }) => {
     e.stopPropagation();
     let newRowData = {
       itemName: "",
+      mainName: "",
       qty: "",
       unit: "",
       priceUnit: "",

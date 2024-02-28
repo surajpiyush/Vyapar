@@ -122,7 +122,7 @@ export default function SalesEstimates() {
             </div>
           ) : (
             <div className="d-cen b-cont text-center">
-              {!(estimatesList.length > 0) ? (
+              {!(estimatesList?.length > 0) ? (
                 <div className="d-cen b-cont text-center">
                   <FirstTimeFormToggle
                     img={party}
