@@ -59,8 +59,12 @@ const salesSlice = createSlice({
       state.isLoading = false;
       state.togglePaymentIn = !state.togglePaymentIn;
     },
+    GET_PAYMENT_IN_SUCCESS: (state, action) => {
+      state.isLoading = false;
+      state.paymentInList = action.payload;
+    },
 
-    // Sale Order ------------------------------------------------------
+    // SALE ORDER ------------------------------------------------------
     POST_SALE_ORDER_SUCCESS: (state) => {
       state.isLoading = false;
       state.toggleSaleOrder = !state.toggleSaleOrder;
@@ -100,6 +104,7 @@ export const {
   GET_ESTIMATE_SUCCESS,
 
   POST_PAYMENT_IN_SUCCESS,
+  GET_PAYMENT_IN_SUCCESS,
 
   POST_SALE_ORDER_SUCCESS,
   GET_All_SALE_ORDER_SUCCESS,

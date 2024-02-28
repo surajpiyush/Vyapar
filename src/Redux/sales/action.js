@@ -7,6 +7,7 @@ import {
   POST_ESTIMATE_SUCCESS,
   GET_ESTIMATE_SUCCESS,
   POST_PAYMENT_IN_SUCCESS,
+  GET_PAYMENT_IN_SUCCESS,
   POST_SALE_ORDER_SUCCESS,
   GET_All_SALE_ORDER_SUCCESS,
   POST_DELIVERY_CHALLAN_SUCCESS,
@@ -169,6 +170,26 @@ export const PostPaymentIn = async (dispatch, data, closeForm, toast) => {
   }
 };
 
+// Get All Payment-In Data Request
+export const GetAllPaymentIn = async (dispatch, startDate, endDate) => {
+  dispatch(IS_LOADING());
+  try {
+    const response = await axios.get(
+      `${API_URL}/${firmId}/sale/salePaymentIn/getAll?startDate=${startDate}&endDate=${endDate}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token} `,
+        },
+      }
+    );
+    // console.log("Get All Payment-In Response:", response?.data);
+    dispatch(GET_PAYMENT_IN_SUCCESS(response?.data?.data));
+  } catch (error) {
+    dispatch(IS_ERROR());
+    console.log("Error Getting All Payment-In Orders:", error);
+  }
+};
+
 // --------------------------------------- SALE ORDER ------------------------------------
 // Post Sale Order Request
 export const PostSaleOrder = async (dispatch, data, setOpenForm, toast) => {
@@ -185,7 +206,7 @@ export const PostSaleOrder = async (dispatch, data, setOpenForm, toast) => {
         },
       }
     );
-    console.log("Post Sale Order Response:", response?.data);
+    // console.log("Post Sale Order Response:", response?.data);
     dispatch(POST_SALE_ORDER_SUCCESS());
     setOpenForm(false);
     toast({
@@ -202,6 +223,28 @@ export const PostSaleOrder = async (dispatch, data, setOpenForm, toast) => {
       position: "top",
     });
     console.log("Error Post Sale Order:", error);
+  }
+};
+
+// Post Sale Order Request
+export const GetAllSaleOrders = async (dispatch) => {
+  dispatch(IS_LOADING());
+  const startDate = "2024-02-01";
+  const endDate = new Date().toISOString().split("T")[0];
+  try {
+    const response = await axios.get(
+      `${API_URL}/${firmId}/sale/saleOrder/getAll?startDate=${startDate}&endDate=${endDate}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token} `,
+        },
+      }
+    );
+    // console.log("Get All Sale Orders Response:", response?.data);
+    dispatch(GET_All_SALE_ORDER_SUCCESS(response?.data?.data));
+  } catch (error) {
+    dispatch(IS_ERROR());
+    console.log("Error Getting All Sale Orders:", error);
   }
 };
 
