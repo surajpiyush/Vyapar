@@ -12,7 +12,8 @@ import {
   GET_All_SALE_ORDER_SUCCESS,
   POST_DELIVERY_CHALLAN_SUCCESS,
   GET_ALL_DELIVERY_CHALLAN_SUCCESS,
-  POST_SALES_RETURNS_SUCCESS,
+  POST_CREDIT_NOTE_SUCCESS,
+  GET_ALL_CREDIT_NOTES_SUCCESS,
 } from "./reducer";
 
 import axios from "axios";
@@ -271,7 +272,7 @@ export const PostDeliveryChallan = async (
       }
     );
 
-    console.log("Post Delivery Challan Response:", response?.data);
+    // console.log("Post Delivery Challan Response:", response?.data);
     dispatch(POST_DELIVERY_CHALLAN_SUCCESS());
     setOpenForm(false);
     toast({
@@ -306,7 +307,7 @@ export const GetAllDeliveryChallans = async (dispatch) => {
         },
       }
     );
-    console.log("Getting All Delivery Challans Response:", response?.data);
+    // console.log("Getting All Delivery Challans Response:", response?.data);
     dispatch(GET_ALL_DELIVERY_CHALLAN_SUCCESS(response?.data?.data));
   } catch (error) {
     dispatch(IS_ERROR());
@@ -314,41 +315,61 @@ export const GetAllDeliveryChallans = async (dispatch) => {
   }
 };
 
-// ********************************************************************************************
-// ********************************************************************************************
-// ********************************************************************************************
-// ********************************************************************************************
-// ********************************************************************************************
-// ********************************************************************************************
-// ********************************************************************************************
-// ********************************************************************************************
-// ********************************************************************************************
-
-// Post Sales Return Request
-export const PostSalesReturn = async (dispatch, data) => {
+// --------------------------------------- SALE RETURN / CREDIT NOTE ------------------------------------
+// Post Credit Note Request
+export const PostCreditNote = async (dispatch, data, setOpenForm, toast) => {
   dispatch(IS_LOADING());
-  const userId = localStorage.getItem("userId");
-  const token = localStorage.getItem("token");
+  toast.closeAll();
 
   try {
     const response = await axios.post(
-      `https://ca-backend-api.onrender.com/${userId}/sale/saleReturnCredit`,
+      `${API_URL}/${firmId}/sale/saleReturnCredit`,
       data,
+      {
+        headers: {
+          Authorization: `Bearer ${token} `,
+          // "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    // console.log("Post Credit Note Response:", response?.data);
+    dispatch(POST_CREDIT_NOTE_SUCCESS());
+    setOpenForm(false);
+    toast({
+      title: "Credit Note Added ✔️",
+      status: "success",
+      position: "top",
+    });
+  } catch (error) {
+    dispatch(IS_ERROR());
+    toast({
+      title: "Something Went Wrong!",
+      description: error?.response?.data?.message || "",
+      status: "error",
+      position: "top",
+    });
+    console.log("Error Post Credit Note:", error);
+  }
+};
+
+// Get All Credit Notes Request
+export const GetAllCreditNotes = async (dispatch, startDate, endDate) => {
+  dispatch(IS_LOADING());
+
+  try {
+    const response = await axios.get(
+      `${API_URL}/${firmId}/sale/saleReturnCredit/getAll?startDate=${startDate}&endDate=${endDate}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
     );
-    //  console.log("Post Sales Returns Response:", response?.data);
-
-    dispatch(POST_SALES_RETURNS_SUCCESS());
-    alert("Sales Returns Added ✔️");
+    console.log("Getting All Credit Notes Response:", response?.data);
+    dispatch(GET_ALL_CREDIT_NOTES_SUCCESS(response?.data?.data));
   } catch (error) {
     dispatch(IS_ERROR());
-    console.log("Post Sales Returns Response:", error);
-    alert(error?.response?.data?.message || "Something Went Wrong!");
+    console.log("Error Getting All Credit Notes:", error);
   }
 };
-
-// Post Sales Return Request
