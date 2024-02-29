@@ -1,7 +1,6 @@
 import css from "../../../styles/SalesStyles/SalesForms.module.css";
 import ItemsForm from "../../../components/addForm/ItemsForm";
 import ItemsTableBody from "./Purchase";
-import { PostSalesInvoice } from "../../../Redux/sales/action";
 import { GetAllItems } from "../../../Redux/items/actions";
 import { FetchAllParties } from "../../../Redux/parties/actions";
 
@@ -39,9 +38,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
    const getAllItemsLoading = useSelector(
       (state) => state.ItemReducer.getAllItemsLoading
    );
-   const invoicesList = useSelector((state) => state.SalesReducer.invoicesList);
    const items = useSelector((state) => state.ItemReducer.items);
-
    const [currentCustomerData, setCurrentCustomerData] = useState({});
    const [toggleDesc, setToggleDesc] = useState(false);
    const [toggleRoundOff, setToggleRoundOff] = useState(false);
@@ -55,7 +52,6 @@ const Addpurchaseitem = ({ setOpenForm }) => {
    const [indexSaleItem, setIndexSaleItem] = useState(0);
    const [rowFooterData, setRowFooterData] = useState({});
    const [showItemForm, setShowItemForm] = useState(false);
-   const [receiveAmount, setReceiveAmount] = useState("");
    const [balanceAmount, setBalanceAmount] = useState("");
 
    const [invoiceItems, setInvoiceItems] = useState([
@@ -266,13 +262,13 @@ const Addpurchaseitem = ({ setOpenForm }) => {
          itemCode: "",
          hsnCode: "",
          description: "Description of item 1",
-         count: "",
-         qty: "",
+         count: 0,
+         qty: 0,
          freeqty: "",
          unit: "",
-         priceUnit: "",
-         discountAmount: "",
-         discountpersant: "",
+         priceUnit: 0,
+         discountAmount: 0,
+         discountpersant: 0,
          taxPersant: "",
          amount: 0,
       };

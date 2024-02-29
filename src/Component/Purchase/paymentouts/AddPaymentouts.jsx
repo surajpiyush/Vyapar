@@ -1,19 +1,13 @@
 import css from "../../../styles/SalesStyles/SalesForms.module.css";
 import React, { useEffect, useState } from "react";
-
 import "./Paymentouts.css";
-
-import { addPayOut, addPurchaseBill } from "../../../Redux/purchase/action";
+import { addPayOut } from "../../../Redux/purchase/action";
 import { useDispatch, useSelector } from "react-redux";
 import { IoIosArrowDown as ArrowDown } from "react-icons/io";
 import { FiPlusCircle as PlusIcon } from "react-icons/fi";
-import { MdDelete as DeleteIcon } from "react-icons/md";
-import { TbArrowsMove as MoveIcon } from "react-icons/tb";
 import { AiFillFileAdd as AddDecriptionIcon } from "react-icons/ai";
 import { HiMiniDocumentText as AddDocumentIcon } from "react-icons/hi2";
 import { BiSolidCameraPlus as AddCameraIcon } from "react-icons/bi";
-import { ImCheckboxUnchecked as EmptyCheckedBox } from "react-icons/im";
-import { BiSolidCheckboxChecked as CheckedBox } from "react-icons/bi";
 import {
    Menu,
    MenuButton,
@@ -23,14 +17,9 @@ import {
    useToast,
 } from "@chakra-ui/react";
 
-// =================================================================
 import ItemsForm from "../../../components/addForm/ItemsForm";
-
-import { GetAllItems } from "../../../Redux/items/actions";
 import { FetchAllParties } from "../../../Redux/parties/actions";
-
 const AddPaymentouts = ({ setOpenForm }) => {
-   // ==========================================================================
    const toast = useToast();
    const dispatch = useDispatch();
    const isLoading = useSelector((state) => state.PurchaseReducer.isLoading);
@@ -41,28 +30,18 @@ const AddPaymentouts = ({ setOpenForm }) => {
       (state) => state.PartiesReducer.togglePartiesData
    );
    const partiesData = useSelector((state) => state.PartiesReducer.partiesData);
-   const toggleItems = useSelector((state) => state.ItemReducer.toggleItems);
-   const getAllItemsLoading = useSelector(
-      (state) => state.ItemReducer.getAllItemsLoading
-   );
-   const invoicesList = useSelector((state) => state.SalesReducer.invoicesList);
-   const items = useSelector((state) => state.ItemReducer.items);
 
    const [currentCustomerData, setCurrentCustomerData] = useState({});
    const [toggleDesc, setToggleDesc] = useState(false);
    const [toggleRoundOff, setToggleRoundOff] = useState(false);
-   const [toggleReceived, setToggleReceived] = useState(false);
    const [toggleCheckReferenceInp, setToggleCheckReferenceInp] =
       useState(false);
    const [paymentTypeSelectTag, setPaymentTypeSelectTag] = useState("Cash");
    const [checkReferenceInpval, setCheckReferenceInpval] = useState("");
    const [topMarginAddDescInp, setTopMarginAddDescInp] = useState("");
    const [showItemsListMenu, setShowItemsListMenu] = useState(false);
-   const [indexSaleItem, setIndexSaleItem] = useState(0);
    const [rowFooterData, setRowFooterData] = useState({});
    const [showItemForm, setShowItemForm] = useState(false);
-   const [receiveAmount, setReceiveAmount] = useState("");
-   const [balanceAmount, setBalanceAmount] = useState("");
 
    const [data, setData] = useState({
       type: "Purchase-Out",
@@ -97,17 +76,9 @@ const AddPaymentouts = ({ setOpenForm }) => {
    // Submit Request Function
    const handleSubmit = (e) => {
       e.preventDefault();
-      // const purchaseBillData = {
-      //    ...data,
-      //    //    priceUnitWithTax: data?.priceUnitWithTax == "true",
-      //    // sale: [...data.sale,],
-      // };
       console.log("data", data);
-
       dispatch(addPayOut(data));
-      // addPurchaseBill(dispatch(purchaseBillData))
       setOpenForm(false);
-      // PostSalesInvoice(dispatch, toast, data, setOpenForm);
    };
 
    // for fetching all parties list on form mount
@@ -280,7 +251,6 @@ const AddPaymentouts = ({ setOpenForm }) => {
                            zIndex: 600,
                         }}
                      >
-                        
                         <div style={{ position: "relative", zIndex: 600 }}>
                            <Menu
                               offset={[0, 0]}
@@ -341,7 +311,7 @@ const AddPaymentouts = ({ setOpenForm }) => {
                               </MenuList>
                            </Menu>
                         </div>
-                        
+
                         {toggleCheckReferenceInp && (
                            <div
                               className={css.inputDiv}
@@ -373,7 +343,6 @@ const AddPaymentouts = ({ setOpenForm }) => {
                            </div>
                         )}
                      </div>
-                    
                   </div>
 
                   {toggleDesc ? (

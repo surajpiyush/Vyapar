@@ -1,5 +1,5 @@
 import party from "../../../assets/Images/party.jpg";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./Paymentouts.css";
 import {
    DotsIcon,
@@ -28,33 +28,7 @@ const Paymentouts = ({ func }) => {
       dispatch(getPaymentOutBill({ date }));
    }, []);
    // console.log(data)
-   const postData = {
-      type: "Purchase-Out",
-      status: "Pending",
-      partyName: "Bhuvensh",
-      receiptNumber: "RO123",
-      date: "2024-02-16T00:00:00.000Z",
-      time: "10:00 AM",
-      description: "Purchase return of items",
-      paymentType: [
-         {
-            cash: 0,
-            cheque: {
-               refreanceNo: "REF123",
-               checkAmount: 150,
-            },
-            bankDetail: {
-               accountName: "ABC Bank",
-               openingBalance: 5000,
-               asOfDate: "2024-02-16T00:00:00.000Z",
-            },
-            default: "cheque",
-         },
-      ],
-      paid: 0,
-      discount: 0,
-      total: 0,
-   };
+  
    const openForm = () => {
       func(true);
    };
