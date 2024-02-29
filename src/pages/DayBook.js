@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReportSelector from "../components/ReportSelector";
 import { SiMicrosoftexcel } from "react-icons/si";
 import { MdOutlinePrint } from "react-icons/md";
 import ReportSearchBar from "../components/ReportSearchBar";
 import TableModel from "../components/TableModel";
+import { useDispatch, useSelector } from "react-redux";
+import { getDayBookReport } from "../Redux/report/action";
 
 const DayBook = () => {
   const optionType = ["All FIRMS", "MY COMPANY"];
@@ -31,6 +33,22 @@ const DayBook = () => {
     "AMOUNT",
     "BALANCE",
   ];
+
+
+  // const store = useSelector((store)=>store.ReportReducer)
+  // const data = store.saleReportData
+  // // console.log(data)   
+  // const date = {
+  //   startDate: "2023-01-20",
+  //   endDate: "2025-02-24",
+  // }
+
+  // const dispatch = useDispatch()
+  // useEffect(()=>{
+  //   dispatch(getDayBookReport({date}))
+  // },[])
+
+
 
   return (
     <>

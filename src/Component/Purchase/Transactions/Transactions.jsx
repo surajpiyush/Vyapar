@@ -11,7 +11,11 @@ import party from "../../../assets/Images/party.jpg";
 import { ImSpinner3 as BasicSpinner } from "react-icons/im";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getPurchaseBill } from "../../../Redux/purchase/action";
+import {
+   deletePurchaseBill,
+   getPurchaseBill,
+   updatePurchaseBill,
+} from "../../../Redux/purchase/action";
 import axios from "axios";
 import FirstTimeFormToggle from "../../FirstTimeFormToggle";
 import { getSaleReport } from "../../../Redux/report/action";
@@ -42,21 +46,26 @@ const Transactions = ({ func }) => {
    // console.log(store);
    useEffect(() => {
       dispatch(getPurchaseBill({ date }));
-      // dispatch(getSaleReport({ date }));
    }, []);
 
-
-
-   const handleDelete = (invoiceNumber) => {
+   const handleDelete = (id) => {
       // Filter the data to remove the item with the matching invoice number
-      const updatedPurchaseBills = showAllPurchaseBills.filter(
-         (bill) => bill.invoice !== invoiceNumber
-      );
-      alert("data removed")
-      showAllPurchaseBills = updatedPurchaseBills;
+     console.log(id)
+      dispatch(deletePurchaseBill(id))
+      // alert("data removed");
+      // showAllPurchaseBills = updatedPurchaseBills;
    };
 
-   console.log(showAllPurchaseBills);
+   const handelupadte = (e,data) => {
+      data.billDate = "2024-02-29T00:00:00.000Z";
+      console.log(e)
+      const id = e
+      // openForm()
+      dispatch(updatePurchaseBill({id,data}));
+   };
+   
+
+   // console.log(showAllPurchaseBills);
    return (
       <>
          {!store.isLoading && !showAllPurchaseBills.length ? (
@@ -170,9 +179,13 @@ const Transactions = ({ func }) => {
                               style={{ alignItem: "center" }}
                            >
                               <DeleteIcon
-                                 onClick={() => handleDelete(e.invoice)}
+                                 onClick={() => handleDelete(e._id)}
                               />
-                              <DotsIcon />
+                              <DotsIcon
+                                 onClick={() => {
+                                    handelupadte(e._id,e);
+                                 }}
+                              />
                            </div>
                         </section>
                      );

@@ -1,5 +1,6 @@
 import {
-
+   GET_ALLTRANSECTION_SUCCESS,
+   GET_DAYBOOK_SUCCESS,
    GET_PURCHASEREPORT_SUCCESS,
    GET_SALEREPORT_SUCCESS,
    PURCHASE_FAILURE,
@@ -13,9 +14,10 @@ const initialState = {
    isLoading: false,
    isFailed: false,
    isError: false,
-saleReportData:[],
-purchaseReportData:[],
-
+   saleReportData: [],
+   purchaseReportData: [],
+   dayBookData: [],
+   allTransectionsData: [],
 };
 
 export const reducer = (state = initialState, { type, payload }) => {
@@ -23,7 +25,7 @@ export const reducer = (state = initialState, { type, payload }) => {
       case REPORT_REQUEST: {
          return { ...state, isLoading: true };
       }
-      
+
       case GET_SALEREPORT_SUCCESS: {
          return {
             ...state,
@@ -39,6 +41,23 @@ export const reducer = (state = initialState, { type, payload }) => {
             purchaseReportData: payload.data,
          };
       }
+
+      case GET_DAYBOOK_SUCCESS: {
+         return {
+            ...state,
+            isLoading: false,
+            dayBookData: payload.data,
+         };
+      }
+
+      case GET_ALLTRANSECTION_SUCCESS: {
+         return {
+            ...state,
+            isLoading: false,
+            allTransectionsData: payload.data,
+         };
+      }
+
       case REPORT_FAILURE: {
          return { ...state, isLoading: false, isError: true };
       }

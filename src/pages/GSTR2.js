@@ -30,12 +30,32 @@ const GSTR2 = () => {
       "Invoice NO.",
       "Date",
       "Value",
-   ];
-   const SaletableHeader1 = ["Invoice Details"];
+      "",
+      "",
+      "",
+      "Integrated Tax",
+      "Central Tax",
+      "State/UT Tax",
+      ""
+    ];
+    const SaletableHeader1 = [
+      "",
+      "",
+      "Invoice Details",
+      "",
+      "",
+      "Tax Rate",
+      "Cess Rate",
+      "Taxable Value",
+      "",
+      "Amount",
+      "",
+      "Place of Supply (Name Of State)",
+    ];
 
    const store = useSelector((store) => store.ReportReducer);
    const data = store.purchaseReportData;
-   console.log(store);
+   console.log(data);
    const date = {
       startDate: "2023-01-20",
       endDate: "2025-02-24",

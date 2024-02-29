@@ -21,18 +21,20 @@ const Purchase = () => {
    ];
 
    const tableHeader = [
-      "DATE",
+      "INVOICE DATE",
       "INVOICE NO.",
       "PARTY NAME",
       "TRANSACTION TYPE",
       "PAYMENT TYPE",
       "AMOUNT",
       "BALANCE",
+      "DUE DATE",
+      "STATUS",
    ];
 
    const store = useSelector((store) => store.ReportReducer);
    const data = store.purchaseReportData.getPurchase;
-   console.log(data);
+   // console.log(data);
    const date = {
       startDate: "2023-01-20",
       endDate: "2025-02-24",

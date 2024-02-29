@@ -5,8 +5,8 @@ import { MdOutlinePrint } from "react-icons/md";
 import * as XLSX from "xlsx";
 
 const SaleDashboardHeader = ({data}) => {
-  const [tableData] = useState(data); // Using data directly as initial state
-
+  // const [tableData] = useState(data); // Using data directly as initial state
+const tableData = data;
   const saveTableData = (action) => {
      switch (action) {
         case "PRINT":
@@ -19,6 +19,7 @@ const SaleDashboardHeader = ({data}) => {
            const ws1 = XLSX.utils.json_to_sheet(tableData);
            const wb1 = XLSX.utils.book_new();
            XLSX.utils.book_append_sheet(wb1, ws1, "Sheet 1");
+           console.log(wb1)
            XLSX.writeFile(wb1, "tableData.xlsx");
            break;
         default:

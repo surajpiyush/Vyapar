@@ -32,13 +32,27 @@ const GSTR1 = () => {
     "Invoice NO.",
     "Date",
     "Value",
-    // "Integrated Tax",
-    // "Central Tax",
-    // "State/UT Tax",
+    "",
+    "",
+    "",
+    "Integrated Tax",
+    "Central Tax",
+    "State/UT Tax",
+    ""
   ];
   const SaletableHeader1 = [
+    "",
+    "",
     "Invoice Details",
-    
+    "",
+    "",
+    "Tax Rate",
+    "Cess Rate",
+    "Taxable Value",
+    "",
+    "Amount",
+    "",
+    "Place of Supply (Name Of State)",
   ];
 
   const SaleReturntableHeader2 = [
@@ -49,13 +63,38 @@ const GSTR1 = () => {
     "Note No.",
     "Note Date",
     "Value",
+    "",
+    "",
+    "",
     "Integrated Tax",
     "Central Tax",
     "State/UT Tax",
-    "Cess"
+    "Cess",
+    "",
+  
+
   ];
   const SaleReturntableHeader1 = [
+    "",
+    "",
+    "",
+
     "Cr. Note Details",
+    "",
+    "",
+    "",
+
+    "Tax Rate",
+    "Cess Rate",
+
+    "Taxable Value",
+    "",
+    "",
+
+    "Amount",
+    "",
+
+    "Place of Supply (Name Of State)",
   ];
 
 
@@ -74,7 +113,7 @@ const GSTR1 = () => {
 
   const store = useSelector((store)=>store.ReportReducer)
   const data = store.saleReportData
-  console.log(data)   
+  // console.log(data)   
   const date = {
     startDate: "2023-01-20",
     endDate: "2025-02-24",
