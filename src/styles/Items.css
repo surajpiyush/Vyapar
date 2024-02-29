@@ -20,7 +20,7 @@
 
 .input-cont {
   display: flex;
-  align-items: center;
+  align-items: flex-center;
   gap: 20px;
 }
 
@@ -32,7 +32,7 @@
 .save-btn-cont {
   display: flex;
   gap: 10px;
-  justify-content: end;
+  justify-content: flex-end;
   margin-top: 20px;
 }
 

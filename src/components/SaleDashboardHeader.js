@@ -1,9 +1,31 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { VscGraph } from "react-icons/vsc";
 import { SiMicrosoftexcel } from "react-icons/si";
 import { MdOutlinePrint } from "react-icons/md";
+import * as XLSX from "xlsx";
 
-const SaleDashboardHeader = () => {
+const SaleDashboardHeader = ({data}) => {
+  const [tableData] = useState(data); // Using data directly as initial state
+
+  const saveTableData = (action) => {
+     switch (action) {
+        case "PRINT":
+           // Trigger browser's print dialog
+           window.print();
+           break;
+
+        case "XLSX":
+           // Convert the data to XLSX format and save
+           const ws1 = XLSX.utils.json_to_sheet(tableData);
+           const wb1 = XLSX.utils.book_new();
+           XLSX.utils.book_append_sheet(wb1, ws1, "Sheet 1");
+           XLSX.writeFile(wb1, "tableData.xlsx");
+           break;
+        default:
+           console.warn("Unknown action:", action);
+     }
+  };
+
   return (
     <div className="sale-dashboard-header">
     <div className="sale-dashboard-menu">
@@ -31,11 +53,11 @@ const SaleDashboardHeader = () => {
         <VscGraph />
         <p>Graph</p>
       </div>
-      <div className="sale-dashboard-icon">
+      <div className="sale-dashboard-icon" onClick={() => saveTableData("XLSX")}>
         <SiMicrosoftexcel />
         <p>Excel</p>
       </div>
-      <div className="sale-dashboard-icon">
+      <div className="sale-dashboard-icon" onClick={() => saveTableData("PRINT")}>
         <MdOutlinePrint />
         <p>Print</p>
       </div>

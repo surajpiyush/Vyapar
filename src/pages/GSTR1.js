@@ -56,15 +56,10 @@ const GSTR1 = () => {
   ];
   const SaleReturntableHeader1 = [
     "Cr. Note Details",
-    "Tax Rate",
-    "Cess Rate",
-    "Taxable Value",
-    "Amount",
-    "Place of Supply (Name Of State)",
   ];
 
 
-  const data = [
+  const data1 = [
     {
       id: 1,
       invoiceNo: "001",
@@ -77,23 +72,23 @@ const GSTR1 = () => {
     },
   ];
 
-  // const store = useSelector((store)=>store.ReportReducer)
-  // const data = store.saleReportData
-  // // console.log(data)   
-  // const date = {
-  //   startDate: "2023-01-20",
-  //   endDate: "2025-02-24",
-  // }
+  const store = useSelector((store)=>store.ReportReducer)
+  const data = store.saleReportData
+  console.log(data)   
+  const date = {
+    startDate: "2023-01-20",
+    endDate: "2025-02-24",
+  }
 
-  // const dispatch = useDispatch()
-  // useEffect(()=>{
-  //   dispatch(getSaleReport({date}))
-  // },[])
+  const dispatch = useDispatch()
+  useEffect(()=>{
+    dispatch(getSaleReport({date}))
+  },[])
 
 
   return (
     <div>
-      <GSTRHearder isChecked={isChecked} check={check} />
+      <GSTRHearder isChecked={isChecked} check={check} data={data1} />
       <div>
         <div className="gstr-split-container">
           <div onClick={saleFun} className={`${sale ? "active" : ""}`}>

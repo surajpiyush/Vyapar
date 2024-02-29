@@ -13,7 +13,7 @@ const dataSale = [
     "partyName": "John Doe",
     "transactionType": "sale",
     "paymentType": "cash",
-    "amount" : 1000,
+    "amount" : 1500,
     "balance": 500,
   },
   // Add more transactions here
@@ -22,21 +22,24 @@ const dataSale = [
 
 const tableHeader = ["INVOICE DATE", "INVOICE NO.", "PARTY NAME", "TRANSACTION TYPE", "PAYMENT TYPE", "AMOUNT", "BALANCE","DUE DATE","STATUS"]
 const Sale = () => {
-  // const store = useSelector((store)=>store.ReportReducer)
-  // const data = store.saleReportData.getSale
-  // console.log(store)   
-  // const date = {
-  //   startDate: "2023-01-20",
-  //   endDate: "2025-02-24",
-  // }
-  // const dispatch = useDispatch()
-  // useEffect(()=>{
-  //   dispatch(getSaleReport({date}))
-  // },[])
+  const store = useSelector((store)=>store.ReportReducer)
+  const data = store.saleReportData.getSale
+  console.log(store)   
+  const date = {
+    startDate: "2023-01-20",
+    endDate: "2025-02-24",
+  }
+  const dispatch = useDispatch()
+  useEffect(()=>{
+    dispatch(getSaleReport({date}))
+  },[])
 
   return (
-    <SaleDashboard data={dataSale} tableHeader={tableHeader} btnText="Add Sale" />
+    <SaleDashboard data={data} tableHeader={tableHeader} btnText="Add Sale" />
   )
 }
 
 export default Sale
+
+
+

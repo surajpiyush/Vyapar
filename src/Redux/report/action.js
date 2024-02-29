@@ -30,11 +30,11 @@ export const getSaleReport =
             }
          )
          .then((res) => {
-            // console.log(res);
+            console.log(res);
             dispatch({ type: GET_SALEREPORT_SUCCESS, payload: res.data });
          })
          .catch((ERR) => {
-            // console.log(ERR);
+            console.log(ERR);
             // alert(`${ERR.response.data.msg}`);
             dispatch({ type: REPORT_FAILURE });
          });
@@ -51,7 +51,7 @@ export const getPurchaseReport =
 
       axios
          .get(
-            `${baseURL}/${companyID}/transctionReport/saleReport?startDate=${date.startDate}&endDate=${date.endDate}`,
+            `${baseURL}/${companyID}/transctionReport/purchaseReport?startDate=${date.startDate}&endDate=${date.endDate}`,
             {
                headers: {
                   Authorization: `Bearer ${token}`,

@@ -24,7 +24,7 @@ const TableModel = ({ tableHeader, data }) => {
                         {new Date(item.invoiceDate).toLocaleDateString("en-GB")}
                      </td>
                      <td>{item.invoiceNumber}</td>
-                     <td>{item.partyName}</td>
+                     <td>{item?.partyName}</td>
                      <td>{item.transactionType}</td>
                      <td>-</td>
                      <td>{item.amount}</td>

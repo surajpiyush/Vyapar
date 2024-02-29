@@ -3,8 +3,8 @@
   width: 100%;
   min-height: 75vh;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-center;
+  justify-content: flex-center;
   cursor: default;
 }
 .emptyDataImgDiv {
@@ -46,8 +46,8 @@
   z-index: 1500;
   background: var(--overlayBg);
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-center;
+  justify-content:flex- center;
 }
 .partyFormOuter {
   width: 60%;
@@ -63,8 +63,8 @@
   z-index: 1500;
   background: var(--overlayBg2);
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-center;
+  justify-content: flex-center;
 }
 .loader {
   width: 16px;
@@ -113,8 +113,8 @@
 /*  */
 .d-cen {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-center;
+  align-items: flex-center;
 }
 
 .d-flex {
@@ -139,7 +139,7 @@
   background-color: whitesmoke;
   color: #069ffe;
   display: flex;
-  align-items: center;
+  align-items: flex-center;
   justify-content: space-between;
   height: 60px;
   box-shadow: 2px 4px 7px grey;
@@ -187,11 +187,11 @@
   box-sizing: border-box;
 }
 
-.icon-cont {
-  height: 60px;
-  display: flex;
-  align-items: center;
-}
+  .icon-cont {
+    height: 60px;
+    display: flex;
+    align-items: center;
+  }
 
 .icon-cont i {
   margin: 0px 10px;
@@ -406,7 +406,7 @@ input[type="checkbox"] {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: flex-end;
   gap: 18px;
   font-size: 13px;
   font-weight: 600;

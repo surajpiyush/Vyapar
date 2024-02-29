@@ -11,7 +11,7 @@ const SaleDashboard = ({data,tableHeader,btnText}) => {
   return (
     <div className="sale-dashboard">
       {/* header */}
-        <SaleDashboardHeader/>
+        <SaleDashboardHeader data = {data}/>
 
       {/* Sale Dashboard Ammount */}
       <div className="sale-dashboard-ammount">

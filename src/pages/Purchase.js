@@ -30,21 +30,21 @@ const Purchase = () => {
       "BALANCE",
    ];
 
-  //  const store = useSelector((store) => store.ReportReducer);
-  //  const data = store.purchaseReportData;
-  //  console.log(store);
-  //  const date = {
-  //     startDate: "2023-01-20",
-  //     endDate: "2025-02-24",
-  //  };
-  //  const dispatch = useDispatch();
-  //  useEffect(() => {
-  //     dispatch(getPurchaseReport({ date }));
-  //  }, []);
+   const store = useSelector((store) => store.ReportReducer);
+   const data = store.purchaseReportData.getPurchase;
+   console.log(data);
+   const date = {
+      startDate: "2023-01-20",
+      endDate: "2025-02-24",
+   };
+   const dispatch = useDispatch();
+   useEffect(() => {
+      dispatch(getPurchaseReport({ date }));
+   }, []);
 
    return (
       <SaleDashboard
-         data={dataSale}
+         data={data}
          tableHeader={tableHeader}
          btnText="Add Purchase"
       />

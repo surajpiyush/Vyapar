@@ -102,10 +102,11 @@
 
 .company-section-2-div {
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   gap: 20px;
   align-items: center;
 }
+
 
 .company-section-2-div input {
   padding: 4px;
