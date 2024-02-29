@@ -143,10 +143,12 @@ const Transactions = ({ func }) => {
                               <p className="transaction-table">Cash</p>
                            </div>
                            <div className="transaction-table">
-                              <p className="transaction-table">0</p>
+                              <p className="transaction-table">{e.amount}</p>
                            </div>
                            <div className="transaction-table">
-                              <p className="transaction-table">0</p>
+                              <p className="transaction-table">
+                                 {e.status == "Paid" ? 0 : e.amount}
+                              </p>
                            </div>
                            <div className="transaction-table">
                               <p className="transaction-table">{e.status}</p>

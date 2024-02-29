@@ -140,7 +140,7 @@ const Purchasereturn = ({ func }) => {
                                  </div>
                               </th>
                               <th className="table-h">
-                                 <div className="table-items">-</div>
+                                 <div className="table-items">{e.type}</div>
                               </th>
                               <th className="table-h">
                                  <div className="table-items">

@@ -83,6 +83,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
          mfgDate: new Date(),
          customField: "Custom field 1",
          size: "Large",
+         "serialNo": "SN001"
       },
    ]);
    const [invoiceData, setInvoiceData] = useState({
@@ -189,7 +190,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
 
       dispatch(addPurchaseBill(purchaseBillData));
 
-      // setOpenForm(false);
+      setOpenForm(false);
    };
    // for fetching all parties list on form mount
    useEffect(() => {
@@ -204,10 +205,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
    //  for updating Firm Data
    useEffect(() => {
       let obj = {
-         customerName: currentCustomerData?._id || "",
-         billingName: currentCustomerData?.partyName || "",
          phoneNumber: currentCustomerData?.phoneNumber || "",
-         billingAddress: currentCustomerData?.billingAddress || "",
          balance: currentCustomerData?.openingBalance || "",
       };
       setInvoiceData((prev) => {
