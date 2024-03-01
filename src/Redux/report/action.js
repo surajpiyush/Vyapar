@@ -77,7 +77,7 @@ export const getSaleReport =
 
       axios
          .get(
-            `${baseURL}/${companyID}/transctionReport/saleReport?startDate=${date.startDate}&endDate=${date.endDate}`,
+            `${API_URL}/${FirmId}/transctionReport/saleReport?startDate=${date.startDate}&endDate=${date.endDate}`,
             {
                headers: {
                   Authorization: `Bearer ${token}`,
@@ -125,7 +125,7 @@ export const getPurchaseReport =
 
       axios
          .get(
-            `${baseURL}/${companyID}/transctionReport/purchaseReport?startDate=${date.startDate}&endDate=${date.endDate}`,
+            `${API_URL}/${FirmId}/transctionReport/purchaseReport?startDate=${date.startDate}&endDate=${date.endDate}`,
             {
                headers: {
                   Authorization: `Bearer ${token}`,
@@ -185,7 +185,7 @@ export const getAllTransections =
 
       axios
          .get(
-            `${baseURL}/${companyID}/transctionReport/allTractionReport?startDate=${date.startDate}&endDate=${date.endDate}`,
+            `${API_URL}/${FirmId}/transctionReport/allTractionReport?startDate=${date.startDate}&endDate=${date.endDate}`,
             {
                headers: {
                   Authorization: `Bearer ${token}`,
