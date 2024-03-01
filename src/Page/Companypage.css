@@ -107,7 +107,6 @@
   align-items: center;
 }
 
-
 .company-section-2-div input {
   padding: 4px;
   max-width: 150px;
@@ -189,7 +188,7 @@
   border-radius: 0 0 5px;
   background-color: white;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   align-items: center;
   gap: 20px;
 }

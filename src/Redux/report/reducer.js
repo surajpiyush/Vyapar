@@ -1,15 +1,14 @@
 import {
-   GET_ALLTRANSECTION_SUCCESS,
-   GET_DAYBOOK_SUCCESS,
-   GET_PURCHASEREPORT_SUCCESS,
-   GET_SALEREPORT_SUCCESS,
-   PURCHASE_FAILURE,
-   PURCHASE_REQUEST,
-   REPORT_FAILURE,
-   REPORT_REQUEST,
+  GET_ALLTRANSECTION_SUCCESS,
+  GET_DAYBOOK_SUCCESS,
+  GET_PURCHASEREPORT_SUCCESS,
+  GET_SALEREPORT_SUCCESS,
+  REPORT_FAILURE,
+  REPORT_REQUEST,
 } from "./actionTypes";
 
 const initialState = {
+
    // partiesData: [],
    isLoading: false,
    isFailed: false,
@@ -47,35 +46,35 @@ export const reducer = (state = initialState, { type, payload,tax,integratedTax,
          };
       }
 
-      case GET_PURCHASEREPORT_SUCCESS: {
-         return {
-            ...state,
-            isLoading: false,
-            purchaseReportData: payload.data,
-         };
-      }
+    case GET_PURCHASEREPORT_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        purchaseReportData: payload.data,
+      };
+    }
 
-      case GET_DAYBOOK_SUCCESS: {
-         return {
-            ...state,
-            isLoading: false,
-            dayBookData: payload.data,
-         };
-      }
+    case GET_DAYBOOK_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        dayBookData: payload.data,
+      };
+    }
 
-      case GET_ALLTRANSECTION_SUCCESS: {
-         return {
-            ...state,
-            isLoading: false,
-            allTransectionsData: payload.data,
-         };
-      }
+    case GET_ALLTRANSECTION_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        allTransectionsData: payload.data,
+      };
+    }
 
-      case REPORT_FAILURE: {
-         return { ...state, isLoading: false, isError: true };
-      }
-      default: {
-         return state;
-      }
-   }
+    case REPORT_FAILURE: {
+      return { ...state, isLoading: false, isError: true };
+    }
+    default: {
+      return state;
+    }
+  }
 };

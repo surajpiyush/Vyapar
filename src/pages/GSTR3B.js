@@ -73,14 +73,14 @@ const GSTR3B = () => {
          Cess: 0,
       },
       {
-        id: 1,
-        natureOfSupplies: "Total",
-        taxableValue: saleTax + saleTaxReturn,
-        integratedTax: integratedTax + integratedTaxReturn,
-        centralTax: tax + taxReturn,
-        stateTax: tax + taxReturn,
-        Cess: cessTax + cessTaxReturn,
-     },
+         id: 1,
+         natureOfSupplies: "Total",
+         taxableValue: saleTax + saleTaxReturn,
+         integratedTax: integratedTax + integratedTaxReturn,
+         centralTax: tax + taxReturn,
+         stateTax: tax + taxReturn,
+         Cess: cessTax + cessTaxReturn,
+      },
    ];
 
    const tableHeader1 = [

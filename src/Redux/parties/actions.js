@@ -3,7 +3,6 @@ import {
   FETCH_PARTIES_LOADING,
   FETCH_PARTIES_ERROR,
   FETCH_PARTIES_SUCCESS,
-  CHANGE_CURRENT_PARTY,
   SAVE_PARTY_LOADING,
   SAVE_PARTY_ERROR,
   SAVE_PARTY_SUCCESS,
@@ -17,21 +16,20 @@ import {
 
 import axios from "axios";
 
+const API_URL = "https://ca-backend-api.onrender.com";
+const token = localStorage.getItem("token");
+const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+
 // ----------------------- Fetch All Parties Data Function ---- Didn't applied function curring due to thunk error in store.js
 export const FetchAllParties = async (dispatch) => {
   dispatch({ type: FETCH_PARTIES_LOADING });
-  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
-  const token = localStorage.getItem("token");
-  // console.log("firmId", firmId);
+
   try {
-    const response = await axios.get(
-      `https://ca-backend-api.onrender.com/${firmId}/party/getAll`,
-      {
-        headers: {
-          Authorization: `Bearer ${token} `,
-        },
-      }
-    );
+    const response = await axios.get(`${API_URL}/${FirmId}/party/getAll`, {
+      headers: {
+        Authorization: `Bearer ${token} `,
+      },
+    });
 
     // console.log("Parties Data:", response?.data);
     dispatch({ type: FETCH_PARTIES_SUCCESS, payload: response?.data?.data });
@@ -45,19 +43,14 @@ export const FetchAllParties = async (dispatch) => {
 export const SaveParty = async (dispatch, data, setPartyFormToggle, toast) => {
   toast.closeAll();
   dispatch({ type: SAVE_PARTY_LOADING });
-  const companyID = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
-  const token = localStorage.getItem("token");
 
   try {
-    const response = await axios.post(
-      `https://ca-backend-api.onrender.com/${companyID}/party`,
-      data,
-      {
-        headers: {
-          Authorization: `Bearer ${token} `,
-        },
-      }
-    );
+    // prettier-ignore
+    const response = await axios.post(`${API_URL}/${FirmId}/party`, data, { // eslint-disable-line no-unused-vars
+      headers: {
+        Authorization: `Bearer ${token} `,
+      },
+    });
     // console.log("Save Party Response:", response?.data);
     dispatch({ type: SAVE_PARTY_SUCCESS });
     toast({ title: "Party Added", status: "success", position: "top" });
@@ -81,19 +74,14 @@ export const GetCurrentPartyData = async (
   setPartyFormToggle
 ) => {
   dispatch({ type: SAVE_PARTY_LOADING });
-  const companyID = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
-  const token = localStorage.getItem("token");
 
   try {
-    const response = await axios.post(
-      `https://ca-backend-api.onrender.com/${companyID}/party`,
-      data,
-      {
-        headers: {
-          Authorization: `Bearer ${token} `,
-        },
-      }
-    );
+    // prettier-ignore
+    const response = await axios.post(`${API_URL}/${FirmId}/party`, data, { // eslint-disable-line no-unused-vars
+      headers: {
+        Authorization: `Bearer ${token} `,
+      },
+    });
     // console.log("Save Party Response:", response?.data);
 
     dispatch({ type: SAVE_PARTY_SUCCESS });
@@ -109,15 +97,12 @@ export const GetCurrentPartyData = async (
 // ------------------------- Save Party Function ---- Didn't applied function curring due to thunk error in store.js
 export const GetAllGroups = async (dispatch, data, setPartyFormToggle) => {
   dispatch({ type: SAVE_PARTY_LOADING });
-  // const { userId, token } = JSON.parse(localStorage.getItem(USER_DETAILS));
-  const userId = localStorage.getItem("userId");
-  const token = localStorage.getItem("token");
 
   // This request needs to be edited
 
   try {
     const response = await axios.post(
-      `https://ca-backend-api.onrender.com/${userId}/party`,
+      `https://ca-backend-api.onrender.com/${FirmId}/party`,
       data,
       {
         headers: {
@@ -259,7 +244,6 @@ export const postPurchaseOut = (postData) => async (dispatch) => {
 
 // *************************************************
 
-const getAllPurchaseOutUrl = `https://ca-backend-api.onrender.com/65c5d0d209b34ca8a018749d/purchaseOut/getAll`;
 const getAllPurchaseOutReq = () => ({ type: PARTIES_PAYMENT_OUT_REQUEST });
 const getAllPurchaseOutSucc = (payload) => ({
   type: PARTIES_PAYMENT_OUT_SUCCESS,

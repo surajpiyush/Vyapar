@@ -13,17 +13,17 @@ import {
 } from "./actionTypes";
 import { USER_DETAILS } from "../business/actionTypes";
 
-const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+const API_URL = "https://ca-backend-api.onrender.com";
 const token = localStorage.getItem("token");
 const userId = localStorage.getItem("userId");
-const baseURL = "https://ca-backend-api.onrender.com";
+const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
 export const addItem = (newItem, closeForm, toast) => async (dispatch) => {
   toast.closeAll();
   dispatch({ type: ITEM_REQUEST });
   try {
     const response = await axios.post(
-      `${baseURL}/${firmId}/insertItem`,
+      `${API_URL}/${FirmId}/insertItem`,
       newItem,
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -59,7 +59,7 @@ export const getitems = () => async (dispatch) => {
   }
 
   axios
-    .get(`${baseURL}/${userId}/item/allItem`, {
+    .get(`${API_URL}/${userId}/item/allItem`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -78,9 +78,6 @@ export const getitems = () => async (dispatch) => {
 // Get Single item
 export const GetSingleItem = async (dispatch, itemId) => {
   dispatch({ type: LOADING_SINGLE_ITEM });
-  const token = localStorage.getItem("token");
-  const userId = localStorage.getItem("userId");
-  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
   try {
     const response = await axios.get(
@@ -103,8 +100,6 @@ export const GetSingleItem = async (dispatch, itemId) => {
 // Get All items List
 export const GetAllItems = () => async (dispatch) => {
   dispatch({ type: LOADING_GET_ALL_ITEMS });
-  const token = localStorage.getItem("token");
-  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
   try {
     const response = await axios.get(

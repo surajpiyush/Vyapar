@@ -1,23 +1,8 @@
-import React, { useEffect } from "react";
-import invoice from "../img/invoice.png";
-import CraeteModel from "../components/CraeteModel";
 import SaleDashboard from "../components/SaleDashboard";
-import { useDispatch, useSelector } from "react-redux";
 import { getSaleReport } from "../Redux/report/action";
 
-const dataSale = [
-   {
-      id: 1,
-      invoiceNo: "001",
-      date: "2024-02-09",
-      partyName: "John Doe",
-      transactionType: "sale",
-      paymentType: "cash",
-      amount: 1500,
-      balance: 500,
-   },
-   // Add more transactions here
-];
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const tableHeader = [
    "#",
