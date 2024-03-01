@@ -95,7 +95,7 @@ export const SidebarItems = [
       { name: "GSTR 2", Icon: <PlusIcon />, navigateurl: "/gstr2report" },
       { name: "GSTR 3B", Icon: <PlusIcon />, navigateurl: "/gstr3breport" },
       { name: "GSTR 9", Icon: <PlusIcon />, navigateurl: "/gstr9report" },
-      { name: "Sale HSN", Icon: <PlusIcon />, navigateurl: "/salehsnreport" },
+      { name: "Sale HSN", Icon: <PlusIcon />, navigateurl: "/hsnreport" },
     ],
   },
 ];

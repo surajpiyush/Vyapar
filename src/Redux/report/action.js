@@ -28,14 +28,14 @@ const RintegratedTaxCal = (data) => {
   if (data) {
     RintegratedTax = data.reduce((acc, e) => acc + Number(e.integreatedTax), 0);
   }
-  console.log(integratedTax);
+  // console.log("integratedTax", integratedTax);
 };
 
 const RcessTaxCal = (data) => {
   if (data) {
     RcessTax = data.reduce((acc, e) => acc + Number(e.cess), 0);
   }
-  console.log(cessTax);
+  // console.log("cessTax",cessTax);
 };
 
 let totalTax = 0;
@@ -48,30 +48,26 @@ const taxTotal = (data) => {
     totalTax = data.reduce((acc, e) => acc + e.taxableValue, 0);
   }
 
-  // console.log(totalTax);
+  console.log("totalTax", totalTax);
 };
 const integratedTaxCal = (data) => {
   if (data) {
     integratedTax = data.reduce((acc, e) => acc + Number(e.integreatedTax), 0);
   }
-  console.log(integratedTax);
+  console.log("integratedTax", integratedTax);
 };
 
 const cessTaxCal = (data) => {
   if (data) {
     cessTax = data.reduce((acc, e) => acc + Number(e.cess), 0);
   }
-  console.log(cessTax);
+  console.log("cessTax", cessTax);
 };
 
 export const getSaleReport =
   ({ date }) =>
   (dispatch) => {
     dispatch({ type: REPORT_REQUEST });
-    if (!token) {
-      dispatch({ type: REPORT_FAILURE });
-      return;
-    }
 
     axios
       .get(
@@ -83,11 +79,11 @@ export const getSaleReport =
         }
       )
       .then((res) => {
-        console.log(res);
+        console.log("get sale report reponse:", res);
+
         taxTotal(res?.data?.data?.getSale);
         integratedTaxCal(res?.data?.data?.getSale);
         cessTaxCal(res?.data?.data?.getSale);
-
         RtaxTotal(res?.data?.data?.getSaleReturn);
         RintegratedTaxCal(res?.data?.data?.getSaleReturn);
         RcessTaxCal(res?.data?.data?.getSaleReturn);
@@ -98,14 +94,13 @@ export const getSaleReport =
           tax: totalTax,
           integratedTax: integratedTax,
           cess: cessTax,
-
           Rtax: RtotalTax,
           RintegratedTax: RintegratedTax,
           Rcess: RcessTax,
         });
       })
       .catch((ERR) => {
-        console.log(ERR);
+        console.log("error sale report:", ERR);
         // alert(`${ERR.response.data.msg}`);
         dispatch({ type: REPORT_FAILURE });
       });
@@ -164,7 +159,7 @@ export const getDayBookReport =
         dispatch({ type: GET_DAYBOOK_SUCCESS, payload: res.data });
       })
       .catch((ERR) => {
-        console.log(ERR);
+        console.log("error getDayBookReport:", ERR);
         // alert(`${ERR.response.data.msg}`);
         dispatch({ type: REPORT_FAILURE });
       });
@@ -189,11 +184,11 @@ export const getAllTransections =
         }
       )
       .then((res) => {
-        // console.log(res);
+        console.log("get all transaction:", res);
         dispatch({ type: GET_ALLTRANSECTION_SUCCESS, payload: res.data });
       })
       .catch((ERR) => {
-        console.log(ERR);
+        console.log("getAllTransections", ERR);
         // alert(`${ERR.response.data.msg}`);
         dispatch({ type: REPORT_FAILURE });
       });
