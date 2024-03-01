@@ -45,7 +45,6 @@ const initialState = {
   openingBalance: "",
   asOfDate: "",
   creditLimit: "",
-  email: "",
 };
 
 export const reducer = (state = initialState, { type, payload, name }) => {

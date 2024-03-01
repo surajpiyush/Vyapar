@@ -9,22 +9,20 @@ import {
 
 import axios from "axios";
 
+const API_URL = `https://ca-backend-api.onrender.com`;
+const token = localStorage.getItem("token");
+
 // Company Register Request ---- Didn't applied function curring due to thunk error in store.js
 export const FetchAllCompanies = async (dispatch) => {
   dispatch({ type: ISLOADING });
-  const token = localStorage.getItem("token");
 
   try {
-    const response = await axios.get(
-      `https://ca-backend-api.onrender.com/firm_registration`,
-      {
-        headers: {
-          Authorization: `Bearer ${token} `,
-        },
-      }
-    );
+    const response = await axios.get(`${API_URL}/firm_registration`, {
+      headers: {
+        Authorization: `Bearer ${token} `,
+      },
+    });
     // console.log("Fetching All Companies Response:", response?.data);
-
     dispatch({
       type: FETCH_COMPANIES_SUCCESS,
       payload: response?.data?.data,
@@ -45,18 +43,13 @@ export const AddBusinessLoginRequest = async (
   setFormdata
 ) => {
   dispatch({ type: ISLOADING });
-  const token = localStorage.getItem("token");
 
   try {
-    const response = await axios.post(
-      "https://ca-backend-api.onrender.com/firm_registration",
-      data,
-      {
-        headers: {
-          Authorization: `Bearer ${token} `,
-        },
-      }
-    );
+    const response = await axios.post(`${API_URL}/firm_registration`, data, {
+      headers: {
+        Authorization: `Bearer ${token} `,
+      },
+    });
     console.log("Business Added", response?.data);
     let newCurrentCompanyData = response?.data?.FirmData;
     localStorage.setItem(USER_DETAILS, JSON.stringify(newCurrentCompanyData));
@@ -81,10 +74,10 @@ export const AddBusinessLoginRequest = async (
 // Update Company Profile ---- Didn't applied function curring due to thunk error in store.js
 export const UpdateCompanyProfile = async (dispatch, firmId, data) => {
   dispatch({ type: ISLOADING });
-  const token = localStorage.getItem("token");
   try {
-    const response = await axios.put(
-      `https://ca-backend-api.onrender.com/firm_registration/${firmId}`,
+    // prettier-ignore
+    const response = await axios.put( // eslint-disable-line no-unused-vars
+      `${API_URL}/firm_registration/${firmId}`,
       data,
       {
         headers: {
@@ -98,7 +91,7 @@ export const UpdateCompanyProfile = async (dispatch, firmId, data) => {
       ...prevousUserLSData,
       ...data,
     };
-    console.log("newUserLSData", newUserLSData);
+    // console.log("newUserLSData", newUserLSData);
     localStorage.setItem(USER_DETAILS, JSON.stringify(newUserLSData));
     // console.log("response", response.data);
     dispatch({ type: UPDATE_PROFILE_SUCCESS });

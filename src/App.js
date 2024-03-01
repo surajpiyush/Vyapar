@@ -17,7 +17,7 @@ function App() {
     if (!token) {
       navigate("/auth");
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const ignoreRoutes = ["/auth", "/company", "/business"];
 

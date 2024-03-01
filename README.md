@@ -1,7 +1,8 @@
-# Live Link : 
+# Live Link :
+
 ```
 https://ca-code-feb24.vercel.app
-````
+```
 
 ## Notes:
 
@@ -12,4 +13,16 @@ toPay: {
     type: String,
     enum: ["toRecive", "toPay"],
     },
+```
+
+## To ignore eslint warnings:
+
+```javascript
+// eslint-disable-line no-unused-vars
+```
+
+## To ignore prettier:
+
+```javascript
+// prettier-ignore
 ```
