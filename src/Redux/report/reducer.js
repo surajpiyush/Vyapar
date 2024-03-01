@@ -16,18 +16,23 @@ const initialState = {
   totalSaleTax: 0,
   integratedTax: 0,
   cessTax: 0,
-
   totalSaleTaxReturn: 0,
   integratedTaxReturn: 0,
   cessTaxReturn: 0,
   purchaseReportData: [],
   dayBookData: [],
   allTransectionsData: [],
+  purchasetotalSaleTax: 0,
+  purchaseintegratedTax: 0,
+  purchasecessTax: 0,
+  purchasetotalSaleTaxReturn: 0,
+  purchaseintegratedTaxReturn: 0,
+  purchasecessTaxReturn: 0,
 };
 
 export const reducer = (
   state = initialState,
-  { type, payload, tax, integratedTax, cess, Rtax, RintegratedTax, Rcess }
+  { type, payload, tax, integratedTax, cess, Rtax, RintegratedTax, Rcess,purchasetax, purchaseintegratedTax, purchasecess, purchaseRtax, purchaseRintegratedTax, purchaseRcess }
 ) => {
   switch (type) {
     case REPORT_REQUEST: {
@@ -45,6 +50,13 @@ export const reducer = (
         totalSaleTaxReturn: Rtax,
         integratedTaxReturn: RintegratedTax,
         cessTaxReturn: Rcess,
+        
+        purchasetotalSaleTax:  purchasetax,
+        purchaseintegratedTax:  purchaseintegratedTax,
+        purchasecessTax:  purchasecess,
+        purchasetotalSaleTaxReturn:  purchaseRtax,
+        purchaseintegratedTaxReturn:  purchaseRintegratedTax,
+        purchasecessTaxReturn:  purchaseRcess,
       };
     }
 

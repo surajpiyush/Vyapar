@@ -4,14 +4,14 @@ import { useState } from "react";
 
 const GSTR9 = () => {
   const [isChecked, setIsChecked] = useState(false);
-
+  const companyName = JSON.parse(localStorage.getItem("USER_DETAILS"))?.companyName;
   const check = () => {
     setIsChecked(!isChecked);
   };
 
   return (
     <div>
-      <GSTRHearder isChecked={isChecked} check={check} />
+      <GSTRHearder isChecked={isChecked} check={check} data={['Nothing to download']} />
       <div>
         <div>
           <span
@@ -54,7 +54,7 @@ const GSTR9 = () => {
               <tr>
                 <td>3A</td>
                 <td>Legal Name</td>
-                <td>My Company</td>
+                <td>{companyName}</td>
               </tr>
               <tr>
                 <td>3B</td>
