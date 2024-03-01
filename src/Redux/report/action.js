@@ -12,35 +12,32 @@ const API_URL = "https://ca-backend-api.onrender.com";
 const token = localStorage.getItem("token");
 const FirmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
 
+let totalTax = 0;
+let integratedTax = 0;
+let cessTax = 0;
 let RtotalTax = 0;
 let RintegratedTax = 0;
 let RcessTax = 0;
-const RtaxTotal = (data) => {
-  // const data = res?.data?.data?.getSale;
 
+const RtaxTotal = (data) => {
   if (data) {
     RtotalTax = data.reduce((acc, e) => acc + e.taxableValue, 0);
   }
-
-  // console.log(totalTax);
 };
 const RintegratedTaxCal = (data) => {
   if (data) {
     RintegratedTax = data.reduce((acc, e) => acc + Number(e.integreatedTax), 0);
   }
-  // console.log("integratedTax", integratedTax);
+  // console.log(RintegratedTax);
 };
 
 const RcessTaxCal = (data) => {
   if (data) {
     RcessTax = data.reduce((acc, e) => acc + Number(e.cess), 0);
   }
-  // console.log("cessTax",cessTax);
+  // console.log(RcessTax);
 };
 
-let totalTax = 0;
-let integratedTax = 0;
-let cessTax = 0;
 const taxTotal = (data) => {
   // const data = res?.data?.data?.getSale;
 
@@ -62,6 +59,58 @@ const cessTaxCal = (data) => {
     cessTax = data.reduce((acc, e) => acc + Number(e.cess), 0);
   }
   console.log("cessTax", cessTax);
+};
+
+// =========purchase ================
+
+let purchasetotalTax = 0;
+let purchaseintegratedTax = 0;
+let purchasecessTax = 0;
+let purchaseRtotalTax = 0;
+let purchaseRintegratedTax = 0;
+let purchaseRcessTax = 0;
+
+const purchaseRtaxTotal = (data) => {
+  if (data) {
+    purchaseRtotalTax = data.reduce((acc, e) => acc + e.taxableValue, 0);
+  }
+};
+const purchaseRintegratedTaxCal = (data) => {
+  if (data) {
+    purchaseRintegratedTax = data.reduce(
+      (acc, e) => acc + Number(e.integreatedTax),
+      0
+    );
+  }
+  // console.log(RintegratedTax);
+};
+
+const purchaseRcessTaxCal = (data) => {
+  if (data) {
+    purchaseRcessTax = data.reduce((acc, e) => acc + Number(e.cess), 0);
+  }
+  // console.log(RcessTax);
+};
+
+const purchasetaxTotal = (data) => {
+  if (data) {
+    purchasetotalTax = data.reduce((acc, e) => acc + e.taxableValue, 0);
+  }
+  // console.log(totalTax);
+};
+const purchaseintegratedTaxCal = (data) => {
+  if (data) {
+    purchaseintegratedTax = data.reduce(
+      (acc, e) => acc + Number(e.integreatedTax),
+      0
+    );
+  }
+};
+
+const purchasecessTaxCal = (data) => {
+  if (data) {
+    purchasecessTax = data.reduce((acc, e) => acc + Number(e.cess), 0);
+  }
 };
 
 export const getSaleReport =
@@ -125,7 +174,7 @@ export const getPurchaseReport =
         }
       )
       .then((res) => {
-        // console.log(res);
+        console.log(res);
 
         dispatch({ type: GET_PURCHASEREPORT_SUCCESS, payload: res.data });
       })
