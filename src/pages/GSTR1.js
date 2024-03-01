@@ -113,7 +113,7 @@ const GSTR1 = () => {
 
   const store = useSelector((store)=>store.ReportReducer)
   const data = store.saleReportData
-  // console.log(data)   
+  console.log(data)   
   const date = {
     startDate: "2023-01-20",
     endDate: "2025-02-24",
@@ -141,9 +141,9 @@ const GSTR1 = () => {
           </div>
         </div>
         <div>
-         {sale && data?.getSale.length && <GSTRsale tableHeader1={SaletableHeader1} tableHeader2={SaletableHeader2} data={data?.getSale}/>}
+         {sale && data?.getSale && <GSTRsale tableHeader1={SaletableHeader1} tableHeader2={SaletableHeader2} data={data?.getSale}/>}
          {saleReturn && data?.getSaleReturn && <GSTRsale tableHeader1={SaleReturntableHeader1} tableHeader2={SaleReturntableHeader2} data={data?.getSaleReturn}/>}
-         {saleReturn && !data.getSaleReturn.length && <h1> There no return data to display</h1>}
+         {saleReturn && !data?.getSaleReturn && <h1> There no return data to display</h1>}
         </div>
       </div>
     </div>

@@ -35,7 +35,7 @@ const tableHeader = [
 const Sale = () => {
    const store = useSelector((store) => store.ReportReducer);
    const data = store.saleReportData.getSale;
-   console.log(store);
+   // console.log(store);
    const date = {
       startDate: "2023-01-20",
       endDate: "2025-02-24",

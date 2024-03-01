@@ -15,12 +15,19 @@ const initialState = {
    isFailed: false,
    isError: false,
    saleReportData: [],
+   totalSaleTax :0,
+   integratedTax:0,
+   cessTax :0,
+
+   totalSaleTaxReturn :0,
+   integratedTaxReturn:0,
+   cessTaxReturn :0,
    purchaseReportData: [],
    dayBookData: [],
    allTransectionsData: [],
 };
 
-export const reducer = (state = initialState, { type, payload }) => {
+export const reducer = (state = initialState, { type, payload,tax,integratedTax,cess,Rtax,RintegratedTax,Rcess }) => {
    switch (type) {
       case REPORT_REQUEST: {
          return { ...state, isLoading: true };
@@ -31,6 +38,12 @@ export const reducer = (state = initialState, { type, payload }) => {
             ...state,
             isLoading: false,
             saleReportData: payload.data,
+            totalSaleTax :tax,
+            integratedTax:integratedTax,
+            cessTax:cess,
+            totalSaleTaxReturn :Rtax,
+            integratedTaxReturn:RintegratedTax,
+            cessTaxReturn:Rcess,
          };
       }
 
