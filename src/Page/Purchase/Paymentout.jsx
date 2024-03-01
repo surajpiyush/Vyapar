@@ -35,10 +35,14 @@ const Paymentout = () => {
    const formOpen = () => {
       setOpenForm(true);
    };
+   const date = { startDate: startDate, endDate: endDate };
 
    return (
       <div className="purchase-bill-container">
-         <Thismonth />
+         <Thismonth startDate={startDate}
+            endDate={endDate}
+            setStartDate={setStartDate}
+            setEndDate={setEndDate} />
          <div>
             <div>
                {openForm ? (
@@ -75,7 +79,7 @@ const Paymentout = () => {
                      <AddPaymentouts setOpenForm={setOpenForm} />
                   </div>
                ) : (
-                  <div>{!isLoading && <Paymentouts func={formOpen} />}</div>
+                  <div>{!isLoading && <Paymentouts func={formOpen} date = {date} />}</div>
                )}
             </div>
          </div>
