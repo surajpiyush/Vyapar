@@ -1,43 +1,41 @@
 .payment-out-container {
-    padding: 10px 10px 30px 10px;
-    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-    margin-top: 20px;
+  padding: 10px 10px 30px 10px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  margin-top: 20px;
 }
 
 .table {
-    width: 100%;
+  width: 100%;
 }
 
 .table-head {
-    width: 100%;
+  width: 100%;
 }
 
 .tabel-row {
-    display: flex;
-    /* justify-content: space-between; */
-    border: 1px solid gray;
-    width: 100%;
+  display: flex;
+  /* justify-content: space-between; */
+  border: 1px solid gray;
+  width: 100%;
 }
 
 .table-h {
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    border-right: 1px solid gray;
-    font-size: 14px;
-    padding: 10px 0;
-    
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-right: 1px solid gray;
+  font-size: 14px;
+  padding: 10px 0;
 }
 
-
 .payment-outs-footer {
-    padding: 20px 5px;
-    display: flex;
-    align-items: end;
-    justify-content: space-between;
+  padding: 20px 5px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
 }
 
 .payment-outs-footer span {
-    color: rgb(7, 185, 255);
+  color: rgb(7, 185, 255);
 }
