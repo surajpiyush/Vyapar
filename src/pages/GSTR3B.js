@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
-import GSTRHearder from '../components/GSTRHearder'
-import GSTRsale from '../components/GSTRsale';
+import GSTRHearder from "../components/GSTRHearder";
+
+import { useState } from "react";
 
 const GSTR3B = () => {
-
   const [isChecked, setIsChecked] = useState(false);
 
   const check = () => {
@@ -13,9 +12,10 @@ const GSTR3B = () => {
   const data1 = [
     {
       id: 1,
-      natureOfSupplies: "Outward taxable supplies (other than zero rated, nil rated and exempted)",
-      taxableValue	: 0,
-      integratedTax	: 0,
+      natureOfSupplies:
+        "Outward taxable supplies (other than zero rated, nil rated and exempted)",
+      taxableValue: 0,
+      integratedTax: 0,
       centralTax: 0,
       stateTax: 0,
       Cess: 0,
@@ -23,8 +23,8 @@ const GSTR3B = () => {
     {
       id: 1,
       natureOfSupplies: "Outward taxable supplies (zero rated)",
-      taxableValue	: 0,
-      integratedTax	: 0,
+      taxableValue: 0,
+      integratedTax: 0,
       centralTax: 0,
       stateTax: 0,
       Cess: 0,
@@ -32,8 +32,8 @@ const GSTR3B = () => {
     {
       id: 1,
       natureOfSupplies: "Other outward supplies (nil rated, exempted)",
-      taxableValue	: 0,
-      integratedTax	: 0,
+      taxableValue: 0,
+      integratedTax: 0,
       centralTax: 0,
       stateTax: 0,
       Cess: 0,
@@ -41,8 +41,8 @@ const GSTR3B = () => {
     {
       id: 1,
       natureOfSupplies: "Inward supplies (liable to reverse charge)",
-      taxableValue	: 0,
-      integratedTax	: 0,
+      taxableValue: 0,
+      integratedTax: 0,
       centralTax: 0,
       stateTax: 0,
       Cess: 0,
@@ -50,23 +50,24 @@ const GSTR3B = () => {
     {
       id: 1,
       natureOfSupplies: "Non-GST outward supplies",
-      taxableValue	: 0,
-      integratedTax	: 0,
+      taxableValue: 0,
+      integratedTax: 0,
       centralTax: 0,
       stateTax: 0,
       Cess: 0,
     },
   ];
-
-  const tableHeader1 = [
-    "Nature Of Supplies",
-    "Total Taxable Value",
-    "Integrated Tax",
-    "Central Tax",
-    "State/UT Tax	",
-    "Cess",
+  const data2 = [
+    {
+      placeOfSupplyStateUT: "",
+      totalTaxableValue: "",
+      amountOfIntegratedTax: "",
+      totalTaxableValue: "", // eslint-disable-line no-dupe-keys
+      amountOfIntegratedTax: "", // eslint-disable-line no-dupe-keys
+      totalTaxableValue: "", // eslint-disable-line no-dupe-keys
+      amountOfIntegratedTax: "", // eslint-disable-line no-dupe-keys
+    },
   ];
-
   const tableHeader2_1 = [
     "Supplies Made To Unregistered Persons",
     "Supplies Made To Composition Taxable Persons",
@@ -79,21 +80,8 @@ const GSTR3B = () => {
     "Total Taxable Value",
     "Amount Of Integrated Tax",
     "Total Taxable Value",
-    "Amount Of Integrated Tax"
+    "Amount Of Integrated Tax",
   ];
-  
-  const data2 = [
-    {
-        placeOfSupplyStateUT: "" ,
-        totalTaxableValue: "",
-        amountOfIntegratedTax: "",
-        totalTaxableValue: "",
-        amountOfIntegratedTax: "",
-        totalTaxableValue: "",
-        amountOfIntegratedTax: ""
-
-    }
-  ]
 
   const tableHeader3 = [
     "Details",
@@ -103,26 +91,36 @@ const GSTR3B = () => {
     "Cess",
   ];
 
-
   return (
     <div>
-        <GSTRHearder isChecked={isChecked} check={check} />
+      <GSTRHearder isChecked={isChecked} check={check} />
+      <div>
         <div>
-            <div>
-                <span style={{marginLeft:"10px",marginBottom: "20px",fontWeight:"bold"}}>GSTR 3 REPORT</span>
-            </div>
-            {/* table 1 */}
-            <div style={{margin:"20px 20px"}}>
-                <h5 style={{margin:"20px 20px"}}>1. Details of outward supplies and inward supplies liable to reverse charge</h5>
-            <table className="excel-like-table">
+          <span
+            style={{
+              marginLeft: "10px",
+              marginBottom: "20px",
+              fontWeight: "bold",
+            }}
+          >
+            GSTR 3 REPORT
+          </span>
+        </div>
+        {/* table 1 */}
+        <div style={{ margin: "20px 20px" }}>
+          <h5 style={{ margin: "20px 20px" }}>
+            1. Details of outward supplies and inward supplies liable to reverse
+            charge
+          </h5>
+          <table className="excel-like-table">
             <thead>
               <tr>
-                  <th>Nature Of Supplies</th>
-                  <th>Total Taxable Value</th>
-                  <th>Integrated Tax</th>
-                  <th>Central Tax</th>
-                  <th>State/UT Tax</th>
-                  <th>Cess</th>
+                <th>Nature Of Supplies</th>
+                <th>Total Taxable Value</th>
+                <th>Integrated Tax</th>
+                <th>Central Tax</th>
+                <th>State/UT Tax</th>
+                <th>Cess</th>
               </tr>
             </thead>
             <tbody>
@@ -138,11 +136,14 @@ const GSTR3B = () => {
               ))}
             </tbody>
           </table>
-            </div>
-            {/* table 2 */}
-            <div style={{margin:"20px 20px"}}>
-                <h5 style={{margin:"20px 20px"}}>2. Details of inter-State supplies made to unregistered persons, composition dealer and UIN holders</h5>
-            <table className="excel-like-table">
+        </div>
+        {/* table 2 */}
+        <div style={{ margin: "20px 20px" }}>
+          <h5 style={{ margin: "20px 20px" }}>
+            2. Details of inter-State supplies made to unregistered persons,
+            composition dealer and UIN holders
+          </h5>
+          <table className="excel-like-table">
             <thead>
               <tr>
                 {tableHeader2_1?.map((header) => (
@@ -169,11 +170,13 @@ const GSTR3B = () => {
               ))}
             </tbody>
           </table>
-            </div>
-            {/* table 3 */}
-            <div style={{margin:"20px 20px"}}>
-                <h5 style={{margin:"20px 20px"}}>3. Details of eligible Input Tax Credit</h5>
-            <table className="excel-like-table">
+        </div>
+        {/* table 3 */}
+        <div style={{ margin: "20px 20px" }}>
+          <h5 style={{ margin: "20px 20px" }}>
+            3. Details of eligible Input Tax Credit
+          </h5>
+          <table className="excel-like-table">
             <thead>
               <tr>
                 {tableHeader3?.map((header) => (
@@ -182,7 +185,9 @@ const GSTR3B = () => {
               </tr>
             </thead>
             <tbody>
-              <h6 style={{margin:"10px 0"}}>(A) ITC Available (whether in full or part)</h6>
+              <h6 style={{ margin: "10px 0" }}>
+                (A) ITC Available (whether in full or part)
+              </h6>
               <tr>
                 <td>(1) Import of goods</td>
                 <td>{0}</td>
@@ -198,7 +203,10 @@ const GSTR3B = () => {
                 <td>{0}</td>
               </tr>
               <tr>
-                <td>(3) Inward supplies liable to reverse charge (other than 1 & 2 above)</td>
+                <td>
+                  (3) Inward supplies liable to reverse charge (other than 1 & 2
+                  above)
+                </td>
                 <td>{0}</td>
                 <td>{0}</td>
                 <td>{0}</td>
@@ -218,7 +226,7 @@ const GSTR3B = () => {
                 <td>{0}</td>
                 <td>{0}</td>
               </tr>
-              <h6 style={{margin:"10px 0"}}>(D) Ineleigible ITC</h6>
+              <h6 style={{ margin: "10px 0" }}>(D) Ineleigible ITC</h6>
               <tr>
                 <td>(1) As per section 17(5)</td>
                 <td>{0}</td>
@@ -235,11 +243,13 @@ const GSTR3B = () => {
               </tr>
             </tbody>
           </table>
-            </div>
-            {/* table 4 */}
-            <div style={{margin:"20px 20px"}}>
-                <h5 style={{margin:"20px 20px"}}>4. Details of exempt, nil-rated and non-GST inward supplies</h5>
-            <table className="excel-like-table">
+        </div>
+        {/* table 4 */}
+        <div style={{ margin: "20px 20px" }}>
+          <h5 style={{ margin: "20px 20px" }}>
+            4. Details of exempt, nil-rated and non-GST inward supplies
+          </h5>
+          <table className="excel-like-table">
             <thead>
               <tr>
                 {tableHeader3?.map((header) => (
@@ -249,7 +259,10 @@ const GSTR3B = () => {
             </thead>
             <tbody>
               <tr>
-                <td>From a supplier under composition scheme, Exempt and Nil rated supply</td>
+                <td>
+                  From a supplier under composition scheme, Exempt and Nil rated
+                  supply
+                </td>
                 <td>{0}</td>
                 <td>{0}</td>
                 <td>{0}</td>
@@ -264,10 +277,10 @@ const GSTR3B = () => {
               </tr>
             </tbody>
           </table>
-            </div>
         </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default GSTR3B
+export default GSTR3B;

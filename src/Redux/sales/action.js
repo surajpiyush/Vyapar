@@ -20,7 +20,6 @@ import axios from "axios";
 
 const API_URL = `https://ca-backend-api.onrender.com`;
 const token = localStorage.getItem("token");
-const userId = localStorage.getItem("userId");
 const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
 // --------------------------------------- INVOICE ------------------------------------
@@ -30,7 +29,8 @@ export const PostSalesInvoice = async (dispatch, data, setOpenForm, toast) => {
   dispatch(IS_LOADING());
 
   try {
-    const response = await axios.post(
+    // prettier-ignore
+    const response = await axios.post( // eslint-disable-line no-unused-vars
       `${API_URL}/${firmId}/sale/create`,
       data,
       {
@@ -84,7 +84,8 @@ export const PostEstimates = async (dispatch, data, setOpenForm, toast) => {
   toast.closeAll();
 
   try {
-    const response = await axios.post(
+    // prettier-ignore
+    const response = await axios.post( // eslint-disable-line no-unused-vars
       `${API_URL}/${firmId}/sale/saleEstimate`,
       data,
       {
@@ -118,7 +119,8 @@ export const GetAllEstimates = async (dispatch, startDate, endDate) => {
   dispatch(IS_LOADING());
 
   try {
-    const response = await axios.get(
+    // prettier-ignore
+    const response = await axios.get( // eslint-disable-line no-unused-vars
       `${API_URL}/${firmId}/sale/saleEstimate/getAll?startDate=${startDate}&endDate=${endDate}`,
       {
         headers: {
@@ -141,7 +143,8 @@ export const PostPaymentIn = async (dispatch, data, closeForm, toast) => {
   toast.closeAll();
 
   try {
-    const response = await axios.post(
+    // prettier-ignore
+    const response = await axios.post( // eslint-disable-line no-unused-vars
       `${API_URL}/${firmId}/sale/salePaymentIn`,
       data,
       {
@@ -197,7 +200,8 @@ export const PostSaleOrder = async (dispatch, data, setOpenForm, toast) => {
   toast.closeAll();
 
   try {
-    const response = await axios.post(
+    // prettier-ignore
+    const response = await axios.post( // eslint-disable-line no-unused-vars
       `${API_URL}/${firmId}/sale/saleOrder`,
       data,
       {
@@ -260,7 +264,8 @@ export const PostDeliveryChallan = async (
   toast.closeAll();
 
   try {
-    const response = await axios.post(
+    // prettier-ignore
+    const response = await axios.post( // eslint-disable-line no-unused-vars
       `${API_URL}/${firmId}/sale/deliveryChallan`,
       data,
       {
@@ -319,7 +324,8 @@ export const PostCreditNote = async (dispatch, data, setOpenForm, toast) => {
   toast.closeAll();
 
   try {
-    const response = await axios.post(
+    // prettier-ignore
+    const response = await axios.post( // eslint-disable-line no-unused-vars
       `${API_URL}/${firmId}/sale/saleReturnCredit`,
       data,
       {
@@ -373,16 +379,10 @@ export const GetAllCreditNotes = async (dispatch, startDate, endDate) => {
 
 // This function takes a  date as param and returns it as DD/MM/YYYY
 export const FormatDate = (dateString) => {
-  // Convert the string to a Date object
   const date = new Date(dateString);
-
-  // Extract the year, month, and day from the Date object
   const year = date.getFullYear();
-  // Note: getMonth() returns 0-indexed months, so you need to add 1 to get the correct month
   const month = date.getMonth() + 1;
   const day = date.getDate();
-
-  // Format the date in the desired form
   const formattedDate = `${year}-${month < 10 ? "0" + month : month}-${
     day < 10 ? "0" + day : day
   }`;

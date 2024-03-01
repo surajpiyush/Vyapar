@@ -1,18 +1,15 @@
-import React from "react";
 import { FaPlus, FaEquals } from "react-icons/fa";
-import TableModel from "./TableModel";
 import SaleDashboardHeader from "./SaleDashboardHeader";
 import ReportSearchBar from "./ReportSearchBar";
 import ReportBtn from "./ReportBtn";
 import PurchaseTableModel from "./PurchaseTableModel";
-  
 
-const SaleDashboard = ({data,tableHeader,btnText}) => {
+const SaleDashboard = ({ data, tableHeader, btnText }) => {
   // console.log(data)
   return (
     <div className="sale-dashboard">
       {/* header */}
-        <SaleDashboardHeader data = {data}/>
+      <SaleDashboardHeader data={data} />
 
       {/* Sale Dashboard Ammount */}
       <div className="sale-dashboard-ammount">
@@ -36,15 +33,13 @@ const SaleDashboard = ({data,tableHeader,btnText}) => {
       <div className="sale-dashboard-search">
         <span>TRANSACTIONS</span>
         <div>
-            <ReportSearchBar/>
-            <ReportBtn btnText={btnText}/>
+          <ReportSearchBar />
+          <ReportBtn btnText={btnText} />
         </div>
       </div>
 
       {/* Table */}
-        <PurchaseTableModel tableHeader={tableHeader} data={data}/>
-
-
+      <PurchaseTableModel tableHeader={tableHeader} data={data} />
     </div>
   );
 };

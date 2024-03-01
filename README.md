@@ -15,6 +15,12 @@ toPay: {
     },
 ```
 
+## To find all eslint warnings:
+
+```javascript
+npx eslint .
+```
+
 ## To ignore eslint warnings:
 
 ```javascript

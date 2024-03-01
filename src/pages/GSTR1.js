@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { BsFiletypeJson, BsFiletypeXlsx } from "react-icons/bs";
-import { MdOutlinePrint } from "react-icons/md";
-import GSTRHearder from "../components/GSTRHearder";
 import GSTRsale from "../components/GSTRsale";
-import { useDispatch, useSelector } from "react-redux";
+import GSTRHearder from "../components/GSTRHearder";
 import { getSaleReport } from "../Redux/report/action";
+
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const GSTR1 = () => {
   const [isChecked, setIsChecked] = useState(false);
@@ -38,7 +37,7 @@ const GSTR1 = () => {
     "Integrated Tax",
     "Central Tax",
     "State/UT Tax",
-    ""
+    "",
   ];
   const SaletableHeader1 = [
     "",
@@ -71,8 +70,6 @@ const GSTR1 = () => {
     "State/UT Tax",
     "Cess",
     "",
-  
-
   ];
   const SaleReturntableHeader1 = [
     "",
@@ -97,7 +94,6 @@ const GSTR1 = () => {
     "Place of Supply (Name Of State)",
   ];
 
-
   const data1 = [
     {
       id: 1,
@@ -111,19 +107,18 @@ const GSTR1 = () => {
     },
   ];
 
-  const store = useSelector((store)=>store.ReportReducer)
-  const data = store.saleReportData
-  // console.log(data)   
+  const store = useSelector((store) => store.ReportReducer);
+  const data = store.saleReportData;
+  // console.log(data)
   const date = {
     startDate: "2023-01-20",
     endDate: "2025-02-24",
-  }
+  };
 
-  const dispatch = useDispatch()
-  useEffect(()=>{
-    dispatch(getSaleReport({date}))
-  },[])
-
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getSaleReport({ date }));
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div>
@@ -141,9 +136,23 @@ const GSTR1 = () => {
           </div>
         </div>
         <div>
-         {sale && data?.getSale.length && <GSTRsale tableHeader1={SaletableHeader1} tableHeader2={SaletableHeader2} data={data?.getSale}/>}
-         {saleReturn && data?.getSaleReturn && <GSTRsale tableHeader1={SaleReturntableHeader1} tableHeader2={SaleReturntableHeader2} data={data?.getSaleReturn}/>}
-         {saleReturn && !data.getSaleReturn.length && <h1> There no return data to display</h1>}
+          {sale && data?.getSale.length && (
+            <GSTRsale
+              tableHeader1={SaletableHeader1}
+              tableHeader2={SaletableHeader2}
+              data={data?.getSale}
+            />
+          )}
+          {saleReturn && data?.getSaleReturn && (
+            <GSTRsale
+              tableHeader1={SaleReturntableHeader1}
+              tableHeader2={SaleReturntableHeader2}
+              data={data?.getSaleReturn}
+            />
+          )}
+          {saleReturn && !data.getSaleReturn.length && (
+            <h1> There no return data to display</h1>
+          )}
         </div>
       </div>
     </div>

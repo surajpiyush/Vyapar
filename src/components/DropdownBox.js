@@ -1,7 +1,4 @@
-import React, { useState } from 'react';
-import { Dropdown } from 'react-bootstrap';
-
-const race = ['Azure Female', 'Iron Dwarf', 'Highborn Human', 'Lowland Human', 'Mountain Dwarf', 'Scythian Elf', 'Woodland Elf'];
+import { Dropdown } from "react-bootstrap";
 
 const DropdownBox = () => {
   return (
@@ -25,6 +22,6 @@ const DropdownBox = () => {
       </Dropdown.Menu>
     </Dropdown>
   );
-}
+};
 
 export default DropdownBox;
