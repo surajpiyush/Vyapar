@@ -1,7 +1,7 @@
 import React from "react";
 import { FilterIcon, PrinterIcon, ShareIcon } from "../Component/utils/reactIcons";
 
-const TableModel = ({ tableHeader, data }) => {
+const PurchaseTableModel = ({ tableHeader, data }) => {
    console.log(data)
    return (
       <div>
@@ -22,7 +22,7 @@ const TableModel = ({ tableHeader, data }) => {
                   <td>{index + 1}</td>
                   
                      <td>
-                        {new Date(item.date).toLocaleDateString(
+                        {new Date(item.invoiceDate).toLocaleDateString(
                            "en-IN",
                            {
                               day: "2-digit",
@@ -33,12 +33,13 @@ const TableModel = ({ tableHeader, data }) => {
                      </td>
                      <td>{item.invoiceNumber ? item.invoiceNumber : "-"}</td>
 
-                     <td>{item?.name}</td>
-                     <td>{item.category}</td>
-                     <td>{item.type}</td>
-                     <td>{item.total}</td>
-                     <td>{item.recived}</td>
-                     <td>{item.balance}</td>
+                     <td>{item?.partyName}</td>
+                    
+                     <td>{item.transactionType}</td>
+                     <td>{item.paymentType[0].types}</td>
+                     <td>{item.amount}</td>
+                     {/* <td>{item.recived}</td> */}
+                     <td>{item.balanceDue}</td>
                      <td>
                         {item.dueDate ? new Date(item.dueDate).toLocaleDateString("en-GB") : "-"}
                      </td>
@@ -57,4 +58,4 @@ const TableModel = ({ tableHeader, data }) => {
    );
 };
 
-export default TableModel;
+export default PurchaseTableModel;

@@ -1,4 +1,5 @@
 import React from "react";
+import { FilterIcon, PrinterIcon } from "../Component/utils/reactIcons";
 
 const GSTRsale = ({ tableHeader1, tableHeader2, data }) => {
    return (
@@ -48,7 +49,8 @@ const GSTRsale = ({ tableHeader1, tableHeader2, data }) => {
                      <td>{(item.taxableValue)/2}</td>
                      <td>{(item.taxableValue)/2}</td>
                      <td>{item.stateOfSupply}</td>
-                     {/* <td></td> */}
+                 
+                     
                   </tr>
                ))}
             </tbody>

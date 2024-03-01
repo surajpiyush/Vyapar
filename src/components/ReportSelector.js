@@ -1,7 +1,7 @@
 import React from 'react'
 
 const ReportSelector = ({optionType,setSe}) => {
-    console.log(optionType);
+    // console.log(optionType);
   return (
     <select name="" id="" onSelect={(e)=>console.log(e.target.value)}>
         {optionType?.map(option => (

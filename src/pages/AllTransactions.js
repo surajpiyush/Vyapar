@@ -44,13 +44,18 @@ const AllTransactions = () => {
    ];
 
    const tableHeader = [
+      "#",
       "DATE",
       "INVOICE NO.",
       "PARTY NAME",
-      "TRANSACTION TYPE",
-      "PAYMENT TYPE",
-      "AMOUNT",
+      "CATEGORY NAME",
+      "TYPE",
+      "TOTAL",
+      "RECIEVED/PAID",
       "BALANCE",
+      "DUE DATE",
+      "STATUS",
+      "PRINT/SHARE",
    ];
 
    const store = useSelector((store) => store.ReportReducer);
@@ -60,23 +65,23 @@ const AllTransactions = () => {
       startDate: "2023-01-20",
       endDate: "2025-02-24",
    };
-   //   if(store.allTransectionsData){
 
-   //     const data = store?.allTransectionsData[0];
-   //     temp.push(...data?.PuchaseBill[0]?.PuchaseBill);
-   //  temp.push(...data?.PuchaseReturn[0]?.PuchaseReturn);
-   //  temp.push(...data?.PurchaseOut[0]?.purchaseout);
-   //  temp.push(...data?.purchaseOrder[0]?.purchaseOrder);
-   //  temp.push(...data?.saleDeliverychallans[0]?.saleDeliverychallans);
-   //  temp.push(...data?.PaymentIn[0]?.PaymentIn);
-   //  temp.push(...data?.SaleCash[0]?.SaleCash);
-   //  temp.push(...data?.SaleOrder[0]?.SaleOrder);
-   //  temp.push(...data?.SalereturnCredit[0]?.SalereturnCredit);
-   //  temp.push(...data?.ExpensesWithGst[0]?.ExpensesWithGst);
-   //  temp.push(...data?.ExpensesWithOutGst[0]?.ExpensesWithOutGst);
-
-   //  console.log(temp);
-   // }
+   if (store.allTransectionsData[0]) {
+      const data = store?.allTransectionsData[0];
+      temp.push(...data?.PuchaseBill[0]?.PuchaseBill);
+      temp.push(...data?.PuchaseReturn[0]?.PuchaseReturn);
+      temp.push(...data?.PurchaseOut[0]?.purchaseout);
+      temp.push(...data?.purchaseOrder[0]?.purchaseOrder);
+      temp.push(...data?.saleDeliverychallans[0]?.saleDeliverychallans);
+      temp.push(...data?.PaymentIn[0]?.PaymentIn);
+      temp.push(...data?.SaleCash[0]?.SaleCash);
+      temp.push(...data?.SaleOrder[0]?.SaleOrder);
+      temp.push(...data?.SalereturnCredit[0]?.SalereturnCredit);
+      temp.push(...data?.ExpensesWithGst[0]?.ExpensesWithGst);
+      temp.push(...data?.ExpensesWithOutGst[0]?.ExpensesWithOutGst);
+      // data = temp;
+      console.log(temp);
+   }
 
    const dispatch = useDispatch();
    useEffect(() => {
@@ -85,7 +90,7 @@ const AllTransactions = () => {
 
    return (
       <>
-         <SaleDashboardHeader />
+         <SaleDashboardHeader data={temp} />
          <div style={{ marginLeft: "20px", marginBottom: "20px" }}>
             <ReportSelector optionType={SelectorType} setSe={setSe} />
          </div>
@@ -93,7 +98,7 @@ const AllTransactions = () => {
             <ReportSearchBar />
          </div>
          <div style={{ marginLeft: "20px", marginRight: "20PX" }}>
-            <TableModel tableHeader={tableHeader} data={dataSale} />
+            <TableModel tableHeader={tableHeader} data={temp} />
          </div>
       </>
    );

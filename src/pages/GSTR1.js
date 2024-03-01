@@ -141,8 +141,9 @@ const GSTR1 = () => {
           </div>
         </div>
         <div>
-         {sale && <GSTRsale tableHeader1={SaletableHeader1} tableHeader2={SaletableHeader2} data={data?.getSale}/>}
-         {saleReturn && <GSTRsale tableHeader1={SaleReturntableHeader1} tableHeader2={SaleReturntableHeader2} data={data?.getSaleReturn}/>}
+         {sale && data?.getSale.length && <GSTRsale tableHeader1={SaletableHeader1} tableHeader2={SaletableHeader2} data={data?.getSale}/>}
+         {saleReturn && data?.getSaleReturn && <GSTRsale tableHeader1={SaleReturntableHeader1} tableHeader2={SaleReturntableHeader2} data={data?.getSaleReturn}/>}
+         {saleReturn && !data.getSaleReturn.length && <h1> There no return data to display</h1>}
         </div>
       </div>
     </div>

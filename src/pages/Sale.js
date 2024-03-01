@@ -20,6 +20,7 @@ const dataSale = [
 ];
 
 const tableHeader = [
+   "#",
    "INVOICE DATE",
    "INVOICE NO.",
    "PARTY NAME",
@@ -29,6 +30,7 @@ const tableHeader = [
    "BALANCE",
    "DUE DATE",
    "STATUS",
+   "ACTION",
 ];
 const Sale = () => {
    const store = useSelector((store) => store.ReportReducer);
