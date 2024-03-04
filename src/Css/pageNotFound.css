@@ -23,7 +23,7 @@
    -webkit-text-fill-color: transparent;
 }
 .error__type {
-   color: #fff;
+   color: black;
    font-weight: 600;
    font-size: 2.75rem;
    letter-spacing: 0.125em;
@@ -31,7 +31,7 @@
    text-transform: uppercase;
 }
 .error__cta {
-   color: #fff;
+   color: black;
    font-family: "Source Sans Pro";
    font-size: 1.25rem;
    font-weight: 300;

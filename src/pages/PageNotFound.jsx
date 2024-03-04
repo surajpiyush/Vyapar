@@ -51,11 +51,11 @@ const PageNotFound = () => {
         <h2 className="error__type">Page not found</h2>
         <p className="error__cta">
           We’re sorry, the page you have looked for does not exist in our database! Maybe go to our{' '}
-          <a className="error__link error__link--purple" href="#" target="_blank">
+          <a className="error__link error__link--purple" href="/" >
             home page
           </a>{' '}
           or try to use a{' '}
-          <a className="error__link error__link--blue" href="#" target="_blank">
+          <a className="error__link error__link--blue" href="/" >
             search?
           </a>
         </p>
