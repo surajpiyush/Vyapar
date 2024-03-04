@@ -40,7 +40,8 @@ import { Provider } from "react-redux";
 import { ChakraProvider } from "@chakra-ui/react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Marketing from "./pages/Marketing.jsx";
-import Setting from "./pages/setting/Setting.js";
+// import Setting from "./pages/setting/Setting.js";
+import PageNotFound from "./pages/PageNotFound.jsx";
 
 const router = createBrowserRouter([
   {
@@ -169,7 +170,9 @@ const router = createBrowserRouter([
         element: <Formpage />,
       },
       { path: "/marketing", element: <Marketing /> },
-      { path: "/setting", element: <Setting /> },
+     
+      { path: "*", element: <PageNotFound/> },
+
     ],
   },
 ]);
