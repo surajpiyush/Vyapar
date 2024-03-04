@@ -30,26 +30,7 @@ export const addItem = async (dispatch, newItem, closeForm, toast) => {
          }
       );
 
-<<<<<<< HEAD
-    console.log("Adding Item Response:", response?.data);
-    dispatch({ type: POST_ITEM_SUCCESS, payload: response?.data });
-    toast({
-      title: "Item Added Successfully",
-      status: "success",
-      position: "top",
-    });
-    closeForm(false);
-  } catch (error) {
-    console.log("Adding Items Error", error);
-    dispatch({ type: ITEM_FAILURE });
-    toast({
-      title: "Something Went Wrong!",
-      description: error?.response?.data?.message || "",
-      status: "error",
-      position: "top",
-    });
-  }
-=======
+
       // console.log("Adding Item Response:", response?.data);
       dispatch({ type: POST_ITEM_SUCCESS, payload: response?.data });
       toast({
@@ -68,7 +49,7 @@ export const addItem = async (dispatch, newItem, closeForm, toast) => {
          position: "top",
       });
    }
->>>>>>> baa51e19a49f39544db785f16b04e2d1926d66e9
+
 };
 
 export const getitems = async (dispatch) => {
