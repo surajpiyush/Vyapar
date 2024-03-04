@@ -15,9 +15,12 @@ import { IoCloseOutline as CrossIcon } from "react-icons/io5";
 import { IoSearch as SearchIcon } from "react-icons/io5";
 import { FiPlusCircle as PlusIcon } from "react-icons/fi";
 import { CiFilter as FilterIcon } from "react-icons/ci";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function SalesInvoice() {
   const toast = useToast();
+  const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
   const [openForm, setOpenForm] = useState(false);
   const [startDate, setStartDate] = useState("2024-02-01");
@@ -61,10 +64,9 @@ export default function SalesInvoice() {
               />
               <SettingIcon
                 onClick={() =>
-                  toast({
-                    title: "Feature currently in development",
-                    status: "info",
-                    position: "top",
+                  navigate("/setting", {
+                    state: { redirectTo: location.pathname },
+                    replace: true,
                   })
                 }
               />

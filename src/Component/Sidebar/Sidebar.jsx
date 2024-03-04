@@ -13,6 +13,7 @@ const Sidebar = () => {
   const toggleUpdate = useSelector(
     (state) => state.BusinessReducer.toggleUpdate
   );
+  const newFetched = useSelector((state) => state.BusinessReducer.newFetched);
   const [activeItems, setActiveItems] = useState("Home");
   const [toggleNavItems, setToggleNavItems] = useState(false);
   const [activeNestedItems, setActiveNestedItems] = useState(0);
@@ -20,9 +21,11 @@ const Sidebar = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const UserDetails = JSON.parse(localStorage.getItem(USER_DETAILS));
-    setProfileData(UserDetails);
-  }, [toggleUpdate]);
+    const UserDetails = JSON.parse(localStorage.getItem(USER_DETAILS)) || {};
+    setProfileData((prev) => {
+      return { ...prev, ...UserDetails };
+    });
+  }, [toggleUpdate, newFetched]);
 
   useEffect(() => {
     setToggleNavItems(true);

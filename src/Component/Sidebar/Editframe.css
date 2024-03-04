@@ -41,6 +41,7 @@
 .edit-firm-middle-section {
   display: flex;
   justify-content: space-between;
+  gap: 30px;
   padding: 20px 0;
 }
 
@@ -181,4 +182,38 @@
 }
 .edit-firm-save-button button:hover {
   background-color: rgb(99, 99, 255);
+}
+
+/*  */
+.upperFormPart {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.FirmLogoOuterDiv {
+  padding: 0;
+  width: 450px;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.FirmSignatureOuterDiv {
+  padding: 0;
+  width: 320px;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
 }

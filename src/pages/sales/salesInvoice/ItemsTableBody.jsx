@@ -35,6 +35,7 @@ const ItemsTableBody = memo(
 
     // Itemslist Suggestions
     useEffect(() => {
+      console.log("items", items);
       const regex = new RegExp(item?.mainName, "i");
       const found = items?.filter((ite) => regex.test(ite.mainName));
       if (item?.mainName.length < 1) {

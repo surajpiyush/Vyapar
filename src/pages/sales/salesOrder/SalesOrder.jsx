@@ -15,9 +15,12 @@ import { IoCloseOutline as CrossIcon } from "react-icons/io5";
 import { IoSearch as SearchIcon } from "react-icons/io5";
 import { FiPlusCircle as PlusIcon } from "react-icons/fi";
 import { CiFilter as FilterIcon } from "react-icons/ci";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function SalesOrder() {
   const toast = useToast();
+  const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.SalesReducer.isLoading);
   const toggleSaleOrder = useSelector(
@@ -83,10 +86,9 @@ export default function SalesOrder() {
                   />
                   <SettingIcon
                     onClick={() =>
-                      toast({
-                        title: "Feature currently in development",
-                        status: "info",
-                        position: "top",
+                      navigate("/setting", {
+                        state: { redirectTo: location.pathname },
+                        replace: true,
                       })
                     }
                   />

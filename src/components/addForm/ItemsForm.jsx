@@ -4,9 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { addItem } from "../../Redux/items/actions";
 import { useToast } from "@chakra-ui/react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function ItemsForm({ closeForm }) {
   const toast = useToast();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [optToggle, setOptToggle] = useState(true);
   const [productOptToggle, setProductOptToggle] = useState(true);
   const [wsToggle, setWsToggle] = useState(false);
@@ -118,7 +121,15 @@ export default function ItemsForm({ closeForm }) {
           </div>
 
           <div className="icon-cont">
-            <i className="fa fa-cog"></i>
+            <i
+              className="fa fa-cog"
+              onClick={() =>
+                navigate("/setting", {
+                  state: { redirectTo: location.pathname },
+                  replace: true,
+                })
+              }
+            ></i>
             <i className="fa fa-close" onClick={handleCloseForm}></i>
           </div>
         </div>

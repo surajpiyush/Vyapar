@@ -50,7 +50,7 @@ function Busniess() {
           type="text"
           name="companyName"
           placeholder="Business Name"
-          value={formData.companyName}
+          value={formData?.companyName}
           onChange={handleChange}
           required
         />
@@ -58,7 +58,7 @@ function Busniess() {
           type="email"
           name="email"
           placeholder="Enter Email"
-          value={formData.email}
+          value={formData?.email}
           onChange={handleChange}
           required
         />
@@ -66,7 +66,7 @@ function Busniess() {
           type="text"
           name="phoneNumber"
           placeholder="Phone Number"
-          value={formData.phoneNumber}
+          value={formData?.phoneNumber}
           onChange={handleChange}
           required
         />

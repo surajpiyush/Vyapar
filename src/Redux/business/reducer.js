@@ -13,6 +13,7 @@ const initState = {
   isLoading: false,
   isError: false,
   allCompaniesData: [],
+  newFetched: false,
 
   // Register Company
   companyName: "",
@@ -75,6 +76,7 @@ export const reducer = (state = initState, { type, payload, name }) => {
       return {
         ...state,
         isLoading: false,
+        newFetched: !state.newFetched,
         allCompaniesData: payload,
       };
     }

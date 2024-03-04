@@ -121,7 +121,7 @@ const AuthPage = () => {
         email: inpVal?.email,
         password: inpVal?.password,
       });
-      // console.log("LogIn Response", res?.data);
+      console.log("LogIn Response", res?.data);
       const userName = res?.data?.result?.name;
       localStorage.setItem("token", res?.data?.result?.token);
       localStorage.setItem("userId", res?.data?.result?.userId);

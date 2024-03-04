@@ -13,9 +13,12 @@ import { IoCloseOutline as CrossIcon } from "react-icons/io5";
 import { IoSearch as SearchIcon } from "react-icons/io5";
 import { FiPlusCircle as PlusIcon } from "react-icons/fi";
 import { CiFilter as FilterIcon } from "react-icons/ci";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function SalesReturn() {
   const toast = useToast();
+  const location = useLocation();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.SalesReducer.isLoading);
   const toggleCreditNote = useSelector(
@@ -62,10 +65,9 @@ export default function SalesReturn() {
               />
               <SettingIcon
                 onClick={() =>
-                  toast({
-                    title: "Feature currently in development",
-                    status: "info",
-                    position: "top",
+                  navigate("/setting", {
+                    state: { redirectTo: location.pathname },
+                    replace: true,
                   })
                 }
               />

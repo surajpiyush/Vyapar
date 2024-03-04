@@ -4,14 +4,23 @@ import { USER_DETAILS } from "../../Redux/business/actionTypes";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { RxCross2 } from "react-icons/rx";
-import { UpdateCompanyProfile } from "../../Redux/business/action";
+import {
+  FetchAllCompanies,
+  UpdateCompanyProfile,
+} from "../../Redux/business/action";
+import { useToast } from "@chakra-ui/react";
 
 const Editframe = () => {
+  const toast = useToast();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.BusinessReducer.isLoading);
   const toggleUpdate = useSelector(
     (state) => state.BusinessReducer.toggleUpdate
   );
+  const allCompaniesData = useSelector(
+    (state) => state.BusinessReducer.allCompaniesData
+  );
+  const newFetched = useSelector((state) => state.BusinessReducer.newFetched);
   const [companyData, setCompanyData] = useState({
     companyName: "",
     email: "",
@@ -28,14 +37,6 @@ const Editframe = () => {
   });
   const [formDataToSend, setFormDataToSend] = useState(new FormData());
 
-  useEffect(() => {
-    const newFormDataToSend = new FormData();
-    Object.entries(companyData).forEach(([key, value]) => {
-      newFormDataToSend.append(key, value);
-    });
-    setFormDataToSend(newFormDataToSend);
-  }, [companyData]);
-
   // UseEffect to set current company data on edit company profile mount
   useEffect(() => {
     const userDetailLS = JSON.parse(localStorage.getItem(USER_DETAILS));
@@ -45,6 +46,20 @@ const Editframe = () => {
         ...userDetailLS,
       };
     });
+  }, []);
+
+  useEffect(() => {
+    const newFormDataToSend = new FormData();
+    Object.entries(companyData).forEach(([key, value]) => {
+      newFormDataToSend.append(key, value);
+    });
+    setFormDataToSend(newFormDataToSend);
+  }, [companyData]);
+
+  // UseEffect to change company data on update
+  useEffect(() => {
+    const userDetailLS = JSON.parse(localStorage.getItem(USER_DETAILS));
+    setCompanyData(userDetailLS);
   }, [toggleUpdate]);
 
   // Input Change Function
@@ -63,11 +78,17 @@ const Editframe = () => {
 
   // Send Profile Update Request
   const handleSave = () => {
-    UpdateCompanyProfile(dispatch, companyData._id, formDataToSend);
+    UpdateCompanyProfile(dispatch, formDataToSend, toast);
   };
 
   return (
     <div className="edit-firm-container">
+      {isLoading && (
+        <div className="loaderOuter">
+          <span className="loader"></span>
+        </div>
+      )}
+
       <section className="edit-firm-top-section">
         <asside className="edit-firm-top-aside1">
           <h4>Edit Firm</h4>
@@ -79,17 +100,25 @@ const Editframe = () => {
         </asside>
       </section>
       <section className="edit-firm-middle-section">
-        <aside className="edit-firm-middle-aside1">
-          <div>
-            <label htmlFor="companyLogo">Add Logo</label>
-            <input
-              type="file"
-              name="companyLogo"
-              accept="image/*"
-              onChange={handleInputChange}
-            />
-          </div>
-        </aside>
+        <div className="upperFormPart">
+          {companyData?.companyLogo && (
+            <div className="FirmLogoOuterDiv">
+              <img src={companyData?.companyLogo} alt="Logo Uploaded ✔️" />
+            </div>
+          )}
+          <aside className="edit-firm-middle-aside1">
+            <div>
+              <label htmlFor="companyLogo">Add Logo</label>
+              <input
+                type="file"
+                name="companyLogo"
+                accept="image/*"
+                onChange={handleInputChange}
+              />
+            </div>
+          </aside>
+        </div>
+
         <aside className="edit-firm-middle-aside2">
           <div>
             <label htmlFor="#">Business Name</label>
@@ -202,6 +231,14 @@ const Editframe = () => {
               />
             </div>
             <div className="add-signatures">
+              {companyData?.signature && (
+                <div className="FirmSignatureOuterDiv">
+                  <img
+                    src={companyData?.signature}
+                    alt="Signature Uploaded ✔️"
+                  />
+                </div>
+              )}
               <label htmlFor="signature">Add Signature</label>
               <input
                 type="file"

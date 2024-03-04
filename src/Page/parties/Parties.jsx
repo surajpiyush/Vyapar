@@ -3,15 +3,17 @@ import party from "../../assets/Images/party.jpg";
 import PartiesTable from "../../components/TableData/PartiesTable";
 import GroupTable from "../../components/TableData/GroupTable";
 import { FetchAllParties, SaveParty } from "../../Redux/parties/actions";
-import { USER_DETAILS } from "../../Redux/business/actionTypes";
 import { SAVE_PARTY_INPUT_CHANGE } from "../../Redux/parties/actionTypes";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useToast } from "@chakra-ui/react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function Parties() {
   const toast = useToast();
+  const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.PartiesReducer.isLoading);
   const postPartyLoading = useSelector(
@@ -156,7 +158,15 @@ export default function Parties() {
                   <h3>Add Party</h3>
                 </div>
                 <div className="icon-cont">
-                  <i className="fa fa-cog"></i>
+                  <i
+                    className="fa fa-cog"
+                    onClick={() =>
+                      navigate("/setting", {
+                        state: { redirectTo: location.pathname },
+                        replace: true,
+                      })
+                    }
+                  ></i>
                   <i
                     className="fa fa-close"
                     onClick={() => setPartyFormIsOpen((prev) => !prev)}

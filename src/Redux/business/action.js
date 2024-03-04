@@ -11,6 +11,7 @@ import axios from "axios";
 
 const API_URL = `https://ca-backend-api.onrender.com`;
 const token = localStorage.getItem("token");
+const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
 // Company Register Request ---- Didn't applied function curring due to thunk error in store.js
 export const FetchAllCompanies = async (dispatch) => {
@@ -44,10 +45,12 @@ export const AddBusinessLoginRequest = async (
 ) => {
   dispatch({ type: ISLOADING });
 
+  // console.log("data", data);
+
   try {
     const response = await axios.post(`${API_URL}/firm_registration`, data, {
       headers: {
-        Authorization: `Bearer ${token} `,
+        Authorization: `Bearer ${token}`,
       },
     });
     console.log("Business Added", response?.data);
@@ -66,18 +69,19 @@ export const AddBusinessLoginRequest = async (
     });
   } catch (error) {
     dispatch({ type: ISERROR });
-    console.log("Business Route Error Response:", error);
+    console.log("Error Adding New Business:", error);
     alert(error?.response?.data?.message || "Something Went Wrong!");
   }
 };
 
 // Update Company Profile ---- Didn't applied function curring due to thunk error in store.js
-export const UpdateCompanyProfile = async (dispatch, firmId, data) => {
+export const UpdateCompanyProfile = async (dispatch, data, toast) => {
   dispatch({ type: ISLOADING });
+  toast.closeAll();
   try {
     // prettier-ignore
     const response = await axios.put( // eslint-disable-line no-unused-vars
-      `${API_URL}/firm_registration/${firmId}`,
+      `${API_URL}/firm_registration/${FirmId}`,
       data,
       {
         headers: {
@@ -86,19 +90,31 @@ export const UpdateCompanyProfile = async (dispatch, firmId, data) => {
         },
       }
     );
+
+    // console.log("Update Firm Response", response?.data);
+    const responseData = response?.data?.FirmData;
     const prevousUserLSData = JSON.parse(localStorage.getItem(USER_DETAILS));
     const newUserLSData = {
       ...prevousUserLSData,
       ...data,
+      ...responseData,
     };
     // console.log("newUserLSData", newUserLSData);
     localStorage.setItem(USER_DETAILS, JSON.stringify(newUserLSData));
-    // console.log("response", response.data);
     dispatch({ type: UPDATE_PROFILE_SUCCESS });
-    alert("Profile Updated Successfully ✔️");
+    toast({
+      title: "Company Profile Updated",
+      position: "top",
+      status: "success",
+    });
   } catch (error) {
     dispatch({ type: ISERROR });
     console.log("Updating Profile Error Response:", error);
-    alert(error?.response?.data?.message || "Something Went Wrong!");
+    toast({
+      title: "Something Went Wrong!",
+      description: error?.response?.data?.message || "",
+      position: "top",
+      status: "error",
+    });
   }
 };
