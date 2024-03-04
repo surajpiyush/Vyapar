@@ -15,6 +15,7 @@ import { AiFillTool } from "react-icons/ai";
 import { MdCelebration, MdOutlineWhatsapp, MdSettingsBackupRestore } from "react-icons/md";
 
 export const SidebarItems = [
+
    { Icon: <GoHomeFill />, name: "Home" },
    { Icon: <HiMiniUsers />, name: "Parties", extraIcon: <FaPlus /> },
    { Icon: <BiSitemap />, name: "Items", extraIcon: <FaPlus /> },
