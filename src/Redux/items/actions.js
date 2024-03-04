@@ -30,7 +30,7 @@ export const addItem = (newItem, closeForm, toast) => async (dispatch) => {
       }
     );
 
-    // console.log("Adding Item Response:", response?.data);
+    console.log("Adding Item Response:", response?.data);
     dispatch({ type: POST_ITEM_SUCCESS, payload: response?.data });
     toast({
       title: "Item Added Successfully",
