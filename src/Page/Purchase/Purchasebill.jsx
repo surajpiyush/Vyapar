@@ -34,10 +34,16 @@ const Purchasebill = () => {
    const formOpen = () => {
       setOpenForm(true);
    };
-
+   const date = { startDate: startDate, endDate: endDate };
+   // console.log(startDate, endDate);
    return (
       <div className="purchase-bill-container">
-         <Thismonth />
+         <Thismonth
+            startDate={startDate}
+            endDate={endDate}
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
+         />
          <div>
             <div>
                {openForm ? (
@@ -74,7 +80,7 @@ const Purchasebill = () => {
                      <AddPurchaseItem setOpenForm={setOpenForm} />
                   </div>
                ) : (
-                  <div>{!isLoading && <Transactions func={formOpen} />}</div>
+                  <div>{!isLoading && <Transactions func={formOpen} date = {date} />}</div>
                )}
             </div>
          </div>

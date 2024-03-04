@@ -13,22 +13,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { getPaymentOutBill } from "../../../Redux/purchase/action";
 import FirstTimeFormToggle from "../../FirstTimeFormToggle";
 
-const Paymentouts = ({ func }) => {
+const Paymentouts = ({ func, date }) => {
    const dispatch = useDispatch();
 
    const store = useSelector((store) => store.PurchaseReducer);
    const data = store.paymentOutData;
-   console.log(store);
-   const date = {
-      startDate: "2023-01-20",
-      endDate: "2025-02-24",
-   };
+   // console.log(store);
+//  console.log(date)
    // console.log(store);
    useEffect(() => {
       dispatch(getPaymentOutBill({ date }));
-   }, []);
+   }, [date]);
    // console.log(data)
-  
+   
    const openForm = () => {
       func(true);
    };

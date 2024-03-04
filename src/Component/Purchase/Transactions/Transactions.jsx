@@ -28,7 +28,7 @@ const transactionFilterItems = [
    },
 ];
 
-const Transactions = ({ func }) => {
+const Transactions = ({ func, date }) => {
    const openForm = () => {
       func(true);
    };
@@ -39,14 +39,11 @@ const Transactions = ({ func }) => {
    const store = useSelector((store) => store.PurchaseReducer);
    let showAllPurchaseBills = store.purchaseBillData;
    // console.log(store);
-   const date = {
-      startDate: "2023-01-20",
-      endDate: "2025-02-24",
-   };
-   // console.log(store);
+  
+   console.log(date);
    useEffect(() => {
       dispatch(getPurchaseBill({ date }));
-   }, []);
+   }, [date,dispatch]);
 
    const handleDelete = (id) => {
       // Filter the data to remove the item with the matching invoice number

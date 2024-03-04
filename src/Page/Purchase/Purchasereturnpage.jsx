@@ -36,10 +36,14 @@ const Purchasereturnpage = () => {
    const formOpen = () => {
       setOpenForm(true);
    };
+   const date = { startDate: startDate, endDate: endDate };
 
    return (
       <div className="purchase-bill-container">
-         <Thismonth />
+         <Thismonth startDate={startDate}
+            endDate={endDate}
+            setStartDate={setStartDate}
+            setEndDate={setEndDate} />
          <div>
             <div>
                {openForm ? (
@@ -76,7 +80,7 @@ const Purchasereturnpage = () => {
                      <Addpurchasereturnitrm setOpenForm={setOpenForm} />
                   </div>
                ) : (
-                  <div>{!isLoading && <Purchasereturn func={formOpen} />}</div>
+                  <div>{!isLoading && <Purchasereturn func={formOpen} date = {date} />}</div>
                )}
             </div>
          </div>

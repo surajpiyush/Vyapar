@@ -13,10 +13,10 @@ import { getPurchaseReturn } from "../../../Redux/purchase/action";
 import FirstTimeFormToggle from "../../FirstTimeFormToggle";
 import party from "../../../assets/Images/party.jpg";
 
-const Purchasereturn = ({ func }) => {
+const Purchasereturn = ({ func,date }) => {
    const navigate = useNavigate();
  
-   const date = { startDate: "2023-01-20", endDate: "2025-02-24" };
+   
    const dispatch = useDispatch();
    const store = useSelector((store) => store.PurchaseReducer);
    const data = store?.purchaseReturnData;
