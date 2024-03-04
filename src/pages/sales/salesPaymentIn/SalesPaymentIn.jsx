@@ -38,7 +38,7 @@ export default function SalesPaymentIn() {
   };
 
   return (
-    <div>
+    <div style={{ marginTop: "100px" }}>
       {openForm && <PaymentInForm closeForm={closeForm} />}
 
       <div className="grp-cont-invoice">

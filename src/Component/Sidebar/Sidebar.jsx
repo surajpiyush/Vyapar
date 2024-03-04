@@ -63,7 +63,12 @@ const Sidebar = () => {
           {profileData?.companyName ? profileData.companyName : "Loading..."}
         </h3>
         <div className="sidebar-left-icon">
-          <button onClick={() => navigate("/formpage")}>
+          <button
+            onClick={() => {
+              navigate("/formpage");
+              setToggleNavItems(false);
+            }}
+          >
             <MdOutlineArrowForwardIos />
           </button>
         </div>

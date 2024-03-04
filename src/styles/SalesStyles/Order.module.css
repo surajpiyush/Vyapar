@@ -8,6 +8,28 @@
   left: 0;
   cursor: default;
 }
+
+/* Header Nav */
+.headerNavOuter {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.headerNavOuter div {
+  cursor: pointer;
+  width: 50%;
+  text-align: center;
+  background-color: whitesmoke;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #069ffe;
+  height: 60px;
+  box-shadow: 2px 4px 7px grey;
+  border-bottom: 5px solid transparent;
+}
+
 /* Top Upper Nav */
 .upperNav {
   display: flex;

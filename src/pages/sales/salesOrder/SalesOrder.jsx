@@ -42,20 +42,24 @@ export default function SalesOrder() {
   };
 
   return (
-    <div>
-      <div className="nav">
+    <div style={{ marginTop: "80px" }}>
+      <div className={css.headerNavOuter}>
         <div
-          className="nav-opt"
           onClick={() => {
             setToggleSections(true);
+          }}
+          style={{
+            borderColor: !toggleSections ? "var(--blueB)" : "transparent",
           }}
         >
           SALE ORDERS
         </div>
         <div
-          className="nav-opt"
           onClick={() => {
             setToggleSections(false);
+          }}
+          style={{
+            borderColor: toggleSections ? "var(--blueB)" : "transparent",
           }}
         >
           ONLINE ORDERS

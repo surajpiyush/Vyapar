@@ -43,7 +43,7 @@ export default function SalesDeliveryChallan() {
 
   return (
     <div>
-      <div className="nav">
+      <div className="nav" style={{ marginTop: "80px" }}>
         <div className="nav-opt">Delivery Challan</div>
       </div>
 
