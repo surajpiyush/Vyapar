@@ -12,10 +12,13 @@ import { IoStorefrontSharp } from "react-icons/io5";
 import { FaPlus as PlusIcon } from "react-icons/fa6";
 import { IoMdSettings } from "react-icons/io";
 import { AiFillTool } from "react-icons/ai";
-import { MdCelebration, MdOutlineWhatsapp, MdSettingsBackupRestore } from "react-icons/md";
+import {
+   MdCelebration,
+   MdOutlineWhatsapp,
+   MdSettingsBackupRestore,
+} from "react-icons/md";
 
 export const SidebarItems = [
-
    { Icon: <GoHomeFill />, name: "Home" },
    { Icon: <HiMiniUsers />, name: "Parties", extraIcon: <FaPlus /> },
    { Icon: <BiSitemap />, name: "Items", extraIcon: <FaPlus /> },
@@ -123,7 +126,12 @@ export const SidebarItems = [
       ],
    },
 
-   { Icon: <MdOutlineWhatsapp />, name: "WhatsApp Marketing", to:"/marketing", extraIcon: <MdCelebration /> },
+   {
+      Icon: <MdOutlineWhatsapp />,
+      name: "WhatsApp Marketing",
+      to: "/marketing",
+      extraIcon: <MdCelebration />,
+   },
 
    {
       Icon: <MdSettingsBackupRestore />,
@@ -131,7 +139,6 @@ export const SidebarItems = [
       extraIcon: <IoIosArrowDown />,
       to: "/setting",
       purchaseToggle: [
-       
          {
             name: "Auto Backup",
             navigateurl: "/",

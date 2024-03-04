@@ -37,10 +37,11 @@ export const reducer = (state = initialState, { type, payload }) => {
       return { ...state, isLoading: false, items: payload };
     }
     case POST_ITEM_SUCCESS: {
+      console.log("payload-",payload)
       return {
         ...state,
         isLoading: false,
-        items: [...state.items, payload],
+        // items: payload  ,
         toggleItems: !state.toggleItems,
       };
     }

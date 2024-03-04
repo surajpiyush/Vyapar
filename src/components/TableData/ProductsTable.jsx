@@ -15,21 +15,23 @@ export default function ProductsTable(Props) {
    const [filteredItems, setFilteredItems] = useState([]);
    const [tableData, setTableData] = useState([]);
    const items = useSelector((store) => store.ItemReducer);
+   const toggleItems = useSelector((store) => store.ItemReducer.toggleItems)
    // const [data, setData] = useState([]);
-   console.log(items);
+   // console.log(items);
    const data = items.items.data;
    const companyId = localStorage.getItem("userId");
    const token = localStorage.getItem("token");
    // console.log(items);
    //-----------<<<<<<<<<<<<<<<<<<<<<<<<GETING THE DATA FROM BACKEND>>>>>>>>>>>>>>>>>>>>>>-------------
    useEffect(() => {
-      dispatch(getitems())
+      // dispatch(getitems())
+      getitems(dispatch)
       
-   }, []);
+   }, [toggleItems]);
    // console.log(data)
 
    const openForm = () => {
-      console.log("Working");
+      // console.log("Working");
       Props.func(true);
    };
 
@@ -37,7 +39,7 @@ export default function ProductsTable(Props) {
       Props.adjustForm(true);
    };
    const handleShow = (item) => {
-      console.log(item);
+      // console.log(item);
       axios
          .get(
             `https://ca-backend-api.onrender.com/${companyId}/item/itemById/${item._id}`,
@@ -48,7 +50,7 @@ export default function ProductsTable(Props) {
             }
          )
          .then((res) => {
-            console.log(res.data.data.allData);
+            // console.log(res.data.data.allData);
             setTableData(res.data.data.allData.purchaseBill);
          })
          .catch((err) => {
