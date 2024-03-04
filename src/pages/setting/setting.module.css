@@ -1,7 +1,12 @@
+body {
+  overflow-y: auto;
+  width: 100vw;
+}
+
 .container {
   overflow-y: auto;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: wrap;  
   justify-content: space-between;
 }
 
@@ -54,3 +59,5 @@ legend {
   top: -1em;
   background-color: white;
 }
+
+
