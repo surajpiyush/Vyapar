@@ -45,6 +45,7 @@ const Companypage = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
+    localStorage.removeItem(USER_DETAILS)
     alert("Logout Successfull");
     navigate("/auth");
   };

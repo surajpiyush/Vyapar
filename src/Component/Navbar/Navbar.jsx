@@ -5,6 +5,7 @@ import NavbarToggle from "./Navbartoggle";
 import { useState } from "react";
 import { IoMdRefresh } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import { USER_DETAILS } from "../../Redux/business/actionTypes";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
-    localStorage.removeItem("USER_DETAILS");
+    localStorage.removeItem(USER_DETAILS);
     alert("Logout Successfull");
     navigate("/auth");
   };

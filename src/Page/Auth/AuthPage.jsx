@@ -62,7 +62,7 @@ const AuthPage = () => {
         `${API_URL}/companyRegister/auth/signup`,
         inpVal
       );
-      console.log("SignUp Response", res?.data);
+      // console.log("SignUp Response", res?.data);
       const userName = res?.data?.companyData?.name;
       const newCurrentCompanyData = {
         companyName: res?.data?.companyData?.companyName,
@@ -121,7 +121,7 @@ const AuthPage = () => {
         email: inpVal?.email,
         password: inpVal?.password,
       });
-      console.log("LogIn Response", res?.data);
+      // console.log("LogIn Response", res?.data);
       const userName = res?.data?.result?.name;
       localStorage.setItem("token", res?.data?.result?.token);
       localStorage.setItem("userId", res?.data?.result?.userId);

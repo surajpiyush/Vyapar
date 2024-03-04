@@ -85,7 +85,7 @@ export default function Items() {
 
   return (
     <div>
-      {openForm && <ItemsForm func={closeServiceProductForm} />}
+      {openForm && <ItemsForm closeForm={setOpenForm} />}
       {categoryForm && <CategoryForm func={closeCategoryForm} />}
       {unitForm && <UnitForm func={closeUnitForm} />}
       {adjustItem && <StockAdjustment func={closeAdjustForm} />}

@@ -1,63 +1,64 @@
-body {
+/* body {
   overflow-y: auto;
   width: 100vw;
-}
+} */
 
 .container {
-  overflow-y: auto;
-  display: flex;
-  flex-wrap: wrap;  
-  justify-content: space-between;
+   overflow-y: auto;
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: space-between;
+   padding-left: 300px;
+
+   overflow-x: auto;
 }
 
 .section {
-  width: 30%;
-  box-sizing: border-box;
-  margin-bottom: 20px;
-  padding: 20px;
+   width: 30%;
+   box-sizing: border-box;
+   margin-bottom: 20px;
+   padding: 20px;
 }
 
 .section h2 {
-  font-size: 1.2em;
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 5px;
+   font-size: 1.2em;
+   border-bottom: 1px solid #ccc;
+   padding-bottom: 5px;
 }
 
 .container1 {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: space-between;
 }
 
 .section1 {
-  width: 30%;
-  box-sizing: border-box;
-  margin-bottom: 20px;
-  padding: 20px;
+   width: 30%;
+   box-sizing: border-box;
+   margin-bottom: 20px;
+   padding: 20px;
 }
 
 .section1 h2 {
-  font-size: 1.2em;
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 5px;
+   font-size: 1.2em;
+   border-bottom: 1px solid #ccc;
+   padding-bottom: 5px;
 }
 
 fieldset {
-  display: inline-block;
-  vertical-align: top;
-  margin-right: 20px;
-  border: 1px solid #000000;
-  padding: 10px;
-  margin-bottom: 20px;
-  /* position: relative; */
+   display: inline-block;
+   vertical-align: top;
+   margin-right: 20px;
+   border: 1px solid #000000;
+   padding: 10px;
+   margin-bottom: 20px;
+   /* position: relative; */
 }
 
 legend {
-  color: #333;
-  font-size: 1em;
-  position: absolute;
-  top: -1em;
-  background-color: white;
+   color: #333;
+   font-size: 1em;
+   position: absolute;
+   top: -1em;
+   background-color: white;
 }
-
-
