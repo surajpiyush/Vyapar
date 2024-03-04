@@ -212,7 +212,7 @@ export default function SalesEstimates() {
       </div>
 
       {estimatesList.length <= 0 && !isLoading && (
-        <div style={{ marginTop: "-500px" }}>
+        <div style={{ marginTop: "-450px" }}>
           <FirstTimeFormToggle
             img={party}
             onClick={() => setOpenForm(true)}

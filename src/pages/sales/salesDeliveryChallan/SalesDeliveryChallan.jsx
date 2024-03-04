@@ -175,7 +175,7 @@ export default function SalesDeliveryChallan() {
       )}
 
       {!isLoading && deliveryChallanList.length <= 0 && (
-        <div style={{ marginTop: "-500px" }}>
+        <div style={{ marginTop: "-450px" }}>
           <FirstTimeFormToggle
             img={party}
             onClick={formOpen}
