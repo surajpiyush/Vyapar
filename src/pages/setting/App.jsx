@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Tabs, Tab, Container, Row, Col } from 'react-bootstrap';
+import React, { useState } from "react";
+import { Tabs, Tab, Container, Row, Col } from "react-bootstrap";
 
 const App = () => {
-  const [key, setKey] = useState('tab1');
+  const [key, setKey] = useState("tab1");
 
   return (
     <Container>
