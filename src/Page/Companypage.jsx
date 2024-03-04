@@ -1,4 +1,10 @@
 import "./Companypage.css";
+import { FetchAllCompanies } from "../Redux/business/action";
+import {
+  SET_CURRENT_COMPANY,
+  USER_DETAILS,
+} from "../Redux/business/actionTypes";
+
 import { useEffect } from "react";
 import { IoIosSearch } from "react-icons/io";
 import { GrRefresh } from "react-icons/gr";
@@ -6,11 +12,6 @@ import { PiDesktopTowerLight } from "react-icons/pi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { FetchAllCompanies } from "../Redux/business/action";
-import {
-  SET_CURRENT_COMPANY,
-  USER_DETAILS,
-} from "../Redux/business/actionTypes";
 
 const Companypage = () => {
   const location = useLocation();

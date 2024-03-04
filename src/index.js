@@ -4,7 +4,6 @@ import Sale from "./pages/Sale.js";
 import GSTR1 from "./pages/GSTR1.js";
 import GSTR2 from "./pages/GSTR2.js";
 import GSTR9 from "./pages/GSTR9.js";
-import Authpage from "./Page/Authpage";
 import GSTR3B from "./pages/GSTR3B.js";
 import Homepage from "./Page/Homepage";
 import DayBook from "./pages/DayBook.js";
@@ -13,6 +12,7 @@ import Purchase from "./pages/Purchase.js";
 import CashFlow from "./pages/CashFlow.js";
 import Companypage from "./Page/Companypage";
 import HsnReport from "./pages/HsnReport.jsx";
+import AuthPage from "./Page/Auth/AuthPage.jsx";
 import Parties from "./Page/parties/Parties.jsx";
 import Formpage from "./Page/Formpage/Formpage.jsx";
 import AddPurchase from "./Page/AddPurchasepage.jsx";
@@ -30,6 +30,7 @@ import AddPurchasereturn from "./Component/Purchase/AddPurchasereturn.jsx";
 import SalesEstimates from "./pages/sales/salesEstimates/SalesEstimates.jsx";
 import SalesPaymentln from "./pages/sales/salesPaymentIn/SalesPaymentIn.jsx";
 import SalesDeliveryChallan from "./pages/sales/salesDeliveryChallan/SalesDeliveryChallan.jsx";
+
 import { store } from "./Redux/store.js";
 
 import React from "react";
@@ -49,16 +50,16 @@ const router = createBrowserRouter([
         element: <Homepage />,
       },
       {
+        path: "/auth",
+        element: <AuthPage />,
+      },
+      {
         path: "/parties",
         element: <Parties />,
       },
       {
         path: "/items",
         element: <Items />,
-      },
-      {
-        path: "/auth",
-        element: <Authpage />,
       },
       {
         path: "/company",
