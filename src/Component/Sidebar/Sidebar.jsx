@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
 
 const Sidebar = () => {
+<<<<<<< HEAD
   const navigate = useNavigate();
   const toggleUpdate = useSelector(
     (state) => state.BusinessReducer.toggleUpdate
@@ -26,125 +27,151 @@ const Sidebar = () => {
       return { ...prev, ...UserDetails };
     });
   }, [toggleUpdate, newFetched]);
+=======
+   const navigate = useNavigate();
+   const toggleUpdate = useSelector(
+      (state) => state.BusinessReducer.toggleUpdate
+   );
+   const [activeItems, setActiveItems] = useState("Home");
+   const [toggleNavItems, setToggleNavItems] = useState(false);
+   const [activeNestedItems, setActiveNestedItems] = useState(0);
+   const [profileData, setProfileData] = useState(null);
+   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    setToggleNavItems(true);
-  }, [activeItems]);
+   useEffect(() => {
+      const UserDetails = JSON.parse(localStorage.getItem(USER_DETAILS));
+      setProfileData(UserDetails);
+   }, [toggleUpdate]);
+>>>>>>> b5227325cea796a9a644e0dadd98fbee43d69303
 
-  const handleNestedSibarItems = () => {
-    setToggleNavItems(!toggleNavItems);
-  };
+   useEffect(() => {
+      setToggleNavItems(true);
+   }, [activeItems]);
 
-  const handleActiveItems = (item) => {
-    if (item === "Home") {
-      navigate("/");
-    }
-    setActiveItems(item);
-    handleNestedSibarItems();
-  };
+   const handleNestedSibarItems = () => {
+      setToggleNavItems(!toggleNavItems);
+   };
 
-  const handleActiveNestedItems = (index) => {
-    setActiveNestedItems(index);
-  };
+   const handleActiveItems = (item) => {
+      if (item === "Home") {
+         navigate("/");
+      }
+      setActiveItems(item);
+      handleNestedSibarItems();
+   };
 
-  const handleLayout = (item) => {
-    if (item === "Parties") {
-      navigate("/parties");
-    } else if (item === "Items") {
-      navigate("/items");
-    }
-  };
+   const handleActiveNestedItems = (index) => {
+      setActiveNestedItems(index);
+   };
 
-  return (
-    <div className="sidebar-container">
-      <section className="sidebar-top-section">
-        <div className="sidebar-top-logo-div">
-          <img src={Logo} alt="logo" className="sidebar-top-img" />
-          <span className="sidebar-top-img-plus">+</span>
-        </div>
-        <h3 className="sidebar-top-heading">
-          {profileData?.companyName ? profileData.companyName : "Loading..."}
-        </h3>
-        <div className="sidebar-left-icon">
-          <button onClick={() => navigate("/formpage")}>
-            <MdOutlineArrowForwardIos />
-          </button>
-        </div>
-      </section>
+   const handleLayout = (item) => {
+      if (item === "Parties") {
+         navigate("/parties");
+      } else if (item === "Items") {
+         navigate("/items");
+      }
+   };
 
-      <div className="sidebar-main">
-        {SidebarItems.map((items, index) => (
-          <div
-            onClick={() => {
-              handleActiveItems(items.name);
-              if (items.name == "Sale" || items.name == "Purchase") {
-                navigate(items?.to);
-                setToggleNavItems(!toggleNavItems);
-              }
-            }}
-            className={`sidebar-items-div ${
-              activeItems === items.name && "active-nav-border"
-            }`}
-            key={index}
-          >
-            <aside>
-              <div
-                className="sidevar-items-aside1"
-                onClick={() => handleLayout(items.name)}
-              >
-                <div className="sidebar-items-con">{items.Icon}</div>
-                <div className="sidebar-items-text">{items.name}</div>
-              </div>
-              {toggleNavItems &&
-                activeItems === items.name &&
-                items.purchaseToggle && (
-                  <div
-                    className="nested-items-container"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    {items.purchaseToggle.map((nestedItems, nestedindex) => (
-                      <aside
-                        key={nestedindex}
-                        onClick={() => {
-                          handleActiveNestedItems(nestedindex);
-                          navigate(nestedItems.navigateurl);
-                        }}
-                        className={`sidevar-nested-items ${
-                          activeNestedItems === nestedindex &&
-                          "active-nav-border"
-                        }`}
-                      >
-                        <div className="sidebar-items-con">
-                          {nestedItems.name}
-                        </div>
-                        <div className="sidebar-items-text">
-                          {nestedItems.Icon}
-                        </div>
-                      </aside>
-                    ))}
-                  </div>
-                )}
-            </aside>
+   return (
+      <div className="sidebar-container">
+         <section className="sidebar-top-section">
+            <div className="sidebar-top-logo-div">
+               <img src={Logo} alt="logo" className="sidebar-top-img" />
+               <span className="sidebar-top-img-plus">+</span>
+            </div>
+            <h3 className="sidebar-top-heading">
+               {profileData?.companyName
+                  ? profileData.companyName
+                  : "Loading..."}
+            </h3>
+            <div className="sidebar-left-icon">
+               <button onClick={() => navigate("/formpage")}>
+                  <MdOutlineArrowForwardIos />
+               </button>
+            </div>
+         </section>
 
-            {items.extraIcon && (
-              <div className="sidebar-items-extra-icon">{items.extraIcon}</div>
+         <div className="sidebar-main">
+            {SidebarItems.map((items, index) => (
+               <div
+                  onClick={() => {
+                     handleActiveItems(items.name);
+                     if (
+                        items.name == "Sale" ||
+                        items.name == "Purchase" ||
+                        items.name === "Setting" || items.name === "WhatsApp Marketing"
+                     ) {
+                        navigate(items?.to);
+                        setToggleNavItems(!toggleNavItems);
+                     }
+                  }}
+                  className={`sidebar-items-div ${
+                     activeItems === items.name && "active-nav-border"
+                  }`}
+                  key={index}
+               >
+                  <aside>
+                     <div
+                        className="sidevar-items-aside1"
+                        onClick={() => handleLayout(items.name)}
+                     >
+                        <div className="sidebar-items-con">{items.Icon}</div>
+                        <div className="sidebar-items-text">{items.name}</div>
+                     </div>
+                     {toggleNavItems &&
+                        activeItems === items.name &&
+                        items.purchaseToggle && (
+                           <div
+                              className="nested-items-container"
+                              onClick={(e) => e.stopPropagation()}
+                           >
+                              {items.purchaseToggle.map(
+                                 (nestedItems, nestedindex) => (
+                                    <aside
+                                       key={nestedindex}
+                                       onClick={() => {
+                                          handleActiveNestedItems(nestedindex);
+                                          navigate(nestedItems.navigateurl);
+                                       }}
+                                       className={`sidevar-nested-items ${
+                                          activeNestedItems === nestedindex &&
+                                          "active-nav-border"
+                                       }`}
+                                    >
+                                       <div className="sidebar-items-con">
+                                          {nestedItems.name}
+                                       </div>
+                                       <div className="sidebar-items-text">
+                                          {nestedItems.Icon}
+                                       </div>
+                                    </aside>
+                                 )
+                              )}
+                           </div>
+                        )}
+                  </aside>
+
+                  {items.extraIcon && (
+                     <div className="sidebar-items-extra-icon">
+                        {items.extraIcon}
+                     </div>
+                  )}
+               </div>
+            ))}
+         </div>
+
+         <div className="profile-container">
+            {profileData?.companyName ? (
+               <>
+                  {/* <div className="profile-name">{profileData?.email}</div> */}
+                  {/* <div className="profile-email">{profileData?.phoneNumber}</div> */}
+               </>
+            ) : (
+               <p className="error-message">{error}</p>
             )}
-          </div>
-        ))}
+         </div>
       </div>
-
-      <div className="profile-container">
-        {profileData?.companyName ? (
-          <>
-            {/* <div className="profile-name">{profileData?.email}</div> */}
-            {/* <div className="profile-email">{profileData?.phoneNumber}</div> */}
-          </>
-        ) : (
-          <p className="error-message">{error}</p>
-        )}
-      </div>
-    </div>
-  );
+   );
 };
 
 export default Sidebar;

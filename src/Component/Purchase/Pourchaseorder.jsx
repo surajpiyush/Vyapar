@@ -13,7 +13,7 @@ import FirstTimeFormToggle from "../FirstTimeFormToggle";
 import party from "../../assets/Images/party.jpg";
 
 const Pourchaseorder = ({func}) => {
-   const navigate = useNavigate();
+   const navigate = useNavigate();  
    const store = useSelector((store) => store.PurchaseReducer);
 
    const date = { startDate: "2023-01-20", endDate: "2025-02-24" };
