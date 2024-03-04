@@ -31,8 +31,8 @@ const Editframe = () => {
     businessType: "",
     businessDescription: "",
     gstinNumber: "",
-    signature: null,
-    companyLogo: null,
+    signature: "",
+    companyLogo: "",
     _id: "",
   });
   const [formDataToSend, setFormDataToSend] = useState(new FormData());
@@ -48,13 +48,15 @@ const Editframe = () => {
     });
   }, []);
 
-  useEffect(() => {
-    const newFormDataToSend = new FormData();
-    Object.entries(companyData).forEach(([key, value]) => {
-      newFormDataToSend.append(key, value);
-    });
-    setFormDataToSend(newFormDataToSend);
-  }, [companyData]);
+  // useEffect(() => {
+  //   const newFormDataToSend = new FormData();
+  //   Object.entries(companyData).forEach(([key, value]) => {
+  //     newFormDataToSend.append(key, value);
+  //   });
+  //   // newFormDataToSend.append("companyLogo", companyData?.companyLogo);
+  //   // newFormDataToSend.append("signature", companyData?.signature);
+  //   setFormDataToSend(newFormDataToSend);
+  // }, [companyData]);
 
   // UseEffect to change company data on update
   useEffect(() => {
@@ -78,7 +80,31 @@ const Editframe = () => {
 
   // Send Profile Update Request
   const handleSave = () => {
-    UpdateCompanyProfile(dispatch, formDataToSend, toast);
+    if (
+      typeof companyData?.companyLogo == "string" &&
+      typeof companyData?.signature == "string"
+    ) {
+      console.log(
+        "typeof companyData?.companyLogo A",
+        typeof companyData?.companyLogo
+      );
+      UpdateCompanyProfile(dispatch, companyData, toast);
+    } else {
+      const newFormDataToSend = new FormData();
+      Object.entries(companyData).forEach(([key, value]) => {
+        newFormDataToSend.append(key, value);
+      });
+      //  newFormDataToSend.append("companyLogo", companyData?.companyLogo);
+      //  newFormDataToSend.append("signature", companyData?.signature);
+      console.log(
+        "typeof companyData?.companyLogo B",
+        typeof companyData?.companyLogo
+      );
+      UpdateCompanyProfile(dispatch, newFormDataToSend, toast);
+    }
+
+    // UpdateCompanyProfile(dispatch, newFormDataToSend, toast);
+    // UpdateCompanyProfile(dispatch, formDataToSend, toast);
   };
 
   return (

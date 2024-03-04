@@ -78,6 +78,8 @@ export const AddBusinessLoginRequest = async (
 export const UpdateCompanyProfile = async (dispatch, data, toast) => {
   dispatch({ type: ISLOADING });
   toast.closeAll();
+  console.log("Update Data action.js", data);
+
   try {
     // prettier-ignore
     const response = await axios.put( // eslint-disable-line no-unused-vars
