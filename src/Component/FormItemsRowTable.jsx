@@ -32,6 +32,7 @@ const FormItemsRowTable = ({
       return setFoundItems(itemsList);
     }
     setFoundItems(found);
+    console.log("found", found);
   }, [item?.mainName]);
 
   //   Calculator useEffect
@@ -79,6 +80,7 @@ const FormItemsRowTable = ({
       ind == index ? currSaleItem : ite
     );
     setTableRowsArr(newSaleData);
+    setShowItemsListMenu(false);
   };
 
   //   Delete Row Function
@@ -134,7 +136,7 @@ const FormItemsRowTable = ({
           className={css.tableInputs}
           required
         />
-        <Menu isOpen={showItemsListMenu && ind == activeRowIndex}>
+        <Menu isOpen={ind == activeRowIndex && showItemsListMenu}>
           <MenuList
             style={{
               marginTop: `${foundItems.length > 0 ? 240 : 160}px`,
@@ -157,7 +159,6 @@ const FormItemsRowTable = ({
                   key={foundItem?._id}
                   onClick={() => {
                     handleMenuItemClick(foundItem);
-                    setShowItemsListMenu(false);
                   }}
                 >
                   {foundItem?.itemName}

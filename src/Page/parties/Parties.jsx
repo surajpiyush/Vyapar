@@ -2,6 +2,7 @@ import "../../styles/parties.css";
 import party from "../../assets/Images/party.jpg";
 import PartiesTable from "../../components/TableData/PartiesTable";
 import GroupTable from "../../components/TableData/GroupTable";
+import FirstTimeFormToggle from "../../Component/FirstTimeFormToggle";
 import { FetchAllParties, SaveParty } from "../../Redux/parties/actions";
 import { SAVE_PARTY_INPUT_CHANGE } from "../../Redux/parties/actionTypes";
 
@@ -9,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useToast } from "@chakra-ui/react";
 import { useLocation, useNavigate } from "react-router-dom";
+import Loader1 from "../../Component/Loaders/Loader1";
 
 export default function Parties() {
   const toast = useToast();
@@ -598,9 +600,7 @@ export default function Parties() {
       )}
 
       {isLoading ? (
-        <div className="loaderOuter">
-          <span className="loader"></span>
-        </div>
+        <Loader1 />
       ) : (
         <div>
           {/*  */}
@@ -621,19 +621,12 @@ export default function Parties() {
       )}
 
       {!isLoading && partiesData.length == 0 && (
-        <div className="emptyData">
-          <div>
-            <div className="emptyDataImgDiv">
-              <img src={party} alt="" />
-            </div>
-            <p>
-              Add your customers & suppliers. Manage your business with them.
-            </p>
-            <button onClick={() => setPartyFormIsOpen((prev) => !prev)}>
-              Add Party
-            </button>
-          </div>
-        </div>
+        <FirstTimeFormToggle
+          img={party}
+          onClick={() => setPartyFormIsOpen(true)}
+          BtnText="Add Party"
+          MiddleText="Add your customers & suppliers. Manage your business with them."
+        />
       )}
     </div>
   );
