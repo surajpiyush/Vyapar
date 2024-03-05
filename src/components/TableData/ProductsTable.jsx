@@ -141,8 +141,7 @@ export default function ProductsTable(Props) {
                               >
                                  <td>{e.itemName}</td>
                                  <td>
-                                    {Math.floor(Math.random() * 10) +
-                                       Math.floor(Math.random() * 10)}
+                                   0   
                                  </td>
                                  {/* <td>{e.category}</td> */}
                               </tr>
