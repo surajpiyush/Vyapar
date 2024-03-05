@@ -30,7 +30,7 @@ const FormItemsRowTable = ({
     const itemsArr = Array.isArray(itemsList) ? itemsList : [];
     const found = itemsArr?.filter((ite) => regex.test(ite?.itemName));
     if (item?.mainName.length < 1) {
-      return setFoundItems(itemsList);
+      return setFoundItems(itemsArr);
     }
     setFoundItems(found);
   }, [item?.mainName, itemsList]);
