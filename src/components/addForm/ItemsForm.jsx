@@ -19,13 +19,13 @@ export default function ItemsForm({ closeForm }) {
    const [formData, setFormData] = useState({
       itemName: "",
       category: "65d080c09b0c34b0924bd909",
-      itemHsn: 456789,
+      itemHsn: "",
       description: "This is a sample item",
       itemCode: 789,
       seleteUnit: [{ baseUnit: "Piece", secondaryUnit: "Box" }],
       batchTracking: "Yes",
       serialTracking: "No",
-      stockQuantity: 10,
+      stockQuantity: 1,
       mrp: [{ mrp: 150, disOnMrpForSale: "5%", disOnMrpForWholesale: "10%" }],
       salePrice: [
          {
@@ -48,7 +48,7 @@ export default function ItemsForm({ closeForm }) {
       taxRate: "18%",
       stock: [
          {
-            openingQuantity: 50,
+            openingQuantity: "",
             atPrice: 75,
             asOfDate: "2024-01-27",
             minStockToMaintain: 20,
@@ -65,6 +65,36 @@ export default function ItemsForm({ closeForm }) {
       }));
    };
 
+   const handleStock = (e) => {
+      let { name, value } = e.target;
+      if (name === "asOfDate") {
+         const selectedDate = new Date(value);
+         const today = new Date();
+
+         if (selectedDate > today) {
+            toast({
+               description: "Something Went Wrong!",
+               title: "Selected date should not be after today",
+               status: "error",
+               position: "top",
+            });
+            console.log("Selected date should not be after today");
+            value = new Date().toISOString().split("T")[0];
+         }
+      }
+      console.log(value);
+      setFormData((prevFormData) => ({
+         ...prevFormData,
+         stock: [
+            {
+               ...prevFormData.stock[0],
+               [name]: value,
+            },
+         ],
+      }));
+      // console.log(formData.stock);
+   };
+
    const handleFileChange = (event) => {
       setFormData({
          ...formData,
@@ -73,8 +103,8 @@ export default function ItemsForm({ closeForm }) {
    };
 
    const handleSave = () => {
-    console.log("formData-", formData)
-    addItem(dispatch,formData,closeForm,toast)
+      console.log("formData-", formData);
+      addItem(dispatch, formData, closeForm, toast);
       // dispatch(addItem(formData, closeForm, toast));
    };
 
@@ -155,7 +185,7 @@ export default function ItemsForm({ closeForm }) {
                         Select Unit
                      </button>
                   </div>
-                  <div
+                  {/* <div
                      className="d-flex input-cont"
                      style={{ marginTop: "20px", padding: "0px 20px" }}
                   >
@@ -197,7 +227,7 @@ export default function ItemsForm({ closeForm }) {
                         }}
                         onChange={handleFileChange}
                      />
-                  </div>
+                  </div> */}
                   <div className="d-flex" style={{ marginTop: "16px" }}>
                      <div
                         className=""
@@ -414,6 +444,8 @@ export default function ItemsForm({ closeForm }) {
                               <div className="d-flex" style={{ gap: "50px" }}>
                                  <div className="d-flex">
                                     <input
+                                       name="openingQuantity"
+                                       onClick={(e) => handleStock(e)}
                                        type="text"
                                        placeholder="Opening Quantity *"
                                        className="inp-field"
@@ -421,6 +453,8 @@ export default function ItemsForm({ closeForm }) {
                                  </div>
                                  <div className="d-flex">
                                     <input
+                                       name="atPrice"
+                                       onChange={(e) => handleStock(e)}
                                        type="text"
                                        placeholder="At Price *"
                                        className="inp-field"
@@ -428,6 +462,9 @@ export default function ItemsForm({ closeForm }) {
                                  </div>
                                  <div className="d-flex">
                                     <input
+                                       name="asOfDate"
+                                       onChange={(e) => handleStock(e)}
+                                       value={formData?.stock[0].asOfDate}
                                        type="date"
                                        placeholder="As of date *"
                                        className="inp-field"
@@ -438,6 +475,8 @@ export default function ItemsForm({ closeForm }) {
                               <div className="d-flex" style={{ gap: "50px" }}>
                                  <div className="d-flex">
                                     <input
+                                       name="minStockToMaintain"
+                                       onChange={(e) => handleStock(e)}
                                        type="text"
                                        placeholder="Min Stock To Maintain *"
                                        className="inp-field"
@@ -445,6 +484,8 @@ export default function ItemsForm({ closeForm }) {
                                  </div>
                                  <div className="d-flex">
                                     <input
+                                       onChange={(e) => handleStock(e)}
+                                       name="location"
                                        type="text"
                                        placeholder="Location *"
                                        className="inp-field"
