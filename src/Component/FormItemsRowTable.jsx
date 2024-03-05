@@ -32,6 +32,7 @@ const FormItemsRowTable = ({
       return setFoundItems(itemsList);
     }
     setFoundItems(found);
+    console.log("found", found);
   }, [item?.mainName]);
 
   //   Calculator useEffect
@@ -151,18 +152,17 @@ const FormItemsRowTable = ({
             </MenuItem>
             <MenuDivider />
             {loadingAllItems && <MenuItem>Loading Items</MenuItem>}
-            {!loadingAllItems &&
-              foundItems?.map((foundItem) => (
-                <MenuItem
-                  key={foundItem?._id}
-                  onClick={() => {
-                    handleMenuItemClick(foundItem);
-                    setShowItemsListMenu(false);
-                  }}
-                >
-                  {foundItem?.itemName}
-                </MenuItem>
-              ))}
+            {foundItems?.map((foundItem) => (
+              <MenuItem
+                key={foundItem?._id}
+                onClick={() => {
+                  handleMenuItemClick(foundItem);
+                  setShowItemsListMenu(false);
+                }}
+              >
+                {foundItem?.itemName}
+              </MenuItem>
+            ))}
           </MenuList>
         </Menu>
       </td>
