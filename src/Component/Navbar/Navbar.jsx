@@ -1,53 +1,129 @@
-import "./Navbar.css";
+import css from "./Navbar.module.css";
 import Logo from "../../assets/Shop.svg";
-import NavbarToggle from "./Navbartoggle";
-
-import { useState } from "react";
-import { IoMdRefresh } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
 import { USER_DETAILS } from "../../Redux/business/actionTypes";
 
+import { useState } from "react";
+import { useToast } from "@chakra-ui/react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { IoMdRefresh as RefreshIcon } from "react-icons/io";
+import { IoMdCloseCircle as CloseIcon } from "react-icons/io";
+
 const Navbar = () => {
+  const toast = useToast();
   const navigate = useNavigate();
-  const [toggleNav, setToggleNav] = useState(false);
+  const location = useLocation();
+  const [inpVal, setInpVal] = useState(
+    JSON.parse(localStorage.getItem(USER_DETAILS))?.companyName || ""
+  );
+  const [showRename, setShowRename] = useState(false);
+  const [showCompanyMenu, setShowCompanyMenu] = useState(false);
+
+  // Save Name Function
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    toast({
+      title: "Feature Under Development",
+      status: "info",
+      position: "top",
+    });
+  };
+
+  // Change Company Click
+  const handleChangeCompanyClick = () => {
+    setShowCompanyMenu((prev) => !prev);
+    navigate("/company", {
+      state: { redirectTo: location.pathname },
+      replace: true,
+    });
+  };
 
   // Logout Function
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
     localStorage.removeItem(USER_DETAILS);
-    alert("Logout Successfull");
-    navigate("/auth");
+    toast({ title: "Logout Successfull!", status: "success", position: "top" });
+    navigate("/auth", {
+      state: { redirectTo: location.pathname },
+      replace: true,
+    });
   };
 
   const handleCloseToogle = () => {
-    if (toggleNav) {
-      setToggleNav(false);
+    if (showCompanyMenu) {
+      setShowCompanyMenu(false);
     }
   };
 
   return (
-    <nav className="nav-nav" onClick={handleCloseToogle}>
-      <ul className="nav-ul">
-        <li className="nav-li">
-          <img className="nav-li-img" src={Logo} alt="Logo" />
-        </li>
-        <li
-          className="nav-li company-nav-item"
-          onClick={() => setToggleNav(!toggleNav)}
+    <nav className={css.navOuterDiv} onClick={handleCloseToogle}>
+      <div className={css.innerParentDiv}>
+        <div className={css.leftSideNavOptionsDiv}>
+          <img src={Logo} alt="Asaanly" />
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowCompanyMenu((prev) => !prev);
+            }}
+            style={{
+              backgroundColor: showCompanyMenu ? "var(--greyC)" : "transparent",
+            }}
+          >
+            Company
+          </div>
+          <div>Help</div>
+          <div>Shotcuts</div>
+          <div onClick={handleLogout}>Logout</div>
+          <div onClick={() => window.location.reload()}>
+            <RefreshIcon />
+          </div>
+        </div>
+      </div>
+
+      {/* Company Menu */}
+      {showCompanyMenu && (
+        <div className={css.companyMenuOuterDiv}>
+          <div onClick={handleChangeCompanyClick}>Change Company</div>
+          <div
+            onClick={() => {
+              setShowRename(true);
+              setShowCompanyMenu(false);
+            }}
+          >
+            Rename Company Name
+          </div>
+        </div>
+      )}
+
+      {/* Rename Component */}
+      {showRename && (
+        <div
+          className={css.renameOuterDiv}
+          onClick={() => setShowRename(false)}
         >
-          <div>Company</div>
-          {toggleNav && <NavbarToggle closeTooglenav={handleCloseToogle} />}
-        </li>
-        <li className="nav-li">Help</li>
-        <li className="nav-li">Shotcuts</li>
-        <li className="nav-li" onClick={handleLogout}>
-          Logout
-        </li>
-        <li className="nav-li">
-          <IoMdRefresh />
-        </li>
-      </ul>
+          <form
+            onSubmit={handleSubmit}
+            onClick={(e) => e.stopPropagation()}
+            className={css.renameFormDivOuter}
+          >
+            <div className={css.headerRenameForm}>
+              <div>Update company display name</div>
+              <CloseIcon onClick={() => setShowRename(false)} />
+            </div>
+            <div className={css.renameInputDivOuter}>
+              <input
+                type="text"
+                value={inpVal}
+                onChange={(e) => setInpVal(e.target.value)}
+                required
+              />
+            </div>
+            <div className={css.footerOuterDiv}>
+              <button type="submit">Save</button>
+            </div>
+          </form>
+        </div>
+      )}
     </nav>
   );
 };
