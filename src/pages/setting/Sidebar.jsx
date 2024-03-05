@@ -20,7 +20,7 @@ function Sidebar() {
             </NavLink>
 
             <NavLink
-               to="/setting"
+               to="/setting"  
                className={styles.navLink}
                activeClassName={styles.active}
             >
