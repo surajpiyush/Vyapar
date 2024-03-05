@@ -1,18 +1,11 @@
 import css from "../../../styles/SalesStyles/SalesForms.module.css";
 import ItemsForm from "../../../components/addForm/ItemsForm";
-import ItemsTableBodyEstimate from "./ItemsTableBodyEstimate";
+import FormItemsRowTable from "../../../Component/FormItemsRowTable";
 import { FetchAllParties } from "../../../Redux/parties/actions";
 import { GetAllItems } from "../../../Redux/items/actions";
 import { PostEstimates } from "../../../Redux/sales/action";
 
-import {
-  useToast,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  Button,
-} from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IoIosArrowDown as ArrowDown } from "react-icons/io";
@@ -31,25 +24,21 @@ const EstimateForm = ({ setOpenForm }) => {
   const togglePartiesData = useSelector(
     (state) => state.PartiesReducer.togglePartiesData
   );
-  const getAllItemsLoading = useSelector(
-    (state) => state.ItemReducer.getAllItemsLoading
-  );
-  const items = useSelector((state) => state.ItemReducer.items);
   const toggleItems = useSelector((state) => state.ItemReducer.toggleItems);
   const estimatesList = useSelector(
     (state) => state.SalesReducer.estimatesList
   );
 
   const [toggleDesc, setToggleDesc] = useState(false);
-  const [showItemForm, setShowItemForm] = useState(false);
+  const [showItemForm, setShowAddItemsForm] = useState(false);
   const [rowFooterData, setRowFooterData] = useState({});
   const [toggleRoundOff, setToggleRoundOff] = useState(false);
-  const [indexEstimateItem, setIndexEstimateItem] = useState(0);
+  const [activeRowIndex, setActiveRowIndex] = useState(0);
   const [showItemsListMenu, setShowItemsListMenu] = useState(false);
   const [currentCustomerData, setCurrentCustomerData] = useState({});
   const [topMarginAddDescInp, setTopMarginAddDescInp] = useState("0px");
 
-  const [estimateItems, setEstimatesItems] = useState([
+  const [tableRowsArr, setTableRowsArr] = useState([
     {
       itemName: "",
       mainName: "",
@@ -81,7 +70,7 @@ const EstimateForm = ({ setOpenForm }) => {
       ...estimateData,
       customerName: currentCustomerData?._id || "",
       customerId: currentCustomerData?._id || "",
-      estimate: estimateItems,
+      estimate: tableRowsArr,
       total: toggleRoundOff
         ? Math.round(rowFooterData?.totalAmount)
         : rowFooterData?.totalAmount,
@@ -108,7 +97,7 @@ const EstimateForm = ({ setOpenForm }) => {
       totalTaxAmount: 0,
       totalAmount: 0,
     };
-    estimateItems?.forEach((item) => {
+    tableRowsArr?.forEach((item) => {
       if (Number(item?.qty)) {
         footerObj.totalQty += Number(item?.qty);
       }
@@ -127,13 +116,13 @@ const EstimateForm = ({ setOpenForm }) => {
     footerObj.totalAmount = footerObj.totalAmount.toFixed(2);
     setRowFooterData(footerObj);
   }, [
-    estimateItems[indexEstimateItem]?.qty,
-    estimateItems[indexEstimateItem]?.priceUnit,
-    estimateItems[indexEstimateItem]?.discountpersant,
-    estimateItems[indexEstimateItem]?.discountAmount,
-    estimateItems[indexEstimateItem]?.taxPersant,
-    estimateItems[indexEstimateItem]?.taxAmount,
-    estimateItems[indexEstimateItem]?.amount,
+    tableRowsArr[activeRowIndex]?.qty,
+    tableRowsArr[activeRowIndex]?.priceUnit,
+    tableRowsArr[activeRowIndex]?.discountpersant,
+    tableRowsArr[activeRowIndex]?.discountAmount,
+    tableRowsArr[activeRowIndex]?.taxPersant,
+    tableRowsArr[activeRowIndex]?.taxAmount,
+    tableRowsArr[activeRowIndex]?.amount,
   ]);
 
   // Input Change Function
@@ -142,20 +131,6 @@ const EstimateForm = ({ setOpenForm }) => {
     setEstimateData((prev) => {
       return { ...prev, [name]: value };
     });
-  };
-
-  // Found items list click handler
-  const handleMenuItemClick = (index, itemDetail) => {
-    let currSaleItem = {
-      ...estimateItems[index],
-      itemName: itemDetail?._id,
-      mainName: itemDetail?.itemName,
-      taxPersant: itemDetail?.taxRate.split("%")[0] || "",
-    };
-    let newSaleData = estimateItems.map((ite, ind) =>
-      ind == index ? currSaleItem : ite
-    );
-    setEstimatesItems(newSaleData);
   };
 
   // Add Row Function
@@ -173,19 +148,12 @@ const EstimateForm = ({ setOpenForm }) => {
       taxAmount: "",
       amount: "",
     };
-    setEstimatesItems((prev) => [...prev, newRowData]);
-  };
-
-  // Delete Row Function
-  const handleDeleteRow = (e, index) => {
-    e.stopPropagation();
-    const deletedRowdata = estimateItems.filter((_, ind) => ind != index);
-    setEstimatesItems(deletedRowdata);
+    setTableRowsArr((prev) => [...prev, newRowData]);
   };
 
   return (
     <form onSubmit={handleSubmit} className={css.formOuter}>
-      {showItemForm && <ItemsForm closeForm={setShowItemForm} />}
+      {showItemForm && <ItemsForm closeForm={setShowAddItemsForm} />}
 
       <div className={css.topheader}>
         <p>Estimate/Quotation</p>
@@ -346,22 +314,18 @@ const EstimateForm = ({ setOpenForm }) => {
               </tr>
             </thead>
             <tbody>
-              {estimateItems?.map((item, ind) => {
+              {tableRowsArr?.map((item, ind) => {
                 return (
-                  <ItemsTableBodyEstimate
+                  <FormItemsRowTable
                     ind={ind}
                     item={item}
-                    items={items}
-                    estimateItems={estimateItems}
+                    tableRowsArr={tableRowsArr}
+                    setTableRowsArr={setTableRowsArr}
+                    activeRowIndex={activeRowIndex}
+                    setActiveRowIndex={setActiveRowIndex}
                     showItemsListMenu={showItemsListMenu}
-                    indexEstimateItem={indexEstimateItem}
-                    getAllItemsLoading={getAllItemsLoading}
-                    handleDeleteRow={handleDeleteRow}
-                    setShowItemForm={setShowItemForm}
-                    setEstimatesItems={setEstimatesItems}
-                    handleMenuItemClick={handleMenuItemClick}
-                    setIndexEstimateItem={setIndexEstimateItem}
                     setShowItemsListMenu={setShowItemsListMenu}
+                    setShowAddItemsForm={setShowAddItemsForm}
                     key={ind}
                   />
                 );

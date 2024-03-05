@@ -1,6 +1,6 @@
 import css from "../../../styles/SalesStyles/SalesForms.module.css";
 import ItemsForm from "../../../components/addForm/ItemsForm";
-import ItemsTableBodySaleOrder from "./ItemsTableBodySaleOrder";
+import FormItemsRowTable from "../../../Component/FormItemsRowTable";
 import { GetAllItems } from "../../../Redux/items/actions";
 import { FetchAllParties } from "../../../Redux/parties/actions";
 import { PostSaleOrder } from "../../../Redux/sales/action";
@@ -50,12 +50,12 @@ const OrderForm = ({ setOpenForm }) => {
   const [checkReferenceInpval, setCheckReferenceInpval] = useState("");
   const [topMarginAddDescInp, setTopMarginAddDescInp] = useState("");
   const [showItemsListMenu, setShowItemsListMenu] = useState(false);
-  const [indexOrderTableItem, setIndexOrderTableItem] = useState(0);
+  const [activeRowIndex, setActiveRowIndex] = useState(0);
   const [rowFooterData, setRowFooterData] = useState({});
-  const [showItemForm, setShowItemForm] = useState(false);
+  const [showItemForm, setShowAddItemsForm] = useState(false);
   const [balanceAmount, setBalanceAmount] = useState("");
 
-  const [orderTableItems, setOrderTableItems] = useState([
+  const [tableRowsArr, setTableRowsArr] = useState([
     {
       itemName: "",
       mainName: "",
@@ -96,7 +96,7 @@ const OrderForm = ({ setOpenForm }) => {
       ...orderData,
       total,
       priceUnitWithTax: orderData?.priceUnitWithTax == "true",
-      saleOrder: orderTableItems,
+      saleOrder: tableRowsArr,
       paymentType: [
         { types: paymentTypeSelectTag, amount: 0 },
         { types: "Cheque", amount: 0, refreanceNo: "Test" },
@@ -112,20 +112,6 @@ const OrderForm = ({ setOpenForm }) => {
     PostSaleOrder(dispatch, data, setOpenForm, toast);
   };
 
-  // Found items list click handler
-  const handleMenuItemClick = (index, itemDetail) => {
-    let currSaleItem = {
-      ...orderTableItems[index],
-      itemName: itemDetail?._id,
-      mainName: itemDetail?.itemName,
-      taxPersant: itemDetail?.taxRate.split("%")[0] || "",
-    };
-    let newSaleData = orderTableItems.map((ite, ind) =>
-      ind == index ? currSaleItem : ite
-    );
-    setOrderTableItems(newSaleData);
-  };
-
   // Update total footer values
   useEffect(() => {
     let footerObj = {
@@ -134,7 +120,7 @@ const OrderForm = ({ setOpenForm }) => {
       totalTaxAmount: 0,
       totalAmount: 0,
     };
-    orderTableItems?.forEach((item) => {
+    tableRowsArr?.forEach((item) => {
       if (Number(item?.qty)) {
         footerObj.totalQty += Number(item?.qty);
       }
@@ -153,13 +139,13 @@ const OrderForm = ({ setOpenForm }) => {
     footerObj.totalAmount = footerObj.totalAmount.toFixed(2);
     setRowFooterData(footerObj);
   }, [
-    orderTableItems[indexOrderTableItem]?.qty,
-    orderTableItems[indexOrderTableItem]?.priceUnit,
-    orderTableItems[indexOrderTableItem]?.discountpersant,
-    orderTableItems[indexOrderTableItem]?.discountAmount,
-    orderTableItems[indexOrderTableItem]?.taxPersant,
-    orderTableItems[indexOrderTableItem]?.taxAmount,
-    orderTableItems[indexOrderTableItem]?.amount,
+    tableRowsArr[activeRowIndex]?.qty,
+    tableRowsArr[activeRowIndex]?.priceUnit,
+    tableRowsArr[activeRowIndex]?.discountpersant,
+    tableRowsArr[activeRowIndex]?.discountAmount,
+    tableRowsArr[activeRowIndex]?.taxPersant,
+    tableRowsArr[activeRowIndex]?.taxAmount,
+    tableRowsArr[activeRowIndex]?.amount,
   ]);
 
   // for fetching all parties list on form mount
@@ -230,13 +216,7 @@ const OrderForm = ({ setOpenForm }) => {
       taxAmount: "",
       amount: "",
     };
-    setOrderTableItems((prev) => [...prev, newRowData]);
-  };
-  // Delete Row Function
-  const handleDeleteRow = (e, index) => {
-    e.stopPropagation();
-    const deletedRowdata = orderTableItems.filter((_, ind) => ind != index);
-    setOrderTableItems(deletedRowdata);
+    setTableRowsArr((prev) => [...prev, newRowData]);
   };
 
   return (
@@ -246,7 +226,7 @@ const OrderForm = ({ setOpenForm }) => {
       </div>
 
       <div className={css.ContentContainerDiv}>
-        {showItemForm && <ItemsForm closeForm={setShowItemForm} />}
+        {showItemForm && <ItemsForm closeForm={setShowAddItemsForm} />}
 
         {/* Middle  */}
         <div className={css.middleOuter}>
@@ -457,22 +437,19 @@ const OrderForm = ({ setOpenForm }) => {
               </tr>
             </thead>
             <tbody>
-              {orderTableItems?.map((item, ind) => {
+              {tableRowsArr?.map((item, ind) => {
                 return (
-                  <ItemsTableBodySaleOrder
+                  <FormItemsRowTable
                     ind={ind}
                     item={item}
-                    items={items}
-                    orderTableItems={orderTableItems}
+                    tableRowsArr={tableRowsArr}
+                    setTableRowsArr={setTableRowsArr}
+                    activeRowIndex={activeRowIndex}
+                    setActiveRowIndex={setActiveRowIndex}
                     showItemsListMenu={showItemsListMenu}
-                    getAllItemsLoading={getAllItemsLoading}
-                    indexOrderTableItem={indexOrderTableItem}
-                    setShowItemForm={setShowItemForm}
-                    setOrderTableItems={setOrderTableItems}
                     setShowItemsListMenu={setShowItemsListMenu}
-                    setIndexOrderTableItem={setIndexOrderTableItem}
-                    handleDeleteRow={handleDeleteRow}
-                    handleMenuItemClick={handleMenuItemClick}
+                    setShowAddItemsForm={setShowAddItemsForm}
+                    key={ind}
                   />
                 );
               })}
