@@ -12,7 +12,7 @@ function Sidebar() {
          </div>
          <div className="items">
             <NavLink
-               to="/setting"
+               to="/general "
                className={styles.navLink}
                activeClassName={styles.active}
             >

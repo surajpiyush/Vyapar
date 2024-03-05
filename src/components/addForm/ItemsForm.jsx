@@ -165,6 +165,7 @@ export default function ItemsForm({ closeForm }) {
                      style={{ marginTop: "20px", padding: "0px 20px" }}
                   >
                      <input
+                        required
                         type="text"
                         className="inp-field"
                         name="itemName"
@@ -174,6 +175,7 @@ export default function ItemsForm({ closeForm }) {
                      />
 
                      <input
+                        required
                         type="number"
                         name="itemHsn"
                         className="inp-field"
@@ -203,14 +205,14 @@ export default function ItemsForm({ closeForm }) {
                         <option value="jeans">Jeans</option>
                      </select>
 
-                     <input
+                     <input required
                         className="inp-field"
                         type="text"
                         name=""
                         placeholder="Please enter the id of category"
                      />
 
-                     <input
+                     <input required
                         type="number"
                         placeholder="Item Code *"
                         className="inp-field"
@@ -218,7 +220,7 @@ export default function ItemsForm({ closeForm }) {
                         onChange={handleChange}
                         name="itemCode"
                      />
-                     <input
+                     <input required
                         type="file"
                         placeholder="Add Image Item"
                         className="inp-field"
@@ -275,6 +277,7 @@ export default function ItemsForm({ closeForm }) {
                               <div className="d-flex" style={{ gap: "50px" }}>
                                  <div className="d-flex">
                                     <input
+                                       required
                                        type="text"
                                        placeholder="Sale Price *"
                                        className="item-inp-field"
@@ -290,6 +293,7 @@ export default function ItemsForm({ closeForm }) {
                                  </div>
                                  <div className="d-flex">
                                     <input
+                                       required
                                        type="text"
                                        placeholder="Sale Price *"
                                        className="item-inp-field"
@@ -333,6 +337,7 @@ export default function ItemsForm({ closeForm }) {
                                           style={{ gap: "10px" }}
                                        >
                                           <input
+                                             required
                                              type="text"
                                              placeholder="WholeSale Price *"
                                              className="item-inp-field"
@@ -348,6 +353,7 @@ export default function ItemsForm({ closeForm }) {
                                              </option>
                                           </select>
                                           <input
+                                             required
                                              type="text"
                                              placeholder="Minimum Wholesale Quantity"
                                              className="item-inp-field"
@@ -384,6 +390,7 @@ export default function ItemsForm({ closeForm }) {
                                        </div>
                                        <div className="d-flex">
                                           <input
+                                             required
                                              type="text"
                                              placeholder="Sale Price *"
                                              className="item-inp-field"
@@ -409,6 +416,7 @@ export default function ItemsForm({ closeForm }) {
                                        </div>
                                        <div className="d-flex">
                                           <input
+                                             required
                                              type="text"
                                              placeholder="Sale Price *"
                                              className="item-inp-field"
@@ -444,6 +452,7 @@ export default function ItemsForm({ closeForm }) {
                               <div className="d-flex" style={{ gap: "50px" }}>
                                  <div className="d-flex">
                                     <input
+                                       required
                                        name="openingQuantity"
                                        onClick={(e) => handleStock(e)}
                                        type="text"
@@ -453,6 +462,7 @@ export default function ItemsForm({ closeForm }) {
                                  </div>
                                  <div className="d-flex">
                                     <input
+                                       required
                                        name="atPrice"
                                        onChange={(e) => handleStock(e)}
                                        type="text"
@@ -462,6 +472,7 @@ export default function ItemsForm({ closeForm }) {
                                  </div>
                                  <div className="d-flex">
                                     <input
+                                       required
                                        name="asOfDate"
                                        onChange={(e) => handleStock(e)}
                                        value={formData?.stock[0].asOfDate}
@@ -475,6 +486,7 @@ export default function ItemsForm({ closeForm }) {
                               <div className="d-flex" style={{ gap: "50px" }}>
                                  <div className="d-flex">
                                     <input
+                                       required
                                        name="minStockToMaintain"
                                        onChange={(e) => handleStock(e)}
                                        type="text"
@@ -484,6 +496,7 @@ export default function ItemsForm({ closeForm }) {
                                  </div>
                                  <div className="d-flex">
                                     <input
+                                       required
                                        onChange={(e) => handleStock(e)}
                                        name="location"
                                        type="text"
@@ -525,12 +538,14 @@ export default function ItemsForm({ closeForm }) {
                      style={{ marginTop: "20px", padding: "0px 20px" }}
                   >
                      <input
+                        required
                         type="text"
                         placeholder="Service Name *"
                         className="inp-field"
                      />
 
                      <input
+                        required
                         type="text"
                         placeholder="Service HNS *"
                         className="inp-field"
@@ -553,11 +568,13 @@ export default function ItemsForm({ closeForm }) {
                      </select>
 
                      <input
+                        required
                         type="text"
                         placeholder="Service Code *"
                         className="inp-field"
                      />
                      <input
+                        required
                         type="file"
                         placeholder="Add Image Item"
                         className="inp-field"
@@ -600,6 +617,7 @@ export default function ItemsForm({ closeForm }) {
                            <div className="d-flex" style={{ gap: "50px" }}>
                               <div className="d-flex">
                                  <input
+                                    required
                                     type="text"
                                     placeholder="Sale Price *"
                                     className="item-inp-field"
@@ -615,6 +633,7 @@ export default function ItemsForm({ closeForm }) {
                               </div>
                               <div className="d-flex">
                                  <input
+                                    required
                                     type="text"
                                     placeholder="Sale Price *"
                                     className="item-inp-field"
@@ -658,6 +677,7 @@ export default function ItemsForm({ closeForm }) {
                                        style={{ gap: "10px" }}
                                     >
                                        <input
+                                          required
                                           type="text"
                                           placeholder="WholeSale Price *"
                                           className="item-inp-field"
@@ -671,6 +691,7 @@ export default function ItemsForm({ closeForm }) {
                                           <option value="">Without Tax</option>
                                        </select>
                                        <input
+                                          required
                                           type="text"
                                           placeholder="Minimum Wholesale Quantity"
                                           className="item-inp-field"
