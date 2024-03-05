@@ -1,6 +1,6 @@
 import css from "../../../styles/SalesStyles/SalesForms.module.css";
 import ItemsForm from "../../../components/addForm/ItemsForm";
-import ItemsTableBody from "./ItemsTableBody";
+import FormItemsRowTable from "../../../Component/FormItemsRowTable";
 import { PostSalesInvoice } from "../../../Redux/sales/action";
 import { GetAllItems } from "../../../Redux/items/actions";
 import { FetchAllParties } from "../../../Redux/parties/actions";
@@ -33,11 +33,7 @@ const InvoiceForm = ({ setOpenForm }) => {
   );
   const partiesData = useSelector((state) => state.PartiesReducer.partiesData);
   const toggleItems = useSelector((state) => state.ItemReducer.toggleItems);
-  const getAllItemsLoading = useSelector(
-    (state) => state.ItemReducer.getAllItemsLoading
-  );
   const invoicesList = useSelector((state) => state.SalesReducer.invoicesList);
-  const items = useSelector((state) => state.ItemReducer.items);
 
   const [currentCustomerData, setCurrentCustomerData] = useState({});
   const [toggleDesc, setToggleDesc] = useState(false);
@@ -48,12 +44,12 @@ const InvoiceForm = ({ setOpenForm }) => {
   const [checkReferenceInpval, setCheckReferenceInpval] = useState("");
   const [topMarginAddDescInp, setTopMarginAddDescInp] = useState("");
   const [showItemsListMenu, setShowItemsListMenu] = useState(false);
-  const [indexSaleItem, setIndexSaleItem] = useState(0);
+  const [activeRowIndex, setActiveRowIndex] = useState(0);
   const [rowFooterData, setRowFooterData] = useState({});
-  const [showItemForm, setShowItemForm] = useState(false);
+  const [showItemForm, setShowAddItemsForm] = useState(false);
   const [balanceAmount, setBalanceAmount] = useState("");
 
-  const [invoiceItems, setInvoiceItems] = useState([
+  const [tableRowsArr, setTableRowsArr] = useState([
     {
       itemName: "",
       mainName: "",
@@ -92,7 +88,7 @@ const InvoiceForm = ({ setOpenForm }) => {
       totalTaxAmount: 0,
       totalAmount: 0,
     };
-    invoiceItems?.forEach((item) => {
+    tableRowsArr?.forEach((item) => {
       if (Number(item?.qty)) {
         footerObj.totalQty += Number(item?.qty);
       }
@@ -111,13 +107,13 @@ const InvoiceForm = ({ setOpenForm }) => {
     footerObj.totalAmount = footerObj.totalAmount.toFixed(2);
     setRowFooterData(footerObj);
   }, [
-    invoiceItems[indexSaleItem]?.qty,
-    invoiceItems[indexSaleItem]?.priceUnit,
-    invoiceItems[indexSaleItem]?.discountpersant,
-    invoiceItems[indexSaleItem]?.discountAmount,
-    invoiceItems[indexSaleItem]?.taxPersant,
-    invoiceItems[indexSaleItem]?.taxAmount,
-    invoiceItems[indexSaleItem]?.amount,
+    tableRowsArr[activeRowIndex]?.qty,
+    tableRowsArr[activeRowIndex]?.priceUnit,
+    tableRowsArr[activeRowIndex]?.discountpersant,
+    tableRowsArr[activeRowIndex]?.discountAmount,
+    tableRowsArr[activeRowIndex]?.taxPersant,
+    tableRowsArr[activeRowIndex]?.taxAmount,
+    tableRowsArr[activeRowIndex]?.amount,
   ]);
 
   // Submit Request Function
@@ -126,7 +122,7 @@ const InvoiceForm = ({ setOpenForm }) => {
     const data = {
       ...invoiceData,
       priceUnitWithTax: invoiceData?.priceUnitWithTax == "true",
-      sale: invoiceItems,
+      sale: tableRowsArr,
       balance:
         balanceAmount || toggleRoundOff
           ? Math.round(rowFooterData?.totalAmount)
@@ -191,20 +187,6 @@ const InvoiceForm = ({ setOpenForm }) => {
     });
   };
 
-  // Found items list click handler
-  const handleMenuItemClick = (index, itemDetail) => {
-    let currSaleItem = {
-      ...invoiceItems[index],
-      itemName: itemDetail?._id,
-      mainName: itemDetail?.itemName,
-      taxPersant: itemDetail?.taxRate.split("%")[0] || "",
-    };
-    let newSaleData = invoiceItems.map((ite, ind) =>
-      ind == index ? currSaleItem : ite
-    );
-    setInvoiceItems(newSaleData);
-  };
-
   // for changing balance amount
   useEffect(() => {
     let initAmount = toggleRoundOff
@@ -232,14 +214,9 @@ const InvoiceForm = ({ setOpenForm }) => {
       taxAmount: "",
       amount: "",
     };
-    setInvoiceItems((prev) => [...prev, newRowData]);
+    setTableRowsArr((prev) => [...prev, newRowData]);
   };
-  // Delete Row Function
-  const handleDeleteRow = (e, index) => {
-    e.stopPropagation();
-    const deletedRowdata = invoiceItems.filter((_, ind) => ind != index);
-    setInvoiceItems(deletedRowdata);
-  };
+
   return (
     <form onSubmit={handleSubmit} className={css.formOuter}>
       <div className={css.topheader}>
@@ -279,7 +256,7 @@ const InvoiceForm = ({ setOpenForm }) => {
       </div>
 
       <div className={css.ContentContainerDiv}>
-        {showItemForm && <ItemsForm closeForm={setShowItemForm} />}
+        {showItemForm && <ItemsForm closeForm={setShowAddItemsForm} />}
 
         {/* Middle  */}
         <div className={css.middleOuter}>
@@ -477,22 +454,18 @@ const InvoiceForm = ({ setOpenForm }) => {
               </tr>
             </thead>
             <tbody>
-              {invoiceItems?.map((item, ind) => {
+              {tableRowsArr?.map((item, ind) => {
                 return (
-                  <ItemsTableBody
+                  <FormItemsRowTable
                     ind={ind}
                     item={item}
-                    invoiceItems={invoiceItems}
-                    setInvoiceItems={setInvoiceItems}
-                    handleDeleteRow={handleDeleteRow}
-                    handleMenuItemClick={handleMenuItemClick}
-                    setShowItemsListMenu={setShowItemsListMenu}
-                    setShowItemForm={setShowItemForm}
-                    setIndexSaleItem={setIndexSaleItem}
-                    items={items}
-                    getAllItemsLoading={getAllItemsLoading}
+                    tableRowsArr={tableRowsArr}
+                    setTableRowsArr={setTableRowsArr}
+                    activeRowIndex={activeRowIndex}
+                    setActiveRowIndex={setActiveRowIndex}
                     showItemsListMenu={showItemsListMenu}
-                    indexSaleItem={indexSaleItem}
+                    setShowItemsListMenu={setShowItemsListMenu}
+                    setShowAddItemsForm={setShowAddItemsForm}
                     key={ind}
                   />
                 );

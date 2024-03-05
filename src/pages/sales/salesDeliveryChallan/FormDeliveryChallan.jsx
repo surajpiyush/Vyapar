@@ -1,15 +1,11 @@
 import css from "../../../styles/SalesStyles/SalesForms.module.css";
+import ItemsForm from "../../../components/addForm/ItemsForm";
+import FormItemsRowTable from "../../../Component/FormItemsRowTable";
 import { GetAllItems } from "../../../Redux/items/actions";
 import { FetchAllParties } from "../../../Redux/parties/actions";
+import { PostDeliveryChallan } from "../../../Redux/sales/action";
 
-import {
-  useToast,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  Button,
-} from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IoIosArrowDown as ArrowDown } from "react-icons/io";
@@ -19,14 +15,6 @@ import { HiMiniDocumentText as AddDocumentIcon } from "react-icons/hi2";
 import { BiSolidCameraPlus as AddCameraIcon } from "react-icons/bi";
 import { ImCheckboxUnchecked as EmptyCheckedBox } from "react-icons/im";
 import { BiSolidCheckboxChecked as CheckedBox } from "react-icons/bi";
-import ItemsTableBody from "../salesInvoice/ItemsTableBody";
-import ItemsForm from "../../../components/addForm/ItemsForm";
-import {
-  PostDeliveryChallan,
-  PostSaleOrder,
-  PostSalesInvoice,
-} from "../../../Redux/sales/action";
-import ItemsTableBodyDeliveryChallan from "./ItemsTableBodyDeliveryChallan";
 
 const FormDeliveryChallan = ({ setOpenForm }) => {
   const toast = useToast();
@@ -38,9 +26,6 @@ const FormDeliveryChallan = ({ setOpenForm }) => {
   );
   const partiesData = useSelector((state) => state.PartiesReducer.partiesData);
   const toggleItems = useSelector((state) => state.ItemReducer.toggleItems);
-  const getAllItemsLoading = useSelector(
-    (state) => state.ItemReducer.getAllItemsLoading
-  );
   const deliveryChallanList = useSelector(
     (state) => state.SalesReducer.deliveryChallanList
   );
@@ -48,18 +33,16 @@ const FormDeliveryChallan = ({ setOpenForm }) => {
   const [currentCustomerData, setCurrentCustomerData] = useState({});
   const [toggleDesc, setToggleDesc] = useState(false);
   const [toggleRoundOff, setToggleRoundOff] = useState(false);
-  const [toggleReceived, setToggleReceived] = useState(false);
   const [toggleCheckReferenceInp, setToggleCheckReferenceInp] = useState(false);
   const [paymentTypeSelectTag, setPaymentTypeSelectTag] = useState("Cash");
-  const [checkReferenceInpval, setCheckReferenceInpval] = useState("");
   const [topMarginAddDescInp, setTopMarginAddDescInp] = useState("");
   const [showItemsListMenu, setShowItemsListMenu] = useState(false);
-  const [indexOrderTableItem, setIndexOrderTableItem] = useState(0);
+  const [activeRowIndex, setActiveRowIndex] = useState(0);
   const [rowFooterData, setRowFooterData] = useState({});
-  const [showItemForm, setShowItemForm] = useState(false);
+  const [showItemForm, setShowAddItemsForm] = useState(false);
   const [balanceAmount, setBalanceAmount] = useState("");
 
-  const [orderTableItems, setOrderTableItems] = useState([
+  const [tableRowsArr, setTableRowsArr] = useState([
     {
       itemName: "",
       mainName: "",
@@ -86,40 +69,24 @@ const FormDeliveryChallan = ({ setOpenForm }) => {
     stateOfSupply: "",
     priceUnitWithTax: false,
     total: "",
-    // advancedAmount: "",
-    // balance: "",
   });
 
   // Submit Request Function
   const handleSubmit = (e) => {
+    e.preventDefault();
     let total = toggleRoundOff
       ? Math.round(rowFooterData?.totalAmount)
       : rowFooterData?.totalAmount;
-    e.preventDefault();
     const data = {
       ...orderData,
       total,
       priceUnitWithTax: orderData?.priceUnitWithTax == "true",
-      saleDeliveryChallan: orderTableItems,
+      saleDeliveryChallan: tableRowsArr,
       // balance: balanceAmount,
     };
     PostDeliveryChallan(dispatch, data, setOpenForm, toast);
 
     // console.log("Delivery Challan Data:", data);
-  };
-
-  // Found items list click handler
-  const handleMenuItemClick = (index, itemDetail) => {
-    let currSaleItem = {
-      ...orderTableItems[index],
-      itemName: itemDetail?._id,
-      mainName: itemDetail?.itemName,
-      taxPersant: itemDetail?.taxRate.split("%")[0] || "",
-    };
-    let newSaleData = orderTableItems.map((ite, ind) =>
-      ind == index ? currSaleItem : ite
-    );
-    setOrderTableItems(newSaleData);
   };
 
   // Update total footer values
@@ -130,7 +97,7 @@ const FormDeliveryChallan = ({ setOpenForm }) => {
       totalTaxAmount: 0,
       totalAmount: 0,
     };
-    orderTableItems?.forEach((item) => {
+    tableRowsArr?.forEach((item) => {
       if (Number(item?.qty)) {
         footerObj.totalQty += Number(item?.qty);
       }
@@ -149,13 +116,13 @@ const FormDeliveryChallan = ({ setOpenForm }) => {
     footerObj.totalAmount = footerObj.totalAmount.toFixed(2);
     setRowFooterData(footerObj);
   }, [
-    orderTableItems[indexOrderTableItem]?.qty,
-    orderTableItems[indexOrderTableItem]?.priceUnit,
-    orderTableItems[indexOrderTableItem]?.discountpersant,
-    orderTableItems[indexOrderTableItem]?.discountAmount,
-    orderTableItems[indexOrderTableItem]?.taxPersant,
-    orderTableItems[indexOrderTableItem]?.taxAmount,
-    orderTableItems[indexOrderTableItem]?.amount,
+    tableRowsArr[activeRowIndex]?.qty,
+    tableRowsArr[activeRowIndex]?.priceUnit,
+    tableRowsArr[activeRowIndex]?.discountpersant,
+    tableRowsArr[activeRowIndex]?.discountAmount,
+    tableRowsArr[activeRowIndex]?.taxPersant,
+    tableRowsArr[activeRowIndex]?.taxAmount,
+    tableRowsArr[activeRowIndex]?.amount,
   ]);
 
   // for fetching all parties list on form mount
@@ -226,13 +193,7 @@ const FormDeliveryChallan = ({ setOpenForm }) => {
       taxAmount: "",
       amount: "",
     };
-    setOrderTableItems((prev) => [...prev, newRowData]);
-  };
-  // Delete Row Function
-  const handleDeleteRow = (e, index) => {
-    e.stopPropagation();
-    const deletedRowdata = orderTableItems.filter((_, ind) => ind != index);
-    setOrderTableItems(deletedRowdata);
+    setTableRowsArr((prev) => [...prev, newRowData]);
   };
 
   return (
@@ -242,7 +203,7 @@ const FormDeliveryChallan = ({ setOpenForm }) => {
       </div>
 
       <div className={css.ContentContainerDiv}>
-        {showItemForm && <ItemsForm closeForm={setShowItemForm} />}
+        {showItemForm && <ItemsForm closeForm={setShowAddItemsForm} />}
 
         {/* Middle  */}
         <div className={css.middleOuter}>
@@ -453,21 +414,19 @@ const FormDeliveryChallan = ({ setOpenForm }) => {
               </tr>
             </thead>
             <tbody>
-              {orderTableItems?.map((item, ind) => {
+              {tableRowsArr?.map((item, ind) => {
                 return (
-                  <ItemsTableBodyDeliveryChallan
+                  <FormItemsRowTable
                     ind={ind}
                     item={item}
-                    orderTableItems={orderTableItems}
+                    tableRowsArr={tableRowsArr}
+                    setTableRowsArr={setTableRowsArr}
+                    activeRowIndex={activeRowIndex}
+                    setActiveRowIndex={setActiveRowIndex}
                     showItemsListMenu={showItemsListMenu}
-                    getAllItemsLoading={getAllItemsLoading}
-                    indexOrderTableItem={indexOrderTableItem}
-                    setShowItemForm={setShowItemForm}
-                    setOrderTableItems={setOrderTableItems}
                     setShowItemsListMenu={setShowItemsListMenu}
-                    setIndexOrderTableItem={setIndexOrderTableItem}
-                    handleDeleteRow={handleDeleteRow}
-                    handleMenuItemClick={handleMenuItemClick}
+                    setShowAddItemsForm={setShowAddItemsForm}
+                    key={ind}
                   />
                 );
               })}

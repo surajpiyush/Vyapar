@@ -41,14 +41,6 @@ const AuthPage = () => {
     }
   }, []);
 
-  //   Input change handler
-  const handleInpChange = (e) => {
-    const { name, value } = e.target;
-    setInpVal((prev) => {
-      return { ...prev, [name]: value };
-    });
-  };
-
   //   Register Request
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -64,14 +56,6 @@ const AuthPage = () => {
       );
       // console.log("SignUp Response", res?.data);
       const userName = res?.data?.companyData?.name;
-      const newCurrentCompanyData = {
-        companyName: res?.data?.companyData?.companyName,
-        email: res?.data?.companyData?.email,
-        phoneNumber: res?.data?.companyData?.phoneNumber || "",
-        userId: res?.data?.companyData?.userId,
-        _Id: res?.data?.companyData?.firmId,
-      };
-      localStorage.setItem(USER_DETAILS, JSON.stringify(newCurrentCompanyData));
       localStorage.setItem("token", res?.data?.companyData?.token);
       localStorage.setItem("userId", res?.data?.companyData?.userId);
       toast({
@@ -90,7 +74,7 @@ const AuthPage = () => {
       setStates((prev) => {
         return { ...prev, isLoading: false, toggle: !prev.toggle };
       });
-      navigate("/", {
+      navigate("/company", {
         state: { redirectTo: location.pathname },
         replace: true,
       });
@@ -156,6 +140,14 @@ const AuthPage = () => {
         return { ...prev, isLoading: false, isError: true };
       });
     }
+  };
+
+  //   Input change handler
+  const handleInpChange = (e) => {
+    const { name, value } = e.target;
+    setInpVal((prev) => {
+      return { ...prev, [name]: value };
+    });
   };
 
   return (

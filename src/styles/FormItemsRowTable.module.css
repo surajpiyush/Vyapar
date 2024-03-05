@@ -1,0 +1,312 @@
+/* Table Head Css */
+.ItemsOuter {
+  width: 100%;
+  text-align: center;
+  margin-top: 40px;
+
+  table {
+    width: 100%;
+    margin: auto;
+    text-align: center;
+  }
+
+  thead {
+    background-color: white;
+    height: 40px;
+
+    th {
+      border: 0.5px solid var(--greyC);
+      font-size: 12px;
+      font-weight: 400;
+    }
+
+    th > div {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  tbody {
+    background-color: white;
+
+    td {
+      border: 0.5px solid var(--greyC);
+    }
+
+    td:focus {
+      outline: none;
+      border: 1px solid var(--blueB);
+      background-color: white;
+    }
+
+    td > div {
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+.serialNumberHead {
+  width: 60px;
+}
+.itemNameHead {
+  width: 570px;
+  text-align: left;
+  padding-left: 10px;
+}
+.qtyHead {
+  width: 100px;
+  text-align: left;
+  padding-left: 10px;
+}
+.unitHead {
+  width: 85px;
+  text-align: left;
+  padding-left: 10px;
+}
+.priceUnitHead {
+  width: 150px;
+  text-align: center;
+  padding: 0;
+
+  select {
+    width: 100%;
+    margin: 0;
+    border: none;
+    border-top: 0.5px solid var(--greyC);
+    font-size: 12px;
+    padding: 1px 3px 0px;
+    margin-top: 3px;
+  }
+  select:focus {
+    outline: none;
+  }
+}
+.discountHead {
+  width: 180px;
+  text-align: center;
+  padding: 0;
+
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 100%;
+    border-top: 0.5px solid var(--greyC);
+    font-size: 11px;
+    margin-top: 3px;
+  }
+  .precentageIconHead {
+    padding-left: 15px;
+    padding-top: 3px;
+  }
+  .amountHead {
+    border-left: 0.5px solid var(--greyC);
+    text-align: center;
+    padding-left: 20px;
+    width: 50%;
+    height: 100%;
+    padding-top: 3px;
+  }
+}
+.taxHead {
+  width: 205px;
+  text-align: center;
+  padding: 0;
+
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 100%;
+    border-top: 0.5px solid var(--greyC);
+    font-size: 11px;
+    margin-top: 3px;
+  }
+  .precentageIconHead {
+    padding-left: 28px;
+    padding-top: 3px;
+  }
+  .amountHead {
+    border-left: 0.5px solid var(--greyC);
+    text-align: center;
+    padding-left: 25px;
+    width: 35%;
+    height: 100%;
+    padding-top: 3px;
+    white-space: nowrap;
+  }
+}
+.amountHead {
+  width: 110px;
+
+  div {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 10px;
+  }
+  p {
+    font-size: 13px;
+  }
+  svg {
+    cursor: pointer;
+    color: var(--blueA);
+    font-size: 18px;
+  }
+}
+/* Table Body */
+.tableInputs {
+  width: 100%;
+  height: 40px;
+  border: none;
+}
+.tableInputs:focus {
+  outline: none;
+  border: 0.5px solid var(--blueB);
+}
+.serialNumberBody {
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--greyA);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0px 3px;
+  }
+
+  div > .serialIconsBody {
+    display: none;
+    cursor: pointer;
+    font-size: 18px;
+  }
+}
+.serialNumberBody:hover > div {
+  justify-content: space-between;
+}
+.serialNumberBody:hover > div > .serialIconsBody {
+  display: block;
+}
+.itemNameBody {
+  position: relative;
+
+  input {
+    background: transparent;
+    border: none;
+    padding-left: 5px;
+    font-size: 14px;
+    font-weight: 200;
+    text-align: left;
+  }
+}
+.qtyBody {
+  input {
+    background: transparent;
+    border: none;
+    text-align: right;
+    padding-right: 5px;
+    font-size: 14px;
+    font-weight: 200;
+  }
+}
+.unitBody {
+  text-align: left;
+  padding-left: 5px;
+  font-weight: 200;
+
+  select {
+    border: none;
+    outline: none;
+    background: transparent;
+    height: 100%;
+    width: 100%;
+    font-size: 14px;
+    font-weight: 200;
+  }
+}
+.DiscountBody {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  font-size: 14px;
+  font-weight: 200;
+
+  input {
+    background-color: transparent;
+    border: none;
+    text-align: right;
+  }
+  input:focus {
+    outline: none;
+    border: 1px solid var(--blueB);
+    background-color: white;
+  }
+  input:nth-of-type(1) {
+    width: 41%;
+    height: 40px;
+  }
+  input:nth-of-type(2) {
+    width: 60%;
+    height: 40px;
+    border-left: 0.5px solid var(--greyC);
+  }
+  input:nth-of-type(2):focus {
+    border-left: 1px solid var(--blueB);
+  }
+}
+.DiscountBody div {
+  text-align: right;
+  padding-right: 5px;
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+}
+.ItemTaxBody {
+  span {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 200;
+  }
+
+  input {
+    background-color: transparent;
+  }
+
+  input:focus {
+    outline: none;
+    border: 1px solid var(--blueB);
+    background-color: white;
+  }
+  div:nth-of-type(1) {
+    width: 53.5%;
+    height: 40px;
+    font-size: 14px;
+    font-weight: 200;
+    border-right: 0.5px solid var(--greyC);
+
+    select {
+      border: none;
+      outline: none;
+      background: transparent;
+      height: 100%;
+      width: 100%;
+      font-size: 14px;
+      font-weight: 200;
+      padding-left: 5px;
+      overflow: auto;
+    }
+  }
+  input {
+    flex: 2;
+    text-align: right;
+  }
+}
+.ItemTaxBody div {
+  text-align: right;
+  padding-right: 5px;
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+}

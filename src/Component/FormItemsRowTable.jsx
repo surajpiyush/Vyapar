@@ -1,145 +1,111 @@
-import css from "../../../styles/SalesStyles/SalesForms.module.css";
+import css from "../styles/FormItemsRowTable.module.css";
 
-import {
-  Menu,
-  MenuList,
-  MenuItem,
-  MenuDivider,
-  MenuButton,
-  Button,
-  MenuItemOption,
-  MenuGroup,
-  MenuOptionGroup,
-} from "@chakra-ui/react";
-import { memo, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { Menu, MenuList, MenuItem, MenuDivider } from "@chakra-ui/react";
 import { MdDelete as DeleteIcon } from "react-icons/md";
 import { TbArrowsMove as MoveIcon } from "react-icons/tb";
-import { useSelector } from "react-redux";
 
-const ItemsTableBodyDeliveryChallan = ({
+const FormItemsRowTable = ({
   ind,
   item,
-  orderTableItems,
+  tableRowsArr,
+  setTableRowsArr,
+  activeRowIndex,
+  setActiveRowIndex,
   showItemsListMenu,
-  indexOrderTableItem,
-  getAllItemsLoading,
-  handleDeleteRow,
-  setShowItemForm,
-  setOrderTableItems,
-  handleMenuItemClick,
-  setIndexOrderTableItem,
   setShowItemsListMenu,
+  setShowAddItemsForm,
 }) => {
-  const items = useSelector((state) => state.ItemReducer.items);
+  const loadingAllItems = useSelector(
+    (state) => state.ItemReducer.getAllItemsLoading
+  );
+  const itemsList = useSelector((state) => state.ItemReducer.items);
 
   const [foundItems, setFoundItems] = useState([]);
 
   // Itemslist Suggestions
   useEffect(() => {
     const regex = new RegExp(item?.mainName, "i");
-    const found = items?.filter((ite) => regex.test(ite.mainName));
+    const found = itemsList?.filter((ite) => regex.test(ite?.mainName));
     if (item?.mainName.length < 1) {
-      return setFoundItems(items);
+      return setFoundItems(itemsList);
     }
     setFoundItems(found);
   }, [item?.mainName]);
 
-  // Sale Items Change Function
-  const handleTableInputChange = (e, index) => {
-    const { name, value } = e.target;
-    let currSaleItem = { ...orderTableItems[index], [name]: value };
-    let newSaleData = orderTableItems.map((ite, ind) =>
-      ind == index ? currSaleItem : ite
-    );
-    setOrderTableItems(newSaleData);
-  };
-
-  function AmountCalculator() {
-    const parseToNumber = (value) => (value ? parseFloat(value) : 0);
-
-    let amount = parseToNumber(item?.amount) || 0;
-    let taxAmount = parseToNumber(item?.taxAmount) || 0;
-    let discountPercent = parseToNumber(item?.discountpersant) || 0;
-    let discountAmount = parseToNumber(item?.discountAmount) || 0;
-    let taxPercent = parseToNumber(item?.taxPersant) || 0;
-    let pricePerUnit = parseToNumber(item?.priceUnit) || 0;
-    let qty = parseToNumber(item?.qty) || 0;
-
-    amount = qty * pricePerUnit;
-
-    if (discountPercent > 0) {
-      discountAmount = (amount * discountPercent) / 100;
-      amount -= discountAmount;
-    } else if (discountAmount > 0) {
-      discountPercent = (discountAmount / amount) * 100;
-      amount -= discountAmount;
-    }
-
-    if (taxPercent > 0) {
-      taxAmount = (amount * taxPercent) / 100;
-      amount += taxAmount;
-    } else if (taxAmount > 0) {
-      taxPercent = (taxAmount / amount) * 100;
-      amount += taxAmount;
-    }
-
-    return {
-      amount:
-        parseFloat(amount.toFixed(2)) == 0 ? "" : parseFloat(amount.toFixed(2)),
-      taxAmount:
-        parseFloat(taxAmount.toFixed(2)) == 0
-          ? ""
-          : parseFloat(taxAmount.toFixed(2)),
-      discountPercent:
-        parseFloat(discountPercent.toFixed(2)) == 0
-          ? ""
-          : parseFloat(discountPercent.toFixed(2)),
-      discountAmount:
-        parseFloat(discountAmount.toFixed(2)) == 0
-          ? ""
-          : parseFloat(discountAmount.toFixed(2)),
-    };
-  }
-
+  //   Calculator useEffect
   useEffect(() => {
-    AmountCalculator();
     const { amount, taxAmount, discountPercent, discountAmount } =
-      AmountCalculator();
+      Calculator(item);
     let currSaleItem = {
-      ...orderTableItems[ind],
+      ...tableRowsArr[ind],
       amount,
       taxAmount,
       discountAmount,
       discountpersant: discountPercent,
     };
-    let newSaleData = orderTableItems.map((ite, index) =>
+    let newSaleData = tableRowsArr.map((ite, index) =>
       index == ind ? currSaleItem : ite
     );
-    setOrderTableItems(newSaleData);
+    setTableRowsArr(newSaleData);
   }, [
-    item.qty,
-    item.priceUnit,
-    item.discountpersant,
-    item.discountpersant,
-    item.taxPersant,
+    item?.qty,
+    item?.priceUnit,
+    item?.discountpersant,
+    item?.discountpersant,
+    item?.taxPersant,
   ]);
+
+  // Inputs Change Function
+  const handleInputChange = (e, index) => {
+    const { name, value } = e.target;
+    let currSaleItem = { ...tableRowsArr[index], [name]: value };
+    let newSaleData = tableRowsArr.map((ite, ind) =>
+      ind == index ? currSaleItem : ite
+    );
+    setTableRowsArr(newSaleData);
+  };
+
+  // Found items list click handler
+  const handleMenuItemClick = (itemDetail) => {
+    let currSaleItem = {
+      ...tableRowsArr[ind],
+      itemName: itemDetail?._id,
+      mainName: itemDetail?.itemName,
+      taxPersant: itemDetail?.taxRate.split("%")[0] || "",
+    };
+    let newSaleData = tableRowsArr?.map((ite, index) =>
+      ind == index ? currSaleItem : ite
+    );
+    setTableRowsArr(newSaleData);
+  };
+
+  //   Delete Row Function
+  const handleDeleteRow = (e) => {
+    e.stopPropagation();
+    const deletedRowdata = tableRowsArr?.filter(
+      (_, rowIndex) => rowIndex != ind
+    );
+    setTableRowsArr(deletedRowdata);
+  };
 
   return (
     <tr
-      onClick={() => setIndexOrderTableItem(ind)}
+      onClick={() => setActiveRowIndex(ind)}
       style={{
         background: ind % 2 == 0 ? "var(--greyishBlue)" : "var(--greyB)",
       }}
     >
       <td
         className={css.serialNumberBody}
-        onClick={() => setIndexOrderTableItem(ind)}
+        onClick={() => setActiveRowIndex(ind)}
       >
         <div>
           <MoveIcon className={css.serialIconsBody} />
           <p>{ind + 1}</p>
           <DeleteIcon
-            onClick={(e) => handleDeleteRow(e, ind)}
+            onClick={handleDeleteRow}
             className={css.serialIconsBody}
           />
         </div>
@@ -147,12 +113,12 @@ const ItemsTableBodyDeliveryChallan = ({
       <td
         onFocus={() => {
           setShowItemsListMenu(true);
-          setIndexOrderTableItem(ind);
+          setActiveRowIndex(ind);
         }}
         onBlur={() => {
           setShowItemsListMenu(false);
         }}
-        onClick={() => setIndexOrderTableItem(ind)}
+        onClick={() => setActiveRowIndex(ind)}
         className={css.itemNameBody}
       >
         <input
@@ -160,7 +126,7 @@ const ItemsTableBodyDeliveryChallan = ({
           name="mainName"
           value={item?.mainName}
           onChange={(e) => {
-            handleTableInputChange(e, ind);
+            handleInputChange(e, ind);
           }}
           onBlur={() => {
             setShowItemsListMenu(false);
@@ -168,7 +134,7 @@ const ItemsTableBodyDeliveryChallan = ({
           className={css.tableInputs}
           required
         />
-        <Menu isOpen={showItemsListMenu && ind == indexOrderTableItem}>
+        <Menu isOpen={showItemsListMenu && ind == activeRowIndex}>
           <MenuList
             style={{
               marginTop: `${foundItems.length > 0 ? 240 : 160}px`,
@@ -180,41 +146,44 @@ const ItemsTableBodyDeliveryChallan = ({
             }}
             onClick={() => setShowItemsListMenu(true)}
           >
-            <MenuItem onClick={() => setShowItemForm(true)}>Add Item</MenuItem>
+            <MenuItem onClick={() => setShowAddItemsForm(true)}>
+              Add Item
+            </MenuItem>
             <MenuDivider />
-            {getAllItemsLoading && <MenuItem>Loading Items</MenuItem>}
-            {!getAllItemsLoading &&
-              foundItems?.map((itemList) => (
+            {loadingAllItems && <MenuItem>Loading Items</MenuItem>}
+            {!loadingAllItems &&
+              foundItems?.map((foundItem) => (
                 <MenuItem
-                  key={itemList?._id}
+                  key={foundItem?._id}
                   onClick={() => {
-                    handleMenuItemClick(ind, itemList);
+                    handleMenuItemClick(foundItem);
                     setShowItemsListMenu(false);
                   }}
                 >
-                  {itemList?.itemName}
+                  {foundItem?.itemName}
                 </MenuItem>
               ))}
           </MenuList>
         </Menu>
       </td>
-      <td className={css.qtyBody} onClick={() => setIndexOrderTableItem(ind)}>
+      <td className={css.qtyBody} onClick={() => setActiveRowIndex(ind)}>
         <input
           type="number"
           name="qty"
           value={item?.qty}
-          onChange={(e) => handleTableInputChange(e, ind)}
+          onChange={(e) => handleInputChange(e, ind)}
           placeholder="0"
           className={css.tableInputs}
           required
         />
       </td>
-      <td className={css.unitBody} onClick={() => setIndexOrderTableItem(ind)}>
+      <td className={css.unitBody} onClick={() => setActiveRowIndex(ind)}>
         <select
           name="unit"
           value={item.unit}
-          onChange={(e) => handleTableInputChange(e, ind)}
+          onChange={(e) => handleInputChange(e, ind)}
           placeholder="None"
+          required
         >
           <option value="">None</option>
           <option value="BAGS">BAGS (BAG)</option>
@@ -240,49 +209,42 @@ const ItemsTableBodyDeliveryChallan = ({
           <option value="TABLETS">TABLETS (TBS)</option>
         </select>
       </td>
-      <td className={css.qtyBody} onClick={() => setIndexOrderTableItem(ind)}>
+      <td className={css.qtyBody} onClick={() => setActiveRowIndex(ind)}>
         <input
           type="number"
           name="priceUnit"
           value={item.priceUnit}
-          onChange={(e) => handleTableInputChange(e, ind)}
+          onChange={(e) => handleInputChange(e, ind)}
           placeholder="0"
           className={css.tableInputs}
           required
         />
       </td>
-      <td
-        className={css.DiscountBody}
-        onClick={() => setIndexOrderTableItem(ind)}
-      >
+      <td className={css.DiscountBody} onClick={() => setActiveRowIndex(ind)}>
         <input
           type="number"
           name="discountpersant"
-          value={AmountCalculator()?.discountPercent}
-          // value={item.discountpersant}
-          onChange={(e) => handleTableInputChange(e, ind)}
+          value={Calculator()?.discountPercent}
+          onChange={(e) => handleInputChange(e, ind)}
           placeholder="0"
           className={css.tableInputs}
         />
         <input
           type="number"
           name="discountAmount"
-          value={AmountCalculator()?.discountAmount}
-          onChange={(e) => handleTableInputChange(e, ind)}
+          value={Calculator()?.discountAmount}
+          onChange={(e) => handleInputChange(e, ind)}
           placeholder="0"
           className={css.tableInputs}
         />
       </td>
-      <td
-        className={css.ItemTaxBody}
-        onClick={() => setIndexOrderTableItem(ind)}
-      >
+      <td className={css.ItemTaxBody} onClick={() => setActiveRowIndex(ind)}>
         <span>
           <div>
             <select
               name="taxPersant"
               value={item.taxPersant}
-              onChange={(e) => handleTableInputChange(e, ind)}
+              onChange={(e) => handleInputChange(e, ind)}
             >
               <option value="">None</option>
               <option value="0">IGST@0%</option>
@@ -303,9 +265,9 @@ const ItemsTableBodyDeliveryChallan = ({
           </div>
           <input
             type="number"
-            value={AmountCalculator()?.taxAmount}
+            value={Calculator()?.taxAmount}
             name="taxAmount"
-            onChange={(e) => handleTableInputChange(e, item)}
+            onChange={(e) => handleInputChange(e, item)}
             placeholder="0"
             className={css.tableInputs}
             readOnly
@@ -313,12 +275,12 @@ const ItemsTableBodyDeliveryChallan = ({
           />
         </span>
       </td>
-      <td className={css.qtyBody} onClick={() => setIndexOrderTableItem(ind)}>
+      <td className={css.qtyBody} onClick={() => setActiveRowIndex(ind)}>
         <input
           type="number"
-          value={AmountCalculator()?.amount}
+          value={Calculator()?.amount}
           name="amount"
-          onChange={(e) => handleTableInputChange(e, ind)}
+          onChange={(e) => handleInputChange(e, ind)}
           placeholder="0"
           className={css.tableInputs}
           readOnly
@@ -328,5 +290,52 @@ const ItemsTableBodyDeliveryChallan = ({
     </tr>
   );
 };
+export default FormItemsRowTable;
 
-export default ItemsTableBodyDeliveryChallan;
+// Calculator Function
+const Calculator = (item) => {
+  const parseToNumber = (value) => (value ? parseFloat(value) : 0);
+
+  let amount = parseToNumber(item?.amount) || 0;
+  let taxAmount = parseToNumber(item?.taxAmount) || 0;
+  let discountPercent = parseToNumber(item?.discountpersant) || 0;
+  let discountAmount = parseToNumber(item?.discountAmount) || 0;
+  let taxPercent = parseToNumber(item?.taxPersant) || 0;
+  let pricePerUnit = parseToNumber(item?.priceUnit) || 0;
+  let qty = parseToNumber(item?.qty) || 0;
+
+  amount = qty * pricePerUnit;
+
+  if (discountPercent > 0) {
+    discountAmount = (amount * discountPercent) / 100;
+    amount -= discountAmount;
+  } else if (discountAmount > 0) {
+    discountPercent = (discountAmount / amount) * 100;
+    amount -= discountAmount;
+  }
+
+  if (taxPercent > 0) {
+    taxAmount = (amount * taxPercent) / 100;
+    amount += taxAmount;
+  } else if (taxAmount > 0) {
+    taxPercent = (taxAmount / amount) * 100;
+    amount += taxAmount;
+  }
+
+  return {
+    amount:
+      parseFloat(amount.toFixed(2)) == 0 ? "" : parseFloat(amount.toFixed(2)),
+    taxAmount:
+      parseFloat(taxAmount.toFixed(2)) == 0
+        ? ""
+        : parseFloat(taxAmount.toFixed(2)),
+    discountPercent:
+      parseFloat(discountPercent.toFixed(2)) == 0
+        ? ""
+        : parseFloat(discountPercent.toFixed(2)),
+    discountAmount:
+      parseFloat(discountAmount.toFixed(2)) == 0
+        ? ""
+        : parseFloat(discountAmount.toFixed(2)),
+  };
+};
