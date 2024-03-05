@@ -27,12 +27,13 @@ const FormItemsRowTable = ({
   // Itemslist Suggestions
   useEffect(() => {
     const regex = new RegExp(item?.mainName, "i");
-    const found = itemsList?.filter((ite) => regex.test(ite?.itemName));
+    const itemsArr = Array.isArray(itemsList) ? itemsList : [];
+    const found = itemsArr?.filter((ite) => regex.test(ite?.itemName));
     if (item?.mainName.length < 1) {
       return setFoundItems(itemsList);
     }
     setFoundItems(found);
-  }, [item?.mainName]);
+  }, [item?.mainName, itemsList]);
 
   //   Calculator useEffect
   useEffect(() => {
