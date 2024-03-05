@@ -1,9 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=poppins:wght@100;200;300;400;500;600;700;800;900&dispaly=swap");
+/* sidebar.module.css */
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
 * {
    margin: 0;
    padding: 0;
    box-sizing: border-box;
-   font-family: "Poppins", sans-serif;
 }
 
 #menu {
@@ -12,84 +14,44 @@
    height: 100%;
    position: fixed;
    color: #fff;
+   overflow-y: auto;
 }
 
 #menu .logo {
    display: flex;
    align-items: center;
    color: #fff;
-   padding: 30px 0 0 30px;
-}
-
-#menu .logo img {
-   width: 40px;
-   margin-right: 15px;
-}
-
-#menu .items {
-   margin-top: 40px;
-}
-
-#menu .items li {
-   list-style: none;
-   padding: 15px 0;
-}
-
-#menu .items li:hover {
-   background: #253047;
-   cursor: pointer;
-}
-
-#menu .items li:nth-child(1) {
-   border-left: 4px solid #fff;
-}
-#menu .items li i {
-   color: rgb(134, 141, 151);
-   width: 30px;
-   height: 30px;
-   line-height: 30px;
-   text-align: center;
-   font-size: 14px;
-   margin: 0 10px 0 25px;
-}
-
-#menu .items li:hover i,
-#menu .items li:hover a {
-   color: #f3f4f6;
-}
-
-#menu .items li a {
-   text-decoration: none;
-   color: rgb(134, 141, 151);
-   font-weight: 300px;
-   transition: 0.3s ease;
-}
-
-#interface {
-   width: calc(100% - 300px);
-   margin-left: 300px;
-   position: relative;
-}
-
-#interface .navigation {
-   display: flex;
-   align-items: center;
+   padding: 20px 30px;
+   border-bottom: 1px solid #253047;
+   gap: 20px;
    justify-content: space-between;
-   background: #fff;
-   padding: 15px 30px;
-   border-bottom: 3px solid #594ef7;
-   position: fixed;
-   width: calc(100% - 300px);
 }
-.n1 {
-   display: flex;
-   justify-content: flex-start;
-   align-items: center;
+
+.logo h2 {
+   margin: 0;
+   font-size: 1.5em;
 }
-#menu-btn {
-   display: none;
-   color: #2b2b2b;
-   font-size: 20px;
-   cursor: pointer;
-   margin-right: 20px;
+
+.items {
+   list-style: none;
+   padding: 0;
+   margin: 0;
+}
+
+.navLink {
+   display: block;
+   padding: 22px;
+   color: #ecf0f1;
+   text-decoration: none;
+   transition: background-color 0.3s ease;
+}
+
+.navLink:hover {
+   background-color: #34495e;
+}
+
+.navLink.active {
+   background-color: yellow;
+   color: #ffffff;
+   border: 1px solid red;
 }

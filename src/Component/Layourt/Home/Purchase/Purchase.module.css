@@ -1,0 +1,101 @@
+/* Purchase.module.css */
+
+.purchaseContainer {
+   padding: 20px;
+   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+   width: 300px;
+   display: grid;
+   gap: 10px;
+}
+
+.purchaseHeading,
+.purchaseHeadingAside1 div {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 0;
+}
+
+.purchaseHeading {
+   gap: 20px;
+   align-items: flex-start;
+}
+
+.purchaseHeadingAside1 {
+   width: 100%;
+   height: 100%;
+}
+
+.purchaseHeadingAside1 div {
+   font-size: 17px;
+   font-weight: 400;
+   justify-content: flex-start;
+   padding: 5px 0;
+}
+
+.purchaseAmountDiv {
+   display: flex;
+   align-items: center;
+   justify-content: flex-start;
+}
+
+.purchaseAmountDiv h3 {
+   font-size: 22px;
+}
+
+.purchaseAmountDiv span {
+   color: rgb(151, 151, 151);
+   font-size: 14px;
+}
+
+.purchaseHeadingNotes {
+   color: orange;
+   font-size: 24px;
+}
+
+.purchaseHeadingAside2 {
+   width: 100%;
+}
+
+.purchaseMonthDiv {
+   display: flex;
+   gap: 6px;
+   background-color: rgba(184, 184, 184, 0.21);
+   padding: 10px 20px;
+   border-radius: 5px;
+}
+
+.purchaseMonthDiv button {
+   border: none;
+   font-size: 14px;
+   color: #000; /* Adjusted text color for better contrast */
+}
+
+.purchaseContent {
+   display: flex;
+   justify-content: space-between;
+   height: 200px;
+   width: 100%;
+}
+
+.purchaseContentAside2 {
+   display: grid;
+   align-items: end;
+   padding-left: 10px;
+   height: 100%;
+   width: 100%;
+}
+
+.purchaseContentAside2 div {
+   background-color: rgb(7, 189, 128);
+   width: 100%;
+   height: 2px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.purchaseContentAside2 p {
+   font-size: 12px;
+   color: rgb(95, 95, 95);
+}
