@@ -9,19 +9,32 @@
    flex-wrap: wrap;
    justify-content: space-between;
    overflow-x: auto;
+   font-size: larger;
 }
 
 .section {
    width: 30%;
+   display: flex;
+   flex-direction: column;
    box-sizing: border-box;
    margin-bottom: 20px;
    padding: 20px;
+  
 }
 
 .section h2 {
+   font-size: 1.4em;
+   padding-top: 0;
+   text-align: left;
+   border-bottom: 3px solid #ccc;
+   padding-bottom: 20px;
+}
+
+
+.label{
    font-size: 1.2em;
-   border-bottom: 1px solid #ccc;
-   padding-bottom: 5px;
+   padding: 3px;
+   
 }
 
 .container1 {
@@ -31,32 +44,41 @@
 }
 
 .section1 {
-    border: 1px solid red;
    width: 30%;
-   box-sizing: border-box;
    margin-bottom: 20px;
    padding: 20px;
  }
  
  .section1 h2 {
    font-size: 1.2em;
-   border-bottom: 1px solid #ccc;
-   padding-bottom: 5px;
+   border-bottom: 2px solid #ccc;
+   padding-bottom: 15px;
  }
  
- fieldset {
-   display: inline-block;
-   vertical-align: top;
-   margin-right: 20px;
-   border: 1px solid #000000;
-   padding: 10px;
-   margin-bottom: 20px;
- }
  
- legend {
+ .legend {
    color: #333;
    font-size: 1em;
-   position: absolute;
    top: -1em;
-   background-color: white;
  }
+
+
+ .tab {
+   display: flex;
+   align-items: center;
+   writing-mode: horizontal-tb;
+}
+
+.checkboxContainer {
+   display: flex;
+   align-items: center;
+   gap: 10px; /* Adjust the gap between label and checkbox */
+}
+
+.checkbox {
+
+   border: 1px solid pink;
+   width: 25px; /* Adjust the width */
+   height: 25px; /* Adjust the height */
+}
+

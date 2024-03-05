@@ -66,54 +66,5 @@
    animation: astronautFly 6s infinite linear;
 }
 
-@keyframes astronautFly {
-   0% {
-      left: -100px;
-   }
-   25% {
-      top: 50%;
-      transform: rotate(30deg);
-   }
-   50% {
-      transform: rotate(45deg);
-      top: 55%;
-   }
-   75% {
-      top: 60%;
-      transform: rotate(30deg);
-   }
-   100% {
-      left: 110%;
-      transform: rotate(45deg);
-   }
-}
 
-@keyframes starTwinkle {
-   0% {
-      background: rgba(255, 255, 255, 0.4);
-   }
-   25% {
-      background: rgba(255, 255, 255, 0.8);
-   }
-   50% {
-      background: rgba(255, 255, 255, 1);
-   }
-   75% {
-      background: rgba(255, 255, 255, 0.8);
-   }
-   100% {
-      background: rgba(255, 255, 255, 0.4);
-   }
-}
 
-@media (max-width: 40em) {
-   .error__title {
-      font-size: 10rem;
-   }
-   .error__type {
-      font-size: 1.25rem;
-   }
-   .error__cta {
-      font-size: 1rem;
-   }
-}
