@@ -22,7 +22,13 @@ function App() {
     }
   }, []);
 
-  const ignoreRoutes = ["/auth", "/company", "/business","/setting", "/general"];
+  const ignoreRoutes = [
+    "/auth",
+    "/company",
+    "/business",
+    "/setting",
+    "/general",
+  ];
 
   return (
     <div id="App">
