@@ -9,6 +9,7 @@ import {
   UpdateCompanyProfile,
 } from "../../Redux/business/action";
 import { useToast } from "@chakra-ui/react";
+import Loader1 from "../Loaders/Loader1";
 
 const Editframe = () => {
   const toast = useToast();
@@ -277,10 +278,12 @@ const Editframe = () => {
         </section>
       </section>
       <div className="edit-firm-save-button">
-        <button className="" onClick={handleSave}>
+        <button type="submit" disabled={isLoading} onClick={handleSave}>
           {isLoading ? "Saving" : "Save"}
         </button>
       </div>
+
+      {isLoading && <Loader1 />}
     </div>
   );
 };

@@ -80,6 +80,7 @@ const FormItemsRowTable = ({
       ind == index ? currSaleItem : ite
     );
     setTableRowsArr(newSaleData);
+    setShowItemsListMenu(false);
   };
 
   //   Delete Row Function
@@ -135,7 +136,7 @@ const FormItemsRowTable = ({
           className={css.tableInputs}
           required
         />
-        <Menu isOpen={showItemsListMenu && ind == activeRowIndex}>
+        <Menu isOpen={ind == activeRowIndex && showItemsListMenu}>
           <MenuList
             style={{
               marginTop: `${foundItems.length > 0 ? 240 : 160}px`,
@@ -152,17 +153,17 @@ const FormItemsRowTable = ({
             </MenuItem>
             <MenuDivider />
             {loadingAllItems && <MenuItem>Loading Items</MenuItem>}
-            {foundItems?.map((foundItem) => (
-              <MenuItem
-                key={foundItem?._id}
-                onClick={() => {
-                  handleMenuItemClick(foundItem);
-                  setShowItemsListMenu(false);
-                }}
-              >
-                {foundItem?.itemName}
-              </MenuItem>
-            ))}
+            {!loadingAllItems &&
+              foundItems?.map((foundItem) => (
+                <MenuItem
+                  key={foundItem?._id}
+                  onClick={() => {
+                    handleMenuItemClick(foundItem);
+                  }}
+                >
+                  {foundItem?.itemName}
+                </MenuItem>
+              ))}
           </MenuList>
         </Menu>
       </td>
