@@ -1,21 +1,21 @@
-import React from 'react'
-import Sale from './Sale/Sale'
-import "./Home.css";
-import Purchase from './Purchase/Purchase';
-import Bottomitems from './Bottomitems/Bottomitems';
+import React from "react";
+import styles from "./Home.module.css";
+import Sale from "./Sale/Sale";
+import Purchase from "./Purchase/Purchase";
+import Bottomitems from "./Bottomitems/Bottomitems";
 
 const Home = () => {
-  return (
-    <div className='home-container'>
-    <div className='home-container-div1'>
-        <Sale/>
-        <Purchase/>
-    </div>
-    <div className='home-container-div2'>
-    <Bottomitems/>
-    </div>
-    </div>
-  )
-}
+   return (
+      <div className={styles.homeContainer}>
+         <div className={styles.homeContainerDiv1}>
+            <Sale />
+            <Purchase />
+         </div>
+         <div className={styles.homeContainerDiv2}>
+            <Bottomitems />
+         </div>
+      </div>
+   );
+};
 
-export default Home
+export default Home;

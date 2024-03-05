@@ -1,0 +1,104 @@
+.SaleContainer {
+   padding: 20px;
+   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+   max-width: 350px;
+   display: grid;
+   gap: 10px;
+}
+
+.SaleHeading,
+.SaleHeadingAside1 {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 0;
+   gap: 4px;
+}
+
+.SaleHeadingAside1 {
+   font-size: 17px;
+   font-weight: 400;
+}
+
+.SaleHeadingNotes {
+   color: orange;
+   font-size: 24px;
+}
+
+.SaleMonthDiv {
+   display: flex;
+   gap: 6px;
+   background-color: rgba(184, 184, 184, 0.21);
+   padding: 10px 20px;
+   border-radius: 5px;
+}
+
+.SaleMonthDiv button {
+   border: none;
+   font-size: 14px;
+}
+
+.SaleContent {
+   display: flex;
+   justify-content: space-between;
+}
+
+.SaleContentAside1 {
+   display: grid;
+   gap: 20px;
+   padding-top: 10px;
+   border-right: 2px dotted gray;
+   padding-right: 20px;
+}
+
+.SaleAmountDiv {
+   display: flex;
+   align-items: center;
+   padding: 10px 0;
+}
+
+.SaleAmountDiv h3 {
+   font-size: 22px;
+}
+
+.SaleAmountDiv span {
+   color: rgb(151, 151, 151);
+   font-size: 14px;
+}
+
+.SaleAmountText {
+   color: rgb(171, 171, 171);
+}
+
+.SaleGrowthData div {
+   display: flex;
+   color: rgb(0, 142, 147);
+}
+
+.SaleTopArrowIcon {
+   font-size: 20px;
+}
+
+.SaleGrowthText {
+   font-size: 14px;
+   color: rgb(181, 181, 181);
+}
+
+.SaleContentAside2 {
+   display: grid;
+   align-items: end;
+   padding-left: 10px;
+}
+
+.SaleContentAside2 div {
+   background-color: rgb(7, 189, 128);
+   width: 100%;
+   height: 2px;
+   display: flex;
+   align-items: center;
+}
+
+.SaleContentAside2 p {
+   font-size: 12px;
+   color: rgb(95, 95, 95);
+}

@@ -1,55 +1,54 @@
 import React, { useState } from 'react';
-import "./Sale.css";
+import styles from "./Sale.module.css";
 import { TbNotes } from "react-icons/tb";
 import { FaCaretDown, FaCaretUp } from "react-icons/fa";
 import { FaRupeeSign } from "react-icons/fa";
 import { BiUpArrowAlt } from "react-icons/bi";
 
 const Sale = () => {
+    const [isMonthModelOpen, setIsMonthModelOpen] = useState(false);
 
-    const [ismonthmodelopen, setIsmonthmodelopen] = useState(false);
-
-  return (
-    <div className='sale-container'>
-        <section className="sale-heading">
-            <aside className="sale-heading-aside1">
-                    <TbNotes className='sale-heading-notes'/>
+    return (
+        <div className={styles.SaleContainer}>
+            <section className={styles.SaleHeading}>
+                <aside className={styles.SaleHeadingAside1}>
+                    <TbNotes className={styles.SaleHeadingNotes}/>
                     <h4>Sale</h4>
-            </aside>
-            <aside className="sale-heading-aside2">
-                    <div className="sale-month-div">
+                </aside>
+                <aside className={styles.SaleHeadingAside2}>
+                    <div className={styles.SaleMonthDiv}>
                         <button>This Month</button>
-                       {ismonthmodelopen ? <FaCaretUp/> : <FaCaretDown/> } 
+                        {isMonthModelOpen ? <FaCaretUp/> : <FaCaretDown/> }
                     </div>
-            </aside>
-        </section>
-        <section className="sale-content">
-            <aside className="sale-content-aside1">
-                <div>
-                <div className="sale-amount-div">
-                    <FaRupeeSign/>
-                    <h3>00</h3>
-                    <span>.00</span>
-                </div>
-                <p className='sale-amount-text'>Total Sale (Feb)</p>
-                </div>
-                <div className="sale-growth-data">
+                </aside>
+            </section>
+            <section className={styles.SaleContent}>
+                <aside className={styles.SaleContentAside1}>
                     <div>
-                    <BiUpArrowAlt className='sale-top-arrow-icon'/>
-                    <p className='sale-growth-data-percent'>0 %</p>
+                        <div className={styles.SaleAmountDiv}>
+                            <FaRupeeSign/>
+                            <h3>00</h3>
+                            <span>.00</span>
+                        </div>
+                        <p className={styles.SaleAmountText}>Total Sale (Feb)</p>
                     </div>
-                    <p className="sale-growth-text">
-                        This Month Growth
-                    </p>
-                </div>
-            </aside>
-            <aside className="sale-content-aside2">
-                <div className="sale-line"></div>
-                <p className="sale-report">Report: From 01 to 29 Feb</p>
-            </aside>
-        </section>
-    </div>
-  )
+                    <div className={styles.SaleGrowthData}>
+                        <div>
+                            <BiUpArrowAlt className={styles.SaleTopArrowIcon}/>
+                            <p className={styles.SaleGrowthDataPercent}>0 %</p>
+                        </div>
+                        <p className={styles.SaleGrowthText}>
+                            This Month Growth
+                        </p>
+                    </div>
+                </aside>
+                <aside className={styles.SaleContentAside2}>
+                    <div className={styles.SaleLine}></div>
+                    <p className={styles.SaleReport}>Report: From 01 to 29 Feb</p>
+                </aside>
+            </section>
+        </div>
+    );
 }
 
-export default Sale
+export default Sale;

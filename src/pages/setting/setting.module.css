@@ -1,15 +1,13 @@
-/* body {
-  overflow-y: auto;
-  width: 100vw;
-} */
+
+#interface {
+   padding-left: 300px;
+}
 
 .container {
    overflow-y: auto;
    display: flex;
    flex-wrap: wrap;
    justify-content: space-between;
-   padding-left: 300px;
-
    overflow-x: auto;
 }
 
@@ -33,32 +31,32 @@
 }
 
 .section1 {
+    border: 1px solid red;
    width: 30%;
    box-sizing: border-box;
    margin-bottom: 20px;
    padding: 20px;
-}
-
-.section1 h2 {
+ }
+ 
+ .section1 h2 {
    font-size: 1.2em;
    border-bottom: 1px solid #ccc;
    padding-bottom: 5px;
-}
-
-fieldset {
+ }
+ 
+ fieldset {
    display: inline-block;
    vertical-align: top;
    margin-right: 20px;
    border: 1px solid #000000;
    padding: 10px;
    margin-bottom: 20px;
-   /* position: relative; */
-}
-
-legend {
+ }
+ 
+ legend {
    color: #333;
    font-size: 1em;
    position: absolute;
    top: -1em;
    background-color: white;
-}
+ }

@@ -1,5 +1,4 @@
-import "./Header.css";
-
+import styles from "./Header.module.css";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { MdSettings } from "react-icons/md";
@@ -11,42 +10,42 @@ const Header = () => {
   const [searchInp, setSearchInp] = useState("");
 
   return (
-    <div className="header-container">
-      <section className="header-search-section">
+    <div className={styles.HeaderContainer}>
+      <section className={styles.HeaderSearchSection}>
         <input
           onChange={(e) => setSearchInp(e.target.value)}
           type="text"
           name="searchbox"
-          className={`header-searchbar header-searchbar-focus`}
+          className={`${styles.HeaderSearchbar} ${styles.HeaderSearchbarFocus}`}
           placeholder="Enter Business Name"
         />
-        <button className={`header-search-btn header-search-btn-hide`}>
+        <button className={`${styles.HeaderSearchBtn} ${styles.HeaderSearchBtnHide}`}>
           Save
         </button>
       </section>
-      <section className="header-button-section">
-        <aside className="header-btn-aside">
+      <section className={styles.HeaderButtonSection}>
+        <aside className={styles.HeaderBtnAside}>
           {["Add Sale", "Add Purchase", "Add More"].map((items, index) => (
             <div
-              className={`header-btn-div header-add-btn ${
-                items == "Add Sale" && "header-add-sale-btn"
-              } ${items == "Add Purchase" && "header-add-purchase-btn"} ${
-                items == "Add More" && "header-add-more-btn"
+              className={`${styles.HeaderBtnDiv} ${styles.HeaderAddBtn} ${
+                items === "Add Sale" && styles.HeaderAddSaleBtn
+              } ${items === "Add Purchase" && styles.HeaderAddPurchaseBtn} ${
+                items === "Add More" && styles.HeaderAddMoreBtn
               }`}
               key={index}
             >
               <FaPlus
-                className={`header-plus-btn ${
-                  items == "Add Sale" && "header-plus-btn-sale"
-                } ${items == "Add Purchase" && "header-plus-btn-purchase"} ${
-                  items == "Add More" && "header-plus-btn-more"
+                className={`${styles.HeaderPlusBtn} ${
+                  items === "Add Sale" && styles.HeaderPlusBtnSale
+                } ${items === "Add Purchase" && styles.HeaderPlusBtnPurchase} ${
+                  items === "Add More" && styles.HeaderPlusBtnMore
                 }`}
               />
               <p>{items}</p>
             </div>
           ))}
         </aside>
-        <div className="header-line"></div>
+        <div className={styles.HeaderLine}></div>
         <MdSettings
           onClick={() =>
             navigate("/setting", {
@@ -54,7 +53,7 @@ const Header = () => {
               replace: true,
             })
           }
-          className="heade-setting"
+          className={styles.HeadeSetting}
         />
       </section>
     </div>

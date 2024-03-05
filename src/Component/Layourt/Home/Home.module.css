@@ -1,0 +1,14 @@
+.homeContainer {
+   padding: 40px 20px;
+}
+
+.homeContainerDiv1,
+.homeContainerDiv2 {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 20px;
+}
+
+.homeContainerDiv2 {
+   padding-top: 20px;
+}
