@@ -152,7 +152,12 @@ const FormItemsRowTable = ({
               Add Item
             </MenuItem>
             <MenuDivider />
-            {loadingAllItems && <MenuItem>Loading Items</MenuItem>}
+            {loadingAllItems && (
+              <MenuItem style={{ color: "green" }}>Loading Items</MenuItem>
+            )}
+            {!loadingAllItems && foundItems.length <= 0 && (
+              <MenuItem style={{ color: "red" }}>No Items Found!</MenuItem>
+            )}
             {!loadingAllItems &&
               foundItems?.map((foundItem) => (
                 <MenuItem
