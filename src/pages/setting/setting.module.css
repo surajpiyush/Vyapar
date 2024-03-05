@@ -1,14 +1,14 @@
 #interface {
-   padding-left: 300px;
+  padding-left: 300px;
 }
 
 .container {
-   overflow-y: auto;
-   display: flex;
-   flex-wrap: wrap;
-   justify-content: space-between;
-   overflow-x: auto;
-   font-size: larger;
+  overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  overflow-x: auto;
+  font-size: larger;
 }
 
 .section {
@@ -18,14 +18,15 @@
    box-sizing: border-box;
    margin-bottom: 20px;
    padding: 20px;
+
 }
 
 .section h2 {
-   font-size: 1.4em;
-   padding-top: 0;
-   text-align: left;
-   border-bottom: 3px solid #ccc;
-   padding-bottom: 20px;
+  font-size: 1.4em;
+  padding-top: 0;
+  text-align: left;
+  border-bottom: 3px solid #ccc;
+  padding-bottom: 20px;
 }
 
 .label {
@@ -34,9 +35,9 @@
 }
 
 .container1 {
-   display: flex;
-   flex-wrap: wrap;
-   justify-content: space-between;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .section1 {
@@ -61,12 +62,13 @@
    display: flex;
    align-items: center;
    writing-mode: horizontal-tb;
+
 }
 
 .checkboxContainer {
-   display: flex;
-   align-items: center;
-   gap: 10px; /* Adjust the gap between label and checkbox */
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Adjust the gap between label and checkbox */
 }
 
 .checkbox {
