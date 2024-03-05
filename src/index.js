@@ -42,7 +42,8 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Marketing from "./pages/Marketing.jsx";
 // import Setting from "./pages/setting/Setting.js";
 import PageNotFound from "./pages/PageNotFound.jsx";
-import Setting from "./pages/setting/Setting.js";
+import Setting from "./pages/setting/Setting.jsx";
+import General from "./pages/setting/General.jsx";
 
 const router = createBrowserRouter([
   {
@@ -172,7 +173,9 @@ const router = createBrowserRouter([
       },
       { path: "/marketing", element: <Marketing /> },
       { path: "/setting", element: <Setting /> },
-     
+     {
+      path:"/general", element: <General />
+     },
       { path: "*", element: <PageNotFound/> },
 
     ],

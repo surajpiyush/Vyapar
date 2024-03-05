@@ -12,12 +12,13 @@
 }
 
 .section {
-  width: 30%;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  margin-bottom: 20px;
-  padding: 20px;
+   width: 30%;
+   display: flex;
+   flex-direction: column;
+   box-sizing: border-box;
+   margin-bottom: 20px;
+   padding: 20px;
+
 }
 
 .section h2 {
@@ -29,8 +30,8 @@
 }
 
 .label {
-  font-size: 1.2em;
-  padding: 3px;
+   font-size: 1.2em;
+   padding: 3px;
 }
 
 .container1 {
@@ -40,27 +41,28 @@
 }
 
 .section1 {
-  width: 30%;
-  margin-bottom: 20px;
-  padding: 20px;
+   width: 30%;
+   margin-bottom: 20px;
+   padding: 20px;
 }
 
 .section1 h2 {
-  font-size: 1.2em;
-  border-bottom: 2px solid #ccc;
-  padding-bottom: 15px;
+   font-size: 1.2em;
+   border-bottom: 2px solid #ccc;
+   padding-bottom: 15px;
 }
 
 .legend {
-  color: #333;
-  font-size: 1em;
-  top: -1em;
+   color: #333;
+   font-size: 1em;
+   top: -1em;
 }
 
 .tab {
-  display: flex;
-  align-items: center;
-  writing-mode: horizontal-tb;
+   display: flex;
+   align-items: center;
+   writing-mode: horizontal-tb;
+
 }
 
 .checkboxContainer {
@@ -70,7 +72,8 @@
 }
 
 .checkbox {
-  border: 1px solid pink;
-  width: 25px; /* Adjust the width */
-  height: 25px; /* Adjust the height */
-}
+   font-size: larger;
+   width: 40px;
+   height: 35px;
+ }
+ 

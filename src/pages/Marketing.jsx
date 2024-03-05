@@ -1,6 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../styles/Marketing.css";
+import styles from "../styles/Marketing.module.css";
 const Marketing = () => {
    const whatsappNumber = "+918860464098"; // Replace with your actual WhatsApp number
 
@@ -10,7 +10,7 @@ const Marketing = () => {
 
    return (
       <div>
-         <div class="pic-ctn">
+         <div className={styles.picCtn}>
             <img src="https://picsum.photos/200/300?t=1" alt="" class="pic" />
             <img src="https://picsum.photos/200/300?t=2" alt="" class="pic" />
             <img src="https://picsum.photos/200/300?t=3" alt="" class="pic" />
@@ -34,7 +34,7 @@ const Marketing = () => {
                on WhatsApp. Click the button below to start a conversation.
             </p>
             <button
-               
+               className={styles.button}
                variant="success"
                onClick={openWhatsApp}
             >
