@@ -1,8 +1,9 @@
 import "./Paymentouts.css";
 import party from "../../../assets/Images/party.jpg";
 import FirstTimeFormToggle from "../../FirmTimeForm/FirstTimeFormToggle";
-import { getPaymentOutBill } from "../../../Redux/purchase/action";
+import { deletePayoutBill, getPaymentOutBill } from "../../../Redux/purchase/action";
 import {
+  DeleteIcon,
   DotsIcon,
   FilterIcon,
   PrinterIcon,
@@ -23,8 +24,14 @@ const Paymentouts = ({ func, date }) => {
   // console.log(store);
   useEffect(() => {
     dispatch(getPaymentOutBill({ date }));
-  }, [date]);
+  }, [date,dispatch]);
   // console.log(data)
+
+   // delete 
+   const handleDelete = (id) => {
+    dispatch(deletePayoutBill(id));
+  };
+
 
   const openForm = () => {
     func(true);
@@ -148,7 +155,8 @@ const Paymentouts = ({ func, date }) => {
                     <th className="table-h">
                       <div className="table-items">
                         <PrinterIcon onClick={() => window.print()} />
-                        <ShareIcon />
+                        <DeleteIcon onClick={() => handleDelete(e._id)} />
+
                         <DotsIcon />
                       </div>
                     </th>

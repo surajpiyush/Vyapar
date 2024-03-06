@@ -38,7 +38,8 @@ const Addpurchaseitem = ({ setOpenForm }) => {
    const getAllItemsLoading = useSelector(
       (state) => state.ItemReducer.getAllItemsLoading
    );
-   const items = useSelector((state) => state.ItemReducer.items);
+   const items = useSelector((state) => state.ItemReducer.allItems);
+   // console.log(items)
    const [currentCustomerData, setCurrentCustomerData] = useState({});
    const [toggleDesc, setToggleDesc] = useState(false);
    const [toggleRoundOff, setToggleRoundOff] = useState(false);
@@ -62,15 +63,15 @@ const Addpurchaseitem = ({ setOpenForm }) => {
          hsnCode: "",
          description: "Description of item 1",
          count: "",
-         qty: 1,
+         qty: 0,
          freeqty: "",
          unit: "",
-         priceUnit: 1,
+         priceUnit: 0,
          discountAmount: 0,
          discountpersant: 0,
          taxPersant: 0,
          taxAmount: 0, // to be calculated
-         amount: 1,
+         amount: 0,
 
          // there is place for them in frontend
          batchNo: 1,
@@ -79,7 +80,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
          mfgDate: new Date(),
          customField: "Custom field 1",
          size: "Large",
-         "serialNo": "SN001"
+         serialNo: "SN001",
       },
    ]);
    const [invoiceData, setInvoiceData] = useState({
@@ -96,7 +97,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
          hour12: false,
       }),
       paymentTerms: "",
-      dueDate: "2024-03-17T00:00:00.000Z",
+      dueDate: "2025-03-17T00:00:00.000Z",
       stateOfSupply: "",
       priceUnitWithTax: true,
       sale: [],
@@ -153,7 +154,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
          }
          if (Number(item?.amount)) {
             footerObj.totalAmount += Number(item?.amount);
-            invoiceData.total =+ footerObj.totalAmount
+            invoiceData.total = +footerObj.totalAmount;
          }
          if (Number(item?.count)) {
             footerObj.totalCount += Number(item?.count);
@@ -182,7 +183,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
          priceUnitWithTax: invoiceData?.priceUnitWithTax == "true",
          sale: [...invoiceData.sale, invoiceItems],
       };
-      console.log("data", purchaseBillData);
+      // console.log("data", purchaseBillData);
 
       dispatch(addPurchaseBill(purchaseBillData));
 
@@ -196,11 +197,14 @@ const Addpurchaseitem = ({ setOpenForm }) => {
    // for fetching all items list on form mount
    useEffect(() => {
       dispatch(GetAllItems());
+      // console.log(items)
    }, [toggleItems]);
 
    //  for updating Firm Data
    useEffect(() => {
+      // console.log(currentCustomerData);
       let obj = {
+         gstNo: currentCustomerData?.gstNo || "",
          phoneNumber: currentCustomerData?.phoneNumber || "",
          balance: currentCustomerData?.openingBalance || "",
       };
@@ -220,7 +224,22 @@ const Addpurchaseitem = ({ setOpenForm }) => {
 
    // Input Change Function
    const handleInputChange = (e) => {
-      const { name, value } = e.target;
+      let { name, value } = e.target;
+      if (name === "dueDate") {
+         const selectedDate = new Date(value);
+         const today = new Date();
+
+         if (selectedDate < today) {
+            toast({
+               description: "Something Went Wrong!",
+               title: "Selected date should not be before today",
+               status: "error",
+               position: "top",
+            });
+            console.log("Selected date should not be after today");
+            value = new Date().toISOString().split("T")[0];
+         }
+      }
       setInvoiceData((prev) => {
          return { ...prev, [name]: value };
       });
@@ -228,18 +247,23 @@ const Addpurchaseitem = ({ setOpenForm }) => {
 
    // Found items list click handler
    const handleMenuItemClick = (index, itemDetail) => {
+      // console.log(itemDetail);
       let currSaleItem = {
          ...invoiceItems[index],
 
+         mainName: itemDetail?.itemName,
          itemName: itemDetail?._id,
-         taxPersant: itemDetail?.taxRate.split("%")[0] || "",
+         hsnCode: itemDetail?.itemHsn || "",
+         description: itemDetail?.description || "",
+         itemCode: itemDetail?.itemCode || "",
+         priceUnit: itemDetail?.mrp?.mrp || "",
+         unit: itemDetail?.unit || "",
       };
       let newSaleData = invoiceItems.map((ite, ind) =>
          ind == index ? currSaleItem : ite
       );
       setInvoiceItems(newSaleData);
    };
-
    // for changing balance amount
    useEffect(() => {
       let initAmount = toggleRoundOff
@@ -348,6 +372,26 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                         Phone No.
                      </label>
                   </div>
+                  <div className={css.inputDiv}>
+                     <input
+                        type="number"
+                        value={invoiceData.gstNo}
+                        name="gstNo"
+                        onChange={(e) => handleInputChange(e)}
+                        className={css.input}
+                        required
+                     />
+                     <label
+                        htmlFor=""
+                        className={
+                           invoiceData.phoneNumber
+                              ? css.activeLabel
+                              : css.inactiveLabel
+                        }
+                     >
+                        GST Number
+                     </label>
+                  </div>
                </div>
                <div>
                   <div className={css.inputDiv}>
@@ -429,6 +473,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                         onChange={(e) => handleInputChange(e)}
                         name="billDate"
                         defaultValue={new Date().toISOString().split("T")[0]}
+                        readOnly
                      />
                   </div>
                   <div>
@@ -444,6 +489,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                            minute: "2-digit",
                            hour12: false,
                         })}
+                        readOnly
                      />
                   </div>
 
@@ -467,6 +513,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                         placeholder="Due Date"
                         className={css.invoiceDateSelectInp}
                         onChange={(e) => handleInputChange(e)}
+                        value={invoiceData?.dueDate}
                         name="dueDate"
                      />
                   </div>
@@ -539,7 +586,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                         <th className={css.itemNameHead}>ITEM</th>
                         <th className={css.itemNameHead}>ITEM CODE</th>
                         <th className={css.itemNameHead}>HSN CODE</th>
-                        <th className={css.itemNameHead}>DESCRIPTION</th>
+                        {/* <th className={css.itemNameHead}>DESCRIPTION</th> */}
                         <th className={css.itemNameHead}>COUNT</th>
                         <th className={css.qtyHead}>QTY</th>
                         <th className={css.itemNameHead}>FREE QTY</th>
@@ -611,7 +658,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                            </div>
                         </td>
                         <td></td>
-                        <td></td>
+                        {/* <td></td> */}
                         <td></td>
                         <td className={css.addRowChildTd}>
                            {rowFooterData?.totalCount}

@@ -31,22 +31,20 @@ const Transactions = ({ func, date }) => {
     func(true);
   };
   const dispatch = useDispatch();
-  const store = useSelector((store) => store.PurchaseReducer);
-  let showAllPurchaseBills = store.purchaseBillData;
-  // console.log(store);
+  const isLoading = useSelector((store) => store.PurchaseReducer.isLoading);
+  const showAllPurchaseBills = useSelector((store)=>store.PurchaseReducer.purchaseBillData);
+  console.log(showAllPurchaseBills);
 
   //console.log(date);
   useEffect(() => {
     dispatch(getPurchaseBill({ date }));
   }, [date, dispatch]);
 
+  // delete 
   const handleDelete = (id) => {
-    // Filter the data to remove the item with the matching invoice number
-    //  console.log(id);
     dispatch(deletePurchaseBill(id));
-    // alert("data removed");
-    // showAllPurchaseBills = updatedPurchaseBills;
   };
+
 
   const handelupadte = (e, data) => {
     data.billDate = "2024-02-29T00:00:00.000Z";
@@ -59,7 +57,7 @@ const Transactions = ({ func, date }) => {
   // console.log(showAllPurchaseBills);
   return (
     <>
-      {!store.isLoading && !showAllPurchaseBills.length ? (
+      {!isLoading && !showAllPurchaseBills.length ? (
         <FirstTimeFormToggle
           img={party}
           onClick={() => openForm()}
@@ -112,7 +110,7 @@ const Transactions = ({ func, date }) => {
             </div>
           </section>
 
-          {!store.isLoading && showAllPurchaseBills.length ? (
+          {!isLoading && showAllPurchaseBills.length ? (
             showAllPurchaseBills?.map((e) => {
               return (
                 <section className="transaction-tables">

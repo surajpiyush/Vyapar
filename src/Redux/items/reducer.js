@@ -16,7 +16,7 @@ const initialState = {
   isError: false,
   items: [],
   toggleItems: false,
-
+allItems:[],
   //   Get Single Items Action
   getSingleLoading: false,
   getSingleError: false,
@@ -57,7 +57,7 @@ export const reducer = (state = initialState, { type, payload }) => {
       return { ...state, getAllItemsLoading: false, getAllItemsError: true };
     }
     case SUCCESS_GET_ALL_ITEMS: {
-      return { ...state, getAllItemsLoading: false, items: payload };
+      return { ...state, getAllItemsLoading: false, items: payload, allItems:payload };
     }
 
     //  Single Item get actions
