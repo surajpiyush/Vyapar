@@ -80,7 +80,6 @@ const FormItemsRowTable = ({
       ind == index ? currSaleItem : ite
     );
     setTableRowsArr(newSaleData);
-    setShowItemsListMenu(false);
   };
 
   //   Delete Row Function
@@ -164,6 +163,7 @@ const FormItemsRowTable = ({
                   key={foundItem?._id}
                   onClick={() => {
                     handleMenuItemClick(foundItem);
+                    setShowItemsListMenu(false);
                   }}
                 >
                   {foundItem?.itemName}

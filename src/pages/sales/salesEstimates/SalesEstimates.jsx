@@ -1,7 +1,7 @@
 import css from "../../../styles/SalesStyles/Estimate.module.css";
 import party from "../../../assets/Images/party.jpg";
 import EstimateForm from "./EstimateForm";
-import FirstTimeFormToggle from "../../../Component/FirstTimeFormToggle";
+import FirstTimeFormToggle from "../../../Component/FirmTimeForm/FirstTimeFormToggle";
 import { GetAllEstimates } from "../../../Redux/sales/action";
 
 import { useState, useEffect } from "react";

@@ -2,7 +2,7 @@ import css from "../../../styles/SalesStyles/DeliveryChallan.module.css";
 import party from "../../../assets/Images/party.jpg";
 import FormDeliveryChallan from "./FormDeliveryChallan";
 import TableDeliveryChallan from "./TableDeliveryChallan";
-import FirstTimeFormToggle from "../../../Component/FirstTimeFormToggle";
+import FirstTimeFormToggle from "../../../Component/FirmTimeForm/FirstTimeFormToggle";
 import { GetAllDeliveryChallans } from "../../../Redux/sales/action";
 
 import { useState, useEffect } from "react";

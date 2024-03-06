@@ -1,8 +1,8 @@
 import css from "../../../styles/SalesStyles/Invoice.module.css";
 import party from "../../../assets/Images/party.jpg";
 import InvoiceForm from "./InvoiceForm";
-import FirstTimeFormToggle from "../../../Component/FirstTimeFormToggle";
 import TableInvoice from "./TableInvoice";
+import FirstTimeFormToggle from "../../../Component/FirmTimeForm/FirstTimeFormToggle";
 import { GetAllSalesInvoice } from "../../../Redux/sales/action";
 
 import { useToast } from "@chakra-ui/react";

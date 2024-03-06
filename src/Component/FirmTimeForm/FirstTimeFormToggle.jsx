@@ -1,6 +1,4 @@
-import css from ".././styles/FirstTimeFormToggleCss.module.css";
-
-import React from "react";
+import css from "./FirstTimeFormToggleCss.module.css";
 
 const FirstTimeFormToggle = ({
   img,

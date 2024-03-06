@@ -2,7 +2,7 @@ import css from "../../../styles/SalesStyles/Order.module.css";
 import party from "../../../assets/Images/party.jpg";
 import OrderForm from "./OrderForm";
 import TableSaleOrder from "./TableSaleOrder";
-import FirstTimeFormToggle from "../../../Component/FirstTimeFormToggle";
+import FirstTimeFormToggle from "../../../Component/FirmTimeForm/FirstTimeFormToggle";
 import { GetAllSaleOrders } from "../../../Redux/sales/action";
 
 import { useState, useEffect } from "react";
