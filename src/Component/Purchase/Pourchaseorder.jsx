@@ -1,8 +1,8 @@
 import "./purchaseorder.css";
 import party from "../../assets/Images/party.jpg";
 import FirstTimeFormToggle from "../FirmTimeForm/FirstTimeFormToggle";
-import { getPurchaseOrder } from "../../Redux/purchase/action";
-import { DotsIcon, FilterIcon } from "../utils/reactIcons";
+import { deletePurchaseOrderBill, getPurchaseOrder } from "../../Redux/purchase/action";
+import { DeleteIcon, DotsIcon, FilterIcon } from "../utils/reactIcons";
 
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,11 +16,18 @@ const Pourchaseorder = ({ func }) => {
   // console.log(store);
   useEffect(() => {
     dispatch(getPurchaseOrder({ date }));
-  }, []);
+  }, [dispatch]);
   const openForm = () => {
     func(true);
   };
   // console.log(data);
+
+   // delete 
+   const handleDelete = (id) => {
+    dispatch(deletePurchaseOrderBill(id));
+  };
+
+
   return (
     <>
       {!store.isLoading && !data.length ? (
@@ -145,6 +152,7 @@ const Pourchaseorder = ({ func }) => {
                       <div className="table-items table-items-purcahse-convert">
                         {e.action}
                       </div>
+                      <DeleteIcon onClick={() => handleDelete(e._id)} />
 
                       <DotsIcon />
                     </th>

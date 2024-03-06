@@ -1,7 +1,8 @@
 import party from "../../../assets/Images/party.jpg";
 import FirstTimeFormToggle from "../../FirmTimeForm/FirstTimeFormToggle";
-import { getPurchaseReturn } from "../../../Redux/purchase/action";
+import { deletePurchaseReturnBill, getPurchaseReturn } from "../../../Redux/purchase/action";
 import {
+  DeleteIcon,
   DotsIcon,
   FilterIcon,
   PrinterIcon,
@@ -20,7 +21,12 @@ const Purchasereturn = ({ func, date }) => {
   // console.log(store)
   useEffect(() => {
     dispatch(getPurchaseReturn({ date }));
-  }, [dispatch]);
+  }, [dispatch,date]);
+
+  // delete 
+  const handleDelete = (id) => {
+    dispatch(deletePurchaseReturnBill(id));
+  };
 
   const openForm = () => {
     func(true);
@@ -147,6 +153,7 @@ const Purchasereturn = ({ func, date }) => {
                         <PrinterIcon onClick={() => window.print()} />
                         <ShareIcon />
                         <DotsIcon />
+                        <DeleteIcon onClick={() => handleDelete(e._id)} />
                       </div>
                     </th>
                   </tr>

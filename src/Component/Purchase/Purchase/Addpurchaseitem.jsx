@@ -183,7 +183,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
          priceUnitWithTax: invoiceData?.priceUnitWithTax == "true",
          sale: [...invoiceData.sale, invoiceItems],
       };
-      console.log("data", purchaseBillData);
+      // console.log("data", purchaseBillData);
 
       dispatch(addPurchaseBill(purchaseBillData));
 
@@ -202,9 +202,9 @@ const Addpurchaseitem = ({ setOpenForm }) => {
 
    //  for updating Firm Data
    useEffect(() => {
-      console.log(currentCustomerData)
+      // console.log(currentCustomerData);
       let obj = {
-         gstNo:currentCustomerData?.gstNo || "",
+         gstNo: currentCustomerData?.gstNo || "",
          phoneNumber: currentCustomerData?.phoneNumber || "",
          balance: currentCustomerData?.openingBalance || "",
       };
@@ -247,7 +247,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
 
    // Found items list click handler
    const handleMenuItemClick = (index, itemDetail) => {
-      console.log(itemDetail);
+      // console.log(itemDetail);
       let currSaleItem = {
          ...invoiceItems[index],
 
@@ -257,7 +257,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
          description: itemDetail?.description || "",
          itemCode: itemDetail?.itemCode || "",
          priceUnit: itemDetail?.mrp?.mrp || "",
-         unit:itemDetail?.unit || "",
+         unit: itemDetail?.unit || "",
       };
       let newSaleData = invoiceItems.map((ite, ind) =>
          ind == index ? currSaleItem : ite
@@ -513,8 +513,8 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                         placeholder="Due Date"
                         className={css.invoiceDateSelectInp}
                         onChange={(e) => handleInputChange(e)}
-                        value={invoiceData?.dueDate}   
-                        name="dueDate" 
+                        value={invoiceData?.dueDate}
+                        name="dueDate"
                      />
                   </div>
                   <div>
@@ -658,7 +658,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                            </div>
                         </td>
                         <td></td>
-                        <td></td>
+                        {/* <td></td> */}
                         <td></td>
                         <td className={css.addRowChildTd}>
                            {rowFooterData?.totalCount}
@@ -667,7 +667,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                            {rowFooterData?.totalQty}
                         </td>
                         <td></td>
-                        {/* <td></td> */}
+                        <td></td>
                         <td></td>
 
                         <td className={css.addRowChildTd}>

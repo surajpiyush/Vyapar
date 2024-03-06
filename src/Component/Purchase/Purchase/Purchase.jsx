@@ -22,7 +22,7 @@ const ItemsTableBody = memo(
       items,
    }) => {
       const [foundItems, setFoundItems] = useState([]);
-      console.log("item first -", item);
+      // console.log("item first -", item);
       // Itemslist Suggestions
       useEffect(() => {
          const regex = new RegExp(item?.itemName, "i");
