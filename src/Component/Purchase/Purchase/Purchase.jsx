@@ -1,13 +1,7 @@
 import css from "../../../styles/SalesStyles/SalesForms.module.css";
 
 import { memo, useEffect, useState } from "react";
-import {
-   Menu,
-   MenuList,
-   MenuItem,
-   MenuDivider,
-   
-} from "@chakra-ui/react";
+import { Menu, MenuList, MenuItem, MenuDivider } from "@chakra-ui/react";
 import { MdDelete as DeleteIcon } from "react-icons/md";
 import { TbArrowsMove as MoveIcon } from "react-icons/tb";
 
@@ -28,6 +22,7 @@ const ItemsTableBody = memo(
       items,
    }) => {
       const [foundItems, setFoundItems] = useState([]);
+      console.log("item first -", item);
       // Itemslist Suggestions
       useEffect(() => {
          const regex = new RegExp(item?.itemName, "i");
@@ -142,7 +137,7 @@ const ItemsTableBody = memo(
                </div>
             </td>
             <td className={css.itemNameBody}>
-               <select name="category" id="">
+               <select name="category" id="" value={item?.category}>
                   <option value="">Category</option>
                   <option value="show">Show</option>
                   <option value="tab">Tab</option>
@@ -164,7 +159,7 @@ const ItemsTableBody = memo(
                <input
                   type="text"
                   name="itemName"
-                  value={item?.itemName}
+                  value={item?.mainName}
                   onChange={(e) => {
                      handleTableInputChange(e, ind);
                   }}
@@ -220,13 +215,13 @@ const ItemsTableBody = memo(
                <input
                   type="text"
                   name="hsnCode"
-                  // value={item?.qty}
+                  value={item?.hsnCode}
                   onChange={(e) => handleTableInputChange(e, ind)}
                   placeholder=""
                   className={css.tableInputs}
                />
             </td>
-            <td className={css.qtyBody} onClick={() => setIndexSaleItem(ind)}>
+            {/* <td className={css.qtyBody} onClick={() => setIndexSaleItem(ind)}>
                <input
                   type="text"
                   className={css.tableInputs}
@@ -235,7 +230,7 @@ const ItemsTableBody = memo(
                   onChange={(e) => handleTableInputChange(e, ind)}
                   placeholder="0"
                />
-            </td>
+            </td> */}
             <td className={css.qtyBody} onClick={() => setIndexSaleItem(ind)}>
                <input
                   type="number"
@@ -268,7 +263,7 @@ const ItemsTableBody = memo(
             <td className={css.unitBody} onClick={() => setIndexSaleItem(ind)}>
                <select
                   name="unit"
-                  value={item.unit}
+                  value={item?.unit}
                   onChange={(e) => handleTableInputChange(e, ind)}
                   placeholder="None"
                >
@@ -300,7 +295,7 @@ const ItemsTableBody = memo(
                <input
                   type="number"
                   name="priceUnit"
-                 
+                  value={item?.priceUnit}
                   onChange={(e) => handleTableInputChange(e, ind)}
                   placeholder="0"
                   className={css.tableInputs}
@@ -315,7 +310,6 @@ const ItemsTableBody = memo(
                   type="number"
                   name="discountpersant"
                   value={AmountCalculator()?.discountPercent}
-                 
                   onChange={(e) => handleTableInputChange(e, ind)}
                   placeholder="0"
                   className={css.tableInputs}
@@ -324,7 +318,6 @@ const ItemsTableBody = memo(
                   type="number"
                   name="discountAmount"
                   value={AmountCalculator()?.discountAmount}
-                 
                   onChange={(e) => handleTableInputChange(e, ind)}
                   placeholder="0"
                   className={css.tableInputs}

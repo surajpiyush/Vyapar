@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { addItem } from "../../Redux/items/actions";
 import "../../styles/Items.css";
+import css from "../../styles/SalesStyles/SalesForms.module.css";
 
 export default function ItemsForm({ closeForm }) {
    const toast = useToast();
@@ -12,6 +13,7 @@ export default function ItemsForm({ closeForm }) {
    const [optToggle, setOptToggle] = useState(true);
    const [productOptToggle, setProductOptToggle] = useState(true);
    const [wsToggle, setWsToggle] = useState(false);
+   const [sel, setSel] = useState(false);
    // -----------------------------------INTERGRATION IN POSTING A NEW ITEM----------------------------------------
    const dispatch = useDispatch();
    const items = useSelector((store) => store.ItemReducer.items);
@@ -22,7 +24,7 @@ export default function ItemsForm({ closeForm }) {
       itemHsn: "",
       description: "This is a sample item",
       itemCode: 789,
-      seleteUnit: [{ baseUnit: "Piece", secondaryUnit: "Box" }],
+      seleteUnit: "",
       batchTracking: "Yes",
       serialTracking: "No",
       stockQuantity: 1,
@@ -183,8 +185,60 @@ export default function ItemsForm({ closeForm }) {
                         onChange={handleChange}
                         placeholder="Item HSN"
                      />
-                     <button type="button" className="select-unit-btn">
-                        Select Unit
+                     <button
+                        type="button"
+                        className="select-unit-btn"
+                        onClick={() => setSel(true)}
+                     >
+                        {sel ? (
+                           <td
+                              className={css.unitBody}
+                              style={{ color: "black", fontWeight: "bold" }}
+                              onClick={() => setSel(false)}
+                           >
+                              <select
+                        onChange={handleChange}
+                                 name="unit"
+                               
+                                 placeholder="None"
+                              >
+                                 <option value="">None</option>
+                                 <option value="BAGS">BAGS (BAG)</option>
+                                 <option value="BOTTLES">BOTTLES (BTL)</option>
+                                 <option value="BOX">BOX (BOX)</option>
+                                 <option value="BUNDLES">
+                                    BUNDLES (BUNDLE)
+                                 </option>
+                                 <option value="CANS">CANS (CAN)</option>
+                                 <option value="CARTONS">CARTONS (CTN)</option>
+                                 <option value="DOZENS">DOZENS (DZN)</option>
+                                 <option value="GRAMMES">GRAMMES (GM)</option>
+                                 <option value="KILOGRAMS">
+                                    KILOGRAMS (KG)
+                                 </option>
+                                 <option value="LITRE">LITRE (LTR)</option>
+                                 <option value="METERS">METERS (MTR)</option>
+                                 <option value="MILILITRE">
+                                    MILILITRE (ML)
+                                 </option>
+                                 <option value="NUMBERS">NUMBERS (NOS)</option>
+                                 <option value="PACKS">PACKS (PAC)</option>
+                                 <option value="PAIRS">PAIRS (PRS)</option>
+                                 <option value="PIECES">PIECES (PCS)</option>
+                                 <option value="QUINTAL">QUINTAL (QTL)</option>
+                                 <option value="ROLLS">ROLLS (ROL)</option>
+                                 <option value="SQUARE FEET">
+                                    SQUARE FEET (SQF)
+                                 </option>
+                                 <option value="SQUARE METERS">
+                                    SQUARE METERS (SQM)
+                                 </option>
+                                 <option value="TABLETS">TABLETS (TBS)</option>
+                              </select>
+                           </td>
+                        ) : (
+                           "Select Unit"
+                        )}
                      </button>
                   </div>
                   {/* <div
