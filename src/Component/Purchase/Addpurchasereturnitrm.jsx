@@ -89,10 +89,10 @@ const Addpurchaseitem = ({ setOpenForm }) => {
       phoneNumber: 1234567890,
       returnNumber: "",
       billNumber: "",
-      billDate: "2024-02-16",
-      date: "2024-02-16",
-      time: "10:00 AM",
-      stateOfSupply: "2024-02-16T00:00:00.000Z",
+      billDate: "",
+      date: "",
+      time: "",
+      stateOfSupply: "",
       priceUnitWithTax: true,
       purchaseOrder: [],
       paymentType: [
@@ -100,11 +100,11 @@ const Addpurchaseitem = ({ setOpenForm }) => {
             cash: 0,
             cheque: {
                refreanceNo: "REF123",
-               checkAmount: 150,
+               checkAmount: 0,
             },
             bankDetail: {
                accountName: "ABC Bank",
-               openingBalance: 5000,
+               openingBalance: 0,
                asOfDate: "2024-02-16T00:00:00.000Z",
             },
             default: "cheque",
@@ -112,17 +112,17 @@ const Addpurchaseitem = ({ setOpenForm }) => {
       ],
       addDescription: "Additional description here",
       discount: {
-         discountPersent: 2,
-         discountAmount: 2,
+         discountPersent: 0,
+         discountAmount: 0,
       },
       tax: {
          tax: "GST",
-         taxamount: 10,
+         taxamount: 0,
       },
       roundOff: 0,
-      total: 950,
+      total: 0,
       advanceAmount: 0,
-      balance: 950,
+      balance: 0,
    });
 
    // Update total footer values
