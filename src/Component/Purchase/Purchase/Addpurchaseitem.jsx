@@ -24,6 +24,7 @@ import { BiSolidCheckboxChecked as CheckedBox } from "react-icons/bi";
 import { addPurchaseBill } from "../../../Redux/purchase/action";
 
 const Addpurchaseitem = ({ setOpenForm }) => {
+   
    const toast = useToast();
    const dispatch = useDispatch();
    const isLoading = useSelector((state) => state.SalesReducer.isLoading);
@@ -406,6 +407,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                         PO No.
                      </label>
                      <input
+                     required
                         type="text"
                         name="poNo"
                         className={css.input}
@@ -425,6 +427,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                         PO Date
                      </label>
                      <input
+                     required
                         type="Date"
                         name="poDate"
                         defaultValue={new Date().toISOString().split("T")[0]}
@@ -445,6 +448,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                         E-Way Bill
                      </label>
                      <input
+                     required
                         type="text"
                         name="eWayBill"
                         onChange={(e) => handleInputChange(e)}
@@ -457,6 +461,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                   <div>
                      <p>Bill Number</p>
                      <input
+                     required
                         type="text"
                         placeholder="1"
                         className={css.invoiceNumInp}
@@ -495,7 +500,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
 
                   <div>
                      <p>Payment Terms</p>
-                     <select
+                     <select required
                         name="paymentTerms"
                         onChange={(e) => handleInputChange(e)}
                      >
@@ -508,7 +513,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                   </div>
                   <div>
                      <p>Due Date</p>
-                     <input
+                     <input required
                         type="date"
                         placeholder="Due Date"
                         className={css.invoiceDateSelectInp}
@@ -524,6 +529,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                         id=""
                         className={css.invoiceDateSelectInp}
                         onSelect={(e) => handleInputChange(e)}
+                        required
                      >
                         <option value="">State</option>
                         <option value="Andhra Pradesh">Andhra Pradesh</option>

@@ -164,7 +164,7 @@ const ItemsTableBody = memo(
                <input
                   type="text"
                   name="itemName"
-                  value={item?.itemName}
+                  value={item?.mainName}
                   onChange={(e) => {
                      handleTableInputChange(e, ind);
                   }}

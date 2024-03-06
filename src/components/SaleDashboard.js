@@ -32,10 +32,7 @@ const SaleDashboard = ({ data, tableHeader, btnText }) => {
       {/* Search Bar And Button */}
       <div className="sale-dashboard-search">
         <span>TRANSACTIONS</span>
-        <div>
-          <ReportSearchBar />
-          <ReportBtn btnText={btnText} />
-        </div>
+   
       </div>
 
       {/* Table */}

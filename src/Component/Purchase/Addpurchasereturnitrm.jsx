@@ -225,7 +225,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
    const handleMenuItemClick = (index, itemDetail) => {
       let currSaleItem = {
          ...invoiceItems[index],
-
+         mainName: itemDetail?.itemName,
          itemName: itemDetail?._id,
          taxPersant: itemDetail?.taxRate.split("%")[0] || "",
       };

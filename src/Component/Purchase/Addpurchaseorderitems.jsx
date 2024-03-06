@@ -224,7 +224,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
    const handleMenuItemClick = (index, itemDetail) => {
       let currSaleItem = {
          ...invoiceItems[index],
-
+         mainName: itemDetail?.itemName,
          itemName: itemDetail?._id,
          taxPersant: itemDetail?.taxRate.split("%")[0] || "",
       };
@@ -328,6 +328,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                   <div>
                      <p>Order Number</p>
                      <input
+                     required
                         type="text"
                         placeholder="1"
                         className={css.invoiceNumInp}
@@ -338,6 +339,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                   <div>
                      <p>Order Date</p>
                      <input
+                     readOnly
                         type="date"
                         className={css.invoiceDateSelectInp}
                         onChange={(e) => handleInputChange(e)}
@@ -349,6 +351,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                      <p>Time</p>
                      <input
                         type="time"
+                        readOnly
                         className={css.invoiceDateSelectInp}
                         onChange={(e) => handleInputChange(e)}
                         name="time"
@@ -363,6 +366,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                   <div>
                      <p>Due Date</p>
                      <input
+                     required
                         type="date"
                         placeholder="Due Date"
                         className={css.invoiceDateSelectInp}
@@ -373,6 +377,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                   <div>
                      <p>State of supply</p>
                      <select
+                     required
                         name="stateOfSupply"
                         id=""
                         className={css.invoiceDateSelectInp}
