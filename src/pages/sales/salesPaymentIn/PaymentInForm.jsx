@@ -13,7 +13,7 @@ import { AiFillFileAdd as AddDecriptionIcon } from "react-icons/ai";
 import { BiSolidCameraPlus as AddCameraIcon } from "react-icons/bi";
 import { IoIosArrowDown as ArrowDown } from "react-icons/io";
 
-const PaymentInForm = ({ closeForm }) => {
+const PaymentInForm = ({ closeForm, setToggleSetting }) => {
   const toast = useToast();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.SalesReducer.isLoading);
@@ -114,15 +114,7 @@ const PaymentInForm = ({ closeForm }) => {
                 })
               }
             />
-            <SettingIcon
-              onClick={() =>
-                toast({
-                  title: "Feature under development",
-                  status: "info",
-                  position: "top",
-                })
-              }
-            />
+            <SettingIcon onClick={() => setToggleSetting(true)} />
             <CloseIcon onClick={closeForm} />
           </div>
         </div>

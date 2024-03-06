@@ -15,7 +15,7 @@ import { BiSolidCameraPlus as AddCameraIcon } from "react-icons/bi";
 import { ImCheckboxUnchecked as EmptyCheckedBox } from "react-icons/im";
 import { BiSolidCheckboxChecked as CheckedBox } from "react-icons/bi";
 
-const EstimateForm = ({ setOpenForm }) => {
+const EstimateForm = ({ setOpenForm, setToggleSetting }) => {
   const toast = useToast();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.SalesReducer.isLoading);
@@ -151,9 +151,20 @@ const EstimateForm = ({ setOpenForm }) => {
     setTableRowsArr((prev) => [...prev, newRowData]);
   };
 
+  // setting icon click function
+  const handleSettingClick = () => {
+    setOpenForm(false);
+    setToggleSetting(true);
+  };
+
   return (
     <form onSubmit={handleSubmit} className={css.formOuter}>
-      {showItemForm && <ItemsForm closeForm={setShowAddItemsForm} />}
+      {showItemForm && (
+        <ItemsForm
+          handleSettingClick={handleSettingClick}
+          closeForm={setShowAddItemsForm}
+        />
+      )}
 
       <div className={css.topheader}>
         <p>Estimate/Quotation</p>

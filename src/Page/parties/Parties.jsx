@@ -1,10 +1,10 @@
 import "../../styles/parties.css";
 import party from "../../assets/Images/party.jpg";
+import Setting from "../../Component/Setting/Setting";
+import Loader1 from "../../Component/Loaders/Loader1";
 import PartiesTable from "../../components/TableData/PartiesTable";
 import GroupTable from "../../components/TableData/GroupTable";
 import FirstTimeFormToggle from "../../Component/FirmTimeForm/FirstTimeFormToggle";
-
-import Loader1 from "../../Component/Loaders/Loader1";
 import { FetchAllParties, SaveParty } from "../../Redux/parties/actions";
 import { SAVE_PARTY_INPUT_CHANGE } from "../../Redux/parties/actionTypes";
 
@@ -45,6 +45,7 @@ export default function Parties() {
   const creditLimit = useSelector((state) => state.PartiesReducer.creditLimit);
   const partyGroup = useSelector((state) => state.PartiesReducer.partyGroup);
 
+  const [toggleSetting, setToggleSetting] = useState(false);
   const [partyFormIsOpen, setPartyFormIsOpen] = useState(false);
   const [firstSec, setFirstSec] = useState(true);
   const [secondSec, setSecondSec] = useState(false);
@@ -127,6 +128,8 @@ export default function Parties() {
 
   return (
     <div>
+      {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
+
       <div className="nav">
         <div
           className="nav-opt"
@@ -178,12 +181,7 @@ export default function Parties() {
                 <div className="icon-cont">
                   <i
                     className="fa fa-cog"
-                    onClick={() =>
-                      navigate("/setting", {
-                        state: { redirectTo: location.pathname },
-                        replace: true,
-                      })
-                    }
+                    onClick={() => setToggleSetting(true)}
                   ></i>
                   <i
                     className="fa fa-close"

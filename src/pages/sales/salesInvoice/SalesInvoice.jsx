@@ -2,6 +2,7 @@ import css from "../../../styles/SalesStyles/Invoice.module.css";
 import party from "../../../assets/Images/party.jpg";
 import InvoiceForm from "./InvoiceForm";
 import TableInvoice from "./TableInvoice";
+import Setting from "../../../Component/Setting/Setting";
 import FirstTimeFormToggle from "../../../Component/FirmTimeForm/FirstTimeFormToggle";
 import { GetAllSalesInvoice } from "../../../Redux/sales/action";
 
@@ -23,6 +24,7 @@ export default function SalesInvoice() {
   const location = useLocation();
   const dispatch = useDispatch();
   const [openForm, setOpenForm] = useState(false);
+  const [toggleSetting, setToggleSetting] = useState(false);
   const [startDate, setStartDate] = useState("2024-02-01");
   const [endDate, setEndDate] = useState(
     new Date().toISOString().split("T")[0]
@@ -43,6 +45,8 @@ export default function SalesInvoice() {
 
   return (
     <div style={{ marginTop: "100px" }}>
+      {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
+
       {openForm && (
         <div className={css.formOuter}>
           <div className={css.upperNav}>
@@ -62,18 +66,14 @@ export default function SalesInvoice() {
                   })
                 }
               />
-              <SettingIcon
-                onClick={() =>
-                  navigate("/setting", {
-                    state: { redirectTo: location.pathname },
-                    replace: true,
-                  })
-                }
-              />
+              <SettingIcon onClick={() => setToggleSetting(true)} />
               <CloseIcon onClick={() => setOpenForm(false)} />
             </div>
           </div>
-          <InvoiceForm setOpenForm={setOpenForm} />
+          <InvoiceForm
+            setToggleSetting={setToggleSetting}
+            setOpenForm={setOpenForm}
+          />
         </div>
       )}
 

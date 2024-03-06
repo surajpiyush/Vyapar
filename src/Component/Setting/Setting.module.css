@@ -1,0 +1,152 @@
+.Outer {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2000;
+  background-color: var(--greyB);
+}
+
+/* Content Css */
+.contentOuterDiv {
+  padding-top: 25px;
+  flex: 2;
+}
+
+/* Old Css */
+
+#interface {
+  overflow: auto;
+}
+
+.container {
+  overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  overflow-x: auto;
+  font-size: larger;
+}
+
+.section {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+.section h2 {
+  font-size: 1.4em;
+  padding-top: 0;
+  text-align: left;
+  border-bottom: 3px solid #ccc;
+  padding-bottom: 20px;
+}
+
+.label {
+  font-size: 1.2em;
+  padding: 3px;
+}
+
+.container1 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.section1 {
+  width: 30%;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+.section1 h2 {
+  font-size: 1.2em;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 15px;
+}
+
+.legend {
+  color: #333;
+  font-size: 1em;
+  top: -1em;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  writing-mode: horizontal-tb;
+}
+
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Adjust the gap between label and checkbox */
+}
+
+.checkbox {
+  font-size: larger;
+  width: 40px;
+  height: 35px;
+}
+
+/* **************
+** Sidebar Css **
+*****************/
+
+.close {
+  text-align: right;
+}
+
+#menu {
+  background: #111827;
+  width: 300px;
+  height: 100%;
+  color: #fff;
+  overflow-y: auto;
+  min-height: 100vh;
+  padding-top: 25px;
+}
+
+#menu .logo {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  padding: 20px 30px;
+  border-bottom: 1px solid #253047;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.logo h2 {
+  margin: 0;
+  font-size: 1.5em;
+}
+
+.items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navLink {
+  display: block;
+  padding: 22px;
+  color: #ecf0f1;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.navLink:hover {
+  background-color: #34495e;
+}
+
+.navLink.active {
+  background-color: yellow;
+  color: #ffffff;
+  border: 1px solid red;
+}

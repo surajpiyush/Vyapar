@@ -31,7 +31,7 @@ const Navbar = () => {
   // Change Company Click
   const handleChangeCompanyClick = () => {
     setShowCompanyMenu((prev) => !prev);
-    navigate("/company", {
+    navigate("/companies", {
       state: { redirectTo: location.pathname },
       replace: true,
     });

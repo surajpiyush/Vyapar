@@ -1,14 +1,16 @@
-import React, { useState } from "react";
 import "../../styles/Items.css";
-import ItemsForm from "../../components/addForm/ItemsForm";
-import ProductsTable from "../../components/TableData/ProductsTable";
-import ServicesTable from "../../components/TableData/ServicesTable";
 import party from "../../assets/Images/party.jpg";
-import CategoryTable from "../../components/TableData/CategoryTable";
+import Setting from "../../Component/Setting/Setting";
+import UnitForm from "../../components/addForm/UnitForm";
+import ItemsForm from "../../components/addForm/ItemsForm";
 import UnitsTable from "../../components/TableData/UnitsTable";
 import CategoryForm from "../../components/addForm/CategoryForm";
-import UnitForm from "../../components/addForm/UnitForm";
+import ProductsTable from "../../components/TableData/ProductsTable";
+import ServicesTable from "../../components/TableData/ServicesTable";
+import CategoryTable from "../../components/TableData/CategoryTable";
 import StockAdjustment from "../../components/addForm/StockAdjustment";
+
+import { useState } from "react";
 
 export default function Items() {
   const [firstSec, setFirstSec] = useState(true);
@@ -19,6 +21,7 @@ export default function Items() {
   const [categoryForm, setCategoryForm] = useState(false);
   const [unitForm, setUnitForm] = useState(false);
   const [adjustItem, setAdjustItem] = useState(false);
+  const [toggleSetting, setToggleSetting] = useState(false);
 
   const toggleForm = () => {
     setOpenForm(!openForm);
@@ -26,10 +29,6 @@ export default function Items() {
 
   const dataFromChild = (val) => {
     setOpenForm(val);
-  };
-
-  const closeServiceProductForm = () => {
-    setOpenForm(false);
   };
 
   const openCategoryForm = () => {
@@ -83,9 +82,20 @@ export default function Items() {
     }
   };
 
+  // setting icon click function
+  const handleSettingClick = () => {
+    setOpenForm(false);
+    setToggleSetting(true);
+  };
   return (
     <div>
-      {openForm && <ItemsForm closeForm={setOpenForm} />}
+      {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
+      {openForm && (
+        <ItemsForm
+          handleSettingClick={handleSettingClick}
+          closeForm={() => setOpenForm(false)}
+        />
+      )}
       {categoryForm && <CategoryForm func={closeCategoryForm} />}
       {unitForm && <UnitForm func={closeUnitForm} />}
       {adjustItem && <StockAdjustment func={closeAdjustForm} />}

@@ -2,6 +2,7 @@ import css from "../../../styles/SalesStyles/Order.module.css";
 import party from "../../../assets/Images/party.jpg";
 import OrderForm from "./OrderForm";
 import TableSaleOrder from "./TableSaleOrder";
+import Setting from "../../../Component/Setting/Setting";
 import FirstTimeFormToggle from "../../../Component/FirmTimeForm/FirstTimeFormToggle";
 import { GetAllSaleOrders } from "../../../Redux/sales/action";
 
@@ -31,6 +32,7 @@ export default function SalesOrder() {
   );
 
   const [openForm, setOpenForm] = useState(false);
+  const [toggleSetting, setToggleSetting] = useState(false);
   const [toggleSections, setToggleSections] = useState(false);
 
   useEffect(() => {
@@ -43,6 +45,8 @@ export default function SalesOrder() {
 
   return (
     <div style={{ marginTop: "80px" }}>
+      {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
+
       <div className={css.headerNavOuter}>
         <div
           onClick={() => {
@@ -88,18 +92,14 @@ export default function SalesOrder() {
                       })
                     }
                   />
-                  <SettingIcon
-                    onClick={() =>
-                      navigate("/setting", {
-                        state: { redirectTo: location.pathname },
-                        replace: true,
-                      })
-                    }
-                  />
+                  <SettingIcon onClick={() => setToggleSetting(true)} />
                   <CloseIcon onClick={() => setOpenForm(false)} />
                 </div>
               </div>
-              <OrderForm setOpenForm={setOpenForm} />
+              <OrderForm
+                setToggleSetting={setToggleSetting}
+                setOpenForm={setOpenForm}
+              />
             </div>
           )}
 

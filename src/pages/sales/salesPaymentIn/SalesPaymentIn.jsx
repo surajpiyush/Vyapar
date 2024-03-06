@@ -1,6 +1,7 @@
 import css from "../../../styles/SalesStyles/PaymentIn.module.css";
 import PaymentInForm from "./PaymentInForm";
 import TablePaymentIn from "./TablePaymentIn";
+import Setting from "../../../Component/Setting/Setting";
 import { GetAllPaymentIn } from "../../../Redux/sales/action";
 
 import { useEffect, useState } from "react";
@@ -19,11 +20,12 @@ export default function SalesPaymentIn() {
     (state) => state.SalesReducer.paymentInList
   );
 
+  const [openForm, setOpenForm] = useState(false);
+  const [toggleSetting, setToggleSetting] = useState(false);
   const [startDate, setStartDate] = useState("2024-02-01");
   const [endDate, setEndDate] = useState(
     new Date().toISOString().split("T")[0]
   );
-  const [openForm, setOpenForm] = useState(false);
 
   useEffect(() => {
     GetAllPaymentIn(dispatch, startDate, endDate);
@@ -39,7 +41,14 @@ export default function SalesPaymentIn() {
 
   return (
     <div style={{ marginTop: "100px" }}>
-      {openForm && <PaymentInForm closeForm={closeForm} />}
+      {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
+
+      {openForm && (
+        <PaymentInForm
+          setToggleSetting={setToggleSetting}
+          closeForm={closeForm}
+        />
+      )}
 
       <div className="grp-cont-invoice">
         <div className="">

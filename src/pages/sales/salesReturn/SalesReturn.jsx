@@ -1,6 +1,7 @@
 import css from "../../../styles/SalesStyles/CreditNotes.module.css";
 import FormCreditNote from "./FormCreditNote";
 import TableCreditNotes from "./TableCreditNotes";
+import Setting from "../../../Component/Setting/Setting";
 import { GetAllCreditNotes } from "../../../Redux/sales/action";
 
 import { useState, useEffect } from "react";
@@ -28,11 +29,12 @@ export default function SalesReturn() {
     (state) => state.SalesReducer.creditNotesList
   );
 
+  const [openForm, setOpenForm] = useState(false);
+  const [toggleSetting, setToggleSetting] = useState(false);
   const [startDate, setStartDate] = useState("2024-02-01");
   const [endDate, setEndDate] = useState(
     new Date().toISOString().split("T")[0]
   );
-  const [openForm, setOpenForm] = useState(false);
 
   useEffect(() => {
     GetAllCreditNotes(dispatch, startDate, endDate);
@@ -44,6 +46,8 @@ export default function SalesReturn() {
 
   return (
     <div style={{ marginTop: "100px" }}>
+      {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
+
       {openForm && (
         <div className={css.formOuter}>
           <div className={css.upperNav}>
@@ -63,18 +67,14 @@ export default function SalesReturn() {
                   })
                 }
               />
-              <SettingIcon
-                onClick={() =>
-                  navigate("/setting", {
-                    state: { redirectTo: location.pathname },
-                    replace: true,
-                  })
-                }
-              />
+              <SettingIcon onClick={() => setToggleSetting(true)} />
               <CloseIcon onClick={() => setOpenForm(false)} />
             </div>
           </div>
-          <FormCreditNote setOpenForm={setOpenForm} />
+          <FormCreditNote
+            setToggleSetting={setToggleSetting}
+            setOpenForm={setOpenForm}
+          />
         </div>
       )}
 

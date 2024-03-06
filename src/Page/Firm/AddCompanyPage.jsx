@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-function Busniess() {
+const AddCompanyPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -80,6 +80,6 @@ function Busniess() {
       </div>
     </form>
   );
-}
+};
 
-export default Busniess;
+export default AddCompanyPage;

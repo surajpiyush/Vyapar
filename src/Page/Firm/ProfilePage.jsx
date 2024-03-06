@@ -1,17 +1,14 @@
-import "./Editframe.css";
+import "./Profile.css";
+import Loader1 from "../../Component/Loaders/Loader1";
 import { USER_DETAILS } from "../../Redux/business/actionTypes";
+import { UpdateCompanyProfile } from "../../Redux/business/action";
 
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { RxCross2 } from "react-icons/rx";
-import {
-  FetchAllCompanies,
-  UpdateCompanyProfile,
-} from "../../Redux/business/action";
 import { useToast } from "@chakra-ui/react";
-import Loader1 from "../Loaders/Loader1";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RxCross2 } from "react-icons/rx";
 
-const Editframe = () => {
+const ProfilePage = () => {
   const toast = useToast();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.BusinessReducer.isLoading);
@@ -48,22 +45,6 @@ const Editframe = () => {
       };
     });
   }, []);
-
-  // useEffect(() => {
-  //   const newFormDataToSend = new FormData();
-  //   Object.entries(companyData).forEach(([key, value]) => {
-  //     newFormDataToSend.append(key, value);
-  //   });
-  //   // newFormDataToSend.append("companyLogo", companyData?.companyLogo);
-  //   // newFormDataToSend.append("signature", companyData?.signature);
-  //   setFormDataToSend(newFormDataToSend);
-  // }, [companyData]);
-
-  // UseEffect to change company data on update
-  useEffect(() => {
-    const userDetailLS = JSON.parse(localStorage.getItem(USER_DETAILS));
-    setCompanyData(userDetailLS);
-  }, [toggleUpdate]);
 
   // Input Change Function
   const handleInputChange = (e) => {
@@ -103,9 +84,6 @@ const Editframe = () => {
       );
       UpdateCompanyProfile(dispatch, newFormDataToSend, toast);
     }
-
-    // UpdateCompanyProfile(dispatch, newFormDataToSend, toast);
-    // UpdateCompanyProfile(dispatch, formDataToSend, toast);
   };
 
   return (
@@ -288,4 +266,4 @@ const Editframe = () => {
   );
 };
 
-export default Editframe;
+export default ProfilePage;

@@ -1,11 +1,22 @@
+.itemFormOuterDiv {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--overlayBg);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1800;
+}
+
 .item-form {
   padding: 20px;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
   background-color: white;
-  box-shadow: 3px 5px 10px grey;
+  box-shadow: var(--shadowB);
+  border-radius: 5px;
+  overflow: hidden;
+  z-index: 2000;
 }
 
 .select-unit-btn {

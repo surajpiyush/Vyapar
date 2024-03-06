@@ -34,7 +34,7 @@ const AuthPage = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      navigate("/company", {
+      navigate("/companies", {
         state: { redirectTo: location.pathname },
         replace: true,
       });
@@ -74,7 +74,7 @@ const AuthPage = () => {
       setStates((prev) => {
         return { ...prev, isLoading: false, toggle: !prev.toggle };
       });
-      navigate("/company", {
+      navigate("/companies", {
         state: { redirectTo: location.pathname },
         replace: true,
       });
@@ -124,7 +124,7 @@ const AuthPage = () => {
       setStates((prev) => {
         return { ...prev, isLoading: false, toggle: !prev.toggle };
       });
-      navigate("/company", {
+      navigate("/companies", {
         state: { redirectTo: location.pathname },
         replace: true,
       });

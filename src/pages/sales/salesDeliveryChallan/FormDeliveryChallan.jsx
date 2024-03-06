@@ -16,7 +16,7 @@ import { BiSolidCameraPlus as AddCameraIcon } from "react-icons/bi";
 import { ImCheckboxUnchecked as EmptyCheckedBox } from "react-icons/im";
 import { BiSolidCheckboxChecked as CheckedBox } from "react-icons/bi";
 
-const FormDeliveryChallan = ({ setOpenForm }) => {
+const FormDeliveryChallan = ({ setOpenForm, setToggleSetting }) => {
   const toast = useToast();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.SalesReducer.isLoading);
@@ -196,6 +196,11 @@ const FormDeliveryChallan = ({ setOpenForm }) => {
     setTableRowsArr((prev) => [...prev, newRowData]);
   };
 
+  // setting icon click function
+  const handleSettingClick = () => {
+    setOpenForm(false);
+    setToggleSetting(true);
+  };
   return (
     <form onSubmit={handleSubmit} className={css.formOuter}>
       <div className={css.topheader}>
@@ -203,7 +208,12 @@ const FormDeliveryChallan = ({ setOpenForm }) => {
       </div>
 
       <div className={css.ContentContainerDiv}>
-        {showItemForm && <ItemsForm closeForm={setShowAddItemsForm} />}
+        {showItemForm && (
+          <ItemsForm
+            handleSettingClick={handleSettingClick}
+            closeForm={setShowAddItemsForm}
+          />
+        )}
 
         {/* Middle  */}
         <div className={css.middleOuter}>

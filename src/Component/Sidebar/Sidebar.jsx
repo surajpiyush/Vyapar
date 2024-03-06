@@ -1,23 +1,26 @@
 import "./Sidebar.css";
 import Logo from "../../assets/Shop.svg";
+import Setting from "../../Component/Setting/Setting";
 import { SidebarItems } from "./SidebarMenus";
 import { USER_DETAILS } from "../../Redux/business/actionTypes";
 
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
 
 const Sidebar = () => {
+  const location = useLocation();
   const navigate = useNavigate();
   const toggleUpdate = useSelector(
     (state) => state.BusinessReducer.toggleUpdate
   );
+  const [error, setError] = useState(null);
+  const [profileData, setProfileData] = useState(null);
   const [activeItems, setActiveItems] = useState("Home");
+  const [toggleSetting, setToggleSetting] = useState(false);
   const [toggleNavItems, setToggleNavItems] = useState(false);
   const [activeNestedItems, setActiveNestedItems] = useState(0);
-  const [profileData, setProfileData] = useState(null);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const UserDetails = JSON.parse(localStorage.getItem(USER_DETAILS));
@@ -34,7 +37,10 @@ const Sidebar = () => {
 
   const handleActiveItems = (item) => {
     if (item === "Home") {
-      navigate("/");
+      navigate("/", {
+        state: { redirectTo: location.pathname },
+        replace: true,
+      });
     }
     setActiveItems(item);
     handleNestedSibarItems();
@@ -46,14 +52,22 @@ const Sidebar = () => {
 
   const handleLayout = (item) => {
     if (item === "Parties") {
-      navigate("/parties");
+      navigate("/parties", {
+        state: { redirectTo: location.pathname },
+        replace: true,
+      });
     } else if (item === "Items") {
-      navigate("/items");
+      navigate("/items", {
+        state: { redirectTo: location.pathname },
+        replace: true,
+      });
     }
   };
 
   return (
     <div className="sidebar-container">
+      {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
+
       <section className="sidebar-top-section">
         <div className="sidebar-top-logo-div">
           <img src={Logo} alt="logo" className="sidebar-top-img" />
@@ -65,7 +79,10 @@ const Sidebar = () => {
         <div className="sidebar-left-icon">
           <button
             onClick={() => {
-              navigate("/formpage");
+              navigate("/profile", {
+                state: { redirectTo: location.pathname },
+                replace: true,
+              });
               setToggleNavItems(false);
             }}
           >
@@ -82,10 +99,16 @@ const Sidebar = () => {
               if (
                 items.name == "Sale" ||
                 items.name == "Purchase" ||
-                items.name === "Setting" ||
                 items.name === "WhatsApp Marketing"
               ) {
-                navigate(items?.to);
+                navigate(items?.to, {
+                  state: { redirectTo: location.pathname },
+                  replace: true,
+                });
+                setToggleNavItems(!toggleNavItems);
+              }
+              if (items.name == "Setting") {
+                setToggleSetting(true);
                 setToggleNavItems(!toggleNavItems);
               }
             }}
@@ -114,7 +137,10 @@ const Sidebar = () => {
                         key={nestedindex}
                         onClick={() => {
                           handleActiveNestedItems(nestedindex);
-                          navigate(nestedItems.navigateurl);
+                          navigate(nestedItems.navigateurl, {
+                            state: { redirectTo: location.pathname },
+                            replace: true,
+                          });
                         }}
                         className={`sidevar-nested-items ${
                           activeNestedItems === nestedindex &&

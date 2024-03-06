@@ -16,6 +16,7 @@ import { FiPlusCircle as PlusIcon } from "react-icons/fi";
 import { CiFilter as FilterIcon } from "react-icons/ci";
 import TableEstimates from "./TableEstimates";
 import { useLocation, useNavigate } from "react-router-dom";
+import Setting from "../../../Component/Setting/Setting";
 
 export default function SalesEstimates() {
   const toast = useToast();
@@ -23,6 +24,7 @@ export default function SalesEstimates() {
   const location = useLocation();
   const dispatch = useDispatch();
   const [openForm, setOpenForm] = useState(false);
+  const [toggleSetting, setToggleSetting] = useState(false);
   const [startDate, setStartDate] = useState("2024-02-01");
   const [endDate, setEndDate] = useState(
     new Date().toISOString().split("T")[0]
@@ -45,6 +47,9 @@ export default function SalesEstimates() {
 
   return (
     <div style={{ marginTop: "100px" }}>
+      {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
+
+      {/* Form */}
       {openForm && (
         <div className={css.formOuter}>
           <div className={css.upperNav}>
@@ -64,18 +69,14 @@ export default function SalesEstimates() {
                   })
                 }
               />
-              <SettingIcon
-                onClick={() =>
-                  navigate("/setting", {
-                    state: { redirectTo: location.pathname },
-                    replace: true,
-                  })
-                }
-              />
+              <SettingIcon onClick={() => setToggleSetting(true)} />
               <CloseIcon onClick={() => setOpenForm(false)} />
             </div>
           </div>
-          <EstimateForm setOpenForm={setOpenForm} />
+          <EstimateForm
+            setToggleSetting={setToggleSetting}
+            setOpenForm={setOpenForm}
+          />
         </div>
       )}
 
@@ -142,7 +143,7 @@ export default function SalesEstimates() {
                 onClick={formOpen}
                 className={css.addSaleOrderBtn}
               >
-                <PlusIcon /> Add Sale Order
+                <PlusIcon /> Add Estimate
               </button>
             </div>
           </div>

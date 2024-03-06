@@ -1,6 +1,7 @@
 import css from "../../../styles/SalesStyles/DeliveryChallan.module.css";
 import party from "../../../assets/Images/party.jpg";
 import FormDeliveryChallan from "./FormDeliveryChallan";
+import Setting from "../../../Component/Setting/Setting";
 import TableDeliveryChallan from "./TableDeliveryChallan";
 import FirstTimeFormToggle from "../../../Component/FirmTimeForm/FirstTimeFormToggle";
 import { GetAllDeliveryChallans } from "../../../Redux/sales/action";
@@ -32,6 +33,7 @@ export default function SalesDeliveryChallan() {
   );
 
   const [openForm, setOpenForm] = useState(false);
+  const [toggleSetting, setToggleSetting] = useState(false);
 
   useEffect(() => {
     GetAllDeliveryChallans(dispatch);
@@ -43,6 +45,8 @@ export default function SalesDeliveryChallan() {
 
   return (
     <div>
+      {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
+
       <div className="nav" style={{ marginTop: "80px" }}>
         <div className="nav-opt">Delivery Challan</div>
       </div>
@@ -159,18 +163,14 @@ export default function SalesDeliveryChallan() {
                   })
                 }
               />
-              <SettingIcon
-                onClick={() =>
-                  navigate("/setting", {
-                    state: { redirectTo: location.pathname },
-                    replace: true,
-                  })
-                }
-              />
+              <SettingIcon onClick={() => setToggleSetting(true)} />
               <CloseIcon onClick={() => setOpenForm(false)} />
             </div>
           </div>
-          <FormDeliveryChallan setOpenForm={setOpenForm} />
+          <FormDeliveryChallan
+            setToggleSetting={setToggleSetting}
+            setOpenForm={setOpenForm}
+          />
         </div>
       )}
 

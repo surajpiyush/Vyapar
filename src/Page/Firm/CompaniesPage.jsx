@@ -1,19 +1,21 @@
-import "./Companypage.css";
-import { FetchAllCompanies } from "../Redux/business/action";
+import "./CompaniesPage.css";
+import { FetchAllCompanies } from "../../Redux/business/action";
 import {
   SET_CURRENT_COMPANY,
   USER_DETAILS,
-} from "../Redux/business/actionTypes";
+} from "../../Redux/business/actionTypes";
 
 import { useEffect } from "react";
+import { useToast } from "@chakra-ui/react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 import { IoIosSearch } from "react-icons/io";
 import { GrRefresh } from "react-icons/gr";
 import { PiDesktopTowerLight } from "react-icons/pi";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 
-const Companypage = () => {
+const CompaniesPage = () => {
+  const toast = useToast();
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -45,9 +47,12 @@ const Companypage = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
-    localStorage.removeItem(USER_DETAILS)
-    alert("Logout Successfull");
-    navigate("/auth");
+    localStorage.removeItem(USER_DETAILS);
+    toast({ title: "Logout Successfull!", status: "success", position: "top" });
+    navigate("/auth", {
+      state: { redirectTo: location.pathname },
+      replace: true,
+    });
   };
 
   return (
@@ -119,7 +124,12 @@ const Companypage = () => {
           </button>
           <button
             className="comapny-bottom-section-button2"
-            onClick={() => navigate("/business")}
+            onClick={() =>
+              navigate("/addCompany", {
+                state: { redirectTo: location.pathname },
+                replace: true,
+              })
+            }
           >
             New Companay
           </button>
@@ -133,4 +143,4 @@ const Companypage = () => {
   );
 };
 
-export default Companypage;
+export default CompaniesPage;
