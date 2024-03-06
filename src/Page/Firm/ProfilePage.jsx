@@ -44,7 +44,7 @@ const ProfilePage = () => {
         ...userDetailLS,
       };
     });
-  }, []);
+  }, [toggleUpdate]);
 
   // Input Change Function
   const handleInputChange = (e) => {
@@ -62,28 +62,11 @@ const ProfilePage = () => {
 
   // Send Profile Update Request
   const handleSave = () => {
-    if (
-      typeof companyData?.companyLogo == "string" &&
-      typeof companyData?.signature == "string"
-    ) {
-      console.log(
-        "typeof companyData?.companyLogo A",
-        typeof companyData?.companyLogo
-      );
-      UpdateCompanyProfile(dispatch, companyData, toast);
-    } else {
-      const newFormDataToSend = new FormData();
-      Object.entries(companyData).forEach(([key, value]) => {
-        newFormDataToSend.append(key, value);
-      });
-      //  newFormDataToSend.append("companyLogo", companyData?.companyLogo);
-      //  newFormDataToSend.append("signature", companyData?.signature);
-      console.log(
-        "typeof companyData?.companyLogo B",
-        typeof companyData?.companyLogo
-      );
-      UpdateCompanyProfile(dispatch, newFormDataToSend, toast);
-    }
+    const newFormDataToSend = new FormData();
+    Object.entries(companyData).forEach(([key, value]) => {
+      newFormDataToSend.append(key, value);
+    });
+    UpdateCompanyProfile(dispatch, newFormDataToSend, toast);
   };
 
   return (
