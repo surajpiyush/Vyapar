@@ -28,6 +28,7 @@ function App() {
     "/business",
     "/setting",
     "/general",
+    "/taxesgst"
   ];
 
   return (

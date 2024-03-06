@@ -1,12 +1,28 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import styles from "./setting.module.css";
 function General() {
+   const navigate = useNavigate()
    return (
       <div>
          <Sidebar />
-
+         <div style={{ textAlign: "end", padding: "5px", marginRight: "55px" }}>
+            <i
+               className="fa fa-cog"
+               style={{ padding: "15px", fontSize: "1.75rem" }}
+               onClick={() =>
+                  navigate("/setting", {
+                     replace: true,
+                  })
+               }
+            ></i>
+            <i
+               className="fa fa-close"
+               style={{ padding: "15px", fontSize: "1.75rem" }}
+               onClick={() => navigate("/")}
+            ></i>
+         </div>
          <section id={styles.interface}>
             <div>
                <div>

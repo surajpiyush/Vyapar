@@ -1,12 +1,29 @@
 import React from "react";
 import styles from "./setting.module.css";
 import Sidebar from "./Sidebar";
+import { useNavigate } from "react-router-dom";
 
 function Setting() {
+   const navigate = useNavigate();
    return (
       <div>
          <Sidebar />
-
+         <div style={{ textAlign: "end", padding: "5px", marginRight: "55px" }}>
+            <i
+               className="fa fa-cog"
+               style={{ padding: "15px", fontSize: "1.75rem" }}
+               onClick={() =>
+                  navigate("/setting", {
+                     replace: true,
+                  })
+               }
+            ></i>
+            <i
+               className="fa fa-close"
+               style={{ padding: "15px", fontSize: "1.75rem" }}
+               onClick={() => navigate("/")}
+            ></i>
+         </div>
          <section id={styles.interface}>
             <div>
                <div>
@@ -249,63 +266,7 @@ function Setting() {
                                  className={styles.checkbox}
                               />
                               <label for="checkbox" className={styles.label}>
-                                 
-                           E-way bill no
-                              </label>
-                           </div>
-                        </div>
-
-
-                        <div class={styles.tab}>
-                           <div class={styles.checkboxContainer}>
-                              <input
-                                 type="checkbox"
-                                 class="checkbox"
-                                 className={styles.checkbox}
-                              />
-                              <label for="checkbox" className={styles.label}>
-                                 
-                           Quik Entry
-                              </label>
-                           </div>
-                        </div>
-                        <div class={styles.tab}>
-                           <div class={styles.checkboxContainer}>
-                              <input
-                                 type="checkbox"
-                                 class="checkbox"
-                                 className={styles.checkbox}
-                              />
-                              <label for="checkbox" className={styles.label}>
-                                 
-                           Do not Show Invoice Preview
-                              </label>
-                           </div>
-                        </div>
-                        <div class={styles.tab}>
-                           <div class={styles.checkboxContainer}>
-                              <input
-                                 type="checkbox"
-                                 class="checkbox"
-                                 className={styles.checkbox}
-                              />
-                              <label for="checkbox" className={styles.label}>
-                           Enable Passcode htmlFor transaction 
-                                 
-                              </label>
-                           </div>
-                        </div>
-                  
-                        <div class={styles.tab}>
-                           <div class={styles.checkboxContainer}>
-                              <input
-                                 type="checkbox"
-                                 class="checkbox"
-                                 className={styles.checkbox}
-                              />
-                              <label for="checkbox" className={styles.label}>
-                           Discount During Payments
-                                 
+                                 E-way bill no
                               </label>
                            </div>
                         </div>
@@ -318,8 +279,31 @@ function Setting() {
                                  className={styles.checkbox}
                               />
                               <label for="checkbox" className={styles.label}>
-                                 
-                           Link Payments to Invoices
+                                 Quik Entry
+                              </label>
+                           </div>
+                        </div>
+                        <div class={styles.tab}>
+                           <div class={styles.checkboxContainer}>
+                              <input
+                                 type="checkbox"
+                                 class="checkbox"
+                                 className={styles.checkbox}
+                              />
+                              <label for="checkbox" className={styles.label}>
+                                 Do not Show Invoice Preview
+                              </label>
+                           </div>
+                        </div>
+                        <div class={styles.tab}>
+                           <div class={styles.checkboxContainer}>
+                              <input
+                                 type="checkbox"
+                                 class="checkbox"
+                                 className={styles.checkbox}
+                              />
+                              <label for="checkbox" className={styles.label}>
+                                 Enable Passcode htmlFor transaction
                               </label>
                            </div>
                         </div>
@@ -332,8 +316,7 @@ function Setting() {
                                  className={styles.checkbox}
                               />
                               <label for="checkbox" className={styles.label}>
-                           Due Dates and Payment Terms
-                                 
+                                 Discount During Payments
                               </label>
                            </div>
                         </div>
@@ -346,13 +329,36 @@ function Setting() {
                                  className={styles.checkbox}
                               />
                               <label for="checkbox" className={styles.label}>
-                                 
-                           Show Profit while making Sale Invoice  
+                                 Link Payments to Invoices
                               </label>
                            </div>
                         </div>
 
-                  
+                        <div class={styles.tab}>
+                           <div class={styles.checkboxContainer}>
+                              <input
+                                 type="checkbox"
+                                 class="checkbox"
+                                 className={styles.checkbox}
+                              />
+                              <label for="checkbox" className={styles.label}>
+                                 Due Dates and Payment Terms
+                              </label>
+                           </div>
+                        </div>
+
+                        <div class={styles.tab}>
+                           <div class={styles.checkboxContainer}>
+                              <input
+                                 type="checkbox"
+                                 class="checkbox"
+                                 className={styles.checkbox}
+                              />
+                              <label for="checkbox" className={styles.label}>
+                                 Show Profit while making Sale Invoice
+                              </label>
+                           </div>
+                        </div>
                      </div>
 
                      {/* Transaction Prefixes */}
