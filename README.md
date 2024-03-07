@@ -32,3 +32,9 @@ npx eslint .
 ```javascript
 // prettier-ignore
 ```
+
+## Sample Test GST No.:
+
+```xml
+06AXAPS2075C1ZR
+```
