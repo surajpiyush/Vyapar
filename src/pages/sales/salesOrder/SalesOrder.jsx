@@ -4,7 +4,7 @@ import OrderForm from "./OrderForm";
 import TableSaleOrder from "./TableSaleOrder";
 import Setting from "../../../Component/Setting/Setting";
 import FirstTimeFormToggle from "../../../Component/FirmTimeForm/FirstTimeFormToggle";
-import { GetAllSaleOrders } from "../../../Redux/sales/action";
+import { GetAllSaleOrders, deleteAllSaleOrder } from "../../../Redux/sales/action";
 
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -42,6 +42,10 @@ export default function SalesOrder() {
   const formOpen = () => {
     setOpenForm(true);
   };
+
+  const handleDelete = (id) => {
+    deleteAllSaleOrder(dispatch, id);
+ };
 
   return (
     <div style={{ marginTop: "80px" }}>
@@ -193,6 +197,7 @@ export default function SalesOrder() {
                         <TableSaleOrder
                           {...item}
                           ind={ind}
+                          handleDelete={handleDelete}
                           key={ind + item?._id}
                         />
                       ))}

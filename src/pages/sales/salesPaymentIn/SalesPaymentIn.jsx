@@ -2,7 +2,7 @@ import css from "../../../styles/SalesStyles/PaymentIn.module.css";
 import PaymentInForm from "./PaymentInForm";
 import TablePaymentIn from "./TablePaymentIn";
 import Setting from "../../../Component/Setting/Setting";
-import { GetAllPaymentIn } from "../../../Redux/sales/action";
+import { GetAllPaymentIn, deletePaymentIn } from "../../../Redux/sales/action";
 
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -38,6 +38,10 @@ export default function SalesPaymentIn() {
   const formOpen = () => {
     setOpenForm(true);
   };
+
+  const handleDelete = (id) => {
+    deletePaymentIn(dispatch, id);
+ };
 
   return (
     <div style={{ marginTop: "100px" }}>
@@ -203,7 +207,7 @@ export default function SalesPaymentIn() {
               <tbody>
                 {!isLoading &&
                   paymentInList?.map((item, ind) => (
-                    <TablePaymentIn {...item} ind={ind} key={ind + item?._id} />
+                    <TablePaymentIn {...item} ind={ind} key={ind + item?._id} handleDelete={handleDelete} />
                   ))}
               </tbody>
             </table>

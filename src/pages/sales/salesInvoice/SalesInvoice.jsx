@@ -188,120 +188,120 @@ export default function SalesInvoice() {
          </div>
 
          {/* Top Nav */}
-         <div className="d-cen b-cont text-center text-center">
-            <div className={css.TableOuter}>
-               <div className={css.saleOrderUpperNav}>
-                  <div className={css.leftSideDivSaleOuter}>
-                     <p>TRANSACTIONS</p>
-                     <div className={css.saleOrderSearchDiv}>
-                        <SearchIcon />
-                        <div>
-                           <input type="text" />
+         {invoicesList?.length ? (
+            <div className="d-cen b-cont text-center text-center">
+               <div className={css.TableOuter}>
+                  <div className={css.saleOrderUpperNav}>
+                     <div className={css.leftSideDivSaleOuter}>
+                        <p>TRANSACTIONS</p>
+                        <div className={css.saleOrderSearchDiv}>
+                           <SearchIcon />
+                           <div>
+                              <input type="text" />
+                           </div>
                         </div>
                      </div>
+                     <div>
+                        <button
+                           type="button"
+                           onClick={formOpen}
+                           className={css.addSaleOrderBtn}
+                        >
+                           <PlusIcon /> Add Sale
+                        </button>
+                     </div>
                   </div>
-                  <div>
-                     <button
-                        type="button"
-                        onClick={formOpen}
-                        className={css.addSaleOrderBtn}
-                     >
-                        <PlusIcon /> Add Sale
-                     </button>
-                  </div>
-               </div>
-               <div className={css.TabelOuterDivSaleOrder}>
-                  <table>
-                     <thead>
-                        <tr>
-                           <th>
-                              <div>
-                                 DATE 
- {/*  <FilterIcon /> */} 
-                              </div>
-                           </th>
-                           <th>
-                              <div>
-                                 INVOICE NO. 
-{/*  <FilterIcon /> */}
-                              </div>
-                           </th>
-                           <th>
-                              <div>
-                                 PARTY NAME. 
-{/*  <FilterIcon /> */}
-                              </div>
-                           </th>
-                           <th>
-                              <div>
-                                 TRANSACTION TYPE 
-{/*  <FilterIcon /> */}
-                              </div>
-                           </th>
-                           <th>
-                              <div>
-                                 PAYMENT TYPE 
-{/*  <FilterIcon /> */}
-                              </div>
-                           </th>
-                           <th>
-                              <div>
-                                 AMOUNT 
-{/*  <FilterIcon /> */}
-                              </div>
-                           </th>
-                           <th>
-                              <div>
-                                 BALANCE DUE 
-{/*  <FilterIcon /> */}
-                              </div>
-                           </th>
-                           <th>
-                              <div>
-                                 DUE DATE 
-{/*  <FilterIcon /> */}
-                              </div>
-                           </th>
-                           <th>
-                              <div>
-                                 STATUS
-                                 
-{/*  <FilterIcon /> */}
-                              </div>
-                           </th>
-                           <th>Action</th>
-                        </tr>
-                     </thead>
 
-                     <tbody>
-                        {!isLoading &&
-                           invoicesList?.map((item, ind) => (
-                              <TableInvoice
-                                 {...item}
-                                 ind={ind}
-                                 key={ind + item?._id}
-                                 handleDelete={handleDelete}
-                              />
-                           ))}
-                     </tbody>
-                  </table>
-                  {isLoading && (
-                     <h2
-                        style={{
-                           color: "green",
-                           textAlign: "center",
-                           margin: "20px auto",
-                        }}
-                     >
-                        Loading Invoices...
-                     </h2>
-                  )}
+                  <div className={css.TabelOuterDivSaleOrder}>
+                     <table>
+                        <thead>
+                           <tr>
+                              <th>
+                                 <div>
+                                    DATE
+                                    {/*  <FilterIcon /> */}
+                                 </div>
+                              </th>
+                              <th>
+                                 <div>
+                                    INVOICE NO.
+                                    {/*  <FilterIcon /> */}
+                                 </div>
+                              </th>
+                              <th>
+                                 <div>
+                                    PARTY NAME.
+                                    {/*  <FilterIcon /> */}
+                                 </div>
+                              </th>
+                              <th>
+                                 <div>
+                                    TRANSACTION TYPE
+                                    {/*  <FilterIcon /> */}
+                                 </div>
+                              </th>
+                              <th>
+                                 <div>
+                                    PAYMENT TYPE
+                                    {/*  <FilterIcon /> */}
+                                 </div>
+                              </th>
+                              <th>
+                                 <div>
+                                    AMOUNT
+                                    {/*  <FilterIcon /> */}
+                                 </div>
+                              </th>
+                              <th>
+                                 <div>
+                                    BALANCE DUE
+                                    {/*  <FilterIcon /> */}
+                                 </div>
+                              </th>
+                              <th>
+                                 <div>
+                                    DUE DATE
+                                    {/*  <FilterIcon /> */}
+                                 </div>
+                              </th>
+                              <th>
+                                 <div>
+                                    STATUS
+                                    {/*  <FilterIcon /> */}
+                                 </div>
+                              </th>
+                              <th>Action</th>
+                           </tr>
+                        </thead>
+
+                        <tbody>
+                           {!isLoading &&
+                              invoicesList?.map((item, ind) => (
+                                 <TableInvoice
+                                    {...item}
+                                    ind={ind}
+                                    key={ind + item?._id}
+                                    handleDelete={handleDelete}
+                                 />
+                              ))}
+                        </tbody>
+                     </table>
+                     {isLoading && (
+                        <h2
+                           style={{
+                              color: "green",
+                              textAlign: "center",
+                              margin: "20px auto",
+                           }}
+                        >
+                           Loading Invoices...
+                        </h2>
+                     )}
+                  </div>
                </div>
             </div>
-         </div>
-
-         {invoicesList?.length <= 0 && !isLoading && (
-            <div style={{ marginTop: "-450px" }}>
+         ) : (
+            <div> 
                <FirstTimeFormToggle
                   img={party}
                   onClick={() => setOpenForm(true)}

@@ -2,7 +2,7 @@ import css from "../../../styles/SalesStyles/CreditNotes.module.css";
 import FormCreditNote from "./FormCreditNote";
 import TableCreditNotes from "./TableCreditNotes";
 import Setting from "../../../Component/Setting/Setting";
-import { GetAllCreditNotes } from "../../../Redux/sales/action";
+import { GetAllCreditNotes, deleteAllCreditNotes } from "../../../Redux/sales/action";
 
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -43,6 +43,10 @@ export default function SalesReturn() {
   const formOpen = () => {
     setOpenForm(true);
   };
+
+  const handleDelete = (id) => {
+    deleteAllCreditNotes(dispatch, id);
+ };
 
   return (
     <div style={{ marginTop: "100px" }}>
@@ -237,6 +241,7 @@ export default function SalesReturn() {
                       {...item}
                       ind={ind}
                       key={ind + item?._id}
+                      handleDelete={handleDelete}
                     />
                   ))}
               </tbody>
