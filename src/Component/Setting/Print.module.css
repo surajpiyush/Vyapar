@@ -1,0 +1,83 @@
+.Outer {
+  width: 100%;
+  cursor: default;
+}
+
+/* Printer Toggle Btns Css */
+.toggleContDiv {
+  display: flex;
+  align-items: center;
+  border-bottom: 0.5px solid var(--greyC);
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.toggleContDiv > div {
+  cursor: pointer;
+  padding: 10px 12px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  transition: all 0.25s ease;
+}
+.toggleContDiv > .currPrinterDiv {
+  color: var(--blueB);
+  border: 0.5px solid var(--greyC);
+  border-bottom: 3px solid var(--violetA);
+  background-color: var(--greyishBlue);
+}
+.toggleContDiv > .nonCurrPrinterDiv {
+  color: var(--deepForest);
+  border: 0.5px solid transparent;
+  border-bottom: 3px solid transparent;
+}
+
+/* Content Outer Div Css */
+.contentOuterDiv {
+  width: 100%;
+  display: flex;
+  gap: 15px;
+  margin: 10px auto 0px;
+}
+
+/* Left Side Css */
+.LeftSideContentOuterDiv {
+  width: 500px;
+  overflow: auto;
+  height: 100%;
+}
+.changeLayoutOuterDiv {
+  display: flex;
+  align-items: center;
+  border-bottom: 0.5px solid var(--greyC);
+  font-size: 12px;
+  font-weight: light;
+  letter-spacing: 0.5px;
+}
+.changeLayoutOuterDiv > div {
+  cursor: pointer;
+  padding: 8px 12px;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  transition: all 0.25s ease;
+}
+.changeLayoutOuterDiv .activeChangeType {
+  color: var(--blueB);
+  border: 0.5px solid var(--greyC);
+  border-bottom: 2px solid var(--redB);
+  background-color: var(--greyishBlue);
+}
+.changeLayoutOuterDiv .inActiveChangeType {
+  color: var(--deepForest);
+  border: 0.5px solid transparent;
+  border-bottom: 2px solid transparent;
+}
+
+/* 
+
+Right Side Css
+
+*/
+.RightSideContentOuterDiv {
+  border: 1px solid red;
+  flex: 2;
+}

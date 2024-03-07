@@ -1,4 +1,5 @@
 import css from "./Setting.module.css";
+import Print from "./Print";
 import General from "./General";
 import Default from "./Default";
 import TaxAndGst from "./TaxAndGst";
@@ -6,6 +7,7 @@ import TaxAndGst from "./TaxAndGst";
 import { useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import { FaSearch as SearchIcon } from "react-icons/fa";
+import { IoMdCloseCircle as CloseIcon } from "react-icons/io";
 
 function Setting({ setToggleSetting }) {
   const navigate = useNavigate();
@@ -41,12 +43,8 @@ function Setting({ setToggleSetting }) {
 
       {/* Content Div */}
       <div className={css.contentOuterDiv}>
-        <div style={{ textAlign: "end", padding: "5px", marginRight: "55px" }}>
-          <i
-            className="fa fa-close"
-            style={{ padding: "15px", fontSize: "1.75rem" }}
-            onClick={() => setToggleSetting(false)}
-          ></i>
+        <div className={css.navContentOuterDiv}>
+          <CloseIcon onClick={() => setToggleSetting(false)} />
         </div>
 
         {/* Sections */}
@@ -55,7 +53,7 @@ function Setting({ setToggleSetting }) {
         {activeSidebar == "TRANSACTION" && (
           <div>TRANSACTION Under Development</div>
         )}
-        {activeSidebar == "PRINT" && <div>PRINT Under Development</div>}
+        {activeSidebar == "PRINT" && <Print />}
         {activeSidebar == "TAXES & GST" && <TaxAndGst />}
         {activeSidebar == "USER MANAGEMENT" && (
           <div>USER MANAGEMENT Under Development</div>

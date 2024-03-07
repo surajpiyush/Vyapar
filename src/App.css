@@ -7,8 +7,10 @@
 :root {
   --blueA: blue;
   --blueB: #098df9;
+  --violetA: rgb(6, 17, 139);
   --bluishGrey: #b8cbdc;
   --deepForest: #353f3e;
+  --pureWhite: #fff;
   --greyA: grey;
   --greyB: rgb(234, 234, 234);
   --greyC: rgb(200, 200, 200);
@@ -19,6 +21,7 @@
   --yellowA: rgb(255, 204, 0);
   --overlayBg: rgba(0, 0, 0, 0.377);
   --overlayBg2: rgba(0, 0, 0, 0.544);
+  --DeepCharcoal: #111827;
 
   /* Box Shadows */
   --shadowA: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
