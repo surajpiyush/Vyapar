@@ -8,18 +8,21 @@ import {
 import {
    DeleteIcon,
    DotsIcon,
+   EditIcon,
    FilterIcon,
    PrinterIcon,
    ShareIcon,
 } from "../../utils/reactIcons";
 
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ImSpinner3 as BasicSpinner } from "react-icons/im";
+import EditableRow from "../../EditForm";
 
 const Paymentouts = ({ func, date }) => {
    const dispatch = useDispatch();
-
+   const [isEditing, setIsEditing] = useState(false);
+   const [editedData, setEditedData] = useState(null);
    const store = useSelector((store) => store.PurchaseReducer);
    const data = store.paymentOutData;
    // console.log(store);
@@ -35,11 +38,33 @@ const Paymentouts = ({ func, date }) => {
       dispatch(deletePayoutBill(id));
    };
 
+   const handleEdit = (data) => {
+      setIsEditing(true);
+      setEditedData(data);
+   };
+
+   const handleSave = (updatedData) => {
+      // Implement your logic to save the updated data to the backend
+      // You may use an API call or any other method here
+      console.log("updatedData-", updatedData);
+      const id = updatedData._id;
+      // After saving, reset the state
+      // dispatch(updatePay(updatedData._id, updatedData));
+      setIsEditing(false);
+      setEditedData(null);
+   };
+
+   const handleCancel = () => {
+      // If the user cancels, reset the state without saving
+      setIsEditing(false);
+      setEditedData(null);
+   };
+
    const openForm = () => {
       func(true);
    };
    return (
-      <>
+      <div className={`main-container ${isEditing ? "editing" : ""}`}>
          {!store.isLoading && !data.length ? (
             <FirstTimeFormToggle
                img={party}
@@ -115,6 +140,9 @@ const Paymentouts = ({ func, date }) => {
 
                            {/*  <FilterIcon /> */}
                         </th>
+                        <th className="table-h">
+                           <div className="table-items">Action</div>
+                        </th>
                      </tr>
                   </thead>
                   {store.isLoading ? (
@@ -127,56 +155,93 @@ const Paymentouts = ({ func, date }) => {
                      />
                   ) : (
                      <tbody>
-                        {data?.map((e, i) => (
-                           <tr className="tabel-row tale-data">
-                              <th className="table-h">
-                                 <div className="table-items">{i + 1}</div>
-                                 <div></div>
-                              </th>
-                              <th className="table-h">
-                                 <div className="table-items">
-                                    {new Date(e.date).toLocaleDateString()}
-                                 </div>
-                              </th>
-                              <th className="table-h">
-                                 <div className="table-items">{e.refNo}</div>
-                              </th>
-                              <th className="table-h">
-                                 <div className="table-items">
-                                    {e?.partyData?.partyName}
-                                 </div>
-                              </th>
-                              <th className="table-h">
-                                 <div className="table-items">
-                                    {e.categotyName ? e.categotyName : "-"}
-                                 </div>
-                              </th>
-                              <th className="table-h">
-                                 <div className="table-items">{e.type}</div>
-                              </th>
-                              <th className="table-h">
-                                 <div className="table-items">₹{e.total}</div>
-                              </th>
-                              <th className="table-h">
-                                 <div className="table-items">₹{e.paid}</div>
-                              </th>
-                              <th className="table-h">
-                                 <div className="table-items">₹{e.balance}</div>
-                              </th>
-                              <th className="table-h">
-                                 <div className="table-items">
-                                    <PrinterIcon
-                                       onClick={() => window.print()}
+                        {data?.map((e, i) => {
+                           return (
+                              <React.Fragment key={e._id}>
+                                 {isEditing && editedData?._id === e._id ? (
+                                    <EditableRow
+                                       data={editedData}
+                                       onSave={handleSave}
+                                       onCancel={handleCancel}
                                     />
-                                    <DeleteIcon
-                                       onClick={() => handleDelete(e._id)}
-                                    />
+                                 ) : (
+                                    <tr className="tabel-row tale-data">
+                                       <th className="table-h">
+                                          <div className="table-items">
+                                             {i + 1}
+                                          </div>
+                                          <div></div>
+                                       </th>
+                                       <th className="table-h">
+                                          <div className="table-items">
+                                             {new Date(
+                                                e.date
+                                             ).toLocaleDateString()}
+                                          </div>
+                                       </th>
+                                       <th className="table-h">
+                                          <div className="table-items">
+                                             {e.refNo}
+                                          </div>
+                                       </th>
+                                       <th className="table-h">
+                                          <div className="table-items">
+                                             {e?.partyData?.partyName}
+                                          </div>
+                                       </th>
+                                       <th className="table-h">
+                                          <div className="table-items">
+                                             {e.categotyName
+                                                ? e.categotyName
+                                                : "-"}
+                                          </div>
+                                       </th>
+                                       <th className="table-h">
+                                          <div className="table-items">
+                                             {e.type}
+                                          </div>
+                                       </th>
+                                       <th className="table-h">
+                                          <div className="table-items">
+                                             ₹{e.total}
+                                          </div>
+                                       </th>
+                                       <th className="table-h">
+                                          <div className="table-items">
+                                             ₹{e.paid}
+                                          </div>
+                                       </th>
+                                       <th className="table-h">
+                                          <div className="table-items">
+                                             ₹{e.balance}
+                                          </div>
+                                       </th>
+                                       <th className="table-h">
+                                          <div className="table-items">
+                                             <PrinterIcon
+                                                onClick={() => window.print()}
+                                             />
 
-                                    <DotsIcon />
-                                 </div>
-                              </th>
-                           </tr>
-                        ))}
+                                             <DotsIcon />
+                                          </div>
+                                       </th>
+                                       <th className="table-h">
+                                          <div className="table-items">
+                                             <DeleteIcon
+                                                onClick={() =>
+                                                   handleDelete(e._id)
+                                                }
+                                             />
+                                          </div>
+                                          <EditIcon
+                                             onClick={() => handleEdit(e)}
+                                          />
+                                       </th>
+                                    </tr>
+                                 )}
+                              </React.Fragment>
+                           );
+                        })}
                      </tbody>
                   )}
                </table>
@@ -188,7 +253,7 @@ const Paymentouts = ({ func, date }) => {
                </div>
             </div>
          )}
-      </>
+      </div>
    );
 };
 

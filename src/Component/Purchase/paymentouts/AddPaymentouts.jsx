@@ -47,7 +47,7 @@ const AddPaymentouts = ({ setOpenForm }) => {
       type: "Purchase-Out",
       status: "Pending",
       partyName: "",
-      receiptNumber: "RO123",
+      receiptNumber: "",
       date: "2024-02-16T00:00:00.000Z",
       time: "10:00 AM",
       description: "Purchase return of items",

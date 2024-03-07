@@ -49,14 +49,13 @@ const salesSlice = createSlice({
          state.isLoading = false;
          state.invoicesList = action.payload;
       },
-      DELETE_SALES_INVOICE_SUCCESS : (state, action)=>{
-        const updatedinvoicesList = state.invoicesList.filter(
-          (bill) => bill._id !== action.payload
-       );
-       //  console.log(payload)
+      DELETE_SALES_INVOICE_SUCCESS: (state, action) => {
+         const updatedinvoicesList = state.invoicesList.filter(
+            (bill) => bill._id !== action.payload
+         );
+         //  console.log(payload)
          state.invoicesList = updatedinvoicesList;
-          state.isLoading = false;
-     
+         state.isLoading = false;
       },
 
       // ESTIMATES ------------------------------------------------------
@@ -68,6 +67,14 @@ const salesSlice = createSlice({
          state.isLoading = false;
          state.estimatesList = action.payload;
       },
+      DELETE_ESTIMATE_SUCCESS: (state, action) => {
+         const updatedestimatesList = state.estimatesList.filter(
+            (bill) => bill._id !== action.payload
+         );
+         //  console.log(payload)
+         state.estimatesList = updatedestimatesList;
+         state.isLoading = false;
+      },
 
       // PAYMENT-IN ------------------------------------------------------
       POST_PAYMENT_IN_SUCCESS: (state) => {
@@ -77,6 +84,14 @@ const salesSlice = createSlice({
       GET_PAYMENT_IN_SUCCESS: (state, action) => {
          state.isLoading = false;
          state.paymentInList = action.payload;
+      },
+      DELETE_PAYMENT_IN_SUCCESS: (state, action) => {
+         const updatedpaymentInList = state.paymentInList.filter(
+            (bill) => bill._id !== action.payload
+         );
+         //  console.log(payload)
+         state.paymentInList = updatedpaymentInList;
+         state.isLoading = false;
       },
 
       // SALE ORDER ------------------------------------------------------
@@ -88,6 +103,14 @@ const salesSlice = createSlice({
          state.isLoading = false;
          state.saleOrderList = action.payload;
       },
+      DELETE_ALL_SALE_ORDER_SUCCESS: (state, action) => {
+         const updatedsaleOrderList = state.saleOrderList.filter(
+            (bill) => bill._id !== action.payload
+         );
+         //  console.log(payload)
+         state.saleOrderList = updatedsaleOrderList;
+         state.isLoading = false;
+      },
 
       // DELIVERY CHALLAN ------------------------------------------------------
       POST_DELIVERY_CHALLAN_SUCCESS: (state) => {
@@ -98,6 +121,14 @@ const salesSlice = createSlice({
          state.isLoading = false;
          state.deliveryChallanList = action.payload;
       },
+      DELETE_ALL_DELIVERY_CHALLAN_SUCCESS: (state, action) => {
+         const updateddeliveryChallanList = state.deliveryChallanList.filter(
+            (bill) => bill._id !== action.payload
+         );
+         //  console.log(payload)
+         state.deliveryChallanList = updateddeliveryChallanList;
+         state.isLoading = false;
+      },
 
       // SALE RETURN / CREDIT NOTE ------------------------------------------------------
       POST_CREDIT_NOTE_SUCCESS: (state) => {
@@ -107,6 +138,14 @@ const salesSlice = createSlice({
       GET_ALL_CREDIT_NOTES_SUCCESS: (state, action) => {
          state.isLoading = false;
          state.creditNotesList = action.payload;
+      },
+      DELETE_ALL_CREDIT_NOTES_SUCCESS: (state, action) => {
+         const updatedcreditNotesList = state.creditNotesList.filter(
+            (bill) => bill._id !== action.payload
+         );
+         //  console.log(payload)
+         state.creditNotesList = updatedcreditNotesList;
+         state.isLoading = false;
       },
    },
 });
@@ -129,7 +168,7 @@ export const {
 
    POST_SALE_ORDER_SUCCESS,
    GET_All_SALE_ORDER_SUCCESS,
-   DELETE_All_SALE_ORDER_SUCCESS,
+   DELETE_ALL_SALE_ORDER_SUCCESS,
 
    POST_DELIVERY_CHALLAN_SUCCESS,
    GET_ALL_DELIVERY_CHALLAN_SUCCESS,

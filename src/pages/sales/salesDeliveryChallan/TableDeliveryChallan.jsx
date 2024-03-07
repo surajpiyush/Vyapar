@@ -1,6 +1,8 @@
+import { DeleteIcon } from "../../../Component/utils/reactIcons";
 import { FormatDate } from "../../../Redux/sales/action";
 
 const TableDeliveryChallan = ({
+  _id,handleDelete,
   invoiceDate,
   partyName,
   challanNumber,
@@ -33,7 +35,9 @@ const TableDeliveryChallan = ({
         <div>{action}</div>
       </td>
 
-      <td></td>
+      <td>
+      <DeleteIcon onClick={() => handleDelete(_id)} />
+      </td>
     </tr>
   );
 };

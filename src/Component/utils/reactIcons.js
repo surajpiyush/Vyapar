@@ -7,6 +7,7 @@ import { AiFillPrinter } from "react-icons/ai";
 import { IoIosShareAlt } from "react-icons/io";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { BsFillTrashFill } from "react-icons/bs";
+import { MdModeEdit } from "react-icons/md";
 export {
   FaPlus as PlusIcon,
   BsFillTrashFill as DeleteIcon,
@@ -16,4 +17,5 @@ export {
   AiFillPrinter as PrinterIcon,
   IoIosShareAlt as ShareIcon,
   HiOutlineDotsVertical as DotsIcon,
+  MdModeEdit as EditIcon
 };

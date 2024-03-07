@@ -2,7 +2,7 @@ import css from "../../../styles/SalesStyles/Estimate.module.css";
 import party from "../../../assets/Images/party.jpg";
 import EstimateForm from "./EstimateForm";
 import FirstTimeFormToggle from "../../../Component/FirmTimeForm/FirstTimeFormToggle";
-import { GetAllEstimates } from "../../../Redux/sales/action";
+import { GetAllEstimates, deleteAllEstimates } from "../../../Redux/sales/action";
 
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -44,6 +44,10 @@ export default function SalesEstimates() {
   const formOpen = () => {
     setOpenForm(true);
   };
+
+  const handleDelete = (id) => {
+    deleteAllEstimates(dispatch, id);
+ };
 
   return (
     <div style={{ marginTop: "100px" }}>
@@ -200,7 +204,7 @@ export default function SalesEstimates() {
               <tbody>
                 {!isLoading &&
                   estimatesList?.map((item, ind) => (
-                    <TableEstimates {...item} ind={ind} key={ind + item?._id} />
+                    <TableEstimates {...item} ind={ind} key={ind + item?._id} handleDelete={handleDelete} />
                   ))}
               </tbody>
             </table>
@@ -222,6 +226,7 @@ export default function SalesEstimates() {
       {estimatesList.length <= 0 && !isLoading && (
         <div style={{ marginTop: "-450px" }}>
           <FirstTimeFormToggle
+
             img={party}
             onClick={() => setOpenForm(true)}
             BtnText="Add Your First Estimate"

@@ -1,6 +1,6 @@
 import axios from "axios";
 import {
-  DELETE_PAYOUTBILL_SUCCESS,
+   DELETE_PAYOUTBILL_SUCCESS,
    DELETE_PURCHASEBILL_SUCCESS,
    DELETE_PURCHASEORDER_SUCCESS,
    DELETE_PURCHASERETURN_SUCCESS,
@@ -14,6 +14,7 @@ import {
    POST_PURCHASERETURN_SUCCESS,
    PURCHASE_FAILURE,
    PURCHASE_REQUEST,
+   UPDATE_PURCHASEBILL_SUCCESS,
 } from "./actionTypes";
 
 const API_URL = "https://ca-backend-api.onrender.com";
@@ -239,34 +240,33 @@ export const getPurchaseReturn =
          });
    };
 
-export const updatePurchaseBill =
-   ({ id, data }) =>
-   (dispatch) => {
-      dispatch({ type: PURCHASE_REQUEST });
-      console.log(id, data);
+export const updatePurchaseBill = (_id, data) => (dispatch) => {
+   dispatch({ type: PURCHASE_REQUEST });
+   console.log(_id, data);
 
-      // Assuming 'token' is defined somewhere in your code
-      if (!token) {
+   // Assuming 'token' is defined somewhere in your code
+   if (!token) {
+      dispatch({ type: PURCHASE_FAILURE });
+      return;
+   }
+
+   axios
+      .put(`${API_URL}/${FirmId}/purchase/update/${_id}`, data, {
+         headers: {
+            Authorization: `Bearer ${token}`,
+         },
+      })
+      .then((res) => {
+         console.log(res);
+alert(res?.data?.msg)
+         dispatch({ type: UPDATE_PURCHASEBILL_SUCCESS });
+      })
+      .catch((err) => {
+         console.log(err);
+         // alert(`${err.response.data.msg}`);
          dispatch({ type: PURCHASE_FAILURE });
-         return;
-      }
-
-      axios
-         .patch(`${API_URL}/${FirmId}/purchase/update?id=${id}`, data, {
-            headers: {
-               Authorization: `Bearer ${token}`,
-            },
-         })
-         .then((res) => {
-            console.log(res);
-            // dispatch({ type: GET_PURCHASERETURN_SUCCESS, payload: res.data });
-         })
-         .catch((err) => {
-            console.log(err);
-            // alert(`${err.response.data.msg}`);
-            dispatch({ type: PURCHASE_FAILURE });
-         });
-   };
+      });
+};
 
 // purchase/delete/:id
 export const deletePurchaseBill = (_id) => (dispatch) => {
@@ -295,82 +295,79 @@ export const deletePurchaseBill = (_id) => (dispatch) => {
 };
 
 export const deletePayoutBill = (_id) => (dispatch) => {
-  dispatch({ type: PURCHASE_REQUEST });
+   dispatch({ type: PURCHASE_REQUEST });
 
-  if (!token) {
-     dispatch({ type: PURCHASE_FAILURE });
-     return;
-  }
+   if (!token) {
+      dispatch({ type: PURCHASE_FAILURE });
+      return;
+   }
 
-  axios
-     .delete(`${API_URL}/${FirmId}/purchaseOut/delete/${_id}`, {
-        headers: {
-           Authorization: `Bearer ${token}`,
-        },
-     })
-     .then((res) => {
-        console.log(res);
-        alert(`${res.data.msg}`);
-        dispatch({ type: DELETE_PAYOUTBILL_SUCCESS, payload: `${_id}` });
-     })
-     .catch((err) => {
-        console.error(err);
-        dispatch({ type: PURCHASE_FAILURE });
-     });
+   axios
+      .delete(`${API_URL}/${FirmId}/purchaseOut/delete/${_id}`, {
+         headers: {
+            Authorization: `Bearer ${token}`,
+         },
+      })
+      .then((res) => {
+         console.log(res);
+         alert(`${res.data.msg}`);
+         dispatch({ type: DELETE_PAYOUTBILL_SUCCESS, payload: `${_id}` });
+      })
+      .catch((err) => {
+         console.error(err);
+         dispatch({ type: PURCHASE_FAILURE });
+      });
 };
-
 
 export const deletePurchaseOrderBill = (_id) => (dispatch) => {
-  dispatch({ type: PURCHASE_REQUEST });
+   dispatch({ type: PURCHASE_REQUEST });
 
-  if (!token) {
-     dispatch({ type: PURCHASE_FAILURE });
-     return;
-  }
+   if (!token) {
+      dispatch({ type: PURCHASE_FAILURE });
+      return;
+   }
 
-  axios
-     .delete(`${API_URL}/${FirmId}/purchaseOrder/delete/${_id}`, {
-        headers: {
-           Authorization: `Bearer ${token}`,
-        },
-     })
-     .then((res) => {
-        console.log(res);
-        alert(`${res.data.msg}`);
-        dispatch({ type: DELETE_PURCHASEORDER_SUCCESS, payload: `${_id}` });
-     })
-     .catch((err) => {
-        console.error(err);
-        dispatch({ type: PURCHASE_FAILURE });
-     });
+   axios
+      .delete(`${API_URL}/${FirmId}/purchaseOrder/delete/${_id}`, {
+         headers: {
+            Authorization: `Bearer ${token}`,
+         },
+      })
+      .then((res) => {
+         console.log(res);
+         alert(`${res.data.msg}`);
+         dispatch({ type: DELETE_PURCHASEORDER_SUCCESS, payload: `${_id}` });
+      })
+      .catch((err) => {
+         console.error(err);
+         dispatch({ type: PURCHASE_FAILURE });
+      });
 };
-
 
 export const deletePurchaseReturnBill = (_id) => (dispatch) => {
-  dispatch({ type: PURCHASE_REQUEST });
+   dispatch({ type: PURCHASE_REQUEST });
 
-  if (!token) {
-     dispatch({ type: PURCHASE_FAILURE });
-     return;
-  }
+   if (!token) {
+      dispatch({ type: PURCHASE_FAILURE });
+      return;
+   }
 
-  axios
-     .delete(`${API_URL}/${FirmId}/purchaseReturn/delete/${_id}`, {
-        headers: {
-           Authorization: `Bearer ${token}`,
-        },
-     })
-     .then((res) => {
-        console.log(res);
-        alert(`${res.data.msg}`);
-        dispatch({ type: DELETE_PURCHASERETURN_SUCCESS, payload: `${_id}` });
-     })
-     .catch((err) => {
-        console.error(err);
-        dispatch({ type: PURCHASE_FAILURE });
-     });
+   axios
+      .delete(`${API_URL}/${FirmId}/purchaseReturn/delete/${_id}`, {
+         headers: {
+            Authorization: `Bearer ${token}`,
+         },
+      })
+      .then((res) => {
+         console.log(res);
+         alert(`${res.data.msg}`);
+         dispatch({ type: DELETE_PURCHASERETURN_SUCCESS, payload: `${_id}` });
+      })
+      .catch((err) => {
+         console.error(err);
+         dispatch({ type: PURCHASE_FAILURE });
+      });
 };
-
 
 // export const updatePurchaseBill =
 //    ({ id,data }) =>
