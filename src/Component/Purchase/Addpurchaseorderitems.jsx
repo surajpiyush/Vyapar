@@ -88,7 +88,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
       partyName: "",
       orderNumber: "",
       orderDate: new Date().toISOString().split("T")[0],
-      time: "10:00 AM", 
+      time: "10:00 AM",
       dueDate: new Date().toISOString().split("T")[0],
       stateOfSupply: "",
       priceUnitWithTax: true,
@@ -328,7 +328,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                   <div>
                      <p>Order Number</p>
                      <input
-                     required
+                        required
                         type="text"
                         placeholder="1"
                         className={css.invoiceNumInp}
@@ -339,7 +339,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                   <div>
                      <p>Order Date</p>
                      <input
-                     readOnly
+                        readOnly
                         type="date"
                         className={css.invoiceDateSelectInp}
                         onChange={(e) => handleInputChange(e)}
@@ -366,7 +366,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                   <div>
                      <p>Due Date</p>
                      <input
-                     required
+                        required
                         type="date"
                         placeholder="Due Date"
                         className={css.invoiceDateSelectInp}
@@ -377,7 +377,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                   <div>
                      <p>State of supply</p>
                      <select
-                     required
+                        required
                         name="stateOfSupply"
                         id=""
                         className={css.invoiceDateSelectInp}

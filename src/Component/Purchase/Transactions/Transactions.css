@@ -10,9 +10,7 @@
   justify-content: right;
   border-radius: 25%;
 }
-input {
-  border: none;
-}
+
 .transactions-buttons input {
   padding: 3px;
   text-align: center;

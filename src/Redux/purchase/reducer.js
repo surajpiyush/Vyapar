@@ -13,6 +13,7 @@ import {
    POST_PURCHASERETURN_SUCCESS,
    PURCHASE_FAILURE,
    PURCHASE_REQUEST,
+   UPDATE_PURCHASEBILL_SUCCESS,
 } from "./actionTypes";
 
 const initialState = {
@@ -150,6 +151,12 @@ export const reducer = (state = initialState, { type, payload }) => {
             isLoading: false,
          };
 
+      case UPDATE_PURCHASEBILL_SUCCESS: {
+         return {
+            ...state,
+            isLoading: false,
+         };
+      }
       case PURCHASE_FAILURE: {
          return { ...state, isLoading: false, isError: true };
       }
