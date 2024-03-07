@@ -3,14 +3,16 @@ import Print from "./Print";
 import General from "./General";
 import Default from "./Default";
 import TaxAndGst from "./TaxAndGst";
+import { ignoreRoutes } from "../../App";
 
 import { useState } from "react";
-import { useNavigate, NavLink } from "react-router-dom";
+import { useNavigate, NavLink, useLocation } from "react-router-dom";
 import { FaSearch as SearchIcon } from "react-icons/fa";
 import { IoMdCloseCircle as CloseIcon } from "react-icons/io";
 
 function Setting({ setToggleSetting }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const [activeSidebar, setActiveSidebar] = useState("");
 
   //   Sidebar click handler
@@ -18,31 +20,48 @@ function Setting({ setToggleSetting }) {
     setActiveSidebar(clickedSidebar);
   };
 
+  // !ignoreRoutes.includes(location.pathname)
   return (
     <div className={css.Outer}>
       {/* Sidebar */}
-      <section id={css.menu}>
-        <div className={css.logo}>
-          <h2>Settings</h2>
+      <div
+        style={{
+          paddingTop: !ignoreRoutes.includes(location.pathname)
+            ? "25px"
+            : "0px",
+        }}
+        className={css.SidebarOuterDiv}
+      >
+        <div className={css.searchIconDiv}>
+          <h3 onClick={() => handleSidebarClick("")}>Settings</h3>
           <SearchIcon />
         </div>
-        <div className="items">
+        <div className={css.OptionsContSidebarDiv}>
           {SidebarOptions?.map((itemSidebar, indSidebar) => (
-            <NavLink
+            <div
               onClick={() => handleSidebarClick(itemSidebar?.name)}
-              // to={itemSidebar?.to}
-              className={css.navLink}
-              activeClassName={css.active}
+              className={
+                activeSidebar == itemSidebar?.name
+                  ? css.activeSidebarSection
+                  : css.inActiveSidebarSection
+              }
               key={indSidebar + itemSidebar?.name}
             >
               {itemSidebar?.name}
-            </NavLink>
+            </div>
           ))}
         </div>
-      </section>
+      </div>
 
       {/* Content Div */}
-      <div className={css.contentOuterDiv}>
+      <div
+        style={{
+          padding: !ignoreRoutes.includes(location.pathname)
+            ? "25px 40px 40px"
+            : "0px 40px 40px",
+        }}
+        className={css.contentOuterDiv}
+      >
         <div className={css.navContentOuterDiv}>
           <CloseIcon onClick={() => setToggleSetting(false)} />
         </div>

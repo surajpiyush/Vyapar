@@ -37,6 +37,41 @@
 #App {
   font-family: var(--Rob);
 }
+
+/* Scroll Css */
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--greyA);
+  border-radius: 50px;
+}
+
+/* Handle on hover */
+/* ::-webkit-scrollbar-thumb:hover {
+  background: #555;
+} */
+
+/* Example for making all scrollbars thin */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Example for hiding scrollbar when not hovered */
+/* Uncomment if needed */
+/*
+::-webkit-scrollbar {
+  width: 0;
+}
+
+::-webkit-scrollbar:hover {
+  width: 8px;
+}
+*/
+
 .app-page-div {
   display: flex;
   margin-top: 35px;

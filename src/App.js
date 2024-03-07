@@ -8,6 +8,8 @@ import Header from "./Component/Layourt/Header.jsx";
 import { useEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
+export const ignoreRoutes = ["/auth", "/companies", "/addCompany"];
+
 function App() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -21,8 +23,6 @@ function App() {
       });
     }
   }, []);
-
-  const ignoreRoutes = ["/auth", "/companies", "/addCompany"];
 
   return (
     <div id="App">

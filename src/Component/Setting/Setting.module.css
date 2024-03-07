@@ -1,18 +1,74 @@
 .Outer {
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
+  background-color: var(--greyB);
   position: fixed;
+  display: flex;
   top: 0;
   left: 0;
+  width: 100%;
   z-index: 2000;
-  background-color: var(--greyB);
+  height: 100vh;
 }
 
-/* Content Css */
+/* **************
+** Sidebar Css **
+*****************/
+.SidebarOuterDiv {
+  background: var(--DeepCharcoal);
+  color: var(--greyishBlue);
+  overflow: auto;
+  width: 250px;
+  height: 100%;
+}
+.searchIconDiv {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 15px;
+}
+.searchIconDiv h3 {
+  cursor: default;
+  font-size: 20px;
+  font-weight: 400;
+}
+.searchIconDiv svg {
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s ease;
+}
+.searchIconDiv svg:hover {
+  color: var(--yellowA);
+}
+.OptionsContSidebarDiv {
+  margin-top: -10px;
+}
+.OptionsContSidebarDiv div {
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  padding: 14px 0px 14px 15px;
+  color: var(--DeepCharcoal);
+  margin-left: 4px;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  transition: all 0.17s ease;
+}
+.OptionsContSidebarDiv .activeSidebarSection {
+  background-color: var(--greyB);
+}
+.OptionsContSidebarDiv .inActiveSidebarSection {
+  color: var(--bluishGrey);
+}
+
+/* **************
+** Content Css **
+*****************/
 .contentOuterDiv {
   flex: 2;
-  padding: 25px 40px 40px;
+  height: 100%;
+  overflow: auto;
 }
 .navContentOuterDiv {
   width: 100%;
@@ -32,7 +88,6 @@
 #interface {
   overflow: auto;
 }
-
 .container {
   overflow-y: auto;
   display: flex;
@@ -105,61 +160,3 @@
   width: 40px;
   height: 35px;
 }
-
-/* **************
-** Sidebar Css **
-*****************/
-
-.close {
-  text-align: right;
-}
-
-#menu {
-  background: var(--DeepCharcoal);
-  color: var(--pureWhite);
-  overflow-y: auto;
-  width: 250px;
-  min-height: 100%;
-  padding-top: 25px;
-}
-
-#menu .logo {
-  display: flex;
-  align-items: center;
-  color: #fff;
-  padding: 20px 30px;
-  border-bottom: 1px solid #253047;
-  gap: 20px;
-  justify-content: space-between;
-}
-
-.logo h2 {
-  margin: 0;
-  font-size: 1.5em;
-}
-
-.items {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.navLink {
-  display: block;
-  padding: 22px;
-  color: #ecf0f1;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-}
-
-.navLink:hover {
-  background-color: #34495e;
-}
-
-.navLink.active {
-  background-color: yellow;
-  color: #ffffff;
-  border: 1px solid red;
-}
-
-/* CloseIcon Css */
