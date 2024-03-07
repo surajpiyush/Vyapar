@@ -15,81 +15,81 @@ import { IoMdCloseCircle as CloseIcon } from "react-icons/io";
 import { IoCloseOutline as CrossIcon } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import Setting from "../../Component/Setting/Setting";
 const Paymentout = () => {
-  const toast = useToast();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const dispatch = useDispatch();
-  const [openForm, setOpenForm] = useState(false);
-  const [startDate, setStartDate] = useState("2024-02-01");
-  const [endDate, setEndDate] = useState(
-    new Date().toISOString().split("T")[0]
-  );
-  const toggleSalesSuccess = useSelector(
-    (state) => state.SalesReducer.toggleSalesSuccess
-  );
-  const isLoading = useSelector((state) => state.SalesReducer.isLoading);
+   const [toggleSetting, setToggleSetting] = useState(false);
+   const toast = useToast();
+   const navigate = useNavigate();
+   const location = useLocation();
+   const dispatch = useDispatch();
+   const [openForm, setOpenForm] = useState(false);
+   const [startDate, setStartDate] = useState("2024-02-01");
+   const [endDate, setEndDate] = useState(
+      new Date().toISOString().split("T")[0]
+   );
+   const toggleSalesSuccess = useSelector(
+      (state) => state.SalesReducer.toggleSalesSuccess
+   );
+   const isLoading = useSelector((state) => state.SalesReducer.isLoading);
 
-  useEffect(() => {
-    GetAllSalesInvoice(dispatch, startDate, endDate);
-  }, [toggleSalesSuccess, startDate, endDate]);
+   useEffect(() => {
+      GetAllSalesInvoice(dispatch, startDate, endDate);
+   }, [toggleSalesSuccess, startDate, endDate]);
 
-  const formOpen = () => {
-    setOpenForm(true);
-  };
-  const date = { startDate: startDate, endDate: endDate };
+   const formOpen = () => {
+      setOpenForm(true);
+   };
+   const date = { startDate: startDate, endDate: endDate };
 
-  return (
-    <div className="purchase-bill-container">
-      <Thismonth
-        startDate={startDate}
-        endDate={endDate}
-        setStartDate={setStartDate}
-        setEndDate={setEndDate}
-      />
-      <div>
-        <div>
-          {openForm ? (
-            <div className={css.formOuter}>
-              <div className={css.upperNav}>
-                <div>
-                  <p className={css.activeForm}>
-                    <span>Purchase #1</span>
-                    <CrossIcon />
-                  </p>
-                </div>
-                <div>
-                  <CalculatorIcon
-                    onClick={() =>
-                      toast({
-                        title: "Feature currently in development",
-                        status: "info",
-                        position: "top",
-                      })
-                    }
-                  />
-                  <SettingIcon
-                    onClick={() =>
-                      navigate("/setting", {
-                        state: { redirectTo: location.pathname },
-                        replace: true,
-                      })
-                    }
-                  />
-                  <CloseIcon onClick={() => setOpenForm(false)} />
-                </div>
-              </div>
-              <AddPaymentouts setOpenForm={setOpenForm} />
-            </div>
-          ) : (
+   return (
+      <div className="purchase-bill-container">
+         <Thismonth
+            startDate={startDate}
+            endDate={endDate}
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
+         />
+         <div>
+            {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
+
             <div>
-              {!isLoading && <Paymentouts func={formOpen} date={date} />}
+               {openForm ? (
+                  <div className={css.formOuter}>
+                     <div className={css.upperNav}>
+                        <div>
+                           <p className={css.activeForm}>
+                              <span>Purchase #1</span>
+                              <CrossIcon />
+                           </p>
+                        </div>
+                        <div>
+                           <CalculatorIcon
+                              onClick={() =>
+                                 toast({
+                                    title: "Feature currently in development",
+                                    status: "info",
+                                    position: "top",
+                                 })
+                              }
+                           />
+                           <SettingIcon
+                              onClick={() => setToggleSetting(true)}
+                           />
+
+                           <CloseIcon onClick={() => setOpenForm(false)} />
+                        </div>
+                     </div>
+                     <AddPaymentouts setOpenForm={setOpenForm} />
+                  </div>
+               ) : (
+                  <div>
+                     {!isLoading && <Paymentouts func={formOpen} date={date} />}
+                  </div>
+               )}
             </div>
-          )}
-        </div>
+         </div>
       </div>
-    </div>
-  );
+   );
 };
 
 export default Paymentout;

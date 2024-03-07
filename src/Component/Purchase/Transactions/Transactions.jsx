@@ -21,7 +21,8 @@ import { ImSpinner3 as BasicSpinner } from "react-icons/im";
 const transactionFilterItems = [
   {
     name: "DATE",
-    Icon: <FilterIcon />,
+    Icon: 
+{/*  <FilterIcon /> */},
     //   nestedItems
   },
 ];
@@ -74,39 +75,48 @@ const Transactions = ({ func, date }) => {
           <section className="transaction-tables">
             <div className="transaction-table">
               <p>DATE</p>
-              <FilterIcon />
+              
+{/*  <FilterIcon /> */}
             </div>
             <div className="transaction-table">
               <p>INVOICE NO.</p>
-              <FilterIcon />
+              
+{/*  <FilterIcon /> */}
             </div>
             <div className="transaction-table">
               <p>PARTY NAME</p>
-              <FilterIcon />
+              
+{/*  <FilterIcon /> */}
             </div>
             <div className="transaction-table">
               <p>PAYMENT TYPE</p>
-              <FilterIcon />
+              
+{/*  <FilterIcon /> */}
             </div>
             <div className="transaction-table">
               <p>AMOUNT</p>
-              <FilterIcon />
+              
+{/*  <FilterIcon /> */}
             </div>
             <div className="transaction-table">
               <p>BALANCE DUE</p>
-              <FilterIcon />
+              
+{/*  <FilterIcon /> */}
             </div>
             <div className="transaction-table">
               <p>STATUS</p>
-              <FilterIcon />
+              
+{/*  <FilterIcon /> */}
             </div>
             <div className="transaction-table">
               <p></p>
-              <FilterIcon />
+              
+{/*  <FilterIcon /> */}
             </div>
             <div className="transaction-table">
               <p></p>
-              <FilterIcon />
+              
+{/*  <FilterIcon /> */}
             </div>
           </section>
 

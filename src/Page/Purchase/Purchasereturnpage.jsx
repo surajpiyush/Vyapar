@@ -17,7 +17,9 @@ import { IoCloseOutline as CrossIcon } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import Addpurchasereturnitrm from "../../Component/Purchase/Addpurchasereturnitrm";
 import { useLocation, useNavigate } from "react-router-dom";
+import Setting from "../../Component/Setting/Setting";
 const Purchasereturnpage = () => {
+  const [toggleSetting, setToggleSetting] = useState(false);
   const toast = useToast();
   const navigate = useNavigate();
   const location = useLocation();
@@ -50,6 +52,7 @@ const Purchasereturnpage = () => {
         setEndDate={setEndDate}
       />
       <div>
+         {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
         <div>
           {openForm ? (
             <div className={css.formOuter}>
@@ -70,14 +73,9 @@ const Purchasereturnpage = () => {
                       })
                     }
                   />
-                  <SettingIcon
-                    onClick={() =>
-                      navigate("/setting", {
-                        state: { redirectTo: location.pathname },
-                        replace: true,
-                      })
-                    }
-                  />
+                   <SettingIcon
+                              onClick={() => setToggleSetting(true)}
+                           />
                   <CloseIcon onClick={() => setOpenForm(false)} />
                 </div>
               </div>

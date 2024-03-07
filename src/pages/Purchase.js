@@ -16,12 +16,12 @@ const Purchase = () => {
     "BALANCE",
     "DUE DATE",
     "STATUS",
-    "ACTIONS",
+    "ACTION",
   ];
 
   const store = useSelector((store) => store.ReportReducer);
   const data = store.purchaseReportData.getPurchase;
-  // console.log(data);
+  console.log(store);
   const date = {
     startDate: "2023-01-20",
     endDate: "2025-02-24",
@@ -32,6 +32,7 @@ const Purchase = () => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
+    
     <SaleDashboard
       data={data}
       tableHeader={tableHeader}

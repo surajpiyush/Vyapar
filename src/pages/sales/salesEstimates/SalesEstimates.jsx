@@ -153,37 +153,44 @@ export default function SalesEstimates() {
                 <tr>
                   <th>
                     <div>
-                      DATE <FilterIcon />
+                      DATE 
+{/*  <FilterIcon /> */}
                     </div>
                   </th>
                   <th>
                     <div>
-                      REFERENCE NO <FilterIcon />
+                      REFERENCE NO 
+{/*  <FilterIcon /> */}
                     </div>
                   </th>
                   <th>
                     <div>
-                      NAME <FilterIcon />
+                      NAME 
+{/*  <FilterIcon /> */}
                     </div>
                   </th>
                   <th>
                     <div>
-                      TOTAL AMOUNT <FilterIcon />
+                      TOTAL AMOUNT 
+{/*  <FilterIcon /> */}
                     </div>
                   </th>
                   <th>
                     <div>
-                      BALANCE <FilterIcon />
+                      BALANCE 
+{/*  <FilterIcon /> */}
                     </div>
                   </th>
                   <th>
                     <div>
-                      STATUS <FilterIcon />
+                      STATUS 
+{/*  <FilterIcon /> */}
                     </div>
                   </th>
                   <th>
                     <div>
-                      ACTION <FilterIcon />
+                      ACTION 
+{/*  <FilterIcon /> */}
                     </div>
                   </th>
                   <th></th>

@@ -62,39 +62,48 @@ const Purchasereturn = ({ func, date }) => {
                 </th>
                 <th className="table-h">
                   <div className="table-items">Date</div>
-                  <FilterIcon />
+                  
+{/*  <FilterIcon /> */}
                 </th>
                 <th className="table-h">
                   <div className="table-items">Ref No.</div>
-                  <FilterIcon />
+                  
+{/*  <FilterIcon /> */}
                 </th>
                 <th className="table-h">
                   <div className="table-items">PartyName</div>
-                  <FilterIcon />
+                  
+{/*  <FilterIcon /> */}
                 </th>
                 <th className="table-h">
                   <div className="table-items">CategoryName</div>
-                  <FilterIcon />
+                  
+{/*  <FilterIcon /> */}
                 </th>
                 <th className="table-h">
                   <div className="table-items">Type</div>
-                  <FilterIcon />
+                  
+{/*  <FilterIcon /> */}
                 </th>
                 <th className="table-h">
                   <div className="table-items">Total</div>
-                  <FilterIcon />
+                  
+{/*  <FilterIcon /> */}
                 </th>
                 <th className="table-h">
                   <div className="table-items">Recevied</div>
-                  <FilterIcon />
+                  
+{/*  <FilterIcon /> */}
                 </th>
                 <th className="table-h">
                   <div className="table-items">Balance</div>
-                  <FilterIcon />
+                  
+{/*  <FilterIcon /> */}
                 </th>
                 <th className="table-h">
                   <div className="table-items">Print</div>
-                  <FilterIcon />
+                  
+{/*  <FilterIcon /> */}
                 </th>
               </tr>
             </thead>

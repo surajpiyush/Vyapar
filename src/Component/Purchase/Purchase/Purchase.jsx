@@ -213,6 +213,7 @@ const ItemsTableBody = memo(
             </td>
             <td className={css.qtyBody} onClick={() => setIndexSaleItem(ind)}>
                <input
+               required
                   type="text"
                   name="hsnCode"
                   value={item?.hsnCode}
@@ -233,6 +234,7 @@ const ItemsTableBody = memo(
             </td> */}
             <td className={css.qtyBody} onClick={() => setIndexSaleItem(ind)}>
                <input
+
                   type="number"
                   className={css.tableInputs}
                   name="count"
@@ -243,6 +245,7 @@ const ItemsTableBody = memo(
             </td>
             <td className={css.qtyBody} onClick={() => setIndexSaleItem(ind)}>
                <input
+               required
                   type="number"
                   name="qty"
                   // value={item?.qty}
@@ -262,6 +265,7 @@ const ItemsTableBody = memo(
             </td>
             <td className={css.unitBody} onClick={() => setIndexSaleItem(ind)}>
                <select
+               required
                   name="unit"
                   value={item?.unit}
                   onChange={(e) => handleTableInputChange(e, ind)}
@@ -294,6 +298,7 @@ const ItemsTableBody = memo(
             <td className={css.qtyBody} onClick={() => setIndexSaleItem(ind)}>
                <input
                   type="number"
+                  required
                   name="priceUnit"
                   value={item?.priceUnit}
                   onChange={(e) => handleTableInputChange(e, ind)}

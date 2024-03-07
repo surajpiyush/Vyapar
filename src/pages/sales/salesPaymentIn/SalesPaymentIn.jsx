@@ -145,47 +145,56 @@ export default function SalesPaymentIn() {
                   </th>
                   <th>
                     <div>
-                      DATE <FilterIcon />
+                      DATE 
+{/*  <FilterIcon /> */}
                     </div>
                   </th>
                   <th>
                     <div>
-                      REF NO. <FilterIcon />
+                      REF NO. 
+{/*  <FilterIcon /> */}
                     </div>
                   </th>
                   <th>
                     <div>
-                      PARTY NAME <FilterIcon />
+                      PARTY NAME 
+{/*  <FilterIcon /> */}
                     </div>
                   </th>
                   <th>
                     <div>
-                      CATEGORY NAME <FilterIcon />
+                      CATEGORY NAME 
+{/*  <FilterIcon /> */}
                     </div>
                   </th>
                   <th>
                     <div>
-                      TYPE <FilterIcon />
+                      TYPE 
+{/*  <FilterIcon /> */}
                     </div>
                   </th>
                   <th>
                     <div>
-                      TOTAL <FilterIcon />
+                      TOTAL 
+{/*  <FilterIcon /> */}
                     </div>
                   </th>
                   <th>
                     <div>
-                      RECEIVED/PAID <FilterIcon />
+                      RECEIVED/PAID 
+{/*  <FilterIcon /> */}
                     </div>
                   </th>
                   <th>
                     <div>
-                      BALANCE <FilterIcon />
+                      BALANCE 
+{/*  <FilterIcon /> */}
                     </div>
                   </th>
                   <th>
                     <div>
-                      PRINT/SHARE <FilterIcon />
+                      PRINT/SHARE 
+{/*  <FilterIcon /> */}
                     </div>
                   </th>
                   <th></th>

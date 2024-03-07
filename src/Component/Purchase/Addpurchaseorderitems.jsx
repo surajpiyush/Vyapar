@@ -85,12 +85,12 @@ const Addpurchaseitem = ({ setOpenForm }) => {
    const [invoiceData, setInvoiceData] = useState({
       type: "Purchase Order",
       status: "Pending",
-      partyName: "65b0dcfac6cbbb47477128cb",
-      orderNumber: "PO123",
+      partyName: "",
+      orderNumber: "",
       orderDate: new Date().toISOString().split("T")[0],
-      time: "10:00 AM",
-      dueDate: "2024-03-17T00:00:00.000Z",
-      stateOfSupply: "2024-02-16T00:00:00.000Z",
+      time: "10:00 AM", 
+      dueDate: new Date().toISOString().split("T")[0],
+      stateOfSupply: "",
       priceUnitWithTax: true,
       purchaseOrder: [],
       paymentType: [
@@ -110,17 +110,17 @@ const Addpurchaseitem = ({ setOpenForm }) => {
       ],
       addDescription: "Additional description here",
       discount: {
-         discountPersent: 2,
-         discountAmount: 2,
+         discountPersent: 0,
+         discountAmount: 0,
       },
       tax: {
          tax: "GST",
-         taxamount: 10,
+         taxamount: 0,
       },
       roundOff: 0,
-      total: 950,
+      total: 0,
       advanceAmount: 0,
-      balance: 950,
+      balance: 0,
    });
 
    // Update total footer values
@@ -224,7 +224,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
    const handleMenuItemClick = (index, itemDetail) => {
       let currSaleItem = {
          ...invoiceItems[index],
-
+         mainName: itemDetail?.itemName,
          itemName: itemDetail?._id,
          taxPersant: itemDetail?.taxRate.split("%")[0] || "",
       };
@@ -328,6 +328,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                   <div>
                      <p>Order Number</p>
                      <input
+                     required
                         type="text"
                         placeholder="1"
                         className={css.invoiceNumInp}
@@ -338,6 +339,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                   <div>
                      <p>Order Date</p>
                      <input
+                     readOnly
                         type="date"
                         className={css.invoiceDateSelectInp}
                         onChange={(e) => handleInputChange(e)}
@@ -349,6 +351,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                      <p>Time</p>
                      <input
                         type="time"
+                        readOnly
                         className={css.invoiceDateSelectInp}
                         onChange={(e) => handleInputChange(e)}
                         name="time"
@@ -363,6 +366,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                   <div>
                      <p>Due Date</p>
                      <input
+                     required
                         type="date"
                         placeholder="Due Date"
                         className={css.invoiceDateSelectInp}
@@ -373,6 +377,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                   <div>
                      <p>State of supply</p>
                      <select
+                     required
                         name="stateOfSupply"
                         id=""
                         className={css.invoiceDateSelectInp}
