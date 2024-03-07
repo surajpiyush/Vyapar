@@ -80,37 +80,44 @@ export default function SalesDeliveryChallan() {
                 <tr>
                   <th>
                     <div>
-                      DATE <FilterIcon />
+                      DATE 
+{/*  <FilterIcon /> */}
                     </div>
                   </th>
                   <th>
                     <div>
-                      PARTY <FilterIcon />
+                      PARTY 
+{/*  <FilterIcon /> */}
                     </div>
                   </th>
                   <th>
                     <div>
-                      Challan NO. <FilterIcon />
+                      Challan NO. 
+{/*  <FilterIcon /> */}
                     </div>
                   </th>
                   <th>
                     <div>
-                      DUE DATE <FilterIcon />
+                      DUE DATE 
+{/*  <FilterIcon /> */}
                     </div>
                   </th>
                   <th>
                     <div>
-                      TOTAL AMOUNT <FilterIcon />
+                      TOTAL AMOUNT 
+{/*  <FilterIcon /> */}
                     </div>
                   </th>
                   <th>
                     <div>
-                      STATUS <FilterIcon />
+                      STATUS 
+{/*  <FilterIcon /> */}
                     </div>
                   </th>
                   <th>
                     <div>
-                      ACTION <FilterIcon />
+                      ACTION 
+{/*  <FilterIcon /> */}
                     </div>
                   </th>
                   <th></th>

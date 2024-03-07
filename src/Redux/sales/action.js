@@ -14,6 +14,7 @@ import {
   GET_ALL_DELIVERY_CHALLAN_SUCCESS,
   POST_CREDIT_NOTE_SUCCESS,
   GET_ALL_CREDIT_NOTES_SUCCESS,
+  DELETE_SALES_INVOICE_SUCCESS,
 } from "./reducer";
 
 import axios from "axios";
@@ -75,6 +76,31 @@ export const GetAllSalesInvoice = async (dispatch, startDate, endDate) => {
     dispatch(IS_ERROR());
     console.log("Error Getting All Invoices Response:", error);
   }
+};
+
+// Delete the invoice
+export const deleteSalesInvoice = async (dispatch,_id) => {
+  dispatch(IS_LOADING());
+
+  try {
+    const response = await  axios
+    .delete(`${API_URL}/${firmId}/sale/delete/${_id}`, {
+       headers: {
+          Authorization: `Bearer ${token}`,
+       },
+    })
+
+    console.log("Deleted Invoices :", response?.data);
+    dispatch(DELETE_SALES_INVOICE_SUCCESS(_id))
+    alert(`${response.data.msg}`);
+  } catch (error) {
+    dispatch(IS_ERROR());
+    console.log("Error Getting All Invoices Response:", error);
+  }
+
+ 
+   
+   
 };
 
 // --------------------------------------- ESTIMATES ------------------------------------

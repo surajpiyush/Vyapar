@@ -62,35 +62,43 @@ const Pourchaseorder = ({ func }) => {
                 </th>
                 <th className="table-h">
                   <div className="table-items">No.</div>
-                  <FilterIcon />
+                  
+{/*  <FilterIcon /> */}
                 </th>
                 <th className="table-h">
                   <div className="table-items">Date</div>
-                  <FilterIcon />
+                  
+{/*  <FilterIcon /> */}
                 </th>
                 <th className="table-h">
                   <div className="table-items">Due Date</div>
-                  <FilterIcon />
+                  
+{/*  <FilterIcon /> */}
                 </th>
                 <th className="table-h">
                   <div className="table-items">Total Amount</div>
-                  <FilterIcon />
+                  
+{/*  <FilterIcon /> */}
                 </th>
                 <th className="table-h">
                   <div className="table-items">Balance</div>
-                  <FilterIcon />
+                  
+{/*  <FilterIcon /> */}
                 </th>
                 <th className="table-h">
                   <div className="table-items">Type</div>
-                  <FilterIcon />
+                  
+{/*  <FilterIcon /> */}
                 </th>
                 <th className="table-h">
                   <div className="table-items">Status</div>
-                  <FilterIcon />
+                  
+{/*  <FilterIcon /> */}
                 </th>
                 <th className="table-h">
                   <div className="table-items">Action</div>
-                  <FilterIcon />
+                  
+{/*  <FilterIcon /> */}
                 </th>
               </tr>
             </thead>
