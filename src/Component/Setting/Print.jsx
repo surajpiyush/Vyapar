@@ -35,9 +35,15 @@ const Print = () => {
     amountInWords: "Indian",
   });
 
+  const [regularPrinterData, setRegularPrinterData] = useState({});
+  const [ThermalPrinterData, setThermalPrinterData] = useState({});
+
   useEffect(() => {
     const updatedCompanyData = JSON.parse(localStorage.getItem(USER_DETAILS));
-    setCompanyData((prev) => {
+    setRegularPrinterData((prev) => {
+      return { ...prev, ...updatedCompanyData };
+    });
+    setThermalPrinterData((prev) => {
       return { ...prev, ...updatedCompanyData };
     });
   }, [toggleUpdate]);
@@ -436,7 +442,7 @@ const Print = () => {
               <input type="checkbox" id="checkbox" />
               <div className={css.inputDiv}>
                 <input
-                  type="number"
+                  type="text"
                   name="printSignatureText"
                   value={companyData?.printSignatureText}
                   onChange={(e) =>
