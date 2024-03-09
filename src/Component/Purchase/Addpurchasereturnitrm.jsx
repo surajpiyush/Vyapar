@@ -86,28 +86,36 @@ const Addpurchaseitem = ({ setOpenForm }) => {
       type: "Debit Note",
       status: "Pending",
       partyName: "",
-      phoneNumber: 1234567890,
+      phoneNumber: "",
       returnNumber: "",
       billNumber: "",
-      billDate: "",
-      date: "",
-      time: "",
+      billDate: new Date().toISOString().split("T")[0],
+
+      billDate: new Date().toISOString().split("T")[0],
+      time: new Date().toLocaleTimeString("en-US", {
+         hour: "2-digit",
+         minute: "2-digit",
+         hour12: false,
+      }),
+      date: new Date().toISOString().split("T")[0],
       stateOfSupply: "",
       priceUnitWithTax: true,
       purchaseOrder: [],
       paymentType: [
          {
-            cash: 0,
-            cheque: {
-               refreanceNo: "REF123",
-               checkAmount: 0,
-            },
-            bankDetail: {
-               accountName: "ABC Bank",
-               openingBalance: 0,
-               asOfDate: "2024-02-16T00:00:00.000Z",
-            },
-            default: "cheque",
+            types: String,
+            amount: 0,
+         },
+         {
+            types: String,
+            amount: 0,
+            refreanceNo: String,
+         },
+         {
+            types: String,
+            accountName: String,
+            openingBalance: 0,
+            asOfDate: Date,
          },
       ],
       addDescription: "Additional description here",
@@ -116,12 +124,12 @@ const Addpurchaseitem = ({ setOpenForm }) => {
          discountAmount: 0,
       },
       tax: {
-         tax: "GST",
+         tax: "",
          taxamount: 0,
       },
       roundOff: 0,
       total: 0,
-      advanceAmount: 0,
+      paid: 0,
       balance: 0,
    });
 
@@ -225,9 +233,14 @@ const Addpurchaseitem = ({ setOpenForm }) => {
    const handleMenuItemClick = (index, itemDetail) => {
       let currSaleItem = {
          ...invoiceItems[index],
+       
          mainName: itemDetail?.itemName,
          itemName: itemDetail?._id,
-         taxPersant: itemDetail?.taxRate.split("%")[0] || "",
+         hsnCode: itemDetail?.itemHsn || "",
+         description: itemDetail?.description || "",
+         itemCode: itemDetail?.itemCode || "",
+         priceUnit: itemDetail?.mrp?.mrp || "",
+         unit: itemDetail?.unit || "",
       };
       let newSaleData = invoiceItems.map((ite, ind) =>
          ind == index ? currSaleItem : ite
@@ -471,7 +484,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                         <th className={css.itemNameHead}>ITEM</th>
                         <th className={css.itemNameHead}>ITEM CODE</th>
                         <th className={css.itemNameHead}>HSN CODE</th>
-                        <th className={css.itemNameHead}>DESCRIPTION</th>
+                        {/* <th className={css.itemNameHead}>DESCRIPTION</th> */}
                         <th className={css.itemNameHead}>COUNT</th>
                         <th className={css.qtyHead}>QTY</th>
                         <th className={css.itemNameHead}>FREE QTY</th>

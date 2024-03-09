@@ -3,6 +3,7 @@ import FirstTimeFormToggle from "../../FirmTimeForm/FirstTimeFormToggle";
 import {
    deletePurchaseReturnBill,
    getPurchaseReturn,
+   updatePurchaseReturnBill,
 } from "../../../Redux/purchase/action";
 import {
    DeleteIcon,
@@ -24,8 +25,18 @@ const Purchasereturn = ({ func, date }) => {
    const store = useSelector((store) => store.PurchaseReducer);
    const data = store?.purchaseReturnData;
    const [isEditing, setIsEditing] = useState(false);
-   const [editedData, setEditedData] = useState(null);  
-
+   const [editedData, setEditedData] = useState(null);
+   const display = [
+      "#",
+      "bilDate",
+      "refNo",
+      "partyName",
+      "category",
+      "type",
+      "total",
+      "recieve",
+      "balance",
+   ];
    // console.log(store)
    useEffect(() => {
       dispatch(getPurchaseReturn({ date }));
@@ -47,9 +58,10 @@ const Purchasereturn = ({ func, date }) => {
       console.log("updatedData-", updatedData);
       const id = updatedData._id;
       // After saving, reset the state
-      // dispatch(updatePay(updatedData._id, updatedData));
+      dispatch(updatePurchaseReturnBill(updatedData._id, updatedData));
       setIsEditing(false);
       setEditedData(null);
+      dispatch(getPurchaseReturn({ date }));
    };
 
    const handleCancel = () => {
@@ -157,6 +169,7 @@ const Purchasereturn = ({ func, date }) => {
                               <React.Fragment key={e._id}>
                                  {isEditing && editedData?._id === e._id ? (
                                     <EditableRow
+                                    display={display}
                                        data={editedData}
                                        onSave={handleSave}
                                        onCancel={handleCancel}
@@ -221,37 +234,38 @@ const Purchasereturn = ({ func, date }) => {
                                                 onClick={() => window.print()}
                                              />
                                              <ShareIcon />
-                                             
                                           </div>
                                        </th>
-                                       <th>
-                                       <div
-                                    className="transaction-table"
-                                    style={{
-                                       display: "flex",
-                                       direction: "row",
-                                       justifyContent: "space-evenly",
-                                    }}
-                                 >
-                                    <p
-                                       style={{
-                                          fontSize: "1.5rem",
-                                          textAlign: "center",
+                                       <th className="table-h">
+                                          <div
+                                             className="transaction-table"
+                                             style={{
+                                                display: "flex",
+                                                direction: "row",
+                                                justifyContent: "space-evenly",
+                                             }}
+                                          >
+                                             <p
+                                                style={{
+                                                   fontSize: "1.5rem",
+                                                   textAlign: "center",
 
-                                          justifyContent: "space-around",
-                                       }}
-                                    >
-                                    
-                                       <DeleteIcon
-                                          onClick={() => handleDelete(e._id)}
-                                       />
-                                    </p>
-                                    <p style={{ fontSize: "1.5rem" }}>
-                                       <EditIcon
-                                          onClick={() => handleEdit(e)}
-                                       />
-                                    </p>
-                                 </div>
+                                                   justifyContent:
+                                                      "space-around",
+                                                }}
+                                             >
+                                                <DeleteIcon
+                                                   onClick={() =>
+                                                      handleDelete(e._id)
+                                                   }
+                                                />
+                                             </p>
+                                             <p style={{ fontSize: "1.5rem" }}>
+                                                <EditIcon
+                                                   onClick={() => handleEdit(e)}
+                                                />
+                                             </p>
+                                          </div>
                                        </th>
                                     </tr>
                                  )}

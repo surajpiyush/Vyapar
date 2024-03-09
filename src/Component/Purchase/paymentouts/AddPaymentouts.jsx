@@ -102,7 +102,7 @@ const AddPaymentouts = ({ setOpenForm }) => {
       });
       // console.log(payment)
    };
-
+console.log(currentCustomerData)
    return (
       <form onSubmit={handleSubmit} className={css.formOuter}>
          <div className={css.topheader}>
@@ -144,7 +144,7 @@ const AddPaymentouts = ({ setOpenForm }) => {
                         )}
                      </select>
                      <p style={{ textAlign: "right" }}>
-                        {data.balance ? <>Balance: {data.balance}</> : ""}
+                        {currentCustomerData.openingBalance ? <>Balance: {currentCustomerData.openingBalance}</> : ""}
                      </p>
                   </div>
                </div>

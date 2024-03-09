@@ -57,6 +57,9 @@ const salesSlice = createSlice({
          state.invoicesList = updatedinvoicesList;
          state.isLoading = false;
       },
+      UPDATE_SALES_INVOICE_SUCCESS: (state) => {
+         state.isLoading = false;
+      },
 
       // ESTIMATES ------------------------------------------------------
       POST_ESTIMATE_SUCCESS: (state) => {
@@ -73,6 +76,9 @@ const salesSlice = createSlice({
          );
          //  console.log(payload)
          state.estimatesList = updatedestimatesList;
+         state.isLoading = false;
+      },
+      UPDATE_ESTIMATE_SUCCESS: (state) => {
          state.isLoading = false;
       },
 
@@ -93,6 +99,9 @@ const salesSlice = createSlice({
          state.paymentInList = updatedpaymentInList;
          state.isLoading = false;
       },
+      UPDATE_PAYMENT_IN_SUCCESS: (state) => {
+         state.isLoading = false;
+      },
 
       // SALE ORDER ------------------------------------------------------
       POST_SALE_ORDER_SUCCESS: (state) => {
@@ -109,6 +118,9 @@ const salesSlice = createSlice({
          );
          //  console.log(payload)
          state.saleOrderList = updatedsaleOrderList;
+         state.isLoading = false;
+      },
+      UPDATE_ALL_SALE_ORDER_SUCCESS: (state) => {
          state.isLoading = false;
       },
 
@@ -129,6 +141,9 @@ const salesSlice = createSlice({
          state.deliveryChallanList = updateddeliveryChallanList;
          state.isLoading = false;
       },
+      UPDATE_ALL_DELIVERY_CHALLAN_SUCCESS: (state) => {
+         state.isLoading = false;
+      },
 
       // SALE RETURN / CREDIT NOTE ------------------------------------------------------
       POST_CREDIT_NOTE_SUCCESS: (state) => {
@@ -147,6 +162,9 @@ const salesSlice = createSlice({
          state.creditNotesList = updatedcreditNotesList;
          state.isLoading = false;
       },
+      UPDATE_ALL_CREDIT_NOTES_SUCCESS: (state) => {
+         state.isLoading = false;
+      },
    },
 });
 
@@ -157,25 +175,31 @@ export const {
    POST_SALES_INVOICE_SUCCESS,
    GET_SALES_INVOICE_SUCCESS,
    DELETE_SALES_INVOICE_SUCCESS,
+   UPDATE_SALES_INVOICE_SUCCESS,
 
    POST_ESTIMATE_SUCCESS,
    GET_ESTIMATE_SUCCESS,
    DELETE_ESTIMATE_SUCCESS,
+   UPDATE_ESTIMATE_SUCCESS,
 
    POST_PAYMENT_IN_SUCCESS,
    GET_PAYMENT_IN_SUCCESS,
    DELETE_PAYMENT_IN_SUCCESS,
+   UPDATE_PAYMENT_IN_SUCCESS,
 
    POST_SALE_ORDER_SUCCESS,
    GET_All_SALE_ORDER_SUCCESS,
    DELETE_ALL_SALE_ORDER_SUCCESS,
+   UPDATE_ALL_SALE_ORDER_SUCCESS,
 
    POST_DELIVERY_CHALLAN_SUCCESS,
    GET_ALL_DELIVERY_CHALLAN_SUCCESS,
    DELETE_ALL_DELIVERY_CHALLAN_SUCCESS,
+   UPDATE_ALL_DELIVERY_CHALLAN_SUCCESS,
 
    POST_CREDIT_NOTE_SUCCESS,
    GET_ALL_CREDIT_NOTES_SUCCESS,
    DELETE_ALL_CREDIT_NOTES_SUCCESS,
+   UPDATE_ALL_CREDIT_NOTES_SUCCESS,
 } = salesSlice.actions;
 export default salesSlice.reducer;

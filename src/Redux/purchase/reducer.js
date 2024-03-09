@@ -44,6 +44,8 @@ export const reducer = (state = initialState, { type, payload }) => {
       case PURCHASE_REQUEST: {
          return { ...state, isLoading: true };
       }
+
+      //  Purchase Bill
       case GET_PURCHASEBILL_SUCCESS: {
          return {
             ...state,
@@ -51,28 +53,6 @@ export const reducer = (state = initialState, { type, payload }) => {
             purchaseBillData: payload.data,
          };
       }
-      case GET_PAYOUTBILL_SUCCESS: {
-         return {
-            ...state,
-            isLoading: false,
-            paymentOutData: payload.data,
-         };
-      }
-      case GET_PURCHASEORDER_SUCCESS: {
-         return {
-            ...state,
-            isLoading: false,
-            purchaseOrderData: payload.data,
-         };
-      }
-      case GET_PURCHASERETURN_SUCCESS: {
-         return {
-            ...state,
-            isLoading: false,
-            purchaseReturnData: payload.data,
-         };
-      }
-
       case POST_PURCHASEBILL_SUCCESS: {
          return {
             ...state,
@@ -80,29 +60,6 @@ export const reducer = (state = initialState, { type, payload }) => {
             purchaseBillData: [...state.purchaseBillData, payload],
          };
       }
-      case POST_PURCHASEORDER_SUCCESS: {
-         return {
-            ...state,
-            isLoading: false,
-            purchaseOrderData: [...state.purchaseOrderData, payload],
-         };
-      }
-
-      case POST_PURCHASERETURN_SUCCESS: {
-         return {
-            ...state,
-            isLoading: false,
-            purchaseReturnData: [...state.purchaseReturnData, payload],
-         };
-      }
-      case POST_PAYOUT_SUCCESS: {
-         return {
-            ...state,
-            isLoading: false,
-            purchaseOutData: [...state.paymentOutData, payload],
-         };
-      }
-
       case DELETE_PURCHASEBILL_SUCCESS:
          // Remove the deleted purchase bill from the state
          const updatedPurchaseBills = state.purchaseBillData.filter(
@@ -114,7 +71,29 @@ export const reducer = (state = initialState, { type, payload }) => {
             purchaseBillData: updatedPurchaseBills,
             isLoading: false,
          };
+      case UPDATE_PURCHASEBILL_SUCCESS: {
+         
+         return {
+            ...state,
+            isLoading: false,
+         };
+      }
 
+      // Purchase PaymentOut Bill
+      case GET_PAYOUTBILL_SUCCESS: {
+         return {
+            ...state,
+            isLoading: false,
+            paymentOutData: payload.data,
+         };
+      }
+      case POST_PAYOUT_SUCCESS: {
+         return {
+            ...state,
+            isLoading: false,
+            purchaseOutData: [...state.paymentOutData, payload],
+         };
+      }
       case DELETE_PAYOUTBILL_SUCCESS:
          // Remove the deleted purchase bill from the state
          const updatedPayOutBills = state.paymentOutData.filter(
@@ -127,6 +106,22 @@ export const reducer = (state = initialState, { type, payload }) => {
             isLoading: false,
          };
 
+
+      // Purchase OrderBill
+      case GET_PURCHASEORDER_SUCCESS: {
+         return {
+            ...state,
+            isLoading: false,
+            purchaseOrderData: payload.data,
+         };
+      }
+      case POST_PURCHASEORDER_SUCCESS: {
+         return {
+            ...state,
+            isLoading: false,
+            purchaseOrderData: [...state.purchaseOrderData, payload],
+         };
+      }
       case DELETE_PURCHASEORDER_SUCCESS:
          // Remove the deleted purchase bill from the state
          const updatedPurchaseOrderData = state.purchaseOrderData.filter(
@@ -139,6 +134,21 @@ export const reducer = (state = initialState, { type, payload }) => {
             isLoading: false,
          };
 
+      // PurchaeReturn Bills
+      case GET_PURCHASERETURN_SUCCESS: {
+         return {
+            ...state,
+            isLoading: false,
+            purchaseReturnData: payload.data,
+         };
+      }
+      case POST_PURCHASERETURN_SUCCESS: {
+         return {
+            ...state,
+            isLoading: false,
+            purchaseReturnData: [...state.purchaseReturnData, payload],
+         };
+      }
       case DELETE_PURCHASERETURN_SUCCESS:
          // Remove the deleted purchase bill from the state
          const updatedPurchaseReturnData = state.purchaseReturnData.filter(
@@ -151,12 +161,7 @@ export const reducer = (state = initialState, { type, payload }) => {
             isLoading: false,
          };
 
-      case UPDATE_PURCHASEBILL_SUCCESS: {
-         return {
-            ...state,
-            isLoading: false,
-         };
-      }
+
       case PURCHASE_FAILURE: {
          return { ...state, isLoading: false, isError: true };
       }

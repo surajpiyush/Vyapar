@@ -1,6 +1,7 @@
 import css from "../../styles/SalesStyles/SalesForms.module.css";
 import ItemsForm from "../../components/addForm/ItemsForm";
 import ItemsTableBody from "./Addpurchaseorder";
+import { PostSalesInvoice } from "../../Redux/sales/action";
 import { GetAllItems } from "../../Redux/items/actions";
 import { FetchAllParties } from "../../Redux/parties/actions";
 
@@ -21,11 +22,9 @@ import { HiMiniDocumentText as AddDocumentIcon } from "react-icons/hi2";
 import { BiSolidCameraPlus as AddCameraIcon } from "react-icons/bi";
 import { ImCheckboxUnchecked as EmptyCheckedBox } from "react-icons/im";
 import { BiSolidCheckboxChecked as CheckedBox } from "react-icons/bi";
-import {  addPurchaseOrder } from "../../Redux/purchase/action";
+import { addPurchaseOrder } from "../../Redux/purchase/action";
 
 const Addpurchaseitem = ({ setOpenForm }) => {
-   const data = useSelector((store) => store.PurchaseReducer.purchaseOrderData);
-   
    const toast = useToast();
    const dispatch = useDispatch();
    const isLoading = useSelector((state) => state.SalesReducer.isLoading);
@@ -40,11 +39,9 @@ const Addpurchaseitem = ({ setOpenForm }) => {
    const getAllItemsLoading = useSelector(
       (state) => state.ItemReducer.getAllItemsLoading
    );
-   const items = useSelector((state) => state.ItemReducer.allItems);
-   const allPurchaseBills = useSelector(
-      (store) => store.PurchaseReducer.purchaseBillData
-   );
-   // console.log(items)
+   const invoicesList = useSelector((state) => state.SalesReducer.invoicesList);
+   const items = useSelector((state) => state.ItemReducer.items);
+
    const [currentCustomerData, setCurrentCustomerData] = useState({});
    const [toggleDesc, setToggleDesc] = useState(false);
    const [toggleRoundOff, setToggleRoundOff] = useState(false);
@@ -58,7 +55,9 @@ const Addpurchaseitem = ({ setOpenForm }) => {
    const [indexSaleItem, setIndexSaleItem] = useState(0);
    const [rowFooterData, setRowFooterData] = useState({});
    const [showItemForm, setShowItemForm] = useState(false);
+   const [receiveAmount, setReceiveAmount] = useState("");
    const [balanceAmount, setBalanceAmount] = useState("");
+
    const [invoiceItems, setInvoiceItems] = useState([
       {
          category: "65c5cfc509b34ca8a0187497",
@@ -87,32 +86,26 @@ const Addpurchaseitem = ({ setOpenForm }) => {
       type: "Purchase Order",
       status: "Pending",
       partyName: "",
-      orderNumber: data.length+1,
+      orderNumber: "",
       orderDate: new Date().toISOString().split("T")[0],
-      time: new Date().toLocaleTimeString("en-US", {
-         hour: "2-digit",
-         minute: "2-digit",
-         hour12: false,
-      }),
+      time: "10:00 AM",
       dueDate: new Date().toISOString().split("T")[0],
       stateOfSupply: "",
       priceUnitWithTax: true,
       purchaseOrder: [],
       paymentType: [
          {
-            types: String,
-            amount: 0,
-         },
-         {
-            types: String,
-            amount: 0,
-            refreanceNo: String,
-         },
-         {
-            types: String,
-            accountName: String,
-            openingBalance: 0,
-            asOfDate: Date,
+            cash: 800,
+            cheque: {
+               refreanceNo: "REF123",
+               checkAmount: 150,
+            },
+            bankDetail: {
+               accountName: "ABC Bank",
+               openingBalance: 5000,
+               asOfDate: "2024-02-16T00:00:00.000Z",
+            },
+            default: "cash",
          },
       ],
       addDescription: "Additional description here",
@@ -194,15 +187,15 @@ const Addpurchaseitem = ({ setOpenForm }) => {
    // for fetching all items list on form mount
    useEffect(() => {
       dispatch(GetAllItems());
-      // console.log(items)
    }, [toggleItems]);
 
    //  for updating Firm Data
    useEffect(() => {
-      // console.log(currentCustomerData);
       let obj = {
-         gstNo: currentCustomerData?.gstNo || "",
+         customerName: currentCustomerData?._id || "",
+         billingName: currentCustomerData?.partyName || "",
          phoneNumber: currentCustomerData?.phoneNumber || "",
+         billingAddress: currentCustomerData?.billingAddress || "",
          balance: currentCustomerData?.openingBalance || "",
       };
       setInvoiceData((prev) => {
@@ -221,22 +214,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
 
    // Input Change Function
    const handleInputChange = (e) => {
-      let { name, value } = e.target;
-      if (name === "dueDate") {
-         const selectedDate = new Date(value);
-         const today = new Date();
-
-         if (selectedDate < today) {
-            toast({
-               description: "Something Went Wrong!",
-               title: "Selected date should not be before today",
-               status: "error",
-               position: "top",
-            });
-            console.log("Selected date should not be after today");
-            value = new Date().toISOString().split("T")[0];
-         }
-      }
+      const { name, value } = e.target;
       setInvoiceData((prev) => {
          return { ...prev, [name]: value };
       });
@@ -244,23 +222,18 @@ const Addpurchaseitem = ({ setOpenForm }) => {
 
    // Found items list click handler
    const handleMenuItemClick = (index, itemDetail) => {
-      // console.log(itemDetail);
       let currSaleItem = {
          ...invoiceItems[index],
-
          mainName: itemDetail?.itemName,
          itemName: itemDetail?._id,
-         hsnCode: itemDetail?.itemHsn || "",
-         description: itemDetail?.description || "",
-         itemCode: itemDetail?.itemCode || "",
-         priceUnit: itemDetail?.mrp?.mrp || "",
-         unit: itemDetail?.unit || "",
+         taxPersant: itemDetail?.taxRate.split("%")[0] || "",
       };
       let newSaleData = invoiceItems.map((ite, ind) =>
          ind == index ? currSaleItem : ite
       );
       setInvoiceItems(newSaleData);
    };
+
    // for changing balance amount
    useEffect(() => {
       let initAmount = toggleRoundOff
@@ -283,13 +256,13 @@ const Addpurchaseitem = ({ setOpenForm }) => {
          itemCode: "",
          hsnCode: "",
          description: "Description of item 1",
-         count: 0,
+         count: "",
          qty: 0,
          freeqty: "",
          unit: "",
-         priceUnit: 0,
-         discountAmount: 0,
-         discountpersant: 0,
+         priceUnit: "",
+         discountAmount: "",
+         discountpersant: "",
          taxPersant: "",
          amount: 0,
       };
@@ -349,78 +322,36 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                         )}
                      </p>
                   </div>
-                  <div className={css.inputDiv}>
-                     <input
-                        type="number"
-                        value={invoiceData.phoneNumber}
-                        name="phoneNumber"
-                        onChange={(e) => handleInputChange(e)}
-                        className={css.input}
-                        required
-                     />
-                     <label
-                        htmlFor=""
-                        className={
-                           invoiceData.phoneNumber
-                              ? css.activeLabel
-                              : css.inactiveLabel
-                        }
-                     >
-                        Phone No.
-                     </label>
-                  </div>
-                  <div className={css.inputDiv}>
-                     <input
-                        type="number"
-                        value={invoiceData.gstNo}
-                        name="gstNo"
-                        onChange={(e) => handleInputChange(e)}
-                        className={css.input}
-                        required
-                     />
-                     <label
-                        htmlFor=""
-                        className={
-                           invoiceData.phoneNumber
-                              ? css.activeLabel
-                              : css.inactiveLabel
-                        }
-                     >
-                        GST Number
-                     </label>
-                  </div>
                </div>
-              
+
                <div className={css.rightSideCont}>
                   <div>
-                     <p>Bill Number</p>
+                     <p>Order Number</p>
                      <input
-                     required
+                        required
                         type="text"
                         placeholder="1"
-                        value={invoiceData.orderNumber}
                         className={css.invoiceNumInp}
                         onChange={(e) => handleInputChange(e)}
                         name="orderNumber"
                      />
                   </div>
                   <div>
-                     <p>Bill Date</p>
+                     <p>Order Date</p>
                      <input
+                        readOnly
                         type="date"
-                        placeholder="Invoice Date"
                         className={css.invoiceDateSelectInp}
                         onChange={(e) => handleInputChange(e)}
-                        name="billDate"
+                        name="orderDate"
                         defaultValue={new Date().toISOString().split("T")[0]}
-                        readOnly
                      />
                   </div>
                   <div>
                      <p>Time</p>
                      <input
                         type="time"
-                        placeholder="Invoice Time"
+                        readOnly
                         className={css.invoiceDateSelectInp}
                         onChange={(e) => handleInputChange(e)}
                         name="time"
@@ -429,42 +360,28 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                            minute: "2-digit",
                            hour12: false,
                         })}
-                        readOnly
                      />
                   </div>
 
                   <div>
-                     <p>Payment Terms</p>
-                     <select required
-                        name="paymentTerms"
-                        onChange={(e) => handleInputChange(e)}
-                     >
-                        <option value="">Due On Recipt</option>
-                        <option value="net 15">Net 15</option>
-                        <option value="net 30">Net 30</option>
-                        <option value="net 45">Net 45</option>
-                        <option value="net 60">Net 60</option>
-                     </select>
-                  </div>
-                  <div>
                      <p>Due Date</p>
-                     <input required
+                     <input
+                        required
                         type="date"
                         placeholder="Due Date"
                         className={css.invoiceDateSelectInp}
                         onChange={(e) => handleInputChange(e)}
-                        value={invoiceData?.dueDate}
                         name="dueDate"
                      />
                   </div>
                   <div>
                      <p>State of supply</p>
                      <select
+                        required
                         name="stateOfSupply"
                         id=""
                         className={css.invoiceDateSelectInp}
                         onSelect={(e) => handleInputChange(e)}
-                        required
                      >
                         <option value="">State</option>
                         <option value="Andhra Pradesh">Andhra Pradesh</option>
@@ -527,7 +444,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                         <th className={css.itemNameHead}>ITEM</th>
                         <th className={css.itemNameHead}>ITEM CODE</th>
                         <th className={css.itemNameHead}>HSN CODE</th>
-                        {/* <th className={css.itemNameHead}>DESCRIPTION</th> */}
+                        <th className={css.itemNameHead}>DESCRIPTION</th>
                         <th className={css.itemNameHead}>COUNT</th>
                         <th className={css.qtyHead}>QTY</th>
                         <th className={css.itemNameHead}>FREE QTY</th>
@@ -599,7 +516,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                            </div>
                         </td>
                         <td></td>
-                        {/* <td></td> */}
+                        <td></td>
                         <td></td>
                         <td className={css.addRowChildTd}>
                            {rowFooterData?.totalCount}

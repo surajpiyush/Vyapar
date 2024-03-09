@@ -20,6 +20,12 @@ import {
    DELETE_ALL_SALE_ORDER_SUCCESS,
    DELETE_ALL_DELIVERY_CHALLAN_SUCCESS,
    DELETE_ALL_CREDIT_NOTES_SUCCESS,
+   UPDATE_SALES_INVOICE_SUCCESS,
+   UPDATE_ESTIMATE_SUCCESS,
+   UPDATE_PAYMENT_IN_SUCCESS,
+   UPDATE_ALL_SALE_ORDER_SUCCESS,
+   UPDATE_ALL_DELIVERY_CHALLAN_SUCCESS,
+   UPDATE_ALL_CREDIT_NOTES_SUCCESS,
 } from "./reducer";
 
 import axios from "axios";
@@ -110,6 +116,35 @@ export const deleteSalesInvoice = async (dispatch, _id) => {
    }
 };
 
+// Update the Invoice
+export const updateSalesInvoice = (_id, data) => (dispatch) => {
+   dispatch(IS_LOADING());
+   console.log(_id, data);
+
+   // Assuming 'token' is defined somewhere in your code
+   if (!token) {
+      dispatch(IS_ERROR());
+      return;
+   }
+
+   axios
+      .put(`${API_URL}/${firmId}/sale/update/${_id}`, data, {
+         headers: {
+            Authorization: `Bearer ${token}`,
+         },
+      })
+      .then((res) => {
+         console.log(res);
+         alert(res?.data?.msg);
+         dispatch(UPDATE_SALES_INVOICE_SUCCESS());
+      })
+      .catch((err) => {
+         console.log(err);
+         // alert(`${err.response.data.msg}`);
+         dispatch(IS_ERROR());
+      });
+};
+
 // --------------------------------------- ESTIMATES ------------------------------------
 // Post Sales Estimate Request
 export const PostEstimates = async (dispatch, data, setOpenForm, toast) => {
@@ -171,26 +206,56 @@ export const GetAllEstimates = async (dispatch, startDate, endDate) => {
 
 // Delete the invoice
 export const deleteAllEstimates = async (dispatch, _id) => {
-  dispatch(IS_LOADING());
+   dispatch(IS_LOADING());
 
-  try {
-     const response = await axios.delete(
-        `${API_URL}/${firmId}/sale/saleEstimate/${_id}`,
-        {
-           headers: {
-              Authorization: `Bearer ${token}`,
-           },
-        }
-     );
+   try {
+      const response = await axios.delete(
+         `${API_URL}/${firmId}/sale/saleEstimate/${_id}`,
+         {
+            headers: {
+               Authorization: `Bearer ${token}`,
+            },
+         }
+      );
 
-     console.log("Deleted Invoices :", response?.data);
-     alert(`${response.data.msg}`);
-     dispatch(DELETE_ESTIMATE_SUCCESS(_id));
-  } catch (error) {
-     dispatch(IS_ERROR());
-     console.log("Error Getting All Invoices Response:", error);
-  }
+      console.log("Deleted Invoices :", response?.data);
+      alert(`${response.data.msg}`);
+      dispatch(DELETE_ESTIMATE_SUCCESS(_id));
+   } catch (error) {
+      dispatch(IS_ERROR());
+      console.log("Error Getting All Invoices Response:", error);
+   }
 };
+
+// Update the Estimates
+export const updateAllEstimates = (_id, data) => (dispatch) => {
+   dispatch(IS_LOADING());
+   console.log(_id, data);
+
+   // Assuming 'token' is defined somewhere in your code
+   if (!token) {
+      dispatch(IS_ERROR());
+      return;
+   }
+
+   axios
+      .put(`${API_URL}/${firmId}/sale/saleEstimate/${_id}`, data, {
+         headers: {
+            Authorization: `Bearer ${token}`,
+         },
+      })
+      .then((res) => {
+         console.log(res);
+         alert(res?.data?.msg);
+         dispatch(UPDATE_ESTIMATE_SUCCESS());
+      })
+      .catch((err) => {
+         console.log(err);
+         // alert(`${err.response.data.msg}`);
+         dispatch(IS_ERROR());
+      });
+};
+
 // --------------------------------------- PAYMENT IN ------------------------------------
 // Post Payment-In Request
 export const PostPaymentIn = async (dispatch, data, closeForm, toast) => {
@@ -250,28 +315,54 @@ export const GetAllPaymentIn = async (dispatch, startDate, endDate) => {
 
 // Delete the payment-in
 export const deletePaymentIn = async (dispatch, _id) => {
-  dispatch(IS_LOADING());
+   dispatch(IS_LOADING());
 
-  try {
-     const response = await axios.delete(
-        `${API_URL}/${firmId}/sale/salePaymentIn/${_id}`,
-        {
-           headers: {
-              Authorization: `Bearer ${token}`,
-           },
-        }
-     );
+   try {
+      const response = await axios.delete(
+         `${API_URL}/${firmId}/sale/salePaymentIn/${_id}`,
+         {
+            headers: {
+               Authorization: `Bearer ${token}`,
+            },
+         }
+      );
 
-     console.log("Deleted Invoices :", response?.data);
-     alert(`${response.data.msg}`);
-     dispatch(DELETE_PAYMENT_IN_SUCCESS(_id));
-  } catch (error) {
-     dispatch(IS_ERROR());
-     console.log("Error Getting All Invoices Response:", error);
-  }
+      console.log("Deleted Invoices :", response?.data);
+      alert(`${response.data.msg}`);
+      dispatch(DELETE_PAYMENT_IN_SUCCESS(_id));
+   } catch (error) {
+      dispatch(IS_ERROR());
+      console.log("Error Getting All Invoices Response:", error);
+   }
 };
+// Update the payment-in
+export const updatePaymentIn = (_id, data) => (dispatch) => {
+   dispatch(IS_LOADING());
+   console.log(_id, data);
 
+   // Assuming 'token' is defined somewhere in your code
+   if (!token) {
+      dispatch(IS_ERROR());
+      return;
+   }
 
+   axios
+      .put(`${API_URL}/${firmId}/sale/salePaymentIn/${_id}`, data, {
+         headers: {
+            Authorization: `Bearer ${token}`,
+         },
+      })
+      .then((res) => {
+         console.log(res);
+         alert(res?.data?.msg);
+         dispatch(UPDATE_PAYMENT_IN_SUCCESS());
+      })
+      .catch((err) => {
+         console.log(err);
+         // alert(`${err.response.data.msg}`);
+         dispatch(IS_ERROR());
+      });
+};
 
 // --------------------------------------- SALE ORDER ------------------------------------
 // Post Sale Order Request
@@ -334,27 +425,55 @@ export const GetAllSaleOrders = async (dispatch) => {
 
 // Delete the sale Order
 export const deleteAllSaleOrder = async (dispatch, _id) => {
-  dispatch(IS_LOADING());
+   dispatch(IS_LOADING());
 
-  try {
-     const response = await axios.delete(
-        `${API_URL}/${firmId}/sale/saleOrder/${_id}`,
-        {
-           headers: {
-              Authorization: `Bearer ${token}`,
-           },
-        }
-     );
+   try {
+      const response = await axios.delete(
+         `${API_URL}/${firmId}/sale/saleOrder/${_id}`,
+         {
+            headers: {
+               Authorization: `Bearer ${token}`,
+            },
+         }
+      );
 
-     console.log("Deleted Invoices :", response?.data);
-     alert(`${response.data.msg}`);
-     dispatch(DELETE_ALL_SALE_ORDER_SUCCESS(_id));
-  } catch (error) {
-     dispatch(IS_ERROR());
-     console.log("Error Getting All Invoices Response:", error);
-  }
+      console.log("Deleted Invoices :", response?.data);
+      alert(`${response.data.msg}`);
+      dispatch(DELETE_ALL_SALE_ORDER_SUCCESS(_id));
+   } catch (error) {
+      dispatch(IS_ERROR());
+      console.log("Error Getting All Invoices Response:", error);
+   }
 };
 
+// Update the sale Order
+export const updateAllSaleOrder = (_id, data) => (dispatch) => {
+   dispatch(IS_LOADING());
+   console.log(_id, data);
+
+   // Assuming 'token' is defined somewhere in your code
+   if (!token) {
+      dispatch(IS_ERROR());
+      return;
+   }
+
+   axios
+      .put(`${API_URL}/${firmId}/sale/saleOrder/${_id}`, data, {
+         headers: {
+            Authorization: `Bearer ${token}`,
+         },
+      })
+      .then((res) => {
+         console.log(res);
+         alert(res?.data?.msg);
+         dispatch(UPDATE_ALL_SALE_ORDER_SUCCESS());
+      })
+      .catch((err) => {
+         console.log(err);
+         // alert(`${err.response.data.msg}`);
+         dispatch(IS_ERROR());
+      });
+};
 
 // --------------------------------------- DELIVERY CHALLAN ------------------------------------
 // Post Delivery Challan Request
@@ -423,27 +542,55 @@ export const GetAllDeliveryChallans = async (dispatch) => {
 
 // Delete the delivery Challan
 export const deleteAllDeliveryChallan = async (dispatch, _id) => {
-  dispatch(IS_LOADING());
+   dispatch(IS_LOADING());
 
-  try {
-     const response = await axios.delete(
-        `${API_URL}/${firmId}/sale/deliveryChallan/${_id}`,
-        {
-           headers: {
-              Authorization: `Bearer ${token}`,
-           },
-        }
-     );
+   try {
+      const response = await axios.delete(
+         `${API_URL}/${firmId}/sale/deliveryChallan/${_id}`,
+         {
+            headers: {
+               Authorization: `Bearer ${token}`,
+            },
+         }
+      );
 
-     console.log("Deleted Invoices :", response?.data);
-     alert(`${response.data.msg}`);
-     dispatch(DELETE_ALL_DELIVERY_CHALLAN_SUCCESS(_id));
-  } catch (error) {
-     dispatch(IS_ERROR());
-     console.log("Error Getting All Invoices Response:", error);
-  }
+      console.log("Deleted Invoices :", response?.data);
+      alert(`${response.data.msg}`);
+      dispatch(DELETE_ALL_DELIVERY_CHALLAN_SUCCESS(_id));
+   } catch (error) {
+      dispatch(IS_ERROR());
+      console.log("Error Getting All Invoices Response:", error);
+   }
 };
 
+// Update the delivery Challan
+export const updateAllDeliveryChallan = (_id, data) => (dispatch) => {
+   dispatch(IS_LOADING());
+   console.log(_id, data);
+
+   // Assuming 'token' is defined somewhere in your code
+   if (!token) {
+      dispatch(IS_ERROR());
+      return;
+   }
+
+   axios
+      .put(`${API_URL}/${firmId}/sale/deliveryChallan/${_id}`, data, {
+         headers: {
+            Authorization: `Bearer ${token}`,
+         },
+      })
+      .then((res) => {
+         console.log(res);
+         alert(res?.data?.msg);
+         dispatch(UPDATE_ALL_DELIVERY_CHALLAN_SUCCESS());
+      })
+      .catch((err) => {
+         console.log(err);
+         // alert(`${err.response.data.msg}`);
+         dispatch(IS_ERROR());
+      });
+};
 
 // --------------------------------------- SALE RETURN / CREDIT NOTE ------------------------------------
 // Post Credit Note Request
@@ -507,25 +654,54 @@ export const GetAllCreditNotes = async (dispatch, startDate, endDate) => {
 
 // Delete the sale Return Credit
 export const deleteAllCreditNotes = async (dispatch, _id) => {
-  dispatch(IS_LOADING());
+   dispatch(IS_LOADING());
 
-  try {
-     const response = await axios.delete(
-        `${API_URL}/${firmId}/sale/saleReturnCredit/${_id}`,
-        {
-           headers: {
-              Authorization: `Bearer ${token}`,
-           },
-        }
-     );
+   try {
+      const response = await axios.delete(
+         `${API_URL}/${firmId}/sale/saleReturnCredit/${_id}`,
+         {
+            headers: {
+               Authorization: `Bearer ${token}`,
+            },
+         }
+      );
 
-     console.log("Deleted Invoices :", response?.data);
-     alert(`${response.data.msg}`);
-     dispatch(DELETE_ALL_CREDIT_NOTES_SUCCESS(_id));
-  } catch (error) {
-     dispatch(IS_ERROR());
-     console.log("Error Getting All Invoices Response:", error);
-  }
+      console.log("Deleted Invoices :", response?.data);
+      alert(`${response.data.msg}`);
+      dispatch(DELETE_ALL_CREDIT_NOTES_SUCCESS(_id));
+   } catch (error) {
+      dispatch(IS_ERROR());
+      console.log("Error Getting All Invoices Response:", error);
+   }
+};
+
+// Update the sale Return Credit
+export const updateAllCreditNotes = (_id, data) => (dispatch) => {
+   dispatch(IS_LOADING());
+   console.log(_id, data);
+
+   // Assuming 'token' is defined somewhere in your code
+   if (!token) {
+      dispatch(IS_ERROR());
+      return;
+   }
+
+   axios
+      .put(`${API_URL}/${firmId}/sale/saleReturnCredit/${_id}`, data, {
+         headers: {
+            Authorization: `Bearer ${token}`,
+         },
+      })
+      .then((res) => {
+         console.log(res);
+         alert(res?.data?.msg);
+         dispatch(UPDATE_ALL_CREDIT_NOTES_SUCCESS());
+      })
+      .catch((err) => {
+         console.log(err);
+         // alert(`${err.response.data.msg}`);
+         dispatch(IS_ERROR());
+      });
 };
 
 // This function takes a  date as param and returns it as DD/MM/YYYY

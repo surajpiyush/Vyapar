@@ -1,13 +1,7 @@
 import css from "../../styles/SalesStyles/SalesForms.module.css";
 
 import { memo, useEffect, useState } from "react";
-import {
-   Menu,
-   MenuList,
-   MenuItem,
-   MenuDivider,
-   
-} from "@chakra-ui/react";
+import { Menu, MenuList, MenuItem, MenuDivider } from "@chakra-ui/react";
 import { MdDelete as DeleteIcon } from "react-icons/md";
 import { TbArrowsMove as MoveIcon } from "react-icons/tb";
 
@@ -162,7 +156,6 @@ const ItemsTableBody = memo(
                className={css.itemNameBody}
             >
                <input
-               
                   type="text"
                   name="itemName"
                   value={item?.mainName}
@@ -301,7 +294,6 @@ const ItemsTableBody = memo(
                <input
                   type="number"
                   name="priceUnit"
-                 
                   onChange={(e) => handleTableInputChange(e, ind)}
                   placeholder="0"
                   className={css.tableInputs}
@@ -316,7 +308,6 @@ const ItemsTableBody = memo(
                   type="number"
                   name="discountpersant"
                   value={AmountCalculator()?.discountPercent}
-                 
                   onChange={(e) => handleTableInputChange(e, ind)}
                   placeholder="0"
                   className={css.tableInputs}
@@ -325,7 +316,6 @@ const ItemsTableBody = memo(
                   type="number"
                   name="discountAmount"
                   value={AmountCalculator()?.discountAmount}
-                 
                   onChange={(e) => handleTableInputChange(e, ind)}
                   placeholder="0"
                   className={css.tableInputs}

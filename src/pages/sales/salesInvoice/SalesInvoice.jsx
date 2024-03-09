@@ -10,7 +10,7 @@ import {
 } from "../../../Redux/sales/action";
 
 import { useToast } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IoCalculator as CalculatorIcon } from "react-icons/io5";
 import { MdOutlineSettings as SettingIcon } from "react-icons/md";
@@ -20,9 +20,12 @@ import { IoSearch as SearchIcon } from "react-icons/io5";
 import { FiPlusCircle as PlusIcon } from "react-icons/fi";
 import { CiFilter as FilterIcon } from "react-icons/ci";
 import { useLocation, useNavigate } from "react-router-dom";
+import EditableRow from "../../../Component/EditForm";
 
 export default function SalesInvoice() {
    const toast = useToast();
+   const [isEditing, setIsEditing] = useState(false);
+   const [editedData, setEditedData] = useState(null);
    const navigate = useNavigate();
    const location = useLocation();
    const dispatch = useDispatch();
@@ -50,6 +53,41 @@ export default function SalesInvoice() {
    const handleDelete = (id) => {
       deleteSalesInvoice(dispatch, id);
    };
+
+   const handleEdit = (_id) => {
+      const data = invoicesList.filter((e) => e._id === _id);
+      console.log(data);
+      setIsEditing(true);
+      setEditedData(data[0]);
+   };
+
+   const handleSave = (updatedData) => {
+      // Implement your logic to save the updated data to the backend
+      // You may use an API call or any other method here
+      console.log("updatedData-", updatedData);
+      const id = updatedData._id;
+      // After saving, reset the state
+      // dispatch(updatePurchaseBill(updatedData._id, updatedData));
+      setIsEditing(false);
+      setEditedData(null);
+      GetAllSalesInvoice(dispatch, startDate, endDate);
+   };
+
+   const handleCancel = () => {
+      // If the user cancels, reset the state without saving
+      setIsEditing(false);
+      setEditedData(null);
+   };
+   const display = [
+      "billDate",
+      "billNumber",
+
+      "paymentType",
+      "amount",
+      "balanceDue",
+      "status",
+      "hariom",
+   ];
 
    return (
       <div style={{ marginTop: "100px" }}>
@@ -277,12 +315,25 @@ export default function SalesInvoice() {
                         <tbody>
                            {!isLoading &&
                               invoicesList?.map((item, ind) => (
-                                 <TableInvoice
-                                    {...item}
-                                    ind={ind}
-                                    key={ind + item?._id}
-                                    handleDelete={handleDelete}
-                                 />
+                                 <React.Fragment key={item._id}>
+                                    {isEditing &&
+                                    editedData?._id === item._id ? (
+                                       <EditableRow
+                                          display={display}
+                                          data={editedData}
+                                          onSave={handleSave}
+                                          onCancel={handleCancel}
+                                       />
+                                    ) : (
+                                       <TableInvoice
+                                          {...item}
+                                          ind={ind}
+                                          key={ind + item?._id}
+                                          handleDelete={handleDelete}
+                                          handleEdit={handleEdit}
+                                       />
+                                    )}
+                                 </React.Fragment>
                               ))}
                         </tbody>
                      </table>
@@ -301,7 +352,7 @@ export default function SalesInvoice() {
                </div>
             </div>
          ) : (
-            <div> 
+            <div>
                <FirstTimeFormToggle
                   img={party}
                   onClick={() => setOpenForm(true)}

@@ -40,6 +40,9 @@ const Addpurchaseitem = ({ setOpenForm }) => {
       (state) => state.ItemReducer.getAllItemsLoading
    );
    const items = useSelector((state) => state.ItemReducer.allItems);
+   const allPurchaseBills = useSelector(
+      (store) => store.PurchaseReducer.purchaseBillData
+   );
    // console.log(items)
    const [currentCustomerData, setCurrentCustomerData] = useState({});
    const [toggleDesc, setToggleDesc] = useState(false);
@@ -63,9 +66,9 @@ const Addpurchaseitem = ({ setOpenForm }) => {
          itemCode: "",
          hsnCode: "",
          description: "Description of item 1",
-         count: "",
+         count: 0,
          qty: 0,
-         freeqty: "",
+         freeqty: 0,
          unit: "",
          priceUnit: 0,
          discountAmount: 0,
@@ -77,7 +80,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
          // there is place for them in frontend
          batchNo: 1,
          modelNo: 123,
-         expDate: "2025-02-16T00:00:00.000Z",
+         expDate: "2025-02-16",
          mfgDate: new Date(),
          customField: "Custom field 1",
          size: "Large",
@@ -90,7 +93,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
       poNo: "",
       poDate: new Date().toISOString().split("T")[0],
       eWayBill: "",
-      billNumber: "",
+      billNumber: allPurchaseBills.length+1,
       billDate: new Date().toISOString().split("T")[0],
       time: new Date().toLocaleTimeString("en-US", {
          hour: "2-digit",
@@ -98,35 +101,35 @@ const Addpurchaseitem = ({ setOpenForm }) => {
          hour12: false,
       }),
       paymentTerms: "",
-      dueDate: "2025-03-17T00:00:00.000Z",
+      dueDate: "2025-03-17",
       stateOfSupply: "",
       priceUnitWithTax: true,
       sale: [],
       paymentType: [
          {
             types: String,
-            amount: 450,
+            amount: 0,
          },
          {
             types: String,
-            amount: 1520,
+            amount: 0,
             refreanceNo: String,
          },
          {
             types: String,
             accountName: String,
-            openingBalance: 1000,
+            openingBalance: 0,
             asOfDate: Date,
          },
       ],
       addDescription: "Additional description here",
       discount: {
-         discountPersent: 2,
-         discountAmount: 2,
+         discountPersent: 0,
+         discountAmount: 0,
       },
       tax: {
-         tax: "GST",
-         taxamount: 10,
+         tax: "",
+         taxamount: 0,
       },
       roundOff: 0,
       total: 0,
@@ -184,7 +187,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
          priceUnitWithTax: invoiceData?.priceUnitWithTax == "true",
          sale: [...invoiceData.sale, invoiceItems],
       };
-      // console.log("data", purchaseBillData);
+      console.log("data", purchaseBillData);
 
       dispatch(addPurchaseBill(purchaseBillData));
 
@@ -464,6 +467,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                      required
                         type="text"
                         placeholder="1"
+                        value={invoiceData.billNumber}
                         className={css.invoiceNumInp}
                         onChange={(e) => handleInputChange(e)}
                         name="billNumber"

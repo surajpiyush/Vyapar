@@ -37,44 +37,46 @@ const Transactions = ({ func, date }) => {
       func(true);
    };
    const dispatch = useDispatch();
-   const isLoading = useSelector((store) => store.PurchaseReducer.isLoading);
-   const showAllPurchaseBills = useSelector(
-      (store) => store.PurchaseReducer.purchaseBillData
-   );
-   console.log(showAllPurchaseBills);
+      const isLoading = useSelector((store) => store.PurchaseReducer.isLoading);
+      const showAllPurchaseBills = useSelector(
+         (store) => store.PurchaseReducer.purchaseBillData
+      );
+      console.log(showAllPurchaseBills);
 
-   //console.log(date);
-   useEffect(() => {
-      dispatch(getPurchaseBill({ date }));
-   }, [date, dispatch]);
+      //console.log(date);
+      useEffect(() => {
+         dispatch(getPurchaseBill({ date }));
+      }, [date, dispatch]);
 
-   // delete
-   const handleDelete = (id) => {
-      dispatch(deletePurchaseBill(id));
-   };
+      // delete
+      const handleDelete = (id) => {
+         dispatch(deletePurchaseBill(id));
+      };
 
-   const handleEdit = (data) => {
-      setIsEditing(true);
-      setEditedData(data);
-   };
+      const handleEdit = (data) => {
+         console.log(data)
+         setIsEditing(true);
+         setEditedData(data);
+      };
 
-   const handleSave = (updatedData) => {
-      // Implement your logic to save the updated data to the backend
-      // You may use an API call or any other method here
-      console.log("updatedData-", updatedData);
-      const id = updatedData._id;
-      // After saving, reset the state
-      dispatch(updatePurchaseBill(updatedData._id, updatedData));
-      setIsEditing(false);
-      setEditedData(null);
-   };
+      const handleSave = (updatedData) => {
+         // Implement your logic to save the updated data to the backend
+         // You may use an API call or any other method here
+         console.log("updatedData-", updatedData);
+         const id = updatedData._id;
+         // After saving, reset the state
+         dispatch(updatePurchaseBill(updatedData._id, updatedData));
+         setIsEditing(false);
+         setEditedData(null);
+         dispatch(getPurchaseBill({ date }));
+      };
 
    const handleCancel = () => {
       // If the user cancels, reset the state without saving
       setIsEditing(false);
       setEditedData(null);
    };
-
+const display = ["billDate","billNumber","partyName","paymentType","amount","balanceDue","status","hariom"]
    // console.log(showAllPurchaseBills);
    return (
       <div className={`main-container ${isEditing ? "editing" : ""}`}>
@@ -156,6 +158,7 @@ const Transactions = ({ func, date }) => {
                         <React.Fragment key={e._id}>
                            {isEditing && editedData?._id === e._id ? (
                               <EditableRow
+                              display={display}
                                  data={editedData}
                                  onSave={handleSave}
                                  onCancel={handleCancel}
@@ -176,7 +179,7 @@ const Transactions = ({ func, date }) => {
                                     </p>
                                  </div>
                                  <div className="transaction-table">
-                                    <p>{e.invoice}</p>
+                                    <p>{e.billNumber}</p>
 
                                     {/* <p></p> */}
                                  </div>

@@ -9,7 +9,7 @@ import {
    deleteAllDeliveryChallan,
 } from "../../../Redux/sales/action";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useToast } from "@chakra-ui/react";
 import { IoCalculator as CalculatorIcon } from "react-icons/io5";
@@ -20,8 +20,11 @@ import { IoSearch as SearchIcon } from "react-icons/io5";
 import { FiPlusCircle as PlusIcon } from "react-icons/fi";
 import { CiFilter as FilterIcon } from "react-icons/ci";
 import { useLocation, useNavigate } from "react-router-dom";
+import EditableRow from "../../../Component/EditForm";
 
 export default function SalesDeliveryChallan() {
+   const [isEditing, setIsEditing] = useState(false);
+   const [editedData, setEditedData] = useState(null);
    const toast = useToast();
    const navigate = useNavigate();
    const location = useLocation();
@@ -49,6 +52,34 @@ export default function SalesDeliveryChallan() {
    const handleDelete = (id) => {
       deleteAllDeliveryChallan(dispatch, id);
    };
+
+   const handleEdit = (_id) => {
+      const data = deliveryChallanList.filter((e) => e._id === _id);
+      console.log(data[0]);
+      setIsEditing(true);
+      setEditedData(data[0]);
+   };
+
+   const handleSave = (updatedData) => {
+      // Implement your logic to save the updated data to the backend
+      // You may use an API call or any other method here
+      console.log("updatedData-", updatedData);
+      const id = updatedData._id;
+      // After saving, reset the state
+      // dispatch(updatePurchaseBill(updatedData._id, updatedData));
+      setIsEditing(false);
+      setEditedData(null);
+      GetAllDeliveryChallans(dispatch);
+   };
+
+   const handleCancel = () => {
+      // If the user cancels, reset the state without saving
+      setIsEditing(false);
+      setEditedData(null);
+   };
+   const display = [
+      "action","amount","dueDate","status"
+   ];
 
    return (
       <div>
@@ -133,14 +164,29 @@ export default function SalesDeliveryChallan() {
 
                      <tbody>
                         {!isLoading &&
-                           deliveryChallanList?.map((item, ind) => (
-                              <TableDeliveryChallan
-                                 {...item}
-                                 ind={ind}
-                                 key={ind + item?._id}
-                                 handleDelete={handleDelete}
-                              />
-                           ))}
+                           deliveryChallanList?.map((item, ind) => {
+                              return (
+                                 <React.Fragment key={item._id}>
+                                    {isEditing &&
+                                    editedData?._id === item._id ? (
+                                       <EditableRow
+                                          display={display}
+                                          data={editedData}
+                                          onSave={handleSave}
+                                          onCancel={handleCancel}
+                                       />
+                                    ) : (
+                                       <TableDeliveryChallan
+                                          {...item}
+                                          ind={ind}
+                                          key={ind + item?._id}
+                                          handleDelete={handleDelete}
+                                          handleEdit={handleEdit}
+                                       />
+                                    )}
+                                 </React.Fragment>
+                              );
+                           })}
                      </tbody>
                   </table>
                   {isLoading && (

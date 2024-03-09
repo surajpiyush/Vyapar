@@ -21,6 +21,7 @@ const API_URL = "https://ca-backend-api.onrender.com";
 const token = localStorage.getItem("token");
 const FirmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
 
+// puchase Bills
 export const addPurchaseBill = (newItem) => (dispatch) => {
    dispatch({ type: PURCHASE_REQUEST });
 
@@ -39,88 +40,7 @@ export const addPurchaseBill = (newItem) => (dispatch) => {
       })
       .catch((ERR) => {
          console.log(ERR);
-         // alert(`${ERR.response.data.msg}`);
-         dispatch({ type: PURCHASE_FAILURE });
-      });
-   // console.log(`Your item has been sent to the backend:`, newItem);
-   // // Consider using a notification library or updating the UI instead of alert
-   // alert("Your bill has been posted to the backend");
-};
-
-export const addPurchaseOrder = (newItem) => (dispatch) => {
-   // console.log(newItem)
-   dispatch({ type: PURCHASE_REQUEST });
-   // console.log(FirmId)
-   axios
-      .post(
-         `https://ca-backend-api.onrender.com/${FirmId}/purchaseOrder/create`,
-         newItem,
-         {
-            headers: { Authorization: `Bearer ${token}` },
-         }
-      )
-      .then((res) => {
-         console.log(res);
-         dispatch({ type: POST_PURCHASEORDER_SUCCESS, payload: res.data });
-         alert("Bill Added ✔️");
-      })
-      .catch((ERR) => {
-         console.log(ERR);
          alert(`${ERR.response.data.msg}`);
-         dispatch({ type: PURCHASE_FAILURE });
-      });
-   // console.log(`Your item has been sent to the backend:`, newItem);
-   // // Consider using a notification library or updating the UI instead of alert
-   // alert("Your bill has been posted to the backend");
-};
-
-export const addPurchaseReturn = (newItem) => (dispatch) => {
-   //   console.log(newItem)
-   dispatch({ type: PURCHASE_REQUEST });
-   // console.log(FirmId)
-   axios
-      .post(
-         `https://ca-backend-api.onrender.com/${FirmId}/purchaseReturn/create`,
-         newItem,
-         {
-            headers: { Authorization: `Bearer ${token}` },
-         }
-      )
-      .then((res) => {
-         //   console.log(res);
-         dispatch({ type: POST_PURCHASERETURN_SUCCESS, payload: res.data });
-         alert("Bill Added ✔️");
-      })
-      .catch((ERR) => {
-         console.log(ERR);
-         //   alert(`${ERR.response.data.msg}`);
-         dispatch({ type: PURCHASE_FAILURE });
-      });
-   // console.log(`Your item has been sent to the backend:`, newItem);
-   // // Consider using a notification library or updating the UI instead of alert
-   // alert("Your bill has been posted to the backend");
-};
-
-export const addPayOut = (newItem) => (dispatch) => {
-   //   console.log(newItem)
-   dispatch({ type: PURCHASE_REQUEST });
-   // console.log(FirmId)
-   axios
-      .post(
-         `https://ca-backend-api.onrender.com/${FirmId}/purchaseOut/create`,
-         newItem,
-         {
-            headers: { Authorization: `Bearer ${token}` },
-         }
-      )
-      .then((res) => {
-         //   console.log(res);
-         dispatch({ type: POST_PAYOUT_SUCCESS, payload: res.data });
-         alert("Bill Added ✔️");
-      })
-      .catch((ERR) => {
-         console.log(ERR);
-         //   alert(`${ERR.response.data.msg}`);
          dispatch({ type: PURCHASE_FAILURE });
       });
    // console.log(`Your item has been sent to the backend:`, newItem);
@@ -153,93 +73,6 @@ export const getPurchaseBill =
          });
    };
 
-export const getPaymentOutBill =
-   ({ date }) =>
-   (dispatch) => {
-      dispatch({ type: PURCHASE_REQUEST });
-      if (!token) {
-         dispatch({ type: PURCHASE_FAILURE });
-         return;
-      }
-
-      axios
-         .get(
-            `https://ca-backend-api.onrender.com/${FirmId}/purchaseOut/getAll?startDate=${date.startDate}&endDate=${date.endDate}`,
-            {
-               headers: {
-                  Authorization: `Bearer ${token}`,
-               },
-            }
-         )
-         .then((res) => {
-            //  console.log(res);
-            dispatch({ type: GET_PAYOUTBILL_SUCCESS, payload: res.data });
-         })
-         .catch((ERR) => {
-            console.log(ERR);
-            // alert(`${ERR.response.data.msg}`);
-            dispatch({ type: PURCHASE_FAILURE });
-         });
-   };
-
-export const getPurchaseOrder =
-   ({ date }) =>
-   (dispatch) => {
-      dispatch({ type: PURCHASE_REQUEST });
-      if (!token) {
-         dispatch({ type: PURCHASE_FAILURE });
-         return;
-      }
-
-      axios
-         .get(
-            `${API_URL}/${FirmId}/purchaseOrder/getAll?startDate=${date.startDate}&endDate=${date.endDate}`,
-            {
-               headers: {
-                  Authorization: `Bearer ${token}`,
-               },
-            }
-         )
-         .then((res) => {
-            console.log(res);
-            dispatch({ type: GET_PURCHASEORDER_SUCCESS, payload: res.data });
-         })
-         .catch((ERR) => {
-            console.log(ERR);
-            // alert(`${ERR.response.data.msg}`);
-            dispatch({ type: PURCHASE_FAILURE });
-         });
-   };
-
-export const getPurchaseReturn =
-   ({ date }) =>
-   (dispatch) => {
-      dispatch({ type: PURCHASE_REQUEST });
-      if (!token) {
-         dispatch({ type: PURCHASE_FAILURE });
-         return;
-      }
-
-      axios
-         .get(
-            `${API_URL}/${FirmId}/purchaseReturn/getAll?startDate=${date.startDate}&endDate=${date.endDate}`,
-            {
-               headers: {
-                  Authorization: `Bearer ${token}`,
-               },
-            }
-         )
-         .then((res) => {
-            //  console.log(res);
-            dispatch({ type: GET_PURCHASERETURN_SUCCESS, payload: res.data });
-         })
-         .catch((ERR) => {
-            console.log(ERR);
-            // alert(`${ERR.response.data.msg}`);
-            dispatch({ type: PURCHASE_FAILURE });
-         });
-   };
-
 export const updatePurchaseBill = (_id, data) => (dispatch) => {
    dispatch({ type: PURCHASE_REQUEST });
    console.log(_id, data);
@@ -258,7 +91,7 @@ export const updatePurchaseBill = (_id, data) => (dispatch) => {
       })
       .then((res) => {
          console.log(res);
-alert(res?.data?.msg)
+         alert(res?.data?.msg);
          dispatch({ type: UPDATE_PURCHASEBILL_SUCCESS });
       })
       .catch((err) => {
@@ -294,30 +127,63 @@ export const deletePurchaseBill = (_id) => (dispatch) => {
       });
 };
 
-export const deletePayoutBill = (_id) => (dispatch) => {
+// ----------------------------------------------
+// Purchase order Bill
+export const addPurchaseOrder = (newItem) => (dispatch) => {
+   // console.log(newItem)
    dispatch({ type: PURCHASE_REQUEST });
-
-   if (!token) {
-      dispatch({ type: PURCHASE_FAILURE });
-      return;
-   }
-
+   // console.log(FirmId)
    axios
-      .delete(`${API_URL}/${FirmId}/purchaseOut/delete/${_id}`, {
-         headers: {
-            Authorization: `Bearer ${token}`,
-         },
-      })
+      .post(
+         `https://ca-backend-api.onrender.com/${FirmId}/purchaseOrder/create`,
+         newItem,
+         {
+            headers: { Authorization: `Bearer ${token}` },
+         }
+      )
       .then((res) => {
          console.log(res);
-         alert(`${res.data.msg}`);
-         dispatch({ type: DELETE_PAYOUTBILL_SUCCESS, payload: `${_id}` });
+         dispatch({ type: POST_PURCHASEORDER_SUCCESS, payload: res.data });
+         alert("Bill Added ✔️");
       })
-      .catch((err) => {
-         console.error(err);
+      .catch((ERR) => {
+         console.log(ERR);
+         alert(`${ERR.response.data.msg}`);
          dispatch({ type: PURCHASE_FAILURE });
       });
+   // console.log(`Your item has been sent to the backend:`, newItem);
+   // // Consider using a notification library or updating the UI instead of alert
+   // alert("Your bill has been posted to the backend");
 };
+
+export const getPurchaseOrder =
+   ({ date }) =>
+   (dispatch) => {
+      dispatch({ type: PURCHASE_REQUEST });
+      if (!token) {
+         dispatch({ type: PURCHASE_FAILURE });
+         return;
+      }
+
+      axios
+         .get(
+            `${API_URL}/${FirmId}/purchaseOrder/getAll?startDate=${date.startDate}&endDate=${date.endDate}`,
+            {
+               headers: {
+                  Authorization: `Bearer ${token}`,
+               },
+            }
+         )
+         .then((res) => {
+            console.log(res);
+            dispatch({ type: GET_PURCHASEORDER_SUCCESS, payload: res.data });
+         })
+         .catch((ERR) => {
+            console.log(ERR);
+            // alert(`${ERR.response.data.msg}`);
+            dispatch({ type: PURCHASE_FAILURE });
+         });
+   };
 
 export const deletePurchaseOrderBill = (_id) => (dispatch) => {
    dispatch({ type: PURCHASE_REQUEST });
@@ -344,6 +210,206 @@ export const deletePurchaseOrderBill = (_id) => (dispatch) => {
       });
 };
 
+export const updatePurchaseOrderBill = (_id, data) => (dispatch) => {
+   dispatch({ type: PURCHASE_REQUEST });
+   console.log(_id, data);
+
+   // Assuming 'token' is defined somewhere in your code
+   if (!token) {
+      dispatch({ type: PURCHASE_FAILURE });
+      return;
+   }
+
+   axios
+      .put(`${API_URL}/${FirmId}/purchaseOrder/update/${_id}`, data, {
+         headers: {
+            Authorization: `Bearer ${token}`,
+         },
+      })
+      .then((res) => {
+         console.log(res);
+         alert(res?.data?.msg);
+         dispatch({ type: UPDATE_PURCHASEBILL_SUCCESS });
+      })
+      .catch((err) => {
+         console.log(err);
+         // alert(`${err.response.data.msg}`);
+         dispatch({ type: PURCHASE_FAILURE });
+      });
+};
+
+
+// ---------------------------------------------------------------
+// Purchase paymentOut Bills
+
+export const addPayOut = (newItem) => (dispatch) => {
+   //   console.log(newItem)
+   dispatch({ type: PURCHASE_REQUEST });
+   // console.log(FirmId)
+   axios
+      .post(
+         `https://ca-backend-api.onrender.com/${FirmId}/purchaseOut/create`,
+         newItem,
+         {
+            headers: { Authorization: `Bearer ${token}` },
+         }
+      )
+      .then((res) => {
+         //   console.log(res);
+         dispatch({ type: POST_PAYOUT_SUCCESS, payload: res.data });
+         alert("Bill Added ✔️");
+      })
+      .catch((ERR) => {
+         console.log(ERR);
+         //   alert(`${ERR.response.data.msg}`);
+         dispatch({ type: PURCHASE_FAILURE });
+      });
+   // console.log(`Your item has been sent to the backend:`, newItem);
+   // // Consider using a notification library or updating the UI instead of alert
+   // alert("Your bill has been posted to the backend");
+};
+
+export const getPaymentOutBill =
+   ({ date }) =>
+   (dispatch) => {
+      dispatch({ type: PURCHASE_REQUEST });
+      if (!token) {
+         dispatch({ type: PURCHASE_FAILURE });
+         return;
+      }
+
+      axios
+         .get(
+            `https://ca-backend-api.onrender.com/${FirmId}/purchaseOut/getAll?startDate=${date.startDate}&endDate=${date.endDate}`,
+            {
+               headers: {
+                  Authorization: `Bearer ${token}`,
+               },
+            }
+         )
+         .then((res) => {
+            //  console.log(res);
+            dispatch({ type: GET_PAYOUTBILL_SUCCESS, payload: res.data });
+         })
+         .catch((ERR) => {
+            console.log(ERR);
+            // alert(`${ERR.response.data.msg}`);
+            dispatch({ type: PURCHASE_FAILURE });
+         });
+   };
+
+export const deletePayoutBill = (_id) => (dispatch) => {
+   dispatch({ type: PURCHASE_REQUEST });
+
+   if (!token) {
+      dispatch({ type: PURCHASE_FAILURE });
+      return;
+   }
+
+   axios
+      .delete(`${API_URL}/${FirmId}/purchaseOut/delete/${_id}`, {
+         headers: {
+            Authorization: `Bearer ${token}`,
+         },
+      })
+      .then((res) => {
+         console.log(res);
+         alert(`${res.data.msg}`);
+         dispatch({ type: DELETE_PAYOUTBILL_SUCCESS, payload: `${_id}` });
+      })
+      .catch((err) => {
+         console.error(err);
+         dispatch({ type: PURCHASE_FAILURE });
+      });
+};
+
+export const updatePayoutBill = (_id, data) => (dispatch) => {
+   dispatch({ type: PURCHASE_REQUEST });
+   console.log(_id, data);
+
+   // Assuming 'token' is defined somewhere in your code
+   if (!token) {
+      dispatch({ type: PURCHASE_FAILURE });
+      return;
+   }
+
+   axios
+      .put(`${API_URL}/${FirmId}/purchaseOut/update/${_id}`, data, {
+         headers: {
+            Authorization: `Bearer ${token}`,
+         },
+      })
+      .then((res) => {
+         console.log(res);
+         alert(res?.data?.msg);
+         dispatch({ type: UPDATE_PURCHASEBILL_SUCCESS });
+      })
+      .catch((err) => {
+         console.log(err);
+         // alert(`${err.response.data.msg}`);
+         dispatch({ type: PURCHASE_FAILURE });
+      });
+};
+
+
+// -------------------------------------------------
+// Purchse Returnbills
+export const addPurchaseReturn = (newItem) => (dispatch) => {
+   //   console.log(newItem)
+   dispatch({ type: PURCHASE_REQUEST });
+   // console.log(FirmId)
+   axios
+      .post(
+         `https://ca-backend-api.onrender.com/${FirmId}/purchaseReturn/create`,
+         newItem,
+         {
+            headers: { Authorization: `Bearer ${token}` },
+         }
+      )
+      .then((res) => {
+         //   console.log(res);
+         dispatch({ type: POST_PURCHASERETURN_SUCCESS, payload: res.data });
+         alert("Bill Added ✔️");
+      })
+      .catch((ERR) => {
+         console.log(ERR);
+         //   alert(`${ERR.response.data.msg}`);
+         dispatch({ type: PURCHASE_FAILURE });
+      });
+   // console.log(`Your item has been sent to the backend:`, newItem);
+   // // Consider using a notification library or updating the UI instead of alert
+   // alert("Your bill has been posted to the backend");
+};
+
+export const getPurchaseReturn =
+   ({ date }) =>
+   (dispatch) => {
+      dispatch({ type: PURCHASE_REQUEST });
+      if (!token) {
+         dispatch({ type: PURCHASE_FAILURE });
+         return;
+      }
+
+      axios
+         .get(
+            `${API_URL}/${FirmId}/purchaseReturn/getAll?startDate=${date.startDate}&endDate=${date.endDate}`,
+            {
+               headers: {
+                  Authorization: `Bearer ${token}`,
+               },
+            }
+         )
+         .then((res) => {
+            //  console.log(res);
+            dispatch({ type: GET_PURCHASERETURN_SUCCESS, payload: res.data });
+         })
+         .catch((ERR) => {
+            console.log(ERR);
+            // alert(`${ERR.response.data.msg}`);
+            dispatch({ type: PURCHASE_FAILURE });
+         });
+   };
+
 export const deletePurchaseReturnBill = (_id) => (dispatch) => {
    dispatch({ type: PURCHASE_REQUEST });
 
@@ -369,31 +435,30 @@ export const deletePurchaseReturnBill = (_id) => (dispatch) => {
       });
 };
 
-// export const updatePurchaseBill =
-//    ({ id,data }) =>
-//    (dispatch) => {
-//       dispatch({ type: PURCHASE_REQUEST });
-//       if (!token) {
-//          dispatch({ type: PURCHASE_FAILURE });
-//          return;
-//       }
-// console.log(id,data)
-//       axios
-//          .patch(
-//             `${API_URL}/${FirmId}/purchase/update/${id}`,data,
-//             {
-//                headers: {
-//                   Authorization: `Bearer ${token}`,
-//                },
-//             }
-//          )
-//          .then((res) => {
-//              console.log(res);
-//             // dispatch({ type: GET_PURCHASERETURN_SUCCESS, payload: res.data });
-//          })
-//          .catch((ERR) => {
-//             console.log(ERR);
-//             // alert(`${ERR.response.data.msg}`);
-//             dispatch({ type: PURCHASE_FAILURE });
-//          });
-//    };
+export const updatePurchaseReturnBill = (_id, data) => (dispatch) => {
+   dispatch({ type: PURCHASE_REQUEST });
+   console.log(_id, data);
+
+   // Assuming 'token' is defined somewhere in your code
+   if (!token) {
+      dispatch({ type: PURCHASE_FAILURE });
+      return;
+   }
+
+   axios
+      .put(`${API_URL}/${FirmId}/purchaseReturn/update/${_id}`, data, {
+         headers: {
+            Authorization: `Bearer ${token}`,
+         },
+      })
+      .then((res) => {
+         console.log(res);
+         alert(res?.data?.msg);
+         dispatch({ type: UPDATE_PURCHASEBILL_SUCCESS });
+      })
+      .catch((err) => {
+         console.log(err);
+         // alert(`${err.response.data.msg}`);
+         dispatch({ type: PURCHASE_FAILURE });
+      });
+};

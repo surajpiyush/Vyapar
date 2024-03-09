@@ -2,7 +2,7 @@ import { FormatDate } from "../../../Redux/sales/action";
 
 import { MdLocalPrintshop as PrintIcon } from "react-icons/md";
 import { IoIosShareAlt as ShareIcon } from "react-icons/io";
-import { DeleteIcon } from "../../../Component/utils/reactIcons";
+import { DeleteIcon,EditIcon} from "../../../Component/utils/reactIcons";
 
 const TableCreditNotes = ({
    _id,
@@ -18,6 +18,7 @@ const TableCreditNotes = ({
    balance,
    // paymentType,
    status,
+   handleEdit  
 }) => {
    return (
       <tr>
@@ -56,6 +57,8 @@ const TableCreditNotes = ({
          </td>
          <td>
             <DeleteIcon onClick={() => handleDelete(_id)} />
+      <EditIcon onClick={() => handleEdit(_id)} />
+
          </td>
       </tr>
    );

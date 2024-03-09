@@ -1,4 +1,4 @@
-import { DeleteIcon } from "../../../Component/utils/reactIcons";
+import { DeleteIcon, EditIcon } from "../../../Component/utils/reactIcons";
 import { FormatDate } from "../../../Redux/sales/action";
 
 const TableEstimates = ({
@@ -11,6 +11,7 @@ const TableEstimates = ({
   status,
   action,
   // transactionType,
+  handleEdit
 }) => {
   return (
     <tr>
@@ -37,6 +38,9 @@ const TableEstimates = ({
       </td>
       <td>
       <DeleteIcon onClick={() => handleDelete(_id)} />
+      <p style={{ fontSize: "1.5rem" }}>
+               <EditIcon onClick={() => handleEdit(_id)} />
+            </p>
       </td>
     </tr>
   );

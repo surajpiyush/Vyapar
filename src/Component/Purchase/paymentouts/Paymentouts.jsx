@@ -4,6 +4,7 @@ import FirstTimeFormToggle from "../../FirmTimeForm/FirstTimeFormToggle";
 import {
    deletePayoutBill,
    getPaymentOutBill,
+   updatePayoutBill,
 } from "../../../Redux/purchase/action";
 import {
    DeleteIcon,
@@ -31,7 +32,7 @@ const Paymentouts = ({ func, date }) => {
    useEffect(() => {
       dispatch(getPaymentOutBill({ date }));
    }, [date, dispatch]);
-   // console.log(data)
+   console.log(data);
 
    // delete
    const handleDelete = (id) => {
@@ -49,9 +50,11 @@ const Paymentouts = ({ func, date }) => {
       console.log("updatedData-", updatedData);
       const id = updatedData._id;
       // After saving, reset the state
-      // dispatch(updatePay(updatedData._id, updatedData));
+      dispatch(updatePayoutBill(updatedData._id, updatedData));
       setIsEditing(false);
       setEditedData(null);
+      dispatch(getPaymentOutBill({ date }));
+
    };
 
    const handleCancel = () => {
@@ -63,6 +66,17 @@ const Paymentouts = ({ func, date }) => {
    const openForm = () => {
       func(true);
    };
+   const display = [
+      "#",
+      "date",
+      "refNo",
+      "partyName",
+      "categoryName",
+      "type",
+      "total",
+      "recieved",
+      "balance",
+   ];
    return (
       <div className={`main-container ${isEditing ? "editing" : ""}`}>
          {!store.isLoading && !data.length ? (
@@ -160,6 +174,7 @@ const Paymentouts = ({ func, date }) => {
                               <React.Fragment key={e._id}>
                                  {isEditing && editedData?._id === e._id ? (
                                     <EditableRow
+                                    display={display}
                                        data={editedData}
                                        onSave={handleSave}
                                        onCancel={handleCancel}
