@@ -10,77 +10,77 @@ const Default = () => {
               <div className={css.section}>
                 <h2>Transaction Header</h2>
 
-                <div class={css.tab}>
-                  <div class={css.checkboxContainer}>
+                <div className={css.tab}>
+                  <div className={css.checkboxContainer}>
                     <input
                       type="checkbox"
-                      class="checkbox"
+                      // className="checkbox"
                       className={css.checkbox}
                     />
-                    <label for="checkbox" className={css.label}>
+                    <label htmlFor="checkbox" className={css.label}>
                       Invoice/Bill No.
                     </label>
                   </div>
                 </div>
 
-                <div class={css.tab}>
-                  <div class={css.checkboxContainer}>
+                <div className={css.tab}>
+                  <div className={css.checkboxContainer}>
                     <input
                       type="checkbox"
-                      class="checkbox"
+                      // className="checkbox"
                       className={css.checkbox}
                     />
-                    <label for="checkbox" className={css.label}>
+                    <label htmlFor="checkbox" className={css.label}>
                       Add Time on Transaction
                     </label>
                   </div>
                 </div>
 
-                <div class={css.tab}>
-                  <div class={css.checkboxContainer}>
+                <div className={css.tab}>
+                  <div className={css.checkboxContainer}>
                     <input
                       type="checkbox"
-                      class="checkbox"
+                      // className="checkbox"
                       className={css.checkbox}
                     />
-                    <label for="checkbox" className={css.label}>
+                    <label htmlFor="checkbox" className={css.label}>
                       Print Time on Invoices
                     </label>
                   </div>
                 </div>
-                <div class={css.tab}>
-                  <div class={css.checkboxContainer}>
+                <div className={css.tab}>
+                  <div className={css.checkboxContainer}>
                     <input
                       type="checkbox"
-                      class="checkbox"
+                      // className="checkbox"
                       className={css.checkbox}
                     />
-                    <label for="checkbox" className={css.label}>
+                    <label htmlFor="checkbox" className={css.label}>
                       Cash Sale by default
                     </label>
                   </div>
                 </div>
 
-                <div class={css.tab}>
-                  <div class={css.checkboxContainer}>
+                <div className={css.tab}>
+                  <div className={css.checkboxContainer}>
                     <input
                       type="checkbox"
-                      class="checkbox"
+                      // className="checkbox"
                       className={css.checkbox}
                     />
-                    <label for="checkbox" className={css.label}>
+                    <label htmlFor="checkbox" className={css.label}>
                       Billing Name of Parties
                     </label>
                   </div>
                 </div>
-                <div class={css.tab}>
-                  <div class={css.checkboxContainer}>
+                <div className={css.tab}>
+                  <div className={css.checkboxContainer}>
                     <input
                       type="checkbox"
-                      class="checkbox"
+                      // className="checkbox"
                       className={css.checkbox}
                     />
-                    <label for="checkbox" className={css.label}>
+                    <label htmlFor="checkbox" className={css.label}>
                       Customers P.O Details on Transaction
                     </label>
                   </div>
@@ -89,63 +89,63 @@ const Default = () => {
 
               <div className={css.section}>
                 <h2>Item Table</h2>
-                <div class={css.tab}>
-                  <div class={css.checkboxContainer}>
+                <div className={css.tab}>
+                  <div className={css.checkboxContainer}>
                     <input
                       type="checkbox"
-                      class="checkbox"
+                      // className="checkbox"
                       className={css.checkbox}
                     />
-                    <label for="checkbox" className={css.label}>
+                    <label htmlFor="checkbox" className={css.label}>
                       Inclusive/Exclusive Tax on Rate(Price/Unit)
                     </label>
                   </div>
                 </div>
 
-                <div class={css.tab}>
-                  <div class={css.checkboxContainer}>
+                <div className={css.tab}>
+                  <div className={css.checkboxContainer}>
                     <input
                       type="checkbox"
-                      class="checkbox"
+                      // className="checkbox"
                       className={css.checkbox}
                     />
-                    <label for="checkbox" className={css.label}>
+                    <label htmlFor="checkbox" className={css.label}>
                       Display Purchase Price of Items
                     </label>
                   </div>
                 </div>
-                <div class={css.tab}>
-                  <div class={css.checkboxContainer}>
+                <div className={css.tab}>
+                  <div className={css.checkboxContainer}>
                     <input
                       type="checkbox"
-                      class="checkbox"
+                      // className="checkbox"
                       className={css.checkbox}
                     />
-                    <label for="checkbox" className={css.label}>
+                    <label htmlFor="checkbox" className={css.label}>
                       Show last 5 Sale Price of Items
                     </label>
                   </div>
                 </div>
-                <div class={css.tab}>
-                  <div class={css.checkboxContainer}>
+                <div className={css.tab}>
+                  <div className={css.checkboxContainer}>
                     <input
                       type="checkbox"
-                      class="checkbox"
+                      // className="checkbox"
                       className={css.checkbox}
                     />
-                    <label for="checkbox" className={css.label}>
+                    <label htmlFor="checkbox" className={css.label}>
                       Free Item Quantity
                     </label>
                   </div>
                 </div>
-                <div class={css.tab}>
-                  <div class={css.checkboxContainer}>
+                <div className={css.tab}>
+                  <div className={css.checkboxContainer}>
                     <input
                       type="checkbox"
-                      class="checkbox"
+                      // className="checkbox"
                       className={css.checkbox}
                     />
-                    <label for="checkbox" className={css.label}>
+                    <label htmlFor="checkbox" className={css.label}>
                       Count
                     </label>
                   </div>
@@ -154,47 +154,47 @@ const Default = () => {
 
               <div className={css.section}>
                 <h2>Taxes, Discount & Totals</h2>
-                <div class={css.tab}>
-                  <div class={css.checkboxContainer}>
+                <div className={css.tab}>
+                  <div className={css.checkboxContainer}>
                     <input
                       type="checkbox"
-                      class="checkbox"
+                      // className="checkbox"
                       className={css.checkbox}
                     />
-                    <label for="checkbox" className={css.label}>
+                    <label htmlFor="checkbox" className={css.label}>
                       Transaction wise Tax
                     </label>
                   </div>
                 </div>
 
-                <div class={css.tab}>
-                  <div class={css.checkboxContainer}>
+                <div className={css.tab}>
+                  <div className={css.checkboxContainer}>
                     <input
                       type="checkbox"
-                      class="checkbox"
+                      // className="checkbox"
                       className={css.checkbox}
                     />
-                    <label for="checkbox" className={css.label}>
+                    <label htmlFor="checkbox" className={css.label}>
                       Transaction wise Discount
                     </label>
                   </div>
                 </div>
 
-                <div class={css.tab}>
-                  <div class={css.checkboxContainer}>
+                <div className={css.tab}>
+                  <div className={css.checkboxContainer}>
                     <input
                       type="checkbox"
-                      class="checkbox"
+                      // className="checkbox"
                       className={css.checkbox}
                     />
-                    <label for="checkbox" className={css.label}>
+                    <label htmlFor="checkbox" className={css.label}>
                       Round Off Total
                     </label>
                   </div>
                 </div>
 
-                <div class={css.tab}>
-                  <div class={css.checkboxContainer}>
+                <div className={css.tab}>
+                  <div className={css.checkboxContainer}>
                     <select
                       id="nearest"
                       name="nearest"
@@ -209,8 +209,8 @@ const Default = () => {
                 </div>
                 <br />
                 <p style={{ display: "inline-block" }}>To</p>
-                <div class={css.tab}>
-                  <div class={css.checkboxContainer}>
+                <div className={css.tab}>
+                  <div className={css.checkboxContainer}>
                     <select
                       id="to"
                       name="to"
@@ -221,7 +221,7 @@ const Default = () => {
                       <option value="fiat">Fiat</option>
                       <option value="audi">Audi</option>
                     </select>
-                    <label for="checkbox" className={css.label}></label>
+                    <label htmlFor="checkbox" className={css.label}></label>
                   </div>
                 </div>
               </div>
@@ -231,103 +231,103 @@ const Default = () => {
               <div className={css.section1}>
                 <h2>More Transaction Features</h2>
 
-                <div class={css.tab}>
-                  <div class={css.checkboxContainer}>
+                <div className={css.tab}>
+                  <div className={css.checkboxContainer}>
                     <input
                       type="checkbox"
-                      class="checkbox"
+                      // className="checkbox"
                       className={css.checkbox}
                     />
-                    <label for="checkbox" className={css.label}>
+                    <label htmlFor="checkbox" className={css.label}>
                       E-way bill no
                     </label>
                   </div>
                 </div>
 
-                <div class={css.tab}>
-                  <div class={css.checkboxContainer}>
+                <div className={css.tab}>
+                  <div className={css.checkboxContainer}>
                     <input
                       type="checkbox"
-                      class="checkbox"
+                      // className="checkbox"
                       className={css.checkbox}
                     />
-                    <label for="checkbox" className={css.label}>
+                    <label htmlFor="checkbox" className={css.label}>
                       Quik Entry
                     </label>
                   </div>
                 </div>
-                <div class={css.tab}>
-                  <div class={css.checkboxContainer}>
+                <div className={css.tab}>
+                  <div className={css.checkboxContainer}>
                     <input
                       type="checkbox"
-                      class="checkbox"
+                      // className="checkbox"
                       className={css.checkbox}
                     />
-                    <label for="checkbox" className={css.label}>
+                    <label htmlFor="checkbox" className={css.label}>
                       Do not Show Invoice Preview
                     </label>
                   </div>
                 </div>
-                <div class={css.tab}>
-                  <div class={css.checkboxContainer}>
+                <div className={css.tab}>
+                  <div className={css.checkboxContainer}>
                     <input
                       type="checkbox"
-                      class="checkbox"
+                      // className="checkbox"
                       className={css.checkbox}
                     />
-                    <label for="checkbox" className={css.label}>
+                    <label htmlFor="checkbox" className={css.label}>
                       Enable Passcode htmlFor transaction
                     </label>
                   </div>
                 </div>
 
-                <div class={css.tab}>
-                  <div class={css.checkboxContainer}>
+                <div className={css.tab}>
+                  <div className={css.checkboxContainer}>
                     <input
                       type="checkbox"
-                      class="checkbox"
+                      // className="checkbox"
                       className={css.checkbox}
                     />
-                    <label for="checkbox" className={css.label}>
+                    <label htmlFor="checkbox" className={css.label}>
                       Discount During Payments
                     </label>
                   </div>
                 </div>
 
-                <div class={css.tab}>
-                  <div class={css.checkboxContainer}>
+                <div className={css.tab}>
+                  <div className={css.checkboxContainer}>
                     <input
                       type="checkbox"
-                      class="checkbox"
+                      // className="checkbox"
                       className={css.checkbox}
                     />
-                    <label for="checkbox" className={css.label}>
+                    <label htmlFor="checkbox" className={css.label}>
                       Link Payments to Invoices
                     </label>
                   </div>
                 </div>
 
-                <div class={css.tab}>
-                  <div class={css.checkboxContainer}>
+                <div className={css.tab}>
+                  <div className={css.checkboxContainer}>
                     <input
                       type="checkbox"
-                      class="checkbox"
+                      //// className="checkbox"
                       className={css.checkbox}
                     />
-                    <label for="checkbox" className={css.label}>
+                    <label htmlFor="checkbox" className={css.label}>
                       Due Dates and Payment Terms
                     </label>
                   </div>
                 </div>
 
-                <div class={css.tab}>
-                  <div class={css.checkboxContainer}>
+                <div className={css.tab}>
+                  <div className={css.checkboxContainer}>
                     <input
                       type="checkbox"
-                      class="checkbox"
+                      // // className="checkbox"
                       className={css.checkbox}
                     />
-                    <label for="checkbox" className={css.label}>
+                    <label htmlFor="checkbox" className={css.label}>
                       Show Profit while making Sale Invoice
                     </label>
                   </div>
