@@ -48,6 +48,7 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
   const [rowFooterData, setRowFooterData] = useState({});
   const [showItemForm, setShowAddItemsForm] = useState(false);
   const [balanceAmount, setBalanceAmount] = useState("");
+  const [paymentArr, setPaymentArr] = useState([{ types: "Cash", amount: 0 }]);
 
   const [tableRowsArr, setTableRowsArr] = useState([
     {
@@ -130,16 +131,17 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
       total: toggleRoundOff
         ? Math.round(rowFooterData?.totalAmount)
         : rowFooterData?.totalAmount,
-      paymentType: [
-        { types: paymentTypeSelectTag, amount: 0 },
-        { types: "Cheque", amount: 0, refreanceNo: "Test" },
-        {
-          types: "XYZ",
-          accountName: "ABC",
-          openingBalance: 100,
-          asOfDate: "2024-02-01",
-        },
-      ],
+      paymentType: paymentArr,
+      // paymentType: [
+      //   { types: paymentTypeSelectTag, amount: 0 },
+      //   { types: "Cheque", amount: 0, refreanceNo: "Test" },
+      //   {
+      //     types: "XYZ",
+      //     accountName: "ABC",
+      //     openingBalance: 100,
+      //     asOfDate: "2024-02-01",
+      //   },
+      // ],
     };
     PostSalesInvoice(dispatch, data, setOpenForm, toast);
 
@@ -221,6 +223,12 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
   const handleSettingClick = () => {
     setOpenForm(false);
     setToggleSetting(true);
+  };
+
+  //   Delete payment type
+  const handleDeletePayType = (ind) => {
+    const newPaymentArr = paymentArr.filter((_, index) => ind != index);
+    setPaymentArr(newPaymentArr);
   };
   return (
     <form onSubmit={handleSubmit} className={css.formOuter}>
@@ -525,6 +533,7 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
               }}
             >
               {rowFooterData?.totalAmount > 0 && (
+                //    Payment Type
                 <div style={{ position: "relative", zIndex: 600 }}>
                   <Menu
                     offset={[0, 0]}
@@ -581,62 +590,6 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
                     </MenuList>
                   </Menu>
                 </div>
-                // <div style={{ position: "relative", zIndex: 600 }}>
-                //   <Menu
-                //     offset={[0, 0]}
-                //     onOpen={() => setTopMarginAddDescInp("110px")}
-                //     onClose={() => setTopMarginAddDescInp("0px")}
-                //   >
-                //     <MenuButton
-                //       as={Button}
-                //       className={css.PartyTypeMenuBtn}
-                //       rightIcon={<ArrowDown />}
-                //       style={{ width: "150px" }}
-                //       type="button"
-                //     >
-                //       {paymentTypeSelectTag}
-                //     </MenuButton>
-                //     <p className={css.PartyTypelabel}>Payment Type</p>
-                //     <MenuList className={css.menuListCss}>
-                //       <MenuItem className={css.AddBankAccount}>
-                //         <PlusIcon />
-                //         Add Bank A/C
-                //       </MenuItem>
-                //       <MenuItem
-                //         style={{
-                //           color:
-                //             paymentTypeSelectTag == "Cash"
-                //               ? "var(--blueB)"
-                //               : "var(--greyA)",
-                //           background:
-                //             paymentTypeSelectTag == "Cash"
-                //               ? "var(--greyB)"
-                //               : "white",
-                //         }}
-                //         onClick={() => setPaymentTypeSelectTag("Cash")}
-                //         className={css.menuItemCss}
-                //       >
-                //         Cash
-                //       </MenuItem>
-                //       <MenuItem
-                //         style={{
-                //           color:
-                //             paymentTypeSelectTag == "Cheque"
-                //               ? "var(--blueB)"
-                //               : "var(--greyA)",
-                //           background:
-                //             paymentTypeSelectTag == "Cheque"
-                //               ? "var(--greyB)"
-                //               : "white",
-                //         }}
-                //         onClick={() => setPaymentTypeSelectTag("Cheque")}
-                //         className={css.menuItemCss}
-                //       >
-                //         Cheque
-                //       </MenuItem>
-                //     </MenuList>
-                //   </Menu>
-                // </div>
               )}
               {toggleCheckReferenceInp && (
                 <div className={css.inputDiv} style={{ zIndex: 600 }}>

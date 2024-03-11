@@ -20,96 +20,127 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
   const items = useSelector((store) => store.ItemReducer.items);
   const itemIsLoading = useSelector((store) => store.ItemReducer.isLoading);
   const [formData, setFormData] = useState({
-    itemName: "",
     category: "65d080c09b0c34b0924bd909",
+    itemName: "",
     itemHsn: "",
-    description: "This is a sample item",
-    itemCode: 789,
-    seleteUnit: "",
-    batchTracking: "Yes",
-    serialTracking: "No",
-    stockQuantity: 1,
-    mrp: [{ mrp: 150, disOnMrpForSale: "5%", disOnMrpForWholesale: "10%" }],
-    salePrice: [
-      {
-        salePriceWithTax: 120,
-        salePriceWithoutTax: 100,
-        disOnSalePriceAmount: 5,
-        disOnSalePricePerceantage: "5%",
-      },
-    ],
-    wholesalePrice: [
-      {
-        wholesalePriceWithoutTax: 90,
-        wholesalePriceWithTax: 100,
-        minimumWholesaleQty: 10,
-      },
-    ],
-    purchasePrice: [{ purchasePriceWithTax: 80, purchasePriceWithoutTax: 70 }],
-    taxRate: "18%",
-    stock: [
-      {
-        openingQuantity: "",
-        atPrice: 75,
-        asOfDate: "2024-01-27",
-        minStockToMaintain: 20,
-        location: "Warehouse A",
-      },
-    ],
+    itemCode: "",
+    description: "",
+    seleteUnit: { baseUnit: "", secondaryUnit: "" },
+    salePrice: {
+      salePrice: "",
+      tax: false,
+      disOnSale: "",
+      discountType: "",
+    },
+    wholesalePrice: {
+      wholesalePrice: "",
+      tax: false,
+      minimumWholesaleQty: "",
+    },
+    purchasePrice: { purchasePrice: "", tax: false },
+    taxRate: "",
+    stock: {
+      openingQuantity: "",
+      atPrice: "",
+      asOfDate: new Date().toISOString().split("T")[0],
+      minStockToMaintain: "",
+      location: "",
+    },
+    // tracking: {
+    //   type: "",
+    //   // enum:["Batch Tracking","Serial No. Tracking"]
+    // },
+    // mrp: {
+    //   mrp: 0,
+    //   disOnMrpForSalePersent: "",
+    //   disOnMrpForWholesalePersent: "",
+    // },
+    // manufacturing: {
+    //   rawMaterial: [
+    //     {
+    //       rawMaterial: "",
+    //       quanity: "",
+    //       unit: "",
+    //       priceperUnit: "",
+    //       estimateCost: "",
+    //       total: "",
+    //     },
+    //   ],
+    //   additionalCost: [
+    //     {
+    //       cahrges: "",
+    //       estimateCost: "",
+    //       totalEstimateCost: "",
+    //     },
+    //   ],
+    // },
   });
 
+  // Input change handler
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  };
-
-  const handleStock = (e) => {
-    let { name, value } = e.target;
-    if (name === "asOfDate") {
-      const selectedDate = new Date(value);
-      const today = new Date();
-
-      if (selectedDate > today) {
-        toast({
-          description: "Something Went Wrong!",
-          title: "Selected date should not be after today",
-          status: "error",
-          position: "top",
-        });
-        console.log("Selected date should not be after today");
-        value = new Date().toISOString().split("T")[0];
-      }
+    if (name == "seleteUnit") {
+      const seletedUnit = { baseUnit: value, secondaryUnit: value };
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: seletedUnit,
+      }));
+    } else {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
     }
-    console.log(value);
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      stock: [
-        {
-          ...prevFormData.stock[0],
-          [name]: value,
-        },
-      ],
-    }));
-    // console.log(formData.stock);
   };
 
-  const handleFileChange = (event) => {
-    setFormData({
-      ...formData,
-      image: event.target.files[0],
+  // Sale price change handler
+  const handleSalePriceChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => {
+      return { ...prev, salePrice: { ...prev?.salePrice, [name]: value } };
     });
   };
 
-  const handleSave = () => {
-    console.log("formData-", formData);
-    addItem(dispatch, formData, closeForm, toast);
-    // dispatch(addItem(formData, closeForm, toast));
+  // Wholesale price change handler
+  const handleWholesalePriceChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => {
+      return {
+        ...prev,
+        wholesalePrice: { ...prev?.wholesalePrice, [name]: value },
+      };
+    });
   };
 
-  // ---------------<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>---------------
+  // Purchase price change handler
+  const handlePurchasePriceChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => {
+      return {
+        ...prev,
+        purchasePrice: { ...prev?.purchasePrice, [name]: value },
+      };
+    });
+  };
+
+  // Stock Change Handler
+  const handleStock = (e) => {
+    let { name, value } = e.target;
+    setFormData((prev) => {
+      return {
+        ...prev,
+        stock: { ...prev?.stock, [name]: value },
+      };
+    });
+  };
+
+  // Submit Function
+  const handleSave = () => {
+    console.log("Add Item Data:", formData);
+    addItem(dispatch, formData, closeForm, toast);
+  };
+
+  // Close Form Function
   const handleCloseForm = () => {
     // console.log("Working");
     closeForm(false);
@@ -118,10 +149,11 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
   return (
     <div onClick={handleCloseForm} className="itemFormOuterDiv">
       <div className="item-form" onClick={(e) => e.stopPropagation()}>
+        {/* Form Head */}
         <div className="d-between ">
           <div className="d-around ">
             <h3>Add Item</h3>
-            <div className="" style={{ marginLeft: "20px" }}>
+            {/* <div className="" style={{ marginLeft: "20px" }}>
               <span
                 style={{ cursor: "pointer" }}
                 onClick={() => {
@@ -139,7 +171,7 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
               >
                 Service
               </span>
-            </div>
+            </div> */}
           </div>
           <div className="icon-cont">
             <i className="fa fa-cog" onClick={handleSettingClick}></i>
@@ -148,30 +180,33 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
         </div>
         <hr />
         {optToggle ? (
+          // Product Form
           <div className="">
             <div
               className="d-flex input-cont"
               style={{ marginTop: "20px", padding: "0px 20px" }}
             >
+              {/* Item Name */}
               <input
-                required
                 type="text"
-                className="inp-field"
                 name="itemName"
-                value={formData.itemName}
+                value={formData?.itemName}
                 onChange={handleChange}
-                placeholder="Item Name"
-              />
-
-              <input
+                placeholder="Item Name *"
+                className="inp-field"
                 required
+              />
+              {/* Item HSN */}
+              <input
                 type="number"
                 name="itemHsn"
-                className="inp-field"
-                value={formData.itemHsn}
+                value={formData?.itemHsn}
                 onChange={handleChange}
-                placeholder="Item HSN"
+                placeholder="Item HSN *"
+                className="inp-field"
+                required
               />
+              {/* Unit */}
               <button
                 type="button"
                 className="select-unit-btn"
@@ -185,7 +220,7 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
                   >
                     <select
                       onChange={handleChange}
-                      name="unit"
+                      name="seleteUnit"
                       placeholder="None"
                     >
                       <option value="">None</option>
@@ -217,49 +252,8 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
                 )}
               </button>
             </div>
-            {/* <div
-                     className="d-flex input-cont"
-                     style={{ marginTop: "20px", padding: "0px 20px" }}
-                  >
-                     <select
-                        name="category"
-                        id="category"
-                        className="inp-field"
-                        style={{ width: "225px" }}
-                        value={formData.category}
-                        // onChange={handleChange}
-                     >
-                        <option value="">Category</option>
-                        <option value="shoes">Shoes</option>
-                        <option value="shirt">Shirt</option>
-                        <option value="jeans">Jeans</option>
-                     </select>
 
-                     <input required
-                        className="inp-field"
-                        type="text"
-                        name=""
-                        placeholder="Please enter the id of category"
-                     />
-
-                     <input required
-                        type="number"
-                        placeholder="Item Code *"
-                        className="inp-field"
-                        value={formData.itemCode}
-                        onChange={handleChange}
-                        name="itemCode"
-                     />
-                     <input required
-                        type="file"
-                        placeholder="Add Image Item"
-                        className="inp-field"
-                        style={{
-                           border: "2px solid orange",
-                        }}
-                        onChange={handleFileChange}
-                     />
-                  </div> */}
+            {/* Toggle Pricing / Stock */}
             <div className="d-flex" style={{ marginTop: "16px" }}>
               <div
                 className=""
@@ -290,7 +284,9 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
                 Stock
               </div>
             </div>
+
             {productOptToggle ? (
+              // Pricing Form Fields
               <div className="">
                 <div className="d-between">
                   <div
@@ -306,29 +302,27 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
                     </div>
                     <div className="d-flex" style={{ gap: "50px" }}>
                       <div className="d-flex">
+                        {/* Sale Price : salePrice */}
                         <input
-                          required
-                          type="text"
+                          type="number"
+                          name="salePrice"
+                          value={formData?.salePrice?.salePrice}
+                          onChange={handleSalePriceChange}
                           placeholder="Sale Price *"
                           className="item-inp-field"
-                        />
-                        <select name="" id="" className="item-inp-field">
-                          <option value="">With Tax</option>
-                          <option value="">Without Tax</option>
-                        </select>
-                      </div>
-                      <div className="d-flex">
-                        <input
                           required
-                          type="text"
-                          placeholder="Sale Price *"
-                          className="item-inp-field"
                         />
-                        <select name="" id="" className="item-inp-field">
-                          <option value="">With Tax</option>
-                          <option value="">Without Tax</option>
+                        {/* Sale Price : tax */}
+                        <select
+                          name="tax"
+                          value={formData?.salePrice?.tax}
+                          onChange={handleSalePriceChange}
+                          id=""
+                          className="item-inp-field"
+                        >
+                          <option value={true}>With Tax</option>
+                          <option value={false}>Without Tax</option>
                         </select>
-                        <br />
                       </div>
                     </div>
                     <div className="">
@@ -352,19 +346,31 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
                       {wsToggle && (
                         <div className="" style={{ marginTop: "10px" }}>
                           <div className="d-flex" style={{ gap: "10px" }}>
+                            {/* Wholesale */}
                             <input
-                              required
-                              type="text"
+                              type="number"
+                              name="wholesalePrice"
+                              value={formData?.wholesalePrice?.wholesalePrice}
+                              onChange={handleWholesalePriceChange}
                               placeholder="WholeSale Price *"
                               className="item-inp-field"
                             />
-                            <select name="" id="" className="item-inp-field">
-                              <option value="">With Tax</option>
-                              <option value="">Without Tax</option>
+                            <select
+                              name="tax"
+                              value={formData?.wholesalePrice?.tax}
+                              onChange={handleWholesalePriceChange}
+                              className="item-inp-field"
+                            >
+                              <option value={true}>With Tax</option>
+                              <option value={false}>Without Tax</option>
                             </select>
                             <input
-                              required
-                              type="text"
+                              type="number"
+                              name="minimumWholesaleQty"
+                              value={
+                                formData?.wholesalePrice?.minimumWholesaleQty
+                              }
+                              onChange={handleWholesalePriceChange}
                               placeholder="Minimum Wholesale Quantity"
                               className="item-inp-field"
                             />
@@ -391,15 +397,23 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
                             <h4 style={{ textAlign: "start" }}>Purchase</h4>
                           </div>
                           <div className="d-flex">
+                            {/* purchasePrice */}
                             <input
-                              required
-                              type="text"
-                              placeholder="Sale Price *"
+                              type="number"
+                              name="purchasePrice"
+                              value={formData?.purchasePrice?.purchasePrice}
+                              onChange={handlePurchasePriceChange}
+                              placeholder="Purchase Price *"
                               className="item-inp-field"
                             />
-                            <select name="" id="" className="item-inp-field">
-                              <option value="">With Tax</option>
-                              <option value="">Without Tax</option>
+                            <select
+                              name="tax"
+                              value={formData?.purchasePrice?.tax}
+                              onChange={handlePurchasePriceChange}
+                              className="item-inp-field"
+                            >
+                              <option value={true}>With Tax</option>
+                              <option value={false}>Without Tax</option>
                             </select>
                           </div>
                         </div>
@@ -409,16 +423,38 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
                             <h4 style={{ textAlign: "start" }}>Taxes</h4>
                           </div>
                           <div className="d-flex">
-                            <input
-                              required
-                              type="text"
-                              placeholder="Sale Price *"
+                            {/* Taxes */}
+                            <select
+                              name="taxRate"
+                              value={formData?.taxRate}
+                              onChange={handleChange}
+                              className="item-inp-field"
+                            >
+                              <option value="">None</option>
+                              <option value="0">IGST@0%</option>
+                              <option value="0">GST@0%</option>
+                              <option value="0.25">IGST@0.25%</option>
+                              <option value="0.25">GST@0.25%</option>
+                              <option value="3">IGST@3%</option>
+                              <option value="3">GST@3%</option>
+                              <option value="5">IGST@5%</option>
+                              <option value="5">GST@5%</option>
+                              <option value="12">IGST@12%</option>
+                              <option value="12">GST@12%</option>
+                              <option value="18">IGST@18%</option>
+                              <option value="18">GST@18%</option>
+                              <option value="28">IGST@28%</option>
+                              <option value="28">GST@28%</option>
+                            </select>
+                            {/* <input
+                              type="number"
+                              placeholder="Taxes"
                               className="item-inp-field"
                             />
                             <select name="" id="" className="item-inp-field">
                               <option value="">Percentage</option>
                               <option value="">Amount</option>
-                            </select>
+                            </select> */}
                           </div>
                         </div>
                       </div>
@@ -440,56 +476,91 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
                     <div className="d-flex" style={{ gap: "50px" }}>
                       <div className="d-flex">
                         <input
-                          required
+                          type="number"
                           name="openingQuantity"
-                          onClick={(e) => handleStock(e)}
-                          type="text"
+                          value={formData?.stock?.openingQuantity}
+                          onChange={handleStock}
                           placeholder="Opening Quantity *"
                           className="inp-field"
+                          required
                         />
                       </div>
                       <div className="d-flex">
                         <input
-                          required
+                          type="number"
                           name="atPrice"
-                          onChange={(e) => handleStock(e)}
-                          type="text"
+                          value={formData?.stock?.atPrice}
+                          onChange={handleStock}
                           placeholder="At Price *"
                           className="inp-field"
+                          required
                         />
                       </div>
                       <div className="d-flex">
                         <input
-                          required
-                          name="asOfDate"
-                          onChange={(e) => handleStock(e)}
-                          value={formData?.stock[0].asOfDate}
                           type="date"
+                          name="asOfDate"
+                          value={formData?.stock?.asOfDate}
+                          onChange={(e) => {
+                            const { name, value } = e.target;
+                            if (new Date(value) > new Date()) {
+                              setFormData((prev) => {
+                                return {
+                                  ...prev,
+                                  stock: {
+                                    ...prev?.stock,
+                                    [name]: new Date()
+                                      .toISOString()
+                                      .split("T")[0],
+                                  },
+                                };
+                              });
+                              toast.closeAll();
+                              toast({
+                                title:
+                                  "Selected date should not be after today",
+                                status: "warning",
+                                position: "top",
+                              });
+                            } else {
+                              setFormData((prev) => {
+                                return {
+                                  ...prev,
+                                  stock: {
+                                    ...prev?.stock,
+                                    [name]: value,
+                                  },
+                                };
+                              });
+                            }
+                          }}
                           placeholder="As of date *"
                           className="inp-field"
+                          required
                         />
                       </div>
                     </div>
-
                     <div className="d-flex" style={{ gap: "50px" }}>
                       <div className="d-flex">
                         <input
-                          required
+                          type="number"
                           name="minStockToMaintain"
-                          onChange={(e) => handleStock(e)}
-                          type="text"
+                          value={formData?.stock?.minStockToMaintain}
+                          onChange={handleStock}
                           placeholder="Min Stock To Maintain *"
                           className="inp-field"
+                          required
                         />
                       </div>
                       <div className="d-flex">
                         <input
-                          required
-                          onChange={(e) => handleStock(e)}
-                          name="location"
                           type="text"
+                          name="location"
+                          value={formData?.stock?.location}
+                          onChange={handleStock}
                           placeholder="Location *"
                           className="inp-field"
+                          required
                         />
                       </div>
                     </div>

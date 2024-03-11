@@ -234,7 +234,7 @@ export default function SalesOrder() {
                   <tbody>
                     {!isLoading &&
                       saleOrderList?.map((item, ind) =>
-                        isEditing && editedData?._id === item._id ? (
+                        isEditing && editedData?._id == item._id ? (
                           <tr style={{ width: "82%", position: "absolute" }}>
                             <EditableRow
                               display={display}

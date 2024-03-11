@@ -75,7 +75,12 @@ const FormItemsRowTable = ({
       itemName: itemDetail?._id,
       mainName: itemDetail?.itemName,
       taxPersant: itemDetail?.taxRate.split("%")[0] || "",
+      qty: itemDetail?.stock?.openingQuantity || 0,
+      priceUnit: itemDetail?.stock?.atPrice || 0,
+      unit: itemDetail?.seleteUnit?.baseUnit || "",
+      itemHsn: itemDetail?.itemHsn || "",
     };
+    console.log("itemDetail", itemDetail);
     let newSaleData = tableRowsArr?.map((ite, index) =>
       ind == index ? currSaleItem : ite
     );
@@ -230,7 +235,7 @@ const FormItemsRowTable = ({
         <input
           type="number"
           name="discountpersant"
-          value={Calculator()?.discountPercent}
+          value={Calculator(item)?.discountPercent}
           onChange={(e) => handleInputChange(e, ind)}
           placeholder="0"
           className={css.tableInputs}
@@ -238,7 +243,7 @@ const FormItemsRowTable = ({
         <input
           type="number"
           name="discountAmount"
-          value={Calculator()?.discountAmount}
+          value={Calculator(item)?.discountAmount}
           onChange={(e) => handleInputChange(e, ind)}
           placeholder="0"
           className={css.tableInputs}
@@ -271,7 +276,7 @@ const FormItemsRowTable = ({
           </div>
           <input
             type="number"
-            value={Calculator()?.taxAmount}
+            value={Calculator(item)?.taxAmount}
             name="taxAmount"
             onChange={(e) => handleInputChange(e, item)}
             placeholder="0"
@@ -284,7 +289,7 @@ const FormItemsRowTable = ({
       <td className={css.qtyBody} onClick={() => setActiveRowIndex(ind)}>
         <input
           type="number"
-          value={Calculator()?.amount}
+          value={Calculator(item)?.amount}
           name="amount"
           onChange={(e) => handleInputChange(e, ind)}
           placeholder="0"
