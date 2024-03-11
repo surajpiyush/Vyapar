@@ -22,29 +22,24 @@ const ItemsTableBody = memo(
       getAllItemsLoading,
       items,
    }) => {
-
       const loadingAllItems = useSelector(
          (state) => state.ItemReducer.getAllItemsLoading
-       );
-       const itemsList = useSelector((state) => state.ItemReducer.items);
+      );
+      const itemsList = useSelector((state) => state.ItemReducer.items);
 
       const [foundItems, setFoundItems] = useState([]);
-      
-  // Itemslist Suggestions
+
+      // Itemslist Suggestions
       useEffect(() => {
          const regex = new RegExp(item?.itemName, "i");
-    const itemsArr = Array.isArray(itemsList) ? itemsList : [];
+         const itemsArr = Array.isArray(itemsList) ? itemsList : [];
          const found = itemsArr?.filter((ite) => regex.test(ite.itemName));
          if (item?.itemName.length < 1) {
             return setFoundItems(items);
          }
 
          setFoundItems(found);
-      }, [item?.itemName,itemsList]);
-
-
-  
-   
+      }, [item?.itemName, itemsList]);
 
       function AmountCalculator() {
          const parseToNumber = (value) => (value ? parseFloat(value) : 0);
@@ -95,8 +90,8 @@ const ItemsTableBody = memo(
          };
       }
 
-       // Sale Items Change Function
-       const handleTableInputChange = (e, index) => {
+      // Sale Items Change Function
+      const handleTableInputChange = (e, index) => {
          const { name, value } = e.target;
          let currSaleItem = { ...invoiceItems[index], [name]: value };
          let newSaleData = invoiceItems.map((ite, ind) =>
@@ -127,7 +122,7 @@ const ItemsTableBody = memo(
          item.discountpersant,
          item.taxPersant,
       ]);
-console.log(item)
+      console.log(item);
       return (
          <tr
             onClick={() => setIndexSaleItem(ind)}
@@ -197,10 +192,14 @@ console.log(item)
                         Add Item
                      </MenuItem>
                      <MenuDivider />
-                     {getAllItemsLoading && <MenuItem>Loading Items...</MenuItem>}
+                     {getAllItemsLoading && (
+                        <MenuItem>Loading Items...</MenuItem>
+                     )}
                      {!getAllItemsLoading && foundItems.length <= 0 && (
-              <MenuItem style={{ color: "red" }}>No Items Found!</MenuItem>
-            )}
+                        <MenuItem style={{ color: "red" }}>
+                           No Items Found!
+                        </MenuItem>
+                     )}
                      {!getAllItemsLoading &&
                         foundItems?.map((itemList) => (
                            <MenuItem

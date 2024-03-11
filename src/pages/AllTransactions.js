@@ -58,7 +58,8 @@ const AllTransactions = () => {
   }, [dispatch]);
   console.log(store.allTransectionsData);
 
-  
+  if(store?.allTransactions){
+
     const data = store?.allTransectionsData[0];
     temp.push(...data?.PuchaseBill[0]?.PuchaseBill);
     temp.push(...data?.PuchaseReturn[0]?.PuchaseReturn);
@@ -73,7 +74,8 @@ const AllTransactions = () => {
     temp.push(...data?.ExpensesWithOutGst[0]?.ExpensesWithOutGst);
     // data = temp;
     console.log(temp);
-  
+    
+  }
 
  // eslint-disable-line react-hooks/exhaustive-deps
 

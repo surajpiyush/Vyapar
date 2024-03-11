@@ -1,10 +1,10 @@
 import css from "../../styles/SalesStyles/SalesForms.module.css";
 
+import { useSelector } from "react-redux";
 import { memo, useEffect, useState } from "react";
 import { Menu, MenuList, MenuItem, MenuDivider } from "@chakra-ui/react";
 import { MdDelete as DeleteIcon } from "react-icons/md";
 import { TbArrowsMove as MoveIcon } from "react-icons/tb";
-import { useSelector } from "react-redux";
 
 const ItemsTableBody = memo(
    ({
@@ -24,32 +24,22 @@ const ItemsTableBody = memo(
    }) => {
       const loadingAllItems = useSelector(
          (state) => state.ItemReducer.getAllItemsLoading
-       );
-       const itemsList = useSelector((state) => state.ItemReducer.items);
+      );
+      const itemsList = useSelector((state) => state.ItemReducer.items);
 
       const [foundItems, setFoundItems] = useState([]);
-      
-  // Itemslist Suggestions
+
+      // Itemslist Suggestions
       useEffect(() => {
          const regex = new RegExp(item?.itemName, "i");
-    const itemsArr = Array.isArray(itemsList) ? itemsList : [];
+         const itemsArr = Array.isArray(itemsList) ? itemsList : [];
          const found = itemsArr?.filter((ite) => regex.test(ite.itemName));
          if (item?.itemName.length < 1) {
             return setFoundItems(items);
          }
 
          setFoundItems(found);
-      }, [item?.itemName,itemsList]);
-
-      // Sale Items Change Function
-      const handleTableInputChange = (e, index) => {
-         const { name, value } = e.target;
-         let currSaleItem = { ...invoiceItems[index], [name]: value };
-         let newSaleData = invoiceItems.map((ite, ind) =>
-            ind == index ? currSaleItem : ite
-         );
-         setInvoiceItems(newSaleData);
-      };
+      }, [item?.itemName, itemsList]);
 
       function AmountCalculator() {
          const parseToNumber = (value) => (value ? parseFloat(value) : 0);
@@ -100,6 +90,16 @@ const ItemsTableBody = memo(
          };
       }
 
+      // Sale Items Change Function
+      const handleTableInputChange = (e, index) => {
+         const { name, value } = e.target;
+         let currSaleItem = { ...invoiceItems[index], [name]: value };
+         let newSaleData = invoiceItems.map((ite, ind) =>
+            ind == index ? currSaleItem : ite
+         );
+         setInvoiceItems(newSaleData);
+      };
+
       useEffect(() => {
          AmountCalculator();
          const { amount, taxAmount, discountPercent, discountAmount } =
@@ -122,7 +122,7 @@ const ItemsTableBody = memo(
          item.discountpersant,
          item.taxPersant,
       ]);
-
+      console.log(item);
       return (
          <tr
             onClick={() => setIndexSaleItem(ind)}
@@ -144,7 +144,7 @@ const ItemsTableBody = memo(
                </div>
             </td>
             <td className={css.itemNameBody}>
-               <select name="category" id="">
+               <select name="category" id="" value={item?.category}>
                   <option value="">Category</option>
                   <option value="show">Show</option>
                   <option value="tab">Tab</option>
@@ -192,7 +192,14 @@ const ItemsTableBody = memo(
                         Add Item
                      </MenuItem>
                      <MenuDivider />
-                     {getAllItemsLoading && <MenuItem>Loading Items</MenuItem>}
+                     {getAllItemsLoading && (
+                        <MenuItem>Loading Items...</MenuItem>
+                     )}
+                     {!getAllItemsLoading && foundItems.length <= 0 && (
+                        <MenuItem style={{ color: "red" }}>
+                           No Items Found!
+                        </MenuItem>
+                     )}
                      {!getAllItemsLoading &&
                         foundItems?.map((itemList) => (
                            <MenuItem
@@ -220,15 +227,16 @@ const ItemsTableBody = memo(
             </td>
             <td className={css.qtyBody} onClick={() => setIndexSaleItem(ind)}>
                <input
+                  required
                   type="text"
                   name="hsnCode"
-                  // value={item?.qty}
+                  value={item?.hsnCode}
                   onChange={(e) => handleTableInputChange(e, ind)}
                   placeholder=""
                   className={css.tableInputs}
                />
             </td>
-            <td className={css.qtyBody} onClick={() => setIndexSaleItem(ind)}>
+            {/* <td className={css.qtyBody} onClick={() => setIndexSaleItem(ind)}>
                <input
                   type="text"
                   className={css.tableInputs}
@@ -237,7 +245,7 @@ const ItemsTableBody = memo(
                   onChange={(e) => handleTableInputChange(e, ind)}
                   placeholder="0"
                />
-            </td>
+            </td> */}
             <td className={css.qtyBody} onClick={() => setIndexSaleItem(ind)}>
                <input
                   type="number"
@@ -250,9 +258,10 @@ const ItemsTableBody = memo(
             </td>
             <td className={css.qtyBody} onClick={() => setIndexSaleItem(ind)}>
                <input
+                  required
                   type="number"
                   name="qty"
-                  // value={item?.qty}
+                  value={item?.qty}
                   onChange={(e) => handleTableInputChange(e, ind)}
                   placeholder="0"
                   className={css.tableInputs}
@@ -269,8 +278,9 @@ const ItemsTableBody = memo(
             </td>
             <td className={css.unitBody} onClick={() => setIndexSaleItem(ind)}>
                <select
+                  required
                   name="unit"
-                  value={item.unit}
+                  value={item?.unit}
                   onChange={(e) => handleTableInputChange(e, ind)}
                   placeholder="None"
                >
@@ -301,7 +311,9 @@ const ItemsTableBody = memo(
             <td className={css.qtyBody} onClick={() => setIndexSaleItem(ind)}>
                <input
                   type="number"
+                  required
                   name="priceUnit"
+                  value={item?.priceUnit}
                   onChange={(e) => handleTableInputChange(e, ind)}
                   placeholder="0"
                   className={css.tableInputs}
@@ -337,7 +349,7 @@ const ItemsTableBody = memo(
                   <div>
                      <select
                         name="taxPersant"
-                        value={item.taxPersant}
+                        // value={item.taxPersant}
                         onChange={(e) => handleTableInputChange(e, ind)}
                      >
                         <option value="">None</option>

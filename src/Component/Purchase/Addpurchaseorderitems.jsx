@@ -244,7 +244,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
 
    // Found items list click handler
    const handleMenuItemClick = (index, itemDetail) => {
-      // console.log(itemDetail);
+      console.log(itemDetail);
       let currSaleItem = {
          ...invoiceItems[index],
 

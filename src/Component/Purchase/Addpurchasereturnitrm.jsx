@@ -546,7 +546,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                      })}
                      <tr className={css.addRowTr}>
                         <td></td>
-                        <td></td>
+                        {/* <td></td> */}
                         <td>
                            <div className={css.actualAddRowTd}>
                               <button onClick={handleAddRow} type="button">
