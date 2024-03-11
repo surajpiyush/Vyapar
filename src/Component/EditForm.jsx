@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import "./Editform.css";
+import { useState } from "react";
 
 const EditableRow = ({ display, data, onSave, onCancel }) => {
    const [editedData, setEditedData] = useState(data);
@@ -13,15 +13,15 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
       }));
    };
 
-   return (
-      <section className="transaction-tables edit-mode">
-         {display.includes("#") ? (
-            <div className="transaction-table">
-               <input type="text" name="#" value={"#"} readOnly />
-            </div>
-         ) : (
-            ""
-         )}
+  return (
+    <section className="transaction-tables edit-mode">
+      {display.includes("#") ? (
+        <div className="transaction-table">
+          <input type="text" name="#" value={"#"} readOnly />
+        </div>
+      ) : (
+        ""
+      )}
 
          {display.includes("billDate") ? (
             <div className="transaction-table">
@@ -238,26 +238,24 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
                   value={editedData.status}
                   onChange={handleInputChange}
                >
-                  {/* <option value={editedData.status}>
-                {editedData.status}
-            </option> */}
-                  <option value="Paid">Paid</option>
-                  <option value="Unpaid">Unpaid</option>
-               </select>
-            </div>
-         ) : (
-            ""
-         )}
+                 
+            <option value="Paid">Paid</option>
+            <option value="Unpaid">Unpaid</option>
+          </select>
+        </div>
+      ) : (
+        ""
+      )}
 
-         <div className="transaction-table">
-            {/* Save and Cancel buttons */}
-            <button onClick={() => onSave(editedData)}>Update</button>
-            <button className="cancel" onClick={onCancel}>
-               Cancel
-            </button>
-         </div>
-      </section>
-   );
+      <div className="transaction-table">
+        {/* Save and Cancel buttons */}
+        <button onClick={() => onSave(editedData)}>Update</button>
+        <button className="cancel" onClick={onCancel}>
+          Cancel
+        </button>
+      </div>
+    </section>
+  );
 };
 
 export default EditableRow;
