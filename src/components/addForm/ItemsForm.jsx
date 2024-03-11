@@ -68,6 +68,7 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
 
   const handleStock = (e) => {
     let { name, value } = e.target;
+    console.log(name);
     if (name === "asOfDate") {
       const selectedDate = new Date(value);
       const today = new Date();
@@ -83,7 +84,6 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
         value = new Date().toISOString().split("T")[0];
       }
     }
-    console.log(value);
     setFormData((prevFormData) => ({
       ...prevFormData,
       stock: [
@@ -442,7 +442,7 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
                         <input
                           required
                           name="openingQuantity"
-                          onClick={(e) => handleStock(e)}
+                          onChange={(e) => handleStock(e)}
                           type="text"
                           placeholder="Opening Quantity *"
                           className="inp-field"

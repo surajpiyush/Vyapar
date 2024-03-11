@@ -3,23 +3,14 @@ import "./Editform.css";
 
 const EditableRow = ({ display, data, onSave, onCancel }) => {
    const [editedData, setEditedData] = useState(data);
-
+   console.log(editedData);
    const handleInputChange = (e) => {
       const { name, value } = e.target;
-      if (name === "partyName") {
-         setEditedData((prevData) => ({
-            ...prevData,
-            partyData: {
-               ...prevData.partyData,
-               [name]: value,
-            },
-         }));
-      } else {
-         setEditedData((prevData) => ({
-            ...prevData,
-            [name]: value,
-         }));
-      }
+
+      setEditedData((prevData) => ({
+         ...prevData,
+         [name]: value,
+      }));
    };
 
    return (
@@ -110,7 +101,7 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
                <input
                   type="text"
                   name="partyName"
-                  value={editedData.partyData.partyName}
+                  value={editedData.partyName}
                   onChange={handleInputChange}
                />
             </div>
@@ -123,11 +114,14 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
                <input
                   type="text"
                   name="orderNumber"
-                  value={new Date(editedData.dueDate).toLocaleDateString("en-IN", {
-                     day: "2-digit",
-                     month: "2-digit",
-                     year: "numeric",
-                  })}
+                  value={new Date(editedData.dueDate).toLocaleDateString(
+                     "en-IN",
+                     {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                     }
+                  )}
                   onChange={handleInputChange}
                />
             </div>
@@ -225,7 +219,12 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
                <input
                   type="text"
                   name="balanceDue"
-                  value={editedData.balanceDue}
+                  value={
+                     editedData.status === "Paid"
+                        ? 0 : editedData.amount - (editedData.balanceAmount || 0)
+                       
+                  }
+                  // value={editedData.balanceDue}
                   onChange={handleInputChange}
                />
             </div>
@@ -262,4 +261,3 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
 };
 
 export default EditableRow;
-

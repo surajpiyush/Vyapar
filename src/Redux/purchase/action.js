@@ -96,7 +96,7 @@ export const updatePurchaseBill = (_id, data) => (dispatch) => {
       })
       .catch((err) => {
          console.log(err);
-         // alert(`${err.response.data.msg}`);
+         alert(`${err.response.data.msg}`);
          dispatch({ type: PURCHASE_FAILURE });
       });
 };

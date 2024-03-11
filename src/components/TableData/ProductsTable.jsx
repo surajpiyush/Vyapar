@@ -75,6 +75,7 @@ export default function ProductsTable(Props) {
       setTableData(updatedTableData);
    };
 
+   console.log(items)
    return (
       <div className="" style={{ width: "100vw" }}>
          <div className="d-flex">
@@ -141,7 +142,8 @@ export default function ProductsTable(Props) {
                               >
                                  <td>{e.itemName}</td>
                                  <td>
-                                   0   
+                                 0
+                                   {/* {e.stock.openingQuantity}    */}
                                  </td>
                                  {/* <td>{e.category}</td> */}
                               </tr>

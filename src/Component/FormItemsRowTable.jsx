@@ -137,7 +137,7 @@ const FormItemsRowTable = ({
           required
         />
         <Menu isOpen={ind == activeRowIndex && showItemsListMenu}>
-          <MenuList
+          <MenuList 
             style={{
               marginTop: `${foundItems.length > 0 ? 240 : 160}px`,
               maxHeight: "150px",

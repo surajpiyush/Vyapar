@@ -184,7 +184,7 @@ const display = ["billDate","billNumber","partyName","paymentType","amount","bal
                                     {/* <p></p> */}
                                  </div>
                                  <div className="transaction-table">
-                                    <p>{e?.partyData?.partyName}</p>
+                                    <p>{e?.partyName}</p>
                                  </div>
                                  <div className="transaction-table">
                                     <p>{payment.join(", ")}</p>
@@ -193,7 +193,7 @@ const display = ["billDate","billNumber","partyName","paymentType","amount","bal
                                     <p>{e.amount}</p>
                                  </div>
                                  <div className="transaction-table">
-                                    <p>{e.status == "Paid" ? 0 : e.amount}</p>
+                                    <p>{e.status == "Paid" ? 0 : e?.balanceDue}</p>
                                  </div>
                                  <div className="transaction-table">
                                     <p>{e.status}</p>
