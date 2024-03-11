@@ -1,6 +1,6 @@
 import css from "../styles/FormItemsRowTable.module.css";
 
-import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";  
 import { useEffect, useState } from "react";
 import { Menu, MenuList, MenuItem, MenuDivider } from "@chakra-ui/react";
 import { MdDelete as DeleteIcon } from "react-icons/md";

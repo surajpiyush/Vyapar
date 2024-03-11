@@ -19,6 +19,7 @@ import {
 
 import ItemsForm from "../../../components/addForm/ItemsForm";
 import { FetchAllParties } from "../../../Redux/parties/actions";
+import { DeleteIcon } from "../../utils/reactIcons";
 const  AddPaymentouts = ({ setOpenForm }) => {
    const toast = useToast();
    const dispatch = useDispatch();
@@ -42,7 +43,7 @@ const  AddPaymentouts = ({ setOpenForm }) => {
    const [showItemsListMenu, setShowItemsListMenu] = useState(false);
    const [rowFooterData, setRowFooterData] = useState({});
    const [showItemForm, setShowItemForm] = useState(false);
-   const payOutList = useSelector((store) => store.PurchaseReducer.paymentOutData);
+   const payOutList = useSelector((store) => store.PurchaseReducer?.paymentOutData);
    const [paymentArr, setPaymentArr] = useState([{ types: "Cash", amount: 0 }]);
    const [totalAmount, setTotalAmount] = useState(0);
 
@@ -50,7 +51,7 @@ const  AddPaymentouts = ({ setOpenForm }) => {
       type: "Purchase-Out",
       status: "Pending",
       partyName: "",
-      receiptNumber: payOutList.length+1,
+      receiptNumber: payOutList?.length+1,
       date: new Date().toISOString().split("T")[0],
       time: new Date().toLocaleTimeString("en-US", {
          hour: "2-digit",
@@ -58,23 +59,7 @@ const  AddPaymentouts = ({ setOpenForm }) => {
          hour12: false,
       }),
       description: "Purchase return of items",
-      paymentType: [
-         {
-            types: String,
-            amount: Number,
-         },
-         {
-            types: String,
-            amount: Number,
-            refreanceNo: String,
-         },
-         {
-            types: String,
-            accountName: String,
-            openingBalance: Number,
-            asOfDate: Date,
-         },
-      ],
+    
       paid: 0,
       discount: 0,
       total: 0,
@@ -126,7 +111,24 @@ const  AddPaymentouts = ({ setOpenForm }) => {
       // console.log(payment)
    };
    console.log(currentCustomerData);
+ //   Add payment type option
+ const handleAddPayType = () => {
+   let newObj = {
+     types: "Cash",
+     amount: 0,
+   };
+   setPaymentArr((prev) => [...prev, newObj]);
+ };
+
+ //   Delete payment type
+ const handleDeletePayType = (ind) => {
+   const newPaymentArr = paymentArr.filter((_, index) => ind != index);
+   setPaymentArr(newPaymentArr);
+ };
+
+
    return (
+      <div className={css.overLay}>
       <form  onClick={(e) => {
          e.stopPropagation();
        }} onSubmit={handleSubmit} className={css.formOuter}>
@@ -140,7 +142,7 @@ const  AddPaymentouts = ({ setOpenForm }) => {
             {/* Middle  */}
             <div className={css.middleOuter}>
                <div className={css.leftSideCont}>
-                  <div className={css.selectOuter}>
+                  {/* <div className={css.selectOuter}>
                      <select
                         name="partyName"
                         value={currentCustomerData?._id}
@@ -149,7 +151,7 @@ const  AddPaymentouts = ({ setOpenForm }) => {
                            const currentPartyData = partiesData.filter(
                               (item) => item._id == e.target.value
                            );
-                           if (currentPartyData.length > 0) {
+                           if (currentPartyData?.length > 0) {
                               setCurrentCustomerData(currentPartyData[0]);
                            }
                            handleChange(e);
@@ -175,7 +177,43 @@ const  AddPaymentouts = ({ setOpenForm }) => {
                            ""
                         )}
                      </p>
-                  </div>
+                  </div> */}
+                    {/* Party Name Select */}
+            <div className={css.selectOuter}>
+              <select
+                name="customerName"
+                value={currentCustomerData?._id || ""}
+                onChange={(e) => {
+                  e.stopPropagation();
+                  const currentPartyData = partiesData.filter(
+                    (item) => item._id == e.target.value
+                  );
+                  if (currentPartyData.length > 0) {
+                    setCurrentCustomerData(currentPartyData[0]);
+                  }
+                }}
+                className={css.selectTag}
+                required
+              >
+                <option value="">Search by Name/Phone</option>
+                {partiesLoading ? (
+                  <option value="">Loading Parties</option>
+                ) : (
+                  partiesData?.map((item, ind) => (
+                    <option value={item._id} key={ind + item._id}>
+                      {item?.partyName}
+                    </option>
+                  ))
+                )}
+              </select>
+              <p style={{ textAlign: "right" }}>
+                        {currentCustomerData.openingBalance ? (
+                           <>Balance: {currentCustomerData.openingBalance}</>
+                        ) : (
+                           ""
+                        )}
+                     </p>
+            </div>
                </div>
 
                <div className={css.rightSideCont}>
@@ -198,8 +236,8 @@ const  AddPaymentouts = ({ setOpenForm }) => {
                         className={css.invoiceDateSelectInp}
                         onChange={(e) => handleChange(e)}
                         name="date"
-                        readOnly
                         defaultValue={new Date().toISOString().split("T")[0]}
+                        readOnly
                      />
                   </div>
                   <div>
@@ -210,12 +248,12 @@ const  AddPaymentouts = ({ setOpenForm }) => {
                         className={css.invoiceDateSelectInp}
                         onChange={(e) => handleChange(e)}
                         name="time"
-                        readOnly
                         defaultValue={new Date().toLocaleTimeString("en-US", {
                            hour: "2-digit",
                            minute: "2-digit",
                            hour12: false,
                         })}
+                     readOnly
                      />
                   </div>
 
@@ -223,6 +261,8 @@ const  AddPaymentouts = ({ setOpenForm }) => {
                   <br />
                   <br />
                   <br />
+
+{/* Payment Type */}
 
                   <div className={css.totalBottomDiv}>
                      <p>Paid</p>
@@ -259,198 +299,97 @@ const  AddPaymentouts = ({ setOpenForm }) => {
 
             {/* Bottom Section */}
 
-            <div
-               style={{
-                  marginTop: showItemsListMenu ? "100px" : "0px",
-                  transition: "margin-top 0.5s ease-in",
-               }}
-               className={css.bottomSectionOuter}
-            >
-               <div className={css.bottomLeftSideCont}>
-                  <div
-                     style={{
-                        display: "flex",
-                        alignItems: "Center",
-                        gap: "40px",
-                        zIndex: 600,
-                     }}
-                  >
-                     <div
-                        style={{
-                           display: "flex",
-                           alignItems: "Center",
-                           gap: "40px",
-                           zIndex: 600,
+              {/* Payment Type */}
+              <div className={css.paymentOuter}>
+                {paymentArr?.map((item, ind) => (
+                  <div key={ind} className={css.paymentInnerOuterDivs}>
+                    <div className={css.selectOuter}>
+                      <select
+                        name="types"
+                        value={item?.types}
+                        onChange={(e) => {
+                          setPaymentArr((prev) => {
+                            return prev.map((ite, index) =>
+                              index != ind
+                                ? ite
+                                : { ...ite, types: e.target.value }
+                            );
+                          });
                         }}
-                     >
-                        <div style={{ position: "relative", zIndex: 600 }}>
-                           <Menu
-                              offset={[0, 0]}
-                              onOpen={() => setTopMarginAddDescInp("110px")}
-                              onClose={() => setTopMarginAddDescInp("0px")}
-                           >
-                              <MenuButton
-                                 as={Button}
-                                 className={css.PartyTypeMenuBtn}
-                                 rightIcon={<ArrowDown />}
-                                 style={{ width: "150px" }}
-                                 type="button"
-                              >
-                                 {paymentTypeSelectTag}
-                              </MenuButton>
-                              <p className={css.PartyTypelabel}>Payment Type</p>
-                              <MenuList className={css.menuListCss}>
-                                 <MenuItem className={css.AddBankAccount}>
-                                    <PlusIcon />
-                                    Add Bank A/C
-                                 </MenuItem>
-                                 <MenuItem
-                                    style={{
-                                       color:
-                                          paymentTypeSelectTag == "Cash"
-                                             ? "var(--blueB)"
-                                             : "var(--greyA)",
-                                       background:
-                                          paymentTypeSelectTag == "Cash"
-                                             ? "var(--greyB)"
-                                             : "white",
-                                    }}
-                                    onClick={() =>
-                                       setPaymentTypeSelectTag("Cash")
-                                    }
-                                    className={css.menuItemCss}
-                                 >
-                                    Cash
-                                 </MenuItem>
-                                 <MenuItem
-                                    style={{
-                                       color:
-                                          paymentTypeSelectTag == "Cheque"
-                                             ? "var(--blueB)"
-                                             : "var(--greyA)",
-                                       background:
-                                          paymentTypeSelectTag == "Cheque"
-                                             ? "var(--greyB)"
-                                             : "white",
-                                    }}
-                                    onClick={() =>
-                                       setPaymentTypeSelectTag("Cheque")
-                                    }
-                                    className={css.menuItemCss}
-                                 >
-                                    Cheque
-                                 </MenuItem>
-                              </MenuList>
-                           </Menu>
-                        </div>
-
-                        {toggleCheckReferenceInp && (
-                           <div
-                              className={css.inputDiv}
-                              style={{ zIndex: 600 }}
-                           >
-                              <input
-                                 type="number"
-                                 value={checkReferenceInpval}
-                                 name="checkReferenceInpval"
-                                 onChange={(e) =>
-                                    setCheckReferenceInpval(e.target.value)
-                                 }
-                                 className={css.BottomInput}
-                                 style={{ width: "150px", zIndex: 600 }}
-                              />
-                              <label
-                                 style={{
-                                    background: "var(--greyB)",
-                                    zIndex: 600,
-                                 }}
-                                 className={
-                                    checkReferenceInpval
-                                       ? css.BottomInpActiveLabel
-                                       : css.BottomInpInactiveLabel
-                                 }
-                              >
-                                 Reference No.
-                              </label>
-                           </div>
-                        )}
-                     </div>
-                  </div>
-
-                  {toggleDesc ? (
-                     <div
-                        className={css.inputDiv}
-                        style={{ marginTop: topMarginAddDescInp }}
-                     >
-                        <textarea
-                           value={data.description}
-                           name="description"
-                           onChange={(e) => handleChange(e)}
-                           className={css.input}
-                           style={{
-                              height: "110px",
-                              width: "230px",
-                           }}
-                           required
+                        className={css.selectTag}
+                        required
+                      >
+                        <option value="Cash">Cash</option>
+                        <option value="Credit">Credit</option>
+                      </select>
+                    </div>
+                    <div className={css.divWhichHasDeleteBtn}>
+                      <div className={css.inputDiv}>
+                        <input
+                          type="number"
+                          value={item?.amount}
+                          name="amount"
+                          onChange={(e) => {
+                            setPaymentArr((prev) => {
+                              return prev.map((ite, index) =>
+                                index != ind
+                                  ? ite
+                                  : { ...ite, amount: e.target.value }
+                              );
+                            });
+                          }}
+                          className={css.input}
+                          required
                         />
                         <label
-                           htmlFor="description"
-                           className={
-                              data?.description
-                                 ? css.activeLabel
-                                 : css.inactiveLabel
-                           }
+                          style={{ color: "var(--greyA)" }}
+                          className={css.activeLabel}
+                          // className={
+                          //   invoiceData.phoneNumber ? css.activeLabel : css.inactiveLabel
+                          // }
                         >
-                           Description
+                          Amount
                         </label>
-                     </div>
-                  ) : (
-                     <div
-                        onClick={(e) => {
-                           e.stopPropagation();
-                           setToggleDesc(true);
-                        }}
-                        className={css.addDecriptionDiv}
-                        style={{
-                           width: "150px",
-                        }}
-                     >
-                        <AddDecriptionIcon />
-                        <p>ADD DESCRIPTION</p>
-                     </div>
-                  )}
-                  <div
-                     onClick={(e) => {
-                        e.stopPropagation();
-                        toast({
-                           title: "Feature currently in development",
-                           status: "info",
-                           position: "top",
-                        });
-                     }}
-                     className={css.addDecriptionDiv}
-                     style={{ width: "150px" }}
-                  >
-                     <AddCameraIcon />
-                     <p>ADD IMAGE</p>
+                      </div>
+                      {paymentArr.length > 1 && (
+                        <DeleteIcon onClick={() => handleDeletePayType(ind)} />
+                      )}
+                    </div>
+                    {item?.types != "Cash" && (
+                      <div className={css.inputDiv}>
+                        <input
+                          type="number"
+                          value={item?.refreanceNo}
+                          name="refreanceNo"
+                          onChange={(e) => {
+                            setPaymentArr((prev) => {
+                              return prev.map((ite, index) =>
+                                index != ind
+                                  ? ite
+                                  : { ...ite, refreanceNo: e.target.value }
+                              );
+                            });
+                          }}
+                          className={css.input}
+                          required
+                        />
+                        <label
+                          className={
+                            item.refreanceNo ? css.activeLabel : css.inactiveLabel
+                          }
+                        >
+                          Reference No.
+                        </label>
+                      </div>
+                    )}
                   </div>
-                  <div
-                     onClick={(e) => {
-                        e.stopPropagation();
-                        toast({
-                           title: "Feature currently in development",
-                           status: "info",
-                           position: "top",
-                        });
-                     }}
-                     className={css.addDecriptionDiv}
-                     style={{ width: "150px" }}
-                  >
-                     <AddDocumentIcon />
-                     <p>ADD DOCUMENT</p>
-                  </div>
-               </div>
-            </div>
+                ))}
+                <div className={css.paymentFooterDiv}>
+                  <p onClick={handleAddPayType}>+ Add Payment type</p>
+                  <p>Total payment : {totalAmount}</p>
+                </div>
+              </div>
+
          </div>
 
          {/* Footer */}
@@ -471,6 +410,7 @@ const  AddPaymentouts = ({ setOpenForm }) => {
             </div>
          </div>
       </form>
+      </div>
    );
 };
 

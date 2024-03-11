@@ -151,96 +151,96 @@ const PaymentInForm = ({ closeForm, setToggleSetting }) => {
                 )}
               </select>
             </div>
-            {/* Payment Type */}
-            <div className={css.paymentOuter}>
-              {paymentArr?.map((item, ind) => (
-                <div key={ind} className={css.paymentInnerOuterDivs}>
-                  <div className={css.selectOuter}>
-                    <select
-                      name="types"
-                      value={item?.types}
-                      onChange={(e) => {
-                        setPaymentArr((prev) => {
-                          return prev.map((ite, index) =>
-                            index != ind
-                              ? ite
-                              : { ...ite, types: e.target.value }
-                          );
-                        });
-                      }}
-                      className={css.selectTag}
-                      required
-                    >
-                      <option value="Cash">Cash</option>
-                      <option value="Credit">Credit</option>
-                    </select>
-                  </div>
-                  <div className={css.divWhichHasDeleteBtn}>
-                    <div className={css.inputDiv}>
-                      <input
-                        type="number"
-                        value={item?.amount}
-                        name="amount"
+              {/* Payment Type */}
+              <div className={css.paymentOuter}>
+                {paymentArr?.map((item, ind) => (
+                  <div key={ind} className={css.paymentInnerOuterDivs}>
+                    <div className={css.selectOuter}>
+                      <select
+                        name="types"
+                        value={item?.types}
                         onChange={(e) => {
                           setPaymentArr((prev) => {
                             return prev.map((ite, index) =>
                               index != ind
                                 ? ite
-                                : { ...ite, amount: e.target.value }
+                                : { ...ite, types: e.target.value }
                             );
                           });
                         }}
-                        className={css.input}
+                        className={css.selectTag}
                         required
-                      />
-                      <label
-                        style={{ color: "var(--greyA)" }}
-                        className={css.activeLabel}
-                        // className={
-                        //   invoiceData.phoneNumber ? css.activeLabel : css.inactiveLabel
-                        // }
                       >
-                        Amount
-                      </label>
+                        <option value="Cash">Cash</option>
+                        <option value="Credit">Credit</option>
+                      </select>
                     </div>
-                    {paymentArr.length > 1 && (
-                      <DeleteIcon onClick={() => handleDeletePayType(ind)} />
+                    <div className={css.divWhichHasDeleteBtn}>
+                      <div className={css.inputDiv}>
+                        <input
+                          type="number"
+                          value={item?.amount}
+                          name="amount"
+                          onChange={(e) => {
+                            setPaymentArr((prev) => {
+                              return prev.map((ite, index) =>
+                                index != ind
+                                  ? ite
+                                  : { ...ite, amount: e.target.value }
+                              );
+                            });
+                          }}
+                          className={css.input}
+                          required
+                        />
+                        <label
+                          style={{ color: "var(--greyA)" }}
+                          className={css.activeLabel}
+                          // className={
+                          //   invoiceData.phoneNumber ? css.activeLabel : css.inactiveLabel
+                          // }
+                        >
+                          Amount
+                        </label>
+                      </div>
+                      {paymentArr.length > 1 && (
+                        <DeleteIcon onClick={() => handleDeletePayType(ind)} />
+                      )}
+                    </div>
+                    {item?.types != "Cash" && (
+                      <div className={css.inputDiv}>
+                        <input
+                          type="number"
+                          value={item?.refreanceNo}
+                          name="refreanceNo"
+                          onChange={(e) => {
+                            setPaymentArr((prev) => {
+                              return prev.map((ite, index) =>
+                                index != ind
+                                  ? ite
+                                  : { ...ite, refreanceNo: e.target.value }
+                              );
+                            });
+                          }}
+                          className={css.input}
+                          required
+                        />
+                        <label
+                          className={
+                            item.refreanceNo ? css.activeLabel : css.inactiveLabel
+                          }
+                        >
+                          Reference No.
+                        </label>
+                      </div>
                     )}
                   </div>
-                  {item?.types != "Cash" && (
-                    <div className={css.inputDiv}>
-                      <input
-                        type="number"
-                        value={item?.refreanceNo}
-                        name="refreanceNo"
-                        onChange={(e) => {
-                          setPaymentArr((prev) => {
-                            return prev.map((ite, index) =>
-                              index != ind
-                                ? ite
-                                : { ...ite, refreanceNo: e.target.value }
-                            );
-                          });
-                        }}
-                        className={css.input}
-                        required
-                      />
-                      <label
-                        className={
-                          item.refreanceNo ? css.activeLabel : css.inactiveLabel
-                        }
-                      >
-                        Reference No.
-                      </label>
-                    </div>
-                  )}
+                ))}
+                <div className={css.paymentFooterDiv}>
+                  <p onClick={handleAddPayType}>+ Add Payment type</p>
+                  <p>Total payment : {totalAmount}</p>
                 </div>
-              ))}
-              <div className={css.paymentFooterDiv}>
-                <p onClick={handleAddPayType}>+ Add Payment type</p>
-                <p>Total payment : {totalAmount}</p>
               </div>
-            </div>
           </div>
           <div className={css.rightSideFormDiv}>
             <div>

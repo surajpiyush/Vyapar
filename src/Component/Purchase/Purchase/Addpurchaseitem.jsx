@@ -24,7 +24,6 @@ import { BiSolidCheckboxChecked as CheckedBox } from "react-icons/bi";
 import { addPurchaseBill } from "../../../Redux/purchase/action";
 
 const Addpurchaseitem = ({ setOpenForm }) => {
-   
    const toast = useToast();
    const dispatch = useDispatch();
    const isLoading = useSelector((state) => state.SalesReducer.isLoading);
@@ -93,7 +92,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
       poNo: "",
       poDate: new Date().toISOString().split("T")[0],
       eWayBill: "",
-      billNumber: allPurchaseBills.length+1,
+      billNumber: allPurchaseBills.length + 1,
       billDate: new Date().toISOString().split("T")[0],
       time: new Date().toLocaleTimeString("en-US", {
          hour: "2-digit",
@@ -135,7 +134,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
       total: 0,
       paid: 0,
       balance: 0,
-     balanceAmount:0
+      balanceAmount: 0,
    });
 
    // Update total footer values
@@ -268,6 +267,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
          ind == index ? currSaleItem : ite
       );
       setInvoiceItems(newSaleData);
+      // setShowItemsListMenu(false);
    };
    // for changing balance amount
    useEffect(() => {
@@ -279,7 +279,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
       setBalanceAmount(
          bal.toFixed(2) ? bal.toFixed(2) : rowFooterData?.totalAmount
       );
-      invoiceData.balanceAmount = balanceAmount
+      invoiceData.balanceAmount = balanceAmount;
    }, [invoiceData?.recived, toggleRoundOff, rowFooterData?.totalAmount]);
 
    // Add Row Function
@@ -412,7 +412,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                         PO No.
                      </label>
                      <input
-                     required
+                        required
                         type="text"
                         name="poNo"
                         className={css.input}
@@ -432,7 +432,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                         PO Date
                      </label>
                      <input
-                     required
+                        required
                         type="Date"
                         name="poDate"
                         defaultValue={new Date().toISOString().split("T")[0]}
@@ -453,7 +453,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                         E-Way Bill
                      </label>
                      <input
-                     required
+                        required
                         type="text"
                         name="eWayBill"
                         onChange={(e) => handleInputChange(e)}
@@ -466,7 +466,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                   <div>
                      <p>Bill Number</p>
                      <input
-                     required
+                        required
                         type="text"
                         placeholder="1"
                         value={invoiceData.billNumber}
@@ -506,7 +506,8 @@ const Addpurchaseitem = ({ setOpenForm }) => {
 
                   <div>
                      <p>Payment Terms</p>
-                     <select required
+                     <select
+                        required
                         name="paymentTerms"
                         onChange={(e) => handleInputChange(e)}
                      >
@@ -519,7 +520,8 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                   </div>
                   <div>
                      <p>Due Date</p>
-                     <input required
+                     <input
+                        required
                         type="date"
                         placeholder="Due Date"
                         className={css.invoiceDateSelectInp}

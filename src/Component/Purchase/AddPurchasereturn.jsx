@@ -4,6 +4,7 @@ import { memo, useEffect, useState } from "react";
 import { Menu, MenuList, MenuItem, MenuDivider } from "@chakra-ui/react";
 import { MdDelete as DeleteIcon } from "react-icons/md";
 import { TbArrowsMove as MoveIcon } from "react-icons/tb";
+import { useSelector } from "react-redux";
 
 const ItemsTableBody = memo(
    ({
@@ -21,19 +22,24 @@ const ItemsTableBody = memo(
       getAllItemsLoading,
       items,
    }) => {
+      const loadingAllItems = useSelector(
+         (state) => state.ItemReducer.getAllItemsLoading
+       );
+       const itemsList = useSelector((state) => state.ItemReducer.items);
+
       const [foundItems, setFoundItems] = useState([]);
-      console.log("item first -", item);
-      // Itemslist Suggestions
+      
+  // Itemslist Suggestions
       useEffect(() => {
          const regex = new RegExp(item?.itemName, "i");
-         const found = items?.filter((ite) => regex.test(ite.itemName));
+    const itemsArr = Array.isArray(itemsList) ? itemsList : [];
+         const found = itemsArr?.filter((ite) => regex.test(ite.itemName));
          if (item?.itemName.length < 1) {
             return setFoundItems(items);
          }
 
          setFoundItems(found);
-      }, [item?.itemName]);
-
+      }, [item?.itemName,itemsList]);
       // Sale Items Change Function
       const handleTableInputChange = (e, index) => {
          const { name, value } = e.target;
