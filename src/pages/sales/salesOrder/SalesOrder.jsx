@@ -78,14 +78,14 @@ export default function SalesOrder() {
     setEditedData(null);
   };
   const display = [
-    "billDate",
-    "billNumber",
-
-    "paymentType",
-    "amount",
-    "balanceDue",
+    "date",
+    "refNo",
+    "duedatee",
+    "partyName",
+    "total",
+    "balance",
+    "typee",
     "status",
-    "hariom",
   ];
   return (
     <div style={{ marginTop: "80px" }}>
@@ -175,7 +175,7 @@ export default function SalesOrder() {
                     <tr>
                       <th>
                         <div>
-                          PARTY
+                          DATE
                           {/*  <FilterIcon /> */}
                         </div>
                       </th>
@@ -187,13 +187,13 @@ export default function SalesOrder() {
                       </th>
                       <th>
                         <div>
-                          DATE
+                          DUE DATE
                           {/*  <FilterIcon /> */}
                         </div>
                       </th>
                       <th>
                         <div>
-                          DUE DATE
+                          PARTY
                           {/*  <FilterIcon /> */}
                         </div>
                       </th>
@@ -234,8 +234,13 @@ export default function SalesOrder() {
                   <tbody>
                     {!isLoading &&
                       saleOrderList?.map((item, ind) =>
-                        isEditing && editedData?._id == item._id ? (
-                          <tr style={{ width: "82%", position: "absolute" }}>
+                        isEditing && editedData?._id === item._id ? (
+                          <tr
+                            style={{
+                              width: "82%",
+                              position: "absolute",
+                            }}
+                          >
                             <EditableRow
                               display={display}
                               data={editedData}

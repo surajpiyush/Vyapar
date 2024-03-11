@@ -135,6 +135,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
       total: 0,
       paid: 0,
       balance: 0,
+     balanceAmount:0
    });
 
    // Update total footer values
@@ -278,6 +279,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
       setBalanceAmount(
          bal.toFixed(2) ? bal.toFixed(2) : rowFooterData?.totalAmount
       );
+      invoiceData.balanceAmount = balanceAmount
    }, [invoiceData?.recived, toggleRoundOff, rowFooterData?.totalAmount]);
 
    // Add Row Function

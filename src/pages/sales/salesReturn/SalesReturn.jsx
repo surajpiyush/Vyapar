@@ -79,15 +79,17 @@ export default function SalesReturn() {
     setEditedData(null);
   };
   const display = [
-    "billDate",
-    "billNumber",
-
+    "invoiceDate",
+    "invoiceNumber",
+    "partyName",
+    "transactionType",
     "paymentType",
     "amount",
     "balanceDue",
+    "duedate",
     "status",
     "hariom",
-  ];
+ ];
 
   return (
     <div style={{ marginTop: "100px" }}>
