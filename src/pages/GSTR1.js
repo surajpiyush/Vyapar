@@ -8,6 +8,20 @@ import { useDispatch, useSelector } from "react-redux";
 const GSTR1 = () => {
    const [isChecked, setIsChecked] = useState(false);
 
+   const store = useSelector((store) => store.ReportReducer);
+   const data = store.saleReportData;
+   //  console.log(data);
+
+   const date = {
+      startDate: "2023-01-20",
+      endDate: "2025-02-24",
+   };
+
+   const dispatch = useDispatch();
+   useEffect(() => {
+      dispatch(getSaleReport({ date }));
+   }, []);
+
    const check = () => {
       setIsChecked(!isChecked);
    };
@@ -25,7 +39,6 @@ const GSTR1 = () => {
       setSale(false);
    };
 
- 
    const SaletableHeader2 = [
       "GSTIN/UIN",
       "Party Name",
@@ -93,26 +106,14 @@ const GSTR1 = () => {
 
       "Place of Supply (Name Of State)",
    ];
-
-   const store = useSelector((store) => store.ReportReducer);
-   const data = store.saleReportData;
-  //  console.log(data);
-
-   const date = {
-      startDate: "2023-01-20",
-      endDate: "2025-02-24",
-   };
-
-   const dispatch = useDispatch();
-   useEffect(() => {
-      dispatch(getSaleReport({ date }));
-   }, []);
-
-
-
+console.log("data for GSTR1-",data)
    return (
       <div>
-         <GSTRHearder isChecked={isChecked} check={check} data={!sale ? data?.getSale : data?.getSaleReturn} />
+         <GSTRHearder
+            isChecked={isChecked}
+            check={check}
+            data={!sale ? data?.getSale : data?.getSaleReturn}
+         />
          <div>
             <div className="gstr-split-container">
                <div onClick={saleFun} className={`${sale ? "active" : ""}`}>

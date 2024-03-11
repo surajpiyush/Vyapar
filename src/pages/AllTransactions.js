@@ -45,14 +45,20 @@ const AllTransactions = () => {
   ];
 
   const store = useSelector((store) => store.ReportReducer);
-  // console.log(data.PuchaseReturn[0]?.PuchaseReturn)
   const temp = [];
   const date = {
     startDate: "2023-01-20",
     endDate: "2025-02-24",
   };
+  
+  
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllTransections({ date }));
+  }, [dispatch]);
+  console.log(store.allTransectionsData);
 
-  if (store.allTransectionsData[0]) {
+  
     const data = store?.allTransectionsData[0];
     temp.push(...data?.PuchaseBill[0]?.PuchaseBill);
     temp.push(...data?.PuchaseReturn[0]?.PuchaseReturn);
@@ -67,15 +73,16 @@ const AllTransactions = () => {
     temp.push(...data?.ExpensesWithOutGst[0]?.ExpensesWithOutGst);
     // data = temp;
     console.log(temp);
+  
+
+ // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (!store.allTransectionsData[0]) {
+    return <div>Loading...</div>; // You can replace this with a loading component or message
   }
-
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getAllTransections({ date }));
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
   return (
     <>
+    
       <SaleDashboardHeader data={temp} />
       <div style={{ marginLeft: "20px", marginBottom: "20px" }}>
         <ReportSelector optionType={SelectorType} />
