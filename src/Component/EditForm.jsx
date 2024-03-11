@@ -13,15 +13,48 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
       }));
    };
 
-  return (
-    <section className="transaction-tables edit-mode">
-      {display.includes("#") ? (
-        <div className="transaction-table">
-          <input type="text" name="#" value={"#"} readOnly />
-        </div>
-      ) : (
-        ""
-      )}
+   return (
+      <section className="transaction-tables edit-mode">
+         {display.includes("#") ? (
+            <div className="transaction-table">
+               <input type="text" name="#" value={"#"} readOnly />
+            </div>
+         ) : (
+            ""
+         )}
+         {/* sale */}
+         {display.includes("invoiceDate") ? (
+            <div className="transaction-table">
+               <input
+                  type="text"
+                  name="invoiceDate"
+                  value={new Date(editedData?.invoiceDate).toLocaleDateString(
+                     "en-IN",
+                     {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                     }
+                  )}
+                  //    onChange={handleInputChange}
+                  readOnly
+               />
+            </div>
+         ) : (
+            ""
+         )}
+         {display.includes("invoiceNumber") ? (
+            <div className="transaction-table">
+               <input
+                  type="text"
+                  name="invoiceNumber"
+                  value={editedData.invoiceNumber}
+                  readOnly
+               />
+            </div>
+         ) : (
+            ""
+         )}
 
          {display.includes("billDate") ? (
             <div className="transaction-table">
@@ -77,7 +110,12 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
                <input
                   type="text"
                   name="refNo"
-                  value={editedData.refNo}
+                  value={
+                     editedData?.refNo ||
+                     editedData?.refreanceNo ||
+                     editedData?.receiptNo ||
+                     editedData.no
+                  }
                   handleInputChange={handleInputChange}
                />
             </div>
@@ -96,12 +134,56 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
          ) : (
             ""
          )}
+         {display.includes("duedatee") ? (
+            <div className="transaction-table">
+               <input
+                  type="text"
+                  name="date"
+                  value={new Date(editedData.dueDate).toLocaleDateString("en-IN", {
+                     day: "2-digit",
+                     month: "2-digit",
+                     year: "numeric",
+                  })}
+                  //    onChange={handleInputChange}
+                  readOnly
+               />
+            </div>
+         ) : (
+            ""
+         )}
+
          {display.includes("partyName") ? (
             <div className="transaction-table">
                <input
                   type="text"
                   name="partyName"
-                  value={editedData.partyName}
+                  value={editedData.partyName || editedData.partyname}
+                  onChange={handleInputChange}
+               />
+            </div>
+         ) : (
+            ""
+         )}
+
+         {display.includes("challanNo") ? (
+            <div className="transaction-table">
+               <input
+                  type="text"
+                  name="challanNumber"
+                  value={editedData.challanNumber}
+                  onChange={handleInputChange}
+               />
+            </div>
+         ) : (
+            ""
+         )}
+
+         {display.includes("transactionType") ? (
+            <div className="transaction-table">
+               <input
+                  type="text"
+                  name="transactionType"
+                  value={editedData.transactionType}
                   onChange={handleInputChange}
                />
             </div>
@@ -113,7 +195,7 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
             <div className="transaction-table">
                <input
                   type="text"
-                  name="orderNumber"
+                  name="dueDate"
                   value={new Date(editedData.dueDate).toLocaleDateString(
                      "en-IN",
                      {
@@ -170,7 +252,7 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
                <input
                   type="text"
                   name="recieved"
-                  value={editedData.recieved}
+                  value={editedData.recieved || editedData.recived}
                   handleInputChange={handleInputChange}
                />
             </div>
@@ -194,7 +276,7 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
                <input
                   type="text"
                   name="paymentType"
-                  value={editedData.paymentType[0].type}
+                  value={editedData.paymentType[0].type || "cash"}
                   onChange={handleInputChange}
                   readOnly
                />
@@ -207,7 +289,7 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
                <input
                   type="text"
                   name="amount"
-                  value={editedData.amount}
+                  value={editedData.amount || editedData?.totalAmount}
                   onChange={handleInputChange}
                />
             </div>
@@ -221,8 +303,9 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
                   name="balanceDue"
                   value={
                      editedData.status === "Paid"
-                        ? 0 : editedData.amount - (editedData.balanceAmount || 0)
-                       
+                        ? 0
+                        : (editedData.amount || editedData.totalAmount) -
+                          (editedData.balanceAmount || 0)
                   }
                   // value={editedData.balanceDue}
                   onChange={handleInputChange}
@@ -231,6 +314,49 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
          ) : (
             ""
          )}
+
+         {display.includes("duedate") ? (
+            <div className="transaction-table">
+               <input
+                  type="text"
+                  name="dueDate"
+                  value={new Date().toLocaleDateString("en-IN", {
+                     day: "2-digit",
+                     month: "2-digit",
+                     year: "numeric",
+                  })}
+                  onChange={handleInputChange}
+               />
+            </div>
+         ) : (
+            ""
+         )}
+         {display.includes("typee") ? (
+            <div className="transaction-table">
+               <input
+                  type="text"
+                  name="type"
+                  value={editedData.type}
+                  handleInputChange={handleInputChange}
+               />
+            </div>
+         ) : (
+            ""
+         )}
+
+         {display.includes("statuss") ? (
+            <div className="transaction-table">
+               <input
+                  type="text"
+                  name="status"
+                  value={editedData.status}
+                  onChange={handleInputChange}
+               />
+            </div>
+         ) : (
+            ""
+         )}
+
          {display.includes("status") ? (
             <div className="transaction-table">
                <select
@@ -238,24 +364,23 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
                   value={editedData.status}
                   onChange={handleInputChange}
                >
-                 
-            <option value="Paid">Paid</option>
-            <option value="Unpaid">Unpaid</option>
-          </select>
-        </div>
-      ) : (
-        ""
-      )}
+                  <option value="Paid">Paid</option>
+                  <option value="Unpaid">Unpaid</option>
+               </select>
+            </div>
+         ) : (
+            ""
+         )}
 
-      <div className="transaction-table">
-        {/* Save and Cancel buttons */}
-        <button onClick={() => onSave(editedData)}>Update</button>
-        <button className="cancel" onClick={onCancel}>
-          Cancel
-        </button>
-      </div>
-    </section>
-  );
+         <div className="transaction-table">
+            {/* Save and Cancel buttons */}
+            <button onClick={() => onSave(editedData)}>Update</button>
+            <button className="cancel" onClick={onCancel}>
+               Cancel
+            </button>
+         </div>
+      </section>
+   );
 };
 
 export default EditableRow;

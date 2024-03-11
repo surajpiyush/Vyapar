@@ -19,16 +19,16 @@ const TableSaleOrder = ({
   return (
     <tr>
       <td>
-        <div>{partyName}</div>
+        <div>{FormatDate(date)}</div>
       </td>
       <td>
         <div>{no}</div>
       </td>
       <td>
-        <div>{FormatDate(date)}</div>
+        <div>{FormatDate(dueDate)}</div>
       </td>
       <td>
-        <div>{FormatDate(dueDate)}</div>
+        <div>{partyName}</div>
       </td>
       <td>
         <div style={{ textAlign: "right" }}>{total}</div>

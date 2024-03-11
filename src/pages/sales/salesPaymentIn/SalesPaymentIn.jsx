@@ -22,7 +22,7 @@ export default function SalesPaymentIn() {
   const paymentInList = useSelector(
     (state) => state.SalesReducer.paymentInList
   );
-
+console.log(paymentInList)
   const [openForm, setOpenForm] = useState(false);
   const [toggleSetting, setToggleSetting] = useState(false);
   const [startDate, setStartDate] = useState("2024-02-01");
@@ -71,15 +71,19 @@ export default function SalesPaymentIn() {
     setEditedData(null);
   };
   const display = [
-    "billDate",
-    "billNumber",
-
-    "paymentType",
-    "amount",
-    "balanceDue",
-    "status",
-    "hariom",
-  ];
+    "#",
+    "invoiceDate",
+    "refNo",
+    "partyName",
+    "category",
+    "type",
+    "total",
+    // "paymentType",
+    "recieved",
+    "balance",
+    // "duedate",
+    // "statuss",
+ ];
 
   return (
     <div style={{ marginTop: "100px" }}>

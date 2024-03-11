@@ -38,6 +38,7 @@ export default function SalesDeliveryChallan() {
     (state) => state.SalesReducer.deliveryChallanList
   );
 
+  console.log(deliveryChallanList)
   const [openForm, setOpenForm] = useState(false);
   const [toggleSetting, setToggleSetting] = useState(false);
 
@@ -77,7 +78,15 @@ export default function SalesDeliveryChallan() {
     setIsEditing(false);
     setEditedData(null);
   };
-  const display = ["action", "amount", "dueDate", "status"];
+  const display = [
+    "invoiceDate",
+    "partyName",
+    "challanNo",
+    "dueDate",
+    "amount",
+   
+    "statuss",
+ ];
 
   return (
     <div>
