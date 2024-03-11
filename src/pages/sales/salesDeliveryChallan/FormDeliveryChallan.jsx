@@ -321,7 +321,27 @@ const FormDeliveryChallan = ({ setOpenForm, setToggleSetting }) => {
                 type="date"
                 name="dueDate"
                 value={orderData?.dueDate}
-                onChange={handleInputChange}
+                //  onChange={handleInputChange}
+                onChange={(e) => {
+                  const { name, value } = e.target;
+                  if (new Date(value) < new Date()) {
+                    setOrderData((prev) => {
+                      return {
+                        ...prev,
+                        [name]: new Date().toISOString().split("T")[0],
+                      };
+                    });
+                    toast.closeAll();
+                    toast({
+                      title: "Due Date must be after today!",
+                      status: "warning",
+                      position: "top",
+                    });
+                  } else {
+                    handleInputChange(e);
+                    toast.closeAll();
+                  }
+                }}
                 placeholder="Due Date"
                 className={css.invoiceDateSelectInp}
                 required

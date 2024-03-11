@@ -16,7 +16,7 @@ const initialState = {
   isError: false,
   items: [],
   toggleItems: false,
-allItems:[],
+  allItems: [],
   //   Get Single Items Action
   getSingleLoading: false,
   getSingleError: false,
@@ -37,7 +37,7 @@ export const reducer = (state = initialState, { type, payload }) => {
       return { ...state, isLoading: false, items: payload };
     }
     case POST_ITEM_SUCCESS: {
-      console.log("payload-", payload);
+      // console.log("payload-", payload);
       return {
         ...state,
         isLoading: false,
@@ -57,7 +57,12 @@ export const reducer = (state = initialState, { type, payload }) => {
       return { ...state, getAllItemsLoading: false, getAllItemsError: true };
     }
     case SUCCESS_GET_ALL_ITEMS: {
-      return { ...state, getAllItemsLoading: false, items: payload, allItems:payload };
+      return {
+        ...state,
+        getAllItemsLoading: false,
+        items: payload,
+        allItems: payload,
+      };
     }
 
     //  Single Item get actions
