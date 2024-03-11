@@ -1,41 +1,43 @@
 /* Add these styles to your existing Transactions.css file */
 
 .transaction-tables.edit-mode {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    font-size: larger;
-    margin: 20px 0;
-    transition: box-shadow 0.3s ease, margin 0.3s ease;
-  }
-  
-  .transaction-tables.edit-mode:hover {
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
-  }
-  
-  .transaction-tables.edit-mode input {
-    width: 100%;
-    padding: 5px;
-    box-sizing: border-box;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-  }
-  
-  .transaction-tables.edit-mode button {
-    background: #4caf50;
-    color: #fff;
-    padding: 5px 10px;
-    border: 1px solid white;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-right: 5px;
-  }
-  
-  .transaction-tables.edit-mode button.cancel {
-    background: #f44336;
-  }
-  
-  .transaction-tables.edit-mode p {
-    font-weight: bold;
-    color: #333;
-  }
-  
+  position: relative;
+  background-color: var(--pureWhite);
+  width: 100%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  font-size: larger;
+  margin: 20px 0;
+  transition: box-shadow 0.3s ease, margin 0.3s ease;
+}
+
+.transaction-tables.edit-mode:hover {
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+}
+
+.transaction-tables.edit-mode input {
+  width: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.transaction-tables.edit-mode button {
+  background: #4caf50;
+  color: #fff;
+  padding: 5px 10px;
+  border: 1px solid white;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.transaction-tables.edit-mode button.cancel {
+  background: #f44336;
+}
+
+.transaction-tables.edit-mode p {
+  font-weight: bold;
+  color: #333;
+}
