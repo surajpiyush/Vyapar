@@ -1,7 +1,12 @@
-import { DeleteIcon, EditIcon } from "../../../Component/utils/reactIcons";
 import { FormatDate } from "../../../Redux/sales/action";
+import {
+  DeleteIcon,
+  EditIcon,
+  PrintIcon2,
+} from "../../../Component/utils/reactIcons";
 
 const TableInvoice = ({
+  item,
   _id,
   invoiceDate,
   invoiceNumber,
@@ -46,10 +51,18 @@ const TableInvoice = ({
       </td>
 
       <td>
-        <DeleteIcon onClick={() => handleDelete(_id)} />
-        <p style={{ fontSize: "1.5rem" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            fontSize: "18px",
+            gap: "4px",
+          }}
+        >
+          <DeleteIcon onClick={() => handleDelete(_id)} />
           <EditIcon onClick={() => handleEdit(_id)} />
-        </p>
+          <PrintIcon2 />
+        </div>
       </td>
     </tr>
   );
