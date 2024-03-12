@@ -42,146 +42,146 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
-   {
-      path: "/",
-      element: <App />,
-      children: [
-         {
-            path: "/",
-            element: <Homepage />,
-         },
-         // Firm / Company Routes
-         {
-            path: "/profile",
-            element: <ProfilePage />,
-         },
-         {
-            path: "/companies",
-            element: <CompaniesPage />,
-         },
-         {
-            path: "/addCompany",
-            element: <AddCompanyPage />,
-         },
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      {
+        path: "/",
+        element: <Homepage />,
+      },
+      // Firm / Company Routes
+      {
+        path: "/profile",
+        element: <ProfilePage />,
+      },
+      {
+        path: "/companies",
+        element: <CompaniesPage />,
+      },
+      {
+        path: "/addCompany",
+        element: <AddCompanyPage />,
+      },
 
-         {
-            path: "/parties",
-            element: <Parties />,
-         },
-         {
-            path: "/items",
-            element: <Items />,
-         },
-         {
-            path: "/auth",
-            element: <AuthPage />,
-         },
-         {
-            path: "/purchasebill",
-            element: <Purchasebill />,
-         },
-         {
-            path: "/paymentout",
-            element: <Paymentout />,
-         },
-         {
-            path: "/paymentorder",
-            element: <Purchaseorderpage />,
-         },
-         {
-            path: "/purchasereturn",
-            element: <Purchasereturnpage />,
-         },
-         {
-            path: "/addpurchase",
-            element: <AddPurchase />,
-         },
-         {
-            path: "/addpurchaseorder",
-            element: <Addpurchaseorderpage />,
-         },
-         {
-            path: "/addpurchasereturn",
-            element: <AddPurchasereturn />,
-         },
-         // Sales Routes
-         {
-            path: "/invoices",
-            element: <SalesInvoice />,
-         },
-         {
-            path: "/estimates",
-            element: <SalesEstimates />,
-         },
-         {
-            path: "/paymentin",
-            element: <SalesPaymentln />,
-         },
-         {
-            path: "/saleorder",
-            element: <SalesOrder />,
-         },
-         {
-            path: "/deliverychallan",
-            element: <SalesDeliveryChallan />,
-         },
-         {
-            path: "/salereturn",
-            element: <SalesReturn />,
-         },
-         {
-            path: "/salereport",
-            element: <Sale />,
-         },
-         {
-            path: "/purchasereport",
-            element: <Purchase />,
-         },
-         {
-            path: "/daybookreport",
-            element: <DayBook />,
-         },
-         {
-            path: "/alltransactionreport",
-            element: <AllTransaction />,
-         },
-         {
-            path: "/cashflowreport",
-            element: <CashFlow />,
-         },
-         {
-            path: "/gstr1report",
-            element: <GSTR1 />,
-         },
-         {
-            path: "/gstr2report",
-            element: <GSTR2 />,
-         },
-         {
-            path: "/gstr3breport",
-            element: <GSTR3B />,
-         },
-         {
-            path: "/gstr9report",
-            element: <GSTR9 />,
-         },
-         {
-            path: "/salehsnreport",
-            element: <HsnReport />,
-         },
-         { path: "/marketing", element: <Marketing /> },
-         { path: "*", element: <PageNotFound /> },
-      ],
-   },
+      {
+        path: "/parties",
+        element: <Parties />,
+      },
+      {
+        path: "/items",
+        element: <Items />,
+      },
+      {
+        path: "/auth",
+        element: <AuthPage />,
+      },
+      {
+        path: "/purchasebill",
+        element: <Purchasebill />,
+      },
+      {
+        path: "/paymentout",
+        element: <Paymentout />,
+      },
+      {
+        path: "/paymentorder",
+        element: <Purchaseorderpage />,
+      },
+      {
+        path: "/purchasereturn",
+        element: <Purchasereturnpage />,
+      },
+      {
+        path: "/addpurchase",
+        element: <AddPurchase />,
+      },
+      {
+        path: "/addpurchaseorder",
+        element: <Addpurchaseorderpage />,
+      },
+      {
+        path: "/addpurchasereturn",
+        element: <AddPurchasereturn />,
+      },
+      // Sales Routes
+      {
+        path: "/invoices",
+        element: <SalesInvoice />,
+      },
+      {
+        path: "/estimates",
+        element: <SalesEstimates />,
+      },
+      {
+        path: "/paymentin",
+        element: <SalesPaymentln />,
+      },
+      {
+        path: "/saleorder",
+        element: <SalesOrder />,
+      },
+      {
+        path: "/deliverychallan",
+        element: <SalesDeliveryChallan />,
+      },
+      {
+        path: "/salereturn",
+        element: <SalesReturn />,
+      },
+      {
+        path: "/salereport",
+        element: <Sale />,
+      },
+      {
+        path: "/purchasereport",
+        element: <Purchase />,
+      },
+      {
+        path: "/daybookreport",
+        element: <DayBook />,
+      },
+      {
+        path: "/alltransactionreport",
+        element: <AllTransaction />,
+      },
+      {
+        path: "/cashflowreport",
+        element: <CashFlow />,
+      },
+      {
+        path: "/gstr1report",
+        element: <GSTR1 />,
+      },
+      {
+        path: "/gstr2report",
+        element: <GSTR2 />,
+      },
+      {
+        path: "/gstr3breport",
+        element: <GSTR3B />,
+      },
+      {
+        path: "/gstr9report",
+        element: <GSTR9 />,
+      },
+      {
+        path: "/salehsnreport",
+        element: <HsnReport />,
+      },
+      { path: "/marketing", element: <Marketing /> },
+      { path: "*", element: <PageNotFound /> },
+    ],
+  },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-   <Provider store={store}>
-      <ChakraProvider>
-         <RouterProvider router={router} />
-      </ChakraProvider>
-   </Provider>
+  <Provider store={store}>
+    <ChakraProvider>
+      <RouterProvider router={router} />
+    </ChakraProvider>
+  </Provider>
 );
 
 reportWebVitals();
