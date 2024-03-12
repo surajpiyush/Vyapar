@@ -14,13 +14,12 @@ import {
 import { USER_DETAILS } from "../business/actionTypes";
 
 const API_URL = "https://ca-backend-api.onrender.com";
-const token = localStorage.getItem("token");
-const userId = localStorage.getItem("userId");
-const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
 export const addItem = async (dispatch, newItem, closeForm, toast) => {
   toast.closeAll();
   dispatch({ type: ITEM_REQUEST });
+  const token = localStorage.getItem("token");
+  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
   try {
     const response = await axios.post(
       `${API_URL}/${FirmId}/insertItem`,
@@ -52,11 +51,8 @@ export const addItem = async (dispatch, newItem, closeForm, toast) => {
 
 export const getitems = async (dispatch) => {
   dispatch({ type: ITEM_REQUEST });
-
-  if (!token) {
-    dispatch({ type: ITEM_FAILURE });
-    return;
-  }
+  const token = localStorage.getItem("token");
+  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
   try {
     const response = await axios.get(`${API_URL}/${FirmId}/item/allItem`, {
       headers: {
@@ -74,10 +70,11 @@ export const getitems = async (dispatch) => {
 // Get Single item
 export const GetSingleItem = async (dispatch, itemId) => {
   dispatch({ type: LOADING_SINGLE_ITEM });
-
+  const token = localStorage.getItem("token");
+  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
   try {
     const response = await axios.get(
-      `https://ca-backend-api.onrender.com/${FirmId}/sale/getInvoice/${itemId}`,
+      `${API_URL}/${FirmId}/sale/getInvoice/${itemId}`,
       {
         headers: {
           Authorization: `Bearer ${token} `,
@@ -95,17 +92,15 @@ export const GetSingleItem = async (dispatch, itemId) => {
 // Get All items List
 export const GetAllItems = () => async (dispatch) => {
   dispatch({ type: LOADING_GET_ALL_ITEMS });
-
+  const token = localStorage.getItem("token");
+  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
   try {
-    const response = await axios.get(
-      `https://ca-backend-api.onrender.com/${FirmId}/item/allItemData`,
-      {
-        headers: {
-          Authorization: `Bearer ${token} `,
-        },
-      }
-    );
-    console.log("Get All Items Response:", response.data);
+    const response = await axios.get(`${API_URL}/${FirmId}/item/allItemData`, {
+      headers: {
+        Authorization: `Bearer ${token} `,
+      },
+    });
+    // console.log("Get All Items Response:", response.data);
     dispatch({ type: SUCCESS_GET_ALL_ITEMS, payload: response?.data?.data });
   } catch (error) {
     console.log("Getting All Items Error:", error);

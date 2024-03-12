@@ -1,4 +1,3 @@
-import "./Profile.css";
 import css from "./EditFirm.module.css";
 import Loader1 from "../../Component/Loaders/Loader1";
 import { USER_DETAILS } from "../../Redux/business/actionTypes";
@@ -9,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RxCross2 } from "react-icons/rx";
 
-const ProfilePage = () => {
+const EditFirm = () => {
   const toast = useToast();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.BusinessReducer.isLoading);
@@ -306,4 +305,4 @@ const ProfilePage = () => {
   );
 };
 
-export default ProfilePage;
+export default EditFirm;

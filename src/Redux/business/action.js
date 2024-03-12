@@ -10,12 +10,11 @@ import {
 import axios from "axios";
 
 const API_URL = `https://ca-backend-api.onrender.com`;
-const token = localStorage.getItem("token");
-const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
 // Company Register Request ---- Didn't applied function curring due to thunk error in store.js
 export const FetchAllCompanies = async (dispatch) => {
   dispatch({ type: ISLOADING });
+  const token = localStorage.getItem("token");
 
   try {
     const response = await axios.get(`${API_URL}/firm_registration`, {
@@ -39,13 +38,14 @@ export const FetchAllCompanies = async (dispatch) => {
 export const AddBusinessLoginRequest = async (
   dispatch,
   data,
+  toast,
   navigate,
   location,
   setFormdata
 ) => {
+  toast.closeAll();
   dispatch({ type: ISLOADING });
-
-  // console.log("data", data);
+  const token = localStorage.getItem("token");
 
   try {
     const response = await axios.post(`${API_URL}/firm_registration`, data, {
@@ -53,7 +53,7 @@ export const AddBusinessLoginRequest = async (
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log("Business Added", response?.data);
+    // console.log("Business Added Response", response?.data);
     let newCurrentCompanyData = response?.data?.FirmData;
     localStorage.setItem(USER_DETAILS, JSON.stringify(newCurrentCompanyData));
     dispatch({ type: SUCCESS });
@@ -62,15 +62,23 @@ export const AddBusinessLoginRequest = async (
       email: "",
       phoneNumber: "",
     });
-    alert("Business Added ✔️");
+    toast({
+      title: "Business Added ✔️",
+      status: "success",
+      position: "top",
+    });
     navigate("/", {
       state: { redirectTo: location.pathname },
       replace: true,
     });
   } catch (error) {
     dispatch({ type: ISERROR });
+    toast({
+      title: error?.response?.data?.message || "Something Went Wrong!",
+      status: "success",
+      position: "top",
+    });
     console.log("Error Adding New Business:", error);
-    alert(error?.response?.data?.message || "Something Went Wrong!");
   }
 };
 
@@ -78,8 +86,8 @@ export const AddBusinessLoginRequest = async (
 export const UpdateCompanyProfile = async (dispatch, data, toast) => {
   dispatch({ type: ISLOADING });
   toast.closeAll();
-  console.log("Update Data action.js", data);
-
+  const token = localStorage.getItem("token");
+  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
   try {
     // prettier-ignore
     const response = await axios.put( // eslint-disable-line no-unused-vars
@@ -92,7 +100,6 @@ export const UpdateCompanyProfile = async (dispatch, data, toast) => {
         },
       }
     );
-
     // console.log("Update Firm Response", response?.data);
     const responseData = response?.data?.FirmData;
     const prevousUserLSData = JSON.parse(localStorage.getItem(USER_DETAILS));
@@ -111,12 +118,11 @@ export const UpdateCompanyProfile = async (dispatch, data, toast) => {
     });
   } catch (error) {
     dispatch({ type: ISERROR });
-    console.log("Updating Profile Error Response:", error);
     toast({
-      title: "Something Went Wrong!",
-      description: error?.response?.data?.message || "",
+      title: error?.response?.data?.message || "Something Went Wrong!",
       position: "top",
       status: "error",
     });
+    console.log("Updating Profile Error Response:", error);
   }
 };

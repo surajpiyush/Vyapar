@@ -22,6 +22,7 @@
   --overlayBg: rgba(0, 0, 0, 0.377);
   --overlayBg2: rgba(0, 0, 0, 0.544);
   --DeepCharcoal: #111827;
+  --SlateTranslucent: rgba(25, 25, 25, 0.274);
 
   /* Box Shadows */
   --shadowA: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
