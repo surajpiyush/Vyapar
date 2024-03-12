@@ -104,15 +104,11 @@ export const GetAllGroups = async (dispatch, data, setPartyFormToggle) => {
   // This request needs to be edited
 
   try {
-    const response = await axios.post(
-      `${API_URL}/${FirmId}/party`,
-      data,
-      {
-        headers: {
-          Authorization: `Bearer ${token} `,
-        },
-      }
-    );
+    const response = await axios.post(`${API_URL}/${FirmId}/party`, data, {
+      headers: {
+        Authorization: `Bearer ${token} `,
+      },
+    });
     console.log("Getting All Groups Response:", response?.data);
 
     dispatch({ type: SAVE_PARTY_SUCCESS });

@@ -9,9 +9,8 @@ import { IoLockOpenOutline as PasswordIcon } from "react-icons/io5";
 import { MdOutlineMailOutline as MailIcon } from "react-icons/md";
 import { FaRegUserCircle as UserIcon } from "react-icons/fa";
 import { CgOrganisation as CompanyIcon } from "react-icons/cg";
-import { USER_DETAILS } from "../../Redux/business/actionTypes";
 
-const API_URL = "https://ca-backend-api.onrender.com";
+const API_URL = "http://asaanly.com";
 
 const AuthPage = () => {
   const toast = useToast();
