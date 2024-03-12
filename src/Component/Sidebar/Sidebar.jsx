@@ -68,26 +68,32 @@ const Sidebar = () => {
     <div className="sidebar-container">
       {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
 
-      <section className="sidebar-top-section">
-        <div className="sidebar-top-logo-div">
-          <img src={Logo} alt="logo" className="sidebar-top-img" />
+      <section
+        className="sidebar-top-section"
+        onClick={() => {
+          navigate("/profile", {
+            state: { redirectTo: location.pathname },
+            replace: true,
+          });
+          setToggleNavItems(false);
+        }}
+      >
+        <div>
+          <div className="sidebar-top-logo-div">
+            {/* <img src={Logo} alt="logo" className="sidebar-top-img" /> */}
+            <img
+              src={profileData?.companyLogo ? profileData?.companyLogo : Logo}
+              alt="logo"
+              className="sidebar-top-img"
+            />
+          </div>
           <span className="sidebar-top-img-plus">+</span>
         </div>
-        <h3 className="sidebar-top-heading">
-          {profileData?.companyName ? profileData.companyName : "Loading..."}
-        </h3>
-        <div className="sidebar-left-icon">
-          <button
-            onClick={() => {
-              navigate("/profile", {
-                state: { redirectTo: location.pathname },
-                replace: true,
-              });
-              setToggleNavItems(false);
-            }}
-          >
-            <MdOutlineArrowForwardIos />
-          </button>
+        <div className="firmNameContDiv">
+          <h4>
+            {profileData?.companyName ? profileData.companyName : "Loading..."}
+          </h4>
+          <MdOutlineArrowForwardIos />
         </div>
       </section>
 

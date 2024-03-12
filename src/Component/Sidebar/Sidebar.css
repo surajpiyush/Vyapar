@@ -1,91 +1,115 @@
-
-
 .sidebar-top-section {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 5px;
-   
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 5px;
 }
 .sidebar-top-section:hover {
-    background-color: rgba(25, 25, 25, 0.274);
-    border-radius: 20px;
-    cursor: pointer;
+  background-color: var(--SlateTranslucent);
+  border-radius: 20px;
+  cursor: pointer;
 }
-
 .sidebar-top-logo-div {
-    border: 2px white;
-    position: relative;
-    background-color: rgba(65, 65, 255, 0.674);
-    border-radius: 100%;
-    padding: 8px;
+  background-color: var(--blueB);
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
 }
-
-.sidebar-top-img-plus {
-    position: absolute;
-    bottom: 2px;
-    background-color: white;
-    color: black;
-    padding: 0px 5px;
-    border-radius: 100%;
-    right: -4px;
-}
-
 .sidebar-top-img {
-    max-width: 30px;
-    height: 100%;
-    border: 10px white;
+  display: block;
+  width: 100%;
+  height: 100%;
 }
+.sidebar-top-img-plus {
+  cursor: pointer;
+  position: absolute;
+  background-color: white;
+  color: var(--DeepCharcoal);
+  display: grid;
+  place-items: center;
+  place-content: center;
+  border: 1px solid var(--DeepCharcoal);
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  font-size: 14px;
+  margin: -14px 0px 0px 26px;
+}
+.firmNameContDiv {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.firmNameContDiv h4 {
+  height: fit-content;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  margin-top: 8px;
+  max-width: 140px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.firmNameContDiv svg {
+  display: block;
+  font-size: 14px;
+}
+
+/*  */
 
 .sidebar-top-heading {
-    font-size: 17px;
+  font-size: 17px;
 }
 
 .sidebar-left-icon {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .sidebar-top-border {
-    height: 2px;
-    background-color: rgb(104, 141, 130);
-    margin-top: 10px;
+  height: 2px;
+  background-color: rgb(104, 141, 130);
+  margin-top: 10px;
 }
 
-
-
 .sidebar-items-div {
-    display: flex;
-    justify-content: space-between;
-    gap: 5px;
-   margin: 5px 0;
-   padding: 0px 15px;
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+  margin: 5px 0;
+  padding: 0px 15px;
 }
 
 .sidebar-items-div:hover {
-    background-color: black;
-    cursor: pointer;
+  background-color: black;
+  cursor: pointer;
 }
 
 .sidevar-items-aside1 {
-    display: flex;
-    gap: 10px;
-    padding: 7px;
-    font-size: 16px;
+  display: flex;
+  gap: 10px;
+  padding: 7px;
+  font-size: 16px;
 }
 
 .sidebar-items-extra-icon {
-    padding: 5px;
+  padding: 5px;
 }
 
 .active-nav-border {
-    border-left: solid 5px red;
-    background-color: black;
+  border-left: solid 5px red;
+  background-color: black;
 }
 
 .sidevar-nested-items {
-    display: flex;
-    justify-content: space-between;
-    padding: 5px 0 10px 10px;
-    font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0 10px 10px;
+  font-size: 14px;
 }
