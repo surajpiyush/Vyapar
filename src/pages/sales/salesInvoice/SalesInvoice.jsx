@@ -21,10 +21,8 @@ import { IoCloseOutline as CrossIcon } from "react-icons/io5";
 import { IoSearch as SearchIcon } from "react-icons/io5";
 import { FiPlusCircle as PlusIcon } from "react-icons/fi";
 import { CiFilter as FilterIcon } from "react-icons/ci";
-import ReactToPrint from "react-to-print";
 
 export default function SalesInvoice() {
-  let componentRef = useRef();
   const toast = useToast();
   const [isEditing, setIsEditing] = useState(false);
   const [editedData, setEditedData] = useState(null);
@@ -95,14 +93,6 @@ export default function SalesInvoice() {
 
   return (
     <div style={{ marginTop: "100px" }}>
-      {/* <ReactToPrint
-        trigger={() => <button>Print this out!</button>}
-        content={() => componentRef}
-      />
-      <div ref={(el) => (componentRef = el)} id="printForm">
-        Hello
-      </div> */}
-
       {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
 
       {openForm && (

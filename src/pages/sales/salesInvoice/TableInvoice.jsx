@@ -5,6 +5,9 @@ import {
   PrintIcon2,
 } from "../../../Component/utils/reactIcons";
 
+import { useRef } from "react";
+import ReactToPrint from "react-to-print";
+
 const TableInvoice = ({
   item,
   _id,
@@ -20,8 +23,10 @@ const TableInvoice = ({
   handleDelete,
   handleEdit,
 }) => {
+  let componentRef = useRef();
+
   return (
-    <tr>
+    <tr ref={(el) => (componentRef = el)}>
       <td>
         <div>{FormatDate(invoiceDate)}</div>
       </td>
@@ -49,7 +54,6 @@ const TableInvoice = ({
       <td>
         <div>{status}</div>
       </td>
-
       <td>
         <div
           style={{
@@ -61,7 +65,10 @@ const TableInvoice = ({
         >
           <DeleteIcon onClick={() => handleDelete(_id)} />
           <EditIcon onClick={() => handleEdit(_id)} />
-          <PrintIcon2 />
+          <ReactToPrint
+            trigger={() => <PrintIcon2>Print this out!</PrintIcon2>}
+            content={() => componentRef}
+          />
         </div>
       </td>
     </tr>
