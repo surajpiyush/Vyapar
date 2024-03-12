@@ -178,10 +178,17 @@ const Addpurchaseitem = ({ setOpenForm }) => {
    // Submit Request Function
    const handleSubmit = (e) => {
       e.preventDefault();
+      const saleData = invoiceItems?.map((item) => {
+         return {
+            ...item,
+            qty: Number(item?.qty) || 0,
+            discountAmount: Number(item?.discountAmount) || 0,
+         };
+      });
       const purchaseReturnData = {
          ...invoiceData,
          priceUnitWithTax: invoiceData?.priceUnitWithTax == "true",
-         purchaseOrder: [...invoiceData.purchaseOrder, invoiceItems],
+         purchaseOrder: [...invoiceData.purchaseOrder, saleData],
       };
       console.log("data", purchaseReturnData);
 
@@ -224,6 +231,21 @@ const Addpurchaseitem = ({ setOpenForm }) => {
    // Input Change Function
    const handleInputChange = (e) => {
       const { name, value } = e.target;
+      if (name === "dueDate") {
+         const selectedDate = new Date(value);
+         const today = new Date();
+
+         if (selectedDate < today) {
+            toast({
+               description: "Something Went Wrong!",
+               title: "Selected date should not be before today",
+               status: "error",
+               position: "top",
+            });
+            console.log("Selected date should not be after today");
+            value = new Date().toISOString().split("T")[0];
+         }
+      }
       setInvoiceData((prev) => {
          return { ...prev, [name]: value };
       });
@@ -387,6 +409,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                         onChange={(e) => handleInputChange(e)}
                         name="billDate"
                         defaultValue={new Date().toISOString().split("T")[0]}
+                        readOnly 
                      />
                   </div>
                   <div>
@@ -401,6 +424,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                            minute: "2-digit",
                            hour12: false,
                         })}
+                        readOnly
                      />
                   </div>
 
