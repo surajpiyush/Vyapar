@@ -75,7 +75,7 @@ export const AddBusinessLoginRequest = async (
     dispatch({ type: ISERROR });
     toast({
       title: error?.response?.data?.message || "Something Went Wrong!",
-      status: "success",
+      status: "error",
       position: "top",
     });
     console.log("Error Adding New Business:", error);
