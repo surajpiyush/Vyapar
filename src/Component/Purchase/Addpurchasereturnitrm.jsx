@@ -178,10 +178,17 @@ const Addpurchaseitem = ({ setOpenForm }) => {
    // Submit Request Function
    const handleSubmit = (e) => {
       e.preventDefault();
+      const saleData = invoiceItems?.map((item) => {
+         return {
+            ...item,
+            qty: Number(item?.qty) || 0,
+            discountAmount: Number(item?.discountAmount) || 0,
+         };
+      });
       const purchaseReturnData = {
          ...invoiceData,
          priceUnitWithTax: invoiceData?.priceUnitWithTax == "true",
-         purchaseOrder: [...invoiceData.purchaseOrder, invoiceItems],
+         purchaseOrder: [...invoiceData.purchaseOrder, saleData],
       };
       console.log("data", purchaseReturnData);
 
