@@ -54,7 +54,7 @@ const AuthPage = () => {
         `${API_URL}/companyRegister/auth/signup`,
         inpVal
       );
-      // console.log("SignUp Response", res?.data);
+      //console.log("SignUp Response", res?.data);
       const userName = res?.data?.companyData?.name;
       localStorage.setItem("token", res?.data?.companyData?.token);
       localStorage.setItem("userId", res?.data?.companyData?.userId);
@@ -81,8 +81,7 @@ const AuthPage = () => {
     } catch (error) {
       console.log("Signup Error:", error);
       toast({
-        title: "Something Went Wrong!",
-        description: error.response?.data?.message || "",
+        title: error.response?.data?.msg || "Something Went Wrong!",
         status: "error",
         position: "top",
       });
@@ -129,16 +128,15 @@ const AuthPage = () => {
         replace: true,
       });
     } catch (error) {
-      console.log("Login Error:", error);
       toast({
-        title: "Something Went Wrong!",
-        description: error.response?.data?.message || "",
+        title: error.response?.data?.message || "Something Went Wrong!",
         status: "error",
         position: "top",
       });
       setStates((prev) => {
         return { ...prev, isLoading: false, isError: true };
       });
+      console.log("Login Error:", error);
     }
   };
 

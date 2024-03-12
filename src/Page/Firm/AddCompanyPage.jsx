@@ -1,10 +1,12 @@
 import { AddBusinessLoginRequest } from "../../Redux/business/action";
 
 import { useState } from "react";
+import { useToast } from "@chakra-ui/react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 const AddCompanyPage = () => {
+  const toast = useToast();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -31,6 +33,7 @@ const AddCompanyPage = () => {
       AddBusinessLoginRequest(
         dispatch,
         formData,
+        toast,
         navigate,
         location,
         setFormdata

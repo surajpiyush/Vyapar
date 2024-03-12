@@ -166,6 +166,7 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
       phoneNumber: currentCustomerData?.phoneNumber || "",
       billingAddress: currentCustomerData?.billingAddress || "",
       openingBalance: currentCustomerData?.openingBalance || "",
+      stateOfSupply: currentCustomerData?.state || "",
     };
     setInvoiceData((prev) => {
       return { ...prev, ...obj };

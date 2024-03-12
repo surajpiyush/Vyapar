@@ -66,7 +66,8 @@ const ProfilePage = () => {
     Object.entries(companyData).forEach(([key, value]) => {
       newFormDataToSend.append(key, value);
     });
-    UpdateCompanyProfile(dispatch, newFormDataToSend, toast);
+    // console.log("Update Form Data", companyData);
+    UpdateCompanyProfile(dispatch, companyData, toast);
   };
 
   return (
@@ -109,20 +110,22 @@ const ProfilePage = () => {
 
         <aside className="edit-firm-middle-aside2">
           <div>
-            <label htmlFor="#">Business Name</label>
+            <label htmlFor="#">
+              Business Name <span style={{ color: "red" }}>*</span>
+            </label>
             <input
-              value={companyData.companyName}
+              value={companyData?.companyName}
               onChange={handleInputChange}
               name="companyName"
               type="text"
-              placeholder="Company name"
+              placeholder="Business name"
             />
           </div>
           <div>
             <label htmlFor="#">GSTIN</label>
             <input
               type="text"
-              value={companyData.gstinNumber}
+              value={companyData?.gstinNumber}
               onChange={handleInputChange}
               name="gstinNumber"
               placeholder="GSTIN"
@@ -130,23 +133,27 @@ const ProfilePage = () => {
             <p>Get GST registration at execlusive prices</p>
           </div>
           <div>
-            <label htmlFor="#">Phone No.</label>
+            <label htmlFor="#">
+              Phone No. <span style={{ color: "red" }}>*</span>
+            </label>
             <input
               type="number"
-              value={companyData.phoneNumber}
+              value={companyData?.phoneNumber}
               onChange={handleInputChange}
               name="phoneNumber"
-              placeholder="mobile number"
+              placeholder="Phone Number"
             />
           </div>
           <div>
-            <label htmlFor="#">Email ID</label>
+            <label htmlFor="#">
+              Email ID <span style={{ color: "red" }}>*</span>
+            </label>
             <input
               type="text"
-              value={companyData.email}
+              value={companyData?.email}
               onChange={handleInputChange}
               name="email"
-              placeholder="Eamil ID"
+              placeholder="Enter Email"
             />
           </div>
         </aside>
@@ -160,12 +167,14 @@ const ProfilePage = () => {
               <label htmlFor="#">Business Address</label>
               <textarea
                 type="text"
-                name="businessname"
-                placeholder="Company name"
+                name="businessAddress"
+                value={companyData?.businessAddress}
+                onChange={handleInputChange}
+                placeholder="Business Address"
               />
             </div>
             <div>
-              <label htmlFor="#">pincode</label>
+              <label htmlFor="#">Pincode</label>
               <input
                 type="text"
                 value={companyData.pinCode}
@@ -181,15 +190,53 @@ const ProfilePage = () => {
                 onChange={handleInputChange}
                 name="state"
               >
+                <option value="">State</option>
                 <option value="Andhra Pradesh">Andhra Pradesh</option>
+                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                <option value="Assam">Assam</option>
                 <option value="Bihar">Bihar</option>
+                <option value="Chhattisgarh">Chhattisgarh</option>
+                <option value="Goa">Goa</option>
+                <option value="Gujarat">Gujarat</option>
+                <option value="Haryana">Haryana</option>
+                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                <option value="Jharkhand">Jharkhand</option>
+                <option value="Karnataka">Karnataka</option>
+                <option value="Kerala">Kerala</option>
+                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                <option value="Maharashtra">Maharashtra</option>
+                <option value="Manipur">Manipur</option>
+                <option value="Meghalaya">Meghalaya</option>
+                <option value="Mizoram">Mizoram</option>
+                <option value="Nagaland">Nagaland</option>
+                <option value="Odisha">Odisha</option>
+                <option value="Punjab">Punjab</option>
+                <option value="Rajasthan">Rajasthan</option>
+                <option value="Sikkim">Sikkim</option>
+                <option value="Tamil Nadu">Tamil Nadu</option>
+                <option value="Telangana">Telangana</option>
+                <option value="Tripura">Tripura</option>
+                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                <option value="Uttarakhand">Uttarakhand</option>
+                <option value="West Bengal">West Bengal</option>
+                <option value="Andaman and Nicobar Islands">
+                  Andaman and Nicobar Islands
+                </option>
+                <option value="Chandigarh">Chandigarh</option>
+                <option value="Dadra and Nagar Haveli">
+                  Dadra and Nagar Haveli
+                </option>
+                <option value="Daman and Diu">Daman and Diu</option>
+                <option value="Lakshadweep">Lakshadweep</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Puducherry">Puducherry</option>
               </select>
             </div>
             <div>
               <label htmlFor="#">Business Description</label>
               <input
                 type="text"
-                value={companyData.businessDescription}
+                value={companyData?.businessDescription}
                 onChange={handleInputChange}
                 name="businessDescription"
                 placeholder="Business Description"
@@ -204,19 +251,31 @@ const ProfilePage = () => {
                 onChange={handleInputChange}
                 name="businessType"
               >
-                <option value="Option A">Option A</option>
-                <option value="Option B">Option B</option>
+                <option value="">None</option>
+                <option value="Retail">Retail</option>
+                <option value="Wholesale">Wholesale</option>
+                <option value="Distributor">Distributor</option>
+                <option value="Service">Service</option>
+                <option value="Manufacturing">Manufacturing</option>
+                <option value="Others">Others</option>
               </select>
             </div>
             <div>
               <label htmlFor="#">Business Category</label>
-              <input
-                type="text"
+              <select
                 value={companyData.businessCategory}
                 onChange={handleInputChange}
                 name="businessCategory"
-                placeholder="Business Category"
-              />
+              >
+                <option value="Accounting & CA">Accounting & CA</option>
+                <option value="Interior Designer">Interior Designer</option>
+                <option value="Automobiles/ Auto parts">
+                  Automobiles/ Auto parts
+                </option>
+                <option value="Salon & Spa">Salon & Spa</option>
+                <option value="Liquor Store">Liquor Store</option>
+                <option value="Others">Others</option>
+              </select>
             </div>
             <div className="add-signatures">
               {companyData?.signature && (

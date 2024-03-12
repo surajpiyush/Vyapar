@@ -17,13 +17,12 @@ import {
 import axios from "axios";
 
 const API_URL = "https://ca-backend-api.onrender.com";
-const token = localStorage.getItem("token");
-const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
 // ----------------------- Fetch All Parties Data Function ---- Didn't applied function curring due to thunk error in store.js
 export const FetchAllParties = async (dispatch) => {
   dispatch({ type: FETCH_PARTIES_LOADING });
-
+  const token = localStorage.getItem("token");
+  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
   try {
     const response = await axios.get(`${API_URL}/${FirmId}/party/getAll`, {
       headers: {
@@ -31,11 +30,11 @@ export const FetchAllParties = async (dispatch) => {
       },
     });
 
-    // console.log("Parties Data:", response?.data);
+    // console.log("Fetch All Parties Response", response?.data);
     dispatch({ type: FETCH_PARTIES_SUCCESS, payload: response?.data?.data });
   } catch (error) {
-    console.error("Error Fetching Parties Data:", error);
     dispatch({ type: FETCH_PARTIES_ERROR });
+    console.error("Error Fetching Parties Data:", error);
   }
 };
 
@@ -43,7 +42,8 @@ export const FetchAllParties = async (dispatch) => {
 export const SaveParty = async (dispatch, data, setPartyFormToggle, toast) => {
   toast.closeAll();
   dispatch({ type: SAVE_PARTY_LOADING });
-
+  const token = localStorage.getItem("token");
+  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
   try {
     // prettier-ignore
     const response = await axios.post(`${API_URL}/${FirmId}/party`, data, { // eslint-disable-line no-unused-vars
@@ -53,17 +53,24 @@ export const SaveParty = async (dispatch, data, setPartyFormToggle, toast) => {
     });
     // console.log("Save Party Response:", response?.data);
     dispatch({ type: SAVE_PARTY_SUCCESS });
-    toast({ title: "Party Added", status: "success", position: "top" });
+    toast({
+      title: "Party Successfully Added!",
+      status: "success",
+      position: "top",
+    });
     setPartyFormToggle((prev) => !prev);
   } catch (error) {
-    console.log("Saving Party Error Response:", error);
     toast({
-      title: "Something Went Wrong",
-      description: error?.response?.data,
+      title:
+        error?.response?.data?.msg ||
+        error?.response?.data?.message ||
+        error?.response?.data ||
+        "Something Went Wrong!",
       status: "error",
       position: "top",
     });
     dispatch({ type: SAVE_PARTY_ERROR });
+    console.log("Saving Party Error Response:", error);
   }
 };
 
@@ -74,7 +81,8 @@ export const GetCurrentPartyData = async (
   setPartyFormToggle
 ) => {
   dispatch({ type: SAVE_PARTY_LOADING });
-
+  const token = localStorage.getItem("token");
+  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
   try {
     // prettier-ignore
     const response = await axios.post(`${API_URL}/${FirmId}/party`, data, { // eslint-disable-line no-unused-vars
@@ -97,7 +105,8 @@ export const GetCurrentPartyData = async (
 // ------------------------- Save Party Function ---- Didn't applied function curring due to thunk error in store.js
 export const GetAllGroups = async (dispatch, data, setPartyFormToggle) => {
   dispatch({ type: SAVE_PARTY_LOADING });
-
+  const token = localStorage.getItem("token");
+  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
   // This request needs to be edited
 
   try {
