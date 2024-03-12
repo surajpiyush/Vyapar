@@ -37,7 +37,7 @@ const Purchasereturn = ({ func, date }) => {
       "recieve",
       "balance",
    ];
-   console.log("REturn data:",data)
+   // console.log("REturn data:",data)
    useEffect(() => {
       dispatch(getPurchaseReturn({ date }));
    }, [dispatch, date]);
@@ -73,7 +73,7 @@ const Purchasereturn = ({ func, date }) => {
    const openForm = () => {
       func(true);
    };
-   console.log(data);
+   // console.log(data);
    return (
       <div className={`main-container ${isEditing ? "editing" : ""}`}>
          {!isLoading && !data.length ? (

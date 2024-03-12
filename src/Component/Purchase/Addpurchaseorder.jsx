@@ -122,7 +122,7 @@ const ItemsTableBody = memo(
          item.discountpersant,
          item.taxPersant,
       ]);
-      console.log(item);
+      // console.log(item);
       return (
          <tr
             onClick={() => setIndexSaleItem(ind)}

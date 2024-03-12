@@ -41,7 +41,7 @@ const Transactions = ({ func, date }) => {
       const showAllPurchaseBills = useSelector(
          (store) => store.PurchaseReducer.purchaseBillData
       );
-      console.log(showAllPurchaseBills);
+      // console.log(showAllPurchaseBills);
 
       //console.log(date);
       useEffect(() => {
@@ -54,7 +54,7 @@ const Transactions = ({ func, date }) => {
       };
 
       const handleEdit = (data) => {
-         console.log(data)
+         // console.log(data)
          setIsEditing(true);
          setEditedData(data);
       };
@@ -187,7 +187,8 @@ const display = ["billDate","billNumber","partyName","paymentType","amount","bal
                                     <p>{e?.partyName}</p>
                                  </div>
                                  <div className="transaction-table">
-                                    <p>{payment.join(", ")}</p>
+                                 
+                                    <p>{e.paymentType[0]?.types}</p>
                                  </div>
                                  <div className="transaction-table">
                                     <p>{e.amount}</p>

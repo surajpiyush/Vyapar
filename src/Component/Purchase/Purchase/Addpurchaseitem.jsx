@@ -57,6 +57,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
    const [rowFooterData, setRowFooterData] = useState({});
    const [showItemForm, setShowItemForm] = useState(false);
    const [balanceAmount, setBalanceAmount] = useState(0);
+   const [paymentArr, setPaymentArr] = useState([{ types: "Cash", amount: 0 }]);
 
    const [invoiceItems, setInvoiceItems] = useState([
       {
@@ -100,27 +101,27 @@ const Addpurchaseitem = ({ setOpenForm }) => {
          hour12: false,
       }),
       paymentTerms: "",
-      dueDate: "2025-03-17",
+      dueDate: new Date().toISOString().split("T")[0],
       stateOfSupply: "",
       priceUnitWithTax: true,
       sale: [],
-      paymentType: [
-         {
-            types: String,
-            amount: 0,
-         },
-         {
-            types: String,
-            amount: 0,
-            refreanceNo: String,
-         },
-         {
-            types: String,
-            accountName: String,
-            openingBalance: 0,
-            asOfDate: Date,
-         },
-      ],
+      // paymentType: [
+      //    {
+      //       types: String,
+      //       amount: 0,
+      //    },
+      //    {
+      //       types: String,
+      //       amount: 0,
+      //       refreanceNo: String,
+      //    },
+      //    {
+      //       types: String,
+      //       accountName: String,
+      //       openingBalance: 0,
+      //       asOfDate: Date,
+      //    },
+      // ],
       addDescription: "Additional description here",
       discount: {
          discountPersent: 0,
@@ -192,10 +193,11 @@ const Addpurchaseitem = ({ setOpenForm }) => {
       });
       const purchaseBillData = {
          ...invoiceData,
-        balanceAmount : Number(balanceAmount),
+         paymentType: paymentArr,
+         balanceAmount: Number(balanceAmount),
          sale: [...invoiceData.sale, saleData],
       };
-      console.log("Purchase Data", purchaseBillData);
+      // console.log("Purchase Data", purchaseBillData);
       dispatch(addPurchaseBill(purchaseBillData));
       setOpenForm(false);
    };
@@ -267,7 +269,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
          priceUnit: itemDetail?.stock?.atPrice || 0,
          unit: itemDetail?.seleteUnit?.baseUnit || "",
          hsnCode: itemDetail?.itemHsn || "",
-         itemCode:itemDetail?.itemCode || ""
+         itemCode: itemDetail?.itemCode || "",
       };
       let newSaleData = invoiceItems.map((ite, ind) =>
          ind == index ? currSaleItem : ite
@@ -489,7 +491,8 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                         className={css.invoiceDateSelectInp}
                         onChange={(e) => handleInputChange(e)}
                         name="billDate"
-                        defaultValue={new Date().toISOString().split("T")[0]}
+                        value={invoiceData.billDate}
+                        // defaultValue={new Date().toISOString().split("T")[0]}
                         readOnly
                      />
                   </div>
@@ -754,9 +757,10 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                                              ? "var(--greyB)"
                                              : "white",
                                     }}
-                                    onClick={() =>
-                                       setPaymentTypeSelectTag("Cash")
-                                    }
+                                    onClick={() => {
+                                       setPaymentArr([{ types: "Cash" }]);
+                                       setPaymentTypeSelectTag("Cash");
+                                    }}
                                     className={css.menuItemCss}
                                  >
                                     Cash
@@ -772,9 +776,10 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                                              ? "var(--greyB)"
                                              : "white",
                                     }}
-                                    onClick={() =>
-                                       setPaymentTypeSelectTag("Cheque")
-                                    }
+                                    onClick={() => {
+                                       setPaymentArr([{ types: "Cash" }]);
+                                       setPaymentTypeSelectTag("Cheque");
+                                    }}
                                     className={css.menuItemCss}
                                  >
                                     Cheque

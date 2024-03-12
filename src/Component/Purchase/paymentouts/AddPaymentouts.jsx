@@ -90,7 +90,7 @@ const  AddPaymentouts = ({ setOpenForm }) => {
          paid: totalAmount,
          total: totalAmount,
        };
-      console.log("data", data2);
+      // console.log("data", data2);
       dispatch(addPayOut(data2));
       setOpenForm(false);
    };
@@ -125,7 +125,7 @@ const  AddPaymentouts = ({ setOpenForm }) => {
       });
       // console.log(payment)
    };
-   console.log(currentCustomerData);
+   // console.log(currentCustomerData);
    return (
       <form  onClick={(e) => {
          e.stopPropagation();
