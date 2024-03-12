@@ -12,7 +12,15 @@ https://ca-code-feb24.vercel.app
 
 ## Dev Notes:
 
-- have to add to pay input field in Payment-In form:
+
+#### Sample Test GSTIN:
+
+```xml
+06AXAPS2075C1ZR
+```
+
+
+#### have to add to pay input field in Payment-In form:
 
 ```javascript
 toPay: {
@@ -39,8 +47,4 @@ npx eslint .
 // prettier-ignore
 ```
 
-#### Sample Test GST No.:
 
-```xml
-06AXAPS2075C1ZR
-```
