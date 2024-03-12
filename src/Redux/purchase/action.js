@@ -17,7 +17,7 @@ import {
    UPDATE_PURCHASEBILL_SUCCESS,
 } from "./actionTypes";
 
-const API_URL = "https://ca-backend-api.onrender.com";
+const API_URL = "http://asaanly.com";
 
 // puchase Bills
 export const addPurchaseBill = (newItem) => (dispatch) => {
@@ -27,7 +27,7 @@ export const addPurchaseBill = (newItem) => (dispatch) => {
 
    axios
       .post(
-         `https://ca-backend-api.onrender.com/${FirmId}/purchase/create`,
+         `${API_URL}/${FirmId}/purchase/create`,
          newItem,
          {
             headers: { Authorization: `Bearer ${token}` },
@@ -56,7 +56,7 @@ export const getPurchaseBill =
 
       axios
          .get(
-            `https://ca-backend-api.onrender.com/${FirmId}/purchase/getAll?startDate=${date.startDate}&endDate=${date.endDate}`,
+            `${API_URL}/${FirmId}/purchase/getAll?startDate=${date.startDate}&endDate=${date.endDate}`,
             {
                headers: {
                   Authorization: `Bearer ${token}`,
@@ -143,7 +143,7 @@ export const addPurchaseOrder = (newItem) => (dispatch) => {
    dispatch({ type: PURCHASE_REQUEST });
    axios
       .post(
-         `https://ca-backend-api.onrender.com/${FirmId}/purchaseOrder/create`,
+         `${API_URL}/${FirmId}/purchaseOrder/create`,
          newItem,
          {
             headers: { Authorization: `Bearer ${token}` },
@@ -264,7 +264,7 @@ export const addPayOut = (newItem) => (dispatch) => {
 
    axios
       .post(
-         `https://ca-backend-api.onrender.com/${FirmId}/purchaseOut/create`,
+         `${API_URL}/${FirmId}/purchaseOut/create`,
          newItem,
          {
             headers: { Authorization: `Bearer ${token}` },
@@ -300,7 +300,7 @@ export const getPaymentOutBill =
 
       axios
          .get(
-            `https://ca-backend-api.onrender.com/${FirmId}/purchaseOut/getAll?startDate=${date.startDate}&endDate=${date.endDate}`,
+            `${API_URL}/${FirmId}/purchaseOut/getAll?startDate=${date.startDate}&endDate=${date.endDate}`,
             {
                headers: {
                   Authorization: `Bearer ${token}`,
@@ -383,11 +383,11 @@ export const addPurchaseReturn = (newItem) => (dispatch) => {
 
    const FirmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
    const token = localStorage.getItem("token");
-   
+   console.log("New Item data-", newItem)
    dispatch({ type: PURCHASE_REQUEST });
    axios
       .post(
-         `https://ca-backend-api.onrender.com/${FirmId}/purchaseReturn/create`,
+         `${API_URL}/${FirmId}/purchaseReturn/create`,
          newItem,
          {
             headers: { Authorization: `Bearer ${token}` },
@@ -498,4 +498,3 @@ export const updatePurchaseReturnBill = (_id, data) => (dispatch) => {
          dispatch({ type: PURCHASE_FAILURE });
       });
 };
-   

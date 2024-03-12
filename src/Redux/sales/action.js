@@ -30,7 +30,7 @@ import {
 
 import axios from "axios";
 
-const API_URL = `https://ca-backend-api.onrender.com`;
+const API_URL = `http://asaanly.com`;
 
 // --------------------------------------- INVOICE ------------------------------------
 // Post Sales Invoice Request

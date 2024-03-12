@@ -8,7 +8,7 @@ import {
    REPORT_REQUEST,
 } from "./actionTypes";
 
-const API_URL = "https://ca-backend-api.onrender.com";
+const API_URL = "http://asaanly.com";
 
 let totalTax = 0;
 let integratedTax = 0;

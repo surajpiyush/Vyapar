@@ -13,7 +13,7 @@ import {
 } from "./actionTypes";
 import { USER_DETAILS } from "../business/actionTypes";
 
-const API_URL = "https://ca-backend-api.onrender.com";
+const API_URL = "http://asaanly.com";
 
 export const addItem = async (dispatch, newItem, closeForm, toast) => {
   toast.closeAll();

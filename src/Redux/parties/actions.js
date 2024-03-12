@@ -10,7 +10,7 @@ import {
 
 import axios from "axios";
 
-const API_URL = "https://ca-backend-api.onrender.com";
+const API_URL = "http://asaanly.com";
 
 // ----------------------- Fetch All Parties Data Function ---- Didn't applied function curring due to thunk error in store.js
 export const FetchAllParties = async (dispatch) => {
@@ -105,7 +105,7 @@ export const GetAllGroups = async (dispatch, data, setPartyFormToggle) => {
 
   try {
     const response = await axios.post(
-      `https://ca-backend-api.onrender.com/${FirmId}/party`,
+      `${API_URL}/${FirmId}/party`,
       data,
       {
         headers: {
