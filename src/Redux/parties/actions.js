@@ -6,12 +6,6 @@ import {
   SAVE_PARTY_LOADING,
   SAVE_PARTY_ERROR,
   SAVE_PARTY_SUCCESS,
-  PARTIES_PAYMENT_OUT_FAILURE,
-  PARTIES_PAYMENT_OUT_REQUEST,
-  PARTIES_PAYMENT_OUT_SUCCESS,
-  PARTIES_PURCHASE_BILL_FAILURE,
-  PARTIES_PURCHASE_BILL_REQUEST,
-  PARTIES_PURCHASE_BILL_SUCCESS,
 } from "./actionTypes";
 
 import axios from "axios";
@@ -130,4 +124,3 @@ export const GetAllGroups = async (dispatch, data, setPartyFormToggle) => {
     alert(error?.response?.data || "Something Went Wrong!");
   }
 };
-

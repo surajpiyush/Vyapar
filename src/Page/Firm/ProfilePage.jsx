@@ -15,10 +15,6 @@ const ProfilePage = () => {
   const toggleUpdate = useSelector(
     (state) => state.BusinessReducer.toggleUpdate
   );
-  const allCompaniesData = useSelector(
-    (state) => state.BusinessReducer.allCompaniesData
-  );
-  const newFetched = useSelector((state) => state.BusinessReducer.newFetched);
   const [companyData, setCompanyData] = useState({
     companyName: "",
     email: "",
@@ -33,7 +29,6 @@ const ProfilePage = () => {
     companyLogo: "",
     _id: "",
   });
-  const [formDataToSend, setFormDataToSend] = useState(new FormData());
 
   // UseEffect to set current company data on edit company profile mount
   useEffect(() => {
@@ -95,9 +90,11 @@ const ProfilePage = () => {
               <img src={companyData?.companyLogo} alt="Logo Uploaded ✔️" />
             </div>
           )}
-          <aside className="edit-firm-middle-aside1">
+          <div className="edit-firm-middle-aside1">
             <div>
-              <label htmlFor="companyLogo">Add Logo</label>
+              <label htmlFor="companyLogo">
+                {companyData?.companyLogo ? "Update Logo" : "Add Logo"}
+              </label>
               <input
                 type="file"
                 name="companyLogo"
@@ -105,10 +102,10 @@ const ProfilePage = () => {
                 onChange={handleInputChange}
               />
             </div>
-          </aside>
+          </div>
         </div>
 
-        <aside className="edit-firm-middle-aside2">
+        <div className="edit-firm-middle-aside2">
           <div>
             <label htmlFor="#">
               Business Name <span style={{ color: "red" }}>*</span>
@@ -156,13 +153,13 @@ const ProfilePage = () => {
               placeholder="Enter Email"
             />
           </div>
-        </aside>
+        </div>
       </section>
       <section className="edit-firm-footer">
         <h4>Business details</h4>
         <div className="edit-firm-border"></div>
         <section className="edit-firm-footer-section">
-          <aside className="edit-firm-footer-aside1">
+          <div className="edit-firm-footer-aside1">
             <div>
               <label htmlFor="#">Business Address</label>
               <textarea
@@ -242,8 +239,8 @@ const ProfilePage = () => {
                 placeholder="Business Description"
               />
             </div>
-          </aside>
-          <aside className="edit-firm-footer-aside2">
+          </div>
+          <div className="edit-firm-footer-aside2">
             <div>
               <label htmlFor="#">Business Type</label>
               <select
@@ -294,7 +291,7 @@ const ProfilePage = () => {
                 onChange={handleInputChange}
               />
             </div>
-          </aside>
+          </div>
         </section>
       </section>
       <div className="edit-firm-save-button">
