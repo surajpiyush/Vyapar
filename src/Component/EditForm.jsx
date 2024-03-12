@@ -3,7 +3,7 @@ import { useState } from "react";
 
 const EditableRow = ({ display, data, onSave, onCancel }) => {
    const [editedData, setEditedData] = useState(data);
-   console.log(editedData);
+   console.log("editedAbleData; -", editedData);
    const handleInputChange = (e) => {
       const { name, value } = e.target;
 
@@ -374,7 +374,14 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
 
          <div className="transaction-table">
             {/* Save and Cancel buttons */}
-            <button onClick={() => onSave(editedData)}>Update</button>
+            <button onClick={() =>{
+editedData.partyName = "65f03dbfea4408e949bac492"
+// console.log(editedData)
+            onSave(editedData)
+
+            }
+            
+            }>Update</button>
             <button className="cancel" onClick={onCancel}>
                Cancel
             </button>

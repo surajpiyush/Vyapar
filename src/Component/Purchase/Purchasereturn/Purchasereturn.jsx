@@ -22,13 +22,13 @@ import EditableRow from "../../EditForm";
 
 const Purchasereturn = ({ func, date }) => {
    const dispatch = useDispatch();
-   const store = useSelector((store) => store.PurchaseReducer);
-   const data = store?.purchaseReturnData;
+   const isLoading = useSelector((store) => store.PurchaseReducer.isLoading);
+   const data = useSelector((store) => store.PurchaseReducer?.purchaseReturnData);
    const [isEditing, setIsEditing] = useState(false);
    const [editedData, setEditedData] = useState(null);
    const display = [
       "#",
-      "bilDate",
+      "billDate",
       "refNo",
       "partyName",
       "category",
@@ -37,7 +37,7 @@ const Purchasereturn = ({ func, date }) => {
       "recieve",
       "balance",
    ];
-   // console.log(store)
+   console.log("REturn data:",data)
    useEffect(() => {
       dispatch(getPurchaseReturn({ date }));
    }, [dispatch, date]);
@@ -76,7 +76,7 @@ const Purchasereturn = ({ func, date }) => {
    console.log(data);
    return (
       <div className={`main-container ${isEditing ? "editing" : ""}`}>
-         {!store.isLoading && !data.length ? (
+         {!isLoading && !data.length ? (
             <FirstTimeFormToggle
                img={party}
                onClick={() => {
@@ -154,7 +154,7 @@ const Purchasereturn = ({ func, date }) => {
                         </th>
                      </tr>
                   </thead>
-                  {store.isLoading ? (
+                  {isLoading ? (
                      <BasicSpinner
                         style={{
                            width: "100%",
@@ -195,17 +195,17 @@ const Purchasereturn = ({ func, date }) => {
 
                                        <th className="table-h">
                                           <div className="table-items">
-                                             {e.returnNumber}
+                                             {e.returnNumber ? e.returnNumber : "-"}
                                           </div>
                                        </th>
                                        <th className="table-h">
                                           <div className="table-items">
-                                             {e?.partyData?.partyName}
+                                             {e?.partyName}
                                           </div>
                                        </th>
                                        <th className="table-h">
                                           <div className="table-items">
-                                             {e.categoryName}
+                                             {e.categoryName ? e.categoryName : "-"}
                                           </div>
                                        </th>
                                        <th className="table-h">
@@ -215,17 +215,17 @@ const Purchasereturn = ({ func, date }) => {
                                        </th>
                                        <th className="table-h">
                                           <div className="table-items">
-                                             ₹{e.total ? e.total : e.balanceDue}
+                                             ₹{e.total ? e.total : e.balanceDue || 0}
                                           </div>
                                        </th>
                                        <th className="table-h">
                                           <div className="table-items">
-                                             ₹{e.balanceDue}
+                                             ₹{e.balanceDue || 0}
                                           </div>
                                        </th>
                                        <th className="table-h">
                                           <div className="table-items">
-                                             ₹{e.amount}
+                                             ₹{e.amount || "-"}
                                           </div>
                                        </th>
                                        <th className="table-h">

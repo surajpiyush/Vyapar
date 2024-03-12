@@ -44,7 +44,7 @@ const AllTransactions = () => {
     "PRINT/SHARE",
   ];
 
-  const store = useSelector((store) => store.ReportReducer);
+  const store = useSelector((store) => store.ReportReducer.allTransectionsData);
   const temp = [];
   const date = {
     startDate: "2023-01-20",
@@ -56,11 +56,10 @@ const AllTransactions = () => {
   useEffect(() => {
     dispatch(getAllTransections({ date }));
   }, [dispatch]);
-  console.log(store.allTransectionsData);
-
-  if(store?.allTransactions){
-
-    const data = store?.allTransectionsData[0];
+  console.log(store)
+  if(store.length){
+    
+    const data = store[0];
     temp.push(...data?.PuchaseBill[0]?.PuchaseBill);
     temp.push(...data?.PuchaseReturn[0]?.PuchaseReturn);
     temp.push(...data?.PurchaseOut[0]?.purchaseout);
@@ -76,12 +75,13 @@ const AllTransactions = () => {
     console.log(temp);
     
   }
-
+  console.log(temp);
+  
  // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (!store.allTransectionsData[0]) {
-    return <div>Loading...</div>; // You can replace this with a loading component or message
-  }
+  // if (!store) {
+  //   return <div>Loading...</div>; // You can replace this with a loading component or message
+  // }
   return (
     <>
     

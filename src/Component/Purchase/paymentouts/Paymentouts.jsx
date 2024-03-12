@@ -201,7 +201,7 @@ const Paymentouts = ({ func, date }) => {
                                        </th>
                                        <th className="table-h">
                                           <div className="table-items">
-                                             {e?.partyData?.partyName}
+                                             {e?.partyName}
                                           </div>
                                        </th>
                                        <th className="table-h">
