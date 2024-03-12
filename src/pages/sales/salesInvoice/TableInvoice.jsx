@@ -1,7 +1,15 @@
-import { DeleteIcon, EditIcon } from "../../../Component/utils/reactIcons";
 import { FormatDate } from "../../../Redux/sales/action";
+import {
+  DeleteIcon,
+  EditIcon,
+  PrintIcon2,
+} from "../../../Component/utils/reactIcons";
+
+import { useRef } from "react";
+import ReactToPrint from "react-to-print";
 
 const TableInvoice = ({
+  item,
   _id,
   invoiceDate,
   invoiceNumber,
@@ -15,8 +23,10 @@ const TableInvoice = ({
   handleDelete,
   handleEdit,
 }) => {
+  let componentRef = useRef();
+
   return (
-    <tr>
+    <tr ref={(el) => (componentRef = el)}>
       <td>
         <div>{FormatDate(invoiceDate)}</div>
       </td>
@@ -44,12 +54,22 @@ const TableInvoice = ({
       <td>
         <div>{status}</div>
       </td>
-
       <td>
-        <DeleteIcon onClick={() => handleDelete(_id)} />
-        <p style={{ fontSize: "1.5rem" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            fontSize: "18px",
+            gap: "4px",
+          }}
+        >
+          <DeleteIcon onClick={() => handleDelete(_id)} />
           <EditIcon onClick={() => handleEdit(_id)} />
-        </p>
+          <ReactToPrint
+            trigger={() => <PrintIcon2>Print this out!</PrintIcon2>}
+            content={() => componentRef}
+          />
+        </div>
       </td>
     </tr>
   );
