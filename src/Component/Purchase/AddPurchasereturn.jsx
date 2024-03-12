@@ -213,6 +213,7 @@ const ItemsTableBody = memo(
                   type="text"
                   className={css.tableInputs}
                   name="itemCode"
+                  value={item?.itemCode}
                   onChange={(e) => handleTableInputChange(e, ind)}
                   disabled
                />
@@ -253,7 +254,7 @@ const ItemsTableBody = memo(
                   required
                   type="number"
                   name="qty"
-                  // value={item?.qty}
+                  value={item?.qty}
                   onChange={(e) => handleTableInputChange(e, ind)}
                   placeholder="0"
                   className={css.tableInputs}

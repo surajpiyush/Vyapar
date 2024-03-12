@@ -28,7 +28,7 @@ const ItemsTableBody = memo(
       const itemsList = useSelector((state) => state.ItemReducer.items);
 
       const [foundItems, setFoundItems] = useState([]);
-// console.log(item)
+console.log(item)
       // Itemslist Suggestions
       useEffect(() => {
          const regex = new RegExp(item?.itemName, "i");
