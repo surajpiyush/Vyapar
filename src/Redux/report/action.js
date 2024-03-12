@@ -9,8 +9,6 @@ import {
 } from "./actionTypes";
 
 const API_URL = "https://ca-backend-api.onrender.com";
-const token = localStorage.getItem("token");
-const FirmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
 
 let totalTax = 0;
 let integratedTax = 0;
@@ -122,6 +120,9 @@ const purchasecessTaxCal = (data) => {
 export const getSaleReport =
    ({ date }) =>
    (dispatch) => {
+      const token = localStorage.getItem("token");
+      const FirmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
+
       dispatch({ type: REPORT_REQUEST });
 
       axios
@@ -164,6 +165,9 @@ export const getSaleReport =
 export const getPurchaseReport =
    ({ date }) =>
    (dispatch) => {
+      const token = localStorage.getItem("token");
+      const FirmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
+
       dispatch({ type: REPORT_REQUEST });
       if (!token) {
          dispatch({ type: REPORT_FAILURE });
@@ -194,6 +198,9 @@ export const getPurchaseReport =
 export const getDayBookReport =
    ({ date }) =>
    (dispatch) => {
+      const token = localStorage.getItem("token");
+      const FirmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
+
       dispatch({ type: REPORT_REQUEST });
       if (!token) {
          dispatch({ type: REPORT_FAILURE });
@@ -223,6 +230,10 @@ export const getDayBookReport =
 export const getAllTransections =
    ({ date }) =>
    (dispatch) => {
+      
+      const token = localStorage.getItem("token");
+      const FirmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
+
       dispatch({ type: REPORT_REQUEST });
       if (!token) {
          dispatch({ type: REPORT_FAILURE });

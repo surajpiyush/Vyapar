@@ -28,7 +28,7 @@ const ItemsTableBody = memo(
       const itemsList = useSelector((state) => state.ItemReducer.items);
 
       const [foundItems, setFoundItems] = useState([]);
-console.log(item)
+// console.log(item)
       // Itemslist Suggestions
       useEffect(() => {
          const regex = new RegExp(item?.itemName, "i");
@@ -221,7 +221,8 @@ console.log(item)
                   type="text"
                   className={css.tableInputs}
                   name="itemCode"
-                  onChange={(e) => handleTableInputChange(e, ind)}
+                  value={item?.itemCode}
+                  // onChange={(e) => handleTableInputChange(e, ind)}
                   disabled
                />
             </td>

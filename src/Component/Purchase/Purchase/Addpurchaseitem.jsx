@@ -56,7 +56,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
    const [indexSaleItem, setIndexSaleItem] = useState(0);
    const [rowFooterData, setRowFooterData] = useState({});
    const [showItemForm, setShowItemForm] = useState(false);
-   const [balanceAmount, setBalanceAmount] = useState("");
+   const [balanceAmount, setBalanceAmount] = useState(0);
 
    const [invoiceItems, setInvoiceItems] = useState([
       {
@@ -186,12 +186,13 @@ const Addpurchaseitem = ({ setOpenForm }) => {
          return {
             ...item,
             qty: Number(item?.qty) || 0,
+            priceUnitWithTax: item?.priceUnitWithTax == "true",
             discountAmount: Number(item?.discountAmount) || 0,
          };
       });
       const purchaseBillData = {
          ...invoiceData,
-         priceUnitWithTax: invoiceData?.priceUnitWithTax == "true",
+        balanceAmount : Number(balanceAmount),
          sale: [...invoiceData.sale, saleData],
       };
       console.log("Purchase Data", purchaseBillData);
@@ -266,6 +267,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
          priceUnit: itemDetail?.stock?.atPrice || 0,
          unit: itemDetail?.seleteUnit?.baseUnit || "",
          hsnCode: itemDetail?.itemHsn || "",
+         itemCode:itemDetail?.itemCode || ""
       };
       let newSaleData = invoiceItems.map((ite, ind) =>
          ind == index ? currSaleItem : ite
@@ -283,7 +285,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
       setBalanceAmount(
          bal.toFixed(2) ? bal.toFixed(2) : rowFooterData?.totalAmount
       );
-      invoiceData.balanceAmount = balanceAmount;
+      // invoiceData.balanceAmount = balanceAmount;
    }, [invoiceData?.recived, toggleRoundOff, rowFooterData?.totalAmount]);
 
    // Add Row Function
