@@ -16,8 +16,8 @@ https://ca-code-feb24.vercel.app
 
 ```javascript
 toPay: {
-    type: String,
-    enum: ["toRecive", "toPay"],
+      type: String,
+      enum: ["toRecive", "toPay"],
     },
 ```
 
