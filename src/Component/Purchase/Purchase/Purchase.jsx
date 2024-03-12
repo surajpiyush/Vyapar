@@ -28,7 +28,7 @@ const ItemsTableBody = memo(
       const itemsList = useSelector((state) => state.ItemReducer.items);
 
       const [foundItems, setFoundItems] = useState([]);
-
+// console.log(item)
       // Itemslist Suggestions
       useEffect(() => {
          const regex = new RegExp(item?.itemName, "i");
@@ -122,7 +122,7 @@ const ItemsTableBody = memo(
          item.discountpersant,
          item.taxPersant,
       ]);
-      console.log(item);
+      // console.log(item);
       return (
          <tr
             onClick={() => setIndexSaleItem(ind)}
@@ -195,7 +195,7 @@ const ItemsTableBody = memo(
                      {getAllItemsLoading && (
                         <MenuItem>Loading Items...</MenuItem>
                      )}
-                     {!getAllItemsLoading && foundItems.length <= 0 && (
+                     {loadingAllItems && foundItems.length <= 0 && (
                         <MenuItem style={{ color: "red" }}>
                            No Items Found!
                         </MenuItem>

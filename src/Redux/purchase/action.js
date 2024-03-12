@@ -40,7 +40,7 @@ export const addPurchaseBill = (newItem) => (dispatch) => {
       })
       .catch((ERR) => {
          console.log(ERR);
-         alert(`${ERR.response.data.msg}`);
+         // alert(`${ERR.response.data.msg}`);
          dispatch({ type: PURCHASE_FAILURE });
       });
    // console.log(`Your item has been sent to the backend:`, newItem);
@@ -96,7 +96,7 @@ export const updatePurchaseBill = (_id, data) => (dispatch) => {
       })
       .catch((err) => {
          console.log(err);
-         alert(`${err.response.data.msg}`);
+         // alert(`${err.response.data.msg}`);
          dispatch({ type: PURCHASE_FAILURE });
       });
 };

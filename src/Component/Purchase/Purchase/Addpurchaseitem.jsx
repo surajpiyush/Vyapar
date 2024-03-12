@@ -184,7 +184,9 @@ const Addpurchaseitem = ({ setOpenForm }) => {
       e.preventDefault();
       const purchaseBillData = {
          ...invoiceData,
+         
          priceUnitWithTax: invoiceData?.priceUnitWithTax == "true",
+         
          sale: [...invoiceData.sale, invoiceItems],
       };
       console.log("data", purchaseBillData);
@@ -254,14 +256,13 @@ const Addpurchaseitem = ({ setOpenForm }) => {
       // console.log(itemDetail);
       let currSaleItem = {
          ...invoiceItems[index],
-
-         mainName: itemDetail?.itemName,
          itemName: itemDetail?._id,
+         mainName: itemDetail?.itemName,
+         taxPersant: itemDetail?.taxRate.split("%")[0] || "",
+         qty: Number(itemDetail?.stock?.openingQuantity) || 0,
+         priceUnit: itemDetail?.stock?.atPrice || 0,
+         unit: itemDetail?.seleteUnit?.baseUnit || "",
          hsnCode: itemDetail?.itemHsn || "",
-         description: itemDetail?.description || "",
-         itemCode: itemDetail?.itemCode || "",
-         priceUnit: itemDetail?.mrp?.mrp || "",
-         unit: itemDetail?.unit || "",
       };
       let newSaleData = invoiceItems.map((ite, ind) =>
          ind == index ? currSaleItem : ite

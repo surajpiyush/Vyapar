@@ -195,7 +195,7 @@ const ItemsTableBody = memo(
                      {getAllItemsLoading && (
                         <MenuItem>Loading Items...</MenuItem>
                      )}
-                     {!getAllItemsLoading && foundItems.length <= 0 && (
+                     {loadingAllItems && foundItems.length <= 0 && (
                         <MenuItem style={{ color: "red" }}>
                            No Items Found!
                         </MenuItem>
