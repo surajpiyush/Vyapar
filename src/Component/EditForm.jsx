@@ -139,11 +139,14 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
                <input
                   type="text"
                   name="date"
-                  value={new Date(editedData.dueDate).toLocaleDateString("en-IN", {
-                     day: "2-digit",
-                     month: "2-digit",
-                     year: "numeric",
-                  })}
+                  value={new Date(editedData.dueDate).toLocaleDateString(
+                     "en-IN",
+                     {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                     }
+                  )}
                   //    onChange={handleInputChange}
                   readOnly
                />
@@ -374,14 +377,15 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
 
          <div className="transaction-table">
             {/* Save and Cancel buttons */}
-            <button onClick={() =>{
-editedData.partyName = "65f03dbfea4408e949bac492"
-// console.log(editedData)
-            onSave(editedData)
-
-            }
-            
-            }>Update</button>
+            <button
+               onClick={() => {
+                  editedData.partyName = "65f03dbfea4408e949bac492";
+                  // console.log(editedData)
+                  onSave(editedData);
+               }}
+            >
+               Update
+            </button>
             <button className="cancel" onClick={onCancel}>
                Cancel
             </button>

@@ -5,6 +5,7 @@ import FirstTimeFormToggle from "../../../Component/FirmTimeForm/FirstTimeFormTo
 import {
    GetAllEstimates,
    deleteAllEstimates,
+   updateAllEstimates,
 } from "../../../Redux/sales/action";
 
 import React, { useState, useEffect } from "react";
@@ -65,16 +66,16 @@ export default function SalesEstimates() {
    };
 
    const handleSave = (updatedData) => {
-      // Implement your logic to save the updated data to the backend
-      // You may use an API call or any other method here
+
+      // updatedData.partyname = updatedData.partyName
       console.log("updatedData-", updatedData);
       const id = updatedData._id;
-      // After saving, reset the state
-      // dispatch(updatePurchaseBill(updatedData._id, updatedData));
+     
+      dispatch(updateAllEstimates(updatedData._id,updatedData));
       setIsEditing(false);
-      setEditedData({});
+      setEditedData(null);
       GetAllEstimates(dispatch, startDate, endDate);
-   };
+    };
 
    const handleCancel = () => {
       // If the user cancels, reset the state without saving

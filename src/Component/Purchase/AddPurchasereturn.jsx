@@ -143,7 +143,7 @@ const ItemsTableBody = memo(
                </div>
             </td>
             <td className={css.itemNameBody}>
-               <select name="category" id="" value={item?.category}>
+               <select name="category" id="">
                   <option value="">Category</option>
                   <option value="show">Show</option>
                   <option value="tab">Tab</option>

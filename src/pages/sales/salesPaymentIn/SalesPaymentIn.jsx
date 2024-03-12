@@ -2,7 +2,7 @@ import css from "../../../styles/SalesStyles/PaymentIn.module.css";
 import PaymentInForm from "./PaymentInForm";
 import TablePaymentIn from "./TablePaymentIn";
 import Setting from "../../../Component/Setting/Setting";
-import { GetAllPaymentIn, deletePaymentIn } from "../../../Redux/sales/action";
+import { GetAllPaymentIn, deletePaymentIn, updatePaymentIn } from "../../../Redux/sales/action";
 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -54,12 +54,12 @@ console.log(paymentInList)
   };
 
   const handleSave = (updatedData) => {
-    // Implement your logic to save the updated data to the backend
-    // You may use an API call or any other method here
+
+    updatedData.partyname = updatedData.partyName
     console.log("updatedData-", updatedData);
     const id = updatedData._id;
-    // After saving, reset the state
-    // dispatch(updatePurchaseBill(updatedData._id, updatedData));
+   
+    dispatch(updatePaymentIn(updatedData._id,updatedData));
     setIsEditing(false);
     setEditedData(null);
     GetAllPaymentIn(dispatch, startDate, endDate);

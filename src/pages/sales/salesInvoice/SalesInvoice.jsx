@@ -8,6 +8,7 @@ import FirstTimeFormToggle from "../../../Component/FirmTimeForm/FirstTimeFormTo
 import {
   GetAllSalesInvoice,
   deleteSalesInvoice,
+  updateSalesInvoice,
 } from "../../../Redux/sales/action";
 
 import { useToast } from "@chakra-ui/react";
@@ -62,12 +63,12 @@ export default function SalesInvoice() {
   };
 
   const handleSave = (updatedData) => {
-    // Implement your logic to save the updated data to the backend
-    // You may use an API call or any other method here
+
+    updatedData.partyname = updatedData.partyName
     console.log("updatedData-", updatedData);
     const id = updatedData._id;
-    // After saving, reset the state
-    // dispatch(updatePurchaseBill(updatedData._id, updatedData));
+   
+    dispatch(updateSalesInvoice(updatedData._id,updatedData));
     setIsEditing(false);
     setEditedData(null);
     GetAllSalesInvoice(dispatch, startDate, endDate);
