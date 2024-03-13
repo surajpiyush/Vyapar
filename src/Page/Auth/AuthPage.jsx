@@ -1,4 +1,5 @@
 import css from "./Auth.module.css";
+import Logo from "../../assets/Shop.svg";
 
 import axios from "axios";
 import { useToast } from "@chakra-ui/react";
@@ -159,136 +160,149 @@ const AuthPage = () => {
       style={{ backgroundImage: `url(${backGroundImg})` }}
       className={css.AuthOuter}
     >
-      <div className={css.FormOuter}>
-        <section className={css.topBtnContDiv}>
-          <button
-            onClick={() => setShowRegister(true)}
-            style={{
-              backgroundColor: showRegister && "var(--SereneSky)",
-              color: showRegister && "var(--ElectricBlue)",
-              cursor: !showRegister ? "pointer" : "default",
-            }}
-            className={css.toggleBtns}
-          >
-            SIGNUP
-          </button>
-          <button
-            onClick={() => setShowRegister(false)}
-            style={{
-              backgroundColor: !showRegister && "var(--SereneSky)",
-              color: !showRegister && "var(--ElectricBlue)",
-              cursor: showRegister ? "pointer" : "default",
-            }}
-            className={css.toggleBtns}
-          >
-            LOGIN
-          </button>
-        </section>
+      <div className={css.InnerContDivOuter}>
+        <div className={css.leftSideDivOuter}>
+          <div className={css.logoDiv}>
+            <img src={Logo} alt="Asaanly" />
+          </div>
+          <h2 className={css.welcomeHeadCss}>
+            Welcome to <span>Asaanly!</span>
+          </h2>
+          <h2 className={css.secondaryHeaderCss}>A GST Billing Platform.</h2>
+        </div>
 
-        {showRegister ? (
-          // Register Form
-          <form onSubmit={handleRegister} className={css.actualFormOuter}>
-            {/* Name */}
-            <div className={css.inputOuter}>
-              <UserIcon className={css.inputIcons} />
-              <input
-                type="text"
-                name="name"
-                value={inpVal?.name}
-                onChange={handleInpChange}
-                placeholder="Username"
-                required
-              />
-            </div>
-            {/* Business NAME */}
-            <div className={css.inputOuter}>
-              <CompanyIcon className={css.inputIcons} />
-              <input
-                type="text"
-                name="companyName"
-                value={inpVal?.companyName}
-                onChange={handleInpChange}
-                placeholder="Business Name"
-                required
-              />
-            </div>
-            {/* Email */}
-            <div className={css.inputOuter}>
-              <MailIcon className={css.inputIcons} />
-              <input
-                type="email"
-                name="email"
-                value={inpVal?.email}
-                onChange={handleInpChange}
-                placeholder="Your Email"
-                required
-              />
-            </div>
-            {/* Password */}
-            <div className={css.inputOuter}>
-              <PasswordIcon className={css.inputIcons} />
-              <input
-                type="password"
-                name="password"
-                value={inpVal?.password}
-                onChange={handleInpChange}
-                placeholder="Password"
-                required
-              />
-            </div>
+        {/* Form */}
+        <div className={css.FormOuter}>
+          <section className={css.topBtnContDiv}>
             <button
-              type="submit"
-              disabled={states?.isLoading}
-              className={css.submitBtnDiv}
+              onClick={() => setShowRegister(true)}
+              style={{
+                backgroundColor: showRegister && "var(--SereneSky)",
+                color: showRegister && "var(--ElectricBlue)",
+                cursor: !showRegister ? "pointer" : "default",
+              }}
+              className={css.toggleBtns}
             >
-              {states?.isLoading ? (
-                <span className={css.Authloader}></span>
-              ) : (
-                "REGISTER"
-              )}
+              SIGNUP
             </button>
-          </form>
-        ) : (
-          // Login Form
-          <form onSubmit={handleLogin} className={css.actualFormOuter}>
-            {/* Email */}
-            <div className={css.inputOuter}>
-              <MailIcon className={css.inputIcons} />
-              <input
-                type="email"
-                name="email"
-                value={inpVal?.email}
-                onChange={handleInpChange}
-                placeholder="Your Email"
-                required
-              />
-            </div>
-            {/* Password */}
-            <div className={css.inputOuter}>
-              <PasswordIcon className={css.inputIcons} />
-              <input
-                type="password"
-                name="password"
-                value={inpVal?.password}
-                onChange={handleInpChange}
-                placeholder="Enter Password"
-                required
-              />
-            </div>
+            <button
+              onClick={() => setShowRegister(false)}
+              style={{
+                backgroundColor: !showRegister && "var(--SereneSky)",
+                color: !showRegister && "var(--ElectricBlue)",
+                cursor: showRegister ? "pointer" : "default",
+              }}
+              className={css.toggleBtns}
+            >
+              LOGIN
+            </button>
+          </section>
 
-            <button
-              className={css.submitBtnDiv}
-              type="submit"
-              disabled={states?.isLoading}
-            >
-              {states?.isLoading ? (
-                <span className={css.Authloader}></span>
-              ) : (
-                "LOGIN"
-              )}
-            </button>
-          </form>
-        )}
+          {showRegister ? (
+            // Register Form
+            <form onSubmit={handleRegister} className={css.actualFormOuter}>
+              {/* Name */}
+              <div className={css.inputOuter}>
+                <UserIcon className={css.inputIcons} />
+                <input
+                  type="text"
+                  name="name"
+                  value={inpVal?.name}
+                  onChange={handleInpChange}
+                  placeholder="Username"
+                  required
+                />
+              </div>
+              {/* Business NAME */}
+              <div className={css.inputOuter}>
+                <CompanyIcon className={css.inputIcons} />
+                <input
+                  type="text"
+                  name="companyName"
+                  value={inpVal?.companyName}
+                  onChange={handleInpChange}
+                  placeholder="Business Name"
+                  required
+                />
+              </div>
+              {/* Email */}
+              <div className={css.inputOuter}>
+                <MailIcon className={css.inputIcons} />
+                <input
+                  type="email"
+                  name="email"
+                  value={inpVal?.email}
+                  onChange={handleInpChange}
+                  placeholder="Your Email"
+                  required
+                />
+              </div>
+              {/* Password */}
+              <div className={css.inputOuter}>
+                <PasswordIcon className={css.inputIcons} />
+                <input
+                  type="password"
+                  name="password"
+                  value={inpVal?.password}
+                  onChange={handleInpChange}
+                  placeholder="Password"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={states?.isLoading}
+                className={css.submitBtnDiv}
+              >
+                {states?.isLoading ? (
+                  <span className={css.Authloader}></span>
+                ) : (
+                  "REGISTER"
+                )}
+              </button>
+            </form>
+          ) : (
+            // Login Form
+            <form onSubmit={handleLogin} className={css.actualFormOuter}>
+              {/* Email */}
+              <div className={css.inputOuter}>
+                <MailIcon className={css.inputIcons} />
+                <input
+                  type="email"
+                  name="email"
+                  value={inpVal?.email}
+                  onChange={handleInpChange}
+                  placeholder="Your Email"
+                  required
+                />
+              </div>
+              {/* Password */}
+              <div className={css.inputOuter}>
+                <PasswordIcon className={css.inputIcons} />
+                <input
+                  type="password"
+                  name="password"
+                  value={inpVal?.password}
+                  onChange={handleInpChange}
+                  placeholder="Enter Password"
+                  required
+                />
+              </div>
+
+              <button
+                className={css.submitBtnDiv}
+                type="submit"
+                disabled={states?.isLoading}
+              >
+                {states?.isLoading ? (
+                  <span className={css.Authloader}></span>
+                ) : (
+                  "LOGIN"
+                )}
+              </button>
+            </form>
+          )}
+        </div>
       </div>
     </div>
   );

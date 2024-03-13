@@ -10,6 +10,53 @@
   width: 100%;
   min-height: 100vh;
 }
+.InnerContDivOuter {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 160px;
+}
+.leftSideDivOuter {
+  text-align: center;
+}
+.logoDiv {
+  width: 310px;
+  margin: auto;
+}
+.logoDiv img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.welcomeHeadCss {
+  cursor: default;
+  color: var(--greyishBlue);
+  background-color: var(--ElectricBlue);
+  box-shadow: var(--shadowB);
+  word-break: nowrap;
+  font-size: 32px;
+  letter-spacing: 0.5px;
+  border-radius: 8px;
+  padding: 8px 22px;
+}
+.welcomeHeadCss span {
+  color: var(--redC);
+  font-size: 45px;
+  letter-spacing: 0.5px;
+}
+.secondaryHeaderCss {
+  cursor: default;
+  text-align: right;
+  color: var(--greyishBlue);
+  word-break: nowrap;
+  font-size: 15px;
+  letter-spacing: 1px;
+  font-family: var(--Ral);
+  padding-right: 6px;
+}
+
+/* Form Css */
 .FormOuter {
   font-family: var(--Pop);
   background-color: var(--BlueBerry);
