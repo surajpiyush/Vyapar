@@ -19,6 +19,7 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
   const dispatch = useDispatch();
   const items = useSelector((store) => store.ItemReducer.items);
   const itemIsLoading = useSelector((store) => store.ItemReducer.isLoading);
+
   const [formData, setFormData] = useState({
     category: "65d080c09b0c34b0924bd909",
     itemName: "",
@@ -219,6 +220,7 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
                     onClick={() => setSel(false)}
                   >
                     <select
+                      value={formData?.seleteUnit?.baseUnit}
                       onChange={handleChange}
                       name="seleteUnit"
                       placeholder="None"
