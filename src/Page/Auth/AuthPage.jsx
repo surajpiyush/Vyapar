@@ -10,7 +10,7 @@ import { MdOutlineMailOutline as MailIcon } from "react-icons/md";
 import { FaRegUserCircle as UserIcon } from "react-icons/fa";
 import { CgOrganisation as CompanyIcon } from "react-icons/cg";
 
-const API_URL = "http://asaanly.com";
+const API_URL = "http://asanly.in";
 
 const AuthPage = () => {
   const toast = useToast();

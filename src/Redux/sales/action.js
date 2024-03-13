@@ -30,7 +30,7 @@ import {
 
 import axios from "axios";
 
-const API_URL = `http://asaanly.com`;
+const API_URL = `http://asanly.in`;
 
 // --------------------------------------- INVOICE ------------------------------------
 // Post Sales Invoice Request
