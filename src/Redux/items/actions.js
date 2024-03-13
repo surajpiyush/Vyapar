@@ -13,7 +13,7 @@ import {
 } from "./actionTypes";
 import { USER_DETAILS } from "../business/actionTypes";
 
-const API_URL = "http://asanly.in";
+const API_URL = "https://asaanly.in";
 
 export const addItem = async (dispatch, newItem, closeForm, toast) => {
   toast.closeAll();

@@ -8,7 +8,7 @@ import {
   REPORT_REQUEST,
 } from "./actionTypes";
 
-const API_URL = "http://asanly.in";
+const API_URL = "https://asaanly.in";
 
 let totalTax = 0;
 let integratedTax = 0;

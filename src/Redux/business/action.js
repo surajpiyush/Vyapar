@@ -9,7 +9,7 @@ import {
 
 import axios from "axios";
 
-const API_URL = `http://asanly.in`;
+const API_URL = `https://asaanly.in`;
 
 // Company Register Request ---- Didn't applied function curring due to thunk error in store.js
 export const FetchAllCompanies = async (dispatch) => {

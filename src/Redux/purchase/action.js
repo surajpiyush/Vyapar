@@ -17,7 +17,7 @@ import {
   UPDATE_PURCHASEBILL_SUCCESS,
 } from "./actionTypes";
 
-const API_URL = "http://asanly.in";
+const API_URL = "https://asaanly.in";
 
 // puchase Bills
 export const addPurchaseBill = (newItem) => (dispatch) => {

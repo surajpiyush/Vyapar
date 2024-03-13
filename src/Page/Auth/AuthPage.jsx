@@ -10,7 +10,7 @@ import { MdOutlineMailOutline as MailIcon } from "react-icons/md";
 import { FaRegUserCircle as UserIcon } from "react-icons/fa";
 import { CgOrganisation as CompanyIcon } from "react-icons/cg";
 
-const API_URL = "http://asanly.in";
+const API_URL = "https://asaanly.in";
 const backGroundImg =
   "https://png.pngtree.com/thumb_back/fh260/background/20200801/pngtree-purple-abstract-background-fluid-gradient-with-wave-forms-image_375467.jpg";
 

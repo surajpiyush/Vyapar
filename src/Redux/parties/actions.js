@@ -10,7 +10,7 @@ import {
 
 import axios from "axios";
 
-const API_URL = "http://asanly.in";
+const API_URL = "https://asaanly.in";
 
 // ----------------------- Fetch All Parties Data Function ---- Didn't applied function curring due to thunk error in store.js
 export const FetchAllParties = async (dispatch) => {
