@@ -35,8 +35,14 @@ const Print = () => {
     amountInWords: "Indian",
   });
 
-  const [regularPrinterData, setRegularPrinterData] = useState({});
-  const [ThermalPrinterData, setThermalPrinterData] = useState({});
+  const [regularPrinterData, setRegularPrinterData] = useState({
+    layoutIndex: 0,
+    layoutColor: colorArray[0]?.color,
+    regularPrinterDefault: true,
+  });
+  const [ThermalPrinterData, setThermalPrinterData] = useState({
+    thermalPrinterDefault: false,
+  });
 
   useEffect(() => {
     const updatedCompanyData = JSON.parse(localStorage.getItem(USER_DETAILS));
@@ -47,6 +53,10 @@ const Print = () => {
       return { ...prev, ...updatedCompanyData };
     });
   }, [toggleUpdate]);
+
+  useEffect(() => {
+    console.log("regularPrinterData", regularPrinterData);
+  }, [regularPrinterData]);
   return (
     <div className={css.Outer}>
       {/* Toggle Printer Type */}
@@ -108,11 +118,14 @@ const Print = () => {
                 {regularLayoutArr?.map((layoutItem, layoutIndex) => (
                   <div
                     onClick={() =>
-                      setRegularPrinterIndex(layoutItem?.themeIndex)
+                      setRegularPrinterData((prev) => {
+                        return { ...prev, layoutIndex: layoutItem?.themeIndex };
+                      })
                     }
                     style={{
                       backgroundColor:
-                        regularPrinterIndex == layoutItem?.themeIndex
+                        regularPrinterData?.layoutIndex ==
+                        layoutItem?.themeIndex
                           ? "var(--greyC)"
                           : "transparent",
                     }}
@@ -129,7 +142,11 @@ const Print = () => {
               <div className={css.colorDivOuterDiv}>
                 {colorArray?.map((colorItem, colorIndex) => (
                   <div
-                    onClick={() => setColorSelected(colorItem?.color)}
+                    onClick={() =>
+                      setRegularPrinterData((prev) => {
+                        return { ...prev, layoutColor: colorItem?.color };
+                      })
+                    }
                     style={{ backgroundColor: colorItem?.color }}
                     key={colorIndex + colorItem?.name}
                   ></div>
@@ -144,7 +161,11 @@ const Print = () => {
 
             {/* Make Regular Printer Default */}
             <div className={css.checkboxOuterDiv}>
-              <input type="checkbox" id="checkbox" />
+              <input
+                type="checkbox"
+                checked={regularPrinterData?.regularPrinterDefault}
+                id="checkbox"
+              />
               <label>Make Regular Printer Default</label>
             </div>
 
@@ -897,13 +918,13 @@ const Print = () => {
 export default Print;
 
 const regularLayoutArr = [
-  { img: RpTheme1, text: "GST Theme 1", themeIndex: 1 },
-  { img: RpTheme2, text: "GST Theme 2", themeIndex: 2 },
+  { img: RpTheme1, text: "GST Theme 1", themeIndex: 0 },
+  { img: RpTheme2, text: "GST Theme 2", themeIndex: 1 },
 ];
 
 const thermalLayoutArr = [
-  { img: TpTheme1, text: "Theme 1", themeIndex: 1 },
-  { img: TpTheme2, text: "Theme 2", themeIndex: 2 },
+  { img: TpTheme1, text: "Theme 1", themeIndex: 0 },
+  { img: TpTheme2, text: "Theme 2", themeIndex: 1 },
 ];
 
 const colorArray = [
