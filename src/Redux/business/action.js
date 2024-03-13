@@ -67,10 +67,7 @@ export const AddBusinessLoginRequest = async (
       status: "success",
       position: "top",
     });
-    navigate("/", {
-      state: { redirectTo: location.pathname },
-      replace: true,
-    });
+    navigate("/");
   } catch (error) {
     dispatch({ type: ISERROR });
     toast({

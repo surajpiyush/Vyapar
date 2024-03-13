@@ -14,7 +14,7 @@ import Marketing from "./pages/Marketing.jsx";
 import HsnReport from "./pages/HsnReport.jsx";
 import AuthPage from "./Page/Auth/AuthPage.jsx";
 import reportWebVitals from "./reportWebVitals";
-import Parties from "./Page/parties/Parties.jsx";
+import Parties from "./Page/Parties/Parties.jsx";
 import PageNotFound from "./pages/PageNotFound.jsx";
 import AddPurchase from "./Page/AddPurchasepage.jsx";
 import ProfilePage from "./Page/Firm/ProfilePage.jsx";
