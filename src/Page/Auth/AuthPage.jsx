@@ -1,5 +1,5 @@
-import "../../Css/styles.css";
-import "../../Css/styles1.css";
+import css from "./Auth.module.css";
+import Logo from "../../assets/Shop.svg";
 
 import axios from "axios";
 import { useToast } from "@chakra-ui/react";
@@ -11,6 +11,8 @@ import { FaRegUserCircle as UserIcon } from "react-icons/fa";
 import { CgOrganisation as CompanyIcon } from "react-icons/cg";
 
 const API_URL = "http://asanly.in";
+const backGroundImg =
+  "https://png.pngtree.com/thumb_back/fh260/background/20200801/pngtree-purple-abstract-background-fluid-gradient-with-wave-forms-image_375467.jpg";
 
 const AuthPage = () => {
   const toast = useToast();
@@ -78,15 +80,18 @@ const AuthPage = () => {
         replace: true,
       });
     } catch (error) {
-      console.log("Signup Error:", error);
       toast({
-        title: error.response?.data?.msg || "Something Went Wrong!",
+        title:
+          error?.response?.data?.message ||
+          error?.message ||
+          "Something Went Wrong!",
         status: "error",
         position: "top",
       });
       setStates((prev) => {
         return { ...prev, isLoading: false, isError: true };
       });
+      console.log("Signup Error:", error);
     }
   };
 
@@ -128,7 +133,10 @@ const AuthPage = () => {
       });
     } catch (error) {
       toast({
-        title: error.response?.data?.message || "Something Went Wrong!",
+        title:
+          error?.response?.data?.message ||
+          error?.message ||
+          "Something Went Wrong!",
         status: "error",
         position: "top",
       });
@@ -148,37 +156,54 @@ const AuthPage = () => {
   };
 
   return (
-    <div className="body" style={{ height: "100vh", width: "100vw" }}>
-      <div className="tab-container">
-        <section className="tab-button">
-          <button
-            onClick={() => setShowRegister(true)}
-            style={{
-              backgroundColor: showRegister && "#abc0ff",
-              color: showRegister && "black",
-            }}
-            className="tab-items"
-          >
-            Signup
-          </button>
-          <button
-            onClick={() => setShowRegister(false)}
-            style={{
-              backgroundColor: !showRegister && "#abc0ff",
-              color: !showRegister && "black",
-            }}
-            className="tab-items"
-          >
-            LogIn
-          </button>
-        </section>
+    <div
+      style={{ backgroundImage: `url(${backGroundImg})` }}
+      className={css.AuthOuter}
+    >
+      <div className={css.InnerContDivOuter}>
+        <div className={css.leftSideDivOuter}>
+          <div className={css.logoDiv}>
+            <img src={Logo} alt="Asaanly" />
+          </div>
+          <h2 className={css.welcomeHeadCss}>
+            Welcome to <span>Asaanly!</span>
+          </h2>
+          <h2 className={css.secondaryHeaderCss}>A GST Billing Platform.</h2>
+        </div>
 
-        {showRegister ? (
-          <section className="regsiter-tab">
-            <form onSubmit={handleRegister} className="Container">
+        {/* Form */}
+        <div className={css.FormOuter}>
+          <section className={css.topBtnContDiv}>
+            <button
+              onClick={() => setShowRegister(true)}
+              style={{
+                backgroundColor: showRegister && "var(--SereneSky)",
+                color: showRegister && "var(--ElectricBlue)",
+                cursor: !showRegister ? "pointer" : "default",
+              }}
+              className={css.toggleBtns}
+            >
+              SIGNUP
+            </button>
+            <button
+              onClick={() => setShowRegister(false)}
+              style={{
+                backgroundColor: !showRegister && "var(--SereneSky)",
+                color: !showRegister && "var(--ElectricBlue)",
+                cursor: showRegister ? "pointer" : "default",
+              }}
+              className={css.toggleBtns}
+            >
+              LOGIN
+            </button>
+          </section>
+
+          {showRegister ? (
+            // Register Form
+            <form onSubmit={handleRegister} className={css.actualFormOuter}>
               {/* Name */}
-              <div className="inputOuter">
-                <UserIcon className="input-icons" />
+              <div className={css.inputOuter}>
+                <UserIcon className={css.inputIcons} />
                 <input
                   type="text"
                   name="name"
@@ -189,8 +214,8 @@ const AuthPage = () => {
                 />
               </div>
               {/* Business NAME */}
-              <div className="inputOuter">
-                <CompanyIcon className="input-icons" />
+              <div className={css.inputOuter}>
+                <CompanyIcon className={css.inputIcons} />
                 <input
                   type="text"
                   name="companyName"
@@ -201,8 +226,8 @@ const AuthPage = () => {
                 />
               </div>
               {/* Email */}
-              <div className="inputOuter">
-                <MailIcon className="input-icons" />
+              <div className={css.inputOuter}>
+                <MailIcon className={css.inputIcons} />
                 <input
                   type="email"
                   name="email"
@@ -213,8 +238,8 @@ const AuthPage = () => {
                 />
               </div>
               {/* Password */}
-              <div className="inputOuter">
-                <PasswordIcon className="input-icons" />
+              <div className={css.inputOuter}>
+                <PasswordIcon className={css.inputIcons} />
                 <input
                   type="password"
                   name="password"
@@ -224,19 +249,24 @@ const AuthPage = () => {
                   required
                 />
               </div>
-              <div className="button">
-                <button type="submit" disabled={states?.isLoading}>
-                  {states?.isLoading ? "Registering..." : "Register"}
-                </button>
-              </div>
+              <button
+                type="submit"
+                disabled={states?.isLoading}
+                className={css.submitBtnDiv}
+              >
+                {states?.isLoading ? (
+                  <span className={css.Authloader}></span>
+                ) : (
+                  "REGISTER"
+                )}
+              </button>
             </form>
-          </section>
-        ) : (
-          <section className="login-tab">
-            <form onSubmit={handleLogin} className="Container">
+          ) : (
+            // Login Form
+            <form onSubmit={handleLogin} className={css.actualFormOuter}>
               {/* Email */}
-              <div className="inputOuter">
-                <MailIcon className="input-icons" />
+              <div className={css.inputOuter}>
+                <MailIcon className={css.inputIcons} />
                 <input
                   type="email"
                   name="email"
@@ -247,8 +277,8 @@ const AuthPage = () => {
                 />
               </div>
               {/* Password */}
-              <div className="inputOuter">
-                <PasswordIcon className="input-icons" />
+              <div className={css.inputOuter}>
+                <PasswordIcon className={css.inputIcons} />
                 <input
                   type="password"
                   name="password"
@@ -258,18 +288,21 @@ const AuthPage = () => {
                   required
                 />
               </div>
-              <div className="button">
-                <button
-                  type="submit"
-                  className="button"
-                  disabled={states?.isLoading}
-                >
-                  {states?.isLoading ? "Loading" : "Login"}
-                </button>
-              </div>
+
+              <button
+                className={css.submitBtnDiv}
+                type="submit"
+                disabled={states?.isLoading}
+              >
+                {states?.isLoading ? (
+                  <span className={css.Authloader}></span>
+                ) : (
+                  "LOGIN"
+                )}
+              </button>
             </form>
-          </section>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

@@ -7,6 +7,9 @@
 :root {
   --blueA: blue;
   --blueB: #098df9;
+  --BlueBerry: #4b75f2;
+  --SereneSky: #abc0ff;
+  --ElectricBlue: #043be0;
   --violetA: rgb(6, 17, 139);
   --bluishGrey: #b8cbdc;
   --deepForest: #353f3e;
@@ -18,6 +21,8 @@
   --greyishBlue: rgb(241, 245, 247);
   --redA: red;
   --redB: rgb(252, 44, 44);
+  --redC: rgb(248, 85, 85);
+  --redD: rgb(247, 65, 65);
   --yellowA: rgb(255, 204, 0);
   --overlayBg: rgba(0, 0, 0, 0.377);
   --overlayBg2: rgba(0, 0, 0, 0.544);
