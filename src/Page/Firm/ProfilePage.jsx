@@ -1,5 +1,4 @@
-import "./Profile.css";
-import css from "./EditFirm.module.css";
+import css from "./EditProfile.module.css";
 import Loader1 from "../../Component/Loaders/Loader1";
 import { USER_DETAILS } from "../../Redux/business/actionTypes";
 import { UpdateCompanyProfile } from "../../Redux/business/action";
@@ -7,7 +6,6 @@ import { UpdateCompanyProfile } from "../../Redux/business/action";
 import { useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RxCross2 } from "react-icons/rx";
 
 const ProfilePage = () => {
   const toast = useToast();
@@ -67,46 +65,33 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="edit-firm-container">
-      {isLoading && (
-        <div className="loaderOuter">
-          <span className="loader"></span>
-        </div>
-      )}
+    <div className={css.OuterEditProfile}>
+      {isLoading && <Loader1 />}
 
-      <section className="edit-firm-top-section">
-        <asside className="edit-firm-top-aside1">
-          <h4>Edit Firm</h4>
-          <div></div>
-          <button>Gold Licence</button>
-        </asside>
-        <asside className="edit-firm-top-aside2">
-          <RxCross2 />
-        </asside>
-      </section>
-      <section className="edit-firm-middle-section">
-        <div className="upperFormPart">
+      {/* Top Nav */}
+      <div className={css.topNavDiv}>Edit Firm</div>
+
+      {/* Top Section Inputs */}
+      <div className={css.TopSectionInputOuter}>
+        <div className={css.leftSideTopDivOuter}>
           {companyData?.companyLogo && (
-            <div className="FirmLogoOuterDiv">
-              <img src={companyData?.companyLogo} alt="Logo Uploaded ✔️" />
+            <div className={css.FirmLogoOuterDiv}>
+              <img src={companyData?.companyLogo} alt="Logo Selected ✔️" />
             </div>
           )}
-          <div className="edit-firm-middle-aside1">
-            <div>
-              <label htmlFor="companyLogo">
-                {companyData?.companyLogo ? "Update Logo" : "Add Logo"}
-              </label>
-              <input
-                type="file"
-                name="companyLogo"
-                accept="image/*"
-                onChange={handleInputChange}
-              />
-            </div>
+          <div className={css.imgUploadDiv}>
+            <h2>{companyData?.companyLogo ? "Update" : "Add"}</h2>
+            <h2>Logo</h2>
+            <input
+              type="file"
+              name="companyLogo"
+              accept="image/*"
+              onChange={handleInputChange}
+              style={{ display: companyData?.companyLogo && "block" }}
+            />
           </div>
         </div>
-
-        <div className="edit-firm-middle-aside2">
+        <div className={css.rightSideTopDivOuter}>
           <div>
             <label htmlFor="#">
               Business Name <span style={{ color: "red" }}>*</span>
@@ -155,12 +140,13 @@ const ProfilePage = () => {
             />
           </div>
         </div>
-      </section>
-      <section className="edit-firm-footer">
+      </div>
+
+      <section className={css.BottomOuterSection}>
         <h4>Business details</h4>
-        <div className="edit-firm-border"></div>
-        <section className="edit-firm-footer-section">
-          <div className="edit-firm-footer-aside1">
+        <div className={css.bottomHeadBorder}></div>
+        <section className={css.bottomInputContsDivOuter}>
+          <div className={css.bottomLeftSideDiv}>
             <div>
               <label htmlFor="#">Business Address</label>
               <textarea
@@ -241,7 +227,7 @@ const ProfilePage = () => {
               />
             </div>
           </div>
-          <div className="edit-firm-footer-aside2">
+          <div className={css.bottomRightSideDiv}>
             <div>
               <label htmlFor="#">Business Type</label>
               <select
@@ -260,11 +246,15 @@ const ProfilePage = () => {
             </div>
             <div>
               <label htmlFor="#">Business Category</label>
-              <select
+              <input
+                type="text"
                 value={companyData.businessCategory}
                 onChange={handleInputChange}
                 name="businessCategory"
-              >
+                placeholder="Business Category"
+                list="businessCateList"
+              />
+              <datalist id="businessCateList">
                 <option value="Accounting & CA">Accounting & CA</option>
                 <option value="Interior Designer">Interior Designer</option>
                 <option value="Automobiles/ Auto parts">
@@ -273,11 +263,11 @@ const ProfilePage = () => {
                 <option value="Salon & Spa">Salon & Spa</option>
                 <option value="Liquor Store">Liquor Store</option>
                 <option value="Others">Others</option>
-              </select>
+              </datalist>
             </div>
-            <div className="add-signatures">
+            <div className={css.addSignature}>
               {companyData?.signature && (
-                <div className="FirmSignatureOuterDiv">
+                <div className={css.FirmSignatureOuterDiv}>
                   <img
                     src={companyData?.signature}
                     alt="Signature Uploaded ✔️"
@@ -295,13 +285,11 @@ const ProfilePage = () => {
           </div>
         </section>
       </section>
-      <div className="edit-firm-save-button">
+      <div className={css.footerDivOuter}>
         <button type="submit" disabled={isLoading} onClick={handleSave}>
           {isLoading ? "Saving" : "Save"}
         </button>
       </div>
-
-      {isLoading && <Loader1 />}
     </div>
   );
 };
