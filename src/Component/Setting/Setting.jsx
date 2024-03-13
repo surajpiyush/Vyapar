@@ -9,6 +9,8 @@ import { useState } from "react";
 import { useNavigate, NavLink, useLocation } from "react-router-dom";
 import { FaSearch as SearchIcon } from "react-icons/fa";
 import { IoMdCloseCircle as CloseIcon } from "react-icons/io";
+import ItemSetting from "./ItemSetting";
+import PartySetting from "./PartySetting";
 
 function Setting({ setToggleSetting }) {
   const navigate = useNavigate();
@@ -80,8 +82,8 @@ function Setting({ setToggleSetting }) {
         {activeSidebar == "TRANSACTION MESSAGE" && (
           <div>TRANSACTION MESSAGE Under Development</div>
         )}
-        {activeSidebar == "PARTY" && <div>PARTY Under Development</div>}
-        {activeSidebar == "ITEM" && <div>ITEM Under Development</div>}
+        {activeSidebar == "PARTY" && <PartySetting />}
+        {activeSidebar == "ITEM" && <ItemSetting /> }
       </div>
     </div>
   );
