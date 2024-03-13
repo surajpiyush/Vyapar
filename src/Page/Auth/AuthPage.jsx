@@ -76,7 +76,7 @@ const AuthPage = () => {
     } catch (error) {
       toast({
         title:
-          error?.response?.data?.message ||
+          error?.response?.data?.msg ||
           error?.message ||
           "Something Went Wrong!",
         status: "error",
