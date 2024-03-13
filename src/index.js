@@ -15,7 +15,7 @@ import HsnReport from "./pages/HsnReport.jsx";
 import AuthPage from "./Page/Auth/AuthPage.jsx";
 import reportWebVitals from "./reportWebVitals";
 import PageNotFound from "./pages/PageNotFound.jsx";
-import Parties from "./Page/Parties/Parties.jsx";
+import Parties from "./Page/parties/Parties.jsx";
 import AddPurchase from "./Page/AddPurchasepage.jsx";
 import ProfilePage from "./Page/Firm/ProfilePage.jsx";
 import Paymentout from "./Page/Purchase/Paymentout.jsx";
