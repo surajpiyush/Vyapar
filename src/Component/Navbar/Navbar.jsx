@@ -31,10 +31,7 @@ const Navbar = () => {
   // Change Company Click
   const handleChangeCompanyClick = () => {
     setShowCompanyMenu((prev) => !prev);
-    navigate("/companies", {
-      state: { redirectTo: location.pathname },
-      replace: true,
-    });
+    navigate("/companies");
   };
 
   // Logout Function
@@ -43,10 +40,7 @@ const Navbar = () => {
     localStorage.removeItem("userId");
     localStorage.removeItem(USER_DETAILS);
     toast({ title: "Logout Successfull!", status: "success", position: "top" });
-    navigate("/auth", {
-      state: { redirectTo: location.pathname },
-      replace: true,
-    });
+    navigate("/auth");
   };
 
   const handleCloseToogle = () => {

@@ -37,10 +37,7 @@ const CompaniesPage = () => {
   const handleCompanyClick = (item) => {
     localStorage.setItem(USER_DETAILS, JSON.stringify(item));
     dispatch({ type: SET_CURRENT_COMPANY, payload: item });
-    navigate("/", {
-      state: { redirectTo: location.pathname },
-      replace: true,
-    });
+    navigate("/");
   };
 
   // Logout Function
@@ -49,10 +46,7 @@ const CompaniesPage = () => {
     localStorage.removeItem("userId");
     localStorage.removeItem(USER_DETAILS);
     toast({ title: "Logout Successfull!", status: "success", position: "top" });
-    navigate("/auth", {
-      state: { redirectTo: location.pathname },
-      replace: true,
-    });
+    navigate("/auth");
   };
 
   return (
@@ -124,12 +118,7 @@ const CompaniesPage = () => {
           </button>
           <button
             className="comapny-bottom-section-button2"
-            onClick={() =>
-              navigate("/addCompany", {
-                state: { redirectTo: location.pathname },
-                replace: true,
-              })
-            }
+            onClick={() => navigate("/addCompany")}
           >
             New Companay
           </button>

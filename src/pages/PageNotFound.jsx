@@ -1,9 +1,6 @@
-// NotFoundPage.jsx
+import css from ".././styles/NotFoundPage.module.css";
 
-import React, { useEffect, useState } from 'react';
-import '../Css/pageNotFound.css'; // Import your styles here
-
-
+import { useEffect, useState } from "react";
 
 const PageNotFound = () => {
   const [stars, setStars] = useState([]);
@@ -45,39 +42,39 @@ const PageNotFound = () => {
   }, [stars]);
 
   return (
-    <div className="center">
-      <section className="error">
-        <h1 className="error__title">404</h1>
-        <h2 className="error__type">Page not found</h2>
-        <p className="error__cta">
-          We’re sorry, the page you have looked for does not exist in our database! Maybe go to our{' '}
-          <a className="error__link error__link--purple" href="/" >
+    <div className={css.center}>
+      <section className={css.error}>
+        <h1 className={css.error__title}>404</h1>
+        <h2 className={css.error__type}>Page not found</h2>
+        <p className={css.error__cta}>
+          We’re sorry, the page you have looked for does not exist in our
+          database! Maybe go to our{" "}
+          <a className={css.errorLinkPurple} href="/">
             home page
-          </a>{' '}
-          or try to use a{' '}
-          <a className="error__link error__link--blue" href="/" >
+          </a>{" "}
+          or try to use a{" "}
+          <a className={css.errorLinkBlue} href="/">
             search?
           </a>
         </p>
       </section>
 
-      <div className="astronaut">
+      <div className={css.astronaut}>
         {stars.map((star, index) => (
-          <div key={index} className="star" style={{ top: `${star.top}px`, right: `${star.right}px` }}></div>
+          <div
+            key={index}
+            className={css.star}
+            style={{ top: `${star.top}px`, right: `${star.right}px` }}
+          ></div>
         ))}
         <img
           src="https://images.vexels.com/media/users/3/152639/isolated/preview/506b575739e90613428cdb399175e2c8-space-astronaut-cartoon-by-vexels.png"
           alt=""
-          className="src"
+          className={css.src}
         />
       </div>
-
-      <script src="script.js"></script>
     </div>
   );
 };
-
-
-
 
 export default PageNotFound;

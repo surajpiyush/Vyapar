@@ -6,7 +6,7 @@ export default function CategoryTable(Props) {
   const partiesData = useSelector((state) => state.PartiesReducer.partiesData);
 
   const openForm = () => {
-    console.log("Working");
+    // console.log("Working");
     Props.func(true);
   };
 

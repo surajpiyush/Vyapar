@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
 import "../../styles/parties.css";
-import { useDispatch, useSelector } from "react-redux";
 import { getitems } from "../../Redux/items/actions";
+import { USER_DETAILS } from "../../Redux/business/actionTypes";
+
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { ImSpinner3 as BasicSpinner } from "react-icons/im";
 import { LuFilter as FilterIcon } from "react-icons/lu";
 import { IoIosArrowRoundUp as UpArrowIcon } from "react-icons/io";
-import axios from "axios";
-import { tab } from "@testing-library/user-event/dist/tab";
-import { USER_DETAILS } from "../../Redux/business/actionTypes";
 
 export default function ProductsTable(Props) {
   const dispatch = useDispatch();

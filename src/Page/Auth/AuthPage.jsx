@@ -35,10 +35,7 @@ const AuthPage = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      navigate("/companies", {
-        state: { redirectTo: location.pathname },
-        replace: true,
-      });
+      navigate("/companies");
     }
   }, []);
 
@@ -75,10 +72,7 @@ const AuthPage = () => {
       setStates((prev) => {
         return { ...prev, isLoading: false, toggle: !prev.toggle };
       });
-      navigate("/companies", {
-        state: { redirectTo: location.pathname },
-        replace: true,
-      });
+      navigate("/companies");
     } catch (error) {
       toast({
         title:
@@ -127,10 +121,7 @@ const AuthPage = () => {
       setStates((prev) => {
         return { ...prev, isLoading: false, toggle: !prev.toggle };
       });
-      navigate("/companies", {
-        state: { redirectTo: location.pathname },
-        replace: true,
-      });
+      navigate("/companies");
     } catch (error) {
       toast({
         title:
