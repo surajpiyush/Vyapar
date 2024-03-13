@@ -2,7 +2,11 @@ import css from "../../../styles/SalesStyles/PaymentIn.module.css";
 import PaymentInForm from "./PaymentInForm";
 import TablePaymentIn from "./TablePaymentIn";
 import Setting from "../../../Component/Setting/Setting";
-import { GetAllPaymentIn, deletePaymentIn, updatePaymentIn } from "../../../Redux/sales/action";
+import {
+  GetAllPaymentIn,
+  deletePaymentIn,
+  updatePaymentIn,
+} from "../../../Redux/sales/action";
 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,7 +26,7 @@ export default function SalesPaymentIn() {
   const paymentInList = useSelector(
     (state) => state.SalesReducer.paymentInList
   );
-console.log(paymentInList)
+  console.log(paymentInList);
   const [openForm, setOpenForm] = useState(false);
   const [toggleSetting, setToggleSetting] = useState(false);
   const [startDate, setStartDate] = useState("2024-02-01");
@@ -54,12 +58,11 @@ console.log(paymentInList)
   };
 
   const handleSave = (updatedData) => {
-
-    updatedData.partyname = updatedData.partyName
+    updatedData.partyname = updatedData.partyName;
     console.log("updatedData-", updatedData);
     const id = updatedData._id;
-   
-    dispatch(updatePaymentIn(updatedData._id,updatedData));
+
+    dispatch(updatePaymentIn(updatedData._id, updatedData));
     setIsEditing(false);
     setEditedData(null);
     GetAllPaymentIn(dispatch, startDate, endDate);
@@ -83,7 +86,7 @@ console.log(paymentInList)
     "balance",
     // "duedate",
     // "statuss",
- ];
+  ];
 
   return (
     <div style={{ marginTop: "100px" }}>
@@ -207,12 +210,12 @@ console.log(paymentInList)
                       {/*  <FilterIcon /> */}
                     </div>
                   </th>
-                  <th>
+                  {/* <th>
                     <div>
                       CATEGORY NAME
-                      {/*  <FilterIcon /> */}
+                       <FilterIcon />
                     </div>
-                  </th>
+                  </th> */}
                   <th>
                     <div>
                       TYPE

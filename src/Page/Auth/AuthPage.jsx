@@ -35,10 +35,7 @@ const AuthPage = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      navigate("/companies", {
-        state: { redirectTo: location.pathname },
-        replace: true,
-      });
+      navigate("/companies");
     }
   }, []);
 
@@ -75,14 +72,11 @@ const AuthPage = () => {
       setStates((prev) => {
         return { ...prev, isLoading: false, toggle: !prev.toggle };
       });
-      navigate("/companies", {
-        state: { redirectTo: location.pathname },
-        replace: true,
-      });
+      navigate("/companies");
     } catch (error) {
       toast({
         title:
-          error?.response?.data?.message ||
+          error?.response?.data?.msg ||
           error?.message ||
           "Something Went Wrong!",
         status: "error",
@@ -127,10 +121,7 @@ const AuthPage = () => {
       setStates((prev) => {
         return { ...prev, isLoading: false, toggle: !prev.toggle };
       });
-      navigate("/companies", {
-        state: { redirectTo: location.pathname },
-        replace: true,
-      });
+      navigate("/companies");
     } catch (error) {
       toast({
         title:

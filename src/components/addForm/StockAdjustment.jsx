@@ -1,11 +1,10 @@
 import React from "react";
 
 export default function StockAdjustment(Props) {
-
   const closeForm = () => {
-    console.log("Working")
+    // console.log("Working");
     Props.func(false);
-  }
+  };
 
   return (
     <div>
@@ -14,26 +13,21 @@ export default function StockAdjustment(Props) {
           <div className="">
             <h3>Stock Adjustment</h3>
           </div>
-          <div
-            className=""
-            onClick={() => {
-              
-            }}
-          >
+          <div className="" onClick={() => {}}>
             <i className="fa fa-close" onClick={closeForm}></i>
           </div>
         </div>
         <hr />
         <div className="d-between">
-            <div className="">
-                <p style={{margin: "0px"}}>Item Name</p>
-                <p style={{margin: "0px"}}>Item</p>
-            </div>
-            <div className="">
-                <input type="date" className="" placeholder="Adjustment Date"/>
-            </div>
+          <div className="">
+            <p style={{ margin: "0px" }}>Item Name</p>
+            <p style={{ margin: "0px" }}>Item</p>
+          </div>
+          <div className="">
+            <input type="date" className="" placeholder="Adjustment Date" />
+          </div>
         </div>
-        <div className="" style={{ textAlign: "start",marginTop : "10px" }}>
+        <div className="" style={{ textAlign: "start", marginTop: "10px" }}>
           <input
             type="text"
             className="inp-field"

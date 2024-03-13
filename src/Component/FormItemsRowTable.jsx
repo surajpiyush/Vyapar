@@ -70,6 +70,8 @@ const FormItemsRowTable = ({
 
   // Found items list click handler
   const handleMenuItemClick = (itemDetail) => {
+    console.log("itemDetails", itemDetail);
+
     let currSaleItem = {
       ...tableRowsArr[ind],
       itemName: itemDetail?._id,

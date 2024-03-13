@@ -37,10 +37,7 @@ const Sidebar = () => {
 
   const handleActiveItems = (item) => {
     if (item === "Home") {
-      navigate("/", {
-        state: { redirectTo: location.pathname },
-        replace: true,
-      });
+      navigate("/");
     }
     setActiveItems(item);
     handleNestedSibarItems();
@@ -52,15 +49,9 @@ const Sidebar = () => {
 
   const handleLayout = (item) => {
     if (item === "Parties") {
-      navigate("/parties", {
-        state: { redirectTo: location.pathname },
-        replace: true,
-      });
+      navigate("/parties");
     } else if (item === "Items") {
-      navigate("/items", {
-        state: { redirectTo: location.pathname },
-        replace: true,
-      });
+      navigate("/items");
     }
   };
 
@@ -71,10 +62,7 @@ const Sidebar = () => {
       <section
         className="sidebar-top-section"
         onClick={() => {
-          navigate("/profile", {
-            state: { redirectTo: location.pathname },
-            replace: true,
-          });
+          navigate("/profile");
           setToggleNavItems(false);
         }}
       >
@@ -107,10 +95,7 @@ const Sidebar = () => {
                 items.name == "Purchase" ||
                 items.name === "WhatsApp Marketing"
               ) {
-                navigate(items?.to, {
-                  state: { redirectTo: location.pathname },
-                  replace: true,
-                });
+                navigate(items?.to);
                 setToggleNavItems(!toggleNavItems);
               }
               if (items.name == "Setting") {
@@ -143,10 +128,7 @@ const Sidebar = () => {
                         key={nestedindex}
                         onClick={() => {
                           handleActiveNestedItems(nestedindex);
-                          navigate(nestedItems.navigateurl, {
-                            state: { redirectTo: location.pathname },
-                            replace: true,
-                          });
+                          navigate(nestedItems.navigateurl);
                         }}
                         className={`sidevar-nested-items ${
                           activeNestedItems === nestedindex &&

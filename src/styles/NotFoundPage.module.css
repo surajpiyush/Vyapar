@@ -42,10 +42,18 @@
   text-decoration: none;
   white-space: nowrap;
 }
-.error__link--purple {
+.errorLinkPurple {
+  color: #fff;
+  padding: 0.25em 0.5em;
+  text-decoration: none;
+  white-space: nowrap;
   background: #9575cd;
 }
-.error__link--blue {
+.errorLinkBlue {
+  color: #fff;
+  padding: 0.25em 0.5em;
+  text-decoration: none;
+  white-space: nowrap;
   background: #00bcd4;
 }
 

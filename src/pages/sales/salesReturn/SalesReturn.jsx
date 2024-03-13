@@ -89,7 +89,7 @@ export default function SalesReturn() {
     "duedate",
     "status",
     "hariom",
- ];
+  ];
 
   return (
     <div style={{ marginTop: "100px" }}>
@@ -238,12 +238,12 @@ export default function SalesReturn() {
                       {/*  <FilterIcon /> */}
                     </div>
                   </th>
-                  <th>
+                  {/* <th>
                     <div>
                       CATEGORY NAME
-                      {/*  <FilterIcon /> */}
+                       <FilterIcon />
                     </div>
-                  </th>
+                  </th> */}
                   <th>
                     <div>
                       TYPE
