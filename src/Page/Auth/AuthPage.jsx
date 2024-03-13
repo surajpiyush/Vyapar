@@ -79,15 +79,18 @@ const AuthPage = () => {
         replace: true,
       });
     } catch (error) {
-      console.log("Signup Error:", error);
       toast({
-        title: error.response?.data?.msg || "Something Went Wrong!",
+        title:
+          error?.response?.data?.message ||
+          error?.message ||
+          "Something Went Wrong!",
         status: "error",
         position: "top",
       });
       setStates((prev) => {
         return { ...prev, isLoading: false, isError: true };
       });
+      console.log("Signup Error:", error);
     }
   };
 
@@ -129,7 +132,10 @@ const AuthPage = () => {
       });
     } catch (error) {
       toast({
-        title: error.response?.data?.message || "Something Went Wrong!",
+        title:
+          error?.response?.data?.message ||
+          error?.message ||
+          "Something Went Wrong!",
         status: "error",
         position: "top",
       });
@@ -159,7 +165,7 @@ const AuthPage = () => {
             onClick={() => setShowRegister(true)}
             style={{
               backgroundColor: showRegister && "var(--SereneSky)",
-              color: showRegister && "var(--deepForest)",
+              color: showRegister && "var(--ElectricBlue)",
               cursor: !showRegister ? "pointer" : "default",
             }}
             className={css.toggleBtns}
@@ -170,7 +176,7 @@ const AuthPage = () => {
             onClick={() => setShowRegister(false)}
             style={{
               backgroundColor: !showRegister && "var(--SereneSky)",
-              color: !showRegister && "var(--deepForest)",
+              color: !showRegister && "var(--ElectricBlue)",
               cursor: showRegister ? "pointer" : "default",
             }}
             className={css.toggleBtns}
@@ -230,11 +236,17 @@ const AuthPage = () => {
                 required
               />
             </div>
-            <div className={css.submitBtnDiv}>
-              <button type="submit" disabled={states?.isLoading}>
-                {states?.isLoading ? "Registering..." : "Register"}
-              </button>
-            </div>
+            <button
+              type="submit"
+              disabled={states?.isLoading}
+              className={css.submitBtnDiv}
+            >
+              {states?.isLoading ? (
+                <span className={css.Authloader}></span>
+              ) : (
+                "REGISTER"
+              )}
+            </button>
           </form>
         ) : (
           // Login Form
@@ -263,11 +275,18 @@ const AuthPage = () => {
                 required
               />
             </div>
-            <div className={css.submitBtnDiv}>
-              <button type="submit" disabled={states?.isLoading}>
-                {states?.isLoading ? "Loading" : "Login"}
-              </button>
-            </div>
+
+            <button
+              className={css.submitBtnDiv}
+              type="submit"
+              disabled={states?.isLoading}
+            >
+              {states?.isLoading ? (
+                <span className={css.Authloader}></span>
+              ) : (
+                "LOGIN"
+              )}
+            </button>
           </form>
         )}
       </div>
