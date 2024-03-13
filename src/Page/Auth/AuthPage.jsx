@@ -10,7 +10,8 @@ import { MdOutlineMailOutline as MailIcon } from "react-icons/md";
 import { FaRegUserCircle as UserIcon } from "react-icons/fa";
 import { CgOrganisation as CompanyIcon } from "react-icons/cg";
 
-const API_URL = "http://asaanly.com";
+// const API_URL = "https://ca-backend-api.onrender.com";
+const API_URL = "http://asanly.in";
 const backGroundImg =
   "https://png.pngtree.com/thumb_back/fh260/background/20200801/pngtree-purple-abstract-background-fluid-gradient-with-wave-forms-image_375467.jpg";
 
@@ -253,6 +254,7 @@ const AuthPage = () => {
                 type="submit"
                 disabled={states?.isLoading}
                 className={css.submitBtnDiv}
+                style={{ cursor: states?.isLoading ? "progress" : "pointer" }}
               >
                 {states?.isLoading ? (
                   <span className={css.Authloader}></span>
@@ -290,9 +292,10 @@ const AuthPage = () => {
               </div>
 
               <button
-                className={css.submitBtnDiv}
                 type="submit"
                 disabled={states?.isLoading}
+                style={{ cursor: states?.isLoading ? "progress" : "pointer" }}
+                className={css.submitBtnDiv}
               >
                 {states?.isLoading ? (
                   <span className={css.Authloader}></span>
