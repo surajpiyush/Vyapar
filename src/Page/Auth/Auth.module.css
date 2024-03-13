@@ -1,0 +1,112 @@
+.AuthOuter {
+  display: grid;
+  place-content: center;
+  place-items: center;
+  background-size: cover;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  width: 100%;
+  min-height: 100vh;
+}
+.FormOuter {
+  font-family: var(--Pop);
+  background-color: var(--BlueBerry);
+  border-width: 2px solid var(--greyB);
+  margin: auto;
+  width: 450px;
+  border-radius: 12px;
+  padding: 30px 30px 20px;
+  height: fit-content;
+  transition: all 0.15s ease;
+}
+.topBtnContDiv {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border: 2px solid var(--ElectricBlue);
+  padding: 10px;
+  color: white;
+  border-radius: 6px;
+  height: fit-content;
+  transition: all 0.15s ease;
+}
+.toggleBtns {
+  font-family: var(--Rob);
+  border: 1px solid var(--BlueBerry);
+  width: 100%;
+  border-radius: 4px;
+  padding: 5px;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  height: fit-content;
+  transition: all 0.2s ease;
+}
+.actualFormOuter {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  gap: 18px;
+  margin: 28px auto 0px;
+  height: fit-content;
+  transition: all 0.2s ease;
+}
+.inputOuter {
+  display: flex;
+  align-items: center;
+  background-color: var(--greyishBlue);
+  gap: 12px;
+  padding: 0px 8px;
+  border-radius: 6px;
+  height: fit-content;
+  transition: all 0.2s ease;
+}
+.inputOuter > input {
+  background-color: transparent;
+  border: none;
+  height: 45px;
+  flex-grow: 2;
+  font-size: 18px;
+  font-family: var(--Ral);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: var(--deepForest);
+  transition: all 0.2s ease;
+}
+.inputOuter > input:focus {
+  outline: none;
+}
+.inputOuter > input::placeholder {
+  font-size: 16px;
+  color: var(--greyA);
+}
+.inputIcons {
+  font-size: 22px;
+  margin-left: 12px;
+  color: var(--deepForest);
+}
+.submitBtnDiv {
+  width: 100%;
+  text-align: center;
+}
+.submitBtnDiv > button {
+  border: 1px solid red;
+  margin: 12px auto 12px;
+  width: fit-content;
+  background-color: #043be0;
+  color: #fff;
+  font-weight: 500;
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+  margin: 10px 0;
+  font-size: 16px;
+}
+.submitBtnDiv > button:hover {
+  background-color: #4b75f2;
+}

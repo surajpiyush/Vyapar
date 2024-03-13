@@ -1,5 +1,4 @@
-import "../../Css/styles.css";
-import "../../Css/styles1.css";
+import css from "./Auth.module.css";
 
 import axios from "axios";
 import { useToast } from "@chakra-ui/react";
@@ -11,6 +10,8 @@ import { FaRegUserCircle as UserIcon } from "react-icons/fa";
 import { CgOrganisation as CompanyIcon } from "react-icons/cg";
 
 const API_URL = "http://asaanly.com";
+const backGroundImg =
+  "https://png.pngtree.com/thumb_back/fh260/background/20200801/pngtree-purple-abstract-background-fluid-gradient-with-wave-forms-image_375467.jpg";
 
 const AuthPage = () => {
   const toast = useToast();
@@ -148,127 +149,126 @@ const AuthPage = () => {
   };
 
   return (
-    <div className="body" style={{ height: "100vh", width: "100vw" }}>
-      <div className="tab-container">
-        <section className="tab-button">
+    <div
+      style={{ backgroundImage: `url(${backGroundImg})` }}
+      className={css.AuthOuter}
+    >
+      <div className={css.FormOuter}>
+        <section className={css.topBtnContDiv}>
           <button
             onClick={() => setShowRegister(true)}
             style={{
-              backgroundColor: showRegister && "#abc0ff",
-              color: showRegister && "black",
+              backgroundColor: showRegister && "var(--SereneSky)",
+              color: showRegister && "var(--deepForest)",
+              cursor: !showRegister ? "pointer" : "default",
             }}
-            className="tab-items"
+            className={css.toggleBtns}
           >
-            Signup
+            SIGNUP
           </button>
           <button
             onClick={() => setShowRegister(false)}
             style={{
-              backgroundColor: !showRegister && "#abc0ff",
-              color: !showRegister && "black",
+              backgroundColor: !showRegister && "var(--SereneSky)",
+              color: !showRegister && "var(--deepForest)",
+              cursor: showRegister ? "pointer" : "default",
             }}
-            className="tab-items"
+            className={css.toggleBtns}
           >
-            LogIn
+            LOGIN
           </button>
         </section>
 
         {showRegister ? (
-          <section className="regsiter-tab">
-            <form onSubmit={handleRegister} className="Container">
-              {/* Name */}
-              <div className="inputOuter">
-                <UserIcon className="input-icons" />
-                <input
-                  type="text"
-                  name="name"
-                  value={inpVal?.name}
-                  onChange={handleInpChange}
-                  placeholder="Username"
-                  required
-                />
-              </div>
-              {/* Business NAME */}
-              <div className="inputOuter">
-                <CompanyIcon className="input-icons" />
-                <input
-                  type="text"
-                  name="companyName"
-                  value={inpVal?.companyName}
-                  onChange={handleInpChange}
-                  placeholder="Business Name"
-                  required
-                />
-              </div>
-              {/* Email */}
-              <div className="inputOuter">
-                <MailIcon className="input-icons" />
-                <input
-                  type="email"
-                  name="email"
-                  value={inpVal?.email}
-                  onChange={handleInpChange}
-                  placeholder="Your Email"
-                  required
-                />
-              </div>
-              {/* Password */}
-              <div className="inputOuter">
-                <PasswordIcon className="input-icons" />
-                <input
-                  type="password"
-                  name="password"
-                  value={inpVal?.password}
-                  onChange={handleInpChange}
-                  placeholder="Password"
-                  required
-                />
-              </div>
-              <div className="button">
-                <button type="submit" disabled={states?.isLoading}>
-                  {states?.isLoading ? "Registering..." : "Register"}
-                </button>
-              </div>
-            </form>
-          </section>
+          // Register Form
+          <form onSubmit={handleRegister} className={css.actualFormOuter}>
+            {/* Name */}
+            <div className={css.inputOuter}>
+              <UserIcon className={css.inputIcons} />
+              <input
+                type="text"
+                name="name"
+                value={inpVal?.name}
+                onChange={handleInpChange}
+                placeholder="Username"
+                required
+              />
+            </div>
+            {/* Business NAME */}
+            <div className={css.inputOuter}>
+              <CompanyIcon className={css.inputIcons} />
+              <input
+                type="text"
+                name="companyName"
+                value={inpVal?.companyName}
+                onChange={handleInpChange}
+                placeholder="Business Name"
+                required
+              />
+            </div>
+            {/* Email */}
+            <div className={css.inputOuter}>
+              <MailIcon className={css.inputIcons} />
+              <input
+                type="email"
+                name="email"
+                value={inpVal?.email}
+                onChange={handleInpChange}
+                placeholder="Your Email"
+                required
+              />
+            </div>
+            {/* Password */}
+            <div className={css.inputOuter}>
+              <PasswordIcon className={css.inputIcons} />
+              <input
+                type="password"
+                name="password"
+                value={inpVal?.password}
+                onChange={handleInpChange}
+                placeholder="Password"
+                required
+              />
+            </div>
+            <div className={css.submitBtnDiv}>
+              <button type="submit" disabled={states?.isLoading}>
+                {states?.isLoading ? "Registering..." : "Register"}
+              </button>
+            </div>
+          </form>
         ) : (
-          <section className="login-tab">
-            <form onSubmit={handleLogin} className="Container">
-              {/* Email */}
-              <div className="inputOuter">
-                <MailIcon className="input-icons" />
-                <input
-                  type="email"
-                  name="email"
-                  value={inpVal?.email}
-                  onChange={handleInpChange}
-                  placeholder="Your Email"
-                  required
-                />
-              </div>
-              {/* Password */}
-              <div className="inputOuter">
-                <PasswordIcon className="input-icons" />
-                <input
-                  type="password"
-                  name="password"
-                  value={inpVal?.password}
-                  onChange={handleInpChange}
-                  placeholder="Enter Password"
-                  required
-                />
-              </div>
-              <div className="button">
-                <button
-                  type="submit"
-                  className="button"
-                  disabled={states?.isLoading}
-                >
-                  {states?.isLoading ? "Loading" : "Login"}
-                </button>
-              </div>
-            </form>
-          </section>
+          // Login Form
+          <form onSubmit={handleLogin} className={css.actualFormOuter}>
+            {/* Email */}
+            <div className={css.inputOuter}>
+              <MailIcon className={css.inputIcons} />
+              <input
+                type="email"
+                name="email"
+                value={inpVal?.email}
+                onChange={handleInpChange}
+                placeholder="Your Email"
+                required
+              />
+            </div>
+            {/* Password */}
+            <div className={css.inputOuter}>
+              <PasswordIcon className={css.inputIcons} />
+              <input
+                type="password"
+                name="password"
+                value={inpVal?.password}
+                onChange={handleInpChange}
+                placeholder="Enter Password"
+                required
+              />
+            </div>
+            <div className={css.submitBtnDiv}>
+              <button type="submit" disabled={states?.isLoading}>
+                {states?.isLoading ? "Loading" : "Login"}
+              </button>
+            </div>
+          </form>
         )}
       </div>
     </div>
