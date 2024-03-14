@@ -4,12 +4,12 @@ import ReportSearchBar from "./ReportSearchBar";
 import ReportBtn from "./ReportBtn";
 import PurchaseTableModel from "./PurchaseTableModel";
 
-const SaleDashboard = ({ data, tableHeader, btnText }) => {
+const SaleDashboard = ({ data, tableHeader, btnText,setStartDate,setEndDate,startDate,endDate }) => {
   // console.log(data)
   return (
     <div className="sale-dashboard">
       {/* header */}
-      <SaleDashboardHeader data={data} />
+      <SaleDashboardHeader data={data} setEndDate={setEndDate} setStartDate = {setStartDate} endDate={endDate} startDate={startDate}/>
 
       {/* Sale Dashboard Ammount */}
       <div className="sale-dashboard-ammount">

@@ -20,6 +20,7 @@ const TableCreditNotes = ({
   status,
   handleEdit,
 }) => {
+  // console.log("Date in return -",date)
   return (
     <tr>
       <td>
