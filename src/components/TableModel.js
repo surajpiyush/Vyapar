@@ -29,25 +29,26 @@ const TableModel = ({ tableHeader, data }) => {
             ) : (
                ""
             )}
-            <tbody>
+            <tbody >
                {data?.map((item, index) => (
-                  <tr key={item.id}>
+                  <tr key={item.id} style={{textAlign:"center"}}>
                      <td>{index + 1}</td>
 
                      <td>
+
                         {new Date(item.date).toLocaleDateString("en-IN", {
                            day: "2-digit",
                            month: "2-digit",
                            year: "numeric",
                         })}
                      </td>
-                     <td>{item.invoiceNumber ? item.invoiceNumber : "-"}</td>
+                     <td>{item?.invoiceNumber || item?.refNo || "-"}</td>
 
                      <td>{item?.name}</td>
-                     <td>{item.category}</td>
-                     <td>{item.type}</td>
-                     <td>{item.total}</td>
-                     <td>{item.recived}</td>
+                     <td>{item?.category || "-"}</td>
+                     <td>{item?.type || "-"}</td>
+                     <td>{item?.total || 0}</td>
+                     <td>{item?.recived || "0" || item?.paid}</td>
                      <td>{item.balance}</td>
                      <td>
                         {item.dueDate

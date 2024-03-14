@@ -1,5 +1,5 @@
 const GSTRsale = ({ tableHeader1, tableHeader2, data }) => {
-  console.log(data)
+  // console.log(data)
   return (
     <>
       <table className="excel-like-table">
@@ -19,7 +19,7 @@ const GSTRsale = ({ tableHeader1, tableHeader2, data }) => {
 
         <tbody>
           {data?.map((item) => (
-            <tr key={item?.id}>
+            <tr key={item?.id} style={{textAlign:"center"}}>
               <td>{item?.gstNo}</td>
               <td>{item.partyName}</td>
 

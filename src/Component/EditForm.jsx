@@ -17,7 +17,12 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
       <section className="transaction-tables edit-mode">
          {display.includes("#") ? (
             <div className="transaction-table">
-               <input type="text" name="#" value={"#"} readOnly />
+               <input type="text" name="#" value={"#"} readOnly style={{
+                           backgroundColor: "#f4f4f4",
+                           color: "#888",
+                           border: "1px solid #ddd",
+                           cursor: "not-allowed",
+                        }}/>
             </div>
          ) : (
             ""
@@ -38,6 +43,12 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
                   )}
                   //    onChange={handleInputChange}
                   readOnly
+                  style={{
+                           backgroundColor: "#f4f4f4",
+                           color: "#888",
+                           border: "1px solid #ddd",
+                           cursor: "not-allowed",
+                        }}
                />
             </div>
          ) : (
@@ -50,6 +61,12 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
                   name="invoiceNumber"
                   value={editedData.invoiceNumber}
                   readOnly
+                  style={{
+                           backgroundColor: "#f4f4f4",
+                           color: "#888",
+                           border: "1px solid #ddd",
+                           cursor: "not-allowed",
+                        }}
                />
             </div>
          ) : (
@@ -71,6 +88,12 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
                   )}
                   //    onChange={handleInputChange}
                   readOnly
+                  style={{
+                           backgroundColor: "#f4f4f4",
+                           color: "#888",
+                           border: "1px solid #ddd",
+                           cursor: "not-allowed",
+                        }}
                />
             </div>
          ) : (
@@ -88,6 +111,12 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
                   })}
                   //    onChange={handleInputChange}
                   readOnly
+                  style={{
+                           backgroundColor: "#f4f4f4",
+                           color: "#888",
+                           border: "1px solid #ddd",
+                           cursor: "not-allowed",
+                        }}
                />
             </div>
          ) : (
@@ -100,6 +129,12 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
                   name="orderNumber"
                   value={editedData.orderNumber}
                   readOnly
+                  style={{
+                           backgroundColor: "#f4f4f4",
+                           color: "#888",
+                           border: "1px solid #ddd",
+                           cursor: "not-allowed",
+                        }}
                />
             </div>
          ) : (
@@ -149,6 +184,12 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
                   )}
                   //    onChange={handleInputChange}
                   readOnly
+                  style={{
+                           backgroundColor: "#f4f4f4",
+                           color: "#888",
+                           border: "1px solid #ddd",
+                           cursor: "not-allowed",
+                        }}
                />
             </div>
          ) : (
@@ -282,6 +323,12 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
                   value={editedData.paymentType[0].type || "cash"}
                   onChange={handleInputChange}
                   readOnly
+                  style={{
+                           backgroundColor: "#f4f4f4",
+                           color: "#888",
+                           border: "1px solid #ddd",
+                           cursor: "not-allowed",
+                        }}
                />
             </div>
          ) : (
