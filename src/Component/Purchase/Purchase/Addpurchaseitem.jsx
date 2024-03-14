@@ -21,9 +21,12 @@ import { HiMiniDocumentText as AddDocumentIcon } from "react-icons/hi2";
 import { BiSolidCameraPlus as AddCameraIcon } from "react-icons/bi";
 import { ImCheckboxUnchecked as EmptyCheckedBox } from "react-icons/im";
 import { BiSolidCheckboxChecked as CheckedBox } from "react-icons/bi";
-import { addPurchaseBill } from "../../../Redux/purchase/action";
+import {
+   addPurchaseBill,
+   getPurchaseBill,
+} from "../../../Redux/purchase/action";
 
-const Addpurchaseitem = ({ setOpenForm }) => {
+const Addpurchaseitem = ({ setOpenForm, date }) => {
    const toast = useToast();
    const dispatch = useDispatch();
    const isLoading = useSelector((state) => state.SalesReducer.isLoading);
@@ -93,7 +96,11 @@ const Addpurchaseitem = ({ setOpenForm }) => {
       poNo: "",
       poDate: new Date().toISOString().split("T")[0],
       eWayBill: "",
-      billNumber: allPurchaseBills.length + 1,
+      billNumber: `${new Date()
+         .toLocaleString("default", { month: "short" })
+         .toUpperCase()}${new Date().getTime()}${Math.floor(
+         Math.random() * 900
+      )}`,
       billDate: new Date().toISOString().split("T")[0],
       time: new Date().toLocaleTimeString("en-US", {
          hour: "2-digit",
@@ -200,6 +207,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
       // console.log("Purchase Data", purchaseBillData);
       dispatch(addPurchaseBill(purchaseBillData));
       setOpenForm(false);
+      dispatch(getPurchaseBill({ date }));
    };
    // for fetching all parties list on form mount
    useEffect(() => {
@@ -758,7 +766,12 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                                              : "white",
                                     }}
                                     onClick={() => {
-                                       setPaymentArr([{ types: "Cash" }]);
+                                       setPaymentArr([
+                                          {
+                                             types: "Cash",
+                                             amount: rowFooterData?.totalAmount,
+                                          },
+                                       ]);
                                        setPaymentTypeSelectTag("Cash");
                                     }}
                                     className={css.menuItemCss}
@@ -777,7 +790,13 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                                              : "white",
                                     }}
                                     onClick={() => {
-                                       setPaymentArr([{ types: "Cash" }]);
+                                       setPaymentArr([
+                                          {
+                                             types: "Cheque",
+                                             amount: rowFooterData?.totalAmount,
+                                             refNo: checkReferenceInpval,
+                                          },
+                                       ]);
                                        setPaymentTypeSelectTag("Cheque");
                                     }}
                                     className={css.menuItemCss}

@@ -23,7 +23,9 @@ import EditableRow from "../../EditForm";
 const Purchasereturn = ({ func, date }) => {
    const dispatch = useDispatch();
    const isLoading = useSelector((store) => store.PurchaseReducer.isLoading);
-   const data = useSelector((store) => store.PurchaseReducer?.purchaseReturnData);
+   const data = useSelector(
+      (store) => store.PurchaseReducer?.purchaseReturnData
+   );
    const [isEditing, setIsEditing] = useState(false);
    const [editedData, setEditedData] = useState(null);
    const display = [
@@ -73,7 +75,7 @@ const Purchasereturn = ({ func, date }) => {
    const openForm = () => {
       func(true);
    };
-   // console.log(data);
+   console.log(data);
    return (
       <div className={`main-container ${isEditing ? "editing" : ""}`}>
          {!isLoading && !data.length ? (
@@ -89,9 +91,9 @@ const Purchasereturn = ({ func, date }) => {
          ) : (
             <div className="payment-out-container">
                <div className="transactions-buttons">
-                  <input type="text" />
+                  {/* <input type="text" /> */}
                   <button onClick={() => openForm()}>
-                     <span>+</span> Add Payment-out
+                     <span>+</span> Add Payment Return
                   </button>
                </div>
 
@@ -169,7 +171,7 @@ const Purchasereturn = ({ func, date }) => {
                               <React.Fragment key={e._id}>
                                  {isEditing && editedData?._id === e._id ? (
                                     <EditableRow
-                                    display={display}
+                                       display={display}
                                        data={editedData}
                                        onSave={handleSave}
                                        onCancel={handleCancel}
@@ -195,7 +197,9 @@ const Purchasereturn = ({ func, date }) => {
 
                                        <th className="table-h">
                                           <div className="table-items">
-                                             {e.returnNumber ? e.returnNumber : "-"}
+                                             {e.returnNumber
+                                                ? e.returnNumber
+                                                : "-"}
                                           </div>
                                        </th>
                                        <th className="table-h">
@@ -205,7 +209,9 @@ const Purchasereturn = ({ func, date }) => {
                                        </th>
                                        <th className="table-h">
                                           <div className="table-items">
-                                             {e.categoryName ? e.categoryName : "-"}
+                                             {e.categoryName
+                                                ? e.categoryName
+                                                : "-"}
                                           </div>
                                        </th>
                                        <th className="table-h">
@@ -215,7 +221,7 @@ const Purchasereturn = ({ func, date }) => {
                                        </th>
                                        <th className="table-h">
                                           <div className="table-items">
-                                             ₹{e.total ? e.total : e.balanceDue || 0}
+                                             ₹{e.amount || 0}
                                           </div>
                                        </th>
                                        <th className="table-h">

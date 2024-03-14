@@ -19,38 +19,42 @@ import {
 
 import ItemsForm from "../../../components/addForm/ItemsForm";
 import { FetchAllParties } from "../../../Redux/parties/actions";
-const  AddPaymentouts = ({ setOpenForm }) => {
+const AddPaymentouts = ({ setOpenForm }) => {
    const toast = useToast();
    const dispatch = useDispatch();
    const isLoading = useSelector((state) => state.PurchaseReducer.isLoading);
    const partiesLoading = useSelector(
       (state) => state.PartiesReducer.isLoading
    );
-   const togglePartiesData = useSelector( 
+   const togglePartiesData = useSelector(
       (state) => state.PartiesReducer.togglePartiesData
    );
    const partiesData = useSelector((state) => state.PartiesReducer.partiesData);
 
    const [currentCustomerData, setCurrentCustomerData] = useState({});
    const [toggleDesc, setToggleDesc] = useState(false);
-   const [toggleRoundOff, setToggleRoundOff] = useState(false);
    const [toggleCheckReferenceInp, setToggleCheckReferenceInp] =
       useState(false);
    const [paymentTypeSelectTag, setPaymentTypeSelectTag] = useState("Cash");
    const [checkReferenceInpval, setCheckReferenceInpval] = useState("");
    const [topMarginAddDescInp, setTopMarginAddDescInp] = useState("");
    const [showItemsListMenu, setShowItemsListMenu] = useState(false);
-   const [rowFooterData, setRowFooterData] = useState({});
+   // const [rowFooterData, setRowFooterData] = useState({});
    const [showItemForm, setShowItemForm] = useState(false);
-   const payOutList = useSelector((store) => store.PurchaseReducer.paymentOutData);
-   const [paymentArr, setPaymentArr] = useState([{ types: "Cash", amount: 0 }]);
+   const [paid, setPaid] = useState(0);
+   const [paymentArr, setPaymentArr] = useState([
+      { types: "Cash", amount: paid },
+   ]);
    const [totalAmount, setTotalAmount] = useState(0);
 
+   const payOutList = useSelector(
+      (store) => store.PurchaseReducer.paymentOutData
+   );
    const [data, setData] = useState({
       type: "Purchase-Out",
       status: "Pending",
       partyName: "",
-      receiptNumber: payOutList.length+1,
+      receiptNumber: payOutList.length + 1,
       date: new Date().toISOString().split("T")[0],
       time: new Date().toLocaleTimeString("en-US", {
          hour: "2-digit",
@@ -58,24 +62,8 @@ const  AddPaymentouts = ({ setOpenForm }) => {
          hour12: false,
       }),
       description: "Purchase return of items",
-      paymentType: [
-         {
-            types: String,
-            amount: Number,
-         },
-         {
-            types: String,
-            amount: Number,
-            refreanceNo: String,
-         },
-         {
-            types: String,
-            accountName: String,
-            openingBalance: Number,
-            asOfDate: Date,
-         },
-      ],
-      paid: 0,
+
+      paid: paid,
       discount: 0,
       total: 0,
    });
@@ -86,10 +74,11 @@ const  AddPaymentouts = ({ setOpenForm }) => {
       const data2 = {
          ...data,
          party: currentCustomerData?._id || "",
+         balance: currentCustomerData?.openingBalance || 0,
          paymentType: paymentArr,
-         paid: totalAmount,
+         paid: paid,
          total: totalAmount,
-       };
+      };
       // console.log("data", data2);
       dispatch(addPayOut(data2));
       setOpenForm(false);
@@ -100,14 +89,13 @@ const  AddPaymentouts = ({ setOpenForm }) => {
       FetchAllParties(dispatch);
    }, [togglePartiesData]);
 
-     //   for Total Amount updating
-  useEffect(() => {
-   let total = 0;
-   paymentArr.forEach((item) => {
-     total += Number(item?.amount);
-   });
-   setTotalAmount(total);
- }, [paymentArr]);
+   // console.log(data.discount)
+   //   for Total Amount updating
+   useEffect(() => {
+      let total = 0;
+      total = paid - (paid * data.discount) / 100;
+      setTotalAmount(total);
+   }, [paid, data.discount]);
 
    // To Show Reference Input
    useEffect(() => {
@@ -123,13 +111,16 @@ const  AddPaymentouts = ({ setOpenForm }) => {
       setData((prev) => {
          return { ...prev, [name]: value };
       });
-      // console.log(payment)
    };
-   // console.log(currentCustomerData);
+
    return (
-      <form  onClick={(e) => {
-         e.stopPropagation();
-       }} onSubmit={handleSubmit} className={css.formOuter}>
+      <form
+         onClick={(e) => {
+            e.stopPropagation();
+         }}
+         onSubmit={handleSubmit}
+         className={css.formOuter}
+      >
          <div className={css.topheader}>
             <p>Payment- Out</p>
          </div>
@@ -188,6 +179,7 @@ const  AddPaymentouts = ({ setOpenForm }) => {
                         className={css.invoiceNumInp}
                         onChange={(e) => handleChange(e)}
                         name="receiptNumber"
+                        required
                      />
                   </div>
                   <div>
@@ -229,28 +221,47 @@ const  AddPaymentouts = ({ setOpenForm }) => {
                      <input
                         type="number"
                         name="paid"
-                        onChange={(e) => handleChange(e)}
+                        onChange={(e) => setPaid(e.target.value)}
+                        required
                      />
                   </div>
                   <div className={css.totalBottomDiv}>
                      <p>Discount</p>
-                     <input
-                        type="number"
-                        name="discount"
-                        onChange={(e) => handleChange(e)}
-                     />
+                     <div style={{ position: "relative" }}>
+                        <input
+                           type="number"
+                           name="discount"
+                           onChange={(e) => handleChange(e)}
+                           placeholder="Discount"
+                           style={{ paddingRight: "20px" }}
+                        />
+                        <span
+                           style={{
+                              position: "absolute",
+                              top: "50%",
+                              right: "5px",
+                              transform: "translateY(-50%)",
+                           }}
+                        >
+                           %
+                        </span>
+                     </div>
                   </div>
+
                   <div className={css.totalBottomDiv}>
                      <p>Total</p>
                      <input
                         type="number"
                         name="total"
-                        value={
-                           toggleRoundOff
-                              ? Math.round(rowFooterData?.totalAmount)
-                              : rowFooterData?.totalAmount
-                        }
-                        onChange={(e) => handleChange(e)}
+                        value={totalAmount}
+                        // onChange={(e) => handleChange(e)}
+                        readOnly
+                        style={{
+                           backgroundColor: "#f4f4f4",
+                           color: "#888",
+                           border: "1px solid #ddd",
+                           cursor: "not-allowed",
+                        }}
                      />
                   </div>
                </div>
@@ -315,9 +326,15 @@ const  AddPaymentouts = ({ setOpenForm }) => {
                                              ? "var(--greyB)"
                                              : "white",
                                     }}
-                                    onClick={() =>
-                                       setPaymentTypeSelectTag("Cash")
-                                    }
+                                    onClick={() => {
+                                       setPaymentArr([
+                                          {
+                                             types: "Cash",
+                                             amount: paid,
+                                          },
+                                       ]);
+                                       setPaymentTypeSelectTag("Cash");
+                                    }}
                                     className={css.menuItemCss}
                                  >
                                     Cash
@@ -333,9 +350,16 @@ const  AddPaymentouts = ({ setOpenForm }) => {
                                              ? "var(--greyB)"
                                              : "white",
                                     }}
-                                    onClick={() =>
-                                       setPaymentTypeSelectTag("Cheque")
-                                    }
+                                    onClick={() => {
+                                       setPaymentArr([
+                                          {
+                                             types: "Cheque",
+                                             refNo: checkReferenceInpval,
+                                             amount: paid,
+                                          },
+                                       ]);
+                                       setPaymentTypeSelectTag("Cheque");
+                                    }}
                                     className={css.menuItemCss}
                                  >
                                     Cheque

@@ -19,6 +19,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ImSpinner3 as BasicSpinner } from "react-icons/im";
 import EditableRow from "../../EditForm";
+import { FormatDate } from "../../../Redux/sales/action";
 
 const Paymentouts = ({ func, date }) => {
    const dispatch = useDispatch();
@@ -26,7 +27,7 @@ const Paymentouts = ({ func, date }) => {
    const [editedData, setEditedData] = useState(null);
    const store = useSelector((store) => store.PurchaseReducer);
    const data = store.paymentOutData;
-   // console.log(store);
+   console.log(data);
    //  console.log(date)
    // console.log(store);
    useEffect(() => {
@@ -54,7 +55,6 @@ const Paymentouts = ({ func, date }) => {
       setIsEditing(false);
       setEditedData(null);
       dispatch(getPaymentOutBill({ date }));
-
    };
 
    const handleCancel = () => {
@@ -174,7 +174,7 @@ const Paymentouts = ({ func, date }) => {
                               <React.Fragment key={e._id}>
                                  {isEditing && editedData?._id === e._id ? (
                                     <EditableRow
-                                    display={display}
+                                       display={display}
                                        data={editedData}
                                        onSave={handleSave}
                                        onCancel={handleCancel}
@@ -189,9 +189,7 @@ const Paymentouts = ({ func, date }) => {
                                        </th>
                                        <th className="table-h">
                                           <div className="table-items">
-                                             {new Date(
-                                                e.date
-                                             ).toLocaleDateString()}
+                                             {FormatDate(e.date)}
                                           </div>
                                        </th>
                                        <th className="table-h">

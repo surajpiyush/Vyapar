@@ -54,7 +54,7 @@ const Pourchaseorder = ({ func }) => {
       setIsEditing(false);
       setEditedData(null);
       dispatch(getPurchaseOrder({ date }));
-   }; 
+   };
 
    const handleCancel = () => {
       // If the user cancels, reset the state without saving
@@ -85,7 +85,7 @@ const Pourchaseorder = ({ func }) => {
             <div className="payment-out-container">
                <h4>Transactions</h4>
                <div className="transactions-buttons">
-                  <input type="text" />
+                  {/* <input type="text" /> */}
                   <button
                      onClick={() => {
                         openForm();

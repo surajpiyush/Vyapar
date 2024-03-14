@@ -71,11 +71,13 @@ const Purchasebill = () => {
                                  })
                               }
                            />
-                            <SettingIcon onClick={() => setToggleSetting(true)}/>
+                           <SettingIcon
+                              onClick={() => setToggleSetting(true)}
+                           />
                            <CloseIcon onClick={() => setOpenForm(false)} />
                         </div>
                      </div>
-                     <AddPurchaseItem setOpenForm={setOpenForm} />
+                     <AddPurchaseItem setOpenForm={setOpenForm} date={date} />
                   </div>
                ) : (
                   <div>
