@@ -4,7 +4,7 @@ import ReportSearchBar from "../components/ReportSearchBar";
 import SaleDashboardHeader from "../components/SaleDashboardHeader";
 import { getAllTransections } from "../Redux/report/action";
 
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const AllTransactions = () => {
@@ -48,15 +48,33 @@ const AllTransactions = () => {
       (store) => store.ReportReducer.allTransectionsData
    );
    const temp = [];
-   const date = {
-      startDate: "2023-01-20",
-      endDate: "2025-02-24",
-   };
 
    const dispatch = useDispatch();
+   useEffect(() => {}, [dispatch]);
+
+   const [startDate, setStartDate] = useState("2024-02-01");
+   const [endDate, setEndDate] = useState(
+      new Date().toISOString().split("T")[0]
+   );
+   const prevDateRef = useRef();
+
    useEffect(() => {
+      if (
+         prevDateRef.current &&
+         prevDateRef.current.startDate === startDate &&
+         prevDateRef.current.endDate === endDate
+      ) {
+         return;
+      }
+      const date = {
+         startDate: startDate,
+         endDate: endDate,
+      };
+
       dispatch(getAllTransections({ date }));
-   }, [dispatch]);
+
+      prevDateRef.current = { startDate, endDate };
+   }, [startDate, endDate, dispatch]);
 
    console.log(store);
 
@@ -80,7 +98,13 @@ const AllTransactions = () => {
 
    return (
       <>
-         <SaleDashboardHeader data={temp} />
+         <SaleDashboardHeader
+            data={temp}
+            startDate={startDate}
+            endDate={endDate}
+            setEndDate={setEndDate}
+            setStartDate={setStartDate}
+         />
          <div style={{ marginLeft: "20px", marginBottom: "20px" }}>
             <ReportSelector optionType={SelectorType} />
          </div>

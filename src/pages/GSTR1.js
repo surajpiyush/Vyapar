@@ -10,7 +10,7 @@ const GSTR1 = () => {
 
    const store = useSelector((store) => store.ReportReducer);
    const data = store.saleReportData;
-   //  console.log(data);
+    console.log(data);
 
    const date = {
       startDate: "2023-01-20",

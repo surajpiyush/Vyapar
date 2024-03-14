@@ -1,44 +1,69 @@
 import SaleDashboard from "../components/SaleDashboard";
 import { getPurchaseReport } from "../Redux/report/action";
 
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const Purchase = () => {
-  const tableHeader = [
-    "#",
-    "INVOICE DATE",
-    "INVOICE NO.",
-    "PARTY NAME",
-    "TRANSACTION TYPE",
-    "PAYMENT TYPE",
-    "AMOUNT",
-    "BALANCE",
-    "DUE DATE",
-    "STATUS",
-    "ACTION",
-  ];
+   const tableHeader = [
+      "#",
+      "INVOICE DATE",
+      "INVOICE NO.",
+      "PARTY NAME",
+      "TRANSACTION TYPE",
+      "PAYMENT TYPE",
+      "AMOUNT",
+      "BALANCE",
+      "DUE DATE",
+      "STATUS",
+      "ACTION",
+   ];
 
-  const store = useSelector((store) => store.ReportReducer);
-  const data = store.purchaseReportData.getPurchase;
-  console.log(store);
-  const date = {
-    startDate: "2023-01-20",
-    endDate: "2025-02-24",
-  };
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getPurchaseReport({ date }));
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+   const store = useSelector((store) => store.ReportReducer);
+   const data = store.purchaseReportData.getPurchase;
+   const [startDate, setStartDate] = useState("2023-02-01");
+   const [endDate, setEndDate] = useState(
+      new Date().toISOString().split("T")[0]
+   );
+   // console.log(store);
+   const date = {
+      startDate: startDate,
+      endDate: endDate,
+   };
+   console.log("date from purchase:", date);
+   const dispatch = useDispatch();
+   const prevDateRef = useRef(); 
 
-  return (
-    
-    <SaleDashboard
-      data={data}
-      tableHeader={tableHeader}
-      btnText="Add Purchase"
-    />
-  );
+   useEffect(() => {
+   
+      if (
+         prevDateRef.current &&
+         prevDateRef.current.startDate === startDate &&
+         prevDateRef.current.endDate === endDate
+      ) {
+         return; 
+      }
+      const date = {
+         startDate: startDate,
+         endDate: endDate,
+      };
+      dispatch(getPurchaseReport({ date }));
+
+     
+      prevDateRef.current = { startDate, endDate };
+   }, [startDate, endDate, dispatch]);
+
+   return (
+      <SaleDashboard
+         data={data}
+         tableHeader={tableHeader}
+         btnText="Add Purchase"
+         startDate={startDate}
+         endDate={endDate}
+         setEndDate={setEndDate}
+         setStartDate={setStartDate}
+      />
+   );
 };
 
 export default Purchase;
