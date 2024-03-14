@@ -1,3 +1,4 @@
+import Layout1 from "../../../Component/Setting/Print/Layout1";
 import { FormatDate } from "../../../Redux/sales/action";
 import {
   DeleteIcon,
@@ -5,8 +6,9 @@ import {
   PrintIcon2,
 } from "../../../Component/utils/reactIcons";
 
-import { useRef } from "react";
+import React, { useRef } from "react";
 import ReactToPrint from "react-to-print";
+import PrintCarrier from "../../../Component/Setting/Print/PrintCarrier";
 
 const TableInvoice = ({
   item,
@@ -22,11 +24,27 @@ const TableInvoice = ({
   dueDate = new Date().toISOString().split("T")[0],
   handleDelete,
   handleEdit,
+  // printComponentRef,
 }) => {
-  let componentRef = useRef();
-
+  let printComponentRef = useRef();
   return (
-    <tr ref={(el) => (componentRef = el)}>
+    <tr>
+      {/* <PrintCarrier printComponentRef={printComponentRef} /> */}
+      <div
+        style={{
+          position: "fixed",
+          width: "100%",
+          minHeight: "100vh",
+          zIndex: 2000,
+          background: "white",
+          top: 0,
+          left: 0,
+          display: "none",
+        }}
+        ref={(el) => (printComponentRef = el)}
+      >
+        <Layout1 />
+      </div>
       <td>
         <div>{FormatDate(invoiceDate)}</div>
       </td>
@@ -67,7 +85,7 @@ const TableInvoice = ({
           <EditIcon onClick={() => handleEdit(_id)} />
           <ReactToPrint
             trigger={() => <PrintIcon2>Print this out!</PrintIcon2>}
-            content={() => componentRef}
+            content={() => printComponentRef}
           />
         </div>
       </td>

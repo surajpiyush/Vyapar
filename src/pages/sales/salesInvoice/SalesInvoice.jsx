@@ -22,9 +22,11 @@ import { IoCloseOutline as CrossIcon } from "react-icons/io5";
 import { IoSearch as SearchIcon } from "react-icons/io5";
 import { FiPlusCircle as PlusIcon } from "react-icons/fi";
 import { CiFilter as FilterIcon } from "react-icons/ci";
+import PrintCarrier from "../../../Component/Setting/Print/PrintCarrier";
 
 export default function SalesInvoice() {
   const toast = useToast();
+  //  let printComponentRef = useRef();
   const [isEditing, setIsEditing] = useState(false);
   const [editedData, setEditedData] = useState(null);
   const navigate = useNavigate();
@@ -63,12 +65,11 @@ export default function SalesInvoice() {
   };
 
   const handleSave = (updatedData) => {
-
-    updatedData.partyname = updatedData.partyName
+    updatedData.partyname = updatedData.partyName;
     console.log("updatedData-", updatedData);
     const id = updatedData._id;
-   
-    dispatch(updateSalesInvoice(updatedData._id,updatedData));
+
+    dispatch(updateSalesInvoice(updatedData._id, updatedData));
     setIsEditing(false);
     setEditedData(null);
     GetAllSalesInvoice(dispatch, startDate, endDate);
@@ -95,6 +96,7 @@ export default function SalesInvoice() {
   return (
     <div style={{ marginTop: "100px" }}>
       {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
+      {/* <PrintCarrier printComponentRef={printComponentRef} /> */}
 
       {openForm && (
         <div className={css.formOuter}>
@@ -332,6 +334,7 @@ export default function SalesInvoice() {
                       ) : (
                         <TableInvoice
                           {...item}
+                          // printComponentRef={printComponentRef}
                           ind={ind}
                           item={item}
                           handleDelete={handleDelete}
