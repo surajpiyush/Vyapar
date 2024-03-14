@@ -3,7 +3,7 @@ import { VscGraph } from "react-icons/vsc";
 import { SiMicrosoftexcel } from "react-icons/si";
 import { MdOutlinePrint } from "react-icons/md";
 
-const SaleDashboardHeader = ({ data }) => {
+const SaleDashboardHeader = ({ data,setStartDate,setEndDate,startDate,endDate }) => {
   // const [tableData] = useState(data); // Using data directly as initial state
   const tableData = data;
   const saveTableData = (action) => {
@@ -39,9 +39,9 @@ const SaleDashboardHeader = ({ data }) => {
         </select>
         <div className="date-filter-div">
           <p>Between</p>
-          <input type="date" />
+          <input type="date" value={startDate} onChange={(e)=>setStartDate(e.target.value)} />
           <p>To</p>
-          <input type="date" />
+          <input type="date" value={endDate} onChange={(e)=>setEndDate(e.target.value)} />
         </div>
         <select className="sale-dashboard-select">
           <option value="">All Firm</option>

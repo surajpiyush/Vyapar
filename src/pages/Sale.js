@@ -1,7 +1,7 @@
 import SaleDashboard from "../components/SaleDashboard";
 import { getSaleReport } from "../Redux/report/action";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const tableHeader = [
@@ -20,18 +20,23 @@ const tableHeader = [
 const Sale = () => {
   const store = useSelector((store) => store.ReportReducer);
   const data = store.saleReportData.getSale;
+  const [startDate, setStartDate] = useState("2024-02-01");
+  const [endDate, setEndDate] = useState(
+     new Date().toISOString().split("T")[0]
+  );
   // console.log(store);
   const date = {
-    startDate: "2023-01-20",
-    endDate: "2025-02-24",
-  };
+    startDate:startDate,
+    endDate: endDate,
+  };  
+  console.log(date)
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getSaleReport({ date }));
   }, []);
 
   return (
-    <SaleDashboard data={data} tableHeader={tableHeader} btnText="Add Sale" />
+    <SaleDashboard data={data} setEndDate={setEndDate} setStartDate={setStartDate} tableHeader={tableHeader} startDate={startDate} endDate={endDate} btnText="Add Sale" />
   );
 };
 
