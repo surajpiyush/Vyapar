@@ -42,7 +42,7 @@ const Purchasereturn = ({ func, date }) => {
    // console.log("REturn data:",data)
    useEffect(() => {
       dispatch(getPurchaseReturn({ date }));
-   }, [dispatch, date]);
+   }, [dispatch, date,func]);
 
    // delete
    const handleDelete = (id) => {

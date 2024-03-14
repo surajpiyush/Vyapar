@@ -32,7 +32,7 @@ const Paymentouts = ({ func, date }) => {
    // console.log(store);
    useEffect(() => {
       dispatch(getPaymentOutBill({ date }));
-   }, [date, dispatch]);
+   }, [date, dispatch,func]);
    // console.log(data);
 
    // delete

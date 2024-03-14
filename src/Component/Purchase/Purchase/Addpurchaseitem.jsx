@@ -69,9 +69,9 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
          itemCode: "",
          hsnCode: "",
          description: "Description of item 1",
-         count: 0,
+         // count: 0,
          qty: 0,
-         freeqty: 0,
+         // freeqty: 0,
          unit: "",
          priceUnit: 0,
          discountAmount: 0,
@@ -196,6 +196,7 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
             qty: Number(item?.qty) || 0,
             priceUnitWithTax: item?.priceUnitWithTax == "true",
             discountAmount: Number(item?.discountAmount) || 0,
+            discountpersant: Number(item?.discountpersant) || 0,
          };
       });
       const purchaseBillData = {
@@ -204,10 +205,11 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
          balanceAmount: Number(balanceAmount),
          sale: [...invoiceData.sale, saleData],
       };
-      // console.log("Purchase Data", purchaseBillData);
+      console.log("Purchase Data", purchaseBillData);
       dispatch(addPurchaseBill(purchaseBillData));
       setOpenForm(false);
-      dispatch(getPurchaseBill({ date }));
+
+      // dispatch(getPurchaseBill({ date }));
    };
    // for fetching all parties list on form mount
    useEffect(() => {
@@ -225,7 +227,7 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
       // console.log(currentCustomerData);
       let obj = {
          gstNo: currentCustomerData?.gstNo || "",
-         phoneNumber: currentCustomerData?.phoneNumber || "",
+         phoneNumber: Number(currentCustomerData?.phoneNumber) || "",
          balance: currentCustomerData?.openingBalance || "",
       };
       setInvoiceData((prev) => {
@@ -553,7 +555,8 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
                         name="stateOfSupply"
                         id=""
                         className={css.invoiceDateSelectInp}
-                        onSelect={(e) => handleInputChange(e)}
+                        onChange={(e) => handleInputChange(e)}
+                        value={invoiceData?.stateOfSupply}
                         required
                      >
                         <option value="">State</option>
