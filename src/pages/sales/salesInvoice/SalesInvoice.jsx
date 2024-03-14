@@ -5,6 +5,7 @@ import TableInvoice from "./TableInvoice";
 import EditableRow from "../../../Component/EditForm";
 import Setting from "../../../Component/Setting/Setting";
 import FirstTimeFormToggle from "../../../Component/FirmTimeForm/FirstTimeFormToggle";
+import PrintCarrier from "../../../Component/Setting/Print/PrintCarrier";
 import {
   GetAllSalesInvoice,
   deleteSalesInvoice,
@@ -12,9 +13,9 @@ import {
 } from "../../../Redux/sales/action";
 
 import { useToast } from "@chakra-ui/react";
+import { useReactToPrint } from "react-to-print";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
 import { IoCalculator as CalculatorIcon } from "react-icons/io5";
 import { MdOutlineSettings as SettingIcon } from "react-icons/md";
 import { IoMdCloseCircle as CloseIcon } from "react-icons/io";
@@ -22,16 +23,13 @@ import { IoCloseOutline as CrossIcon } from "react-icons/io5";
 import { IoSearch as SearchIcon } from "react-icons/io5";
 import { FiPlusCircle as PlusIcon } from "react-icons/fi";
 import { CiFilter as FilterIcon } from "react-icons/ci";
-import PrintCarrier from "../../../Component/Setting/Print/PrintCarrier";
 
 export default function SalesInvoice() {
   const toast = useToast();
-  //  let printComponentRef = useRef();
+  const dispatch = useDispatch();
+  let printComponentRef = useRef();
   const [isEditing, setIsEditing] = useState(false);
   const [editedData, setEditedData] = useState(null);
-  const navigate = useNavigate();
-  const location = useLocation();
-  const dispatch = useDispatch();
   const [openForm, setOpenForm] = useState(false);
   const [toggleSetting, setToggleSetting] = useState(false);
   const [startDate, setStartDate] = useState("2024-02-01");
@@ -43,6 +41,11 @@ export default function SalesInvoice() {
   );
   const isLoading = useSelector((state) => state.SalesReducer.isLoading);
   const invoicesList = useSelector((state) => state.SalesReducer.invoicesList);
+  const [currPrintItem, setCurrPrintItem] = useState({});
+
+  const handlePrint = useReactToPrint({
+    content: () => printComponentRef.current,
+  });
 
   useEffect(() => {
     GetAllSalesInvoice(dispatch, startDate, endDate);
@@ -96,8 +99,19 @@ export default function SalesInvoice() {
   return (
     <div style={{ marginTop: "100px" }}>
       {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
-      {/* <PrintCarrier printComponentRef={printComponentRef} /> */}
 
+      {/* Print Component */}
+      <div
+        style={{
+          display: "none",
+        }}
+      >
+        <div ref={printComponentRef}>
+          <PrintCarrier currPrintItem={currPrintItem} />
+        </div>
+      </div>
+
+      {/* Invoice Form */}
       {openForm && (
         <div className={css.formOuter}>
           <div className={css.upperNav}>
@@ -128,6 +142,7 @@ export default function SalesInvoice() {
         </div>
       )}
 
+      {/* Top Nav */}
       <div className="grp-cont-invoice">
         <div className="">
           <div className="d-between" style={{ alignItems: "center" }}>
@@ -227,7 +242,7 @@ export default function SalesInvoice() {
         </div>
       </div>
 
-      {/* Top Nav */}
+      {/* Middle */}
       {invoicesList?.length ? (
         <div className="d-cen b-cont text-center text-center">
           <div className={css.TableOuter}>
@@ -334,11 +349,12 @@ export default function SalesInvoice() {
                       ) : (
                         <TableInvoice
                           {...item}
-                          // printComponentRef={printComponentRef}
                           ind={ind}
                           item={item}
-                          handleDelete={handleDelete}
                           handleEdit={handleEdit}
+                          handlePrint={handlePrint}
+                          handleDelete={handleDelete}
+                          setCurrPrintItem={setCurrPrintItem}
                           key={ind + item?._id}
                         />
                       )

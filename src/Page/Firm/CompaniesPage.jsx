@@ -1,5 +1,5 @@
 import "./CompaniesPage.css";
-import { FetchAllCompanies } from "../../Redux/business/action";
+import { FetchAllCompanies, LOGOUT } from "../../Redux/business/action";
 import {
   SET_CURRENT_COMPANY,
   USER_DETAILS,
@@ -38,15 +38,6 @@ const CompaniesPage = () => {
     localStorage.setItem(USER_DETAILS, JSON.stringify(item));
     dispatch({ type: SET_CURRENT_COMPANY, payload: item });
     navigate("/");
-  };
-
-  // Logout Function
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userId");
-    localStorage.removeItem(USER_DETAILS);
-    toast({ title: "Logout Successfull!", status: "success", position: "top" });
-    navigate("/auth");
   };
 
   return (
@@ -123,7 +114,10 @@ const CompaniesPage = () => {
             New Companay
           </button>
         </section>
-        <section onClick={handleLogout} className="companyFooter">
+        <section
+          onClick={() => LOGOUT(navigate, toast)}
+          className="companyFooter"
+        >
           <p>Logout</p>
           <p>Logging out will stop syncing data</p>
         </section>

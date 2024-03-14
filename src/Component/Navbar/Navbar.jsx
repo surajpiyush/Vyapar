@@ -1,5 +1,6 @@
 import css from "./Navbar.module.css";
 import Logo from "../../assets/Shop.svg";
+import { LOGOUT } from "../../Redux/business/action";
 import { USER_DETAILS } from "../../Redux/business/actionTypes";
 
 import { useState } from "react";
@@ -34,15 +35,6 @@ const Navbar = () => {
     navigate("/companies");
   };
 
-  // Logout Function
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userId");
-    localStorage.removeItem(USER_DETAILS);
-    toast({ title: "Logout Successfull!", status: "success", position: "top" });
-    navigate("/auth");
-  };
-
   const handleCloseToogle = () => {
     if (showCompanyMenu) {
       setShowCompanyMenu(false);
@@ -67,7 +59,7 @@ const Navbar = () => {
           </div>
           <div>Help</div>
           <div>Shotcuts</div>
-          <div onClick={handleLogout}>Logout</div>
+          <div onClick={() => LOGOUT(navigate, toast)}>Logout</div>
           <div onClick={() => window.location.reload()}>
             <RefreshIcon />
           </div>

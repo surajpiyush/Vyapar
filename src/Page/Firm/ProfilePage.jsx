@@ -61,7 +61,8 @@ const ProfilePage = () => {
       newFormDataToSend.append(key, value);
     });
     // console.log("Update Form Data", companyData);
-    UpdateCompanyProfile(dispatch, companyData, toast);
+    // UpdateCompanyProfile(dispatch, companyData, toast);
+    UpdateCompanyProfile(dispatch, newFormDataToSend, toast);
   };
 
   return (

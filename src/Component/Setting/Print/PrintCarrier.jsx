@@ -1,23 +1,35 @@
-import React from "react";
-import Layout1 from "./Layout1";
+import RPLayout1 from "../../PrintLayouts/RPLayout1";
+import RPLayout2 from "../../PrintLayouts/RPLayout2";
+import { REGULAR_PRINTER_DATA } from "../../../Redux/store";
 
-const PrintCarrier = ({ printComponentRef }) => {
-  return (
-    <div
-      style={{
-        position: "fixed",
-        width: "100%",
-        minHeight: "100vh",
-        zIndex: 2000,
-        background: "white",
-        top: 0,
-        left: 0,
-        display: "none",
-      }}
-      ref={(el) => (printComponentRef = el)}
-    >
-      <Layout1 />
-    </div>
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+
+const PrintCarrier = ({ currPrintItem }) => {
+  const updateSalePrintSettings = useSelector(
+    (state) => state.SalesReducer.updateSalePrintSettings
+  );
+
+  const [printData, setPrintData] = useState(
+    JSON.parse(sessionStorage.getItem(REGULAR_PRINTER_DATA)) || {}
+  );
+
+  useEffect(() => {
+    const sessionStorageData =
+      JSON.parse(sessionStorage.getItem(REGULAR_PRINTER_DATA)) || {};
+    setPrintData((prev) => {
+      return { ...prev, ...sessionStorageData };
+    });
+  }, [updateSalePrintSettings]);
+
+  //console.log(printData);
+
+  return printData?.layoutIndex == 0 ? (
+    <RPLayout1 printData={printData} currPrintItem={currPrintItem} />
+  ) : printData?.layoutIndex == 1 ? (
+    <RPLayout2 printData={printData} currPrintItem={currPrintItem} />
+  ) : (
+    <RPLayout1 />
   );
 };
 

@@ -1,3 +1,4 @@
+import { REGULAR_PRINTER_DATA, THERMAL_PRINTER_DATA } from "../store";
 import {
   ISLOADING,
   ISERROR,
@@ -82,6 +83,7 @@ export const AddBusinessLoginRequest = async (
 // Update Company Profile ---- Didn't applied function curring due to thunk error in store.js
 export const UpdateCompanyProfile = async (dispatch, data, toast) => {
   dispatch({ type: ISLOADING });
+  console.log("Sent Updated firm data", data);
   toast.closeAll();
   const token = localStorage.getItem("token");
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
@@ -97,7 +99,7 @@ export const UpdateCompanyProfile = async (dispatch, data, toast) => {
         },
       }
     );
-    // console.log("Update Firm Response", response?.data);
+    console.log("Update Firm Response", response?.data);
     const responseData = response?.data?.FirmData;
     const prevousUserLSData = JSON.parse(localStorage.getItem(USER_DETAILS));
     const newUserLSData = {
@@ -122,4 +124,15 @@ export const UpdateCompanyProfile = async (dispatch, data, toast) => {
     });
     console.log("Updating Profile Error Response:", error);
   }
+};
+
+// Logout Function
+export const LOGOUT = (navigate, toast) => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("userId");
+  localStorage.removeItem(USER_DETAILS);
+  sessionStorage.removeItem(REGULAR_PRINTER_DATA);
+  sessionStorage.removeItem(THERMAL_PRINTER_DATA);
+  toast({ title: "Logged Out!", status: "success", position: "top" });
+  navigate("/auth");
 };

@@ -27,14 +27,14 @@ function App() {
     regularPrinterDefault: true,
     printRepeatHeaderInAllPage: true,
     showCompanyName: true,
-    companyName: "",
+    // companyName: "",
     showLogo: true,
     showBusinessAddress: true,
-    businessAddress: "",
+    // businessAddress: "",
     showEmail: true,
-    email: "",
+    // email: "",
     showPhoneNumber: true,
-    phoneNumber: "",
+    // phoneNumber: "",
     paperSize: "A4",
     companyNameTextSize: "Large",
     invoiceTextSize: "Large",
@@ -73,13 +73,27 @@ function App() {
     } else {
       const userDetailsData =
         JSON.parse(localStorage.getItem(USER_DETAILS)) || {};
+      const storedRegularPrinterData = JSON.parse(
+        sessionStorage.getItem(REGULAR_PRINTER_DATA)
+      );
+      const storedThermalPrinterData = JSON.parse(
+        sessionStorage.getItem(THERMAL_PRINTER_DATA)
+      );
       sessionStorage.setItem(
         REGULAR_PRINTER_DATA,
-        JSON.stringify({ ...regularPrinterData, ...userDetailsData })
+        JSON.stringify(
+          storedRegularPrinterData
+            ? { ...storedRegularPrinterData, ...userDetailsData }
+            : { ...regularPrinterData, ...userDetailsData }
+        )
       );
       sessionStorage.setItem(
         THERMAL_PRINTER_DATA,
-        JSON.stringify({ ...thermalPrinterData, ...userDetailsData })
+        JSON.stringify(
+          storedThermalPrinterData
+            ? { ...storedThermalPrinterData, ...userDetailsData }
+            : { ...thermalPrinterData, ...userDetailsData }
+        )
       );
     }
   }, [firmUpdate]);
