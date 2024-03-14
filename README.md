@@ -13,7 +13,7 @@ https://ca-code-feb24.vercel.app
 ### Backend Link :
 
 ```
-http://asanly.in
+https://asaanly.in
 ```
 
 ### onRender Backend :
@@ -28,6 +28,12 @@ https://ca-backend-api.onrender.com
 
 ```xml
 06AXAPS2075C1ZR
+```
+
+#### GST API Key (ASAANLY BIZ):
+
+```xml
+uFPcvT7UR6KUruMG12zdzEK9lKDlKLf9
 ```
 
 #### have to add to pay input field in Payment-In form:

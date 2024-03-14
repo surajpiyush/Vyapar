@@ -7,8 +7,6 @@ import { useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-// Test
-
 const ProfilePage = () => {
   const toast = useToast();
   const dispatch = useDispatch();

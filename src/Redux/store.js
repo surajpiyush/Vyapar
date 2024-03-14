@@ -1,19 +1,20 @@
-import { createStore, applyMiddleware, combineReducers, compose } from "redux";
 import { thunk } from "redux-thunk";
+import { createStore, applyMiddleware, combineReducers, compose } from "redux";
 
+import SalesReducer from "./sales/reducer";
 import { reducer as ItemReducer } from "./items/reducer";
 import { reducer as PartiesReducer } from "./parties/reducer";
 import { reducer as BusinessReducer } from "./business/reducer";
 import { reducer as PurchaseReducer } from "./purchase/reducer";
-import {reducer as ReportReducer} from "./report/reducer"
-import SalesReducer from "./sales/reducer";
+import { reducer as ReportReducer } from "./report/reducer";
+
 const rootReducer = combineReducers({
   ItemReducer,
   PartiesReducer,
   BusinessReducer,
   SalesReducer,
   PurchaseReducer,
-  ReportReducer
+  ReportReducer,
 });
 
 // Enhance store with Redux DevTools Extension
@@ -24,11 +25,9 @@ export const store = createStore(
   composeEnhancers(applyMiddleware(thunk))
 );
 
-/* Notes:
-
-Local Storage Keys:
-token : "VYAPAR_TOKEN" 
-userId : "VYAPAR_USERID" 
-current Active Company : "VYAPAR_CURRENT_COMPANY" 
-
-*/
+// Local Storage / Session Storage Keys
+export const TOKEN = "TOKEN";
+export const USER_ID = "USER_ID";
+export const USER_DETAILS = "USER_DETAILS";
+export const REGULAR_PRINTER_DATA = "REGULAR_PRINTER_DATA";
+export const THERMAL_PRINTER_DATA = "THERMAL_PRINTER_DATA";

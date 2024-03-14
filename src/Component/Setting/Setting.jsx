@@ -1,5 +1,5 @@
 import css from "./Setting.module.css";
-import Print from "./Print";
+import Print from "./Print/Print";
 import General from "./General";
 import Default from "./Default";
 import TaxAndGst from "./TaxAndGst";
@@ -83,7 +83,7 @@ function Setting({ setToggleSetting }) {
           <div>TRANSACTION MESSAGE Under Development</div>
         )}
         {activeSidebar == "PARTY" && <PartySetting />}
-        {activeSidebar == "ITEM" && <ItemSetting /> }
+        {activeSidebar == "ITEM" && <ItemSetting />}
       </div>
     </div>
   );
