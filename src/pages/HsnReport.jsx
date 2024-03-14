@@ -41,7 +41,7 @@ const HsnReport = () => {
 
   // for fetching the array data after getting a successfull response
   useEffect(() => {
-    if (saleReturnArr && saleInvoiceArr) {
+    if (saleReturnArr && saleInvoiceArr ) {
       setData([...saleReturnArr, ...saleInvoiceArr]);
     }
   }, [isLoading]);

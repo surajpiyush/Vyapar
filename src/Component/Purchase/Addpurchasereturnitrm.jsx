@@ -100,9 +100,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
          Math.random() * 900
       )}`,
 
-      billDate: new Date().toISOString().split("T")[0],
-
-      billDate: new Date().toISOString().split("T")[0],
+      billDate: new Date() ,
       time: new Date().toLocaleTimeString("en-US", {
          hour: "2-digit",
          minute: "2-digit",
@@ -225,7 +223,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
    // Input Change Function
    const handleInputChange = (e) => {
       const { name, value } = e.target;
-      if (name === "dueDate") {
+      if (name === "date") {
          const selectedDate = new Date(value);
          const today = new Date();
 
