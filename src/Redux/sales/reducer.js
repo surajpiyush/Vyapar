@@ -8,6 +8,10 @@ const salesSlice = createSlice({
 
     // Sale Print states
     updateSalePrintSettings: false,
+    loadingSingleInvoice: false,
+    errorSingleInvoice: false,
+    toggleSingleInvoiceSuccess: false,
+    SingleInvoiceData: {},
 
     // INVOICE
     toggleSalesSuccess: false,
@@ -47,6 +51,23 @@ const salesSlice = createSlice({
     UPDATE_SALE_PRINT_SETTINGS: (state) => {
       state.updateSalePrintSettings = !state.updateSalePrintSettings;
     },
+    LOADING_SINGLE_INVOICE: (state) => {
+      state.toggleSingleInvoiceSuccess = false;
+      state.loadingSingleInvoice = true;
+      state.errorSingleInvoice = false;
+    },
+    ERROR_SINGLE_INVOICE: (state) => {
+      state.loadingSingleInvoice = false;
+      state.errorSingleInvoice = true;
+    },
+    SUCCESS_SINGLE_INVOICE: (state, action) => {
+      state.toggleSingleInvoiceSuccess = true;
+      state.loadingSingleInvoice = false;
+      state.SingleInvoiceData = action.payload;
+    },
+    TOGGLE_FALSE_INVOICE_SUCCESS: (state) => {
+      state.toggleSingleInvoiceSuccess = false;
+    },
 
     // INVOICE -------------------------------------------------------
     POST_SALES_INVOICE_SUCCESS: (state) => {
@@ -61,7 +82,6 @@ const salesSlice = createSlice({
       const updatedinvoicesList = state.invoicesList.filter(
         (bill) => bill._id !== action.payload
       );
-      //  console.log(payload)
       state.invoicesList = updatedinvoicesList;
       state.isLoading = false;
     },
@@ -82,7 +102,6 @@ const salesSlice = createSlice({
       const updatedestimatesList = state.estimatesList.filter(
         (bill) => bill._id !== action.payload
       );
-      //  console.log(payload)
       state.estimatesList = updatedestimatesList;
       state.isLoading = false;
     },
@@ -103,7 +122,6 @@ const salesSlice = createSlice({
       const updatedpaymentInList = state.paymentInList.filter(
         (bill) => bill._id !== action.payload
       );
-      //  console.log(payload)
       state.paymentInList = updatedpaymentInList;
       state.isLoading = false;
     },
@@ -124,7 +142,6 @@ const salesSlice = createSlice({
       const updatedsaleOrderList = state.saleOrderList.filter(
         (bill) => bill._id !== action.payload
       );
-      //  console.log(payload)
       state.saleOrderList = updatedsaleOrderList;
       state.isLoading = false;
     },
@@ -145,7 +162,6 @@ const salesSlice = createSlice({
       const updateddeliveryChallanList = state.deliveryChallanList.filter(
         (bill) => bill._id !== action.payload
       );
-      //  console.log(payload)
       state.deliveryChallanList = updateddeliveryChallanList;
       state.isLoading = false;
     },
@@ -166,7 +182,6 @@ const salesSlice = createSlice({
       const updatedcreditNotesList = state.creditNotesList.filter(
         (bill) => bill._id !== action.payload
       );
-      //  console.log(payload)
       state.creditNotesList = updatedcreditNotesList;
       state.isLoading = false;
     },
@@ -181,6 +196,10 @@ export const {
   IS_ERROR,
 
   UPDATE_SALE_PRINT_SETTINGS,
+  LOADING_SINGLE_INVOICE,
+  ERROR_SINGLE_INVOICE,
+  SUCCESS_SINGLE_INVOICE,
+  TOGGLE_FALSE_INVOICE_SUCCESS,
 
   POST_SALES_INVOICE_SUCCESS,
   GET_SALES_INVOICE_SUCCESS,

@@ -2,6 +2,9 @@ import { USER_DETAILS } from "../business/actionTypes";
 import {
   IS_LOADING,
   IS_ERROR,
+  LOADING_SINGLE_INVOICE,
+  ERROR_SINGLE_INVOICE,
+  SUCCESS_SINGLE_INVOICE,
   POST_SALES_INVOICE_SUCCESS,
   GET_SALES_INVOICE_SUCCESS,
   POST_ESTIMATE_SUCCESS,
@@ -74,6 +77,7 @@ export const GetAllSalesInvoice = async (dispatch, startDate, endDate) => {
   dispatch(IS_LOADING());
   const token = localStorage.getItem("token");
   const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  // console.log("firmid", firmId);
   try {
     const response = await axios.get(
       `${API_URL}/${firmId}/sale/getAll?startDate=${startDate}&endDate=${endDate}`,
@@ -88,6 +92,36 @@ export const GetAllSalesInvoice = async (dispatch, startDate, endDate) => {
   } catch (error) {
     dispatch(IS_ERROR());
     console.log("Error Getting All Invoices:", error);
+  }
+};
+
+// Get Single Invoice Data Request
+export const GetSingleInvoiceData = async (dispatch, itemId, toast) => {
+  dispatch(LOADING_SINGLE_INVOICE());
+  const token = localStorage.getItem("token");
+  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+
+  try {
+    const response = await axios.get(
+      `${API_URL}/${firmId}/sale/getInvoice/${itemId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token} `,
+        },
+      }
+    );
+    // console.log("Get Single Invoice Response:", response?.data);
+    dispatch(SUCCESS_SINGLE_INVOICE(response?.data?.data[0][0] || {}));
+  } catch (error) {
+    dispatch(ERROR_SINGLE_INVOICE());
+    toast.closeAll();
+    toast({
+      title: "Encountered an issue while printing the Invoice.",
+      description: "Please try again later!",
+      status: "error",
+      position: "top",
+    });
+    console.log("Error Getting Single Invoice:", error);
   }
 };
 

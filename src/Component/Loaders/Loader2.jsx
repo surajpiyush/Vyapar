@@ -1,11 +1,11 @@
 import css from "./Loaders.module.css";
 
-const Loader1 = () => {
+const Loader2 = () => {
   return (
     <div className={css.loaderOuter}>
-      <span className={css.loader1}></span>
+      <span className={css.loader2}></span>
     </div>
   );
 };
 
-export default Loader1;
+export default Loader2;

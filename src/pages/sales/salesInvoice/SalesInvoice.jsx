@@ -1,11 +1,15 @@
 import css from "../../../styles/SalesStyles/Invoice.module.css";
-import party from "../../../assets/Images/party.jpg";
 import InvoiceForm from "./InvoiceForm";
 import TableInvoice from "./TableInvoice";
+import party from "../../../assets/Images/party.jpg";
 import EditableRow from "../../../Component/EditForm";
+import Loader2 from "../../../Component/Loaders/Loader2";
 import Setting from "../../../Component/Setting/Setting";
+import RPLayout1 from "../../../Component/PrintLayouts/RPLayout1";
+import RPLayout2 from "../../../Component/PrintLayouts/RPLayout2";
 import FirstTimeFormToggle from "../../../Component/FirmTimeForm/FirstTimeFormToggle";
-import PrintCarrier from "../../../Component/Setting/Print/PrintCarrier";
+import { REGULAR_PRINTER_DATA } from "../../../Redux/store";
+import { TOGGLE_FALSE_INVOICE_SUCCESS } from "../../../Redux/sales/reducer";
 import {
   GetAllSalesInvoice,
   deleteSalesInvoice,
@@ -41,12 +45,17 @@ export default function SalesInvoice() {
   );
   const isLoading = useSelector((state) => state.SalesReducer.isLoading);
   const invoicesList = useSelector((state) => state.SalesReducer.invoicesList);
-  const [currPrintItem, setCurrPrintItem] = useState({});
+  const loadingSingleInvoice = useSelector(
+    (state) => state.SalesReducer.loadingSingleInvoice
+  );
+  const toggleSingleInvoiceSuccess = useSelector(
+    (state) => state.SalesReducer.toggleSingleInvoiceSuccess
+  );
+  const SingleInvoiceData = useSelector(
+    (state) => state.SalesReducer.SingleInvoiceData
+  );
 
-  const handlePrint = useReactToPrint({
-    content: () => printComponentRef.current,
-  });
-
+  // To fetch Invoices data
   useEffect(() => {
     GetAllSalesInvoice(dispatch, startDate, endDate);
   }, [toggleSalesSuccess, startDate, endDate, dispatch]);
@@ -55,11 +64,12 @@ export default function SalesInvoice() {
     setOpenForm(true);
   };
 
-  // delete
+  // Delete function
   const handleDelete = (id) => {
     deleteSalesInvoice(dispatch, id);
   };
 
+  // Edit handler
   const handleEdit = (_id) => {
     const data = invoicesList.filter((e) => e._id === _id);
     console.log(data);
@@ -67,9 +77,10 @@ export default function SalesInvoice() {
     setEditedData(data[0]);
   };
 
+  // Save Update function
   const handleSave = (updatedData) => {
     updatedData.partyname = updatedData.partyName;
-    console.log("updatedData-", updatedData);
+    // console.log("updatedData-", updatedData);
     const id = updatedData._id;
 
     dispatch(updateSalesInvoice(updatedData._id, updatedData));
@@ -78,11 +89,14 @@ export default function SalesInvoice() {
     GetAllSalesInvoice(dispatch, startDate, endDate);
   };
 
+  // Cancel function
   const handleCancel = () => {
     // If the user cancels, reset the state without saving
     setIsEditing(false);
     setEditedData(null);
   };
+
+  // Items to display while Update form is active
   const display = [
     "invoiceDate",
     "invoiceNumber",
@@ -96,20 +110,58 @@ export default function SalesInvoice() {
     "hariom",
   ];
 
+  // ***************************** Print ************************************
+  const handlePrint = useReactToPrint({
+    content: () => printComponentRef.current,
+    onBeforePrint: () => dispatch(TOGGLE_FALSE_INVOICE_SUCCESS()),
+  });
+  const updateSalePrintSettings = useSelector(
+    (state) => state.SalesReducer.updateSalePrintSettings
+  );
+  const [storedPrintData, setStoredPrintData] = useState(
+    JSON.parse(sessionStorage.getItem(REGULAR_PRINTER_DATA)) || {}
+  );
+
+  // for updating printer settings
+  useEffect(() => {
+    const sessionStorageData =
+      JSON.parse(sessionStorage.getItem(REGULAR_PRINTER_DATA)) || {};
+    setStoredPrintData((prev) => {
+      return { ...prev, ...sessionStorageData };
+    });
+  }, [updateSalePrintSettings]);
+  // for updating print item details
+  useEffect(() => {
+    if (toggleSingleInvoiceSuccess == true) {
+      handlePrint();
+    }
+  }, [toggleSingleInvoiceSuccess]);
+  // *********************************************************************************
+
   return (
     <div style={{ marginTop: "100px" }}>
       {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
 
       {/* Print Component */}
-      <div
-        style={{
-          display: "none",
-        }}
-      >
-        <div ref={printComponentRef}>
-          <PrintCarrier currPrintItem={currPrintItem} />
+      {loadingSingleInvoice ? (
+        <Loader2 />
+      ) : (
+        <div
+          style={{
+            display: "none",
+          }}
+        >
+          <div ref={printComponentRef}>
+            {storedPrintData?.layoutIndex == 0 ? (
+              <RPLayout1 currPrintItem={SingleInvoiceData} />
+            ) : storedPrintData?.layoutIndex == 1 ? (
+              <RPLayout2 currPrintItem={SingleInvoiceData} />
+            ) : (
+              <RPLayout1 currPrintItem={SingleInvoiceData} />
+            )}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Invoice Form */}
       {openForm && (
@@ -350,11 +402,8 @@ export default function SalesInvoice() {
                         <TableInvoice
                           {...item}
                           ind={ind}
-                          item={item}
                           handleEdit={handleEdit}
-                          handlePrint={handlePrint}
                           handleDelete={handleDelete}
-                          setCurrPrintItem={setCurrPrintItem}
                           key={ind + item?._id}
                         />
                       )

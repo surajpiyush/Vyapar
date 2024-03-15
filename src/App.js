@@ -65,6 +65,25 @@ function App() {
     pageSize: "2Inch",
   };
 
+  const IgnoreKeys = [
+    "businessAddress",
+    "businessCategory",
+    "businessDescription",
+    "businessType",
+    "companyLogo",
+    "companyName",
+    "createdAt",
+    "email",
+    "gstinNumber",
+    "phoneNumber",
+    "signature",
+    "state",
+    "updatedAt",
+    "userId",
+    "_id",
+    "pinCode",
+  ];
+
   // to store printerdata in session storage
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -79,11 +98,16 @@ function App() {
       const storedThermalPrinterData = JSON.parse(
         sessionStorage.getItem(THERMAL_PRINTER_DATA)
       );
+
       sessionStorage.setItem(
         REGULAR_PRINTER_DATA,
         JSON.stringify(
           storedRegularPrinterData
-            ? { ...storedRegularPrinterData, ...userDetailsData }
+            ? MergeObjects(
+                storedRegularPrinterData,
+                userDetailsData,
+                IgnoreKeys
+              )
             : { ...regularPrinterData, ...userDetailsData }
         )
       );
@@ -91,7 +115,11 @@ function App() {
         THERMAL_PRINTER_DATA,
         JSON.stringify(
           storedThermalPrinterData
-            ? { ...storedThermalPrinterData, ...userDetailsData }
+            ? MergeObjects(
+                storedThermalPrinterData,
+                userDetailsData,
+                IgnoreKeys
+              )
             : { ...thermalPrinterData, ...userDetailsData }
         )
       );
@@ -123,6 +151,41 @@ function App() {
 }
 
 export default App;
+
+function MergeObjects(ABC, XYZ, IgnoreKeys) {
+  const result = { ...ABC };
+
+  for (const key in XYZ) {
+    if (IgnoreKeys.includes(key)) {
+      if (XYZ[key]) {
+        if (IgnoreKeys.includes(key) && ABC.hasOwnProperty(key)) {
+          result[key] = XYZ[key];
+        } else if (!ABC.hasOwnProperty(key)) {
+          result[key] = XYZ[key];
+        }
+      } else {
+        if (IgnoreKeys.includes(key) && ABC.hasOwnProperty(key)) {
+          delete result[key];
+        }
+      }
+    } else {
+      if (ABC.hasOwnProperty(key) && IgnoreKeys.includes(key)) {
+        delete result[key];
+      }
+      if (XYZ.hasOwnProperty(key)) {
+        result[key] = XYZ[key];
+      }
+    }
+  }
+
+  for (const key in ABC) {
+    if (!XYZ.hasOwnProperty(key) && IgnoreKeys.includes(key)) {
+      delete result[key];
+    }
+  }
+
+  return result;
+}
 
 // Printer Color Array
 export const ColorArray = [
