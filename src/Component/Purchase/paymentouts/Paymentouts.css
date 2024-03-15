@@ -6,27 +6,30 @@
 
 .table {
   width: 100%;
+  border-collapse: collapse;
 }
 
 .table-head {
   width: 100%;
 }
 
-.tabel-row {
+.table-row {
   display: flex;
-  /* justify-content: space-between; */
   border: 1px solid gray;
-  width: 100%;
 }
 
 .table-h {
-  width: 100%;
+  width: calc(100% / 11); /* Assuming you have 11 columns */
   display: flex;
   justify-content: space-around;
   align-items: center;
   border-right: 1px solid gray;
   font-size: 14px;
   padding: 10px 0;
+}
+
+.table-items {
+  text-align: center; /* Center align the content */
 }
 
 .payment-outs-footer {
@@ -39,7 +42,3 @@
 .payment-outs-footer span {
   color: rgb(7, 185, 255);
 }
-
-
-
-

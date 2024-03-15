@@ -58,11 +58,7 @@ const EstimateForm = ({ setOpenForm, setToggleSetting }) => {
       type: "Estimate",
       status: "Pending",
       customerName: "",
-      refNo: `${new Date()
-         .toLocaleString("default", { month: "short" })
-         .toUpperCase()}${new Date().getTime()}${Math.floor(
-         Math.random() * 400
-      )}`,
+      refNo: estimatesList.length+1,
       invoiceDate: new Date().toISOString().split("T")[0],
       stateOfSupply: "",
       priceUnitWithTax: false,

@@ -94,175 +94,109 @@ const Transactions = ({ func, date }) => {
                   </button>
                </div>
                <section className="transaction-tables">
-                  <div className="transaction-table">
-                     <p>DATE</p>
+                  <table>
+                     <thead>
+                        <tr>
+                           <th>DATE</th>
+                           <th>INVOICE NO.</th>
+                           <th>PARTY NAME</th>
+                           <th>PAYMENT TYPE</th>
+                           <th>AMOUNT</th>
+                           <th>BALANCE DUE</th>
+                           <th>STATUS</th>
+                           <th>Actions</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        {!isLoading && showAllPurchaseBills.length ? (
+                           showAllPurchaseBills?.map((e) => {
+                              const payment = e.paymentType
+                                 .map((paymentType, i) => {
+                                    if (paymentType.amount && i === 0)
+                                       return "cash";
+                                    else if (paymentType.amount && i === 1)
+                                       return "Cheque";
+                                    else if (paymentType.amount && i === 2)
+                                       return "Bank";
+                                    return null;
+                                 })
+                                 .filter((type) => type !== null);
+                              return (
+                                 <React.Fragment key={e._id}>
+                                    {isEditing && editedData?._id === e._id ? (
+                                       <tr style={{
+                                       width: "80%",
+                                       position: "absolute",
+                                    }}>
 
-                     {/*  <FilterIcon /> */}
-                  </div>
-                  <div className="transaction-table">
-                     <p>INVOICE NO.</p>
-
-                     {/*  <FilterIcon /> */}
-                  </div>
-                  <div className="transaction-table">
-                     <p>PARTY NAME</p>
-
-                     {/*  <FilterIcon /> */}
-                  </div>
-                  <div className="transaction-table">
-                     <p>PAYMENT TYPE</p>
-
-                     {/*  <FilterIcon /> */}
-                  </div>
-                  <div className="transaction-table">
-                     <p>AMOUNT</p>
-
-                     {/*  <FilterIcon /> */}
-                  </div>
-                  <div className="transaction-table">
-                     <p>BALANCE DUE</p>
-
-                     {/*  <FilterIcon /> */}
-                  </div>
-                  <div className="transaction-table">
-                     <p>STATUS</p>
-
-                     {/*  <FilterIcon /> */}
-                  </div>
-                  <div className="transaction-table">
-                     <p></p>
-
-                     {/*  <FilterIcon /> */}
-                  </div>
-                  <div className="transaction-table">
-                     <p></p>
-
-                     {/*  <FilterIcon /> */}
-                  </div>
+                                       <EditableRow
+                                          display={display}
+                                          data={editedData}
+                                          onSave={handleSave}
+                                          onCancel={handleCancel}
+                                       />
+                                       </tr>
+                                    ) : (
+                                       <tr key={e._id}>
+                                          <td>
+                                             {new Date(
+                                                e.billDate
+                                             ).toLocaleDateString("en-IN", {
+                                                day: "2-digit",
+                                                month: "2-digit",
+                                                year: "numeric",
+                                             })}
+                                          </td>
+                                          <td>{e.billNumber}</td>
+                                          <td>{e?.partyName}</td>
+                                          <td>{e.paymentType[0]?.types}</td>
+                                          <td>{e.amount}</td>
+                                          <td>
+                                             {e.status === "Paid"
+                                                ? 0
+                                                : e?.balanceDue}
+                                          </td>
+                                          <td>{e.status}</td>
+                                          <td>
+                                             <button
+                                                onClick={() => window.print()}
+                                             >
+                                                <PrinterIcon />
+                                             </button>
+                                             <button
+                                                onClick={() =>
+                                                   handleDelete(e._id)
+                                                }
+                                             >
+                                                <DeleteIcon />
+                                             </button>
+                                             <button
+                                                onClick={() => handleEdit(e)}
+                                             >
+                                                <EditIcon />
+                                             </button>
+                                          </td>
+                                       </tr>
+                                    )}
+                                 </React.Fragment>
+                              );
+                           })
+                        ) : (
+                           <tr>
+                              <td colSpan="8">
+                                 <BasicSpinner
+                                    style={{
+                                       width: "100%",
+                                       margin: "60px auto",
+                                       fontSize: "30px",
+                                    }}
+                                 />
+                              </td>
+                           </tr>
+                        )}
+                     </tbody>
+                  </table>
                </section>
-
-               {!isLoading && showAllPurchaseBills.length ? (
-                  showAllPurchaseBills?.map((e) => {
-                     const payment = e.paymentType
-                        .map((paymentType, i) => {
-                           if (paymentType.amount && i === 0) return "cash";
-                           else if (paymentType.amount && i === 1)
-                              return "Cheque";
-                           else if (paymentType.amount && i === 2)
-                              return "Bank";
-                           return null;
-                        })
-                        .filter((type) => type !== null);
-                     return (
-                        <React.Fragment key={e._id}>
-                           {isEditing && editedData?._id === e._id ? (
-                              <EditableRow
-                                 display={display}
-                                 data={editedData}
-                                 onSave={handleSave}
-                                 onCancel={handleCancel}
-                              />
-                           ) : (
-                              <section className="transaction-tables">
-                                 <div className="transaction-table">
-                                    <p>
-                                       {" "}
-                                       {new Date(e.billDate).toLocaleDateString(
-                                          "en-IN",
-                                          {
-                                             day: "2-digit",
-                                             month: "2-digit",
-                                             year: "numeric",
-                                          }
-                                       )}
-                                    </p>
-                                 </div>
-                                 <div className="transaction-table">
-                                    <p>{e.billNumber}</p>
-
-                                    {/* <p></p> */}
-                                 </div>
-                                 <div className="transaction-table">
-                                    <p>{e?.partyName}</p>
-                                 </div>
-                                 <div className="transaction-table">
-                                    <p>{e.paymentType[0]?.types}</p>
-                                 </div>
-                                 <div className="transaction-table">
-                                    <p>{e.amount}</p>
-                                 </div>
-                                 <div className="transaction-table">
-                                    <p>
-                                       {e.status == "Paid" ? 0 : e?.balanceDue}
-                                    </p>
-                                 </div>
-                                 <div className="transaction-table">
-                                    <p>{e.status}</p>
-                                 </div>
-                                 <div
-                                    className="transaction-table"
-                                    style={{
-                                       display: "flex",
-                                       direction: "row",
-                                       justifyContent: "space-evenly",
-                                    }}
-                                 >
-                                    <p
-                                       style={{
-                                          display: "flex",
-                                          justifyContent: "space-around",
-                                          fontSize: "1.5em",
-                                       }}
-                                    >
-                                       <PrinterIcon
-                                          onClick={() => window.print()}
-                                       />{" "}
-                                    </p>
-                                    <p style={{ fontSize: "1.5rem" }}>
-                                       <ShareIcon />
-                                    </p>
-                                    {/* <FilterIcon/> */}
-                                 </div>
-                                 <div
-                                    className="transaction-table"
-                                    style={{
-                                       display: "flex",
-                                       direction: "row",
-                                       justifyContent: "space-evenly",
-                                    }}
-                                 >
-                                    <p
-                                       style={{
-                                          fontSize: "1.5rem",
-                                          textAlign: "center",
-
-                                          justifyContent: "space-around",
-                                       }}
-                                    >
-                                       <DeleteIcon
-                                          onClick={() => handleDelete(e._id)}
-                                       />
-                                    </p>
-                                    <p style={{ fontSize: "1.5rem" }}>
-                                       <EditIcon
-                                          onClick={() => handleEdit(e)}
-                                       />
-                                    </p>
-                                 </div>
-                              </section>
-                           )}
-                        </React.Fragment>
-                     );
-                  })
-               ) : (
-                  <BasicSpinner
-                     style={{
-                        width: "100%",
-                        margin: "60px auto",
-                        fontSize: "30px",
-                     }}
-                  />
-               )}
             </div>
          )}{" "}
       </div>

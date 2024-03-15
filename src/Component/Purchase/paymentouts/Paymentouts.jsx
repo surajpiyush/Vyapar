@@ -25,6 +25,7 @@ const Paymentouts = ({ func, date }) => {
    const dispatch = useDispatch();
    const [isEditing, setIsEditing] = useState(false);
    const [editedData, setEditedData] = useState(null);
+   let total = 0,totalBalance = 0
    const store = useSelector((store) => store.PurchaseReducer);
    const data = store.paymentOutData;
    console.log(data);
@@ -32,7 +33,7 @@ const Paymentouts = ({ func, date }) => {
    // console.log(store);
    useEffect(() => {
       dispatch(getPaymentOutBill({ date }));
-   }, [date, dispatch,func]);
+   }, [date, dispatch, func]);
    // console.log(data);
 
    // delete
@@ -102,167 +103,123 @@ const Paymentouts = ({ func, date }) => {
                   </button>
                </div>
 
-               <table className="table">
-                  <thead className="table-head">
-                     <tr className="tabel-row">
-                        <th className="table-h">
-                           <div className="table-items">#</div>
-                           <div></div>
-                        </th>
-                        <th className="table-h">
-                           <div className="table-items">Date</div>
-
-                           {/*  <FilterIcon /> */}
-                        </th>
-                        <th className="table-h">
-                           <div className="table-items">Ref No.</div>
-
-                           {/*  <FilterIcon /> */}
-                        </th>
-                        <th className="table-h">
-                           <div className="table-items">PartyName</div>
-
-                           {/*  <FilterIcon /> */}
-                        </th>
-                        <th className="table-h">
-                           <div className="table-items">CategoryName</div>
-
-                           {/*  <FilterIcon /> */}
-                        </th>
-                        <th className="table-h">
-                           <div className="table-items">Type</div>
-
-                           {/*  <FilterIcon /> */}
-                        </th>
-                        <th className="table-h">
-                           <div className="table-items">Total</div>
-
-                           {/*  <FilterIcon /> */}
-                        </th>
-                        <th className="table-h">
-                           <div className="table-items">Recevied</div>
-
-                           {/*  <FilterIcon /> */}
-                        </th>
-                        <th className="table-h">
-                           <div className="table-items">Balance</div>
-
-                           {/*  <FilterIcon /> */}
-                        </th>
-                        <th className="table-h">
-                           <div className="table-items">Print</div>
-
-                           {/*  <FilterIcon /> */}
-                        </th>
-                        <th className="table-h">
-                           <div className="table-items">Action</div>
-                        </th>
-                     </tr>
-                  </thead>
-                  {store.isLoading ? (
-                     <BasicSpinner
-                        style={{
-                           width: "100%",
-                           margin: "60px auto",
-                           fontSize: "30px",
-                        }}
-                     />
-                  ) : (
-                     <tbody>
-                        {data?.map((e, i) => {
-                           return (
-                              <React.Fragment key={e._id}>
-                                 {isEditing && editedData?._id === e._id ? (
-                                    <EditableRow
-                                       display={display}
-                                       data={editedData}
-                                       onSave={handleSave}
-                                       onCancel={handleCancel}
-                                    />
-                                 ) : (
-                                    <tr className="tabel-row tale-data">
-                                       <th className="table-h">
-                                          <div className="table-items">
-                                             {i + 1}
-                                          </div>
-                                          <div></div>
-                                       </th>
-                                       <th className="table-h">
-                                          <div className="table-items">
+               <div>
+                  <table className="table">
+                     <thead className="table-head">
+                        <tr className="table-row">
+                           <th className="table-h">
+                              <div className="table-items">#</div>
+                           </th>
+                           <th className="table-h">
+                              <div className="table-items">Date</div>
+                           </th>
+                           <th className="table-h">
+                              <div className="table-items">Ref No.</div>
+                           </th>
+                           <th className="table-h">
+                              <div className="table-items">PartyName</div>
+                           </th>
+                           <th className="table-h">
+                              <div className="table-items">CategoryName</div>
+                           </th>
+                           <th className="table-h">
+                              <div className="table-items">Type</div>
+                           </th>
+                           <th className="table-h">
+                              <div className="table-items">Total</div>
+                           </th>
+                           <th className="table-h">
+                              <div className="table-items">Received</div>
+                           </th>
+                           <th className="table-h">
+                              <div className="table-items">Balance</div>
+                           </th>
+                           <th className="table-h">
+                              <div className="table-items">Print</div>
+                           </th>
+                           <th className="table-h">
+                              <div className="table-items">Action</div>
+                           </th>
+                        </tr>
+                     </thead>
+                     {!store.isLoading ? (
+                        <tbody>
+                           {data?.map((e, i) => {
+                              total += e.total; 
+                              totalBalance += e.balance
+                              return (
+                                 <React.Fragment key={e._id}>
+                                    {isEditing && editedData?._id === e._id ? (
+                                       <EditableRow
+                                          display={display}
+                                          data={editedData}
+                                          onSave={handleSave}
+                                          onCancel={handleCancel}
+                                       />
+                                    ) : (
+                                       <tr className="table-row" key={e._id}>
+                                          <td className="table-h">{i + 1}</td>
+                                          <td className="table-h">
                                              {FormatDate(e.date)}
-                                          </div>
-                                       </th>
-                                       <th className="table-h">
-                                          <div className="table-items">
-                                             {e.refNo}
-                                          </div>
-                                       </th>
-                                       <th className="table-h">
-                                          <div className="table-items">
-                                             {e?.partyName}
-                                          </div>
-                                       </th>
-                                       <th className="table-h">
-                                          <div className="table-items">
-                                             {e.categotyName
-                                                ? e.categotyName
+                                          </td>
+                                          <td className="table-h">{e.refNo}</td>
+                                          <td className="table-h">
+                                             {e.partyName}
+                                          </td>
+                                          <td className="table-h">
+                                             {e.categoryName
+                                                ? e.categoryName
                                                 : "-"}
-                                          </div>
-                                       </th>
-                                       <th className="table-h">
-                                          <div className="table-items">
-                                             {e.type}
-                                          </div>
-                                       </th>
-                                       <th className="table-h">
-                                          <div className="table-items">
+                                          </td>
+                                          <td className="table-h">{e.type}</td>
+                                          <td className="table-h">
                                              ₹{e.total}
-                                          </div>
-                                       </th>
-                                       <th className="table-h">
-                                          <div className="table-items">
-                                             ₹{e.paid}
-                                          </div>
-                                       </th>
-                                       <th className="table-h">
-                                          <div className="table-items">
+                                          </td>
+                                          <td className="table-h">₹{e.paid}</td>
+                                          <td className="table-h">
                                              ₹{e.balance}
-                                          </div>
-                                       </th>
-                                       <th className="table-h">
-                                          <div className="table-items">
+                                          </td>
+                                          <td className="table-h">
                                              <PrinterIcon
                                                 onClick={() => window.print()}
                                              />
-
                                              <DotsIcon />
-                                          </div>
-                                       </th>
-                                       <th className="table-h">
-                                          <div className="table-items">
+                                          </td>
+                                          <td className="table-h">
                                              <DeleteIcon
                                                 onClick={() =>
                                                    handleDelete(e._id)
                                                 }
                                              />
-                                          </div>
-                                          <EditIcon
-                                             onClick={() => handleEdit(e)}
-                                          />
-                                       </th>
-                                    </tr>
-                                 )}
-                              </React.Fragment>
-                           );
-                        })}
-                     </tbody>
-                  )}
-               </table>
+                                             <EditIcon
+                                                onClick={() => handleEdit(e)}
+                                             />
+                                          </td>
+                                       </tr>
+                                    )}
+                                 </React.Fragment>
+                              );
+                           })}
+                        </tbody>
+                     ) : (
+                        <tr>
+                           <BasicSpinner
+                              style={{
+                                 width: "100%",
+                                 margin: "60px auto",
+                                 fontSize: "30px",
+                              }}
+                           />
+                        </tr>
+                     )}
+                  </table>
+               </div>
+
                <div className="payment-outs-footer">
                   <p>
-                     Total Amount: <span>₹ 0.00</span>
+                     Total Amount: <span>₹ {total}</span>
                   </p>
-                  <p>Balance: ₹0.00</p>
+                  <p>Balance: ₹ {totalBalance}</p>
                </div>
             </div>
          )}
