@@ -11,6 +11,7 @@ import {
    DotsIcon,
    EditIcon,
    FilterIcon,
+   PrinterIcon,
 } from "../utils/reactIcons";
 
 import React, { useEffect, useState } from "react";
@@ -95,69 +96,46 @@ const Pourchaseorder = ({ func }) => {
                   </button>
                </div>
 
+             
                <table className="table">
                   <thead className="table-head">
-                     <tr className="tabel-row">
+                     <tr className="table-row">
+                        <th className="table-h">
+                           <div className="table-items">#</div>
+                        </th>
                         <th className="table-h">
                            <div className="table-items">Date</div>
-
-                           {/*  <FilterIcon /> */}
                         </th>
                         <th className="table-h">
                            <div className="table-items">No.</div>
-
-                           {/*  <FilterIcon /> */}
                         </th>
                         <th className="table-h">
-                           <div className="table-items">Party</div>
-                           <div></div>
+                           <div className="table-items">PartyName</div>
                         </th>
                         <th className="table-h">
                            <div className="table-items">Due Date</div>
-
-                           {/*  <FilterIcon /> */}
                         </th>
                         <th className="table-h">
                            <div className="table-items">Type</div>
-
-                           {/*  <FilterIcon /> */}
                         </th>
                         <th className="table-h">
                            <div className="table-items">Total Amount</div>
-
-                           {/*  <FilterIcon /> */}
                         </th>
                         <th className="table-h">
                            <div className="table-items">Balance</div>
-
-                           {/*  <FilterIcon /> */}
                         </th>
                         <th className="table-h">
                            <div className="table-items">Status</div>
-
-                           {/*  <FilterIcon /> */}
                         </th>
                         <th className="table-h">
                            <div className="table-items">Action</div>
-
-                           {/*  <FilterIcon /> */}
                         </th>
                         <th className="table-h">
-                           <div className="table-items"></div>
-
-                           {/*  <FilterIcon /> */}
+                           <div className="table-items">Print</div>
                         </th>
                      </tr>
                   </thead>
-                  {store.isLoading ? (
-                     <BasicSpinner
-                        style={{
-                           width: "100%",
-                           margin: "60px auto",
-                           fontSize: "30px",
-                        }}
-                     />
-                  ) : (
+                  {!store.isLoading ? (
                      <tbody>
                         {data?.map((e, i) => {
                            return (
@@ -170,111 +148,67 @@ const Pourchaseorder = ({ func }) => {
                                        onCancel={handleCancel}
                                     />
                                  ) : (
-                                    <tr className="tabel-row tale-data purchase-order">
-                                       <th className="table-h">
-                                          <div className="table-items">
-                                             {new Date(
-                                                e.date
-                                             ).toLocaleDateString("en-IN", {
+                                    <tr className="table-row" key={e._id}>
+                                       <td className="table-h">{i + 1}</td>
+                                       <td className="table-h">
+                                          {new Date(e.date).toLocaleDateString(
+                                             "en-IN",
+                                             {
                                                 day: "2-digit",
                                                 month: "2-digit",
                                                 year: "numeric",
-                                             })}
-                                          </div>
-                                       </th>
-                                       <th className="table-h">
-                                          <div className="table-items">
-                                             {e.orderNumber}
-                                          </div>
-                                       </th>
-                                       <th className="table-h">
-                                          <div className="table-items">
-                                             {e?.partyName}
-                                          </div>
-                                       </th>
-                                       <th className="table-h">
-                                          {new Date(
-                                             e.dueDate
-                                          ).toLocaleDateString("en-IN", {
-                                             day: "2-digit",
-                                             month: "2-digit",
-                                             year: "numeric",
-                                          })}{" "}
-                                       </th>
-                                       {/* <div className="table-items">
-                                    {new Date(e.billDate).toLocaleDateString(
-                                       "en-IN",
-                                       {
-                                          day: "2-digit",
-                                          month: "2-digit",
-                                          year: "numeric",
-                                       }
-                                    )}
-                                 </div> */}
-
-                                       <th className="table-h">
-                                          <div className=" table-items">
-                                             {e.type}
-                                          </div>
-                                       </th>
-                                       <th className="table-h">
-                                          <div className="table-items">
-                                             ₹{e.total}
-                                          </div>
-                                       </th>
-                                       <th className="table-h">
-                                          <div className="table-items">
-                                             ₹{e.balance}
-                                          </div>
-                                       </th>
-
-                                       <th className="table-h">
-                                          <div className="table-items-purcahse-order">
-                                             {e.status}
-                                          </div>
-                                       </th>
-                                       <th className="table-h">
-                                          <div className="table-items table-items-purcahse-convert">
+                                             }
+                                          )}
+                                       </td>
+                                       <td className="table-h">
+                                          {" "}
+                                          {e.orderNumber || "-"}
+                                       </td>
+                                       <td className="table-h">
+                                          {e.partyName}
+                                       </td>
+                                       <td className="table-h">
+                                          {e.categoryName || "-"}
+                                       </td>
+                                       <td className="table-h">{e.type}</td>
+                                       <td className="table-h">
+                                          {" "}
+                                          ₹{e.total || 0}
+                                       </td>
+                                       <td className="table-h">
+                                          {" "}
+                                          ₹{e.balance || 0}
+                                       </td>
+                                       <td className="table-h">{e.status}</td>
+                                       <td className="table-h ">
+                                          <p className="table-items table-items-purcahse-convert">
                                              {e.action}
-                                          </div>
-                                       </th>
-                                       <th className="table-h">
-                                          <div
-                                             className="transaction-table"
-                                             style={{
-                                                display: "flex",
-                                                direction: "row",
-                                                justifyContent: "space-evenly",
-                                             }}
-                                          >
-                                             <p
-                                                style={{
-                                                   fontSize: "1.5rem",
-                                                   textAlign: "center",
-
-                                                   justifyContent:
-                                                      "space-around",
-                                                }}
-                                             >
-                                                <DeleteIcon
-                                                   onClick={() =>
-                                                      handleDelete(e._id)
-                                                   }
-                                                />
-                                             </p>
-                                             <p style={{ fontSize: "1.5rem" }}>
-                                                <EditIcon
-                                                   onClick={() => handleEdit(e)}
-                                                />
-                                             </p>
-                                          </div>
-                                       </th>
+                                          </p>
+                                       </td>
+                                       <td className="table-h">
+                                          <DeleteIcon
+                                             onClick={() => handleDelete(e._id)}
+                                          />
+                                          <EditIcon
+                                             onClick={() => handleEdit(e)}
+                                          />
+                                       </td>
                                     </tr>
                                  )}
                               </React.Fragment>
                            );
                         })}
                      </tbody>
+                  ) : (
+                     <tr>
+                        <BasicSpinner
+                           style={{
+                              width: "100%",
+                              margin: "60px auto",
+                              fontSize: "30px",
+                           }}
+                        />
+                     </tr>
                   )}
                </table>
             </div>

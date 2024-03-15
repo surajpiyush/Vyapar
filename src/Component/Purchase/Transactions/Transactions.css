@@ -19,7 +19,6 @@
    border-radius: 5px;
 }
 
-/* Add this CSS to your stylesheet */
 .transaction-tables table {
    border-collapse: collapse;
    width: 100%;
@@ -27,8 +26,8 @@
 
 .transaction-tables th,
 .transaction-tables td {
-   border: 1px solid gray; /* Apply border to table cells */
-   padding: 8px; /* Add padding to cells for better spacing */
+   border: 1px solid gray; 
+   padding: 8px; 
 }
 
 .transaction-tables {
@@ -37,7 +36,7 @@
    padding: 0 5px;
    justify-content: space-between;
    align-items: center;
-   border-collapse: collapse; /* Ensure table borders are collapsed */
+   border-collapse: collapse; 
    width: 100%;
 }
 
@@ -49,5 +48,5 @@
    font-size: 14px;
    /* justify-content: space-between; */
    width: 100%;
-   color: gray;
+   color: gray; 
 }

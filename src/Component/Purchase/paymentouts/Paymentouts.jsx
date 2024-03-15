@@ -25,7 +25,8 @@ const Paymentouts = ({ func, date }) => {
    const dispatch = useDispatch();
    const [isEditing, setIsEditing] = useState(false);
    const [editedData, setEditedData] = useState(null);
-   let total = 0,totalBalance = 0
+   let total = 0,
+      totalBalance = 0;
    const store = useSelector((store) => store.PurchaseReducer);
    const data = store.paymentOutData;
    console.log(data);
@@ -145,8 +146,8 @@ const Paymentouts = ({ func, date }) => {
                      {!store.isLoading ? (
                         <tbody>
                            {data?.map((e, i) => {
-                              total += e.total; 
-                              totalBalance += e.balance
+                              total += e.total;
+                              totalBalance += e.balance;
                               return (
                                  <React.Fragment key={e._id}>
                                     {isEditing && editedData?._id === e._id ? (

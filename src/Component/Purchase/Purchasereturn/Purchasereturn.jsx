@@ -42,7 +42,7 @@ const Purchasereturn = ({ func, date }) => {
    // console.log("REturn data:",data)
    useEffect(() => {
       dispatch(getPurchaseReturn({ date }));
-   }, [dispatch, date,func]);
+   }, [dispatch, date, func]);
 
    // delete
    const handleDelete = (id) => {
@@ -97,74 +97,47 @@ const Purchasereturn = ({ func, date }) => {
                   </button>
                </div>
 
+            
+
                <table className="table">
                   <thead className="table-head">
-                     <tr className="tabel-row">
+                     <tr className="table-row">
                         <th className="table-h">
                            <div className="table-items">#</div>
-                           <div></div>
                         </th>
                         <th className="table-h">
                            <div className="table-items">Date</div>
-
-                           {/*  <FilterIcon /> */}
                         </th>
                         <th className="table-h">
                            <div className="table-items">Ref No.</div>
-
-                           {/*  <FilterIcon /> */}
                         </th>
                         <th className="table-h">
                            <div className="table-items">PartyName</div>
-
-                           {/*  <FilterIcon /> */}
                         </th>
                         <th className="table-h">
                            <div className="table-items">CategoryName</div>
-
-                           {/*  <FilterIcon /> */}
                         </th>
                         <th className="table-h">
                            <div className="table-items">Type</div>
-
-                           {/*  <FilterIcon /> */}
                         </th>
                         <th className="table-h">
                            <div className="table-items">Total</div>
-
-                           {/*  <FilterIcon /> */}
                         </th>
                         <th className="table-h">
-                           <div className="table-items">Recevied</div>
-
-                           {/*  <FilterIcon /> */}
+                           <div className="table-items">Received</div>
                         </th>
                         <th className="table-h">
                            <div className="table-items">Balance</div>
-
-                           {/*  <FilterIcon /> */}
                         </th>
                         <th className="table-h">
                            <div className="table-items">Print</div>
-
-                           {/*  <FilterIcon /> */}
                         </th>
                         <th className="table-h">
                            <div className="table-items">Action</div>
-
-                           {/*  <FilterIcon /> */}
                         </th>
                      </tr>
                   </thead>
-                  {isLoading ? (
-                     <BasicSpinner
-                        style={{
-                           width: "100%",
-                           margin: "60px auto",
-                           fontSize: "30px",
-                        }}
-                     />
-                  ) : (
+                  {!isLoading ? (
                      <tbody>
                         {data?.map((e, i) => {
                            return (
@@ -177,108 +150,63 @@ const Purchasereturn = ({ func, date }) => {
                                        onCancel={handleCancel}
                                     />
                                  ) : (
-                                    <tr className="tabel-row tale-data">
-                                       <th className="table-h">
-                                          <div className="table-items">
-                                             {i + 1}
-                                          </div>
-                                       </th>
-                                       <th className="table-h">
-                                          <div className="table-items">
-                                             {new Date(
-                                                e.billDate
-                                             ).toLocaleDateString("en-IN", {
-                                                day: "2-digit",
-                                                month: "2-digit",
-                                                year: "numeric",
-                                             })}
-                                          </div>
-                                       </th>
-
-                                       <th className="table-h">
-                                          <div className="table-items">
-                                             {e.returnNumber
-                                                ? e.returnNumber
-                                                : "-"}
-                                          </div>
-                                       </th>
-                                       <th className="table-h">
-                                          <div className="table-items">
-                                             {e?.partyName}
-                                          </div>
-                                       </th>
-                                       <th className="table-h">
-                                          <div className="table-items">
-                                             {e.categoryName
-                                                ? e.categoryName
-                                                : "-"}
-                                          </div>
-                                       </th>
-                                       <th className="table-h">
-                                          <div className="table-items">
-                                             {e.type}
-                                          </div>
-                                       </th>
-                                       <th className="table-h">
-                                          <div className="table-items">
-                                             ₹{e.amount || 0}
-                                          </div>
-                                       </th>
-                                       <th className="table-h">
-                                          <div className="table-items">
-                                             ₹{e.balanceDue || 0}
-                                          </div>
-                                       </th>
-                                       <th className="table-h">
-                                          <div className="table-items">
-                                             ₹{e.amount || "-"}
-                                          </div>
-                                       </th>
-                                       <th className="table-h">
-                                          <div className="table-items">
-                                             <PrinterIcon
-                                                onClick={() => window.print()}
-                                             />
-                                             <ShareIcon />
-                                          </div>
-                                       </th>
-                                       <th className="table-h">
-                                          <div
-                                             className="transaction-table"
-                                             style={{
-                                                display: "flex",
-                                                direction: "row",
-                                                justifyContent: "space-evenly",
-                                             }}
-                                          >
-                                             <p
-                                                style={{
-                                                   fontSize: "1.5rem",
-                                                   textAlign: "center",
-
-                                                   justifyContent:
-                                                      "space-around",
-                                                }}
-                                             >
-                                                <DeleteIcon
-                                                   onClick={() =>
-                                                      handleDelete(e._id)
-                                                   }
-                                                />
-                                             </p>
-                                             <p style={{ fontSize: "1.5rem" }}>
-                                                <EditIcon
-                                                   onClick={() => handleEdit(e)}
-                                                />
-                                             </p>
-                                          </div>
-                                       </th>
+                                    <tr className="table-row" key={e._id}>
+                                       <td className="table-h">{i + 1}</td>
+                                       <td className="table-h">
+                                          {new Date(
+                                             e.billDate
+                                          ).toLocaleDateString("en-IN", {
+                                             day: "2-digit",
+                                             month: "2-digit",
+                                             year: "numeric",
+                                          })}
+                                       </td>
+                                       <td className="table-h">
+                                          {" "}
+                                          {e.returnNumber || "-"}
+                                       </td>
+                                       <td className="table-h">
+                                          {e.partyName}
+                                       </td>
+                                       <td className="table-h">
+                                          {e.categoryName
+                                             ? e.categoryName
+                                             : "-"}
+                                       </td>
+                                       <td className="table-h">{e.type}</td>
+                                       <td className="table-h">   ₹{e.amount || 0}</td>
+                                       <td className="table-h"> ₹{e.balanceDue || 0}</td>
+                                       <td className="table-h">₹{e.balance}</td>
+                                       <td className="table-h">
+                                          <PrinterIcon
+                                             onClick={() => window.print()}
+                                          />
+                                          <DotsIcon />
+                                       </td>
+                                       <td className="table-h">
+                                          <DeleteIcon
+                                             onClick={() => handleDelete(e._id)}
+                                          />
+                                          <EditIcon
+                                             onClick={() => handleEdit(e)}
+                                          />
+                                       </td>
                                     </tr>
                                  )}
                               </React.Fragment>
                            );
                         })}
                      </tbody>
+                  ) : (
+                     <tr>
+                        <BasicSpinner
+                           style={{
+                              width: "100%",
+                              margin: "60px auto",
+                              fontSize: "30px",
+                           }}
+                        />
+                     </tr>
                   )}
                </table>
             </div>
