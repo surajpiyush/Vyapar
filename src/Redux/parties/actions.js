@@ -58,7 +58,6 @@ export const SaveParty = async (dispatch, data, setPartyFormToggle, toast) => {
       title:
         error?.response?.data?.msg ||
         error?.response?.data?.message ||
-        error?.response?.data ||
         "Something Went Wrong!",
       status: "error",
       position: "top",
@@ -92,7 +91,11 @@ export const GetCurrentPartyData = async (
   } catch (error) {
     dispatch({ type: SAVE_PARTY_ERROR });
     console.log("Saving Party Error Response:", error);
-    alert(error?.response?.data || "Something Went Wrong!");
+    alert(
+      error?.response?.data?.msg ||
+        error?.response?.data?.message ||
+        "Something Went Wrong!"
+    );
   }
 };
 
@@ -117,6 +120,10 @@ export const GetAllGroups = async (dispatch, data, setPartyFormToggle) => {
   } catch (error) {
     dispatch({ type: SAVE_PARTY_ERROR });
     console.log("Getting All Groups Response:", error);
-    alert(error?.response?.data || "Something Went Wrong!");
+    alert(
+      error?.response?.data?.msg ||
+        error?.response?.data?.message ||
+        "Something Went Wrong!"
+    );
   }
 };

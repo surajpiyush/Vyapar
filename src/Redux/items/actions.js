@@ -42,7 +42,7 @@ export const addItem = async (dispatch, newItem, closeForm, toast) => {
     dispatch({ type: ITEM_FAILURE });
     toast({
       title: "Something Went Wrong!",
-      description: error?.response?.data?.message || "",
+      description: error?.response?.data?.msg || "",
       status: "error",
       position: "top",
     });

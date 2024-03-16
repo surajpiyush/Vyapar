@@ -72,7 +72,10 @@ export const AddBusinessLoginRequest = async (
   } catch (error) {
     dispatch({ type: ISERROR });
     toast({
-      title: error?.response?.data?.message || "Something Went Wrong!",
+      title:
+        error?.response?.data?.message ||
+        error?.response?.data?.msg ||
+        "Something Went Wrong!",
       status: "error",
       position: "top",
     });
@@ -118,7 +121,10 @@ export const UpdateCompanyProfile = async (dispatch, data, toast) => {
   } catch (error) {
     dispatch({ type: ISERROR });
     toast({
-      title: error?.response?.data?.message || "Something Went Wrong!",
+      title:
+        error?.response?.data?.message ||
+        error?.response?.data?.msg ||
+        "Something Went Wrong!",
       position: "top",
       status: "error",
     });

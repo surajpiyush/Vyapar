@@ -64,7 +64,10 @@ export const PostSalesInvoice = async (dispatch, data, setOpenForm, toast) => {
   } catch (error) {
     dispatch(IS_ERROR());
     toast({
-      title: error?.response?.data?.message || "Something Went Wrong!",
+      title:
+        error?.response?.data?.msg ||
+        error?.response?.data?.message ||
+        "Something Went Wrong!",
       status: "error",
       position: "top",
     });
@@ -201,7 +204,10 @@ export const PostEstimates = async (dispatch, data, setOpenForm, toast) => {
   } catch (error) {
     dispatch(IS_ERROR());
     toast({
-      title: error?.response?.data?.message || "Something Went Wrong!",
+      title:
+        error?.response?.data?.msg ||
+        error?.response?.data?.message ||
+        "Something Went Wrong!",
       status: "error",
       position: "top",
     });
@@ -309,7 +315,10 @@ export const PostPaymentIn = async (dispatch, data, closeForm, toast) => {
   } catch (error) {
     dispatch(IS_ERROR());
     toast({
-      title: error?.response?.data?.message || "Something Went Wrong!",
+      title:
+        error?.response?.data?.msg ||
+        error?.response?.data?.message ||
+        "Something Went Wrong!",
       status: "error",
       position: "top",
     });
@@ -416,7 +425,10 @@ export const PostSaleOrder = async (dispatch, data, setOpenForm, toast) => {
   } catch (error) {
     dispatch(IS_ERROR());
     toast({
-      title: error?.response?.data?.message || "Something Went Wrong!",
+      title:
+        error?.response?.data?.msg ||
+        error?.response?.data?.message ||
+        "Something Went Wrong!",
       status: "error",
       position: "top",
     });
@@ -532,7 +544,10 @@ export const PostDeliveryChallan = async (
   } catch (error) {
     dispatch(IS_ERROR());
     toast({
-      title: error?.response?.data?.message || "Something Went Wrong!",
+      title:
+        error?.response?.data?.msg ||
+        error?.response?.data?.message ||
+        "Something Went Wrong!",
       status: "error",
       position: "top",
     });
@@ -641,7 +656,10 @@ export const PostCreditNote = async (dispatch, data, setOpenForm, toast) => {
   } catch (error) {
     dispatch(IS_ERROR());
     toast({
-      title: error?.response?.data?.message || "Something Went Wrong!",
+      title:
+        error?.response?.data?.msg ||
+        error?.response?.data?.message ||
+        "Something Went Wrong!",
       status: "error",
       position: "top",
     });
