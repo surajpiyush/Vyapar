@@ -26,6 +26,7 @@ const Purchasebill = () => {
    const [endDate, setEndDate] = useState(
       new Date().toISOString().split("T")[0]
    );
+   const info = {paid:0,unpaid:0,total:0}
    const toggleSalesSuccess = useSelector(
       (state) => state.SalesReducer.toggleSalesSuccess
    );
@@ -47,6 +48,7 @@ const Purchasebill = () => {
             endDate={endDate}
             setStartDate={setStartDate}
             setEndDate={setEndDate}
+          
          />
          <div>
             {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
@@ -82,7 +84,7 @@ const Purchasebill = () => {
                ) : (
                   <div>
                      {!isLoading && (
-                        <Transactions func={formOpen} date={date} />
+                        <Transactions func={formOpen} date={date} info={info} />
                      )}
                   </div>
                )}

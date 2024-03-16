@@ -55,9 +55,9 @@ const Addpurchaseitem = ({ setOpenForm }) => {
    const [indexSaleItem, setIndexSaleItem] = useState(0);
    const [rowFooterData, setRowFooterData] = useState({});
    const [showItemForm, setShowItemForm] = useState(false);
-   const [receiveAmount, setReceiveAmount] = useState("");
-   const [balanceAmount, setBalanceAmount] = useState("");
-   const [paymentArr, setPaymentArr] = useState([{ types: "Cash", amount: 0 }]);
+   const [receiveAmount, setReceiveAmount] = useState(0);
+   const [balanceAmount, setBalanceAmount] = useState(0);
+   const [paymentArr, setPaymentArr] = useState([{ types: "Cash", amount: receiveAmount }]);
 
    const [invoiceItems, setInvoiceItems] = useState([
       {
@@ -121,8 +121,8 @@ const Addpurchaseitem = ({ setOpenForm }) => {
          taxamount: 0,
       },
       roundOff: 0,
-      total: 0,
-      paid: 0,
+      total: invoiceItems.amount,
+     
       balance: 0,
    });
 
@@ -185,11 +185,10 @@ const Addpurchaseitem = ({ setOpenForm }) => {
          purchaseOrder: [...invoiceData.purchaseOrder, saleData],
       };
       console.log("data", purchaseReturnData);
-
       dispatch(addPurchaseReturn(purchaseReturnData));
       setOpenForm(false);
    };
-
+   
    // for fetching all parties list on form mount
    useEffect(() => {
       FetchAllParties(dispatch);
@@ -272,7 +271,10 @@ const Addpurchaseitem = ({ setOpenForm }) => {
       setBalanceAmount(
          bal.toFixed(2) ? bal.toFixed(2) : rowFooterData?.totalAmount
       );
+      paymentArr[0].amount = recieved;
    }, [invoiceData?.recived, toggleRoundOff, rowFooterData?.totalAmount]);
+
+   // console.log("paymentArr:-",paymentArr)
 
    // Add Row Function
    const handleAddRow = (e) => {

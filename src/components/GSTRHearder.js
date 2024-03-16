@@ -3,8 +3,11 @@ import * as XLSX from "xlsx";
 import { BsFiletypeJson, BsFiletypeXlsx } from "react-icons/bs";
 import { MdOutlinePrint } from "react-icons/md";
 
-const GSTRHeader = ({ isChecked, check, data }) => {
-  console.log(data)
+const GSTRHeader = ({ isChecked, check, data,startDate, 
+   endDate,
+   setEndDate,
+   setStartDate }) => {
+//   console.log(data)
    const [tableData] = useState(data); // Using data directly as initial state
 
    const saveTableData = (action) => {
@@ -51,9 +54,9 @@ const GSTRHeader = ({ isChecked, check, data }) => {
          <div className="sale-dashboard-menu">
             <div className="date-filter-div">
                <p>Between</p>
-               <input type="date" />
+               <input type="date" value={startDate} onChange={(e)=>setStartDate(e.target.value)} />
                <p>To</p>
-               <input type="date" />
+               <input type="date" value={endDate} onChange={(e)=>setEndDate(e.target.value)} />
             </div>
             <div className="gstr-header-checkbox">
                <input type="checkbox" checked={isChecked} onChange={check} />

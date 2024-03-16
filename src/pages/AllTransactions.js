@@ -76,7 +76,7 @@ const AllTransactions = () => {
       prevDateRef.current = { startDate, endDate };
    }, [startDate, endDate, dispatch]);
 
-   console.log(store);
+   // console.log(store);
 
    if (store.length) {
       const data = store[0];

@@ -42,10 +42,11 @@ const AddPaymentouts = ({ setOpenForm }) => {
    // const [rowFooterData, setRowFooterData] = useState({});
    const [showItemForm, setShowItemForm] = useState(false);
    const [paid, setPaid] = useState(0);
+   // const [total,setTotal] = useState(0)
+   const [totalAmount, setTotalAmount] = useState(0);
    const [paymentArr, setPaymentArr] = useState([
       { types: "Cash", amount: paid },
    ]);
-   const [totalAmount, setTotalAmount] = useState(0);
 
    const payOutList = useSelector(
       (store) => store.PurchaseReducer.paymentOutData
@@ -63,9 +64,9 @@ const AddPaymentouts = ({ setOpenForm }) => {
       }),
       description: "Purchase return of items",
 
-      paid: paid,
+      paid: 0,
       discount: 0,
-      total: 0,
+      total: totalAmount,
    });
 
    // Submit Request Function
@@ -93,9 +94,9 @@ const AddPaymentouts = ({ setOpenForm }) => {
    //   for Total Amount updating
    useEffect(() => {
       let total = 0;
-      total = paid - (paid * data.discount) / 100;
-      setTotalAmount(total);
-   }, [paid, data.discount]);
+      total = totalAmount - (totalAmount * data.discount) / 100;
+      setPaid(total);
+   }, [totalAmount, data.discount]);
 
    // To Show Reference Input
    useEffect(() => {
@@ -217,11 +218,11 @@ const AddPaymentouts = ({ setOpenForm }) => {
                   <br />
 
                   <div className={css.totalBottomDiv}>
-                     <p>Paid</p>
+                     <p>Total Amount</p>
                      <input
                         type="number"
-                        name="paid"
-                        onChange={(e) => setPaid(e.target.value)}
+                        name="total"
+                        onChange={(e) => setTotalAmount(e.target.value)}
                         required
                      />
                   </div>
@@ -249,11 +250,11 @@ const AddPaymentouts = ({ setOpenForm }) => {
                   </div>
 
                   <div className={css.totalBottomDiv}>
-                     <p>Total</p>
+                     <p>Paid</p>
                      <input
                         type="number"
-                        name="total"
-                        value={totalAmount}
+                        name="paid"   
+                        value={paid}
                         // onChange={(e) => handleChange(e)}
                         readOnly
                         style={{

@@ -28,15 +28,7 @@ const initialState = {
    purchaseOrderData: [],
    purchaseReturnData: [],
 
-   // gstNo: "",
-   // GSTType: "",
-   // state: "",
-   // email: "",
-   // billingAddress: "",
-   // shippingAddress: "",
-   // openingBalance: "",
-   // asOfDate: "",
-   // creditLimit: "",
+   
 };
 
 export const reducer = (state = initialState, { type, payload }) => {
