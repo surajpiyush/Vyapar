@@ -21,6 +21,8 @@ export default function ProductsTable(Props) {
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
   const token = localStorage.getItem("token");
 
+  console.log("items-",items)
+
   //-----------<<<<<<<<<<<<<<<<<<<<<<<<GETING THE DATA FROM BACKEND>>>>>>>>>>>>>>>>>>>>>>-------------
   useEffect(() => {
     getitems(dispatch);
@@ -138,7 +140,8 @@ export default function ProductsTable(Props) {
                     </tr>
                   ))
                 ) : (
-                  filteredItems?.map((e, index) => (
+                  filteredItems?.map((e, index) => 
+                  (
                     <tr key={index}>
                       <td>{e.itemName}</td>
                       <td>

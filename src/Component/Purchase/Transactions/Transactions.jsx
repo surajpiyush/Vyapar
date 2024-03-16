@@ -20,7 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ImSpinner3 as BasicSpinner } from "react-icons/im";
 import EditableRow from "../../EditForm";
 
-const Transactions = ({ func, date }) => {
+const Transactions = ({ func, date, info }) => {
    const [isEditing, setIsEditing] = useState(false);
    const [editedData, setEditedData] = useState(null);
    const openForm = () => {
@@ -110,31 +110,25 @@ const Transactions = ({ func, date }) => {
                      <tbody>
                         {!isLoading && showAllPurchaseBills.length ? (
                            showAllPurchaseBills?.map((e) => {
-                              const payment = e.paymentType
-                                 .map((paymentType, i) => {
-                                    if (paymentType.amount && i === 0)
-                                       return "cash";
-                                    else if (paymentType.amount && i === 1)
-                                       return "Cheque";
-                                    else if (paymentType.amount && i === 2)
-                                       return "Bank";
-                                    return null;
-                                 })
-                                 .filter((type) => type !== null);
+                              {/* info.paid += e?.amount - e?.balanceDue; */}
+                              info.unpaid += e.balanceDue;
+                              info.total += e.amount;
+
                               return (
                                  <React.Fragment key={e._id}>
                                     {isEditing && editedData?._id === e._id ? (
-                                       <tr style={{
-                                       width: "80%",
-                                       position: "absolute",
-                                    }}>
-
-                                       <EditableRow
-                                          display={display}
-                                          data={editedData}
-                                          onSave={handleSave}
-                                          onCancel={handleCancel}
-                                       />
+                                       <tr
+                                          style={{
+                                             width: "80%",
+                                             position: "absolute",
+                                          }}
+                                       >
+                                          <EditableRow
+                                             display={display}
+                                             data={editedData}
+                                             onSave={handleSave}
+                                             onCancel={handleCancel}
+                                          />
                                        </tr>
                                     ) : (
                                        <tr key={e._id}>

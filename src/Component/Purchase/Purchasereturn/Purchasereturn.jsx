@@ -109,7 +109,7 @@ const Purchasereturn = ({ func, date }) => {
                            <div className="table-items">Date</div>
                         </th>
                         <th className="table-h">
-                           <div className="table-items">Ref No.</div>
+                           <div className="table-items">Return No.</div>
                         </th>
                         <th className="table-h">
                            <div className="table-items">PartyName</div>
@@ -127,7 +127,7 @@ const Purchasereturn = ({ func, date }) => {
                            <div className="table-items">Received</div>
                         </th>
                         <th className="table-h">
-                           <div className="table-items">Balance</div>
+                           <div className="table-items">Balance Due</div>
                         </th>
                         <th className="table-h">
                            <div className="table-items">Print</div>
@@ -175,8 +175,8 @@ const Purchasereturn = ({ func, date }) => {
                                        </td>
                                        <td className="table-h">{e.type}</td>
                                        <td className="table-h">   ₹{e.amount || 0}</td>
-                                       <td className="table-h"> ₹{e.balanceDue || 0}</td>
-                                       <td className="table-h">₹{e.balance}</td>
+                                       <td className="table-h"> ₹{e.paymentType[0].amount || 0}</td>
+                                       <td className="table-h">₹{Number(e.amount)- Number(e.paymentType[0].amount)|| 0}</td>
                                        <td className="table-h">
                                           <PrinterIcon
                                              onClick={() => window.print()}

@@ -30,7 +30,7 @@ const PurchaseTableModel = ({ tableHeader, data }) => {
         <td>{item.invoiceNumber ? item.invoiceNumber : "-"}</td>
         <td>{item?.partyName}</td>
         <td>{item.transactionType}</td>
-        <td>{item?.paymentType[0]?.types}</td>
+        <td>{item?.paymentType[0]?.types || item?.paymentType[0]}</td>
         <td>{item.amount}</td>
         {/* <td>{item.recived}</td> */}
         <td>{item.balanceDue}</td>

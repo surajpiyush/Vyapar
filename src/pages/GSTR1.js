@@ -2,7 +2,7 @@ import GSTRsale from "../components/GSTRsale";
 import GSTRHearder from "../components/GSTRHearder";
 import { getSaleReport } from "../Redux/report/action";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const GSTR1 = () => {
@@ -12,15 +12,32 @@ const GSTR1 = () => {
    const data = store.saleReportData;
     console.log(data);
 
-   const date = {
-      startDate: "2023-01-20",
-      endDate: "2025-02-24",
-   };
-
+   const [startDate, setStartDate] = useState("2024-02-01");
+   const [endDate, setEndDate] = useState(
+      new Date().toISOString().split("T")[0]
+   );
+   const prevDateRef = useRef();
    const dispatch = useDispatch();
+
    useEffect(() => {
+      if (
+         prevDateRef.current &&
+         prevDateRef.current.startDate === startDate &&
+         prevDateRef.current.endDate === endDate
+      ) {
+         return;
+      }
+      const date = {
+         startDate: startDate,
+         endDate: endDate,
+      };
+
       dispatch(getSaleReport({ date }));
-   }, []);
+      prevDateRef.current = { startDate, endDate };
+   }, [startDate, endDate, dispatch]);
+
+
+ 
 
    const check = () => {
       setIsChecked(!isChecked);
@@ -113,6 +130,10 @@ console.log("data for GSTR1-",data)
             isChecked={isChecked}
             check={check}
             data={!sale ? data?.getSale : data?.getSaleReturn}
+            startDate={startDate}
+            endDate={endDate}
+            setEndDate={setEndDate}
+            setStartDate={setStartDate}
          />
          <div>
             <div className="gstr-split-container">

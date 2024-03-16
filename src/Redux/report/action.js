@@ -10,252 +10,115 @@ import {
 
 const API_URL = "https://asaanly.in";
 
-let totalTax = 0;
-let integratedTax = 0;
-let cessTax = 0;
-let RtotalTax = 0;
-let RintegratedTax = 0;
-let RcessTax = 0;
-
-const RtaxTotal = (data) => {
-   if (data) {
-      RtotalTax = data.reduce((acc, e) => acc + e.taxableValue, 0);
-   }
-};
-const RintegratedTaxCal = (data) => {
-   if (data) {
-      RintegratedTax = data.reduce(
-         (acc, e) => acc + Number(e.integreatedTax),
-         0
-      );
-   }
-   // console.log(RintegratedTax);
-};
-
-const RcessTaxCal = (data) => {
-   if (data) {
-      RcessTax = data.reduce((acc, e) => acc + Number(e.cess), 0);
-   }
-   // console.log(RcessTax);
-};
-
-const taxTotal = (data) => {
-   // const data = res?.data?.data?.getSale;
-
-   if (data) {
-      totalTax = data.reduce((acc, e) => acc + e.taxableValue, 0);
+const calculateTax = (data) => {
+   if (!Array.isArray(data) || data.length === 0) {
+      return { totalTax: 0, integratedTax: 0, cessTax: 0 };
    }
 
-   console.log("totalTax", totalTax);
-};
-const integratedTaxCal = (data) => {
-   if (data) {
-      integratedTax = data.reduce(
-         (acc, e) => acc + Number(e.integreatedTax),
-         0
-      );
-   }
-   console.log("integratedTax", integratedTax);
+   const totalTax = data.reduce((acc, item) => acc + (item.taxableValue || 0), 0);
+   const integratedTax = data.reduce((acc, item) => acc + (Number(item.integratedTax) || 0), 0);
+   const cessTax = data.reduce((acc, item) => acc + (Number(item.cess) || 0), 0);
+   
+   return { totalTax, integratedTax, cessTax };
 };
 
-const cessTaxCal = (data) => {
-   if (data) {
-      cessTax = data.reduce((acc, e) => acc + Number(e.cess), 0);
-   }
-   console.log("cessTax", cessTax);
-};
 
-// =========purchase ================
+export const getSaleReport = ({ date }) => (dispatch) => {
+   const token = localStorage.getItem("token");
+   const FirmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
 
-let purchasetotalTax = 0;
-let purchaseintegratedTax = 0;
-let purchasecessTax = 0;
-let purchaseRtotalTax = 0;
-let purchaseRintegratedTax = 0;
-let purchaseRcessTax = 0;
+   dispatch({ type: REPORT_REQUEST });
 
-const purchaseRtaxTotal = (data) => {
-   if (data) {
-      purchaseRtotalTax = data.reduce((acc, e) => acc + e.taxableValue, 0);
-   }
-};
-const purchaseRintegratedTaxCal = (data) => {
-   if (data) {
-      purchaseRintegratedTax = data.reduce(
-         (acc, e) => acc + Number(e.integreatedTax),
-         0
-      );
-   }
-   // console.log(RintegratedTax);
-};
+   axios
+      .get(`${API_URL}/${FirmId}/transctionReport/saleReport?startDate=${date.startDate}&endDate=${date.endDate}`, {
+         headers: {
+            Authorization: `Bearer ${token}`,
+         },
+      })
+      .then((res) => {
+         const { getSale, getSaleReturn } = res?.data?.data;
+         const { totalTax, integratedTax, cessTax } = calculateTax(getSale);
+         const { totalTax: RtotalTax, integratedTax: RintegratedTax, cessTax: RcessTax } = calculateTax(getSaleReturn);
 
-const purchaseRcessTaxCal = (data) => {
-   if (data) {
-      purchaseRcessTax = data.reduce((acc, e) => acc + Number(e.cess), 0);
-   }
-   // console.log(RcessTax);
-};
-
-const purchasetaxTotal = (data) => {
-   if (data) {
-      purchasetotalTax = data.reduce((acc, e) => acc + e.taxableValue, 0);
-   }
-   // console.log(totalTax);
-};
-const purchaseintegratedTaxCal = (data) => {
-   if (data) {
-      purchaseintegratedTax = data.reduce(
-         (acc, e) => acc + Number(e.integreatedTax),
-         0
-      );
-   }
-};
-
-const purchasecessTaxCal = (data) => {
-   if (data) {
-      purchasecessTax = data.reduce((acc, e) => acc + Number(e.cess), 0);
-   }
-};
-
-export const getSaleReport =
-   ({ date }) =>
-   (dispatch) => {
-    console.log("date in sale report:-",date)
-      const token = localStorage.getItem("token");
-      const FirmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
-
-      dispatch({ type: REPORT_REQUEST });
-
-      axios
-         .get(
-            `${API_URL}/${FirmId}/transctionReport/saleReport?startDate=${date.startDate}&endDate=${date.endDate}`,
-            {
-               headers: {
-                  Authorization: `Bearer ${token}`,
-               },
-            }
-         )
-         .then((res) => {
-            console.log("get sale report reponse:", res);
-
-            taxTotal(res?.data?.data?.getSale);
-            integratedTaxCal(res?.data?.data?.getSale);
-            cessTaxCal(res?.data?.data?.getSale);
-            RtaxTotal(res?.data?.data?.getSaleReturn);
-            RintegratedTaxCal(res?.data?.data?.getSaleReturn);
-            RcessTaxCal(res?.data?.data?.getSaleReturn);
-
-            dispatch({
-               type: GET_SALEREPORT_SUCCESS,
-               payload: res.data,
-               tax: totalTax,
-               integratedTax: integratedTax,
-               cess: cessTax,
-               Rtax: RtotalTax,
-               RintegratedTax: RintegratedTax,
-               Rcess: RcessTax,
-            });
-         })
-         .catch((ERR) => {
-            console.log("error sale report:", ERR);
-            // alert(`${ERR.response.data.msg}`);
-            dispatch({ type: REPORT_FAILURE });
+         dispatch({
+            type: GET_SALEREPORT_SUCCESS,
+            payload: res.data,
+            tax: totalTax,
+            integratedTax,
+            cess: cessTax,
+            Rtax: RtotalTax,
+            RintegratedTax,
+            Rcess: RcessTax,
          });
-   };
-
-export const getPurchaseReport =
-   ({ date }) =>
-   (dispatch) => {
-      const token = localStorage.getItem("token");
-      const FirmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
-
-      dispatch({ type: REPORT_REQUEST });
-      if (!token) {
+      })
+      .catch((ERR) => {
+         console.log("error sale report:", ERR);
          dispatch({ type: REPORT_FAILURE });
-         return;
-      }
+      });
+};
 
-      axios
-         .get(
-            `${API_URL}/${FirmId}/transctionReport/purchaseReport?startDate=${date.startDate}&endDate=${date.endDate}`,
-            {
-               headers: {
-                  Authorization: `Bearer ${token}`,
-               },
-            }
-         )
-         .then((res) => {
-            console.log(res);
+export const getPurchaseReport = ({ date }) => (dispatch) => {
+   const token = localStorage.getItem("token");
+   const FirmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
 
-            dispatch({ type: GET_PURCHASEREPORT_SUCCESS, payload: res.data });
-         })
-         .catch((ERR) => {
-            // console.log(ERR);
-            // alert(`${ERR.response.data.msg}`);
-            dispatch({ type: REPORT_FAILURE });
-         });
-   };
+   dispatch({ type: REPORT_REQUEST });
 
-export const getDayBookReport =
-   ({ date }) =>
-   (dispatch) => {
-      const token = localStorage.getItem("token");
-      const FirmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
-
-      dispatch({ type: REPORT_REQUEST });
-      if (!token) {
+   axios
+      .get(`${API_URL}/${FirmId}/transctionReport/purchaseReport?startDate=${date.startDate}&endDate=${date.endDate}`, {
+         headers: {
+            Authorization: `Bearer ${token}`,
+         },
+      })
+      .then((res) => {
+         dispatch({ type: GET_PURCHASEREPORT_SUCCESS, payload: res.data });
+      })
+      .catch((ERR) => {
+         console.log(ERR);
          dispatch({ type: REPORT_FAILURE });
-         return;
-      }
+      });
+};
 
-      axios
-         .get(
-            `${API_URL}/${FirmId}/transctionReport/purchaseReport?startDate=${date.startDate}&endDate=${date.endDate}`,
-            {
-               headers: {
-                  Authorization: `Bearer ${token}`,
-               },
-            }
-         )
-         .then((res) => {
-            // console.log(res);
-            dispatch({ type: GET_DAYBOOK_SUCCESS, payload: res.data });
-         })
-         .catch((ERR) => {
-            console.log("error getDayBookReport:", ERR);
-            // alert(`${ERR.response.data.msg}`);
-            dispatch({ type: REPORT_FAILURE });
-         });
-   };
+export const getDayBookReport = ({ date }) => (dispatch) => {
+   const token = localStorage.getItem("token");
+   const FirmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
 
-export const getAllTransections =
-   ({ date }) =>
-   (dispatch) => {
-      const token = localStorage.getItem("token");
-      const FirmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
+   dispatch({ type: REPORT_REQUEST });
 
-      dispatch({ type: REPORT_REQUEST });
-      if (!token) {
+   axios
+      .get(`${API_URL}/${FirmId}/transctionReport/dayBookReport?startDate=${date.startDate}&endDate=${date.endDate}`, {
+         headers: {
+            Authorization: `Bearer ${token}`,
+         },
+      })
+      .then((res) => {
+         dispatch({ type: GET_DAYBOOK_SUCCESS, payload: res.data });
+      })
+      .catch((ERR) => {
+         console.log("error getDayBookReport:", ERR);
          dispatch({ type: REPORT_FAILURE });
-         return;
-      }
+      });
+};
 
-      axios
-         .get(
-            `${API_URL}/${FirmId}/transctionReport/allTractionReport?startDate=${date.startDate}&endDate=${date.endDate}`,
-            {
-               headers: {
-                  Authorization: `Bearer ${token}`,
-               },
-            }
-         )
-         .then((res) => {
-            console.log("get all transaction:", res.data);
-            dispatch({ type: GET_ALLTRANSECTION_SUCCESS, payload: res.data });
-         })
-         .catch((ERR) => {
-            console.log("getAllTransections", ERR);
-            // alert(`${ERR.response.data.msg}`);
-            dispatch({ type: REPORT_FAILURE });
-         });
-   };
+export const getAllTransections = ({ date }) => (dispatch) => {
+   const token = localStorage.getItem("token");
+   const FirmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
+
+   dispatch({ type: REPORT_REQUEST });
+
+   axios
+      .get(
+         `${API_URL}/${FirmId}/transctionReport/allTractionReport?startDate=${date.startDate}&endDate=${date.endDate}`,
+         {
+            headers: {
+               Authorization: `Bearer ${token}`,
+            },
+         }
+      )
+      .then((res) => {
+         dispatch({ type: GET_ALLTRANSECTION_SUCCESS, payload: res.data });
+      })
+      .catch((ERR) => {
+         console.log("getAllTransections", ERR);
+         dispatch({ type: REPORT_FAILURE });
+      });
+};

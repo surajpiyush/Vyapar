@@ -63,6 +63,7 @@ const Pourchaseorder = ({ func }) => {
       setEditedData(null);
    };
    const display = [
+      "#",
       "partyName",
       "orderNumber",
       "date",
@@ -70,6 +71,7 @@ const Pourchaseorder = ({ func }) => {
       "total",
       "balance",
       "type",
+      "status"
    ];
    return (
       <>
@@ -168,7 +170,14 @@ const Pourchaseorder = ({ func }) => {
                                           {e.partyName}
                                        </td>
                                        <td className="table-h">
-                                          {e.categoryName || "-"}
+                                       {new Date(e.dueDate).toLocaleDateString(
+                                             "en-IN",
+                                             {
+                                                day: "2-digit",
+                                                month: "2-digit",
+                                                year: "numeric",
+                                             }
+                                          )}
                                        </td>
                                        <td className="table-h">{e.type}</td>
                                        <td className="table-h">

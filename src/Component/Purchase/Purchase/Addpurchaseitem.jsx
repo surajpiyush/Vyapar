@@ -226,6 +226,7 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
    useEffect(() => {
       // console.log(currentCustomerData);
       let obj = {
+         customerName: currentCustomerData?._id || "",
          gstNo: currentCustomerData?.gstNo || "",
          phoneNumber: Number(currentCustomerData?.phoneNumber) || "",
          balance: currentCustomerData?.openingBalance || "",
@@ -269,7 +270,6 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
 
    // Found items list click handler
    const handleMenuItemClick = (index, itemDetail) => {
-      // console.log(itemDetail);
       let currSaleItem = {
          ...invoiceItems[index],
          itemName: itemDetail?._id,
@@ -281,6 +281,7 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
          hsnCode: itemDetail?.itemHsn || "",
          itemCode: itemDetail?.itemCode || "",
       };
+      console.log(invoiceItems);
       let newSaleData = invoiceItems.map((ite, ind) =>
          ind == index ? currSaleItem : ite
       );

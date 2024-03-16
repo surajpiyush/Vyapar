@@ -11,6 +11,7 @@ const Thismonth = ({
   setEndDate,
   setStartDate,
 }) => {
+  // console.log(info)
   return (
     <div className="this-month-container">
       <section className="this-month-top">
@@ -51,17 +52,17 @@ const Thismonth = ({
         <section className="this-month-card-section">
           <aside className="this-month-paid-card">
             <p>Paid</p>
-            <p className="this-month-rupee">₹ 0.00</p>
+            <p className="this-month-rupee">₹ 0</p>
           </aside>
           <PlusIcon />
           <aside className="this-month-paid-card this-month-paid-card-unpaid">
             <p>Unpaid</p>
-            <p className="this-month-rupee">₹ 0.00</p>
+            <p className="this-month-rupee">₹ 0</p>
           </aside>
           <EqualIcon />
           <aside className="this-month-paid-card this-month-paid-card-total">
             <p>Total</p>
-            <p className="this-month-rupee">₹ 0.00</p>
+            <p className="this-month-rupee">₹ 0</p>
           </aside>
         </section>
       )}
