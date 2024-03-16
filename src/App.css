@@ -44,6 +44,12 @@
   font-family: var(--Rob);
 }
 
+@media print {
+  @page {
+    size: 210mm 297mm;
+  }
+}
+
 /* Scroll Css */
 /* Track */
 ::-webkit-scrollbar-track {

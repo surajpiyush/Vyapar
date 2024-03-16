@@ -1,12 +1,14 @@
-import { FormatDate } from "../../../Redux/sales/action";
+import { FormatDate, GetSingleInvoiceData } from "../../../Redux/sales/action";
 import {
   DeleteIcon,
   EditIcon,
   PrintIcon2,
 } from "../../../Component/utils/reactIcons";
 
+import { useToast } from "@chakra-ui/react";
+import { useDispatch } from "react-redux";
+
 const TableInvoice = ({
-  item,
   _id,
   invoiceDate,
   invoiceNumber,
@@ -19,9 +21,9 @@ const TableInvoice = ({
   dueDate = new Date().toISOString().split("T")[0],
   handleDelete,
   handleEdit,
-  handlePrint,
-  setCurrPrintItem,
 }) => {
+  const toast = useToast();
+  const dispatch = useDispatch();
   return (
     <tr>
       <td>
@@ -64,8 +66,7 @@ const TableInvoice = ({
           <EditIcon onClick={() => handleEdit(_id)} />
           <PrintIcon2
             onClick={() => {
-              setCurrPrintItem(item);
-              handlePrint();
+              GetSingleInvoiceData(dispatch, _id, toast);
             }}
           />
         </div>
