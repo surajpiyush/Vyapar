@@ -11,6 +11,7 @@ import {
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import EditFirm from "./Page/Firm/EditFirm.jsx";
 
 export const ignoreRoutes = ["/auth", "/companies", "/addCompany"];
 
@@ -18,6 +19,7 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
   const firmUpdate = useSelector((state) => state.BusinessReducer.toggleUpdate);
+  const [showEditFirm, setShowEditFirm] = useState(false);
 
   // Regular printer data
   const regularPrinterData = {
@@ -129,10 +131,12 @@ function App() {
   return (
     <div id="App">
       {!ignoreRoutes.includes(location.pathname) && <Navbar />}
+      {showEditFirm && <EditFirm setShowEditFirm={setShowEditFirm} />}
+
       {!ignoreRoutes.includes(location.pathname) && (
         <div className="app-page-div">
           <section className="app-sidebar">
-            <Sidebar />
+            <Sidebar setShowEditFirm={setShowEditFirm} />
           </section>
           <section className="app-Home">
             <div className="header-div-fixed">

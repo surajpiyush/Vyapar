@@ -17,7 +17,6 @@ import reportWebVitals from "./reportWebVitals";
 import Parties from "./Page/Parties/Parties.jsx";
 import PageNotFound from "./pages/PageNotFound.jsx";
 import AddPurchase from "./Page/AddPurchasepage.jsx";
-import ProfilePage from "./Page/Firm/ProfilePage.jsx";
 import Paymentout from "./Page/Purchase/Paymentout.jsx";
 import AllTransaction from "./pages/AllTransactions.js";
 import CompaniesPage from "./Page/Firm/CompaniesPage.jsx";
@@ -51,10 +50,6 @@ const router = createBrowserRouter([
         element: <Homepage />,
       },
       // Firm / Company Routes
-      {
-        path: "/profile",
-        element: <ProfilePage />,
-      },
       {
         path: "/companies",
         element: <CompaniesPage />,

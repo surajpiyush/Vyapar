@@ -1,19 +1,50 @@
+.Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2500;
+  background: var(--overlayBg2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .OuterEditProfile {
   font-family: var(--Rob);
   background-color: var(--greyishBlue);
-  width: 97%;
-  margin-top: 100px;
-  padding: 20px 20px;
   border-radius: 8px;
-  padding-bottom: 100px;
+  padding: 20px 20px 0px;
+  width: 620px;
+  max-height: 85%;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
 }
 .topNavDiv {
+  flex: 1;
   font-family: var(--Rob);
   color: var(--deepForest);
-  font-size: 20px;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  cursor: default;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  h2 {
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    cursor: default;
+  }
+
+  svg {
+    font-size: 24px;
+    cursor: pointer;
+  }
+}
+.actualFormContDiv {
+  overflow: auto;
+  flex-grow: 1;
+  height: 100%;
 }
 
 /* Top Section Inputs */
@@ -21,19 +52,19 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 20px auto 0px;
+  margin: 12px auto 0px;
+  gap: 10px;
 }
 .leftSideTopDivOuter {
-  width: 48%;
   text-align: center;
+  width: 48%;
 }
 .FirmLogoOuterDiv {
-  /* border: 1px solid red; */
   padding: 0;
-  width: 450px;
+  width: 140px;
   text-align: center;
   margin: 0px auto 20px;
-  border-radius: 8px;
+  border-radius: 5px;
   overflow: hidden;
 
   img {
@@ -50,7 +81,6 @@
   border: 1px dashed var(--greyA);
   text-align: center;
   border-radius: 8px;
-  width: 280px;
   overflow: hidden;
   padding: 20px 15px 15px;
   height: fit-content;
@@ -70,7 +100,7 @@
   display: block;
 }
 .rightSideTopDivOuter {
-  flex: 2;
+  flex-grow: 2;
   padding: 5px;
 }
 .rightSideTopDivOuter div {
@@ -96,15 +126,7 @@
   color: blue;
 }
 
-/* ***************** */
-
-.upperFormPart {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  gap: 40px;
-}
-
+/* Bottom Form Css */
 .BottomOuterSection h4 {
   border-radius: 10px;
   padding: 10px 10px;
@@ -113,14 +135,10 @@
   color: blue;
   font-weight: 400;
 }
-
-/* ################## */
-
 .bottomLeftSideDiv div,
 .bottomRightSideDiv div {
   padding: 5px;
 }
-
 .bottomLeftSideDiv div label,
 .bottomRightSideDiv div label {
   display: block;
@@ -128,7 +146,6 @@
   color: rgb(44, 43, 43);
   padding: 3px 0;
 }
-
 .bottomLeftSideDiv div input,
 .bottomRightSideDiv div input,
 .bottomLeftSideDiv div textarea {
@@ -137,31 +154,26 @@
   border-radius: 5px;
   border: 1px solid gray;
 }
-
 .bottomLeftSideDiv div input:focus,
 .bottomRightSideDiv div input:focus,
 .bottomLeftSideDiv div textarea:focus {
   outline: none;
 }
-
 .bottomHeadBorder {
   width: 100%;
   height: 0.5px;
   background-color: blue;
 }
-
 .bottomInputContsDivOuter {
   padding: 10px 10px;
   display: flex;
   justify-content: space-between;
   gap: 20px;
 }
-
 .bottomLeftSideDiv,
 .bottomRightSideDiv {
   width: 100%;
 }
-
 .bottomLeftSideDiv div select,
 .bottomRightSideDiv div select {
   width: 100%;
@@ -169,7 +181,6 @@
   border-radius: 5px;
   border: 1px solid gray;
 }
-
 .bottomLeftSideDiv div select option,
 .bottomRightSideDiv div select option {
   width: 100%;
@@ -177,43 +188,70 @@
   border-radius: 5px;
   border: 1px solid gray;
 }
-
 .bottomLeftSideDiv div select:focus,
 .bottomRightSideDiv div select:focus {
   outline: none;
 }
 
-.addSignature {
-  display: grid;
-  justify-content: center;
-  align-items: center;
-}
-.addSignature p {
-  padding: 40px 40px;
-  background-color: gainsboro;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 500;
-  color: gray;
+/* Signature */
+.signatureContOuterDiv {
   text-align: center;
-  margin-top: 20px;
+  width: 100%;
+  margin: 20px auto;
+}
+.signDiv {
+  width: 50%;
+  text-align: center;
+  margin: 0px auto 20px;
+  border-radius: 5px;
+  overflow: hidden;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
+.signUploadDiv {
+  cursor: pointer;
+  margin: auto;
+  border: 1px dashed var(--greyA);
+  text-align: center;
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 20px 15px 15px;
+  height: fit-content;
+  transition: all 0.15s ease;
+}
+.signUploadDiv h2 {
+  color: var(--greyA);
+  font-size: 16px;
+  margin-top: -6px;
+}
+.signUploadDiv input {
+  cursor: pointer;
+  display: none;
+  margin: 10px auto 0px;
+}
+.signUploadDiv:hover input {
+  display: block;
 }
 
+/* Footer Css */
 .footerDivOuter {
+  flex: 2;
   display: flex;
-  width: 79%;
+  width: 100%;
   justify-content: flex-end;
   background-color: var(--greyishBlue);
-  position: fixed;
-  bottom: 0;
-  padding: 15px 30px;
+  padding: 12px 10px 15px;
   border-top: 0.5px solid var(--greyC);
 }
-
 .footerDivOuter button {
   background-color: var(--ElectricBlue);
-  padding: 10px 40px;
-  font-size: 18px;
+  font-family: var(--Pop);
+  padding: 5px 22px;
+  font-size: 16px;
   border: none;
   color: white;
   border-radius: 6px;
@@ -223,21 +261,6 @@
 }
 .footerDivOuter button:hover {
   background-color: var(--blueA);
-}
-
-/*  */
-
-.FirmSignatureOuterDiv {
-  padding: 0;
-  width: 320px;
-  border-radius: 6px;
-  overflow: hidden;
-
-  img {
-    display: block;
-    width: 100%;
-    height: 100%;
-  }
 }
 
 /* Input Css */

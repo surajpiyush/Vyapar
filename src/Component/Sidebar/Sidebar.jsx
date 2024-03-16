@@ -8,8 +8,9 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
+import EditFirm from "../../Page/Firm/EditFirm";
 
-const Sidebar = () => {
+const Sidebar = ({ setShowEditFirm }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const toggleUpdate = useSelector(
@@ -62,13 +63,12 @@ const Sidebar = () => {
       <section
         className="sidebar-top-section"
         onClick={() => {
-          navigate("/profile");
+          // navigate("/profile");
           setToggleNavItems(false);
         }}
       >
         <div>
           <div className="sidebar-top-logo-div">
-            {/* <img src={Logo} alt="logo" className="sidebar-top-img" /> */}
             <img
               src={profileData?.companyLogo ? profileData?.companyLogo : Logo}
               alt="logo"
@@ -77,7 +77,13 @@ const Sidebar = () => {
           </div>
           <span className="sidebar-top-img-plus">+</span>
         </div>
-        <div className="firmNameContDiv">
+        <div
+          onClick={() => {
+            setShowEditFirm(true);
+            setToggleNavItems(false);
+          }}
+          className="firmNameContDiv"
+        >
           <h4>
             {profileData?.companyName ? profileData.companyName : "Loading..."}
           </h4>
