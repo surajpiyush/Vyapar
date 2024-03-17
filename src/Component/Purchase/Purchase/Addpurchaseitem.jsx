@@ -145,6 +145,73 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
       balanceAmount: 0,
    });
 
+   const body = {
+      "partyName": "65f023a8803d9fd0765040f8",
+      "phoneNumber": 1234567890,
+      "poNo": "PO123",
+      "poDate": "2024-02-16T00:00:00.000Z",
+      "eWayBill": "EWB123",
+      "billNumber": "BILL123",
+      "billDate": "2024-02-16T00:00:00.000Z",
+      "time": "10:00 AM",
+      "paymentTerms": "Net 30",
+      "dueDate": "2024-03-17T00:00:00.000Z",
+      "stateOfSupply": "Some State",
+      "priceUnitWithTax": true,
+      "sale": [
+        {
+        //   "category": "",
+          "itemName": "65f5d9497069e8c86b165208",
+          "itemCode": "001",
+          "hsnCode": "HSN001",
+          "serialNo": "SN001",
+          "description": "Description of item 1",
+          "batchNo": 1,
+          "modelNo": 123,
+          "expDate": "2025-02-16T00:00:00.000Z",
+          "mfgDate": "2023-02-16T00:00:00.000Z",
+          "customField": "Custom field 1",
+          "size": "Large",
+           "qty": 10,
+          "unit": "pcs",
+          "priceUnit": 100,
+          "discountpersant": 5,
+          "discountAmount": 5,
+          "taxPersant": "12%",
+          "taxAmount": 12,
+          "amount": 950
+        }
+      ],
+      "paymentType": [
+        {
+          "cash": 800,
+          "cheque": {
+            "refreanceNo": "REF123",
+            "checkAmount": 150
+          },
+          "bankDetail": {
+            "accountName": "ABC Bank",
+            "openingBalance": 5000,
+            "asOfDate": "2024-02-16T00:00:00.000Z"
+          },
+          "default": "cash"
+        }
+      ],
+      "addDescription": "Additional description here",
+      "discount": {
+        "discountPersent": 2,
+        "discountAmount": 2
+      },
+      "tax": {
+        "tax": "GST",
+        "taxamount": 10
+      },
+      "roundOff": 0,
+      "total": 950,
+      "paid": 950,
+      "balance": 0
+    }
+// console.log(body)
    // Update total footer values
    useEffect(() => {
       let footerObj = {
@@ -202,7 +269,8 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
          ...invoiceData,
          paymentType: paymentArr,
          balanceAmount: Number(balanceAmount),
-         sale: [...invoiceData.sale, saleData],
+         // invoiceData.sale.push(saleData),
+         sale: saleData,
       };
       console.log("Purchase Data", purchaseBillData);
       dispatch(addPurchaseBill(purchaseBillData, () => {

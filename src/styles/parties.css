@@ -1,386 +1,407 @@
 /* Parties Css - Name*/
-.emptyData {
-  width: 100%;
-  min-height: 75vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: default;
-}
-.emptyDataImgDiv {
-  margin: auto;
-  width: 250px;
-  height: 250px;
+/* .emptyData {
+   width: 100%;
+   min-height: 75vh;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   cursor: default;
+} */
+/* .emptyDataImgDiv {
+   margin: auto;
+   width: 250px;
+   height: 250px;
 
-  img {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
-}
-.emptyData p {
-  color: var(--greyA);
-  font-size: 16px;
-  word-spacing: 0.5px;
+   img {
+      width: 100%;
+      height: 100%;
+      display: block;
+   }
+} */
+/* .emptyData p {
+   color: var(--greyA);
+   font-size: 16px;
+   word-spacing: 0.5px;
 }
 .emptyData button {
-  display: block;
-  cursor: pointer;
-  margin: 30px auto;
-  width: fit-content;
-  border: none;
-  font-size: 18px;
-  color: white;
-  background: var(--yellowA);
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  border-radius: 5px;
-  padding: 10px 20px;
-}
+   display: block;
+   cursor: pointer;
+   margin: 30px auto;
+   width: fit-content;
+   border: none;
+   font-size: 18px;
+   color: white;
+   background: var(--yellowA);
+   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+   border-radius: 5px;
+   padding: 10px 20px;
+} */
 /* Party Form */
 .partyFormOuterParent {
-  width: 100%;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1500;
-  background: var(--overlayBg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+   width: 100%;
+   height: 100vh;
+   position: fixed;
+   top: 0;
+   left: 0;
+   z-index: 1500;
+   background: var(--overlayBg);
+   display: flex;
+   align-items: center;
+   justify-content: center;
 }
 .partyFormOuter {
-  width: 60%;
+   width: 70%;
 }
 
 /*  */
 #AsOFDateCss {
-  display: flex;
-  flex-direction: column;
-  p {
-    margin-left: 25px;
-    font-size: 14px;
-    display: block;
-    width: fit-content;
-    background-color: white;
-    z-index: 100;
-    padding: 0px 8px;
-  }
-  input {
-    margin-top: -8px;
-    z-index: 50;
-    background-color: transparent;
-  }
+   display: flex;
+   flex-direction: column;
+   p {
+      margin-left: 25px;
+      font-size: 14px;
+      display: block;
+      width: fit-content;
+      background-color: white;
+      z-index: 100;
+      padding: 0px 8px;
+   }
+   input {
+      margin-top: -8px;
+      z-index: 50;
+      background-color: transparent;
+   }
 }
 
 /*  */
 .d-cen {
-  display: flex;
-  justify-content: flex-center;
-  align-items: flex-center;
+   display: flex;
+   justify-content: flex-center;
+   align-items: flex-center;
 }
 
 .d-flex {
-  display: flex;
+   display: flex;
 }
 
 .d-between {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   flex-wrap: wrap;
 }
 
 .d-around {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-wrap: wrap;
+   display: flex;
+   justify-content: space-around;
+   align-items: center;
+   flex-wrap: wrap;
 }
 
 .nav {
-  background-color: whitesmoke;
-  color: #069ffe;
-  display: flex;
-  align-items: flex-center;
-  justify-content: space-between;
-  height: 60px;
-  box-shadow: 2px 4px 7px grey;
+   background-color: whitesmoke;
+   color: #069ffe;
+   display: flex;
+   align-items: flex-center;
+   justify-content: space-between;
+   height: 60px;
+   box-shadow: 2px 4px 7px grey;
 }
 .nav-opt {
-  height: 100%;
-  text-align: center;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  border-bottom: 4px solid #098df9;
-  /* border-bottom: 4px solid #098df9; */
-  cursor: pointer;
+   height: 100%;
+   text-align: center;
+   width: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-size: 18px;
+   border-bottom: 4px solid #098df9;
+   /* border-bottom: 4px solid #098df9; */
+   cursor: pointer;
 }
 
 .b-cont {
-  height: calc(100vh - 60px);
-  flex-direction: column;
-  /* border: 1px solid red; */
-  position: "relative";
+   height: calc(100vh - 60px);
+   flex-direction: column;
+   /* border: 1px solid red; */
+   position: "relative";
 }
 
 .party-button {
-  padding: 12px 40px;
-  border-radius: 5px;
-  background-color: #ff8a00;
-  color: white;
-  cursor: pointer;
-  border-width: 0px;
-  margin-top: 10px;
+   padding: 12px 40px;
+   border-radius: 5px;
+   background-color: #ff8a00;
+   color: white;
+   cursor: pointer;
+   border-width: 0px;
+   margin-top: 10px;
 }
 
 .party-img {
-  height: 150px;
-  width: 150px;
+   height: 150px;
+   width: 150px;
 }
 
 .party-form {
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 3px 6px 10px grey;
-  padding: 22px;
-  box-sizing: border-box;
+   background-color: white;
+   border-radius: 10px;
+   box-shadow: 3px 6px 10px grey;
+   padding: 22px;
+   box-sizing: border-box;
 }
 
 .icon-cont {
-  height: 60px;
-  display: flex;
-  align-items: center;
+   height: 60px;
+   display: flex;
+   align-items: center;
 }
 
 .icon-cont i {
-  margin: 0px 10px;
-  font-size: 20px;
-  color: rgb(93, 92, 92);
-  cursor: pointer;
+   margin: 0px 10px;
+   font-size: 20px;
+   color: rgb(93, 92, 92);
+   cursor: pointer;
 }
 
 .inp-field {
-  width: 200px;
-  padding: 10px;
-  border-radius: 5px;
-  outline: none;
-  border: 2px solid #098df9;
-  margin: 12px 0px;
+   width: 200px;
+   padding: 10px;
+   border-radius: 5px;
+   outline: none;
+   border: 2px solid #098df9;
+   margin: 12px 0px;
 }
 
 textarea {
-  resize: none;
+   resize: none;
 }
 
 input[type="checkbox"] {
-  height: 10px;
-  width: 10px;
+   height: 10px;
+   width: 10px;
 }
 
 .grp-cont1 {
-  height: calc(100vh - 80px);
-  background-color: white;
-  width: 30%;
-  box-shadow: 2px 5px 10px grey;
+   height: calc(100vh - 80px);
+   background-color: white;
+   width: 30%;
+   box-shadow: 2px 5px 10px grey;
 }
 
 .grp-cont2 {
-  height: calc(100vh - 100px);
-  width: 70%;
-  background-color: white;
-  padding: 10px;
+   height: calc(100vh - 100px);
+   width: 70%;
+   background-color: white;
+   padding: 10px;
 }
 
 .grp-cont2a {
-  /* height: 100px; */
-  text-align: start;
-  padding: 10px 30px;
-  width: 100%;
-  background-color: white;
-  box-shadow: 2px 2px 10px grey;
-  box-sizing: border-box;
+   /* height: 100px; */
+   text-align: start;
+   padding: 10px 30px;
+   width: 100%;
+   background-color: white;
+   box-shadow: 2px 2px 10px grey;
+   box-sizing: border-box;
 }
 
 .grp-cont2a h5 {
-  margin: 5px 0px;
+   margin: 5px 0px;
 }
 
 .grp-cont2a p {
-  margin: 5px 0px;
-  font-size: 14px;
-  font-weight: 600;
-  color: rgb(108, 108, 108);
+   margin: 5px 0px;
+   font-size: 14px;
+   font-weight: 600;
+   color: rgb(108, 108, 108);
 }
 
 .grp-cont2b {
+   width: 100%;
+   height: 550px;
+   padding: 16px;
+   box-sizing: border-box;
+   /* box-shadow: 2px 5px 10px grey; */
+}
+
+.transaction-table {
   width: 100%;
-  height: 550px;
-  padding: 16px;
-  box-sizing: border-box;
-  box-shadow: 2px 5px 10px grey;
 }
 
-.grp-cont2b table th {
-  /* display: flex; */
-  /* justify-content: space-between; */
-  /* align-items: center; */
-  width: 180px;
-  color: grey;
-  font-weight: 400;
-  padding: 0px 10px;
+.transaction-table thead th {
+  text-align: left;
+  padding: 10px;
 }
 
-.grp-cont2b table tr {
-  margin-top: 20px;
-  border: 1px solid red;
+.transaction-table tbody td {
+  padding: 10px;
+  border-top: 1px solid #ddd;
 }
 
-.grp-cont2b table th i {
-  color: grey;
-  margin-left: 30px;
+.transaction-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
 }
 
-.grp-cont2b table td {
+.transaction-table tbody tr:hover {
+  background-color: #ddd;
+}
+
+.transaction-table tbody td i {
+  margin-left: 5px;
+}
+
+.transaction-table .spinner-cell {
   text-align: center;
 }
 
+.transaction-table .no-data-cell {
+  text-align: center;
+}
+
+/* Adjustments for filter icons */
+.transaction-table thead th i {
+  margin-left: 5px;
+  font-size: 12px;
+}
+
+.transaction-table tbody td i {
+  font-size: 12px;
+}
+  
+
 .imp-content {
-  text-align: start;
-  width: 250px;
-  cursor: pointer;
+   text-align: start;
+   width: 250px;
+   cursor: pointer;
 }
 
 .imp-content h4 {
-  margin: 0px;
+   margin: 0px;
 }
 
 .imp-content p {
-  margin: 0px;
-  margin-top: 6px;
+   margin: 0px;
+   margin-top: 6px;
 }
 
 .imp-icon-cont {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 60px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 60px;
 }
 
 .imp-icon-cont i {
-  font-size: 25px;
+   font-size: 25px;
 }
 
 .add-party-btn {
-  background-color: #ff8a00;
-  padding: 5px 20px;
-  border-width: 0px;
-  color: white;
-  cursor: pointer;
+   background-color: #ff8a00;
+   padding: 5px 20px;
+   border-width: 0px;
+   color: white;
+   cursor: pointer;
 }
 
 .search-party {
-  padding: 4px;
-  width: 120px;
+   padding: 4px;
+   width: 120px;
 }
 
 .imp-party-form {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  width: 400px;
-  padding: 10px 20px;
-  height: 300px;
-  cursor: pointer;
-  box-shadow: 2px 4px 10px grey;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   background-color: white;
+   width: 400px;
+   padding: 10px 20px;
+   height: 300px;
+   cursor: pointer;
+   box-shadow: 2px 4px 10px grey;
 }
 
 .imp-party-form i {
-  font-size: 20px;
+   font-size: 20px;
 }
 
 .imp-party-btn {
-  height: 40px;
-  width: 300px;
-  border-radius: 10px;
-  background-color: grey;
-  color: white;
-  margin: 20px;
-  border-width: 0px;
-  cursor: pointer;
+   height: 40px;
+   width: 300px;
+   border-radius: 10px;
+   background-color: grey;
+   color: white;
+   margin: 20px;
+   border-width: 0px;
+   cursor: pointer;
 }
 
 /* Parties Table Css */
 .partiestable-outer {
-  width: 100%;
+   width: 100%;
 }
 .partiestable-outer thead th:nth-of-type(2) {
-  width: 50%;
-  font-size: 13px;
-  text-align: right;
+   width: 50%;
+   font-size: 13px;
+   text-align: right;
 }
 .partiestable-outer thead th {
-  cursor: pointer;
-  color: grey;
-  padding: 10px 10px;
-  transition: all 0.3s ease;
+   cursor: pointer;
+   color: grey;
+   padding: 10px 10px;
+   transition: all 0.3s ease;
 }
 .partiestable-outer > tbody > tr:hover,
 .partiestable-outer thead th:hover {
-  background: rgb(235, 234, 234);
+   background: rgb(235, 234, 234);
 }
 #partyhead {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 13px;
+   width: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   font-size: 13px;
 }
 #partyhead > span {
-  display: flex;
-  align-items: center;
+   display: flex;
+   align-items: center;
 
-  > svg {
-    color: black;
-    font-size: 22px;
-  }
+   > svg {
+      color: black;
+      font-size: 22px;
+   }
 }
 #partyhead > svg {
-  color: red;
+   color: red;
 }
 .partiestable-outer > tbody > tr {
-  cursor: pointer;
-  width: 100%;
-  background: rgb(238, 238, 255);
+   cursor: pointer;
+   width: 100%;
+   background: rgb(238, 238, 255);
 }
 .partiestable-outer > tbody > tr > td:nth-of-type(1) {
-  color: black;
-  font-size: 14px;
-  overflow: hidden;
-  white-space: nowrap;
-  padding: 15px 12px;
+   color: black;
+   font-size: 14px;
+   overflow: hidden;
+   white-space: nowrap;
+   padding: 15px 12px;
 }
 .partiestable-outer > tbody > tr > td:nth-of-type(2) > span {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 18px;
-  font-size: 13px;
-  font-weight: 600;
-  padding: 0px 10px;
-  color: green;
+   width: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: flex-end;
+   gap: 18px;
+   font-size: 13px;
+   font-weight: 600;
+   padding: 0px 10px;
+   color: green;
 
-  > svg {
-    color: black;
-    font-size: 16px;
-  }
+   > svg {
+      color: black;
+      font-size: 16px;
+   }
 }
 .partiestable-outer > tbody > tr:hover {
-  transition: all 0.2s ease;
+   transition: all 0.2s ease;
 }

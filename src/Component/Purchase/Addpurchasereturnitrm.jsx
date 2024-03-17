@@ -184,7 +184,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
          ...invoiceData,
          paymentType: paymentArr,
          priceUnitWithTax: invoiceData?.priceUnitWithTax == "true",
-         purchaseOrder: [...invoiceData.purchaseOrder, saleData],
+         purchaseOrder:  saleData,
       };
       console.log("data", purchaseReturnData);
       dispatch(addPurchaseReturn(purchaseReturnData));

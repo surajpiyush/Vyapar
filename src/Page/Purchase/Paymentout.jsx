@@ -79,7 +79,7 @@ const Paymentout = () => {
                            <CloseIcon onClick={() => setOpenForm(false)} />
                         </div>
                      </div>
-                     <AddPaymentouts setOpenForm={setOpenForm} />
+                     <AddPaymentouts setOpenForm={setOpenForm} date ={date} />
                   </div>
                ) : (
                   <div>

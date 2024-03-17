@@ -1,7 +1,7 @@
 import css from "../../../styles/SalesStyles/SalesForms.module.css";
 import React, { useEffect, useState } from "react";
 import "./Paymentouts.css";
-import { addPayOut } from "../../../Redux/purchase/action";
+import { addPayOut, getPaymentOutBill } from "../../../Redux/purchase/action";
 import { useDispatch, useSelector } from "react-redux";
 import { IoIosArrowDown as ArrowDown } from "react-icons/io";
 import { FiPlusCircle as PlusIcon } from "react-icons/fi";
@@ -19,7 +19,7 @@ import {
 
 import ItemsForm from "../../../components/addForm/ItemsForm";
 import { FetchAllParties } from "../../../Redux/parties/actions";
-const AddPaymentouts = ({ setOpenForm }) => {
+const AddPaymentouts = ({ setOpenForm,date }) => {
    const toast = useToast();
    const dispatch = useDispatch();
    const isLoading = useSelector((state) => state.PurchaseReducer.isLoading);
@@ -83,6 +83,8 @@ const AddPaymentouts = ({ setOpenForm }) => {
       // console.log("data", data2);
       dispatch(addPayOut(data2));
       setOpenForm(false);
+      dispatch(getPaymentOutBill({ date }));
+   
    };
 
    // for fetching all parties list on form mount
