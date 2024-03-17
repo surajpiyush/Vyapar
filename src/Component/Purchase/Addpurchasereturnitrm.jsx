@@ -57,7 +57,9 @@ const Addpurchaseitem = ({ setOpenForm }) => {
    const [showItemForm, setShowItemForm] = useState(false);
    const [receiveAmount, setReceiveAmount] = useState(0);
    const [balanceAmount, setBalanceAmount] = useState(0);
-   const [paymentArr, setPaymentArr] = useState([{ types: "Cash", amount: receiveAmount }]);
+   const [paymentArr, setPaymentArr] = useState([
+      { types: "Cash", amount: receiveAmount },
+   ]);
 
    const [invoiceItems, setInvoiceItems] = useState([
       {
@@ -100,7 +102,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
          Math.random() * 900
       )}`,
 
-      billDate: new Date() ,
+      billDate: new Date(),
       time: new Date().toLocaleTimeString("en-US", {
          hour: "2-digit",
          minute: "2-digit",
@@ -122,7 +124,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
       },
       roundOff: 0,
       total: invoiceItems.amount,
-     
+
       balance: 0,
    });
 
@@ -188,7 +190,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
       dispatch(addPurchaseReturn(purchaseReturnData));
       setOpenForm(false);
    };
-   
+
    // for fetching all parties list on form mount
    useEffect(() => {
       FetchAllParties(dispatch);

@@ -71,7 +71,7 @@ const Pourchaseorder = ({ func }) => {
       "total",
       "balance",
       "type",
-      "status"
+      "status",
    ];
    return (
       <>
@@ -98,7 +98,6 @@ const Pourchaseorder = ({ func }) => {
                   </button>
                </div>
 
-             
                <table className="table">
                   <thead className="table-head">
                      <tr className="table-row">
@@ -170,14 +169,13 @@ const Pourchaseorder = ({ func }) => {
                                           {e.partyName}
                                        </td>
                                        <td className="table-h">
-                                       {new Date(e.dueDate).toLocaleDateString(
-                                             "en-IN",
-                                             {
-                                                day: "2-digit",
-                                                month: "2-digit",
-                                                year: "numeric",
-                                             }
-                                          )}
+                                          {new Date(
+                                             e.dueDate
+                                          ).toLocaleDateString("en-IN", {
+                                             day: "2-digit",
+                                             month: "2-digit",
+                                             year: "numeric",
+                                          })}
                                        </td>
                                        <td className="table-h">{e.type}</td>
                                        <td className="table-h">

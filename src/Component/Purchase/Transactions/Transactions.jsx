@@ -31,34 +31,38 @@ const Transactions = ({ func, date, info }) => {
    const showAllPurchaseBills = useSelector(
       (store) => store.PurchaseReducer.purchaseBillData
    );
-   // console.log(showAllPurchaseBills);
+   console.log(showAllPurchaseBills);
 
    //console.log(date);
    useEffect(() => {
       dispatch(getPurchaseBill({ date }));
    }, [date, dispatch, func]);
 
-   // delete
-   const handleDelete = (id) => {
-      dispatch(deletePurchaseBill(id));
-   };
-
    const handleEdit = (data) => {
       // console.log(data)
       setIsEditing(true);
       setEditedData(data);
    };
+   const handleDelete = (id) => {
+      // Dispatch action to delete the purchase invoice
+      dispatch(
+         deletePurchaseBill(id, () => {
+            // Success callback - Fetch updated data after deletion
+            dispatch(getPurchaseBill({ date }));
+         })
+      );
+   };
 
    const handleSave = (updatedData) => {
-      // Implement your logic to save the updated data to the backend
-      // You may use an API call or any other method here
-      console.log("updatedData-", updatedData);
-      const id = updatedData._id;
-      // After saving, reset the state
-      dispatch(updatePurchaseBill(updatedData._id, updatedData));
+      // Dispatch action to update the purchase invoice
+      dispatch(
+         updatePurchaseBill(updatedData._id, updatedData, () => {
+            // Success callback - Fetch updated data after saving
+            dispatch(getPurchaseBill({ date }));
+         })
+      );
       setIsEditing(false);
       setEditedData(null);
-      dispatch(getPurchaseBill({ date }));
    };
 
    const handleCancel = () => {
@@ -110,7 +114,9 @@ const Transactions = ({ func, date, info }) => {
                      <tbody>
                         {!isLoading && showAllPurchaseBills.length ? (
                            showAllPurchaseBills?.map((e) => {
-                              {/* info.paid += e?.amount - e?.balanceDue; */}
+                              {
+                                 /* info.paid += e?.amount - e?.balanceDue; */
+                              }
                               info.unpaid += e.balanceDue;
                               info.total += e.amount;
 

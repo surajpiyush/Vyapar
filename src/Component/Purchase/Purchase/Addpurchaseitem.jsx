@@ -187,7 +187,6 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
       invoiceItems[indexSaleItem]?.amount,
    ]);
 
-   // Submit Request Function
    const handleSubmit = (e) => {
       e.preventDefault();
       const saleData = invoiceItems?.map((item) => {
@@ -206,11 +205,13 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
          sale: [...invoiceData.sale, saleData],
       };
       console.log("Purchase Data", purchaseBillData);
-      dispatch(addPurchaseBill(purchaseBillData));
+      dispatch(addPurchaseBill(purchaseBillData, () => {
+         // Success callback - Dispatch action to fetch updated data
+         dispatch(getPurchaseBill({ date }));
+      }));
       setOpenForm(false);
-
-      // dispatch(getPurchaseBill({ date }));
    };
+   
    // for fetching all parties list on form mount
    useEffect(() => {
       FetchAllParties(dispatch);
@@ -399,7 +400,7 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
                   </div>
                   <div className={css.inputDiv}>
                      <input
-                        type="number"
+                        type="text"
                         value={invoiceData.gstNo}
                         name="gstNo"
                         onChange={(e) => handleInputChange(e)}
@@ -431,7 +432,7 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
                         PO No.
                      </label>
                      <input
-                        required
+                        // required
                         type="text"
                         name="poNo"
                         className={css.input}
@@ -451,7 +452,7 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
                         PO Date
                      </label>
                      <input
-                        required
+                        // required
                         type="Date"
                         name="poDate"
                         defaultValue={new Date().toISOString().split("T")[0]}
@@ -472,7 +473,7 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
                         E-Way Bill
                      </label>
                      <input
-                        required
+                        // required
                         type="text"
                         name="eWayBill"
                         onChange={(e) => handleInputChange(e)}

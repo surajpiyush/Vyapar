@@ -380,7 +380,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                   </div>
                   <div className={css.inputDiv}>
                      <input
-                        type="number"
+                        type="text"
                         value={invoiceData.gstNo}
                         name="gstNo"
                         onChange={(e) => handleInputChange(e)}

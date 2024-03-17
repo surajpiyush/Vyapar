@@ -253,7 +253,7 @@ const AddPaymentouts = ({ setOpenForm }) => {
                      <p>Paid</p>
                      <input
                         type="number"
-                        name="paid"   
+                        name="paid"
                         value={paid}
                         // onChange={(e) => handleChange(e)}
                         readOnly

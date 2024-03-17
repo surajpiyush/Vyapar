@@ -13,9 +13,7 @@ import {
    PrinterIcon,
    ShareIcon,
 } from "../../utils/reactIcons";
-
 import React, { useEffect, useState } from "react";
-
 import { ImSpinner3 as BasicSpinner } from "react-icons/im";
 import { useDispatch, useSelector } from "react-redux";
 import EditableRow from "../../EditForm";
@@ -39,12 +37,11 @@ const Purchasereturn = ({ func, date }) => {
       "recieve",
       "balance",
    ];
-   // console.log("REturn data:",data)
+
    useEffect(() => {
       dispatch(getPurchaseReturn({ date }));
    }, [dispatch, date, func]);
 
-   // delete
    const handleDelete = (id) => {
       dispatch(deletePurchaseReturnBill(id));
    };
@@ -55,11 +52,8 @@ const Purchasereturn = ({ func, date }) => {
    };
 
    const handleSave = (updatedData) => {
-      // Implement your logic to save the updated data to the backend
-      // You may use an API call or any other method here
       console.log("updatedData-", updatedData);
       const id = updatedData._id;
-      // After saving, reset the state
       dispatch(updatePurchaseReturnBill(updatedData._id, updatedData));
       setIsEditing(false);
       setEditedData(null);
@@ -67,7 +61,6 @@ const Purchasereturn = ({ func, date }) => {
    };
 
    const handleCancel = () => {
-      // If the user cancels, reset the state without saving
       setIsEditing(false);
       setEditedData(null);
    };
@@ -75,138 +68,104 @@ const Purchasereturn = ({ func, date }) => {
    const openForm = () => {
       func(true);
    };
-   console.log(data);
+
    return (
       <div className={`main-container ${isEditing ? "editing" : ""}`}>
          {!isLoading && !data.length ? (
             <FirstTimeFormToggle
                img={party}
-               onClick={() => {
-                  openForm();
-               }}
-               BtnText="Make Your First Purchase Return Order "
-               MiddleText="No data is available for Debit-Note .
-               Please try again after making relevant changes."
+               onClick={openForm}
+               BtnText="Make Your First Purchase Return Order"
+               MiddleText="No data is available for Debit-Note. Please try again after making relevant changes."
             />
          ) : (
             <div className="payment-out-container">
                <div className="transactions-buttons">
-                  {/* <input type="text" /> */}
-                  <button onClick={() => openForm()}>
+                  <button onClick={openForm}>
                      <span>+</span> Add Payment Return
                   </button>
                </div>
-
-            
-
                <table className="table">
                   <thead className="table-head">
                      <tr className="table-row">
-                        <th className="table-h">
-                           <div className="table-items">#</div>
-                        </th>
-                        <th className="table-h">
-                           <div className="table-items">Date</div>
-                        </th>
-                        <th className="table-h">
-                           <div className="table-items">Return No.</div>
-                        </th>
-                        <th className="table-h">
-                           <div className="table-items">PartyName</div>
-                        </th>
-                        <th className="table-h">
-                           <div className="table-items">CategoryName</div>
-                        </th>
-                        <th className="table-h">
-                           <div className="table-items">Type</div>
-                        </th>
-                        <th className="table-h">
-                           <div className="table-items">Total</div>
-                        </th>
-                        <th className="table-h">
-                           <div className="table-items">Received</div>
-                        </th>
-                        <th className="table-h">
-                           <div className="table-items">Balance Due</div>
-                        </th>
-                        <th className="table-h">
-                           <div className="table-items">Print</div>
-                        </th>
-                        <th className="table-h">
-                           <div className="table-items">Action</div>
-                        </th>
+                        <th className="table-h">#</th>
+                        <th className="table-h">Date</th>
+                        <th className="table-h">Return No.</th>
+                        <th className="table-h">Party Name</th>
+                        <th className="table-h">Category Name</th>
+                        <th className="table-h">Type</th>
+                        <th className="table-h">Total</th>
+                        <th className="table-h">Received</th>
+                        <th className="table-h">Balance Due</th>
+                        <th className="table-h">Print</th>
+                        <th className="table-h">Action</th>
                      </tr>
                   </thead>
                   {!isLoading ? (
                      <tbody>
-                        {data?.map((e, i) => {
-                           return (
-                              <React.Fragment key={e._id}>
-                                 {isEditing && editedData?._id === e._id ? (
-                                    <EditableRow
-                                       display={display}
-                                       data={editedData}
-                                       onSave={handleSave}
-                                       onCancel={handleCancel}
-                                    />
-                                 ) : (
-                                    <tr className="table-row" key={e._id}>
-                                       <td className="table-h">{i + 1}</td>
-                                       <td className="table-h">
-                                          {new Date(
-                                             e.billDate
-                                          ).toLocaleDateString("en-IN", {
-                                             day: "2-digit",
-                                             month: "2-digit",
-                                             year: "numeric",
-                                          })}
-                                       </td>
-                                       <td className="table-h">
-                                          {" "}
-                                          {e.returnNumber || "-"}
-                                       </td>
-                                       <td className="table-h">
-                                          {e.partyName}
-                                       </td>
-                                       <td className="table-h">
-                                          {e.categoryName
-                                             ? e.categoryName
-                                             : "-"}
-                                       </td>
-                                       <td className="table-h">{e.type}</td>
-                                       <td className="table-h">   ₹{e.amount || 0}</td>
-                                       <td className="table-h"> ₹{e.paymentType[0].amount || 0}</td>
-                                       <td className="table-h">₹{Number(e.amount)- Number(e.paymentType[0].amount)|| 0}</td>
-                                       <td className="table-h">
-                                          <PrinterIcon
-                                             onClick={() => window.print()}
-                                          />
-                                          <DotsIcon />
-                                       </td>
-                                       <td className="table-h">
-                                          <DeleteIcon
-                                             onClick={() => handleDelete(e._id)}
-                                          />
-                                          <EditIcon
-                                             onClick={() => handleEdit(e)}
-                                          />
-                                       </td>
-                                    </tr>
-                                 )}
-                              </React.Fragment>
-                           );
-                        })}
+                        {data?.map((e, i) => (
+                           <React.Fragment key={e._id}>
+                              {isEditing && editedData?._id === e._id ? (
+                                 <EditableRow
+                                    display={display}
+                                    data={editedData}
+                                    onSave={handleSave}
+                                    onCancel={handleCancel}
+                                 />
+                              ) : (
+                                 <tr className="table-row" key={e._id}>
+                                    <td className="table-h">{i + 1}</td>
+                                    <td className="table-h">
+                                       {new Date(
+                                          e.billDate
+                                       ).toLocaleDateString("en-IN", {
+                                          day: "2-digit",
+                                          month: "2-digit",
+                                          year: "numeric",
+                                       })}
+                                    </td>
+                                    <td className="table-h">
+                                       {e.returnNumber || "-"}
+                                    </td>
+                                    <td className="table-h">{e.partyName}</td>
+                                    <td className="table-h">
+                                       {e.categoryName || "-"}
+                                    </td>
+                                    <td className="table-h">{e.type}</td>
+                                    <td className="table-h">₹{e.amount || 0}</td>
+                                    <td className="table-h">
+                                       ₹{e.paymentType[0]?.amount || 0}
+                                    </td>
+                                    <td className="table-h">
+                                       ₹{e.amount - e.paymentType[0]?.amount || 0}
+                                    </td>
+                                    <td className="table-h">
+                                       <PrinterIcon onClick={() => window.print()} />
+                                       <DotsIcon />
+                                    </td>
+                                    <td className="table-h">
+                                       <DeleteIcon onClick={() => handleDelete(e._id)} />
+                                       <EditIcon onClick={() => handleEdit(e)} />
+                                    </td>
+                                 </tr>
+                              )}
+                           </React.Fragment>
+                        ))}
                      </tbody>
                   ) : (
-                     <tr>
-                        <BasicSpinner
-                           style={{
-                              width: "100%",
-                              margin: "60px auto",
-                              fontSize: "30px",
-                           }}
-                        />
-                     </tr>
+                     <tbody>
+                        <tr>
+                           <td colSpan="11">
+                              <BasicSpinner
+                                 style={{
+                                    width: "100%",
+                                    margin: "60px auto",
+                                    fontSize: "30px",
+                                 }}
+                              />
+                           </td>
+                        </tr>
+                     </tbody>
                   )}
                </table>
             </div>
