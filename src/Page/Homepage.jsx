@@ -6,6 +6,7 @@ const Homepage = () => {
   return (
     <div className="home-layout">
       <div className="app-home-section">
+      
         <Home />
       </div>
       <div className="app-right-sidebar">

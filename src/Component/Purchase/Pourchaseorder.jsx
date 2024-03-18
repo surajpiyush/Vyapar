@@ -29,11 +29,11 @@ const Pourchaseorder = ({ func }) => {
    // console.log(store);
    useEffect(() => {
       dispatch(getPurchaseOrder({ date }));
-   }, [dispatch]);
+   }, [dispatch,func]);
    const openForm = () => {
       func(true);
    };
-   // console.log(data);
+   console.log(data);
 
    // delete
    const handleDelete = (id) => {

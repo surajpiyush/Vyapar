@@ -88,7 +88,7 @@ export default function Items() {
     setToggleSetting(true);
   };
   return (
-    <div>
+    <div >
       {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
       {openForm && (
         <ItemsForm
@@ -108,7 +108,7 @@ export default function Items() {
         >
           Products
         </div>
-        <div
+        {/* <div
           className="nav-opt"
           onClick={() => {
             openSection(1);
@@ -131,7 +131,7 @@ export default function Items() {
           }}
         >
           Units
-        </div>
+        </div> */}
       </div>
       <div className="">
         <div className="">

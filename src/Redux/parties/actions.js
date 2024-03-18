@@ -7,6 +7,7 @@ import {
    SAVE_PARTY_ERROR,
    SAVE_PARTY_SUCCESS,
    CURRENT_PARTIES_TRANSECATIONS_SUCCESS,
+   PARTIES_EDIT_SUCCESS,
 } from "./actionTypes";
 
 import axios from "axios";
@@ -33,25 +34,61 @@ export const FetchAllParties = async (dispatch) => {
    }
 };
 
+export const getCurrentPartyData = (id) => async (dispatch) => {
+   // dispatch({ type: FETCH_PARTIES_LOADING });
+   const token = localStorage.getItem("token");
+   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+   try {
+      const response = await axios.get(`${API_URL}/${FirmId}/party/${id}`, {
+         headers: {
+            Authorization: `Bearer ${token} `,
+         },
+      });
 
-export const getCurrentPartyData = (id)=> async (dispatch) => {
+      console.log("Fetch All Parties Response", response?.data);
+      dispatch({
+         type: CURRENT_PARTIES_TRANSECATIONS_SUCCESS,
+         payload: response?.data?.data,
+      });
+   } catch (error) {
+      dispatch({ type: FETCH_PARTIES_ERROR });
+      console.error("Error Fetching Parties Data:", error);
+   }
+};
 
-  // dispatch({ type: FETCH_PARTIES_LOADING });
-  const token = localStorage.getItem("token");
-  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
-  try {
-     const response = await axios.get(`${API_URL}/${FirmId}/party/${id}`, {
-        headers: {
-           Authorization: `Bearer ${token} `,
-        },
-     });
+// updating the party
+export const updateCurrentPartyData = (id, updatedData) => async (dispatch) => {
+   const token = localStorage.getItem("token");
+   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?.id;
+   // console.log(id,updatedData)
+   try {
+      const response = await axios.patch(
+         `${API_URL}/${FirmId}/party/update/${id}`,
+         updatedData,
+         {
+            headers: {
+               Authorization: `Bearer ${token}`,
+            },
+         }
+      );
 
-     console.log("Fetch All Parties Response", response?.data); 
-     dispatch({ type: CURRENT_PARTIES_TRANSECATIONS_SUCCESS, payload: response?.data?.data });
-  } catch (error) {
-     dispatch({ type: FETCH_PARTIES_ERROR });
-     console.error("Error Fetching Parties Data:", error);
-  }
+      console.log("Updated Party Data:", response.data);
+
+      // Assuming response.data contains the updated party data
+      dispatch({
+         type: CURRENT_PARTIES_TRANSECATIONS_SUCCESS,
+         payload: response.data,
+      });
+
+      // Dispatch success action if needed
+      dispatch({ type: PARTIES_EDIT_SUCCESS });
+      
+   } catch (error) {
+      console.error("Error updating party data:", error);
+
+      // Dispatch failure action if needed
+      // dispatch({ type: PARTY_UPDATE_FAILED });
+   }
 };
 
 // ------------------------- Save Party Function ---- Didn't applied function curring due to thunk error in store.js

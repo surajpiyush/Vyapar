@@ -7,6 +7,9 @@ export const GET_ITEM_SUCCESS = "GET_ITEM_SUCCESS";
 // for posting new item
 export const POST_ITEM_SUCCESS = "POST_ITEM_SUCCESS";
 
+// for editing
+export const EDIT_ITEM_SUCCESS = "EDIT_ITEM_SUCCESS"
+
 // for getting single item
 export const LOADING_SINGLE_ITEM = "LOADING_SINGLE_ITEM";
 export const ERROR_SINGLE_ITEM = "ERROR_SINGLE_ITEM";

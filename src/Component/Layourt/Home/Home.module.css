@@ -1,12 +1,14 @@
 .homeContainer {
    padding: 40px 20px;
+   
 }
 
 .homeContainerDiv1,
 .homeContainerDiv2 {
    display: flex;
    flex-wrap: wrap;
-   gap: 20px;
+   justify-content: space-evenly;
+   /* gap: 30px; */
 }
 
 .homeContainerDiv2 {

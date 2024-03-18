@@ -1,12 +1,14 @@
 
 .stock-privacy-container {
     padding: 40px 10px;
+    
 }
 
 .stock-privacy-card, .stock-stock-value-section, .low-stocks-section, .cash-bank-card, .stock-sale-card, .stock-purchase-orders-card {
+    background-color: var(--pureWhite);
     padding: 10px;
     box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-    border-radius: 5px;
+    border-radius: 15px;
 }
 
 .stock-privacy-card {
@@ -26,7 +28,7 @@
 
 .stock-headers, .stock-sale-section h4, .stock-purchase-orders-card h4, .stock-sale-card h4 {
     font-size: 16px;
-    padding: 10px 0 0;
+    padding: 10px 15px 0;
     color: rgb(123, 123, 123);
 }
 

@@ -90,17 +90,9 @@ const Addpurchaseitem = ({ setOpenForm }) => {
       status: "Pending",
       partyName: "",
       phoneNumber: "",
-      returnNumber: `${new Date()
-         .toLocaleString("default", { month: "short" })
-         .toUpperCase()}${new Date().getTime()}${Math.floor(
-         Math.random() * 900
-      )}`,
+      returnNumber: "",
 
-      billNumber: `${new Date()
-         .toLocaleString("default", { month: "short" })
-         .toUpperCase()}${new Date().getTime()}${Math.floor(
-         Math.random() * 900
-      )}`,
+      billNumber: "",
 
       billDate: new Date(),
       time: new Date().toLocaleTimeString("en-US", {
@@ -407,7 +399,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                         onChange={(e) => handleInputChange(e)}
                         name="billDate"
                         defaultValue={new Date().toISOString().split("T")[0]}
-                        readOnly
+                        // readOnly
                      />
                   </div>
                   <div>
@@ -422,7 +414,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                            minute: "2-digit",
                            hour12: false,
                         })}
-                        readOnly
+                        // readOnly
                      />
                   </div>
 
