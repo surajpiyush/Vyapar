@@ -22,7 +22,7 @@ const SaleDashboard = ({
    const calculateAmounts = () => {
       let paid = 0;
       let unpaid = 0;
-      data.forEach((item) => {
+      data?.forEach((item) => {
          paid += (item.amount || 0) - (item.balanceDue || 0);
          unpaid += item.balanceDue || 0;
       });

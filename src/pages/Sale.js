@@ -24,21 +24,26 @@ const Sale = () => {
    const [endDate, setEndDate] = useState(
       new Date().toISOString().split("T")[0]
    );
-   const prevDateRef = useRef(); 
+   const prevDateRef = useRef();
    const dispatch = useDispatch();
 
    useEffect(() => {
-      if (prevDateRef.current && prevDateRef.current.startDate === startDate && prevDateRef.current.endDate === endDate) {
-         return; 
+      if (
+         prevDateRef.current &&
+         prevDateRef.current.startDate === startDate &&
+         prevDateRef.current.endDate === endDate
+      ) {
+         return;
       }
       const date = {
-        startDate:startDate,endDate:endDate
-      }
+         startDate: startDate,
+         endDate: endDate,
+      };
 
       dispatch(getSaleReport({ date }));
 
       prevDateRef.current = { startDate, endDate };
-   }, [startDate, endDate, dispatch]); 
+   }, [startDate, endDate, dispatch]);
 
    return (
       <SaleDashboard
