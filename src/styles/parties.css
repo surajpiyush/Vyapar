@@ -268,9 +268,9 @@ border-radius: 15px;
   background-color: #ddd;
 }
 
-.transaction-table tbody td i {
-  /* margin-left: 5px; */
-}
+/* .transaction-table tbody td i {
+  margin-left: 5px;
+} */
 
 .transaction-table .spinner-cell {
   text-align: center;
@@ -703,9 +703,9 @@ border-radius: 15px;
    background-color: #ddd;
  }
  
- .transaction-table tbody td i {
-   /* margin-left: 5px; */
- }
+ /* .transaction-table tbody td i {
+   margin-left: 5px;
+ } */
  
  .transaction-table .spinner-cell {
    text-align: center;

@@ -42,8 +42,8 @@ code {
    width: 100%;
 }
 
-.RpInput > button {
-}
+/* .RpInput > button {
+} */
 
 .RpInput > input:hover {
    border-bottom: 1px solid #000;
@@ -368,8 +368,8 @@ code {
    gap: 10px;
 }
 
-.cashflow-Opening-Cash > div > input {
-}
+/* .cashflow-Opening-Cash > div > input {
+} */
 
 /* GSTR Header */
 
