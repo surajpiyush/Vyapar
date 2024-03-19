@@ -76,9 +76,16 @@
 
 /* Table Css */
 .TableOuter {
-  width: 100%;
-  min-height: 100vh;
-  margin-top: 100px;
+  width: 98%;
+  /* border: 1px solid black; */
+  background: var(--pureWhite);
+  margin: 10px;
+  padding: 15px 10px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+     rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  /* min-height: 100vh; */
+  margin-top: 10px;
+  border-radius: 15px;
 }
 .saleOrderUpperNav {
   display: flex;
@@ -142,10 +149,11 @@
   }
 
   table thead {
-    border-bottom: 1px solid var(--greyC);
+    border: 1px solid var(--greyC);
+    padding: 5px;
   }
   table thead th {
-    border-right: 1px solid var(--greyC);
+    border: 1px solid var(--greyC);
     height: 40px;
   }
   table thead th div {
@@ -156,12 +164,11 @@
     padding: 0px 5px;
   }
   table tbody td {
-    height: 40px;
+    height: 50px;
     padding: 5px;
     text-align: left;
     overflow: hidden;
     white-space: nowrap;
-    border-right: 1px solid var(--greyC);
-    border-bottom: 1px solid var(--greyC);
+    border: 1px solid var(--greyC);
   }
 }

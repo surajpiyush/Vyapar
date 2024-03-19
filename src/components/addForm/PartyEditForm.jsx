@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IoMdClose as CloseIcon } from "react-icons/io";
 import css from "../../Page/Firm/EditFirm.module.css";
-import { UpdateCompanyProfile } from "../../Redux/business/action";
+import { updateCurrentPartyData } from "../../Redux/parties/actions";
 
 const PartyEditForm = ({ setShowEditFirm, party }) => {
    const dispatch = useDispatch();
-   const isLoading = useSelector((state) => state.BusinessReducer.isLoading);
+   const isLoading = useSelector(
+      (state) => state.PartiesReducer.isLoading
+   );
+ 
    const [partyData, setPartyData] = useState(party);
 
    const handleInputChange = (e) => {
@@ -20,7 +23,7 @@ const PartyEditForm = ({ setShowEditFirm, party }) => {
    const handleSave = () => {
       console.log(partyData);
       setShowEditFirm(false);
-      //   dispatch(UpdateCompanyProfile(partyData));
+        dispatch(updateCurrentPartyData(partyData._id,partyData));
    };
 
    return (

@@ -96,11 +96,7 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
       poNo: "",
       poDate: new Date().toISOString().split("T")[0],
       eWayBill: "",
-      billNumber: `${new Date()
-         .toLocaleString("default", { month: "short" })
-         .toUpperCase()}${new Date().getTime()}${Math.floor(
-         Math.random() * 900
-      )}`,
+      billNumber: "",
       billDate: new Date().toISOString().split("T")[0],
       time: new Date().toLocaleTimeString("en-US", {
          hour: "2-digit",
@@ -145,73 +141,44 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
       balanceAmount: 0,
    });
 
-   const body = {
-      "partyName": "65f023a8803d9fd0765040f8",
-      "phoneNumber": 1234567890,
-      "poNo": "PO123",
-      "poDate": "2024-02-16T00:00:00.000Z",
-      "eWayBill": "EWB123",
-      "billNumber": "BILL123",
-      "billDate": "2024-02-16T00:00:00.000Z",
-      "time": "10:00 AM",
-      "paymentTerms": "Net 30",
-      "dueDate": "2024-03-17T00:00:00.000Z",
-      "stateOfSupply": "Some State",
-      "priceUnitWithTax": true,
-      "sale": [
-        {
-        //   "category": "",
-          "itemName": "65f5d9497069e8c86b165208",
-          "itemCode": "001",
-          "hsnCode": "HSN001",
-          "serialNo": "SN001",
-          "description": "Description of item 1",
-          "batchNo": 1,
-          "modelNo": 123,
-          "expDate": "2025-02-16T00:00:00.000Z",
-          "mfgDate": "2023-02-16T00:00:00.000Z",
-          "customField": "Custom field 1",
-          "size": "Large",
-           "qty": 10,
-          "unit": "pcs",
-          "priceUnit": 100,
-          "discountpersant": 5,
-          "discountAmount": 5,
-          "taxPersant": "12%",
-          "taxAmount": 12,
-          "amount": 950
-        }
-      ],
-      "paymentType": [
-        {
-          "cash": 800,
-          "cheque": {
-            "refreanceNo": "REF123",
-            "checkAmount": 150
-          },
-          "bankDetail": {
-            "accountName": "ABC Bank",
-            "openingBalance": 5000,
-            "asOfDate": "2024-02-16T00:00:00.000Z"
-          },
-          "default": "cash"
-        }
-      ],
-      "addDescription": "Additional description here",
-      "discount": {
-        "discountPersent": 2,
-        "discountAmount": 2
-      },
-      "tax": {
-        "tax": "GST",
-        "taxamount": 10
-      },
-      "roundOff": 0,
-      "total": 950,
-      "paid": 950,
-      "balance": 0
-    }
-// console.log(body)
+   const sortedStates = [
+      "Andaman and Nicobar Islands",
+      "Andhra Pradesh",
+      "Arunachal Pradesh",
+      "Assam",
+      "Bihar",
+      "Chandigarh",
+      "Chhattisgarh",
+      "Dadra and Nagar Haveli",
+      "Daman and Diu",
+      "Delhi",
+      "Goa",
+      "Gujarat",
+      "Haryana",
+      "Himachal Pradesh",
+      "Jharkhand",
+      "Karnataka",
+      "Kerala",
+      "Lakshadweep",
+      "Madhya Pradesh",
+      "Maharashtra",
+      "Manipur",
+      "Meghalaya",
+      "Mizoram",
+      "Nagaland",
+      "Odisha",
+      "Puducherry",
+      "Punjab",
+      "Rajasthan",
+      "Sikkim",
+      "Tamil Nadu",
+      "Telangana",
+      "Tripura",
+      "Uttar Pradesh",
+      "Uttarakhand",
+      "West Bengal",
+   ];
+
    // Update total footer values
    useEffect(() => {
       let footerObj = {
@@ -273,13 +240,15 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
          sale: saleData,
       };
       console.log("Purchase Data", purchaseBillData);
-      dispatch(addPurchaseBill(purchaseBillData, () => {
-         // Success callback - Dispatch action to fetch updated data
-         dispatch(getPurchaseBill({ date }));
-      }));
+      dispatch(
+         addPurchaseBill(purchaseBillData, () => {
+            // Success callback - Dispatch action to fetch updated data
+            dispatch(getPurchaseBill({ date }));
+         })
+      );
       setOpenForm(false);
    };
-   
+
    // for fetching all parties list on form mount
    useEffect(() => {
       FetchAllParties(dispatch);
@@ -573,7 +542,7 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
                         name="billDate"
                         value={invoiceData.billDate}
                         // defaultValue={new Date().toISOString().split("T")[0]}
-                        readOnly
+                        // readOnly
                      />
                   </div>
                   <div>
@@ -589,7 +558,7 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
                            minute: "2-digit",
                            hour12: false,
                         })}
-                        readOnly
+                        // readOnly
                      />
                   </div>
 
@@ -630,49 +599,11 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
                         required
                      >
                         <option value="">State</option>
-                        <option value="Andhra Pradesh">Andhra Pradesh</option>
-                        <option value="Arunachal Pradesh">
-                           Arunachal Pradesh
-                        </option>
-                        <option value="Assam">Assam</option>
-                        <option value="Bihar">Bihar</option>
-                        <option value="Chhattisgarh">Chhattisgarh</option>
-                        <option value="Goa">Goa</option>
-                        <option value="Gujarat">Gujarat</option>
-                        <option value="Haryana">Haryana</option>
-                        <option value="Himachal Pradesh">
-                           Himachal Pradesh
-                        </option>
-                        <option value="Jharkhand">Jharkhand</option>
-                        <option value="Karnataka">Karnataka</option>
-                        <option value="Kerala">Kerala</option>
-                        <option value="Madhya Pradesh">Madhya Pradesh</option>
-                        <option value="Maharashtra">Maharashtra</option>
-                        <option value="Manipur">Manipur</option>
-                        <option value="Meghalaya">Meghalaya</option>
-                        <option value="Mizoram">Mizoram</option>
-                        <option value="Nagaland">Nagaland</option>
-                        <option value="Odisha">Odisha</option>
-                        <option value="Punjab">Punjab</option>
-                        <option value="Rajasthan">Rajasthan</option>
-                        <option value="Sikkim">Sikkim</option>
-                        <option value="Tamil Nadu">Tamil Nadu</option>
-                        <option value="Telangana">Telangana</option>
-                        <option value="Tripura">Tripura</option>
-                        <option value="Uttar Pradesh">Uttar Pradesh</option>
-                        <option value="Uttarakhand">Uttarakhand</option>
-                        <option value="West Bengal">West Bengal</option>
-                        <option value="Andaman and Nicobar Islands">
-                           Andaman and Nicobar Islands
-                        </option>
-                        <option value="Chandigarh">Chandigarh</option>
-                        <option value="Dadra and Nagar Haveli">
-                           Dadra and Nagar Haveli
-                        </option>
-                        <option value="Daman and Diu">Daman and Diu</option>
-                        <option value="Lakshadweep">Lakshadweep</option>
-                        <option value="Delhi">Delhi</option>
-                        <option value="Puducherry">Puducherry</option>
+                        {sortedStates.map((state) => (
+                           <option key={state} value={state}>
+                              {state}
+                           </option>
+                        ))}
                      </select>
                   </div>
                </div>
@@ -686,14 +617,14 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
                   <thead>
                      <tr>
                         <th className={css.serialNumberHead}>#</th>
-                        <th className={css.itemNameHead}>CATEGORY</th>
+                        <th className={css.unitHead}>CATEGORY</th>
                         <th className={css.itemNameHead}>ITEM</th>
-                        <th className={css.itemNameHead}>ITEM CODE</th>
-                        <th className={css.itemNameHead}>HSN CODE</th>
+                        <th className={css.unitHead}>ITEM CODE</th>
+                        <th className={css.unitHead}>HSN CODE</th>
                         {/* <th className={css.itemNameHead}>DESCRIPTION</th> */}
-                        <th className={css.itemNameHead}>COUNT</th>
+                        <th className={css.unitHead}>COUNT</th>
                         <th className={css.qtyHead}>QTY</th>
-                        <th className={css.itemNameHead}>FREE QTY</th>
+                        <th className={css.unitHead}>FREE QTY</th>
                         <th className={css.unitHead}>UNIT</th>
 
                         <th className={css.priceUnitHead}>

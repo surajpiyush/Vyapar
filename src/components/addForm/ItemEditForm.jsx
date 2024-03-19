@@ -3,24 +3,36 @@ import { useDispatch, useSelector } from "react-redux";
 import { IoMdClose as CloseIcon } from "react-icons/io";
 import css from "../../Page/Firm/EditFirm.module.css";
 import { UpdateCompanyProfile } from "../../Redux/business/action";
+import { EditItem } from "../../Redux/items/actions";
 
 const ItemEditForm = ({ setShowEditFirm, item }) => {
+   // console.log(item)
    const dispatch = useDispatch();
    const isLoading = useSelector((state) => state.BusinessReducer.isLoading);
    const [itemData, setPartyData] = useState(item);
 
    const handleInputChange = (e) => {
       const { name, value } = e.target;
-      setPartyData((prevData) => ({
-         ...prevData,
-         [name]: value,
-      }));
+      if (name === "openingQuantity") {
+         setPartyData((prevData) => ({
+            ...prevData,
+            stock: {
+               ...prevData.stock,
+               openingQuantity: value,
+            },
+         }));
+      } else {
+         setPartyData((prevData) => ({
+            ...prevData,
+            [name]: value,
+         }));
+      }
    };
 
    const handleSave = () => {
       console.log(itemData);
       setShowEditFirm(false);
-      //   dispatch(UpdateCompanyProfile(itemData));
+      dispatch(EditItem(itemData._id, itemData));
    };
 
    return (
@@ -31,7 +43,7 @@ const ItemEditForm = ({ setShowEditFirm, item }) => {
          >
             {/* Top Nav */}
             <div className={css.topNavDiv}>
-               <h2>Edit Party</h2>
+               <h2>Edit Item</h2>
                <CloseIcon onClick={() => setShowEditFirm(false)} />
             </div>
 
@@ -40,13 +52,13 @@ const ItemEditForm = ({ setShowEditFirm, item }) => {
                <div className={css.TopSectionInputOuter}>
                   <div className={css.rightSideTopDivOuter}>
                      <div>
-                        <label htmlFor="#">Party ID</label>
+                        <label htmlFor="#">Item ID</label>
                         <input
                            value={itemData?._id}
                            onChange={handleInputChange}
                            readOnly
                            type="text"
-                           placeholder="Party ID"
+                           placeholder="Item ID"
                            style={{
                               backgroundColor: "#f4f4f4",
                               color: "#888",
@@ -57,7 +69,7 @@ const ItemEditForm = ({ setShowEditFirm, item }) => {
                      </div>
                      <div>
                         <label htmlFor="#">
-                           Party Name <span style={{ color: "red" }}>*</span>
+                           Item Name <span style={{ color: "red" }}>*</span>
                         </label>
                         <input
                            value={itemData?.itemName}
@@ -69,50 +81,14 @@ const ItemEditForm = ({ setShowEditFirm, item }) => {
                      </div>
                      <div>
                         <label htmlFor="#">
-                           Opening Balance{" "}
-                           <span style={{ color: "red" }}>*</span>
+                           Quantity <span style={{ color: "red" }}>*</span>
                         </label>
                         <input
-                           value={itemData?.openingBalance}
+                           value={itemData?.stock?.openingQuantity}
                            onChange={handleInputChange}
-                           name="openingBalance"
-                           type="Number"
-                           placeholder="Opening Balance"
-                        />
-                     </div>
-                     <div>
-                        <label htmlFor="#">
-                           Phone No. <span style={{ color: "red" }}>*</span>
-                        </label>
-                        <input
+                           name="openingQuantity"
                            type="number"
-                           value={itemData?.phoneNumber}
-                           onChange={handleInputChange}
-                           name="phoneNumber"
-                           placeholder="Phone Number"
-                        />
-                     </div>
-                     <div>
-                        <label htmlFor="#">
-                           Billing Address{" "}
-                           <span style={{ color: "red" }}>*</span>
-                        </label>
-                        <input
-                           type="text"
-                           value={itemData?.billingAddress}
-                           onChange={handleInputChange}
-                           name="billingAddress"
-                           placeholder="Enter Billing Address"
-                        />
-                     </div>
-                     <div>
-                        <label htmlFor="#">GST NO.</label>
-                        <input
-                           type="text"
-                           value={itemData?.gstNo}
-                           onChange={handleInputChange}
-                           name="gstNo"
-                           placeholder="GST NO."
+                           placeholder="Opening Quantity"
                         />
                      </div>
                   </div>

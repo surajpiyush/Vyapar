@@ -9,6 +9,7 @@ import {
   LOADING_GET_ALL_ITEMS,
   ERROR_GET_ALL_ITEMS,
   SUCCESS_GET_ALL_ITEMS,
+  EDIT_ITEM_SUCCESS,
 } from "./actionTypes";
 
 const initialState = {

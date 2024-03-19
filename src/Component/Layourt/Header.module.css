@@ -7,7 +7,9 @@
    display: flex;
    justify-content: space-between;
    align-items: center;
-   padding: 10px 20px;
+   /* padding: 10px 20px; */
+   /* he */
+   
 }
 
 .HeaderSearchSection {
@@ -60,28 +62,33 @@
 }
 
 .HeaderAddBtn {
-   padding: 10px 20px;
-   color: white;
-   border-radius: 20px;
+   padding: 0 20px;
+   margin: 10px 0;
+   color: var(--pureWhite);
+   size: 200px;
+   border-radius: 35px;
    font-size: 15px;
    cursor: pointer;
-}
-
-.HeaderAddBtnHover {
-   scale: 1.1;
+   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
 .HeaderAddSaleBtn {
-   background-color: rgb(255, 41, 41);
+   background-color: rgba(255, 41, 41, 0.1);
+   color: red;
+   font-weight: 900;
 }
 
 .HeaderAddPurchaseBtn {
-   background-color: rgb(43, 43, 255);
+   background-color: rgba(43, 43, 255, 0.4);
+   color: blue;
+   font-weight: 800;
 }
 
 .HeaderAddMoreBtn {
    color: rgb(43, 43, 255);
-   border: solid 1px rgb(43, 43, 255);
+   font-weight: 800;
+
+   /* border: solid 1px rgb(43, 43, 255); */
 }
 
 .HeaderPlusBtn {

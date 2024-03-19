@@ -1,6 +1,7 @@
 import React from "react";
 import "./months.css";
 import { ArrowDownIcon, EqualIcon, PlusIcon } from "../utils/reactIcons";
+import { BsFiletypeXlsx } from "react-icons/bs";
 
 const Thismonth = ({
    isshowcards = true,
@@ -53,6 +54,32 @@ const Thismonth = ({
                      </option>
                   ))}
                </select>
+            </aside>
+            <aside>
+               <div
+                  style={{ gap: "20px", paddingRight: "15px", display: "flex" }}
+               >
+                  <div className="d-flex-col">
+                     <div>
+                        <div>
+                        <BsFiletypeXlsx />
+                        </div>
+                        <div>
+                           <span>Excel Report</span>
+                        </div>
+                     </div>
+                  </div>
+                  <div className="d-flex-col">
+                     <div>
+                        <div>
+                           <i className="fa fa-print" aria-hidden="true"></i>
+                        </div>
+                        <div>
+                           <span>Print</span>
+                        </div>
+                     </div>
+                  </div>
+               </div>
             </aside>
          </section>
          {isshowcards && (

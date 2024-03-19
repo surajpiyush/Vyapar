@@ -11,7 +11,6 @@ import { IoIosArrowRoundUp as UpArrowIcon } from "react-icons/io";
 import { PiDotsThreeVerticalBold as VerticalDots } from "react-icons/pi";
 import ItemEditForm from "../addForm/ItemEditForm";
 
-
 export default function ProductsTable(Props) {
    const dispatch = useDispatch();
    const [status, setStatus] = useState(true);
@@ -25,7 +24,6 @@ export default function ProductsTable(Props) {
    const token = localStorage.getItem("token");
    const [showEditFirm, setShowEditFirm] = useState(false);
    const [editItem, setEditItem] = useState([]);
-
 
    //-----------<<<<<<<<<<<<<<<<<<<<<<<<GETING THE DATA FROM BACKEND>>>>>>>>>>>>>>>>>>>>>>-------------
    useEffect(() => {
@@ -78,12 +76,9 @@ export default function ProductsTable(Props) {
    };
 
    return (
-      <div className="" style={{ width: "100vw" }}>
+      <div className="" style={{ width: "80vw" }}>
          {showEditFirm && (
-            <ItemEditForm
-               setShowEditFirm={setShowEditFirm}
-               item={editItem}
-            />
+            <ItemEditForm setShowEditFirm={setShowEditFirm} item={editItem} />
          )}
 
          <div className="d-flex">
@@ -153,10 +148,12 @@ export default function ProductsTable(Props) {
                                  <td>
                                     <span>
                                        {e?.stock?.openingQuantity || 0}
-                                       <VerticalDots  onClick={() => {
-                                        setEditItem(e)
-                                          setShowEditFirm(true);
-                                       }} />
+                                       <VerticalDots
+                                          onClick={() => {
+                                             setEditItem(e);
+                                             setShowEditFirm(true);
+                                          }}
+                                       />
                                     </span>
                                  </td>
                               </tr>
@@ -180,12 +177,7 @@ export default function ProductsTable(Props) {
                         <p>
                            NAME <i className="fa fa-reply"></i>
                         </p>
-                        <button
-                           className="party-button"
-                           onClick={openAdjustItem}
-                        >
-                           Adjust Item
-                        </button>
+                      
                      </div>
                      <div className="d-between">
                         <p>Sales Price: $0.00</p>
@@ -208,7 +200,7 @@ export default function ProductsTable(Props) {
                      />
                   </div>
                   <div className="">
-                     <table>
+                     <table className="transaction-table">
                         <thead>
                            <tr>
                               <th>
@@ -245,10 +237,17 @@ export default function ProductsTable(Props) {
                            />
                         ) : (
                            <tbody>
-                              {!tableData.length ? (
-                                 <h1>There are no transections</h1>
+                              {tableData.length === 0 ? (
+                                 <tr>
+                                    <td
+                                       colSpan="7"
+                                       style={{ textAlign: "center" }}
+                                    >
+                                       <h1>There are no transactions</h1>
+                                    </td>
+                                 </tr>
                               ) : (
-                                 tableData?.map((e, index) => (
+                                 tableData.map((e, index) => (
                                     <tr key={index}>
                                        <td>{e.type}</td>
                                        <td>{e.invoiceOrRefNo}</td>
@@ -258,7 +257,6 @@ export default function ProductsTable(Props) {
                                              e.date
                                           ).toLocaleDateString()}
                                        </td>
-
                                        <td>{e.quantity}</td>
                                        <td>-</td>
                                        <td>

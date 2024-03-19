@@ -34,8 +34,8 @@ const RPLayout1 = ({ currPrintItem, usedAsDemo = false }) => {
     return mainName;
   }
 
-  console.log("RPlayout 1 currPrintItem", currPrintItem);
-  console.log("RPlayout StoredPrintData", storedPrintData);
+  // console.log("RPlayout 1 currPrintItem", currPrintItem);
+  // console.log("RPlayout StoredPrintData", storedPrintData);
 
   return (
     <div

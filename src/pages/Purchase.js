@@ -20,7 +20,7 @@ const Purchase = () => {
    ];
 
    const store = useSelector((store) => store.ReportReducer);
-   const data = store.purchaseReportData.getPurchase;
+   const data = store?.purchaseReportData?.getPurchase || [];
    const [startDate, setStartDate] = useState("2023-02-01");
    const [endDate, setEndDate] = useState(
       new Date().toISOString().split("T")[0]

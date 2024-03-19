@@ -14,7 +14,7 @@ const Purchase = () => {
             <aside className={styles.purchaseHeadingAside1}>
                <div>
                   <TbNotes className={styles.purchaseHeadingNotes} />
-                  <h4>Sale</h4>
+                  <h4>Purchase</h4>
                </div>
                <div className={styles.purchaseAmountDiv}>
                   <FaRupeeSign />

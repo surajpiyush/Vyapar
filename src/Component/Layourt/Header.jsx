@@ -40,15 +40,7 @@ const Header = () => {
                         items === "Add Purchase" && styles.HeaderAddPurchaseBtn
                      } ${items === "Add More" && styles.HeaderAddMoreBtn}`}
                      key={index}
-                  >
-                     <FaPlus
-                        className={`${styles.HeaderPlusBtn} ${
-                           items === "Add Sale" && styles.HeaderPlusBtnSale
-                        } ${
-                           items === "Add Purchase" &&
-                           styles.HeaderPlusBtnPurchase
-                        } ${items === "Add More" && styles.HeaderPlusBtnMore}`}
-                        onClick={() => {
+                     onClick={() => {
                            if (items === "Add Sale") navigate("/invoices");
                            else if (items === "Add Purchase")
                               navigate("/purchasebill");
@@ -59,8 +51,17 @@ const Header = () => {
                                  position: "top",
                               }); 
                         }}
+                  >
+                     <FaPlus
+                        className={`${styles.HeaderPlusBtn} ${
+                           items === "Add Sale" && styles.HeaderPlusBtnSale
+                        } ${
+                           items === "Add Purchase" &&
+                           styles.HeaderPlusBtnPurchase
+                        } ${items === "Add More" && styles.HeaderPlusBtnMore}`}
+                      
                      />
-                     <p>{items}</p>
+                     <p style={{marginTop:"10px"}}>{items}</p>
                   </div>
                ))}
             </aside>

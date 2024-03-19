@@ -9,12 +9,18 @@ import { ImSpinner3 as BasicSpinner } from "react-icons/im";
 
 const AllTransactions = () => {
    const [startDate, setStartDate] = useState("2024-02-01");
-   const [endDate, setEndDate] = useState(new Date().toISOString().split("T")[0]);
+   const [endDate, setEndDate] = useState(
+      new Date().toISOString().split("T")[0]
+   );
    const prevDateRef = useRef();
    const dispatch = useDispatch();
 
    useEffect(() => {
-      if (prevDateRef.current && prevDateRef.current.startDate === startDate && prevDateRef.current.endDate === endDate) {
+      if (
+         prevDateRef.current &&
+         prevDateRef.current.startDate === startDate &&
+         prevDateRef.current.endDate === endDate
+      ) {
          return;
       }
       const date = { startDate, endDate };
@@ -22,7 +28,9 @@ const AllTransactions = () => {
       prevDateRef.current = { startDate, endDate };
    }, [startDate, endDate, dispatch]);
 
-   const store = useSelector((store) => store.ReportReducer.allTransectionsData);
+   const store = useSelector(
+      (store) => store.ReportReducer.allTransectionsData
+   );
    const temp = store.flatMap((data) => [
       ...data.PuchaseBill[0]?.PuchaseBill,
       ...data.PuchaseReturn[0]?.PuchaseReturn,
@@ -38,19 +46,43 @@ const AllTransactions = () => {
    ]);
 
    const SelectorType = [
-      "All Transaction", "Sale", "Purchase", "Payment-In", "Payment-Out", "Credit Note",
-      "Debit Note", "Sale Order", "Purchase Order", "Estimate", "Delivery Challan", "Expense",
-      "Party to Party [Received]", "Party to Party [Paid]", "Manufacturer", "Sale FA", "Purchase FA",
-      "Sale [Cancelled]"
+      "All Transaction",
+      "Sale",
+      "Purchase",
+      "Payment-In",
+      "Payment-Out",
+      "Credit Note",
+      "Debit Note",
+      "Sale Order",
+      "Purchase Order",
+      "Estimate",
+      "Delivery Challan",
+      "Expense",
+      "Party to Party [Received]",
+      "Party to Party [Paid]",
+      "Manufacturer",
+      "Sale FA",
+      "Purchase FA",
+      "Sale [Cancelled]",
    ];
 
    const tableHeader = [
-      "#", "DATE", "INVOICE NO.", "PARTY NAME", "CATEGORY NAME", "TYPE", "TOTAL",
-      "RECEIVED/PAID", "BALANCE", "DUE DATE", "STATUS", "PRINT/SHARE"
+      "#",
+      "DATE",
+      "INVOICE NO.",
+      "PARTY NAME",
+      "CATEGORY NAME",
+      "TYPE",
+      "TOTAL",
+      "RECEIVED/PAID",
+      "BALANCE",
+      "DUE DATE",
+      "STATUS",
+      "PRINT/SHARE",
    ];
 
    return (
-      <>
+      <div style={{ width: "80vw" }}>
          <SaleDashboardHeader
             data={temp}
             startDate={startDate}
@@ -64,7 +96,14 @@ const AllTransactions = () => {
          <div style={{ marginLeft: "20px", marginBottom: "20px" }}>
             <ReportSearchBar />
          </div>
-         <div style={{ marginLeft: "20px", marginRight: "20px" }}>
+         <div
+            style={{
+               marginLeft: "20px",
+               marginRight: "20px",
+               width: "80vw",
+               background: "red",zIndex:300
+            }}
+         >
             {store.length > 0 ? (
                <TableModel tableHeader={tableHeader} data={temp} />
             ) : (
@@ -77,7 +116,7 @@ const AllTransactions = () => {
                </div>
             )}
          </div>
-      </>
+      </div>
    );
 };
 

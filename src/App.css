@@ -3,7 +3,11 @@
   margin: 0;
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
+  /* font-family: "Roboto", sans-serif;   */
+  
+  /* font-weight: 800 */
 }
+
 :root {
   --blueA: blue;
   --blueB: #098df9;
@@ -38,10 +42,17 @@
   --Pop: "Poppins", sans-serif;
   --Ral: "Raleway", sans-serif;
   --Rob: "Roboto", sans-serif;
+  --Ver:"Verdana", sans-serif;
+  --Gill:"Gill Sans", sans-serif;
+  --Rom:"Times", "Times New Roman", serif;
+  --Cur:Apple Chancery, cursive;
+  --Free:FreeMono, monospace;
 }
 
 #App {
-  font-family: var(--Rob);
+  font-family: var(--Pop);
+  background-color: var(--greyB);
+  overflow: auto;
 }
 
 @media print {
@@ -91,6 +102,10 @@
 
 .home-layout {
   display: flex;
+  /* background: #a09f9f; */
+  background-color: var(--mistyGrey);
+
+
 }
 .app-sidebar {
   max-width: 300px;
@@ -107,6 +122,7 @@
 
 .app-Home {
   width: 100%;
+  
 }
 
 .header-div-fixed {
@@ -131,5 +147,6 @@
   right: 0;
   overflow-y: scroll;
   height: 100vh;
+  
   padding: 20px 0 50px 0;
 }

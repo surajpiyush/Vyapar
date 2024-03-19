@@ -28,6 +28,7 @@ import { IoCloseOutline as CrossIcon } from "react-icons/io5";
 import { IoSearch as SearchIcon } from "react-icons/io5";
 import { FiPlusCircle as PlusIcon } from "react-icons/fi";
 import { CiFilter as FilterIcon } from "react-icons/ci";
+import { VscGraph } from "react-icons/vsc";
 
 export default function SalesInvoice() {
   const toast = useToast();

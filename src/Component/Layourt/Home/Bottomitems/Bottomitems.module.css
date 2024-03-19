@@ -4,6 +4,8 @@
    max-width: 250px;
    display: grid;
    gap: 50px;
+   border-radius: 15px;
+   background: white;
 }
 
 .bottomItemsContainer {

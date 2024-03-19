@@ -52,13 +52,13 @@ const GSTR1 = () => {
       "", "", "", "Cr. Note Details", "", "", "", "Tax Rate", "Cess Rate", "Taxable Value",
       "", "", "Amount", "", "Place of Supply (Name Of State)"
    ];
-
+// console.log(data.getSale)
    return (
       <div>
          <GSTRHearder
             isChecked={isChecked}
             setIsChecked={setIsChecked}
-            data={!sale ? data?.getSale : data?.getSaleReturn}
+            data={sale ? data?.getSale : data?.getSaleReturn}
             startDate={startDate}
             endDate={endDate}
             setEndDate={setEndDate}

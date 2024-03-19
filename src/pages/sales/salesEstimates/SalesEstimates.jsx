@@ -66,16 +66,15 @@ export default function SalesEstimates() {
    };
 
    const handleSave = (updatedData) => {
-
       // updatedData.partyname = updatedData.partyName
       console.log("updatedData-", updatedData);
       const id = updatedData._id;
-     
-      dispatch(updateAllEstimates(updatedData._id,updatedData));
+
+      dispatch(updateAllEstimates(updatedData._id, updatedData));
       setIsEditing(false);
       setEditedData(null);
       GetAllEstimates(dispatch, startDate, endDate);
-    };
+   };
 
    const handleCancel = () => {
       // If the user cancels, reset the state without saving
@@ -127,11 +126,11 @@ export default function SalesEstimates() {
          )}
 
          <div className="grp-cont-invoice">
-            <div className="">
-               <div className="d-between" style={{ alignItems: "center" }}>
-                  <div className="d-flex" style={{ gap: "10px" }}>
-                     <div className="">
-                        <select name="" id="" className="invoice-select">
+            <div className={css.TabelOuterDivSaleOrder}>
+               <div className={css.dBetween} style={{ alignItems: "center" }}>
+                  <div className={css.dFlex} style={{ gap: "10px" }}>
+                     <div className={css.dFlex}>
+                        <select name="" id="" className={css.invoiceSelect}>
                            <option value="">This Month</option>
                            <option value="">This Quarter</option>
                            <option value="">Last Month</option>
@@ -139,29 +138,42 @@ export default function SalesEstimates() {
                            <option value="">Custom</option>
                         </select>
                      </div>
-                     <div className="d-flex">
-                        <p>Between</p>
+                     <div
+                        className={css.dFlex}
+                        style={{ border: "1px solid gray" }}
+                     >
                         <div
-                           className="d-flex"
-                           style={{ gap: "10px", marginLeft: "10px" }}
+                           style={{
+                              padding: "15px 12px 2px 15px",
+                              background: "gray",
+                           }}
                         >
-                           <input
-                              type="date"
-                              className="invoice-input"
-                              value={startDate}
-                              onChange={(e) => setStartDate(e.target.value)}
-                           />
-                           <span>To</span>
-                           <input
-                              type="date"
-                              className="invoice-input"
-                              value={endDate}
-                              onChange={(e) => setEndDate(e.target.value)}
-                           />
+                           <p> Between</p>
                         </div>
+
+                        <input
+                           type="date"
+                           value={startDate}
+                           onChange={(e) => setStartDate(e.target.value)}
+                           className={css.invoiceInput}
+                        />
+                        <div
+                           style={{
+                              padding: "15px 12px 2px 15px",
+                           }}
+                        >
+                           <span>To</span>
+                        </div>
+
+                        <input
+                           type="date"
+                           value={endDate}
+                           onChange={(e) => setEndDate(e.target.value)}
+                           className="invoice-input"
+                        />
                      </div>
-                     <div className="" style={{ marginLeft: "10px" }}>
-                        <select name="" id="" className="invoice-select2">
+                     <div className={css.dFlex}>
+                        <select name="" id="" className={css.invoiceSelect}>
                            <option value="">All Firms</option>
                            <option value="">My Company</option>
                         </select>
@@ -171,29 +183,45 @@ export default function SalesEstimates() {
             </div>
          </div>
 
-         <div className="d-cen b-cont text-center text-center">
+         <div className="">
             <div className={css.TableOuter}>
-               <div className={css.saleOrderUpperNav}>
+               <div className={css.TabelOuterDivSaleOrder}>
+               <div>
                   <div className={css.leftSideDivSaleOuter}>
-                     <p>TRANSACTIONS</p>
-                     <div className={css.saleOrderSearchDiv}>
-                        <SearchIcon />
+                     <p
+                        style={{
+                           display: "block",
+                           fontSize: "24px",
+                           width: "70vw",
+                           textAlign: "center",
+                        }}
+                     >
+                        TRANSACTIONS
+                     </p>
+                     <div
+                        style={{
+                           display: "flex",
+                           justifyContent: "space-between",
+                        }}
+                     >
+                        <div className={css.saleOrderSearchDiv}>
+                           <SearchIcon />
+                           <div>
+                              <input type="text" />
+                           </div>
+                        </div>
                         <div>
-                           <input type="text" />
+                           <button
+                              type="button"
+                              onClick={formOpen}
+                              className={css.addSaleOrderBtn}
+                           >
+                              <PlusIcon /> Add Estimate
+                           </button>
                         </div>
                      </div>
                   </div>
-                  <div>
-                     <button
-                        type="button"
-                        onClick={formOpen}
-                        className={css.addSaleOrderBtn}
-                     >
-                        <PlusIcon /> Add Estimate
-                     </button>
-                  </div>
                </div>
-               <div className={css.TabelOuterDivSaleOrder}>
                   <table>
                      <thead>
                         <tr>

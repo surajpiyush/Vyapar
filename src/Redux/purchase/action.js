@@ -121,6 +121,7 @@ export const getPurchaseOrder =
             }&endDate=${date.endDate}`
          )
          .then((res) => {
+            // console.log(res.data)
             dispatch({ type: GET_PURCHASEORDER_SUCCESS, payload: res.data });
          })
          .catch((err) => handleRequestError(dispatch, err));
@@ -233,7 +234,7 @@ export const getPurchaseReturn =
 
 export const updatePurchaseReturnBill = (_id, data) => (dispatch) => {
    dispatch({ type: PURCHASE_REQUEST });
-console.log("data for update:-",data)
+   console.log("data for update:-", data);
    axiosInstance
       .put(`/${getFirmId()}/purchaseReturn/update/${_id}`, data)
       .then((res) => handleUpdateSuccess(dispatch, res))
