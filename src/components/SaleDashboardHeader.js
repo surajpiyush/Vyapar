@@ -6,30 +6,48 @@ import { useState } from "react";
 
 const SaleDashboardHeader = ({
    data,
+
    setStartDate,
    setEndDate,
    startDate,
    endDate,
 }) => {
-   const [tableData] = useState(data); // Using data directly as initial state
+
+   const tableData = data
+   // console.log(tableData)
 
    const saveTableData = (action) => {
       switch (action) {
          case "PRINT":
             window.print();
             break;
-
+   
          case "XLSX":
             const ws1 = XLSX.utils.json_to_sheet(tableData);
             const wb1 = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb1, ws1, "Sheet 1");
             XLSX.writeFile(wb1, "tableData.xlsx");
             break;
-
+   
+         case "CSV":
+            const csvData = [Object.keys(tableData[0]).join(",")]; 
+            tableData.forEach(row => {
+               csvData.push(Object.values(row).join(","));
+            });
+            const blob = new Blob([csvData.join("\n")], { type: "text/csv" });
+            const link = document.createElement("a");
+            link.href = window.URL.createObjectURL(blob);
+            link.setAttribute("download", "tableData.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            break;
+   
          default:
             console.warn("Unknown action:", action);
       }
    };
+   
 
    const handleStartDateChange = (e) => {
       setStartDate(e.target.value);
@@ -76,7 +94,7 @@ const SaleDashboardHeader = ({
             </div>
             <div
                className="sale-dashboard-icon"
-               onClick={() => saveTableData("XLSX")}
+               onClick={() => saveTableData("CSV")}
             >
                <SiMicrosoftexcel />
                <p>Excel</p>

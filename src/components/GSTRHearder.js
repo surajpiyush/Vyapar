@@ -3,12 +3,17 @@ import * as XLSX from "xlsx";
 import { BsFiletypeJson, BsFiletypeXlsx } from "react-icons/bs";
 import { MdOutlinePrint } from "react-icons/md";
 
-const GSTRHeader = ({ isChecked, check, data,startDate, 
+const GSTRHeader = ({
+   isChecked,
+   check,
+   data,
+   startDate,
    endDate,
    setEndDate,
-   setStartDate }) => {
-//   console.log(data)
-   const [tableData] = useState(data); // Using data directly as initial state
+   setStartDate,
+}) => {
+   const tableData = data;
+   console.log(data);
 
    const saveTableData = (action) => {
       switch (action) {
@@ -38,11 +43,23 @@ const GSTRHeader = ({ isChecked, check, data,startDate,
             break;
 
          case "XLSX":
-            // Convert the data to XLSX format and save
-            const ws1 = XLSX.utils.json_to_sheet(tableData);
-            const wb1 = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb1, ws1, "Sheet 1");
-            XLSX.writeFile(wb1, "tableData.xlsx");
+            if (!tableData.length) {
+               alert("No data to download");
+            } else {
+               const csvData = [Object.keys(tableData[0]).join(",")];
+               tableData.forEach((row) => {
+                  csvData.push(Object.values(row).join(","));
+               });
+               const blob1 = new Blob([csvData.join("\n")], {
+                  type: "text/csv",
+               });
+               const link1 = document.createElement("a");
+               link1.href = window.URL.createObjectURL(blob1);
+               link1.setAttribute("download", "tableData.csv");
+               document.body.appendChild(link1);
+               link1.click();
+               document.body.removeChild(link1);
+            }
             break;
          default:
             console.warn("Unknown action:", action);
@@ -54,9 +71,17 @@ const GSTRHeader = ({ isChecked, check, data,startDate,
          <div className="sale-dashboard-menu">
             <div className="date-filter-div">
                <p>Between</p>
-               <input type="date" value={startDate} onChange={(e)=>setStartDate(e.target.value)} />
+               <input
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+               />
                <p>To</p>
-               <input type="date" value={endDate} onChange={(e)=>setEndDate(e.target.value)} />
+               <input
+                  type="date"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+               />
             </div>
             <div className="gstr-header-checkbox">
                <input type="checkbox" checked={isChecked} onChange={check} />

@@ -1,6 +1,7 @@
 import React from "react";
 import "./months.css";
 import { ArrowDownIcon, EqualIcon, PlusIcon } from "../utils/reactIcons";
+import { BsFiletypeXlsx } from "react-icons/bs";
 
 const Thismonth = ({
    isshowcards = true,
@@ -61,7 +62,7 @@ const Thismonth = ({
                   <div className="d-flex-col">
                      <div>
                         <div>
-                           <i className="fa fa-excel-chart"></i>
+                        <BsFiletypeXlsx />
                         </div>
                         <div>
                            <span>Excel Report</span>
