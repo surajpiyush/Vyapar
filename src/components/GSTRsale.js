@@ -1,6 +1,6 @@
-const GSTRsale = ({ tableHeader1, tableHeader2, data }) => {
-   console.log(data);
-   return (
+const GSTRsale = ({ tableHeader1, tableHeader2, data,sale }) => {
+   console.log(data,sale);
+   return ( 
       <>
          <table className="excel-like-table">
             <thead>
@@ -27,10 +27,10 @@ const GSTRsale = ({ tableHeader1, tableHeader2, data }) => {
                <tbody>
                   {data?.map((item) => (
                      <tr key={item?.id} style={{ textAlign: "center" }}>
-                        <td>{item?.gstNo}</td>
-                        <td>{item.partyName}</td>
+                        <td>{item?.gstNo || "-"}</td>
+                        <td>{item.partyName || "-"}</td>
 
-                        <td>{item.invoiceNumber}</td>
+                        <td>{sale ? item.invoiceNumber : item?.returnNo}</td>
                         <td>
                            {new Date(item.invoiceDate).toLocaleDateString(
                               "en-GB"

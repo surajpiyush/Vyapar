@@ -105,7 +105,7 @@ const GSTR1 = () => {
       "Place of Supply (Name Of State)",
    ];
    // console.log(data.getSale)
-   
+
    return (
       <div>
          <GSTRHearder
@@ -135,6 +135,7 @@ const GSTR1 = () => {
                      tableHeader1={SaletableHeader1}
                      tableHeader2={SaletableHeader2}
                      data={data?.getSale}
+                     sale={sale}
                   />
                )}
                {saleReturn && data?.getSaleReturn && (
@@ -142,6 +143,7 @@ const GSTR1 = () => {
                      tableHeader1={SaleReturntableHeader1}
                      tableHeader2={SaleReturntableHeader2}
                      data={data?.getSaleReturn}
+                     sale={sale}
                   />
                )}
                {saleReturn && !data?.getSaleReturn && (

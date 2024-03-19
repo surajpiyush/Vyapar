@@ -11,7 +11,6 @@ import { LuFilter as FilterIcon } from "react-icons/lu";
 import { IoIosArrowRoundUp as UpArrowIcon } from "react-icons/io";
 import { PiDotsThreeVerticalBold as VerticalDots } from "react-icons/pi";
 
-import ItemEditForm from "../addForm/ItemEditForm";
 import { IoSearchCircleSharp } from "react-icons/io5";
 
 export default function ProductsTable(Props) {
@@ -45,14 +44,11 @@ export default function ProductsTable(Props) {
    const handleShow = (item) => {
       // console.log(item);
       axios
-         .get(
-            `https://asaanly.in/${FirmId}/item/itemById/${item._id}`,
-            {
-               headers: {
-                  Authorization: `Bearer ${token}`,
-               },
-            }
-         )
+         .get(`https://asaanly.in/${FirmId}/item/itemById/${item._id}`, {
+            headers: {
+               Authorization: `Bearer ${token}`,
+            },
+         })
          .then((res) => {
             // console.log(res.data.data.allData);
             setTableData(res.data.data.allData.purchaseBill);
@@ -137,6 +133,8 @@ export default function ProductsTable(Props) {
                               }}
                            />
                         ) : !searchTerm ? (
+                           items &&
+                           Array.isArray(items) &&
                            items?.map((e, index) => (
                               <tr
                                  key={index}

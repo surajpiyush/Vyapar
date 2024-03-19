@@ -86,7 +86,9 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
             ...prevFormData,
             [name]: seletedUnit,
          }));
-      } else {
+      }
+      
+       else {
          setFormData((prevFormData) => ({
             ...prevFormData,
             [name]: value,
@@ -470,8 +472,8 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
                                           </select>
                                        </div>
                                     </div>
-                                    {formData?.purchasePrice?.tax !=
-                                       "false" && (
+                                    {formData?.purchasePrice?.tax ==
+                                       "true" && (
                                        <div className="">
                                           <div className="">
                                              <h4 style={{ textAlign: "start" }}>
@@ -487,49 +489,50 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
                                                 className="item-inp-field"
                                              >
                                                 <option value="">None</option>
-                                                <option value="0">
+                                                <option value="IGST@0">
                                                    IGST@0%
                                                 </option>
-                                                <option value="0">
+                                                <option value="GST@0">
                                                    GST@0%
                                                 </option>
-                                                <option value="0.25">
+                                                <option value="IGST@0.25">
                                                    IGST@0.25%
                                                 </option>
-                                                <option value="0.25">
+                                                <option value="GST@0.25">
                                                    GST@0.25%
                                                 </option>
-                                                <option value="3">
+                                                <option value="IGST@3">
                                                    IGST@3%
                                                 </option>
-                                                <option value="3">
+                                                <option value="GST@3">
                                                    GST@3%
                                                 </option>
-                                                <option value="5">
+                                                <option value="IGST@5">
                                                    IGST@5%
                                                 </option>
-                                                <option value="5">
+                                                <option value="GST@5">
                                                    GST@5%
                                                 </option>
-                                                <option value="12">
+                                                <option value="IGST@12">
                                                    IGST@12%
                                                 </option>
-                                                <option value="12">
+                                                <option value="GST@12">
                                                    GST@12%
                                                 </option>
-                                                <option value="18">
+                                                <option value="IGST@18">
                                                    IGST@18%
                                                 </option>
-                                                <option value="18">
+                                                <option value="GST@18">
                                                    GST@18%
                                                 </option>
-                                                <option value="28">
+                                                <option value="IGST@28">
                                                    IGST@28%
                                                 </option>
-                                                <option value="28">
+                                                <option value="GST@28">
                                                    GST@28%
                                                 </option>
                                              </select>
+
                                              {/* <input
                               type="number"
                               placeholder="Taxes"
