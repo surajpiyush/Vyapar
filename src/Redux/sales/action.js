@@ -113,7 +113,7 @@ export const GetSingleInvoiceData = async (dispatch, itemId, toast) => {
         },
       }
     );
-    // console.log("Get Single Invoice Response:", response?.data);
+    console.log("Get Single Invoice Response:", response?.data);
     dispatch(SUCCESS_SINGLE_INVOICE(response?.data?.data[0][0] || {}));
   } catch (error) {
     dispatch(ERROR_SINGLE_INVOICE());

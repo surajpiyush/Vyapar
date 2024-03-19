@@ -76,20 +76,20 @@ const RPLayout1 = ({ currPrintItem, usedAsDemo = false }) => {
                       : "16px",
                 }}
               >
-                {storedPrintData?.myCompanyName}
+                {storedPrintData?.companyName}
               </h1>
             )}
             {storedPrintData?.showBusinessAddress && (
-              <h2>{storedPrintData?.myBusinessAddress}</h2>
+              <h2>{storedPrintData?.businessAddress}</h2>
             )}
             {storedPrintData?.showPhoneNumber && (
               <h2>
                 Ph. no.:
-                {storedPrintData?.myPhoneNumber}
+                {storedPrintData?.phoneNumber}
               </h2>
             )}
             {storedPrintData?.showEmail && (
-              <h2>Email: {storedPrintData?.myEmail}</h2>
+              <h2>Email: {storedPrintData?.email}</h2>
             )}
           </div>
           <div className={css.topOuterRightSideDiv}>
@@ -412,7 +412,7 @@ const RPLayout1 = ({ currPrintItem, usedAsDemo = false }) => {
             </div>
             {storedPrintData?.showPrintSignatureText && (
               <div className={css.SignOuterDiv}>
-                <h2>For : {storedPrintData?.myCompanyName}</h2>
+                <h2>For : {storedPrintData?.companyName}</h2>
                 <div className={css.signImgDivCss}>
                   {storedPrintData?.signature ? (
                     <img src={storedPrintData?.signature} />
@@ -435,7 +435,7 @@ const RPLayout1 = ({ currPrintItem, usedAsDemo = false }) => {
                 color: storedPrintData?.layoutColor,
               }}
             >
-              {storedPrintData?.myCompanyName?.toUpperCase()}
+              {storedPrintData?.companyName?.toUpperCase()}
             </h2>
             <div className={css.acknBottomDivOuter}>
               <div style={{ width: "25%" }} className={css.innerAckDiv}>

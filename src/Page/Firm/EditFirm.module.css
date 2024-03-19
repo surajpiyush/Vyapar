@@ -262,6 +262,37 @@
 .footerDivOuter button:hover {
   background-color: var(--blueA);
 }
+#deleteBtn {
+  cursor: pointer;
+  margin-right: 18px;
+  padding: 5px 12px;
+  background-color: var(--redC);
+  transition: all 0.2s ease;
+}
+#deleteBtn:hover {
+  background-color: var(--redB);
+}
+
+/* Footer Loader Css */
+#footerLoader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #fff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 
 /* Input Css */
 .inputDiv {

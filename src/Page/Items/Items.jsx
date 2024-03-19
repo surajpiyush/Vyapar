@@ -88,7 +88,7 @@ export default function Items() {
     setToggleSetting(true);
   };
   return (
-    <div >
+    <div>
       {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
       {openForm && (
         <ItemsForm
@@ -151,7 +151,7 @@ export default function Items() {
                   </div>
                 </div>
               ) : (
-                <div className="" style={{ width: "100%" }}>
+                <div style={{ width: "100%" }}>
                   <ProductsTable
                     func={dataFromChild}
                     adjustForm={openAdjustForm}

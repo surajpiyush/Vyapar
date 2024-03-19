@@ -9,7 +9,12 @@ import {
   LOADING_GET_ALL_ITEMS,
   ERROR_GET_ALL_ITEMS,
   SUCCESS_GET_ALL_ITEMS,
-  EDIT_ITEM_SUCCESS,
+  LOADING_UPDATE_ITEM,
+  ERROR_UPDATE_ITEM,
+  SUCCESS_UPDATE_ITEM,
+  LOADING_DELETE_ITEM,
+  ERROR_DELETE_ITEM,
+  SUCCESS_DELETE_ITEM,
 } from "./actionTypes";
 
 const initialState = {
@@ -19,16 +24,24 @@ const initialState = {
   toggleItems: false,
   allItems: [],
 
-  //   Get Single Items Action
+  //   Get Single Items States
   getSingleLoading: false,
   getSingleError: false,
   singleItemData: [],
   toggleGetItemSuccess: false,
 
-  //   Get All Items Action
+  //   Get All Items states
   getAllItemsLoading: false,
   getAllItemsError: false,
   fetchAllItemsSuccessToggle: false,
+
+  // Update Item states
+  loadingUpdate: false,
+  errorUpdate: false,
+
+  // Delete states
+  loadingDelete: false,
+  errorDelete: false,
 };
 
 export const reducer = (state = initialState, { type, payload }) => {
@@ -69,7 +82,7 @@ export const reducer = (state = initialState, { type, payload }) => {
       };
     }
 
-    //  Single Item get actions
+    //  Single Item get
     case LOADING_SINGLE_ITEM: {
       return { ...state, getSingleLoading: true, getSingleError: false };
     }
@@ -84,6 +97,37 @@ export const reducer = (state = initialState, { type, payload }) => {
         toggleGetItemSuccess: !state.toggleGetItemSuccess,
       };
     }
+
+    // Update Item
+    case LOADING_UPDATE_ITEM: {
+      return { ...state, loadingUpdate: true, errorUpdate: false };
+    }
+    case ERROR_UPDATE_ITEM: {
+      return { ...state, loadingUpdate: false, errorUpdate: true };
+    }
+    case SUCCESS_UPDATE_ITEM: {
+      return {
+        ...state,
+        loadingUpdate: false,
+        toggleItems: !state.toggleItems,
+      };
+    }
+
+    // Delete Item
+    case LOADING_DELETE_ITEM: {
+      return { ...state, loadingDelete: true, errorDelete: false };
+    }
+    case ERROR_DELETE_ITEM: {
+      return { ...state, loadingDelete: false, errorDelete: true };
+    }
+    case SUCCESS_DELETE_ITEM: {
+      return {
+        ...state,
+        loadingDelete: false,
+        toggleItems: !state.toggleItems,
+      };
+    }
+
     default: {
       return state;
     }

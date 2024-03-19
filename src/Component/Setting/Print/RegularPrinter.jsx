@@ -133,8 +133,8 @@ const RegularPrinter = ({ regularPrinterData, setRegularPrinterData }) => {
             <input
               type="text"
               id="checkbox"
-              name="myCompanyName"
-              value={regularPrinterData?.myCompanyName}
+              name="companyName"
+              value={regularPrinterData?.companyName}
               disabled={!regularPrinterData?.showCompanyName}
               readOnly={!regularPrinterData?.showCompanyName}
               onChange={handleInpChange}
@@ -142,7 +142,7 @@ const RegularPrinter = ({ regularPrinterData, setRegularPrinterData }) => {
             />
             <label
               className={
-                regularPrinterData?.myCompanyName
+                regularPrinterData?.companyName
                   ? css.activeLabel
                   : css.inactiveLabel
               }
@@ -172,8 +172,8 @@ const RegularPrinter = ({ regularPrinterData, setRegularPrinterData }) => {
           <div className={css.inputDiv}>
             <input
               type="text"
-              name="myBusinessAddress"
-              value={regularPrinterData?.myBusinessAddress}
+              name="businessAddress"
+              value={regularPrinterData?.businessAddress}
               disabled={!regularPrinterData?.showBusinessAddress}
               readOnly={!regularPrinterData?.showBusinessAddress}
               onChange={handleInpChange}
@@ -181,7 +181,7 @@ const RegularPrinter = ({ regularPrinterData, setRegularPrinterData }) => {
             />
             <label
               className={
-                regularPrinterData?.myBusinessAddress
+                regularPrinterData?.businessAddress
                   ? css.activeLabel
                   : css.inactiveLabel
               }
@@ -201,8 +201,8 @@ const RegularPrinter = ({ regularPrinterData, setRegularPrinterData }) => {
           <div className={css.inputDiv}>
             <input
               type="email"
-              name="myEmail"
-              value={regularPrinterData?.myEmail}
+              name="email"
+              value={regularPrinterData?.email}
               disabled={!regularPrinterData?.showEmail}
               readOnly={!regularPrinterData?.showEmail}
               onChange={handleInpChange}
@@ -210,9 +210,7 @@ const RegularPrinter = ({ regularPrinterData, setRegularPrinterData }) => {
             />
             <label
               className={
-                regularPrinterData?.myEmail
-                  ? css.activeLabel
-                  : css.inactiveLabel
+                regularPrinterData?.email ? css.activeLabel : css.inactiveLabel
               }
             >
               Email
@@ -230,8 +228,8 @@ const RegularPrinter = ({ regularPrinterData, setRegularPrinterData }) => {
           <div className={css.inputDiv}>
             <input
               type="number"
-              name="myPhoneNumber"
-              value={regularPrinterData?.myPhoneNumber}
+              name="phoneNumber"
+              value={regularPrinterData?.phoneNumber}
               disabled={!regularPrinterData?.showPhoneNumber}
               readOnly={!regularPrinterData?.showPhoneNumber}
               onChange={handleInpChange}
@@ -239,7 +237,7 @@ const RegularPrinter = ({ regularPrinterData, setRegularPrinterData }) => {
             />
             <label
               className={
-                regularPrinterData?.myPhoneNumber
+                regularPrinterData?.phoneNumber
                   ? css.activeLabel
                   : css.inactiveLabel
               }
