@@ -7,6 +7,7 @@ import { ColorArray } from "../../../App";
 
 import { useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import RPLayout1 from "../../PrintLayouts/RPLayout1";
 
 const RegularPrinter = ({ regularPrinterData, setRegularPrinterData }) => {
   const toast = useToast();
@@ -132,8 +133,8 @@ const RegularPrinter = ({ regularPrinterData, setRegularPrinterData }) => {
             <input
               type="text"
               id="checkbox"
-              name="companyName"
-              value={regularPrinterData?.companyName}
+              name="myCompanyName"
+              value={regularPrinterData?.myCompanyName}
               disabled={!regularPrinterData?.showCompanyName}
               readOnly={!regularPrinterData?.showCompanyName}
               onChange={handleInpChange}
@@ -141,7 +142,7 @@ const RegularPrinter = ({ regularPrinterData, setRegularPrinterData }) => {
             />
             <label
               className={
-                regularPrinterData?.companyName
+                regularPrinterData?.myCompanyName
                   ? css.activeLabel
                   : css.inactiveLabel
               }
@@ -171,8 +172,8 @@ const RegularPrinter = ({ regularPrinterData, setRegularPrinterData }) => {
           <div className={css.inputDiv}>
             <input
               type="text"
-              name="businessAddress"
-              value={regularPrinterData?.businessAddress}
+              name="myBusinessAddress"
+              value={regularPrinterData?.myBusinessAddress}
               disabled={!regularPrinterData?.showBusinessAddress}
               readOnly={!regularPrinterData?.showBusinessAddress}
               onChange={handleInpChange}
@@ -180,7 +181,7 @@ const RegularPrinter = ({ regularPrinterData, setRegularPrinterData }) => {
             />
             <label
               className={
-                regularPrinterData?.businessAddress
+                regularPrinterData?.myBusinessAddress
                   ? css.activeLabel
                   : css.inactiveLabel
               }
@@ -200,8 +201,8 @@ const RegularPrinter = ({ regularPrinterData, setRegularPrinterData }) => {
           <div className={css.inputDiv}>
             <input
               type="email"
-              name="email"
-              value={regularPrinterData?.email}
+              name="myEmail"
+              value={regularPrinterData?.myEmail}
               disabled={!regularPrinterData?.showEmail}
               readOnly={!regularPrinterData?.showEmail}
               onChange={handleInpChange}
@@ -209,7 +210,9 @@ const RegularPrinter = ({ regularPrinterData, setRegularPrinterData }) => {
             />
             <label
               className={
-                regularPrinterData?.email ? css.activeLabel : css.inactiveLabel
+                regularPrinterData?.myEmail
+                  ? css.activeLabel
+                  : css.inactiveLabel
               }
             >
               Email
@@ -227,8 +230,8 @@ const RegularPrinter = ({ regularPrinterData, setRegularPrinterData }) => {
           <div className={css.inputDiv}>
             <input
               type="number"
-              name="phoneNumber"
-              value={regularPrinterData?.phoneNumber}
+              name="myPhoneNumber"
+              value={regularPrinterData?.myPhoneNumber}
               disabled={!regularPrinterData?.showPhoneNumber}
               readOnly={!regularPrinterData?.showPhoneNumber}
               onChange={handleInpChange}
@@ -236,7 +239,7 @@ const RegularPrinter = ({ regularPrinterData, setRegularPrinterData }) => {
             />
             <label
               className={
-                regularPrinterData?.phoneNumber
+                regularPrinterData?.myPhoneNumber
                   ? css.activeLabel
                   : css.inactiveLabel
               }
@@ -270,17 +273,17 @@ const RegularPrinter = ({ regularPrinterData, setRegularPrinterData }) => {
               onChange={handleInpChange}
               style={{ width: "110px" }}
             >
-              <option value="VerySmall">V. Small</option>
+              <option value="V. Small">V. Small</option>
               <option value="Small">Small</option>
               <option value="Medium">Medium</option>
               <option value="Large">Large</option>
-              <option value="Very Large">V. Large</option>
-              <option value="Extra Large">E. Large</option>
+              <option value="V. Large">V. Large</option>
+              <option value="E. Large">E. Large</option>
             </select>
           </div>
         </div>
         {/* Invoice Text Size */}
-        <div className={css.checkboxOuterDiv}>
+        {/* <div className={css.checkboxOuterDiv}>
           <label style={{ width: "180px" }}>Invoice Text Size</label>
           <div className={css.inputDiv}>
             <select
@@ -297,7 +300,7 @@ const RegularPrinter = ({ regularPrinterData, setRegularPrinterData }) => {
               <option value="Extra Large">E. Large</option>
             </select>
           </div>
-        </div>
+        </div> */}
         {/* Print Original/Duplicate */}
         <div className={css.checkboxOuterDiv}>
           <input
@@ -446,7 +449,7 @@ const RegularPrinter = ({ regularPrinterData, setRegularPrinterData }) => {
             <input
               type="text"
               name="signatureText"
-              checked={regularPrinterData?.signatureText}
+              value={regularPrinterData?.signatureText}
               onChange={handleInpChange}
               className={css.input}
             />
@@ -462,7 +465,7 @@ const RegularPrinter = ({ regularPrinterData, setRegularPrinterData }) => {
           </div>
         </div>
         {/* Payment Mode */}
-        <div className={css.checkboxOuterDiv}>
+        {/* <div className={css.checkboxOuterDiv}>
           <input
             type="checkbox"
             name="showPaymentMode"
@@ -470,7 +473,7 @@ const RegularPrinter = ({ regularPrinterData, setRegularPrinterData }) => {
             onChange={handleInpChange}
           />
           <label>Payment Mode</label>
-        </div>
+        </div> */}
         {/* Print Acknowledgement*/}
         <div className={css.checkboxOuterDiv}>
           <input
@@ -486,11 +489,12 @@ const RegularPrinter = ({ regularPrinterData, setRegularPrinterData }) => {
       <div className={css.RightSideContentOuterDiv}>
         <div>
           {regularPrinterData?.layoutIndex == 0 ? (
-            <img src={RpLayout1} alt="Layout1" />
+            // <img src={RpLayout1} alt="Layout1" />
+            <RPLayout1 usedAsDemo={true} />
           ) : regularPrinterData?.layoutIndex == 1 ? (
             <img src={RpLayout2} alt="Layout2" />
           ) : (
-            <img src={RpLayout1} alt="Layout1" />
+            <RPLayout1 usedAsDemo={true} />
           )}
         </div>
       </div>
@@ -502,5 +506,5 @@ export default RegularPrinter;
 
 const RegularLayoutArr = [
   { img: RpTheme1, text: "GST Theme 1", themeIndex: 0 },
-  { img: RpTheme2, text: "GST Theme 2", themeIndex: 1 },
+  // { img: RpTheme2, text: "GST Theme 2", themeIndex: 1 },
 ];

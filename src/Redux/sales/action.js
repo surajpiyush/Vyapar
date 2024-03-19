@@ -749,3 +749,113 @@ export const FormatDate = (dateString) => {
 
   return formattedDate;
 };
+
+export function ConvertPriceToWords(price) {
+  // Check if the input is a valid number
+  if (isNaN(price) || price < 0) {
+    return "Encountered error while displaying amount in words";
+  }
+
+  // Array of Indian number names
+  const indianNumbers = [
+    "",
+    "One",
+    "Two",
+    "Three",
+    "Four",
+    "Five",
+    "Six",
+    "Seven",
+    "Eight",
+    "Nine",
+    "Ten",
+    "Eleven",
+    "Twelve",
+    "Thirteen",
+    "Fourteen",
+    "Fifteen",
+    "Sixteen",
+    "Seventeen",
+    "Eighteen",
+    "Nineteen",
+  ];
+
+  const tensNames = [
+    "",
+    "",
+    "Twenty",
+    "Thirty",
+    "Forty",
+    "Fifty",
+    "Sixty",
+    "Seventy",
+    "Eighty",
+    "Ninety",
+  ];
+
+  // Function to convert a number less than 1000 to words
+  function convertLessThanOneThousand(num) {
+    let result = "";
+    if (num >= 100) {
+      result += indianNumbers[Math.floor(num / 100)] + " Hundred ";
+      num %= 100;
+    }
+    if (num >= 20) {
+      result += tensNames[Math.floor(num / 10)] + " ";
+      num %= 10;
+    }
+    if (num > 0) {
+      result += indianNumbers[num] + " ";
+    }
+    return result.trim();
+  }
+
+  // Function to convert the whole number to words
+  function convertWholeNumberToWords(num) {
+    let result = "";
+    if (num === 0) {
+      return "Zero";
+    }
+    let index = 0;
+    do {
+      let chunk = num % 1000;
+      if (chunk !== 0) {
+        result =
+          convertLessThanOneThousand(chunk) +
+          ["", "Thousand ", "Lakh ", "Crore "][index] +
+          result;
+      }
+      index++;
+      num = Math.floor(num / 1000);
+    } while (num > 0);
+    return result.trim();
+  }
+
+  // Function to convert the decimal part to words
+  function convertDecimalToWords(num) {
+    const decimalStr = num.toFixed(2).split(".")[1];
+    const firstDigit = Math.floor(decimalStr / 10);
+    const secondDigit = decimalStr % 10;
+    let result = "";
+    if (firstDigit > 0) {
+      result += indianNumbers[firstDigit] + " ";
+    }
+    if (secondDigit > 0) {
+      result += indianNumbers[secondDigit] + " ";
+    }
+    return result.trim();
+  }
+
+  // Main function
+  const wholePart = Math.floor(price);
+  const decimalPart = price - wholePart;
+  let result = "";
+  if (wholePart > 0) {
+    result += convertWholeNumberToWords(wholePart) + " Rupees ";
+  }
+  if (decimalPart > 0) {
+    result += "and " + convertDecimalToWords(decimalPart) + " Paisa ";
+  }
+  result += "only";
+  return result.trim();
+}

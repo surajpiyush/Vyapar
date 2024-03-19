@@ -17,6 +17,7 @@ const initialState = {
   items: [],
   toggleItems: false,
   allItems: [],
+
   //   Get Single Items Action
   getSingleLoading: false,
   getSingleError: false,
@@ -26,6 +27,7 @@ const initialState = {
   //   Get All Items Action
   getAllItemsLoading: false,
   getAllItemsError: false,
+  fetchAllItemsSuccessToggle: false,
 };
 
 export const reducer = (state = initialState, { type, payload }) => {
@@ -41,7 +43,7 @@ export const reducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         isLoading: false,
-        // items: payload  ,
+        items: payload,
         toggleItems: !state.toggleItems,
       };
     }
@@ -62,6 +64,7 @@ export const reducer = (state = initialState, { type, payload }) => {
         getAllItemsLoading: false,
         items: payload,
         allItems: payload,
+        fetchAllItemsSuccessToggle: !state.fetchAllItemsSuccessToggle,
       };
     }
 
