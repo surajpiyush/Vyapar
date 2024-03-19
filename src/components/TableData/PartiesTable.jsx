@@ -6,8 +6,8 @@ import { IoIosArrowRoundUp as UpArrowIcon } from "react-icons/io";
 import { PiDotsThreeVerticalBold as VerticalDots } from "react-icons/pi";
 import { ImSpinner3 as BasicSpinner } from "react-icons/im";
 import { getCurrentPartyData } from "../../Redux/parties/actions";
-import PartyEditForm from "../addForm/PartyEditForm";
 import { IoSearchCircleSharp } from "react-icons/io5";
+import PartyEditForm from "../addForm/PartyEditForm";
 
 export default function PartiesTable({ func }) {
    const dispatch = useDispatch();
@@ -23,7 +23,7 @@ export default function PartiesTable({ func }) {
       (state) => state.PartiesReducer.currentPartyTansection
    );
 
-   console.log(partyTransaction);
+   // console.log(partyTransaction)
    const currentParty = useSelector(
       (state) => state.PartiesReducer.currentPartyTansection.party
    );
@@ -35,9 +35,9 @@ export default function PartiesTable({ func }) {
       setImpParties(true);
    };
 
-   const openForm = () => {
-      func(true);
-   };
+  const openForm = () => {
+    func(true);
+  };
 
    return (
       <div className="" style={{ width: "100vw", height: "100vh", position: "fixed", background: "gray" }}>  
@@ -48,7 +48,7 @@ export default function PartiesTable({ func }) {
             />
          )}
 
-         {impParties && (
+         {/* {impParties && (
             <div className="imp-party-form">
                <div className="d-between">
                   <div className="">
@@ -81,61 +81,57 @@ export default function PartiesTable({ func }) {
                   <button className="imp-party-btn">Get OTP</button>
                </div>
             </div>
-         )}
+         )} */}
 
-         <div>
-            <div className="d-flex">
-               <div className="grp-cont1">
-                  <div
-                     className="d-flex"
-                     style={{
-                        padding: "10px",
-                        // background: "white",
-                        borderRadius: "15px",
-                        fontSize: "10px",
-                        boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
-                     }}
-                     onClick={openImportParties}
-                  >
-                     <div className="imp-icon-cont">
-                        <i
-                           className="fa fa-address-book-o"
-                           style={{ color: "orange" }}
-                        ></i>
-                     </div>
-                     <div className="imp-content">
-                        <h6>Import Parties</h6>
-                        <p>
-                           Use contact from your Phone or Gmail to create
-                           parties.
-                        </p>
-                     </div>
-                  </div>
-                  <div
-                     style={{
-                        marginTop: "10px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        // gap: "3rem",
-                        
-                        width: "100%",
-                        boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
-                     }}
-                  >
-                     <div style={{ fontSize: "3rem" }}>
-                        <IoSearchCircleSharp />
-                     </div>
-                     <button
-                        className="add-party-btn"
-                        style={{ textAlign: "end" }}
-                        onClick={openForm}
-                     >
-                        + Add Party <i className="fa fa-angle-down"></i>
-                     </button>
-                  </div>
+      <div>
+        <div className="d-flex">
+          <div className="grp-cont1">
+            {/* <div
+              className="d-flex"
+              style={{
+                marginTop: "20px",
+                borderBottom: "1px solid grey",
+                padding: "10px",
+                // background:"white",
+                borderRadius: "15px",
+              }}
+              onClick={openImportParties}
+            >
+              <div className="imp-icon-cont">
+                <i
+                  className="fa fa-address-book-o"
+                  style={{ color: "orange" }}
+                ></i>
+              </div>
+              <div className="imp-content">
+                <h4>Import Parties</h4>
+                <p>Use contact from your Phone or Gmail to create parties.</p>
+              </div>
+            </div> */}
+            <div
+              style={{
+                marginTop: "20px",
+                display: "flex",
+                gap: "3.1rem",
+              }}
+            >
+              <div style={{ fontSize: "3rem" }}>
+                <IoSearchCircleSharp />
+              </div>
+              <button
+                className="add-party-btn"
+                style={{ textAlign: "end" }}
+                onClick={openForm}
+              >
+                + Add Party <i className="fa fa-angle-down"></i>
+              </button>
+            </div>
 
                   {/* Parties Table */}
-                  <table className="partiestable-outer" style={{width:"50px"}}>
+                  <table
+                     className="partiestable-outer"
+                     style={{ marginTop: "20px" }}
+                  >
                      <thead>
                         <tr>
                            <th>PARTY</th>
@@ -177,47 +173,41 @@ export default function PartiesTable({ func }) {
                   </table>
                </div>
                <div className="grp-cont2">
-                  {currentParty && (
-                     <div className="grp-cont2a">
+               {
+                  currentParty && 
+           
+                  <div className="grp-cont2a">
+                     <div className="">
+                        <h5>{currentParty[0]?.partyName || "" }</h5>
+                        <div className="d-between">
+                           <p>PhoneNo : {currentParty[0]?.phoneNumber || ""}</p>
+                           <p>Address : {currentParty[0]?.billingAddress || ""}</p>
+                        </div>
+                        <div className="d-between">
+                           <p>Email : {currentParty[0]?.email || ""}</p>
+                           <p>GSTIN : {currentParty[0]?.gstNo || ""}</p>
+                        </div>
                         <div className="">
-                           <h5>{currentParty[0]?.partyName || ""}</h5>
-                           <div className="d-between">
-                              <p>
-                                 PhoneNo : {currentParty[0]?.phoneNumber || ""}
-                              </p>
-                              <p>
-                                 Address :{" "}
-                                 {currentParty[0]?.billingAddress || ""}
-                              </p>
-                           </div>
-                           <div className="d-between">
-                              <p>Email : {currentParty[0]?.email || ""}</p>
-                              <p>GSTIN : {currentParty[0]?.gstNo || ""}</p>
-                           </div>
-                           <div className="">
-                              <p>No Credit Limit Set: $ Set credit limit</p>
-                           </div>
+                           <p>No Credit Limit Set: $ Set credit limit</p>
                         </div>
                      </div>
-                  )}
-                  {!currentParty && (
-                     <div className="grp-cont2a">
+                  </div> }
+                  {!currentParty &&  <div className="grp-cont2a">
+                     <div className="">
+                        <h5>PartyName - .........</h5>
+                        <div className="d-between">
+                           <p>PhoneNo :</p>
+                           <p>Address : </p>
+                        </div>
+                        <div className="d-between">
+                           <p>Email : nishantsharma13903@gmail.com</p>
+                           <p>GSTIN : 09ALHPD4925B1ZG</p>
+                        </div>
                         <div className="">
-                           <h5>PartyName - .........</h5>
-                           <div className="d-between">
-                              <p>PhoneNo :</p>
-                              <p>Address : </p>
-                           </div>
-                           <div className="d-between">
-                              <p>Email : nishantsharma13903@gmail.com</p>
-                              <p>GSTIN : 09ALHPD4925B1ZG</p>
-                           </div>
-                           <div className="">
-                              <p>No Credit Limit Set: $ Set credit limit</p>
-                           </div>
+                           <p>No Credit Limit Set: $ Set credit limit</p>
                         </div>
                      </div>
-                  )}
+                  </div>}
                   <div className="grp-cont2b">
                      <div className="d-between">
                         <h3>Transaction</h3>
@@ -229,7 +219,7 @@ export default function PartiesTable({ func }) {
                         />
                      </div>
                      <div className="">
-                        <table className="transaction-table"   >
+                        <table className="transaction-table">
                            <thead>
                               <tr>
                                  <th>
@@ -264,18 +254,9 @@ export default function PartiesTable({ func }) {
                                           (e, innerIndex) => (
                                              <tr key={innerIndex}>
                                                 <td>{e.type}</td>
-                                                <td>
-                                                   {e.invoiceOrRefNo ||
-                                                      e.number}
-                                                </td>
-                                                <td>
-                                                   {new Date(
-                                                      e.date
-                                                   ).toLocaleDateString(
-                                                      "en-GB"
-                                                   )}
-                                                </td>
-
+                                                <td>{e.invoiceOrRefNo || e.number }</td>
+                                                <td>{new Date(e.date).toLocaleDateString("en-GB")}</td>
+                                             
                                                 <td>{e.total}</td>
                                                 <td>{e.balance}</td>
                                              </tr>

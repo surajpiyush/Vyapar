@@ -1,4 +1,4 @@
-
+import "../../styles/Items.css";
 import css from "../../styles/SalesStyles/SalesForms.module.css";
 import { addItem } from "../../Redux/items/actions";
 
@@ -208,11 +208,7 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
                         required
                      />
                      {/* Unit */}
-                     <button
-                        type="button"
-                        className="select-unit-btn"
-                        
-                     >
+                     <button type="button" className="select-unit-btn">
                         {!sel ? (
                            <td
                               className={css.unitBody}
@@ -474,48 +470,67 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
                                           </select>
                                        </div>
                                     </div>
-
-                                    <div className="">
+                                    {formData?.purchasePrice?.tax !=
+                                       "false" && (
                                        <div className="">
-                                          <h4 style={{ textAlign: "start" }}>
-                                             Taxes
-                                          </h4>
-                                       </div>
-                                       <div className="d-flex">
-                                          {/* Taxes */}
-                                          <select
-                                             name="taxRate"
-                                             value={formData?.taxRate}
-                                             onChange={handleChange}
-                                             className="item-inp-field"
-                                          >
-                                             <option value="">None</option>
-                                             <option value="0">IGST@0%</option>
-                                             <option value="0">GST@0%</option>
-                                             <option value="0.25">
-                                                IGST@0.25%
-                                             </option>
-                                             <option value="0.25">
-                                                GST@0.25%
-                                             </option>
-                                             <option value="3">IGST@3%</option>
-                                             <option value="3">GST@3%</option>
-                                             <option value="5">IGST@5%</option>
-                                             <option value="5">GST@5%</option>
-                                             <option value="12">
-                                                IGST@12%
-                                             </option>
-                                             <option value="12">GST@12%</option>
-                                             <option value="18">
-                                                IGST@18%
-                                             </option>
-                                             <option value="18">GST@18%</option>
-                                             <option value="28">
-                                                IGST@28%
-                                             </option>
-                                             <option value="28">GST@28%</option>
-                                          </select>
-                                          {/* <input
+                                          <div className="">
+                                             <h4 style={{ textAlign: "start" }}>
+                                                Taxes
+                                             </h4>
+                                          </div>
+                                          <div className="d-flex">
+                                             {/* Taxes */}
+                                             <select
+                                                name="taxRate"
+                                                value={formData?.taxRate}
+                                                onChange={handleChange}
+                                                className="item-inp-field"
+                                             >
+                                                <option value="">None</option>
+                                                <option value="0">
+                                                   IGST@0%
+                                                </option>
+                                                <option value="0">
+                                                   GST@0%
+                                                </option>
+                                                <option value="0.25">
+                                                   IGST@0.25%
+                                                </option>
+                                                <option value="0.25">
+                                                   GST@0.25%
+                                                </option>
+                                                <option value="3">
+                                                   IGST@3%
+                                                </option>
+                                                <option value="3">
+                                                   GST@3%
+                                                </option>
+                                                <option value="5">
+                                                   IGST@5%
+                                                </option>
+                                                <option value="5">
+                                                   GST@5%
+                                                </option>
+                                                <option value="12">
+                                                   IGST@12%
+                                                </option>
+                                                <option value="12">
+                                                   GST@12%
+                                                </option>
+                                                <option value="18">
+                                                   IGST@18%
+                                                </option>
+                                                <option value="18">
+                                                   GST@18%
+                                                </option>
+                                                <option value="28">
+                                                   IGST@28%
+                                                </option>
+                                                <option value="28">
+                                                   GST@28%
+                                                </option>
+                                             </select>
+                                             {/* <input
                               type="number"
                               placeholder="Taxes"
                               className="item-inp-field"
@@ -524,8 +539,9 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
                               <option value="">Percentage</option>
                               <option value="">Amount</option>
                             </select> */}
+                                          </div>
                                        </div>
-                                    </div>
+                                    )}
                                  </div>
                               </div>
                            </div>

@@ -83,39 +83,35 @@ export default function Items() {
       }
    };
 
-   // setting icon click function
-   const handleSettingClick = () => {
-      setOpenForm(false);
-      setToggleSetting(true);
-   };
-   return (
-      <div>
-         {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
-         {openForm && (
-            <ItemsForm
-               handleSettingClick={handleSettingClick}
-               closeForm={() => setOpenForm(false)}
-            />
-         )}
-         {categoryForm && <CategoryForm func={closeCategoryForm} />}
-         {unitForm && <UnitForm func={closeUnitForm} />}
-         {adjustItem && <StockAdjustment func={closeAdjustForm} />}
-         <div className="nav">
-            <div
-               className="nav-opt"
-               style={{
-                  width: "100%",
-                  borderBottom: !opt
-                     ? "4px solid var(--greyA)"
-                     : "4px solid var(--blueB)",
-               }}
-               onClick={() => {
-                  openSection(0);
-               }}
-            >
-               Products
-            </div>
-            {/* <div
+
+  // setting icon click function
+  const handleSettingClick = () => {
+    setOpenForm(false);
+    setToggleSetting(true);
+  };
+  return (
+    <div>
+      {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
+      {openForm && (
+        <ItemsForm
+          handleSettingClick={handleSettingClick}
+          closeForm={() => setOpenForm(false)}
+        />
+      )}
+      {categoryForm && <CategoryForm func={closeCategoryForm} />}
+      {unitForm && <UnitForm func={closeUnitForm} />}
+      {adjustItem && <StockAdjustment func={closeAdjustForm} />}
+      <div className="nav">
+        <div
+          className="nav-opt"
+          onClick={() => {
+            openSection(0);
+          }}
+        >
+          Products
+        </div>
+
+        {/* <div
           className="nav-opt"
           onClick={() => {
             openSection(1);

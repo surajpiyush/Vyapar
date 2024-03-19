@@ -8,6 +8,7 @@ import Setting from "../../../Component/Setting/Setting";
 import RPLayout1 from "../../../Component/PrintLayouts/RPLayout1";
 import RPLayout2 from "../../../Component/PrintLayouts/RPLayout2";
 import FirstTimeFormToggle from "../../../Component/FirmTimeForm/FirstTimeFormToggle";
+import { GetAllItems } from "../../../Redux/items/actions";
 import { REGULAR_PRINTER_DATA } from "../../../Redux/store";
 import { TOGGLE_FALSE_INVOICE_SUCCESS } from "../../../Redux/sales/reducer";
 import {
@@ -48,6 +49,11 @@ export default function SalesInvoice() {
       (state) => state.SalesReducer.toggleSalesSuccess
    );
    const isLoading = useSelector((state) => state.SalesReducer.isLoading);
+   const toggleItems = useSelector((state) => state.ItemReducer.toggleItems);
+   const allItems = useSelector((state) => state.ItemReducer.allItems);
+   const fetchAllItemsSuccessToggle = useSelector(
+      (state) => state.ItemReducer.fetchAllItemsSuccessToggle
+   );
    const invoicesList = useSelector((state) => state.SalesReducer.invoicesList);
    const loadingSingleInvoice = useSelector(
       (state) => state.SalesReducer.loadingSingleInvoice
@@ -58,11 +64,18 @@ export default function SalesInvoice() {
    const SingleInvoiceData = useSelector(
       (state) => state.SalesReducer.SingleInvoiceData
    );
+
+   //   This useEffect is written to get all items data to extract item names ********************************
+   useEffect(() => {
+      dispatch(GetAllItems());
+   }, [toggleItems]);
+   // ********************************************************************************8
+
    // Calculate paid and unpaid amounts from the data
    const calculateAmounts = () => {
       let paid = 0;
       let unpaid = 0;
-      console.log(invoicesList);
+
       invoicesList.forEach((item) => {
          paid += item.amount || 0;
          unpaid += item.balanceDue || 0;
@@ -210,17 +223,11 @@ export default function SalesInvoice() {
 
          {/* Top Nav */}
          <div className="grp-cont-invoice">
-            <div
-               className={css.TableOuter}
-               style={{
-                  margin: "10px",
-                  background: "white",
-               }}
-            >
-               <div className={css.dBetween} style={{ alignItems: "center" }}>
-                  <div className={css.dFlex} style={{ gap: "10px" }}>
-                     <div className={css.dFlex}>
-                        <select name="" id="" className={css.invoiceSelect}>
+            <div className="">
+               <div className="d-between" style={{ alignItems: "center" }}>
+                  <div className="d-flex" style={{ gap: "10px" }}>
+                     <div className="">
+                        <select name="" id="" className="invoice-select">
                            <option value="">This Month</option>
                            <option value="">This Quarter</option>
                            <option value="">Last Month</option>
@@ -228,109 +235,71 @@ export default function SalesInvoice() {
                            <option value="">Custom</option>
                         </select>
                      </div>
-                     <div
-                        className={css.dFlex}
-                        style={{ border: "1px solid gray" }}
-                     >
+                     <div className="d-flex">
+                        <p>Between</p>
                         <div
-                           style={{
-                              padding: "2px 12px 2px 15px",
-                              background: "gray",
-                           }}
+                           className="d-flex"
+                           style={{ gap: "10px", marginLeft: "10px" }}
                         >
-                           <p> Between</p>
-                        </div>
-
-                        <input
-                           type="date"
-                           value={startDate}
-                           onChange={(e) => setStartDate(e.target.value)}
-                           className={css.invoiceInput}
-                        />
-                        <div
-                           style={{
-                              padding: "2 px 12px 2px 15px",
-                           }}
-                        >
+                           <input
+                              type="date"
+                              value={startDate}
+                              onChange={(e) => setStartDate(e.target.value)}
+                              className="invoice-input"
+                           />
                            <span>To</span>
+                           <input
+                              type="date"
+                              value={endDate}
+                              onChange={(e) => setEndDate(e.target.value)}
+                              className="invoice-input"
+                           />
                         </div>
-
-                        <input
-                           type="date"
-                           value={endDate}
-                           onChange={(e) => setEndDate(e.target.value)}
-                           className="invoice-input"
-                        />
                      </div>
-                     <div className={css.dFlex}>
-                        <select name="" id="" className={css.invoiceSelect}>
+                     <div className="" style={{ marginLeft: "10px" }}>
+                        <select name="" id="" className="invoice-select2">
                            <option value="">All Firms</option>
                            <option value="">My Company</option>
                         </select>
                      </div>
                   </div>
-                  <div
-                     className={css.dFlex}
-                     style={{ gap: "20px", paddingRight: "25px" }}
-                  >
-                     <div>
-                        <div>
-                           <i
-                              className="fa fa-bar-chart"
-                              aria-hidden="true"
-                           ></i>
-                        </div>
-                        <div>
-                           <span>Graph</span>
-                        </div>
+                  <div className="d-flex" style={{ gap: "20px" }}>
+                     <div className="d-flex-col">
+                        <i className="fa fa-bar-chart" aria-hidden="true"></i>
+                        <span>Graph</span>
                      </div>
                      <div className="d-flex-col">
-                        <div>
-                           <div>
-                              <i className="fa fa-excel-chart"></i>
-                           </div>
-                           <div>
-                              <span>Excel Report</span>
-                           </div>
-                        </div>
+                        <i className="fa fa-bar-chart" aria-hidden="true"></i>
+                        <span>Excel Report</span>
                      </div>
                      <div className="d-flex-col">
-                        <div>
-                           <div>
-                              <i className="fa fa-print" aria-hidden="true"></i>
-                           </div>
-                           <div>
-                              <span>Print</span>
-                           </div>
-                        </div>
+                        <i className="fa fa-bar-chart" aria-hidden="true"></i>
+                        <span>Print</span>
                      </div>
                   </div>
                </div>
-               <div style={{ display: "flex", gap: "20px", marginTop: "20px" }}>
+               <div
+                  className="d-flex"
+                  style={{ gap: "20px", marginTop: "20px" }}
+               >
                   <div
                      style={{
-                        backgroundColor: "rgba(67, 160, 71,0.75)",
+                        backgroundColor: "Coral",
                         padding: "12px 30px",
                         color: "white",
                         borderRadius: "10px",
-                        textAlign: "center",
-                        width: "150px",
                      }}
                   >
                      <span>Paid</span>
                      <br />
                      <span>₹{paidAmount - unpaidAmount}</span>
                   </div>
-                  <div className={css.centeredItems}>
-                     <span>+</span>
-                  </div>
+                  +
                   <div
                      style={{
                         backgroundColor: "Pink",
                         padding: "12px 30px",
                         color: "white",
-                        textAlign: "center",
-                        width: "150px",
                         borderRadius: "10px",
                      }}
                   >
@@ -338,34 +307,13 @@ export default function SalesInvoice() {
                      <br />
                      <span>₹{unpaidAmount}</span>
                   </div>
-                  <div className={css.centeredItems}>
-                     <span>+</span>
-                  </div>
+                  =
                   <div
                      style={{
-                        padding: "12px 30px",
-                        backgroundColor: "rgba(221, 0, 0,0.5)",
-                        color: "white",
-                        borderRadius: "10px",
-                        textAlign: "center",
-                        width: "150px",
-                     }}
-                  >
-                     <span>Over Due</span>
-                     <br />
-                     <span>₹{unpaidAmount}</span>
-                  </div>
-                  <div className={css.centeredItems}>
-                     <span>=</span>
-                  </div>
-                  <div
-                     style={{
-                        backgroundColor: "rgba(144, 202, 249,0.5)",
+                        backgroundColor: "lightgreen",
                         padding: "12px 30px",
                         color: "white",
                         borderRadius: "10px",
-                        textAlign: "center",
-                        width: "150px",
                      }}
                   >
                      <span>Total</span>

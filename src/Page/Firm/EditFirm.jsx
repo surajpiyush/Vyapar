@@ -118,9 +118,9 @@ const EditFirm = ({ setShowEditFirm }) => {
                 </label>
                 <input
                   type="number"
+                  name="phoneNumber"
                   value={companyData?.phoneNumber}
                   onChange={handleInputChange}
-                  name="phoneNumber"
                   placeholder="Phone Number"
                 />
               </div>

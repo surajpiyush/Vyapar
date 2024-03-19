@@ -1,4 +1,5 @@
 import "../../styles/parties.css";
+import ItemEditForm from "../addForm/ItemEditForm";
 import { getitems } from "../../Redux/items/actions";
 import { USER_DETAILS } from "../../Redux/business/actionTypes";
 
@@ -9,8 +10,10 @@ import { ImSpinner3 as BasicSpinner } from "react-icons/im";
 import { LuFilter as FilterIcon } from "react-icons/lu";
 import { IoIosArrowRoundUp as UpArrowIcon } from "react-icons/io";
 import { PiDotsThreeVerticalBold as VerticalDots } from "react-icons/pi";
+
 import ItemEditForm from "../addForm/ItemEditForm";
 import { IoSearchCircleSharp } from "react-icons/io5";
+
 export default function ProductsTable(Props) {
    const dispatch = useDispatch();
    const [status, setStatus] = useState(true);
@@ -43,7 +46,7 @@ export default function ProductsTable(Props) {
       // console.log(item);
       axios
          .get(
-            `https://ca-backend-api.onrender.com/${FirmId}/item/itemById/${item._id}`,
+            `https://asaanly.in/${FirmId}/item/itemById/${item._id}`,
             {
                headers: {
                   Authorization: `Bearer ${token}`,
