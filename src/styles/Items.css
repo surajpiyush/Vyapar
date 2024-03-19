@@ -3,10 +3,12 @@
   place-items: center;
   width: 100%;
   min-height: 100vh;
+  
   background-color: var(--overlayBg);
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
+  overflow-y: scroll;
   z-index: 1800;
 }
 
@@ -15,14 +17,17 @@
   background-color: white;
   box-shadow: var(--shadowB);
   border-radius: 5px;
-  overflow: hidden;
+  overflow-y: scroll;
+  overflow: auto;
+  /* overflow: hidden; */
   z-index: 2000;
 }
 
 .select-unit-btn {
   background-color: coral;
-  color: white;
+  color: rgb(253, 251, 251);
   border-width: 0px;
+  margin-top: 20px;
   height: 40px;
   width: 150px;
   border-radius: 2px;

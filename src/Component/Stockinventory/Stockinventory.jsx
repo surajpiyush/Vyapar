@@ -10,7 +10,7 @@ const Stockinventory = () => {
   return (
     <div className="stock-privacy-container">
       <section className="stock-privacy-card">
-        <p>privacy</p>
+        <p >Privacy</p>
         <div onClick={() => setopenToggle(!openToggle)}>
           {" "}
           {openToggle ? (

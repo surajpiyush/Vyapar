@@ -221,7 +221,7 @@ const ItemsTableBody = memo(
                   type="text"
                   className={css.tableInputs}
                   name="itemCode"
-                  value={item?.itemCode}
+                  value={item?.itemCode}  
                   // onChange={(e) => handleTableInputChange(e, ind)}
                   disabled
                />

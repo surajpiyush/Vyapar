@@ -1,3 +1,4 @@
+import PurchaseDashboard from "../components/PurchaseDashboard";
 import SaleDashboard from "../components/SaleDashboard";
 import { getPurchaseReport } from "../Redux/report/action";
 
@@ -20,7 +21,7 @@ const Purchase = () => {
    ];
 
    const store = useSelector((store) => store.ReportReducer);
-   const data = store?.purchaseReportData?.getPurchase || [];
+   const data = store.purchaseReportData.getPurchase;
    const [startDate, setStartDate] = useState("2023-02-01");
    const [endDate, setEndDate] = useState(
       new Date().toISOString().split("T")[0]
@@ -54,7 +55,7 @@ const Purchase = () => {
    }, [startDate, endDate, dispatch]);
 
    return (
-      <SaleDashboard
+      <PurchaseDashboard
          data={data}
          tableHeader={tableHeader}
          btnText="Add Purchase"

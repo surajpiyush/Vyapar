@@ -58,7 +58,7 @@ const Navbar = () => {
             Company
           </div>
           <div>Help</div>
-          <div>Shotcuts</div>
+          {/* <div>Shotcuts</div> */}
           <div onClick={() => LOGOUT(navigate, toast)}>Logout</div>
           <div onClick={() => window.location.reload()}>
             <RefreshIcon />

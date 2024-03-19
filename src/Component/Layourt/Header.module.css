@@ -1,13 +1,12 @@
 /* Header.module.css */
 
 .HeaderContainer {
-   box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
-      rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+
    width: 100%;
    display: flex;
    justify-content: space-between;
    align-items: center;
-   /* padding: 10px 20px; */
+   padding: 0px 20px;  
    /* he */
    
 }
@@ -59,6 +58,10 @@
    display: flex;
    gap: 10px;
    align-items: center;
+   
+}
+.HeaderBtnDiv p{
+   padding-top: 5px;
 }
 
 .HeaderAddBtn {

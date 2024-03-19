@@ -1,4 +1,4 @@
-import "../../styles/Items.css";
+
 import css from "../../styles/SalesStyles/SalesForms.module.css";
 import { addItem } from "../../Redux/items/actions";
 
@@ -211,9 +211,9 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
                      <button
                         type="button"
                         className="select-unit-btn"
-                        onClick={() => setSel(true)}
+                        
                      >
-                        {sel ? (
+                        {!sel ? (
                            <td
                               className={css.unitBody}
                               style={{ color: "black", fontWeight: "bold" }}

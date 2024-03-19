@@ -24,7 +24,7 @@ const Thismonth = ({
       <div className="this-month-container">
          <section className="this-month-top">
             <aside className="this-month-heading">
-               <h3>This Month----</h3>
+               <h5>This Month</h5>
                <ArrowDownIcon />
             </aside>
             <aside className="this-month-dates">
@@ -61,7 +61,7 @@ const Thismonth = ({
                >
                   <div className="d-flex-col">
                      <div>
-                        <div>
+                        <div style={{padding:"10px 0 0 30px"}}>
                         <BsFiletypeXlsx />
                         </div>
                         <div>

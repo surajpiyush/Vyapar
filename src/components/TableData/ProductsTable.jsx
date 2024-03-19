@@ -10,7 +10,7 @@ import { LuFilter as FilterIcon } from "react-icons/lu";
 import { IoIosArrowRoundUp as UpArrowIcon } from "react-icons/io";
 import { PiDotsThreeVerticalBold as VerticalDots } from "react-icons/pi";
 import ItemEditForm from "../addForm/ItemEditForm";
-
+import { IoSearchCircleSharp } from "react-icons/io5";
 export default function ProductsTable(Props) {
    const dispatch = useDispatch();
    const [status, setStatus] = useState(true);
@@ -76,53 +76,51 @@ export default function ProductsTable(Props) {
    };
 
    return (
-      <div className="" style={{ width: "80vw" }}>
+      <div
+         className=""
+         style={{
+            width: "100vw",
+            height: "100vh",
+            position: "fixed",
+            background: "gray",
+         }}
+      >
          {showEditFirm && (
             <ItemEditForm setShowEditFirm={setShowEditFirm} item={editItem} />
          )}
 
-         <div className="d-flex">
-            <div className="grp-cont1">
-               {/* <div className="d-flex" style={{marginTop : "20px"}}>
-            <div className="imp-icon-cont">
-              <i className="fa fa-address-book-o" style={{color : "orange"}}></i>
-            </div>
-            <div className="imp-content">
-              <h4>Import Parties</h4>
-              <p>Use contact from your Phone or Gmail to create parties.</p>
-            </div>
-          </div> */}
-               <div className="" style={{ marginTop: "20px" }}>
-                  <div className="d-around">
-                     <input
-                        type="text"
-                        className="search-party"
-                        placeholder="Search"
-                        value={searchTerm}
-                        onChange={handleSearch}
-                     />
-                     <button className="add-party-btn" onClick={openForm}>
-                        + Add Products <i className="fa fa-angle-down"></i>
+         <div>
+            <div className="d-flex">
+               <div className="grp-cont1">
+                  <div
+                     style={{
+                        marginTop: "10px",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        // gap: "3rem",
+
+                        width: "100%",
+                        boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
+                     }}
+                  >
+                     <div style={{ fontSize: "3rem" }}>
+                        <IoSearchCircleSharp />
+                     </div>
+                     <button
+                        className="add-party-btn"
+                        style={{ textAlign: "end" }}
+                        onClick={openForm}
+                     >
+                        + Add Item <i className="fa fa-angle-down"></i>
                      </button>
                   </div>
-               </div>
-               <div
-                  className=""
-                  style={{ marginTop: "20px", textAlign: "center" }}
-               >
-                  <table
-                     className="partiestable-outer"
-                     style={{ marginTop: "20px", textAlign: "center" }}
-                  >
+
+                  {/* Parties Table */}
+                  <table className="partiestable-outer">
                      <thead>
                         <tr>
-                           <th>
-                              <span>
-                                 <UpArrowIcon />
-                                 <p>ITEM</p>
-                              </span>
-                              <FilterIcon />
-                           </th>
+                           <th>Item</th>
+
                            <th>QUANTITY</th>
                         </tr>
                      </thead>
@@ -169,112 +167,110 @@ export default function ProductsTable(Props) {
                      </tbody>
                   </table>
                </div>
-            </div>
-            <div className="grp-cont2">
-               <div className="grp-cont2a">
-                  <div className="">
-                     <div className="d-between">
-                        <p>
-                           NAME <i className="fa fa-reply"></i>
-                        </p>
-                      
-                     </div>
-                     <div className="d-between">
-                        <p>Sales Price: $0.00</p>
-                        <p>Stock Quantity: $0.00</p>
-                     </div>
-                     <div className="d-between">
-                        <p>Purchase Price: $0.00</p>
-                        <p>Stock Value: $0.00</p>
+               <div className="grp-cont2">
+                  <div className="grp-cont2a">
+                     <div className="">
+                        <div className="d-between">
+                           <p>
+                              NAME <i className="fa fa-reply"></i>
+                           </p>
+                        </div>
+                        <div className="d-between">
+                           <p>Sales Price: $0.00</p>
+                           <p>Stock Quantity: $0.00</p>
+                        </div>
+                        <div className="d-between">
+                           <p>Purchase Price: $0.00</p>
+                           <p>Stock Value: $0.00</p>
+                        </div>
                      </div>
                   </div>
-               </div>
-               <div className="grp-cont2b">
-                  <div className="d-between">
-                     <h3>Transactions</h3>
-                     <input
-                        type="text"
-                        placeholder="Search"
-                        className="search-party"
-                        style={{ width: "200px" }}
-                     />
-                  </div>
-                  <div className="">
-                     <table className="transaction-table">
-                        <thead>
-                           <tr>
-                              <th>
-                                 Type <i className="fa fa-filter"></i>
-                              </th>
-                              <th>
-                                 Invoice/Ref <i className="fa fa-filter"></i>
-                              </th>
-                              <th>
-                                 Name <i className="fa fa-filter"></i>
-                              </th>
-                              <th>
-                                 Date <i className="fa fa-filter"></i>
-                              </th>
-                              <th>
-                                 Quantity <i className="fa fa-filter"></i>
-                              </th>
-                              <th>
-                                 Price/Unit <i className="fa fa-filter"></i>
-                              </th>
-                              <th>
-                                 Status <i className="fa fa-filter"></i>
-                              </th>
-                           </tr>
-                        </thead>
-
-                        {isLoading ? (
-                           <BasicSpinner
-                              style={{
-                                 width: "200%",
-                                 margin: "60px auto",
-                                 fontSize: "30px",
-                              }}
-                           />
-                        ) : (
-                           <tbody>
-                              {tableData.length === 0 ? (
-                                 <tr>
-                                    <td
-                                       colSpan="7"
-                                       style={{ textAlign: "center" }}
-                                    >
-                                       <h1>There are no transactions</h1>
-                                    </td>
-                                 </tr>
-                              ) : (
-                                 tableData.map((e, index) => (
-                                    <tr key={index}>
-                                       <td>{e.type}</td>
-                                       <td>{e.invoiceOrRefNo}</td>
-                                       <td>{e.name}</td>
-                                       <td>
-                                          {new Date(
-                                             e.date
-                                          ).toLocaleDateString()}
-                                       </td>
-                                       <td>{e.quantity}</td>
-                                       <td>-</td>
-                                       <td>
-                                          <button
-                                             style={{ border: "none" }}
-                                             onClick={() =>
-                                                handleStatusToggle(index)
-                                             }
-                                          >
-                                             {e.status ? "Paid" : "Unpaid"}
-                                          </button>
+                  <div className="grp-cont2b">
+                     <div className="d-between">
+                        <h3>Transaction</h3>
+                        <input
+                           type="text"
+                           placeholder="Search"
+                           className="search-party"
+                           style={{ width: "200px" }}
+                        />
+                     </div>
+                     <div className="">
+                        <table className="transaction-table">
+                           <thead>
+                              <tr>
+                                 <th>
+                                    Type <i className="fa fa-filter"></i>
+                                 </th>
+                                 <th>
+                                    Invoice/Ref <i className="fa fa-filter"></i>
+                                 </th>
+                                 <th>
+                                    Name <i className="fa fa-filter"></i>
+                                 </th>
+                                 <th>
+                                    Date <i className="fa fa-filter"></i>
+                                 </th>
+                                 <th>
+                                    Quantity <i className="fa fa-filter"></i>
+                                 </th>
+                                 <th>
+                                    Price/Unit <i className="fa fa-filter"></i>
+                                 </th>
+                                 <th>
+                                    Status <i className="fa fa-filter"></i>
+                                 </th>
+                              </tr>
+                           </thead>
+                           {isLoading ? (
+                              <BasicSpinner
+                                 style={{
+                                    width: "200%",
+                                    margin: "60px auto",
+                                    fontSize: "30px",
+                                 }}
+                              />
+                           ) : (
+                              <tbody>
+                                 {tableData.length === 0 ? (
+                                    <tr>
+                                       <td
+                                          colSpan="7"
+                                          style={{ textAlign: "center" }}
+                                       >
+                                          <h1>There are no transactions</h1>
                                        </td>
                                     </tr>
-                                 ))
-                              )}
-                           </tbody>
-                        )}
-                     </table>
+                                 ) : (
+                                    tableData.map((e, index) => (
+                                       <tr key={index}>
+                                          <td>{e.type}</td>
+                                          <td>{e.invoiceOrRefNo}</td>
+                                          <td>{e.name}</td>
+                                          <td>
+                                             {new Date(
+                                                e.date
+                                             ).toLocaleDateString()}
+                                          </td>
+                                          <td>{e.quantity}</td>
+                                          <td>-</td>
+                                          <td>
+                                             <button
+                                                style={{ border: "none" }}
+                                                onClick={() =>
+                                                   handleStatusToggle(index)
+                                                }
+                                             >
+                                                {e.status ? "Paid" : "Unpaid"}
+                                             </button>
+                                          </td>
+                                       </tr>
+                                    ))
+                                 )}
+                              </tbody>
+                           )}
+                        </table>
+                     </div>
                   </div>
                </div>
             </div>

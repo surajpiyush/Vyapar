@@ -123,8 +123,8 @@
 
 .dFlex {
   display: flex;
-  /* border: 1px solid black; */
   text-align: center;
+  height: 30px;
 }
 
 .dBetween {

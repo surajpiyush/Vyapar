@@ -86,7 +86,7 @@ const Pourchaseorder = ({ func }) => {
             />
          ) : (
             <div className="payment-out-container">
-               <h4>Transactions</h4>
+      
                <div className="transactions-buttons">
                   {/* <input type="text" /> */}
                   <button

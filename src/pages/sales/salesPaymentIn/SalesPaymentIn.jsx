@@ -124,7 +124,7 @@ export default function SalesPaymentIn() {
                      >
                         <div
                            style={{
-                              padding: "15px 12px 2px 15px",
+                              padding: "3px 12px 2px 15px",
                               background: "gray",
                            }}
                         >
@@ -139,7 +139,7 @@ export default function SalesPaymentIn() {
                         />
                         <div
                            style={{
-                              padding: "15px 12px 2px 15px",
+                              padding: "3px 12px 2px 15px",
                            }}
                         >
                            <span>To</span>

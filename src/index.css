@@ -149,6 +149,7 @@ code {
    align-items: center;
    padding: 10px 10px;
 
+
    /* border: 1px solid red; */
 }
 
@@ -196,9 +197,10 @@ code {
 
 .sale-dashboard-icons {
    display: flex;
-   padding: 3px;
+   padding: 30px;
    justify-content: center;
    align-items: center;
+   gap: 30px   ;
    /* border: 1px solid red; */
    /* margin: auto; */
 }
@@ -224,14 +226,18 @@ code {
 .sale-dashboard-ammount {
    display: flex;
    flex-direction: row;
-   justify-content: space-between;
+   /* justify-content: space-between; */
    align-items: center;
-   width: 500px;
-   margin: 20px 30px;
+   gap: 30px;
+   width: 100%;
+   margin: 10px 0px;
+   padding: 10px 20px ;
+   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+   background-color: var(--pureWhite);
 }
 
 .sale-dashboard-ammount > div {
-   padding: 10px 80px 10px 10px;
+   padding: 10px 50px 10px 40px;
    border-radius: 10px;
    margin: 0;
 }
@@ -305,18 +311,21 @@ code {
    font-family: Arial, sans-serif;
    border-collapse: collapse;
    width: 100%;
+   /* min-height: 100vh; */
+   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+   border-radius:15px;
 }
 
 /* Table header */
 .excel-like-table th {
-   font-weight: bold;
+   /* font-weight: bold; */
    text-align: left;
    background: #a6a3a3;
    padding: 10px;
    overflow: hidden;
    white-space: nowrap;
    text-overflow: ellipsis;
-   /* max-width: 150px; */
+   max-width: 80px;
 }
 
 /* Table body */
@@ -377,6 +386,7 @@ code {
    display: flex;
    flex-direction: row;
    justify-content: space-between;
+   width: 100%;
 }
 
 .gstr-split-container > div {

@@ -5,7 +5,7 @@ import ReportSearchBar from "./ReportSearchBar";
 import ReportBtn from "./ReportBtn";
 import PurchaseTableModel from "./PurchaseTableModel";
 
-const SaleDashboard = ({
+const PurchaseDashboard = ({
    data,
    tableHeader,
    btnText,
@@ -31,9 +31,9 @@ const SaleDashboard = ({
    };
 
    // Call calculateAmounts when data, startDate, or endDate change
-   useEffect(() => {
-      calculateAmounts();
-   }, [data, startDate, endDate]);
+//    useEffect(() => {
+//       calculateAmounts();
+//    }, [data, startDate, endDate]);
 
    return (
       <div className="sale-dashboard">
@@ -65,7 +65,9 @@ const SaleDashboard = ({
          </div>
 
          {/* Search Bar And Button */}
-     
+         <div className="sale-dashboard-search">
+            <span>TRANSACTIONS</span>
+         </div>
 
          {/* Table */}
          <PurchaseTableModel tableHeader={tableHeader} data={data} />
@@ -73,4 +75,4 @@ const SaleDashboard = ({
    );
 };
 
-export default SaleDashboard;
+export default PurchaseDashboard;

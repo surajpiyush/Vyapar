@@ -6,7 +6,7 @@
   left: 0;
   z-index: 1500;
   width: 100%;
-  height: 35px;
+  height: 30px;
 }
 .innerParentDiv {
   height: 100%;
@@ -24,7 +24,7 @@
 }
 .leftSideNavOptionsDiv > img:nth-child(1) {
   width: 30px;
-  margin-right: 5px;
+  margin-right: 15px;
   cursor: default;
 }
 .leftSideNavOptionsDiv div {

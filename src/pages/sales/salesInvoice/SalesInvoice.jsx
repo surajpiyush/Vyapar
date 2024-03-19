@@ -234,7 +234,7 @@ export default function SalesInvoice() {
                      >
                         <div
                            style={{
-                              padding: "15px 12px 2px 15px",
+                              padding: "2px 12px 2px 15px",
                               background: "gray",
                            }}
                         >
@@ -249,7 +249,7 @@ export default function SalesInvoice() {
                         />
                         <div
                            style={{
-                              padding: "15px 12px 2px 15px",
+                              padding: "2 px 12px 2px 15px",
                            }}
                         >
                            <span>To</span>
@@ -361,7 +361,6 @@ export default function SalesInvoice() {
                   <div
                      style={{
                         backgroundColor: "rgba(144, 202, 249,0.5)",
-
                         padding: "12px 30px",
                         color: "white",
                         borderRadius: "10px",

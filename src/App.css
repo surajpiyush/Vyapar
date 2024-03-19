@@ -111,10 +111,10 @@
   max-width: 300px;
   width: 230px;
   background-color: var(--deepForest);
-  color: white;
+  color:var(--pureWhite);
   height: 100vh;
   padding: 10px 0;
-  padding-bottom: 80px;
+  padding-bottom: 50px;
   position: fixed;
   left: 0;
   overflow-y: auto;
@@ -131,11 +131,13 @@
   background-color: white;
   margin-left: 230px;
   z-index: 10;
+  top:5%;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .outlet-layout {
-  margin-left: 250px;
-  margin-top: 60px;
+  margin-left: 230px;
+  margin-top: 50px;
 }
 
 .app-home-section {

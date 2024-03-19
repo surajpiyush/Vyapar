@@ -5,20 +5,26 @@
     box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
     margin-top: 10px;
     border-radius: 15px;
+    /* height:30%; */
 }
 
 .this-month-top {
     display: flex;
-    gap: 20px;
+    /* gap: 20px; */
+    justify-content: space-between;
+    text-align: center;
+    box-sizing: 40px;
 }
 
 .this-month-heading {
     display: flex;
     align-items: center;
+    font-size: 10px;
 }
 
 .this-month-dates {
     display: flex;
+    font-size: 12px;
     gap: 10px;
     border: solid 1px gray;
     border-radius: 5px;
@@ -28,12 +34,12 @@
 .this-month-dates label {
     background-color: gray;
     color: white;
-    padding: 4px;
+    /* padding: 4px; */
     border-radius: 3px 0 0 3px;
 }
 .this-month-dates input {
     border: none;
-    border-radius: 3px 0 0 3px;
+    /* border-radius: 0 0 0 3px; */
 }
 
 .this-month-select select {
@@ -43,14 +49,14 @@
 .this-month-card-section {
     display: flex;
     gap: 10px;
-    padding: 20px 0 0 0;
+    padding: 10px 0 0 0;
     align-items: center;
 }
 
 .this-month-paid-card {
     background-color: rgb(184, 235, 255);
-    padding: 15px;
-    width: 150px;
+    padding: 0 25px; 
+    width: 200px;
     border-radius: 5px;
 }
 

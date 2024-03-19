@@ -7,12 +7,18 @@ import GSTRsale from "../components/GSTRsale";
 const GSTR1 = () => {
    const [isChecked, setIsChecked] = useState(false);
    const [startDate, setStartDate] = useState("2024-02-01");
-   const [endDate, setEndDate] = useState(new Date().toISOString().split("T")[0]);
+   const [endDate, setEndDate] = useState(
+      new Date().toISOString().split("T")[0]
+   );
    const prevDateRef = useRef();
    const dispatch = useDispatch();
 
    useEffect(() => {
-      if (prevDateRef.current && prevDateRef.current.startDate === startDate && prevDateRef.current.endDate === endDate) {
+      if (
+         prevDateRef.current &&
+         prevDateRef.current.startDate === startDate &&
+         prevDateRef.current.endDate === endDate
+      ) {
          return;
       }
       const date = { startDate, endDate };
@@ -37,22 +43,69 @@ const GSTR1 = () => {
    };
 
    const SaletableHeader2 = [
-      "GSTIN/UIN", "Party Name", "Invoice NO.", "Date", "Value", "", "", "",
-      "Integrated Tax", "Central Tax", "State/UT Tax", ""
+      "GSTIN/UIN",
+      "Party Name",
+      "Invoice NO.",
+      "Date",
+      "Value",
+      "",
+      "",
+      "",
+      "Integrated Tax",
+      "Central Tax",
+      "State/UT Tax",
+      "",
    ];
    const SaletableHeader1 = [
-      "", "", "Invoice Details", "", "", "Tax Rate", "Cess Rate", "Taxable Value", "",
-      "Amount", "", "Place of Supply (Name Of State)"
+      "",
+      "",
+      "Invoice Details",
+      "",
+      "",
+      "Tax Rate",
+      "Cess Rate",
+      "Taxable Value",
+      "",
+      "Amount",
+      "",
+      "Place of Supply (Name Of State)",
    ];
    const SaleReturntableHeader2 = [
-      "GSTIN/UIN", "Party Name", "Invoice NO.", "Invoice Date", "Note No.", "Note Date",
-      "Value", "", "", "", "Integrated Tax", "Central Tax", "State/UT Tax", "Cess", ""
+      "GSTIN/UIN",
+      "Party Name",
+      "Invoice NO.",
+      "Invoice Date",
+      "Note No.",
+      "Note Date",
+      "Value",
+      "",
+      "",
+      "",
+      "Integrated Tax",
+      "Central Tax",
+      "State/UT Tax",
+      "Cess",
+      "",
    ];
    const SaleReturntableHeader1 = [
-      "", "", "", "Cr. Note Details", "", "", "", "Tax Rate", "Cess Rate", "Taxable Value",
-      "", "", "Amount", "", "Place of Supply (Name Of State)"
+      "",
+      "",
+      "",
+      "Cr. Note Details",
+      "",
+      "",
+      "",
+      "Tax Rate",
+      "Cess Rate",
+      "Taxable Value",
+      "",
+      "",
+      "Amount",
+      "",
+      "Place of Supply (Name Of State)",
    ];
-// console.log(data.getSale)
+   // console.log(data.getSale)
+   
    return (
       <div>
          <GSTRHearder
@@ -69,7 +122,10 @@ const GSTR1 = () => {
                <div onClick={saleFun} className={`${sale ? "active" : ""}`}>
                   <span className="gstr-split-btn">Sale</span>
                </div>
-               <div onClick={saleReturnFun} className={`${saleReturn ? "active" : ""}`}>
+               <div
+                  onClick={saleReturnFun}
+                  className={`${saleReturn ? "active" : ""}`}
+               >
                   <span className="gstr-split-btn">Sale Return</span>
                </div>
             </div>
@@ -88,7 +144,9 @@ const GSTR1 = () => {
                      data={data?.getSaleReturn}
                   />
                )}
-               {saleReturn && !data?.getSaleReturn && <h1>There is no return data to display</h1>}
+               {saleReturn && !data?.getSaleReturn && (
+                  <h1>There is no return data to display</h1>
+               )}
             </div>
          </div>
       </div>

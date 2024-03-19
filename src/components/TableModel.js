@@ -3,7 +3,7 @@ import { PrinterIcon, ShareIcon } from "../Component/utils/reactIcons";
 const TableModel = ({ tableHeader, data }) => {
    console.log(data);
    return (
-      <div>
+      <div style={{minHeight:"100vh"}}>
          <table className="excel-like-table">
             <thead>
                <tr>

@@ -131,7 +131,7 @@
   text-align: center;
 }
 
-label {
+/* label {
   font-weight: 600;
   display: inline-block;
   width: 150px;
@@ -140,4 +140,4 @@ label {
 input {
   padding: 0px 10px;
   border: 1px solid grey;
-}
+} */

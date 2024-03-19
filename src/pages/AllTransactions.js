@@ -78,11 +78,11 @@ const AllTransactions = () => {
       "BALANCE",
       "DUE DATE",
       "STATUS",
-      "PRINT/SHARE",
+      "PRINT",
    ];
 
    return (
-      <div style={{ width: "80vw" }}>
+      <div style={{ width: "100%" }}>
          <SaleDashboardHeader
             data={temp}
             startDate={startDate}
@@ -90,17 +90,19 @@ const AllTransactions = () => {
             setEndDate={setEndDate}
             setStartDate={setStartDate}
          />
-         <div style={{ marginLeft: "20px", marginBottom: "20px" }}>
+         {/* for just only iy has been removed, please active it  */}
+         {/* <div style={{ marginLeft: "20px", marginBottom: "20px" }}>
             <ReportSelector optionType={SelectorType} />
-         </div>
-         <div style={{ marginLeft: "20px", marginBottom: "20px" }}>
+         </div> */}
+         <div style={{ margin: "20px 0 10px 20px" }}>
             <ReportSearchBar />
          </div>
          <div
             style={{
-               marginLeft: "20px",
-               marginRight: "20px",
-               width: "80vw",
+               marginLeft: "0px",
+               marginRight: "0px",
+      //          boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
+      //   borderRadius:"15px",
                background: "red",zIndex:300
             }}
          >

@@ -1,3 +1,4 @@
+import css from "../styles/reportsStyles/report.module.css";
 import * as XLSX from "xlsx";
 import { VscGraph } from "react-icons/vsc";
 import { SiMicrosoftexcel } from "react-icons/si";
@@ -12,8 +13,7 @@ const SaleDashboardHeader = ({
    startDate,
    endDate,
 }) => {
-
-   const tableData = data
+   const tableData = data;
    // console.log(tableData)
 
    const saveTableData = (action) => {
@@ -21,17 +21,17 @@ const SaleDashboardHeader = ({
          case "PRINT":
             window.print();
             break;
-   
+
          case "XLSX":
             const ws1 = XLSX.utils.json_to_sheet(tableData);
             const wb1 = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb1, ws1, "Sheet 1");
             XLSX.writeFile(wb1, "tableData.xlsx");
             break;
-   
+
          case "CSV":
-            const csvData = [Object.keys(tableData[0]).join(",")]; 
-            tableData.forEach(row => {
+            const csvData = [Object.keys(tableData[0]).join(",")];
+            tableData.forEach((row) => {
                csvData.push(Object.values(row).join(","));
             });
             const blob = new Blob([csvData.join("\n")], { type: "text/csv" });
@@ -42,12 +42,11 @@ const SaleDashboardHeader = ({
             link.click();
             document.body.removeChild(link);
             break;
-   
+
          default:
             console.warn("Unknown action:", action);
       }
    };
-   
 
    const handleStartDateChange = (e) => {
       setStartDate(e.target.value);
@@ -58,7 +57,15 @@ const SaleDashboardHeader = ({
    };
 
    return (
-      <div className="sale-dashboard-header">
+      <div
+         className="sale-dashboard-header"
+         style={{
+            // border: "1px solid red",
+            background:"white",
+            paddingTop:"20px",
+            boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
+         }}
+      >
          <div className="sale-dashboard-menu">
             <select className="sale-dashboard-select">
                <option value="">This Month</option>
@@ -87,7 +94,7 @@ const SaleDashboardHeader = ({
                <option value="">Company</option>
             </select>
          </div>
-         <div className="sale-dashboard-icons">
+         <div className="sale-dashboard-icons" style={{ paddingTop: "10px" }}>
             <div className="sale-dashboard-icon">
                <VscGraph />
                <p>Graph</p>
