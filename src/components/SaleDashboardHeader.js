@@ -5,10 +5,10 @@ import { SiMicrosoftexcel } from "react-icons/si";
 import { MdOutlinePrint } from "react-icons/md";
 import { useState } from "react";
 import { useToast } from "@chakra-ui/react";
+import { ImSpinner3 as BasicSpinner } from "react-icons/im";
 
 const SaleDashboardHeader = ({
    data,
-
    setStartDate,
    setEndDate,
    startDate,
@@ -17,95 +17,42 @@ const SaleDashboardHeader = ({
    const tableData = data;
    console.log(tableData);
 
-const toast = useToast();
+   const toast = useToast();
+   const [loading, setLoading] = useState(false);
    const saveTableData = async (action) => {
       switch (action) {
          case "PRINT":
             window.print();
             break;
 
-         // case "XLSXw":
-         //    // Sample data for multiple sheets
-         //    const XLSX = require("xlsx");
-
-         //    const dataSheet1 = [
-         //       ["Product", "Price", "Quantity"],
-         //       ["Item 1", 10, 20],
-         //       ["Item 2", 15, 30],
-         //       ["Item 3", 20, 25],
-         //    ];
-
-         //    const dataSheet2 = [
-         //       ["Customer", "Order Date", "Amount"],
-         //       ["Customer 1", "2024-03-20", 100],
-         //       ["Customer 2", "2024-03-21", 150],
-         //       ["Customer 3", "2024-03-22", 200],
-         //    ];
-
-         //    // Create a new workbook
-         //    const workbook = XLSX.utils.book_new();
-
-         // // Convert data to worksheets
-         // const worksheet1 = XLSX.utils.aoa_to_sheet(dataSheet1);
-         // const worksheet2 = XLSX.utils.aoa_to_sheet(dataSheet2);
-
-         // // Add the worksheets to the workbook
-         // XLSX.utils.book_append_sheet(workbook, worksheet1, "Products");
-         // XLSX.utils.book_append_sheet(workbook, worksheet2, "Orders");
-
-         //    // Add additional sheets with only headers
-         //    const headers = [["Header 1", "Header 2", "Header 3"]];
-         //    for (let i = 0; i < 4; i++) {
-         //       const sheetName = "Header Sheet " + (i + 1);
-         //       const headerSheet = XLSX.utils.aoa_to_sheet(headers);
-         //       XLSX.utils.book_append_sheet(workbook, headerSheet, sheetName);
-         //    }
-
-         //    // Save the workbook as an Excel file
-         //    XLSX.writeFile(workbook, "report.xlsx");
-
-         //    break;
-
          case "XLSX":
             try {
-               // Grouping the data by type
-               const groupedData = {
-                  "All Data": [],
-                  "Sale Data": [],
-                  "Purchase Data": [],
-                  "Debit Note Data": [],
-                  "Credit Note Data": [],
-               };
+               // Set loading state to true
+               setLoading(true);
 
-               // Iterate over each object in the data array
-               tableData?.forEach((obj) => {
-                  // Add the object to the "All Data" group
-                  groupedData["All Data"].push(obj);
+               // Filter headers
+               const filteredHeaders = Object.keys(tableData[0]).filter(
+                  (header) => header !== "_id"
+               );
 
-                  // Filter data by type and add them to respective groups
-                  if (obj.type === "Sale") {
-                     groupedData["Sale Data"].push(obj);
-                  } else if (obj.type === "Purchase") {
-                     groupedData["Purchase Data"].push(obj);
-                  } else if (obj.type === "Debit Note") {
-                     groupedData["Debit Note Data"].push(obj);
-                  } else if (obj.type === "Credit Note") {
-                     groupedData["Credit Note Data"].push(obj);
-                  }
-               });
+               // Construct data array with filtered data
+               const filteredData = tableData.map((row) =>
+                  filteredHeaders.map((header) => row[header])
+               );
 
-               // Load the local Excel file
+               // Fetch Excel file
                const response = await fetch(
                   process.env.PUBLIC_URL + "/GSTR1.xlsx"
                );
                const buffer = await response.arrayBuffer();
 
+               // Read existing workbook
                const workbookMine = XLSX.read(buffer, { type: "array" });
 
                // Create a new workbook
                const workbook = XLSX.utils.book_new();
 
-               // Add the "Help Instructions" worksheet from the loaded workbookMine to the new workbook
+               // Append "Help Instructions" sheet from existing workbook
                const helpWorksheet = workbookMine.Sheets["Help Instructions"];
                XLSX.utils.book_append_sheet(
                   workbook,
@@ -113,52 +60,231 @@ const toast = useToast();
                   "Help Instructions"
                );
 
-               // Convert grouped data to worksheets
-               for (const sheetName in groupedData) {
-                  const worksheet = XLSX.utils.json_to_sheet(
-                     groupedData[sheetName]
-                  );
-                  XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
-               }
+               // Create a worksheet with filtered headers and data
+               const b2bsheet = XLSX.utils.aoa_to_sheet([
+                  ["Summary of B2B"],
+                  [""],
+                  [
+                     "No. Of Recipients",
+                     "",
+                     "No. Of Invoices",
+                     "",
+                     "",
+                     "",
+                     "",
+                     "",
+                     "",
+                     "",
+                     "",
+                     "Total Taxable Value",
+                     "Total Cess",
+                  ],
+                  [tableData.length, "", tableData.length],
+                  [],
+                  [
+                     "Date Of Invoice",
+                     "Invoice Number",
+                     "Supplier",
+                     "Category Name",
+                     "Type of Transection",
+                     "Total Amount",
+                     "Total Balance",
+                     "Due Date",
+                     "Status",
+                  ],
+                  ...filteredData,
+               ]);
+               const b2CLsheet = XLSX.utils.aoa_to_sheet([
+                  ["Summary Fro B2CL"],
+                  [
+                     "",
+                     "",
+                     "",
+                     "",
+                     "",
+                     "",
+                     "Total Taxable Value",
+                     "Total Css",
+                     "",
+                  ],
+                  [
+                     "Invoice Number",
+                     "Invoice Date",
+                     "Invoice Value",
+                     "Place of Supply",
+                     "Applicable %",
+                     "Rate",
+                     "Taxable Value",
+                     "Cess Amount",
+                     "E-Commerce GSTIN",
+                  ],
 
-               // Save the workbook as an Excel file
-               XLSX.writeFile(workbook, "filtered_data.xlsx");
+                  [""],
+               ]);
+               const b2cs = XLSX.utils.aoa_to_sheet([
+                  ["Summary Fro B2CL"],
+                  [
+                     "",
+                     "",
+                     "",
+                     "",
+                     "",
+                     "",
+                     "Total Taxable Value",
+                     "Total Css",
+                     "",
+                  ],
+                  [
+                     "Invoice Number",
+                     "Invoice Date",
+                     "Invoice Value",
+                     "Place of Supply",
+                     "Applicable %",
+                     "Rate",
+                     "Taxable Value",
+                     "Cess Amount",
+                     "E-Commerce GSTIN",
+                  ],
+
+                  [""],
+               ]);
+
+               const cdnr = XLSX.utils.aoa_to_sheet([
+                  ["Summary Fro B2CL"],
+                  [
+                     "",
+                     "",
+                     "",
+                     "",
+                     "",
+                     "",
+                     "Total Taxable Value",
+                     "Total Css",
+                     "",
+                  ],
+                  [
+                     "Invoice Number",
+                     "Invoice Date",
+                     "Invoice Value",
+                     "Place of Supply",
+                     "Applicable %",
+                     "Rate",
+                     "Taxable Value",
+                     "Cess Amount",
+                     "E-Commerce GSTIN",
+                  ],
+
+                  [""],
+               ]);
+
+               const exemp = XLSX.utils.aoa_to_sheet([
+                  ["Summary Fro B2CL"],
+                  [
+                     "",
+                     "",
+                     "",
+                     "",
+                     "",
+                     "",
+                     "Total Taxable Value",
+                     "Total Css",
+                     "",
+                  ],
+                  [
+                     "Invoice Number",
+                     "Invoice Date",
+                     "Invoice Value",
+                     "Place of Supply",
+                     "Applicable %",
+                     "Rate",
+                     "Taxable Value",
+                     "Cess Amount",
+                     "E-Commerce GSTIN",
+                  ],
+
+                  [""],
+               ]);
+
+               const hsn = XLSX.utils.aoa_to_sheet([
+                  ["Summary Fro B2CL"],
+                  [
+                     "",
+                     "",
+                     "",
+                     "",
+                     "",
+                     "",
+                     "Total Taxable Value",
+                     "Total Css",
+                     "",
+                  ],
+                  [
+                     "Invoice Number",
+                     "Invoice Date",
+                     "Invoice Value",
+                     "Place of Supply",
+                     "Applicable %",
+                     "Rate",
+                     "Taxable Value",
+                     "Cess Amount",
+                     "E-Commerce GSTIN",
+                  ],
+
+                  [""],
+               ]);
+
+               const docs = XLSX.utils.aoa_to_sheet([
+                  ["Summary Fro B2CL"],
+                  [
+                     "",
+                     "",
+                     "",
+                     "",
+                     "",
+                     "",
+                     "Total Taxable Value",
+                     "Total Css",
+                     "",
+                  ],
+                  [
+                     "Invoice Number",
+                     "Invoice Date",
+                     "Invoice Value",
+                     "Place of Supply",
+                     "Applicable %",
+                     "Rate",
+                     "Taxable Value",
+                     "Cess Amount",
+                     "E-Commerce GSTIN",
+                  ],
+
+                  [""],
+               ]);
+
+               XLSX.utils.book_append_sheet(workbook, b2bsheet, "b2b");
+               XLSX.utils.book_append_sheet(workbook, b2CLsheet, "b2cl");
+               XLSX.utils.book_append_sheet(workbook, b2cs, "b2cs");
+               XLSX.utils.book_append_sheet(workbook, cdnr, "cdnr");
+               XLSX.utils.book_append_sheet(workbook, exemp, "exemp");
+               XLSX.utils.book_append_sheet(workbook, hsn, "hsn");
+               XLSX.utils.book_append_sheet(workbook, docs, "docs");
+
+               XLSX.writeFile(workbook, "data.xlsx");
+
+               setLoading(false);
             } catch (error) {
                console.error("Error:", error);
+               setLoading(false);
             }
-            break;
-
-         case "CSV":
-            const filteredHeaders = Object.keys(tableData[0]).filter(
-               (header) => header !== "id"
-            );
-            const csvData = [filteredHeaders.join(",")];
-            tableData.forEach((row) => {
-               const rowData = filteredHeaders.map((header) => {
-                  let cellData = row[header];
-                  // Adjust cell data if necessary to fit within their cells
-                  // For example, if the cell data contains commas, wrap it in quotes
-                  if (typeof cellData === "string" && cellData.includes(",")) {
-                     cellData = `"${cellData}"`;
-                  }
-                  return cellData;
-               });
-               csvData.push(rowData.join(","));
-            });
-            const blob = new Blob([csvData.join("\n")], { type: "text/csv" });
-            const link = document.createElement("a");
-            link.href = window.URL.createObjectURL(blob);
-            link.setAttribute("download", "Data.csv");
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
             break;
 
          default:
             console.warn("Unknown action:", action);
+            setLoading(false);
       }
    };
 
+   // console.log(loading);
    const handleStartDateChange = (e) => {
       setStartDate(e.target.value);
    };
@@ -171,13 +297,36 @@ const toast = useToast();
       <div
          className="sale-dashboard-header"
          style={{
-            // border: "1px solid red",
-            background: "white",
+            position: "relative",
             paddingTop: "20px",
             boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
          }}
       >
-         <div className="sale-dashboard-menu">
+         {loading && (
+            <div
+               style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100vh",
+                  background: "rgba(0, 0, 0, 0.25)",
+                  zIndex: 9999,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontSize: "50px",
+               }}
+            >
+               <BasicSpinner />
+            </div>
+         )}
+         <div
+            className="sale-dashboard-menu"
+            style={{
+               filter: loading ? "blur(2px)" : "none",
+            }}
+         >
             <select className="sale-dashboard-select">
                <option value="">This Month</option>
                <option value="">All Sale Invoices</option>
@@ -205,7 +354,14 @@ const toast = useToast();
                <option value="">Company</option>
             </select>
          </div>
-         <div className="sale-dashboard-icons" style={{ paddingTop: "10px" }}>
+
+         <div
+            className="sale-dashboard-icons"
+            style={{
+               filter: loading ? "blur(2px)" : "none",
+               paddingTop: "10px",
+            }}
+         >
             <div
                className="sale-dashboard-icon"
                onClick={() => {
