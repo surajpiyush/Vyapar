@@ -108,6 +108,7 @@ export const reducer = (state = initialState, { type, payload }) => {
     case SUCCESS_UPDATE_ITEM: {
       return {
         ...state,
+        isLoading: false,
         loadingUpdate: false,
         toggleItems: !state.toggleItems,
       };
