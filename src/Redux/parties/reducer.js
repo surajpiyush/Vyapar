@@ -7,8 +7,9 @@ import {
   SAVE_PARTY_ERROR,
   SAVE_PARTY_SUCCESS,
   SAVE_PARTY_INPUT_CHANGE,
-  CURRENT_PARTIES_TRANSECATIONS_SUCCESS,
-  PARTIES_EDIT_SUCCESS,
+  LOADING_GET_CURRENT_PARTY,
+  ERROR_GET_CURRENT_PARTY,
+  SUCCESS_GET_CURRENT_PARTY,
   LOADING_DELETE_PARTY,
   ERROR_DELETE_PARTY,
   SUCCESS_DELETE_PARTY,
@@ -22,10 +23,14 @@ const initialState = {
   isLoading: false,
   isError: false,
   currentParty: "",
-  currentPartyTansection: [],
   postPartyLoading: false,
   savePartyError: false,
   togglePartiesData: false,
+
+  // Get Current Party data states
+  currentPartyTansection: [],
+  loadingGetCurrentPartyData: false,
+  errorGetCurrentPartyData: false,
 
   // Edit Party states
   loadingEdit: false,
@@ -85,7 +90,27 @@ export const reducer = (state = initialState, { type, payload, name }) => {
         },
       };
 
-    // Edit Party Actions
+    // Get Current Party actions
+    case LOADING_GET_CURRENT_PARTY:
+      return {
+        ...state,
+        loadingGetCurrentPartyData: true,
+        errorGetCurrentPartyData: false,
+      };
+    case ERROR_GET_CURRENT_PARTY:
+      return {
+        ...state,
+        loadingGetCurrentPartyData: false,
+        errorGetCurrentPartyData: true,
+      };
+    case SUCCESS_GET_CURRENT_PARTY:
+      return {
+        ...state,
+        loadingGetCurrentPartyData: false,
+        currentPartyTansection: payload,
+      };
+
+    // Edit Party actions
     case EDIT_PARTY_LOADING: {
       return {
         ...state,
@@ -108,18 +133,7 @@ export const reducer = (state = initialState, { type, payload, name }) => {
       };
     }
 
-    case CURRENT_PARTIES_TRANSECATIONS_SUCCESS:
-      return {
-        ...state,
-        currentPartyTansection: payload,
-      };
-    case PARTIES_EDIT_SUCCESS:
-      return {
-        ...state,
-        togglePartiesData: !state.togglePartiesData,
-      };
-
-    // Delete Party Actions
+    // Delete Party actions
     case LOADING_DELETE_PARTY: {
       return {
         ...state,
