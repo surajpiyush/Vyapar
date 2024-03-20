@@ -77,12 +77,6 @@
   display: flex;
   margin-top: 35px;
 }
-
-.home-layout {
-  display: flex;
-  /* background: #a09f9f; */
-  background-color: var(--mistyGrey);
-}
 .app-sidebar {
   max-width: 300px;
   width: 230px;
@@ -95,14 +89,20 @@
   left: 0;
   overflow-y: auto;
 }
-
 .app-Home {
   width: 100%;
+  flex-grow: 1;
+}
+
+.home-layout {
+  display: flex;
+  /* background: #a09f9f; */
+  background-color: var(--mistyGrey);
 }
 
 .header-div-fixed {
   position: fixed;
-  width: 82%;
+  width: 85%;
   background-color: white;
   margin-left: 230px;
   z-index: 10;
