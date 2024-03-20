@@ -17,9 +17,11 @@ import React, { useEffect, useState } from "react";
 import { ImSpinner3 as BasicSpinner } from "react-icons/im";
 import { useDispatch, useSelector } from "react-redux";
 import EditableRow from "../../EditForm";
+import { useToast } from "@chakra-ui/react";
 
 const Purchasereturn = ({ func, date }) => {
    const dispatch = useDispatch();
+   const toast = useToast();
    const isLoading = useSelector((store) => store.PurchaseReducer.isLoading);
    const data = useSelector(
       (store) => store.PurchaseReducer?.purchaseReturnData
@@ -43,7 +45,11 @@ const Purchasereturn = ({ func, date }) => {
    }, [dispatch, date, func]);
 
    const handleDelete = (id) => {
-      dispatch(deletePurchaseReturnBill(id));
+      dispatch(
+         deletePurchaseReturnBill(id, toast, () => {
+            dispatch(getPurchaseReturn({ date }));
+         })
+      );
    };
 
    const handleEdit = (data) => {
@@ -116,13 +122,14 @@ const Purchasereturn = ({ func, date }) => {
                                  <tr className="table-row" key={e._id}>
                                     <td className="table-h">{i + 1}</td>
                                     <td className="table-h">
-                                       {new Date(
-                                          e.billDate
-                                       ).toLocaleDateString("en-IN", {
-                                          day: "2-digit",
-                                          month: "2-digit",
-                                          year: "numeric",
-                                       })}
+                                       {new Date(e.billDate).toLocaleDateString(
+                                          "en-IN",
+                                          {
+                                             day: "2-digit",
+                                             month: "2-digit",
+                                             year: "numeric",
+                                          }
+                                       )}
                                     </td>
                                     <td className="table-h">
                                        {e.returnNumber || "-"}
@@ -132,20 +139,30 @@ const Purchasereturn = ({ func, date }) => {
                                        {e.categoryName || "-"}
                                     </td>
                                     <td className="table-h">{e.type}</td>
-                                    <td className="table-h">₹{e.amount || 0}</td>
+                                    <td className="table-h">
+                                       ₹{e.amount || 0}
+                                    </td>
                                     <td className="table-h">
                                        ₹{e.paymentType[0]?.amount || 0}
                                     </td>
                                     <td className="table-h">
-                                       ₹{e.amount - e.paymentType[0]?.amount || 0}
+                                       ₹
+                                       {e.amount - e.paymentType[0]?.amount ||
+                                          0}
                                     </td>
                                     <td className="table-h">
-                                       <PrinterIcon onClick={() => window.print()} />
+                                       <PrinterIcon
+                                          onClick={() => window.print()}
+                                       />
                                        <DotsIcon />
                                     </td>
                                     <td className="table-h">
-                                       <DeleteIcon onClick={() => handleDelete(e._id)} />
-                                       <EditIcon onClick={() => handleEdit(e)} />
+                                       <DeleteIcon
+                                          onClick={() => handleDelete(e._id)}
+                                       />
+                                       <EditIcon
+                                          onClick={() => handleEdit(e)}
+                                       />
                                     </td>
                                  </tr>
                               )}

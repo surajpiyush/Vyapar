@@ -1,5 +1,4 @@
-//import "../../styles/parties.css";
-import css from "./Parties.module.css";
+import "../../styles/parties.css";
 import party from "../../assets/Images/party.jpg";
 import Setting from "../../Component/Setting/Setting";
 import Loader1 from "../../Component/Loaders/Loader1";
@@ -70,7 +69,7 @@ export default function Parties() {
         asOfDate,
         creditLimit,
       };
-      // console.log("savePartyData", savePartyData);
+      //  console.log("savePartyData", savePartyData);
       SaveParty(dispatch, savePartyData, setPartyFormIsOpen, toast);
     }
   };
@@ -106,27 +105,39 @@ export default function Parties() {
 
   return (
     <div>
-      {isLoading && <Loader1 />}
       {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
 
-      <div className={css.navOuter}>
-        <div className={css.navOptions}>Name</div>
+      <div className="nav">
+        <div
+          className="nav-opt"
+          style={{
+            width: "100%",
+            borderBottom: !opt
+              ? "4px solid var(--greyA)"
+              : "4px solid var(--blueB)",
+          }}
+          onClick={() => {
+            setOpt(true);
+          }}
+        >
+          Name
+        </div>
+        {/* <div
+          style={{
+            borderBottom: !opt
+              ? "4px solid var(--blueB)"
+              : "4px solid var(--greyA)",
+          }}
+          className="nav-opt"
+          onClick={() => {
+            setOpt(false);
+          }}
+        >
+          Group
+        </div> */}
       </div>
 
-      {!isLoading && partiesData.length != 0 && (
-        <PartiesTable func={dataFromChild} />
-      )}
-
-      {!isLoading && partiesData.length == 0 && (
-        <FirstTimeFormToggle
-          img={party}
-          onClick={() => setPartyFormIsOpen(true)}
-          BtnText="Add Party"
-          MiddleText="Add your customers & suppliers. Manage your business with them."
-        />
-      )}
-
-      {/* Add Party Form */}
+      {/* Party Form */}
       {partyFormIsOpen && (
         <div
           className="partyFormOuterParent"
@@ -626,6 +637,35 @@ export default function Parties() {
             </div>
           </form>
         </div>
+      )}
+
+      {isLoading ? (
+        <Loader1 />
+      ) : (
+        <div>
+          <div className="">
+            {opt ? (
+              partiesData.length != 0 && (
+                <div className="" style={{ width: "100%" }}>
+                  <PartiesTable func={dataFromChild} />
+                </div>
+              )
+            ) : (
+              <div className="" style={{ width: "100%" }}>
+                <GroupTable func={dataFromChild} />
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {!isLoading && partiesData.length == 0 && (
+        <FirstTimeFormToggle
+          img={party}
+          onClick={() => setPartyFormIsOpen(true)}
+          BtnText="Add Party"
+          MiddleText="Add your customers & suppliers. Manage your business with them."
+        />
       )}
     </div>
   );

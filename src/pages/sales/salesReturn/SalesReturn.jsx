@@ -127,7 +127,7 @@ export default function SalesReturn() {
 
          {/* Top Nav */}
          <div className="grp-cont-invoice">
-            <div className={css.TableOuter}>
+            <div className={css.TableOuter} >
                <div className={css.dBetween} style={{ alignItems: "center" }}>
                   <div className={css.dFlex} style={{ gap: "10px" }}>
                      <div className={css.dFlex}>
@@ -145,7 +145,7 @@ export default function SalesReturn() {
                      >
                         <div
                            style={{
-                              padding: "15px 12px 2px 15px",
+                              padding: "4px 12px 2px 15px",
                               background: "gray",
                            }}
                         >
@@ -160,7 +160,7 @@ export default function SalesReturn() {
                         />
                         <div
                            style={{
-                              padding: "15px 12px 2px 15px",
+                              padding: "4px 12px 2px 15px",
                            }}
                         >
                            <span>To</span>
@@ -185,7 +185,15 @@ export default function SalesReturn() {
                      style={{ gap: "20px", paddingRight: "25px" }}
                   >
                      <div>
-                        <div>
+                        <div
+                           onClick={() =>
+                              toast({
+                                 title: "Feature currently in development",
+                                 status: "info",
+                                 position: "top",
+                              })
+                           }
+                        >
                            <i
                               className="fa fa-bar-chart"
                               aria-hidden="true"
@@ -196,9 +204,17 @@ export default function SalesReturn() {
                         </div>
                      </div>
                      <div className="d-flex-col">
-                        <div>
+                        <div
+                           onClick={() =>
+                              toast({
+                                 title: "Feature currently in development",
+                                 status: "info",
+                                 position: "top",
+                              })
+                           }
+                        >
                            <div>
-                              <i className="fa fa-excel-chart"></i>
+                           <i class="fa fa-file-excel-o" aria-hidden="true"></i>
                            </div>
                            <div>
                               <span>Excel Report</span>
@@ -206,7 +222,15 @@ export default function SalesReturn() {
                         </div>
                      </div>
                      <div className="d-flex-col">
-                        <div>
+                        <div
+                           onClick={() =>
+                              toast({
+                                 title: "Feature currently in development",
+                                 status: "info",
+                                 position: "top",
+                              })
+                           }
+                        >
                            <div>
                               <i className="fa fa-print" aria-hidden="true"></i>
                            </div>

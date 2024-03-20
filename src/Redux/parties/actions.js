@@ -47,6 +47,7 @@ export const SaveParty = async (dispatch, data, setPartyFormToggle, toast) => {
   dispatch({ type: SAVE_PARTY_LOADING });
   const token = localStorage.getItem("token");
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  // console.log(("data party:-",data))
   try {
     // prettier-ignore
     const response = await axios.post(`${API_URL}/${FirmId}/party`, data, { // eslint-disable-line no-unused-vars

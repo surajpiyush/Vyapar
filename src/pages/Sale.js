@@ -24,6 +24,7 @@ const Sale = () => {
    const [endDate, setEndDate] = useState(
       new Date().toISOString().split("T")[0]
    );
+   console.log(store)
    const prevDateRef = useRef();
    const dispatch = useDispatch();
 

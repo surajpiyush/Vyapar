@@ -21,8 +21,15 @@ import {
 const initialState = {
   partiesData: [],
   isLoading: false,
+  isFailed: false,
   isError: false,
+  purchaseBillData: [],
+  paymentOutData: [],
+
+  // Current Party
   currentParty: "",
+  currentPartyTansection: [],
+
   postPartyLoading: false,
   savePartyError: false,
   togglePartiesData: false,
@@ -54,6 +61,18 @@ const initialState = {
     asOfDate: "",
     creditLimit: "",
   },
+  partyName: "",
+  gstNo: "",
+  phoneNumber: "",
+  partyGroup: "",
+  GSTType: "",
+  state: "",
+  email: "",
+  billingAddress: "",
+  shippingAddress: "",
+  openingBalance: "",
+  asOfDate: "",
+  creditLimit: "",
 };
 
 export const reducer = (state = initialState, { type, payload, name }) => {
@@ -82,13 +101,7 @@ export const reducer = (state = initialState, { type, payload, name }) => {
         togglePartiesData: !state.togglePartiesData,
       };
     case SAVE_PARTY_INPUT_CHANGE:
-      return {
-        ...state,
-        partyDetails: {
-          ...state.partyDetails,
-          [name]: payload,
-        },
-      };
+      return { ...state, [name]: payload };
 
     // Get Current Party actions
     case LOADING_GET_CURRENT_PARTY:

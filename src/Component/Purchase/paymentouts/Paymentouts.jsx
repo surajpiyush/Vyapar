@@ -18,14 +18,16 @@ import {
 } from "../../utils/reactIcons";
 
 import "./Paymentouts.css";
+import { useToast } from "@chakra-ui/react";
 
 const Paymentouts = ({ func, date }) => {
+   const toast = useToast();
    const dispatch = useDispatch();
    const [isEditing, setIsEditing] = useState(false);
    const [editedData, setEditedData] = useState(null);
    const store = useSelector((store) => store.PurchaseReducer);
-   const data = store.paymentOutData;
-   
+   const data =useSelector((store) => store.PurchaseReducer.paymentOutData)
+
    useEffect(() => {
       // Fetch payment out bills when component mounts or date changes
       dispatch(getPaymentOutBill({ date }));
@@ -33,7 +35,11 @@ const Paymentouts = ({ func, date }) => {
 
    const handleDelete = (id) => {
       // Delete payment out bill
-      dispatch(deletePayoutBill(id));
+      dispatch(
+         deletePayoutBill(id, toast, () => {
+            dispatch(getPaymentOutBill({ date }));
+         })
+      );
    };
 
    const handleEdit = (data) => {
@@ -61,8 +67,14 @@ const Paymentouts = ({ func, date }) => {
       func(true);
    };
 
-   const totaldisplay = useMemo(() => data.reduce((acc, e) => acc + Number(e?.total), 0), [data]);
-   const totalBalance = useMemo(() => data.reduce((acc, e) => acc + Number(e?.balance), 0), [data]);
+   const totaldisplay = useMemo(
+      () => data.reduce((acc, e) => acc + Number(e?.total), 0),
+      [data]
+   );
+   const totalBalance = useMemo(
+      () => data.reduce((acc, e) => acc + Number(e?.balance), 0),
+      [data]
+   );
 
    return (
       <div className={`main-container ${isEditing ? "editing" : ""}`}>
@@ -85,7 +97,17 @@ const Paymentouts = ({ func, date }) => {
                   <table className="table">
                      <thead className="table-head">
                         <tr className="table-row">
-                           {["#", "date", "refNo", "partyName", "categoryName", "type", "total", "recieved", "balance"].map((item, index) => (
+                           {[
+                              "#",
+                              "date",
+                              "refNo",
+                              "partyName",
+                              "categoryName",
+                              "type",
+                              "total",
+                              "recieved",
+                              "balance",
+                           ].map((item, index) => (
                               <th className="table-h" key={index}>
                                  <div className="table-items">{item}</div>
                               </th>
@@ -104,7 +126,17 @@ const Paymentouts = ({ func, date }) => {
                               <React.Fragment key={e._id}>
                                  {isEditing && editedData?._id === e._id ? (
                                     <EditableRow
-                                       display={["#", "date", "refNo", "partyName", "categoryName", "type", "total", "recieved", "balance"]}
+                                       display={[
+                                          "#",
+                                          "date",
+                                          "refNo",
+                                          "partyName",
+                                          "categoryName",
+                                          "type",
+                                          "total",
+                                          "recieved",
+                                          "balance",
+                                       ]}
                                        data={editedData}
                                        onSave={handleSave}
                                        onCancel={handleCancel}
@@ -112,21 +144,33 @@ const Paymentouts = ({ func, date }) => {
                                  ) : (
                                     <tr className="table-row" key={e._id}>
                                        <td className="table-h">{i + 1}</td>
-                                       <td className="table-h">{FormatDate(e.date)}</td>
+                                       <td className="table-h">
+                                          {FormatDate(e.date)}
+                                       </td>
                                        <td className="table-h">{e.refNo}</td>
-                                       <td className="table-h">{e.partyName}</td>
-                                       <td className="table-h">{e.categoryName || "-"}</td>
+                                       <td className="table-h">
+                                          {e.partyName}
+                                       </td>
+                                       <td className="table-h">
+                                          {e.categoryName || "-"}
+                                       </td>
                                        <td className="table-h">{e.type}</td>
                                        <td className="table-h">₹{e.total}</td>
                                        <td className="table-h">₹{e.paid}</td>
                                        <td className="table-h">₹{e.balance}</td>
                                        <td className="table-h">
-                                          <PrinterIcon onClick={() => window.print()} />
+                                          <PrinterIcon
+                                             onClick={() => window.print()}
+                                          />
                                           <DotsIcon />
                                        </td>
                                        <td className="table-h">
-                                          <DeleteIcon onClick={() => handleDelete(e._id)} />
-                                          <EditIcon onClick={() => handleEdit(e)} />
+                                          <DeleteIcon
+                                             onClick={() => handleDelete(e._id)}
+                                          />
+                                          <EditIcon
+                                             onClick={() => handleEdit(e)}
+                                          />
                                        </td>
                                     </tr>
                                  )}
@@ -135,7 +179,13 @@ const Paymentouts = ({ func, date }) => {
                         </tbody>
                      ) : (
                         <tr>
-                           <BasicSpinner style={{ width: "100%", margin: "60px auto", fontSize: "30px" }} />
+                           <BasicSpinner
+                              style={{
+                                 width: "100%",
+                                 margin: "60px auto",
+                                 fontSize: "30px",
+                              }}
+                           />
                         </tr>
                      )}
                   </table>
@@ -153,4 +203,4 @@ const Paymentouts = ({ func, date }) => {
    );
 };
 
-export default Paymentouts
+export default Paymentouts;
