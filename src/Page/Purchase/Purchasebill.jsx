@@ -22,6 +22,7 @@ const Purchasebill = () => {
    const navigate = useNavigate();
    const dispatch = useDispatch();
    const [openForm, setOpenForm] = useState(false);
+   const [isCalculatorOpen, setIsCalculatorOpen] = useState(false);
    const [startDate, setStartDate] = useState("2024-02-01");
    const [endDate, setEndDate] = useState(
       new Date().toISOString().split("T")[0]

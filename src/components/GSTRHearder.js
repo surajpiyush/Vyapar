@@ -3,6 +3,7 @@ import * as XLSX from "xlsx";
 import { BsFiletypeJson, BsFiletypeXlsx } from "react-icons/bs";
 import { MdOutlinePrint } from "react-icons/md";
 import { useToast } from "@chakra-ui/react";
+import { ImSpinner3 as BasicSpinner } from "react-icons/im";
 
 const GSTRHeader = ({
    isChecked,
@@ -14,7 +15,7 @@ const GSTRHeader = ({
    setStartDate,
 }) => {
    const tableData = data;
-   console.log(data);
+   // console.log(data);
    const toast = useToast();
    const [loading, setLoading] = useState(false);
    const saveTableData = async (action) => {
@@ -235,9 +236,8 @@ const GSTRHeader = ({
                      "Integrated Tax Amount",
                      "Central Tax Amount",
                      "State/UT Tax Amount",
-                     "Cess Amount"
-                   ]
-                  [""],
+                     "Cess Amount",
+                  ][""],
                ]);
 
                const docs = XLSX.utils.aoa_to_sheet([
@@ -292,6 +292,25 @@ const GSTRHeader = ({
 
    return (
       <div className="sale-dashboard-header">
+         {loading && (
+            <div
+               style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100vh",
+                  background: "rgba(0, 0, 0, 0.25)",
+                  zIndex: 9999,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontSize: "50px",
+               }}
+            >
+               <BasicSpinner />
+            </div>
+         )}
          <div className="sale-dashboard-menu">
             <div className="date-filter-div">
                <p>Between</p>
