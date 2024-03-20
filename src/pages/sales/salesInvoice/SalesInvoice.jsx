@@ -223,11 +223,17 @@ export default function SalesInvoice() {
 
          {/* Top Nav */}
          <div className="grp-cont-invoice">
-            <div className="">
-               <div className="d-between" style={{ alignItems: "center" }}>
-                  <div className="d-flex" style={{ gap: "10px" }}>
-                     <div className="">
-                        <select name="" id="" className="invoice-select">
+            <div
+               className={css.TableOuter}
+               style={{
+                  margin: "10px",
+                  background: "white",
+               }}
+            >
+               <div className={css.dBetween} style={{ alignItems: "center" }}>
+                  <div className={css.dFlex} style={{ gap: "10px" }}>
+                     <div className={css.dFlex}>
+                        <select name="" id="" className={css.invoiceSelect}>
                            <option value="">This Month</option>
                            <option value="">This Quarter</option>
                            <option value="">Last Month</option>
@@ -235,98 +241,133 @@ export default function SalesInvoice() {
                            <option value="">Custom</option>
                         </select>
                      </div>
-                     <div className="d-flex">
-                        <p>Between</p>
+                     <div
+                        className={css.dFlex}
+                        style={{ border: "1px solid gray" }}
+                     >
                         <div
-                           className="d-flex"
-                           style={{ gap: "10px", marginLeft: "10px" }}
+                           style={{
+                              padding: "4px 12px 2px 15px",
+                              background: "gray",
+                           }}
                         >
-                           <input
-                              type="date"
-                              value={startDate}
-                              onChange={(e) => setStartDate(e.target.value)}
-                              className="invoice-input"
-                           />
-                           <span>To</span>
-                           <input
-                              type="date"
-                              value={endDate}
-                              onChange={(e) => setEndDate(e.target.value)}
-                              className="invoice-input"
-                           />
+                           <p> Between</p>
                         </div>
+
+                        <input
+                           type="date"
+                           value={startDate}
+                           onChange={(e) => setStartDate(e.target.value)}
+                           className={css.invoiceInput}
+                        />
+                        <div
+                           style={{
+                              padding: "4px 12px 2px 15px",
+                           }}
+                        >
+                           <span>To</span>
+                        </div>
+
+                        <input
+                           type="date"
+                           value={endDate}
+                           onChange={(e) => setEndDate(e.target.value)}
+                           className="invoice-input"
+                        />
                      </div>
-                     <div className="" style={{ marginLeft: "10px" }}>
-                        <select name="" id="" className="invoice-select2">
+                     <div className={css.dFlex}>
+                        <select name="" id="" className={css.invoiceSelect}>
                            <option value="">All Firms</option>
                            <option value="">My Company</option>
                         </select>
                      </div>
                   </div>
-                  <div className="d-flex" style={{ gap: "20px" }}>
-                     <div
-                        className="d-flex-col"
-                        onClick={() =>
-                           toast({
-                              title: "Feature currently in development",
-                              status: "info",
-                              position: "top",
-                           })
-                        }
-                     >
-                        <i className="fa fa-bar-chart" aria-hidden="true"></i>
-                        <span>Graph</span>
+                  <div
+                     className={css.dFlex}
+                     style={{ gap: "20px", paddingRight: "25px" }}
+                  >
+                     <div>
+                        <div
+                           onClick={() =>
+                              toast({
+                                 title: "Feature currently in development",
+                                 status: "info",
+                                 position: "top",
+                              })
+                           }
+                        >
+                           <i
+                              className="fa fa-bar-chart"
+                              aria-hidden="true"
+                           ></i>
+                        </div>
+                        <div>
+                           <span>Graph</span>
+                        </div>
                      </div>
-                     <div
-                        className="d-flex-col"
-                        onClick={() =>
-                           toast({
-                              title: "Feature currently in development",
-                              status: "info",
-                              position: "top",
-                           })
-                        }
-                     >
-                        <i className="fa fa-bar-chart" aria-hidden="true"></i>
-                        <span>Excel Report</span>
+                     <div className="d-flex-col">
+                        <div
+                           onClick={() =>
+                              toast({
+                                 title: "Feature currently in development",
+                                 status: "info",
+                                 position: "top",
+                              })
+                           }
+                        >
+                           <div>
+                           <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                           </div>
+                           <div>
+                              <span>Excel Report</span>
+                           </div>
+                        </div>
                      </div>
-                     <div
-                        className="d-flex-col"
-                        onClick={() =>
-                           toast({
-                              title: "Feature currently in development",
-                              status: "info",
-                              position: "top",
-                           })
-                        }
-                     >
-                        <i className="fa fa-bar-chart" aria-hidden="true"></i>
-                        <span>Print</span>
+                     <div className="d-flex-col">
+                        <div
+                           onClick={() =>
+                              toast({
+                                 title: "Feature currently in development",
+                                 status: "info",
+                                 position: "top",
+                              })
+                           }
+                        >
+                           <div>
+                              <i className="fa fa-print" aria-hidden="true"></i>
+                           </div>
+                           <div>
+                              <span>Print</span>
+                           </div>
+                        </div>
                      </div>
                   </div>
                </div>
-               <div
-                  className="d-flex"
-                  style={{ gap: "20px", marginTop: "20px" }}
-               >
+               <div style={{ display: "flex", gap: "20px", marginTop: "20px" }}>
                   <div
                      style={{
-                        backgroundColor: "Coral",
+                        backgroundColor: "rgba(67, 160, 71,0.75)",
                         padding: "12px 30px",
                         color: "white",
                         borderRadius: "10px",
+                        textAlign: "center",
+                        width: "150px",
                      }}
                   >
                      <span>Paid</span>
                      <br />
                      <span>₹{paidAmount - unpaidAmount}</span>
                   </div>
-                  +
+                  <div className={css.centeredItems}>
+                     <span>+</span>
+                  </div>
                   <div
                      style={{
                         backgroundColor: "Pink",
                         padding: "12px 30px",
                         color: "white",
+                        textAlign: "center",
+                        width: "150px",
                         borderRadius: "10px",
                      }}
                   >
@@ -334,15 +375,38 @@ export default function SalesInvoice() {
                      <br />
                      <span>₹{unpaidAmount}</span>
                   </div>
-                  =
+                  <div className={css.centeredItems}>
+                     <span>+</span>
+                  </div>
                   <div
                      style={{
-                        backgroundColor: "lightgreen",
+                        padding: "12px 30px",
+                        backgroundColor: "rgba(221, 0, 0,0.5)",
+                        color: "white",
+                        borderRadius: "10px",
+                        textAlign: "center",
+                        width: "150px",
+                     }}
+                  >
+                     <span>Over Due</span>
+                     <br />
+                     <span>₹{unpaidAmount}</span>
+                  </div>
+                  <div className={css.centeredItems}>
+                     <span>=</span>
+                  </div>
+                  <div
+                     style={{
+                        backgroundColor: "rgba(144, 202, 249,0.5)",
+
                         padding: "12px 30px",
                         color: "white",
                         borderRadius: "10px",
+                        textAlign: "center",
+                        width: "150px",
                      }}
                   >
+                     {" "}
                      <span>Total</span>
                      <br />
                      <span>₹{paidAmount}</span>

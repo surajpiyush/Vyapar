@@ -127,7 +127,7 @@ export default function SalesReturn() {
 
          {/* Top Nav */}
          <div className="grp-cont-invoice">
-            <div className={css.TableOuter}>
+            <div className={css.TableOuter} >
                <div className={css.dBetween} style={{ alignItems: "center" }}>
                   <div className={css.dFlex} style={{ gap: "10px" }}>
                      <div className={css.dFlex}>
@@ -145,7 +145,7 @@ export default function SalesReturn() {
                      >
                         <div
                            style={{
-                              padding: "15px 12px 2px 15px",
+                              padding: "4px 12px 2px 15px",
                               background: "gray",
                            }}
                         >
@@ -160,7 +160,7 @@ export default function SalesReturn() {
                         />
                         <div
                            style={{
-                              padding: "15px 12px 2px 15px",
+                              padding: "4px 12px 2px 15px",
                            }}
                         >
                            <span>To</span>

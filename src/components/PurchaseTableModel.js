@@ -18,11 +18,12 @@ const PurchaseTableModel = ({ tableHeader, data }) => {
             </thead>
             <tbody>
                {data && data.length > 0 ? (
-                  data.map((item, index) => (
-                     <tr key={item.id}>
+                  data?.map((item, index) => (
+                     
+                     <tr>
                         <td>{index + 1}</td>
                         <td>
-                           {new Date(item.invoiceDate).toLocaleDateString(
+                           {new Date(item?.invoiceDate).toLocaleDateString(
                               "en-IN",
                               {
                                  day: "2-digit",
@@ -31,23 +32,23 @@ const PurchaseTableModel = ({ tableHeader, data }) => {
                               }
                            )}
                         </td>
-                        <td>{item.invoiceNumber ? item.invoiceNumber : "-"}</td>
+                        <td>{item?.invoiceNumber ? item.invoiceNumber : "-"}</td>
                         <td>{item?.partyName}</td>
-                        <td>{item.transactionType}</td>
+                        <td>{item?.transactionType}</td>
                         <td>
                            {item?.paymentType[0]?.types || item?.paymentType[0]}
                         </td>
-                        <td>{item.amount}</td>
+                        <td>{item?.amount}</td>
                         {/* <td>{item.recived}</td> */}
-                        <td>{item.balanceDue}</td>
+                        <td>{item?.balanceDue}</td>
                         <td>
-                           {item.dueDate
+                           {item?.dueDate
                               ? new Date(item.dueDate).toLocaleDateString(
                                    "en-GB"
                                 )
                               : "-"}
                         </td>
-                        <td>{item.status}</td>
+                        <td>{item?.status}</td>
                         <td>
                            <PrinterIcon
                               onClick={() => {

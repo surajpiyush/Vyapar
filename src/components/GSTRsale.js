@@ -40,14 +40,16 @@ const GSTRsale = ({ tableHeader1, tableHeader2, data, sale }) => {
                         {item.creditNo ? <td>{item.creditNo}</td> : ""}
                         <td>{item.amount}</td>
                         <td>{item.taxRate}</td>
-
+{!sale && <td>{" "}</td>}
+{!sale && <td>{" "}</td>}
+{!sale && <td>{" "}</td>}
                         <td>{item.cess || "-"}</td>
                         <td>{item.taxableValue}</td>
                         <td>{item.integreatedTax}</td>
 
                         <td>{+item?.taxableValue / 2 || "-"}</td>
                         <td>{+item?.taxableValue / 2 || "-"}</td>
-                        <td>{item.stateOfSupply}</td>
+                        <td>{item?.stateOfSupply || "-"}</td>
                      </tr>
                   ))}
                </tbody>

@@ -24,7 +24,7 @@ const GSTR2 = () => {
 
    const store = useSelector((store) => store.ReportReducer);
    const data = store.purchaseReportData;
-
+console.log(store)
    const [startDate, setStartDate] = useState("2024-02-01");
    const [endDate, setEndDate] = useState(new Date().toISOString().split("T")[0]);
    const prevDateRef = useRef();
@@ -83,6 +83,7 @@ const GSTR2 = () => {
                      tableHeader1={SaletableHeader1}
                      tableHeader2={SaletableHeader2}
                      data={data?.getPurchase}
+                     sale={true}
                   />
                </div>
             )}
