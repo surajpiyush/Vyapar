@@ -2,8 +2,8 @@
 import FirstTimeFormToggle from "../../Component/FirmTimeForm/FirstTimeFormToggle";
 import Loader1 from "../../Component/Loaders/Loader1";
 import Setting from "../../Component/Setting/Setting";
-import { SAVE_PARTY_INPUT_CHANGE } from "../../Redux/Parties/actionTypes";
-import { FetchAllParties, SaveParty } from "../../Redux/Parties/actions";
+import { SAVE_PARTY_INPUT_CHANGE } from "../../Redux/parties/actionTypes";
+import { FetchAllParties, SaveParty } from "../../Redux/parties/actions";
 import party from "../../assets/Images/party.jpg";
 import PartiesTable from "../../components/TableData/PartiesTable";
 import css from "./Parties.module.css";
