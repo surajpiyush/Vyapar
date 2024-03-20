@@ -185,7 +185,15 @@ export default function SalesReturn() {
                      style={{ gap: "20px", paddingRight: "25px" }}
                   >
                      <div>
-                        <div>
+                        <div
+                           onClick={() =>
+                              toast({
+                                 title: "Feature currently in development",
+                                 status: "info",
+                                 position: "top",
+                              })
+                           }
+                        >
                            <i
                               className="fa fa-bar-chart"
                               aria-hidden="true"
@@ -196,9 +204,17 @@ export default function SalesReturn() {
                         </div>
                      </div>
                      <div className="d-flex-col">
-                        <div>
+                        <div
+                           onClick={() =>
+                              toast({
+                                 title: "Feature currently in development",
+                                 status: "info",
+                                 position: "top",
+                              })
+                           }
+                        >
                            <div>
-                              <i className="fa fa-excel-chart"></i>
+                           <i class="fa fa-file-excel-o" aria-hidden="true"></i>
                            </div>
                            <div>
                               <span>Excel Report</span>
@@ -206,7 +222,15 @@ export default function SalesReturn() {
                         </div>
                      </div>
                      <div className="d-flex-col">
-                        <div>
+                        <div
+                           onClick={() =>
+                              toast({
+                                 title: "Feature currently in development",
+                                 status: "info",
+                                 position: "top",
+                              })
+                           }
+                        >
                            <div>
                               <i className="fa fa-print" aria-hidden="true"></i>
                            </div>

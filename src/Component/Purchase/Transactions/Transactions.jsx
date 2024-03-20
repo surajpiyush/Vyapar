@@ -19,10 +19,12 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ImSpinner3 as BasicSpinner } from "react-icons/im";
 import EditableRow from "../../EditForm";
+import { useToast } from "@chakra-ui/react";
 
 const Transactions = ({ func, date, info }) => {
    const [isEditing, setIsEditing] = useState(false);
    const [editedData, setEditedData] = useState(null);
+   const toast = useToast();
    const openForm = () => {
       func(true);
    };
@@ -46,7 +48,7 @@ const Transactions = ({ func, date, info }) => {
    const handleDelete = (id) => {
       // Dispatch action to delete the purchase invoice
       dispatch(
-         deletePurchaseBill(id, () => {
+         deletePurchaseBill(id, toast, () => {
             // Success callback - Fetch updated data after deletion
             dispatch(getPurchaseBill({ date }));
          })

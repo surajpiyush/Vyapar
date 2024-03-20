@@ -39,7 +39,7 @@ const PartyEditForm = ({ setShowEditFirm, party }) => {
 
   return (
     <div onClick={() => setShowEditFirm(false)} className={css.Overlay}>
-      <div
+      <div style={{zIndex:1000}}
         onClick={(e) => e.stopPropagation()}
         className={css.OuterEditProfile}
       >

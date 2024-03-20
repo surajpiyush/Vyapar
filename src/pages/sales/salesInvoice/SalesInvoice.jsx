@@ -264,15 +264,42 @@ export default function SalesInvoice() {
                      </div>
                   </div>
                   <div className="d-flex" style={{ gap: "20px" }}>
-                     <div className="d-flex-col">
+                     <div
+                        className="d-flex-col"
+                        onClick={() =>
+                           toast({
+                              title: "Feature currently in development",
+                              status: "info",
+                              position: "top",
+                           })
+                        }
+                     >
                         <i className="fa fa-bar-chart" aria-hidden="true"></i>
                         <span>Graph</span>
                      </div>
-                     <div className="d-flex-col">
+                     <div
+                        className="d-flex-col"
+                        onClick={() =>
+                           toast({
+                              title: "Feature currently in development",
+                              status: "info",
+                              position: "top",
+                           })
+                        }
+                     >
                         <i className="fa fa-bar-chart" aria-hidden="true"></i>
                         <span>Excel Report</span>
                      </div>
-                     <div className="d-flex-col">
+                     <div
+                        className="d-flex-col"
+                        onClick={() =>
+                           toast({
+                              title: "Feature currently in development",
+                              status: "info",
+                              position: "top",
+                           })
+                        }
+                     >
                         <i className="fa fa-bar-chart" aria-hidden="true"></i>
                         <span>Print</span>
                      </div>

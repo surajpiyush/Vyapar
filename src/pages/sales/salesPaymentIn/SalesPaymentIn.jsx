@@ -14,6 +14,7 @@ import { IoSearch as SearchIcon } from "react-icons/io5";
 import { FiPlusCircle as PlusIcon } from "react-icons/fi";
 import { CiFilter as FilterIcon } from "react-icons/ci";
 import EditableRow from "../../../Component/EditForm";
+import { useToast } from "@chakra-ui/react";
 
 export default function SalesPaymentIn() {
    const [isEditing, setIsEditing] = useState(false);
@@ -26,13 +27,15 @@ export default function SalesPaymentIn() {
    const paymentInList = useSelector(
       (state) => state.SalesReducer.paymentInList
    );
-   console.log(paymentInList);
+   // console.log(paymentInList);
    const [openForm, setOpenForm] = useState(false);
    const [toggleSetting, setToggleSetting] = useState(false);
    const [startDate, setStartDate] = useState("2024-02-01");
    const [endDate, setEndDate] = useState(
       new Date().toISOString().split("T")[0]
    );
+
+   const toast = useToast()
 
    useEffect(() => {
       GetAllPaymentIn(dispatch, startDate, endDate);
@@ -164,7 +167,15 @@ export default function SalesPaymentIn() {
                      style={{ gap: "20px", paddingRight: "25px" }}
                   >
                      <div>
-                        <div>
+                        <div
+                           onClick={() =>
+                              toast({
+                                 title: "Feature currently in development",
+                                 status: "info",
+                                 position: "top",
+                              })
+                           }
+                        >
                            <i
                               className="fa fa-bar-chart"
                               aria-hidden="true"
@@ -175,9 +186,17 @@ export default function SalesPaymentIn() {
                         </div>
                      </div>
                      <div className="d-flex-col">
-                        <div>
+                        <div
+                           onClick={() =>
+                              toast({
+                                 title: "Feature currently in development",
+                                 status: "info",
+                                 position: "top",
+                              })
+                           }
+                        >
                            <div>
-                              <i className="fa fa-excel-chart"></i>
+                           <i class="fa fa-file-excel-o" aria-hidden="true"></i>
                            </div>
                            <div>
                               <span>Excel Report</span>
@@ -185,7 +204,15 @@ export default function SalesPaymentIn() {
                         </div>
                      </div>
                      <div className="d-flex-col">
-                        <div>
+                        <div
+                           onClick={() => 
+                              toast({
+                                 title: "Feature currently in development",
+                                 status: "info",
+                                 position: "top",
+                              })
+                           }
+                        >
                            <div>
                               <i className="fa fa-print" aria-hidden="true"></i>
                            </div>

@@ -1,6 +1,6 @@
-const GSTRsale = ({ tableHeader1, tableHeader2, data,sale }) => {
-   console.log(data,sale);
-   return ( 
+const GSTRsale = ({ tableHeader1, tableHeader2, data, sale }) => {
+   console.log(data, sale);
+   return (
       <>
          <table className="excel-like-table">
             <thead>

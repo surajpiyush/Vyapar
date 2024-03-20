@@ -16,6 +16,7 @@ import {
    PURCHASE_REQUEST,
    UPDATE_PURCHASEBILL_SUCCESS,
 } from "./actionTypes";
+import { useToast } from "@chakra-ui/react";
 
 const API_URL = "https://asaanly.in";
 
@@ -34,10 +35,16 @@ const handleRequestError = (dispatch, err) => {
    dispatch({ type: PURCHASE_FAILURE });
 };
 
-const handleDeleteSuccess = (dispatch, _id, res) => {
-   console.log(res);
-   alert(`${res.data.msg}`);
+const handleDeleteSuccess = (dispatch, _id, res,toast) => {
+   // console.log(res);
    dispatch({ type: DELETE_PURCHASEBILL_SUCCESS, payload: _id });
+
+toast({
+   title:`${res.data.msg}`,
+   status:"success",
+   position:"top"
+})
+   // alert(`${res.data.msg}`);
 };
 
 const handleUpdateSuccess = (dispatch, res) => {
@@ -85,12 +92,12 @@ export const updatePurchaseBill = (_id, data) => (dispatch) => {
       .catch((err) => handleRequestError(dispatch, err));
 };
 
-export const deletePurchaseBill = (_id) => (dispatch) => {
-   dispatch({ type: PURCHASE_REQUEST });
+export const deletePurchaseBill = (_id,toast) => (dispatch) => {
+   dispatch({ type: PURCHASE_REQUEST });  
 
    axiosInstance
       .delete(`/${getFirmId()}/purchase/delete/${_id}`)
-      .then((res) => handleDeleteSuccess(dispatch, _id, res))
+      .then((res) => handleDeleteSuccess(dispatch, _id, res,toast))
       .catch((err) => handleRequestError(dispatch, err));
 };
 
@@ -136,12 +143,12 @@ export const updatePurchaseOrderBill = (_id, data) => (dispatch) => {
       .catch((err) => handleRequestError(dispatch, err));
 };
 
-export const deletePurchaseOrderBill = (_id) => (dispatch) => {
+export const deletePurchaseOrderBill = (_id,toast) => (dispatch) => {
    dispatch({ type: PURCHASE_REQUEST });
 
    axiosInstance
       .delete(`/${getFirmId()}/purchaseOrder/delete/${_id}`)
-      .then((res) => handleDeleteSuccess(dispatch, _id, res))
+      .then((res) => handleDeleteSuccess(dispatch, _id, res,toast))
       .catch((err) => handleRequestError(dispatch, err));
 };
 
@@ -187,12 +194,12 @@ export const updatePayoutBill = (_id, data) => (dispatch) => {
       .catch((err) => handleRequestError(dispatch, err));
 };
 
-export const deletePayoutBill = (_id) => (dispatch) => {
+export const deletePayoutBill = (_id,toast) => (dispatch) => {
    dispatch({ type: PURCHASE_REQUEST });
 
    axiosInstance
       .delete(`/${getFirmId()}/purchaseOut/delete/${_id}`)
-      .then((res) => handleDeleteSuccess(dispatch, _id, res))
+      .then((res) => handleDeleteSuccess(dispatch, _id, res,toast))
       .catch((err) => handleRequestError(dispatch, err));
 };
 
@@ -241,11 +248,11 @@ export const updatePurchaseReturnBill = (_id, data) => (dispatch) => {
       .catch((err) => handleRequestError(dispatch, err));
 };
 
-export const deletePurchaseReturnBill = (_id) => (dispatch) => {
+export const deletePurchaseReturnBill = (_id,toast) => (dispatch) => {
    dispatch({ type: PURCHASE_REQUEST });
 
    axiosInstance
       .delete(`/${getFirmId()}/purchaseReturn/delete/${_id}`)
-      .then((res) => handleDeleteSuccess(dispatch, _id, res))
+      .then((res) => handleDeleteSuccess(dispatch, _id, res,toast))
       .catch((err) => handleRequestError(dispatch, err));
 };

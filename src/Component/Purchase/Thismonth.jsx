@@ -2,6 +2,7 @@ import React from "react";
 import "./months.css";
 import { ArrowDownIcon, EqualIcon, PlusIcon } from "../utils/reactIcons";
 import { BsFiletypeXlsx } from "react-icons/bs";
+import { useToast } from "@chakra-ui/react";
 
 const Thismonth = ({
    isshowcards = true,
@@ -12,6 +13,7 @@ const Thismonth = ({
    setEndDate,
    setStartDate,
 }) => {
+   const toast = useToast();
    const handleStartDateChange = (e) => {
       setStartDate(e.target.value);
    };
@@ -60,9 +62,17 @@ const Thismonth = ({
                   style={{ gap: "20px", paddingRight: "15px", display: "flex" }}
                >
                   <div className="d-flex-col">
-                     <div>
-                        <div style={{padding:"10px 0 0 30px"}}>
-                        <BsFiletypeXlsx />
+                     <div
+                        onClick={() => {
+                           toast({
+                              title: "Connecting ....",
+                              status: "info",
+                              position: "top",
+                           });
+                        }}
+                     >
+                        <div style={{ padding: "10px 0 0 30px" }}>
+                           <BsFiletypeXlsx />
                         </div>
                         <div>
                            <span>Excel Report</span>
@@ -70,7 +80,13 @@ const Thismonth = ({
                      </div>
                   </div>
                   <div className="d-flex-col">
-                     <div>
+                     <div    onClick={() => {
+                           toast({
+                              title: "Connecting ....",
+                              status: "info",
+                              position: "top",
+                           });
+                        }}>
                         <div>
                            <i className="fa fa-print" aria-hidden="true"></i>
                         </div>

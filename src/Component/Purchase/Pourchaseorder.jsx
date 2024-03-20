@@ -18,6 +18,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ImSpinner3 as BasicSpinner } from "react-icons/im";
 import EditableRow from "../EditForm";
+import { useToast } from "@chakra-ui/react";
 
 const Pourchaseorder = ({ func }) => {
    const [isEditing, setIsEditing] = useState(false);
@@ -25,6 +26,7 @@ const Pourchaseorder = ({ func }) => {
    const store = useSelector((store) => store.PurchaseReducer);
    const date = { startDate: "2023-01-20", endDate: "2025-02-24" };
    const dispatch = useDispatch();
+   const toast = useToast();
    const data = store.purchaseOrderData;
    // console.log(store);
    useEffect(() => {
@@ -37,7 +39,7 @@ const Pourchaseorder = ({ func }) => {
 
    // delete
    const handleDelete = (id) => {
-      dispatch(deletePurchaseOrderBill(id));
+      dispatch(deletePurchaseOrderBill(id,toast));
    };
 
    const handleEdit = (data) => {
