@@ -1,5 +1,5 @@
-import { FetchAllParties } from "../../Redux/Parties/actions";
 import { GetAllItems } from "../../Redux/items/actions";
+import { FetchAllParties } from "../../Redux/parties/actions";
 import ItemsForm from "../../components/addForm/ItemsForm";
 import css from "../../styles/SalesStyles/SalesForms.module.css";
 import ItemsTableBody from "./AddPurchasereturn";

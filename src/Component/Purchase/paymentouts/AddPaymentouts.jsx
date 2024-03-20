@@ -18,7 +18,7 @@ import css from "../../../styles/SalesStyles/SalesForms.module.css";
 import "./Paymentouts.css";
 
 import ItemsForm from "../../../components/addForm/ItemsForm";
-import { FetchAllParties } from "../../../Redux/Parties/actions";
+import { FetchAllParties } from "../../../Redux/parties/actions";
 const AddPaymentouts = ({ setOpenForm,date }) => {
    const toast = useToast();
    const dispatch = useDispatch();

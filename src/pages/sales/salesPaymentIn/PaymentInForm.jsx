@@ -1,4 +1,4 @@
-import { FetchAllParties } from "../../../Redux/Parties/actions";
+import { FetchAllParties } from "../../../Redux/parties/actions";
 import { PostPaymentIn } from "../../../Redux/sales/action";
 import css from "../../../styles/SalesStyles/PaymentIn.module.css";
 

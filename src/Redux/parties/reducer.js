@@ -46,21 +46,6 @@ const initialState = {
   //   Delete Party states
   loadingDeleteParty: false,
   errorDeleteParty: false,
-
-  partyDetails: {
-    name: "",
-    gstNo: "",
-    phoneNumber: "",
-    partyGroup: "",
-    GSTType: "",
-    state: "",
-    email: "",
-    billingAddress: "",
-    shippingAddress: "",
-    openingBalance: "",
-    asOfDate: "",
-    creditLimit: "",
-  },
   partyName: "",
   gstNo: "",
   phoneNumber: "",

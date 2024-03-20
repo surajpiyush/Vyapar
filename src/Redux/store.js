@@ -1,9 +1,9 @@
 import { applyMiddleware, combineReducers, compose, createStore } from "redux";
 import { thunk } from "redux-thunk";
 
-import { reducer as PartiesReducer } from "./Parties/reducer";
 import { reducer as BusinessReducer } from "./business/reducer";
 import { reducer as ItemReducer } from "./items/reducer";
+import { reducer as PartiesReducer } from "./parties/reducer";
 import { reducer as PurchaseReducer } from "./purchase/reducer";
 import { reducer as ReportReducer } from "./report/reducer";
 import SalesReducer from "./sales/reducer";

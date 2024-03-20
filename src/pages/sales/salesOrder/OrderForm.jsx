@@ -1,6 +1,6 @@
 import FormItemsRowTable from "../../../Component/FormItemsRowTable";
-import { FetchAllParties } from "../../../Redux/Parties/actions";
 import { GetAllItems } from "../../../Redux/items/actions";
+import { FetchAllParties } from "../../../Redux/parties/actions";
 import { PostSaleOrder } from "../../../Redux/sales/action";
 import ItemsForm from "../../../components/addForm/ItemsForm";
 import css from "../../../styles/SalesStyles/SalesForms.module.css";

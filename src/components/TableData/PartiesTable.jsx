@@ -1,5 +1,5 @@
-import css from "../../Page/parties/Parties.module.css";
-import { GetCurrentPartyData } from "../../Redux/Parties/actions";
+import css from "../../Page/Parties/Parties.module.css";
+import { GetCurrentPartyData } from "../../Redux/parties/actions";
 import PartyEditForm from "../addForm/PartyEditForm";
 
 import { useState } from "react";

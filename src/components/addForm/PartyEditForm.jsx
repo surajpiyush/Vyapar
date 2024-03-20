@@ -1,5 +1,5 @@
 import css from "../../Page/Firm/EditFirm.module.css";
-import { DeleteParty, UpdateParty } from "../../Redux/Parties/actions";
+import { DeleteParty, UpdateParty } from "../../Redux/parties/actions";
 
 import { useToast } from "@chakra-ui/react";
 import { useState } from "react";
