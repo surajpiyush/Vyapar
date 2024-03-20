@@ -15,7 +15,7 @@ const GSTRHeader = ({
    const tableData = data;
    console.log(data);
 
-   const saveTableData = (action) => {
+   const saveTableData = async(action) => {
       switch (action) {
          case "JSON":
             // Convert the data to JSON
@@ -46,19 +46,66 @@ const GSTRHeader = ({
             if (!tableData.length) {
                alert("No data to download");
             } else {
-               const csvData = [Object.keys(tableData[0]).join(",")];
-               tableData.forEach((row) => {
-                  csvData.push(Object.values(row).join(","));
-               });
-               const blob1 = new Blob([csvData.join("\n")], {
-                  type: "text/csv",
-               });
-               const link1 = document.createElement("a");
-               link1.href = window.URL.createObjectURL(blob1);
-               link1.setAttribute("download", "tableData.csv");
-               document.body.appendChild(link1);
-               link1.click();
-               document.body.removeChild(link1);
+               try {
+                  // Grouping the data by type
+                  const groupedData = {
+                     "All Data": [],
+                     "Sale Data": [],
+                     "Purchase Data": [],
+                     "Debit Note Data": [],
+                     "Credit Note Data": [],
+                  };
+   
+                  // Iterate over each object in the data array
+                  tableData?.forEach((obj) => {
+                     // Add the object to the "All Data" group
+                     groupedData["All Data"].push(obj);
+   
+                     // Filter data by type and add them to respective groups
+                     if (obj.type === "Sale") {
+                        groupedData["Sale Data"].push(obj);
+                     } else if (obj.type === "Purchase") {
+                        groupedData["Purchase Data"].push(obj);
+                     } else if (obj.type === "Debit Note") {
+                        groupedData["Debit Note Data"].push(obj);
+                     } else if (obj.type === "Credit Note") {
+                        groupedData["Credit Note Data"].push(obj);
+                     }
+                  });
+   
+                  // Load the local Excel file
+                  const response = await fetch(
+                     process.env.PUBLIC_URL + "/GSTR1.xlsx"
+                  );
+                  const buffer = await response.arrayBuffer();
+   
+                  const workbookMine = XLSX.read(buffer, { type: "array" });
+   
+                  // Create a new workbook
+                  const workbook = XLSX.utils.book_new();
+   
+                  // Add the "Help Instructions" worksheet from the loaded workbookMine to the new workbook
+                  const helpWorksheet = workbookMine.Sheets["Help Instructions"];
+                  XLSX.utils.book_append_sheet(
+                     workbook,
+                     helpWorksheet,
+                     "Help Instructions"
+                  );
+   
+                  // Convert grouped data to worksheets
+                  for (const sheetName in groupedData) {
+                     const worksheet = XLSX.utils.json_to_sheet(
+                        groupedData[sheetName]
+                     );
+                     XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
+                  }
+   
+                  // Save the workbook as an Excel file
+                  XLSX.writeFile(workbook, "filtered_data.xlsx");
+               } catch (error) {
+                  console.error("Error:", error);
+               }
+               break;
             }
             break;
          default:
