@@ -1,4 +1,4 @@
-import css from "../../Page/Parties/Parties.module.css";
+import css from "../../Page/parties/Parties.module.css";
 import PartyEditForm from "../addForm/PartyEditForm";
 import { GetCurrentPartyData } from "../../Redux/parties/actions";
 
