@@ -96,7 +96,7 @@ const CompaniesPage = () => {
                     <button onClick={() => handleCompanyClick(item)}>
                       Open
                     </button>
-                    <BsThreeDotsVertical className="company-section-items-right-dot" />
+                    {/* <BsThreeDotsVertical className="company-section-items-right-dot" /> */}
                   </aside>
                 </section>
               ))

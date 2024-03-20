@@ -15,6 +15,9 @@ import {
   LOADING_DELETE_ITEM,
   ERROR_DELETE_ITEM,
   SUCCESS_DELETE_ITEM,
+  LOADING_GET_SELECTED_ITEM,
+  ERROR_GET_SELECTED_ITEM,
+  SUCCESS_GET_SELECTED_ITEM,
 } from "./actionTypes";
 
 const initialState = {
@@ -35,6 +38,12 @@ const initialState = {
   getAllItemsError: false,
   fetchAllItemsSuccessToggle: false,
 
+  // Get Selected Item Data states
+  loadingGetSelectedItemData: false,
+  errorGetSelectedItemData: false,
+  selectedItemData: {},
+  selectedItemTransactionData: {},
+
   // Update Item states
   loadingUpdate: false,
   errorUpdate: false,
@@ -53,16 +62,39 @@ export const reducer = (state = initialState, { type, payload }) => {
       return { ...state, isLoading: false, items: payload };
     }
     case POST_ITEM_SUCCESS: {
-      // console.log("payload-", payload);
       return {
         ...state,
         isLoading: false,
-        items: payload,
+        // items: payload,
         toggleItems: !state.toggleItems,
       };
     }
     case ITEM_FAILURE: {
       return { ...state, isLoading: false, isError: true };
+    }
+
+    // Get Selected Item Data actions
+    case LOADING_GET_SELECTED_ITEM: {
+      return {
+        ...state,
+        loadingGetSelectedItemData: true,
+        errorGetSelectedItemData: false,
+      };
+    }
+    case ERROR_GET_SELECTED_ITEM: {
+      return {
+        ...state,
+        loadingGetSelectedItemData: false,
+        errorGetSelectedItemData: true,
+      };
+    }
+    case SUCCESS_GET_SELECTED_ITEM: {
+      return {
+        ...state,
+        loadingGetSelectedItemData: false,
+        selectedItemData: payload?.selectedItemData,
+        selectedItemTransactionData: payload?.selectedItemTransactionData,
+      };
     }
 
     //  Get All Items

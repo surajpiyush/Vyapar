@@ -1,281 +1,220 @@
-import "../../styles/parties.css";
+// import "../../styles/parties.css";
+import css from "../../Page/Items/Items.module.css";
 import ItemEditForm from "../addForm/ItemEditForm";
-import { getitems } from "../../Redux/items/actions";
+import { GetSelectedItemData, getitems } from "../../Redux/items/actions";
 import { USER_DETAILS } from "../../Redux/business/actionTypes";
 
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ImSpinner3 as BasicSpinner } from "react-icons/im";
-import { LuFilter as FilterIcon } from "react-icons/lu";
+import { CiFilter as FilterIcon } from "react-icons/ci";
 import { IoIosArrowRoundUp as UpArrowIcon } from "react-icons/io";
 import { PiDotsThreeVerticalBold as VerticalDots } from "react-icons/pi";
+import { IoSearchCircleSharp as SearchIcon } from "react-icons/io5";
 
-import { IoSearchCircleSharp } from "react-icons/io5";
+export default function ProductsTable({ func }) {
+  const dispatch = useDispatch();
+  const items = useSelector((store) => store.ItemReducer.items);
+  const isLoading = useSelector((store) => store.ItemReducer.isLoading);
+  const loadingGetSelectedItemData = useSelector(
+    (store) => store.ItemReducer.loadingGetSelectedItemData
+  );
+  const selectedItemData = useSelector(
+    (store) => store.ItemReducer.selectedItemData
+  );
+  const selectedItemTransactionData = useSelector(
+    (store) => store.ItemReducer.selectedItemTransactionData
+  );
+  const [editItem, setEditItem] = useState([]);
+  const [showEditFirm, setShowEditFirm] = useState(false);
 
-export default function ProductsTable(Props) {
-   const dispatch = useDispatch();
-   const [status, setStatus] = useState(true);
-   const [searchTerm, setSearchTerm] = useState("");
-   const [filteredItems, setFilteredItems] = useState([]);
-   const [tableData, setTableData] = useState([]);
-   const isLoading = useSelector((store) => store.ItemReducer.isLoading);
-   const items = useSelector((store) => store.ItemReducer.items);
-   const toggleItems = useSelector((store) => store.ItemReducer.toggleItems);
-   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
-   const token = localStorage.getItem("token");
-   const [showEditFirm, setShowEditFirm] = useState(false);
-   const [editItem, setEditItem] = useState([]);
+  // Item Click Handler
+  const handleItemClick = (item) => {
+    GetSelectedItemData(dispatch, item?._id);
+  };
 
-   //-----------<<<<<<<<<<<<<<<<<<<<<<<<GETING THE DATA FROM BACKEND>>>>>>>>>>>>>>>>>>>>>>-------------
-   useEffect(() => {
-      getitems(dispatch);
-   }, [toggleItems]);
+  const handleStatusToggle = (index) => {
+    const updatedTableData = [...selectedItemTransactionData];
+    updatedTableData[index].status = !updatedTableData[index].status;
+  };
 
-   const openForm = () => {
-      // console.log("Working");
-      Props.func(true);
-   };
+  const openForm = () => {
+    func(true);
+  };
 
-   const openAdjustItem = () => {
-      Props.adjustForm(true);
-   };
+  return (
+    <div className={css.OuterDiv}>
+      {showEditFirm && (
+        <ItemEditForm setShowEditFirm={setShowEditFirm} item={editItem} />
+      )}
 
-   const handleShow = (item) => {
-      // console.log(item);
-      axios
-         .get(`https://asaanly.in/${FirmId}/item/itemById/${item._id}`, {
-            headers: {
-               Authorization: `Bearer ${token}`,
-            },
-         })
-         .then((res) => {
-            // console.log(res.data.data.allData);
-            setTableData(res.data.data.allData.purchaseBill);
-         })
-         .catch((err) => {
-            console.error("Error fetching item by ID:", err);
-         });
-   };
+      <div className={css.flexBoxDivCont}>
+        {/* Left Side Content */}
+        <div className={css.itemsLeftSideDiv}>
+          <div className={css.addBtnDivOuter}>
+            <SearchIcon />
+            <button className={css.addBtnCss} onClick={openForm}>
+              + Add Item
+            </button>
+          </div>
 
-   //----------------<<<<<<<<<<<<<<<<<<<<<<<Searching>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>---------------
-   const handleSearch = (e) => {
-      const searchTerm = e.target.value.toLowerCase();
-      setSearchTerm(searchTerm);
-      const filteredData = items?.filter((item) =>
-         item?.itemName.toLowerCase().includes(searchTerm)
-      );
-      setFilteredItems(filteredData);
-   };
+          {/* Left Side Items Table */}
+          <div>
+            <table className={css.leftSideTableCss}>
+              <thead>
+                <tr>
+                  <th>ITEM</th>
+                  <th>QUANTITY</th>
+                </tr>
+              </thead>
+              {!isLoading && (
+                <tbody>
+                  {items?.map((e, index) => (
+                    <tr
+                      key={index}
+                      onClick={() => {
+                        handleItemClick(e);
+                      }}
+                    >
+                      <td>{e?.itemName}</td>
+                      <td>
+                        <span>
+                          {e?.stock?.openingQuantity || 0}
+                          <VerticalDots
+                            onClick={() => {
+                              setEditItem(e);
+                              setShowEditFirm(true);
+                            }}
+                          />
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              )}
+            </table>
+            {isLoading && <BasicSpinner className={css.miniSpinnerCss} />}
+          </div>
+        </div>
 
-   const handleStatusToggle = (index) => {
-      const updatedTableData = [...tableData];
-      updatedTableData[index].status = !updatedTableData[index].status;
-      setTableData(updatedTableData);
-   };
-
-   return (
-      <div
-         className=""
-         style={{
-            width: "100vw",
-            height: "100vh",
-            position: "fixed",
-            background: "gray",
-         }}
-      >
-         {showEditFirm && (
-            <ItemEditForm setShowEditFirm={setShowEditFirm} item={editItem} />
-         )}
-
-         <div>
-            <div className="d-flex">
-               <div className="grp-cont1">
-                  <div
-                     style={{
-                        marginTop: "10px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        // gap: "3rem",
-
-                        width: "100%",
-                        boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
-                     }}
-                  >
-                     <div style={{ fontSize: "3rem" }}>
-                        <IoSearchCircleSharp />
-                     </div>
-                     <button
-                        className="add-party-btn"
-                        style={{ textAlign: "end" }}
-                        onClick={openForm}
-                     >
-                        + Add Item <i className="fa fa-angle-down"></i>
-                     </button>
-                  </div>
-
-                  {/* Parties Table */}
-                  <table className="partiestable-outer">
-                     <thead>
-                        <tr>
-                           <th>Item</th>
-
-                           <th>QUANTITY</th>
-                        </tr>
-                     </thead>
-                     <tbody>
-                        {isLoading ? (
-                           <BasicSpinner
-                              style={{
-                                 width: "200%",
-                                 margin: "60px auto",
-                                 fontSize: "30px",
-                              }}
-                           />
-                        ) : !searchTerm ? (
-                           items &&
-                           Array.isArray(items) &&
-                           items?.map((e, index) => (
-                              <tr
-                                 key={index}
-                                 onClick={() => {
-                                    handleShow(e);
-                                 }}
-                              >
-                                 <td>{e?.itemName}</td>
-
-                                 <td>
-                                    <span>
-                                       {e?.stock?.openingQuantity || 0}
-                                       <VerticalDots
-                                          onClick={() => {
-                                             setEditItem(e);
-                                             setShowEditFirm(true);
-                                          }}
-                                       />
-                                    </span>
-                                 </td>
-                              </tr>
-                           ))
-                        ) : (
-                           filteredItems?.map((e, index) => (
-                              <tr key={index}>
-                                 <td>{e.itemName}</td>
-                                 <td>{e?.stock?.openingQuantity || 0}</td>
-                              </tr>
-                           ))
-                        )}
-                     </tbody>
-                  </table>
-               </div>
-               <div className="grp-cont2">
-                  <div className="grp-cont2a">
-                     <div className="">
-                        <div className="d-between">
-                           <p>
-                              NAME <i className="fa fa-reply"></i>
-                           </p>
-                        </div>
-                        <div className="d-between">
-                           <p>Sales Price: $0.00</p>
-                           <p>Stock Quantity: $0.00</p>
-                        </div>
-                        <div className="d-between">
-                           <p>Purchase Price: $0.00</p>
-                           <p>Stock Value: $0.00</p>
-                        </div>
-                     </div>
-                  </div>
-                  <div className="grp-cont2b">
-                     <div className="d-between">
-                        <h3>Transaction</h3>
-                        <input
-                           type="text"
-                           placeholder="Search"
-                           className="search-party"
-                           style={{ width: "200px" }}
-                        />
-                     </div>
-                     <div className="">
-                        <table className="transaction-table">
-                           <thead>
-                              <tr>
-                                 <th>
-                                    Type <i className="fa fa-filter"></i>
-                                 </th>
-                                 <th>
-                                    Invoice/Ref <i className="fa fa-filter"></i>
-                                 </th>
-                                 <th>
-                                    Name <i className="fa fa-filter"></i>
-                                 </th>
-                                 <th>
-                                    Date <i className="fa fa-filter"></i>
-                                 </th>
-                                 <th>
-                                    Quantity <i className="fa fa-filter"></i>
-                                 </th>
-                                 <th>
-                                    Price/Unit <i className="fa fa-filter"></i>
-                                 </th>
-                                 <th>
-                                    Status <i className="fa fa-filter"></i>
-                                 </th>
-                              </tr>
-                           </thead>
-                           {isLoading ? (
-                              <BasicSpinner
-                                 style={{
-                                    width: "200%",
-                                    margin: "60px auto",
-                                    fontSize: "30px",
-                                 }}
-                              />
-                           ) : (
-                              <tbody>
-                                 {tableData.length === 0 ? (
-                                    <tr>
-                                       <td
-                                          colSpan="7"
-                                          style={{ textAlign: "center" }}
-                                       >
-                                          <h1>There are no transactions</h1>
-                                       </td>
-                                    </tr>
-                                 ) : (
-                                    tableData.map((e, index) => (
-                                       <tr key={index}>
-                                          <td>{e.type}</td>
-                                          <td>{e.invoiceOrRefNo}</td>
-                                          <td>{e.name}</td>
-                                          <td>
-                                             {new Date(
-                                                e.date
-                                             ).toLocaleDateString()}
-                                          </td>
-                                          <td>{e.quantity}</td>
-                                          <td>-</td>
-                                          <td>
-                                             <button
-                                                style={{ border: "none" }}
-                                                onClick={() =>
-                                                   handleStatusToggle(index)
-                                                }
-                                             >
-                                                {e.status ? "Paid" : "Unpaid"}
-                                             </button>
-                                          </td>
-                                       </tr>
-                                    ))
-                                 )}
-                              </tbody>
-                           )}
-                        </table>
-                     </div>
-                  </div>
-               </div>
+        {/* Right Side Content */}
+        <div className={css.partiesRightSideDiv}>
+          {!loadingGetSelectedItemData && selectedItemData?.itemName && (
+            <div className={css.PartyDetailsOuter}>
+              <div>
+                <h5>
+                  {selectedItemData?.itemName ? selectedItemData?.itemName : ""}
+                </h5>
+                <p>
+                  {selectedItemData?.salePrice?.price &&
+                    `Sales Price: ₹${selectedItemData?.salePrice?.price}`}
+                </p>
+                <p>
+                  Stock Quantity:{" "}
+                  {selectedItemData?.stock?.openingQuantity ||
+                    selectedItemData?.ReservedQuantity ||
+                    1}
+                </p>
+              </div>
+              <div>
+                <p>
+                  {selectedItemData?.purchasePrice?.price &&
+                    `Purchase Price: ₹${selectedItemData?.purchasePrice?.price}`}
+                </p>
+                <p>
+                  {selectedItemData?.StockValue &&
+                    `Stock Value: ₹${selectedItemData?.StockValue}`}
+                </p>
+              </div>
             </div>
-         </div>
+          )}
+
+          <div className={css.transactionHeadingContDiv}>
+            <h3>Transactions</h3>
+            {/* <input type="text" placeholder="Search" /> */}
+          </div>
+
+          <div className={css.tableContDiv}>
+            <table className={css.transactionTableCss}>
+              <thead>
+                <tr>
+                  <th>
+                    <div>
+                      Type <FilterIcon />
+                    </div>
+                  </th>
+                  <th>
+                    <div>
+                      Invoice/Ref <FilterIcon />
+                    </div>
+                  </th>
+                  <th>
+                    <div>
+                      Name <FilterIcon />
+                    </div>
+                  </th>
+                  <th>
+                    <div>
+                      Date <FilterIcon />
+                    </div>
+                  </th>
+                  <th>
+                    <div>
+                      Quantity <FilterIcon />
+                    </div>
+                  </th>
+                  {/* <th>
+                    <div>
+                      Price/Unit <FilterIcon />
+                    </div>
+                  </th> */}
+                  <th>
+                    <div>
+                      Status <FilterIcon />
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {!loadingGetSelectedItemData &&
+                selectedItemTransactionData?.purchaseBill ? (
+                  Object.keys(selectedItemTransactionData).map((key, index) =>
+                    selectedItemTransactionData[key].map((e, innerIndex) => (
+                      <tr key={index}>
+                        <td>{e.type}</td>
+                        <td>{e.invoiceOrRefNo}</td>
+                        <td>{e.name}</td>
+                        <td>{new Date(e.date).toLocaleDateString()}</td>
+                        <td>{e.quantity}</td>
+                        {/* <td>-</td> */}
+                        <td>
+                          <button
+                            style={{ border: "none" }}
+                            onClick={() => handleStatusToggle(index)}
+                          >
+                            {e.status ? "Paid" : "Unpaid"}
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )
+                ) : (
+                  <tr id={css.noDataCell}>
+                    {!loadingGetSelectedItemData && (
+                      <td colSpan="7">No Item Data Available</td>
+                    )}
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+
+          {loadingGetSelectedItemData && (
+            <BasicSpinner className={css.rightSideTableSpinnerCss} />
+          )}
+        </div>
       </div>
-   );
+    </div>
+  );
 }

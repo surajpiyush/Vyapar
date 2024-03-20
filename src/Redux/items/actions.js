@@ -16,6 +16,9 @@ import {
   LOADING_DELETE_ITEM,
   ERROR_DELETE_ITEM,
   SUCCESS_DELETE_ITEM,
+  LOADING_GET_SELECTED_ITEM,
+  ERROR_GET_SELECTED_ITEM,
+  SUCCESS_GET_SELECTED_ITEM,
 } from "./actionTypes";
 import { USER_DETAILS } from "../business/actionTypes";
 
@@ -27,6 +30,7 @@ export const addItem = async (dispatch, newItem, closeForm, toast) => {
   dispatch({ type: ITEM_REQUEST });
   const token = localStorage.getItem("token");
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+
   try {
     const response = await axios.post(
       `${API_URL}/${FirmId}/insertItem`,
@@ -37,7 +41,7 @@ export const addItem = async (dispatch, newItem, closeForm, toast) => {
     );
 
     // console.log("Adding Item Response:", response?.data);
-    dispatch({ type: POST_ITEM_SUCCESS, payload: response?.data });
+    dispatch({ type: POST_ITEM_SUCCESS });
     toast({
       title: "Item Added Successfully",
       status: "success",
@@ -72,6 +76,34 @@ export const getitems = async (dispatch) => {
   } catch (error) {
     console.log("Error Getting Items data:", error);
     dispatch({ type: ITEM_FAILURE });
+  }
+};
+
+// Get Single Item ***************************************
+export const GetSelectedItemData = async (dispatch, itemId) => {
+  dispatch({ type: LOADING_GET_SELECTED_ITEM });
+  const token = localStorage.getItem("token");
+  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+
+  try {
+    const response = await axios.get(
+      `${API_URL}/${FirmId}/item/itemById/${itemId}`,
+      {
+        headers: { Authorization: `Bearer ${token} ` },
+      }
+    );
+
+    // console.log("Get Selected Item Data Response:", response?.data);
+    dispatch({
+      type: SUCCESS_GET_SELECTED_ITEM,
+      payload: {
+        selectedItemData: response?.data?.data?.getItem[0] || {},
+        selectedItemTransactionData: response?.data?.data?.allData || {},
+      },
+    });
+  } catch (error) {
+    dispatch({ type: ERROR_GET_SELECTED_ITEM });
+    console.log("Error Getting Selected Item Data:", error);
   }
 };
 
