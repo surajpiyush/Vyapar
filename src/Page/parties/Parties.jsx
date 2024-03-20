@@ -1,13 +1,12 @@
 // import "../../styles/parties.css";
-import css from "./Parties.module.css";
-import party from "../../assets/Images/party.jpg";
-import Setting from "../../Component/Setting/Setting";
-import Loader1 from "../../Component/Loaders/Loader1";
-import PartiesTable from "../../components/TableData/PartiesTable";
-import GroupTable from "../../components/TableData/GroupTable";
 import FirstTimeFormToggle from "../../Component/FirmTimeForm/FirstTimeFormToggle";
-import { FetchAllParties, SaveParty } from "../../Redux/parties/actions";
-import { SAVE_PARTY_INPUT_CHANGE } from "../../Redux/parties/actionTypes";
+import Loader1 from "../../Component/Loaders/Loader1";
+import Setting from "../../Component/Setting/Setting";
+import { SAVE_PARTY_INPUT_CHANGE } from "../../Redux/Parties/actionTypes";
+import { FetchAllParties, SaveParty } from "../../Redux/Parties/actions";
+import party from "../../assets/Images/party.jpg";
+import PartiesTable from "../../components/TableData/PartiesTable";
+import css from "./Parties.module.css";
 
 import { useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";

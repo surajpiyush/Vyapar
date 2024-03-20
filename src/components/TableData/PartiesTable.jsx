@@ -1,14 +1,13 @@
 import css from "../../Page/parties/Parties.module.css";
+import { GetCurrentPartyData } from "../../Redux/Parties/actions";
 import PartyEditForm from "../addForm/PartyEditForm";
-import { GetCurrentPartyData } from "../../Redux/parties/actions";
 
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { IoIosArrowRoundUp as UpArrowIcon } from "react-icons/io";
+import { useState } from "react";
+import { CiFilter as FilterIcon } from "react-icons/ci";
+import { ImSpinner3 as BasicSpinner } from "react-icons/im";
 import { IoSearchCircleSharp as SearchIcon } from "react-icons/io5";
 import { PiDotsThreeVerticalBold as VerticalDots } from "react-icons/pi";
-import { ImSpinner3 as BasicSpinner } from "react-icons/im";
-import { CiFilter as FilterIcon } from "react-icons/ci";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function PartiesTable({ func }) {
   const dispatch = useDispatch();

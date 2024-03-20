@@ -1,12 +1,12 @@
 import css from "../../Page/Firm/EditFirm.module.css";
-import { DeleteParty, UpdateParty } from "../../Redux/parties/actions";
+import { DeleteParty, UpdateParty } from "../../Redux/Parties/actions";
 
-import { useState } from "react";
 import { useToast } from "@chakra-ui/react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { ImSpinner3 as SpinnerIcon } from "react-icons/im";
 import { IoMdClose as CloseIcon } from "react-icons/io";
 import { RiDeleteBinLine as DeleteIcon } from "react-icons/ri";
-import { ImSpinner3 as SpinnerIcon } from "react-icons/im";
+import { useDispatch, useSelector } from "react-redux";
 
 const PartyEditForm = ({ setShowEditFirm, party }) => {
   const toast = useToast();
