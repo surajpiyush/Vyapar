@@ -85,12 +85,12 @@
   height: 100vh;
   padding: 10px 0;
   padding-bottom: 50px;
-  position: fixed;
+  /* position: fixed; */
   left: 0;
   overflow-y: auto;
 }
 .app-Home {
-  width: 100%;
+  /* width: 100%; */
   flex-grow: 1;
 }
 
@@ -104,14 +104,14 @@
   position: fixed;
   width: 85%;
   background-color: white;
-  margin-left: 230px;
+  /* margin-left: 230px; */
   z-index: 10;
   top: 5%;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .outlet-layout {
-  margin-left: 230px;
+  /* margin-left: 230px; */
   margin-top: 50px;
 }
 
