@@ -34,9 +34,9 @@
   place-items: center;
   text-align: center;
   position: relative;
+  font-family: var(--Rob);
   font-size: 14px;
   padding: 0px 7px;
-  letter-spacing: 0.5px;
   transition: background-color 0.2s ease;
 }
 .leftSideNavOptionsDiv div:hover {

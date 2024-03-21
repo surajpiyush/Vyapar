@@ -1,15 +1,20 @@
-.sidebar-top-section {
+.sideBarOuter {
+  background-color: var(--SlateGray);
+  color: var(--pureWhite);
+  height: 100vh;
+  max-width: 300px;
+  width: 230px;
+}
+
+/* Firm Details Css */
+.firmDetailsDivOuter {
+  cursor: pointer;
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 5px;
 }
-.sidebar-top-section:hover {
-  background-color: var(--SlateTranslucent);
-  border-radius: 20px;
-  cursor: pointer;
-}
-.sidebar-top-logo-div {
+.firmLogoDiv {
   background-color: var(--blueB);
   position: relative;
   overflow: hidden;
@@ -18,18 +23,18 @@
   border-radius: 50%;
   width: 40px;
   height: 40px;
-}
-.sidebar-top-img {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
 
-.sidebar-top-img-plus {
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
+.plusIconFirmLogo {
+  color: var(--DeepCharcoal);
   cursor: pointer;
   position: absolute;
-  background-color: white;
-  color: var(--DeepCharcoal);
+  background-color: var(--pureWhite);
   display: grid;
   place-items: center;
   place-content: center;
@@ -45,6 +50,11 @@
   display: flex;
   align-items: center;
   gap: 8px;
+
+  svg {
+    display: block;
+    font-size: 14px;
+  }
 }
 .firmNameContDiv h4 {
   height: fit-content;
@@ -57,83 +67,69 @@
   text-overflow: ellipsis;
   overflow: hidden;
 }
-.firmNameContDiv svg {
-  display: block;
-  font-size: 14px;
-}
 
-
-
-.sidebar-top-heading {
-  font-size: 17px;
-}
-
-.sidebar-left-icon {
-  display: flex;
-  align-items: center;
-}
-
-.sidebar-top-border {
-  height: 2px;
-  background-color: rgb(104, 141, 130);
-  margin-top: 10px;
-}
-
-
-.sidebar-items-div {
+/* Sidebar Options css */
+.activeSidebarOptionDiv {
+  cursor: default;
   display: flex;
   justify-content: space-between;
   gap: 5px;
   margin: 5px 0;
   padding: 0px 15px;
-}
-
-
-.sidebar-items-div:hover {
+  border-left: solid 5px red;
   background-color: black;
-  cursor: pointer;
 }
-
-
-.sidevar-items-aside1 {
+.inActiveSidebarOptionDiv {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+  margin: 5px 0;
+  padding: 0px 15px;
+  transition: all 0.1s ease;
+}
+.inActiveSidebarOptionDiv:hover {
+  background-color: black;
+}
+.optionsLeftSideDiv {
   display: flex;
   text-align: center;
   gap: 10px;
   padding: 7px;
   font-size: 16px;
+
+  div:nth-of-type(1) {
+    text-align: center;
+    padding-top: 5px;
+  }
 }
-.sidebar-items-con{
-  /* border: 1px solid red; */
-  text-align: center;
-  padding-top: 5px;
-
+.optionsRightSideIcons {
+  display: grid;
+  place-items: center;
+  place-content: center;
 }
-
-.sidebar-items-extra-icon {
-  padding: 5px;
-  /* height: 35px; */
-  text-align: end;
-
- 
-}
-
-.active-nav-border {
-  border-left: solid 5px red;
-  background-color: black;
-}
-
-
-.sidevar-nested-items {
+.activeNestedOption {
   display: flex;
   justify-content: space-between;
   padding: 5px 0 10px 25px;
   font-size: 14px;
   text-align: left;
+  border-left: solid 5px red;
+  background-color: black;
 }
-.sidebar-itemsnested-text{
-  /* border: 1px solid red; */
-  width:100% ;
+.inActiveNestedOption {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0 10px 25px;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+.nestedOptionsText {
+  width: 100%;
   display: flex;
   gap: 30px;
-
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
 }

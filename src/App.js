@@ -2,6 +2,7 @@ import "./App.css";
 import Navbar from "./Component/Navbar/Navbar.jsx";
 import Header from "./Component/Layourt/Header.jsx";
 import Sidebar from "./Component/Sidebar/Sidebar.jsx";
+import EditFirm from "./Page/Firm/EditFirm.jsx";
 import {
   USER_DETAILS,
   REGULAR_PRINTER_DATA,
@@ -11,7 +12,6 @@ import {
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import EditFirm from "./Page/Firm/EditFirm.jsx";
 
 export const ignoreRoutes = ["/auth", "/companies", "/addCompany"];
 
@@ -62,14 +62,12 @@ function App() {
     showPaymentMode: true,
     printAcknowledgement: true,
   };
-
   // Thermal printer data
   const thermalPrinterData = {
     thermalPrinterDefault: false,
     layoutIndex: 0,
     pageSize: "2Inch",
   };
-
   const IgnoreKeys = [
     "businessAddress",
     "businessCategory",
@@ -88,7 +86,6 @@ function App() {
     "_id",
     "pinCode",
   ];
-
   // to store printerdata in session storage
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -137,15 +134,11 @@ function App() {
       {showEditFirm && <EditFirm setShowEditFirm={setShowEditFirm} />}
 
       {!ignoreRoutes.includes(location.pathname) && (
-        <div className="app-page-div">
-          <section className="app-sidebar">
-            <Sidebar setShowEditFirm={setShowEditFirm} />
-          </section>
-          <section className="app-Home">
-            <div className="header-div-fixed">
-              <Header />
-            </div>
-            <div className="outlet-layout">
+        <div className="appContentOuter">
+          <Sidebar setShowEditFirm={setShowEditFirm} />
+          <section className="rightSideContentOuter">
+            <Header />
+            <div className="outletOuterDiv">
               <Outlet />
             </div>
           </section>
