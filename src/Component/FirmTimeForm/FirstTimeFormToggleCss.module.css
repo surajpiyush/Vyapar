@@ -24,6 +24,8 @@
   color: var(--greyA);
   font-size: 16px;
   word-spacing: 0.5px;
+  margin: auto;
+  text-align: center;
 }
 .emptyData button {
   display: block;

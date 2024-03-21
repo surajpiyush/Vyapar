@@ -42,7 +42,11 @@ const Navbar = () => {
   };
 
   return (
-    <nav className={css.navOuterDiv} onClick={handleCloseToogle}>
+    <nav
+      onMouseLeave={() => setShowCompanyMenu(false)}
+      className={css.navOuterDiv}
+      onClick={handleCloseToogle}
+    >
       <div className={css.innerParentDiv}>
         <div className={css.leftSideNavOptionsDiv}>
           <img src={Logo} alt="Asaanly" />
@@ -68,7 +72,10 @@ const Navbar = () => {
 
       {/* Company Menu */}
       {showCompanyMenu && (
-        <div className={css.companyMenuOuterDiv}>
+        <div
+          onMouseEnter={() => setShowCompanyMenu(true)}
+          className={css.companyMenuOuterDiv}
+        >
           <div onClick={handleChangeCompanyClick}>Change Company</div>
           <div
             onClick={() => {

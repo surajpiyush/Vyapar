@@ -73,7 +73,7 @@ const Sidebar = ({ setShowEditFirm }) => {
       {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
 
       {/* Firm Details */}
-      <section
+      <div
         className={css.firmDetailsDivOuter}
         onClick={() => setToggleNavItems(false)}
       >
@@ -99,11 +99,11 @@ const Sidebar = ({ setShowEditFirm }) => {
           </h4>
           <MdOutlineArrowForwardIos />
         </div>
-      </section>
+      </div>
 
       {/* Sidebar Options */}
-      <div>
-        {SidebarItems.map((items, index) => (
+      <div className={css.optionsOuter}>
+        {OldSidebarItems.map((items, index) => (
           <div
             onClick={() => {
               handleActiveItems(items.name);
@@ -175,8 +175,10 @@ const Sidebar = ({ setShowEditFirm }) => {
 
 export default Sidebar;
 
+const SidebarItems = [{}];
+
 // Sidebar Options Array
-const SidebarItems = [
+const OldSidebarItems = [
   { Icon: <GoHomeFill />, name: "Home" },
   { Icon: <HiMiniUsers />, name: "Parties", extraIcon: <FaPlus /> },
   { Icon: <BiSitemap />, name: "Items", extraIcon: <FaPlus /> },

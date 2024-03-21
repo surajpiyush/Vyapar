@@ -1,18 +1,125 @@
 .HeaderContainer {
+  background-color: var(--pureWhite);
+  box-shadow: var(--shadowC);
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 20px;
-  position: fixed;
-  width: 85%;
-  background-color: white;
-  /* margin-left: 230px; */
-  z-index: 10;
-  top: 5%;
-  box-shadow: var(--shadowD);
+  padding: 0px 0px;
+  min-height: 65px;
+  width: 100%;
+}
+/* Left Side Header */
+.leftSideCont {
+  display: flex;
+  align-items: center;
+  margin-left: 30px;
+  gap: 12px;
+}
+.searchIconCss {
+  color: var(--greyA);
+  font-size: 22px;
+}
+.headerSearchInp {
+  font-family: var(--Rob);
+  color: var(--DeepOceanBlue);
+  font-size: 18px;
+  letter-spacing: 0.2px;
+}
+.headerSearchInp::placeholder {
+  color: var(--greyA);
+}
+.headerSearchInp:focus {
+  outline: none;
+}
+.crossIconCss {
+  cursor: pointer;
+  color: var(--greyA);
+  font-size: 20px;
 }
 
+/* Right Side Header */
+.rightSideCont {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  gap: 18px;
+}
+.rightSideRouteBtnsDiv {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  min-width: fit-content;
+
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  div:nth-of-type(1) {
+    width: 130px;
+
+    button {
+      background-color: var(--redE);
+      color: var(--redB);
+    }
+  }
+  div:nth-of-type(2) {
+    width: 165px;
+
+    button {
+      background-color: var(--blueC);
+      color: var(--blueD);
+    }
+  }
+  div:nth-of-type(3) {
+    width: 135px;
+
+    button {
+      background-color: var(--pureWhite);
+      color: var(--blueD);
+    }
+  }
+}
+.rightSideRouteBtnsDiv button {
+  font-family: var(--Rob);
+  display: flex;
+  align-items: center;
+  font-size: 13.5px;
+  font-weight: 500;
+  gap: 7.5px;
+  padding: 10px 18px;
+  border-radius: 50px;
+  box-shadow: var(--shadowD);
+
+  svg {
+    font-size: 20px;
+  }
+}
+.rightSideRouteBtnsDiv button:hover {
+  font-size: 14px;
+  padding: 12px 18px;
+
+  svg {
+    font-size: 21px;
+  }
+}
+.lastBtnDivOuter {
+  height: 30px;
+  border-left: 2px solid var(--greyC);
+  display: flex;
+  align-items: center;
+  padding: 0px 13px 0px 20px;
+
+  svg {
+    cursor: pointer;
+    color: var(--greyA);
+    font-size: 23px;
+  }
+}
+
+/* ############################# */
 .HeaderSearchSection {
   width: 35%;
   display: flex;

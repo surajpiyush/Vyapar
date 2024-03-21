@@ -8,13 +8,17 @@
 :root {
   --blueA: blue;
   --blueB: #098df9;
+  --blueC: #c4e2fa;
+  --blueD: rgb(66, 66, 253);
   --BlueBerry: #4b75f2;
   --SereneSky: #abc0ff;
   --ElectricBlue: #043be0;
   --violetA: rgb(6, 17, 139);
   --bluishGrey: #b8cbdc;
   --deepForest: #353f3e;
+  --ShadowStone: #404b4a;
   --SlateGray: #313636;
+  --DeepOceanBlue: #282c34;
   --pureWhite: #fff;
   --greyA: grey;
   --greyB: rgb(234, 234, 234);
@@ -26,6 +30,7 @@
   --redB: rgb(252, 44, 44);
   --redC: rgb(248, 85, 85);
   --redD: rgb(247, 65, 65);
+  --redE: rgb(252, 222, 222);
   --yellowA: rgb(255, 204, 0);
   --VividOrange: #ff8a00;
   --overlayBg: rgba(0, 0, 0, 0.377);
@@ -82,28 +87,17 @@
 }
 .appContentOuter {
   display: flex;
-  margin-top: 35px;
+  height: 100vh;
+  padding-top: 32px;
 }
 .rightSideContentOuter {
   flex-grow: 1;
-}
-.outletOuterDiv {
-  margin-top: 50px;
-}
-
-/* OLD CSS
-.home-layout {
+  width: 100%;
+  height: 100%;
   display: flex;
+  flex-direction: column;
   background-color: var(--mistyGrey);
 }
-.app-home-section {
-  margin-right: 300px;
+.outletOuterDiv {
+  overflow: auto;
 }
-.app-right-sidebar {
-  position: fixed;
-  right: 0;
-  overflow-y: scroll;
-  height: 100vh;
-  padding: 20px 0 50px 0;
-}
-*/

@@ -8,28 +8,6 @@
   left: 0;
   cursor: default;
 }
-
-/* Header Nav */
-.headerNavOuter {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.headerNavOuter div {
-  cursor: pointer;
-  width: 50%;
-  text-align: center;
-  background-color: whitesmoke;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #069ffe;
-  height: 60px;
-  box-shadow: 2px 4px 7px grey;
-  border-bottom: 5px solid transparent;
-}
-
 /* Top Upper Nav */
 .upperNav {
   display: flex;
@@ -76,16 +54,9 @@
 
 /* Table Css */
 .TableOuter {
-  width: 98%;
-  /* border: 1px solid black; */
-  background: var(--pureWhite);
-  margin: 10px;
-  padding: 15px 10px;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
-     rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-  /* min-height: 100vh; */
-  margin-top: 10px;
-  border-radius: 15px;
+  width: 100%;
+  min-height: 100vh;
+  /* margin-top: 100px; */
 }
 .saleOrderUpperNav {
   display: flex;
@@ -98,7 +69,9 @@
   gap: 20px;
 }
 .saleOrderUpperNav .leftSideDivSaleOuter p:nth-of-type(1) {
-  font-size: 16px;
+  /* background: #b0b0b0; */
+  align-items: center;
+  font-size: 24px;
   font-weight: 500;
   letter-spacing: 0.5px;
   cursor: default;
@@ -111,6 +84,7 @@
   border: 1px solid var(--greyC);
   text-align: left;
   padding: 3px 8px;
+  width: 250px;
 
   svg {
     cursor: pointer;
@@ -132,17 +106,55 @@
   background-color: var(--blueB);
   color: white;
   font-size: 16px;
-  margin: 40px 80px 0px 0px;
+  margin: 4px 10px 0px -100px;
   padding: 5px 15px;
   border-radius: 10px;
   display: flex;
   align-items: center;
   gap: 10px;
+  width: 180px;
 }
+
+/* ============== */
+
+.dFlex {
+  display: flex;
+  text-align: center;
+  height: 30px;
+}
+
+.dBetween {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.invoiceSelect {
+  text-align: center;
+  justify-content: center;
+  border: 1px solid gray;
+  border-radius: 10px;
+}
+.centeredItems {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ============ */
 
 /* Sale Order Table Css */
 .TabelOuterDivSaleOrder {
-  width: 100%;
+  width: 98%;
+  /* border: 1px solid black; */
+  background: var(--pureWhite);
+  margin: 10px;
+  padding: 15px 10px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  /* min-height: 100vh; */
+  margin-top: 10px;
+  border-radius: 15px;
 
   table {
     width: 100%;
@@ -150,7 +162,6 @@
 
   table thead {
     border: 1px solid var(--greyC);
-    padding: 5px;
   }
   table thead th {
     border: 1px solid var(--greyC);
@@ -164,11 +175,13 @@
     padding: 0px 5px;
   }
   table tbody td {
-    height: 50px;
+    height: 40px;
     padding: 5px;
     text-align: left;
     overflow: hidden;
     white-space: nowrap;
+    text-align: center;
+    /* border-right: 1px solid var(--greyC); */
     border: 1px solid var(--greyC);
   }
 }

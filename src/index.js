@@ -5,7 +5,7 @@ import GSTR1 from "./pages/GSTR1.js";
 import GSTR2 from "./pages/GSTR2.js";
 import GSTR9 from "./pages/GSTR9.js";
 import GSTR3B from "./pages/GSTR3B.js";
-import Homepage from "./Page/Homepage";
+import Home from "./Page/Home/Home.jsx";
 import DayBook from "./pages/DayBook.js";
 import Items from "./Page/Items/Items.jsx";
 import Purchase from "./pages/Purchase.js";
@@ -47,7 +47,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Homepage />,
+        element: <Home />,
       },
       // Firm / Company Routes
       {

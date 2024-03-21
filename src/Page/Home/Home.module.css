@@ -1,0 +1,385 @@
+.homeOuter {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+}
+.homeContainer {
+  flex-grow: 1;
+}
+.appRightSidebar {
+  overflow-y: auto;
+  min-height: 100%;
+  padding: 20px 0px 50px;
+}
+
+/* Home.module.css */
+.homeContainer {
+  padding: 25px 0px;
+}
+.homeContainerDiv1,
+.homeContainerDiv2 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  /* gap: 30px; */
+}
+
+.homeContainerDiv2 {
+  padding-top: 20px;
+}
+
+/* Sale.module.css */
+.SaleContainer {
+  padding: 20px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  max-width: 50%;
+  display: grid;
+  gap: 10px;
+  border-radius: 15px;
+  background: white;
+}
+
+.SaleHeading,
+.SaleHeadingAside1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+  gap: 4px;
+}
+
+.SaleHeadingAside1 {
+  font-size: 17px;
+  font-weight: 400;
+}
+
+.SaleHeadingNotes {
+  color: orange;
+  font-size: 24px;
+}
+
+.SaleMonthDiv {
+  display: flex;
+  gap: 6px;
+  background-color: rgba(184, 184, 184, 0.21);
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+.SaleMonthDiv button {
+  border: none;
+  font-size: 14px;
+}
+
+.SaleContent {
+  display: flex;
+  justify-content: space-between;
+}
+
+.SaleContentAside1 {
+  display: grid;
+  gap: 20px;
+  padding-top: 10px;
+  border-right: 2px dotted gray;
+  padding-right: 20px;
+}
+
+.SaleAmountDiv {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+}
+
+/* .SaleAmountDiv h3 {
+     font-size: 22px;
+  } */
+
+.SaleAmountDiv span {
+  color: rgb(151, 151, 151);
+  font-size: 14px;
+}
+
+.SaleAmountText {
+  color: rgb(171, 171, 171);
+}
+
+.SaleGrowthData div {
+  display: flex;
+  color: rgb(0, 142, 147);
+}
+
+.SaleTopArrowIcon {
+  font-size: 20px;
+}
+
+.SaleGrowthText {
+  font-size: 14px;
+  color: rgb(181, 181, 181);
+}
+
+.SaleContentAside2 {
+  display: grid;
+  align-items: end;
+  padding-left: 10px;
+}
+
+.SaleContentAside2 div {
+  background-color: rgb(7, 189, 128);
+  width: 100%;
+  height: 2px;
+  display: flex;
+  align-items: center;
+}
+
+.SaleContentAside2 p {
+  font-size: 12px;
+  color: rgb(95, 95, 95);
+}
+
+/* Purchase.jsx */
+/* Purchase.module.css */
+
+.purchaseContainer {
+  padding: 20px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  width: 300px;
+  display: grid;
+  gap: 10px;
+  border-radius: 15px;
+  background: white;
+}
+
+.purchaseHeading,
+.purchaseHeadingAside1 div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+}
+
+.purchaseHeading {
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.purchaseHeadingAside1 {
+  width: 100%;
+  height: 100%;
+}
+
+.purchaseHeadingAside1 div {
+  font-size: 17px;
+  font-weight: 400;
+  justify-content: flex-start;
+  padding: 5px 0;
+}
+
+.purchaseAmountDiv {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.purchaseAmountDiv h3 {
+  font-size: 22px;
+}
+
+.purchaseAmountDiv span {
+  color: rgb(151, 151, 151);
+  font-size: 14px;
+}
+
+.purchaseHeadingNotes {
+  color: orange;
+  font-size: 24px;
+}
+
+.purchaseHeadingAside2 {
+  width: 100%;
+}
+
+.purchaseMonthDiv {
+  display: flex;
+  gap: 6px;
+  background-color: rgba(184, 184, 184, 0.21);
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+.purchaseMonthDiv button {
+  border: none;
+  font-size: 14px;
+  color: #000; /* Adjusted text color for better contrast */
+}
+
+.purchaseContent {
+  display: flex;
+  justify-content: space-between;
+  height: 200px;
+  width: 100%;
+}
+
+.purchaseContentAside2 {
+  display: grid;
+  align-items: end;
+  padding-left: 10px;
+  height: 100%;
+  width: 100%;
+}
+
+.purchaseContentAside2 div {
+  background-color: rgb(7, 189, 128);
+  width: 100%;
+  height: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.purchaseContentAside2 p {
+  font-size: 12px;
+  color: rgb(95, 95, 95);
+}
+
+/* Bottomitems css */
+.bottomItemContainer {
+  padding: 20px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  max-width: 250px;
+  display: grid;
+  gap: 50px;
+  border-radius: 15px;
+  background: white;
+}
+
+.bottomItemsContainer {
+  display: flex;
+  gap: 10px;
+}
+
+.bottomItemDiv2 {
+  display: flex;
+  gap: 10px;
+}
+
+.bottomItemDiv2 h3 {
+  font-size: 17px;
+  color: rgb(158, 158, 158);
+  font-weight: 400;
+}
+
+.bottomAmountDiv {
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+}
+
+.bottomItemDiv4 {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 80px;
+}
+
+.bottomItemDiv4 p {
+  font-size: 14px;
+  color: gray;
+  text-align: center;
+}
+
+/* Expenses Css */
+.expensesContainer {
+  padding: 10px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  width: 250px;
+  display: grid;
+  gap: 12px;
+  background-color: var(--pureWhite);
+  overflow: hidden;
+  border-radius: 16px;
+}
+.expensesHeading,
+.expensesHeadingAside1 div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+  gap: 5px;
+}
+.expensesHeading {
+  gap: 20px;
+  align-items: start;
+}
+.expensesHeadingAside1 {
+  width: 100%;
+  height: 100%;
+}
+.expensesHeadingAside1 div {
+  font-size: 17px;
+  font-weight: 400;
+  justify-content: start;
+  padding: 5px 0;
+}
+.expensesAmountDiv {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+.expensesAmountDiv h3 {
+  font-size: 22px;
+}
+.expensesAmountDiv span {
+  color: rgb(151, 151, 151);
+  font-size: 14px;
+}
+.expensesHeadingNotes {
+  color: rgb(167, 233, 253);
+  font-size: 22px;
+  gap: 3px;
+}
+.expensesHeadingAside2 {
+  /* width: 120px; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+}
+.expensesMonthDiv {
+  display: flex;
+  gap: 6px;
+  background-color: rgba(184, 184, 184, 0.21);
+  padding: 10px 30px;
+  border-radius: 5px;
+}
+.expensesMonthDiv button {
+  border: none;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  padding: 5px 15px;
+}
+.expensesContent {
+  display: flex;
+  justify-content: space-between;
+  height: 200px;
+  width: 100%;
+}
+.expensesContentAside2 {
+  display: grid;
+  align-items: end;
+  padding-left: 10px;
+  height: 100%;
+  width: 100%;
+}
+.expensesContentAside2 div {
+  background-color: rgb(7, 189, 128);
+  width: 100%;
+  height: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.expensesContentAside2 p {
+  font-size: 12px;
+  color: rgb(95, 95, 95);
+}
