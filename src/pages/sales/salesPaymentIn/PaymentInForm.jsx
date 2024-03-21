@@ -1,17 +1,15 @@
-import css from "../../../styles/SalesStyles/PaymentIn.module.css";
-import { PostPaymentIn } from "../../../Redux/sales/action";
 import { FetchAllParties } from "../../../Redux/parties/actions";
+import { PostPaymentIn } from "../../../Redux/sales/action";
+import css from "../../../styles/SalesStyles/PaymentIn.module.css";
 
 import { useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { IoCalculator as CalculatorIcon } from "react-icons/io5";
-import { MdOutlineSettings as SettingIcon } from "react-icons/md";
-import { IoMdCloseCircle as CloseIcon } from "react-icons/io";
-import { MdDelete as DeleteIcon } from "react-icons/md";
 import { AiFillFileAdd as AddDecriptionIcon } from "react-icons/ai";
 import { BiSolidCameraPlus as AddCameraIcon } from "react-icons/bi";
-import { IoIosArrowDown as ArrowDown } from "react-icons/io";
+import { IoIosArrowDown as ArrowDown, IoMdCloseCircle as CloseIcon } from "react-icons/io";
+import { IoCalculator as CalculatorIcon } from "react-icons/io5";
+import { MdDelete as DeleteIcon, MdOutlineSettings as SettingIcon } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
 
 const PaymentInForm = ({ closeForm, setToggleSetting }) => {
    const toast = useToast();

@@ -1,26 +1,25 @@
-import css from "../../../styles/SalesStyles/SalesForms.module.css";
-import ItemsForm from "../../../components/addForm/ItemsForm";
-import ItemsTableBody from "./Purchase";
 import { GetAllItems } from "../../../Redux/items/actions";
 import { FetchAllParties } from "../../../Redux/parties/actions";
+import ItemsForm from "../../../components/addForm/ItemsForm";
+import css from "../../../styles/SalesStyles/SalesForms.module.css";
+import ItemsTableBody from "./Purchase";
 
 import {
-   useToast,
+   Button,
    Menu,
    MenuButton,
-   MenuList,
    MenuItem,
-   Button,
+   MenuList,
+   useToast,
 } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { IoIosArrowDown as ArrowDown } from "react-icons/io";
-import { FiPlusCircle as PlusIcon } from "react-icons/fi";
+import { useEffect, useState } from "react";
 import { AiFillFileAdd as AddDecriptionIcon } from "react-icons/ai";
+import { BiSolidCameraPlus as AddCameraIcon, BiSolidCheckboxChecked as CheckedBox } from "react-icons/bi";
+import { FiPlusCircle as PlusIcon } from "react-icons/fi";
 import { HiMiniDocumentText as AddDocumentIcon } from "react-icons/hi2";
-import { BiSolidCameraPlus as AddCameraIcon } from "react-icons/bi";
 import { ImCheckboxUnchecked as EmptyCheckedBox } from "react-icons/im";
-import { BiSolidCheckboxChecked as CheckedBox } from "react-icons/bi";
+import { IoIosArrowDown as ArrowDown } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
 import {
    addPurchaseBill,
    getPurchaseBill,
