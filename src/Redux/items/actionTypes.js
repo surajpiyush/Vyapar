@@ -30,3 +30,10 @@ export const SUCCESS_SINGLE_ITEM = "SUCCESS_SINGLE_ITEM";
 export const LOADING_GET_ALL_ITEMS = "LOADING_GET_ALL_ITEMS";
 export const ERROR_GET_ALL_ITEMS = "ERROR_GET_ALL_ITEMS";
 export const SUCCESS_GET_ALL_ITEMS = "SUCCESS_GET_ALL_ITEMS";
+
+
+// ==================================CATREGORY =========================
+
+export const LOADING_CATEGORY = "LOADING_CATEGORY";
+export const ADDING_CATEGORY = "ADDING_CATEGORY";
+export const GETTING_CATEGORY = "GETTING_CATEGORY";
