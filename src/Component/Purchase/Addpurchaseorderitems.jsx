@@ -251,6 +251,8 @@ const Addpurchaseitem = ({ setOpenForm }) => {
          gstNo: currentCustomerData?.gstNo || "",
          phoneNumber: currentCustomerData?.phoneNumber || "",
          balance: currentCustomerData?.openingBalance || "",
+         stateOfSupply:currentCustomerData?.state || "",
+
       };
       setInvoiceData((prev) => {
          return { ...prev, ...obj };

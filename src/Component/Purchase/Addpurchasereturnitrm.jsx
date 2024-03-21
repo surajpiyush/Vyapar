@@ -196,6 +196,8 @@ const Addpurchaseitem = ({ setOpenForm }) => {
       let obj = {
          phoneNumber: currentCustomerData?.phoneNumber || "",
          balance: currentCustomerData?.openingBalance || "",
+         stateOfSupply:currentCustomerData?.state || "",
+
       };
       setInvoiceData((prev) => {
          return { ...prev, ...obj };

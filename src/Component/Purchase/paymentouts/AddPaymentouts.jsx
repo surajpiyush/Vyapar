@@ -76,6 +76,8 @@ const AddPaymentouts = ({ setOpenForm,date }) => {
          ...data,
          party: currentCustomerData?._id || "",
          balance: currentCustomerData?.openingBalance || 0,
+         stateOfSupply:currentCustomerData?.state || "",
+
          paymentType: paymentArr,
          paid: paid,
          total: totalAmount,

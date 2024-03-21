@@ -1,7 +1,11 @@
 // import "../../styles/parties.css";
 import css from "../../Page/Items/Items.module.css";
 import ItemEditForm from "../addForm/ItemEditForm";
-import { GetSelectedItemData, getitems } from "../../Redux/items/actions";
+import {
+   GetSelectedItemData,
+   getCategory,
+   getitems,
+} from "../../Redux/items/actions";
 import { USER_DETAILS } from "../../Redux/business/actionTypes";
 
 import axios from "axios";
@@ -12,6 +16,7 @@ import { CiFilter as FilterIcon } from "react-icons/ci";
 import { IoIosArrowRoundUp as UpArrowIcon } from "react-icons/io";
 import { PiDotsThreeVerticalBold as VerticalDots } from "react-icons/pi";
 import { IoSearchCircleSharp as SearchIcon } from "react-icons/io5";
+import CategoryEditForm from "../addForm/CategoryEditForm";
 
 export default function ProductsTable({ func }) {
    const dispatch = useDispatch();
@@ -27,12 +32,15 @@ export default function ProductsTable({ func }) {
       (store) => store.ItemReducer.selectedItemTransactionData
    );
    const [editItem, setEditItem] = useState([]);
-   const [showEditFirm, setShowEditFirm] = useState(false); 
+   const [showEditFirm, setShowEditFirm] = useState(false);
 
    // Item Click Handler
    const handleItemClick = (item) => {
       GetSelectedItemData(dispatch, item?._id);
    };
+   useEffect(() => {
+      dispatch(getCategory);
+   }, [dispatch]);
 
    const handleStatusToggle = (index) => {
       const updatedTableData = [...selectedItemTransactionData];
@@ -46,7 +54,7 @@ export default function ProductsTable({ func }) {
    return (
       <div className={css.OuterDiv}>
          {showEditFirm && (
-            <ItemEditForm setShowEditFirm={setShowEditFirm} item={editItem} />
+            <CategoryEditForm setShowEditFirm={setShowEditFirm} item={editItem} />
          )}
 
          <div className={css.flexBoxDivCont}>
@@ -100,15 +108,22 @@ export default function ProductsTable({ func }) {
 
             {/* Right Side Content */}
             <div className={css.partiesRightSideDiv}>
-            <div className="" >
-              <div style={{display:"flex",justifyContent:"space-between"}} >
-                <p>ITEMS NOT IN ANY CATEGORY</p>
-                <button className={css.addBtnCss}>Move to this Category</button>
-              </div>
-              <div >
-                <p>0.00</p>
-              </div>
-            </div>
+               <div className="">
+                  <div
+                     style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                     }}
+                  >
+                     <p>ITEMS NOT IN ANY CATEGORY</p>
+                     <button className={css.addBtnCss}>
+                        Move to this Category
+                     </button>
+                  </div>
+                  <div>
+                     <p>0.00</p>
+                  </div>
+               </div>
 
                <div className={css.transactionHeadingContDiv}>
                   <h3>Item</h3>
@@ -129,14 +144,12 @@ export default function ProductsTable({ func }) {
                                  Quantity <FilterIcon />
                               </div>
                            </th>
-                      
+
                            <th>
                               <div>
                                  Stock Value <FilterIcon />
                               </div>
                            </th>
-                       
-                         
                         </tr>
                      </thead>
                      <tbody>

@@ -26,9 +26,9 @@ const ItemsTableBody = memo(
          (state) => state.ItemReducer.getAllItemsLoading
       );
       const itemsList = useSelector((state) => state.ItemReducer.items);
-
+      const category = useSelector((state) => state.ItemReducer.category);
       const [foundItems, setFoundItems] = useState([]);
-// console.log(item)
+      // console.log(item)
       // Itemslist Suggestions
       useEffect(() => {
          const regex = new RegExp(item?.itemName, "i");
@@ -144,12 +144,38 @@ const ItemsTableBody = memo(
                </div>
             </td>
             <td className={css.itemNameBody}>
-               <select name="category" id="" >
+               <select
+                  name="category"
+                  value={item?.category}
+                  // onChange={handleChange}
+                  className={css.selectTag}
+                  required
+               >
                   <option value="">Category</option>
-                  <option value="show">Show</option>
-                  <option value="tab">Tab</option>
-                  <option value="medicine">medicine</option>
-                  <option value="cloths">Cloths</option>{" "}
+                  {!item?.category ? (
+                     <option value="">No Categories Found</option>
+                  ) : (
+                     category
+                        .filter(
+                           (categoryItem) => categoryItem._id === item.category
+                        )
+                        .map((filteredItem) => (
+                           <option
+                              value={filteredItem._id}
+                              key={filteredItem._id}
+                           >
+                              {filteredItem?.categoryName}
+                           </option>
+                        ))
+                  )}
+                  {!category.some(
+                     (categoryItem) => categoryItem._id === item.category
+                  ) &&
+                     category.map((categoryItem) => (
+                        <option value={categoryItem._id} key={categoryItem._id}>
+                           {categoryItem.categoryName}
+                        </option>
+                     ))}
                </select>
             </td>
             <td
@@ -221,7 +247,7 @@ const ItemsTableBody = memo(
                   type="text"
                   className={css.tableInputs}
                   name="itemCode"
-                  value={item?.itemCode}  
+                  value={item?.itemCode}
                   // onChange={(e) => handleTableInputChange(e, ind)}
                   disabled
                />
@@ -350,7 +376,7 @@ const ItemsTableBody = memo(
                   <div>
                      <select
                         name="taxPersant"
-                        // value={item.taxPersant}
+                        value={item.taxPersant}
                         onChange={(e) => handleTableInputChange(e, ind)}
                      >
                         <option value="">None</option>

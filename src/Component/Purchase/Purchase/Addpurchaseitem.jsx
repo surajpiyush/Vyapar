@@ -44,7 +44,7 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
    const allPurchaseBills = useSelector(
       (store) => store.PurchaseReducer.purchaseBillData
    );
-   // console.log(items)
+   // console.log(partiesData)
    const [currentCustomerData, setCurrentCustomerData] = useState({});
    const [toggleDesc, setToggleDesc] = useState(false);
    const [toggleRoundOff, setToggleRoundOff] = useState(false);
@@ -267,6 +267,8 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
          gstNo: currentCustomerData?.gstNo || "",
          phoneNumber: Number(currentCustomerData?.phoneNumber) || "",
          balance: currentCustomerData?.openingBalance || "",
+         stateOfSupply:currentCustomerData?.state || "",
+         
       };
       setInvoiceData((prev) => {
          return { ...prev, ...obj };
@@ -317,13 +319,14 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
          unit: itemDetail?.seleteUnit?.baseUnit || "",
          hsnCode: itemDetail?.itemHsn || "",
          itemCode: itemDetail?.itemCode || "",
+         category:itemDetail?.category || ""
       };
-      console.log(invoiceItems);
+      // console.log(itemDetail);   
       let newSaleData = invoiceItems.map((ite, ind) =>
          ind == index ? currSaleItem : ite
       );
       setInvoiceItems(newSaleData);
-      // setShowItemsListMenu(false);
+      setShowItemsListMenu(false);
    };
    // for changing balance amount
    useEffect(() => {
@@ -343,7 +346,7 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
       e.stopPropagation();
       let newRowData = {
          id: 1,
-         category: "65c5cfc509b34ca8a0187497",
+         category: "",
          itemName: "",
          itemCode: "",
          hsnCode: "",

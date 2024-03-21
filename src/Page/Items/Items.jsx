@@ -38,7 +38,7 @@ export default function Items() {
 
    useEffect(() => {
       getCategory(dispatch);
-   }, []);
+   }, [dispatch,categoryForm]);
 
    const toggleForm = () => {
       setOpenForm(!openForm);

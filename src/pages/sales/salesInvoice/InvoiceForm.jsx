@@ -52,6 +52,26 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
    const [balanceAmount, setBalanceAmount] = useState("");
    const [paymentArr, setPaymentArr] = useState([{ types: "Cash", amount: 0 }]);
 
+
+   function generateInvoiceNumber() {
+      const currentDate = new Date();
+      const previousYear = currentDate.getFullYear() - 1;
+      const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+      const monthIndex = currentDate.getMonth();
+      const month = monthNames[monthIndex];
+      const hours = currentDate.getHours();
+      const minutes = currentDate.getMinutes();
+  
+      // Format the invoice number
+      const invoiceNumber = `${hours}${minutes}/${month}/${previousYear}-${currentDate.getFullYear()}`;
+  
+      return invoiceNumber;
+  }
+  
+  // Example usage
+//   const invoiceNumber = generateInvoiceNumber();
+//   console.log(invoiceNumber);    
+  
    const [tableRowsArr, setTableRowsArr] = useState([
       {
          itemName: "",
@@ -73,11 +93,7 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
       billingAddress: "",
       billingName: "",
       phoneNumber: "",
-      invoiceNumber: `${new Date()
-         .toLocaleString("default", { month: "short" })
-         .toUpperCase()}${new Date().getTime()}${Math.floor(
-         Math.random() * 900
-      )}`,
+      invoiceNumber: generateInvoiceNumber(),
       invoiceDate: new Date().toISOString().split("T")[0],
       stateOfSupply: "",
       priceUnitWithTax: "false",
@@ -173,6 +189,7 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
          billingAddress: currentCustomerData?.billingAddress || "",
          openingBalance: currentCustomerData?.openingBalance || "",
          stateOfSupply: currentCustomerData?.state || "",
+         
       };
       setInvoiceData((prev) => {
          return { ...prev, ...obj };
