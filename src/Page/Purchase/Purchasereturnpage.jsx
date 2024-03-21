@@ -4,7 +4,7 @@ import Paymentouts from "../../Component/Purchase/paymentouts/Paymentouts";
 import Purchasereturn from "../../Component/Purchase/Purchasereturn/Purchasereturn";
 import "./purchase-bill.css";
 import AddPurchaseItem from "../../Component/Purchase/Purchase/Addpurchaseitem";
-import css from "../../styles/SalesStyles/Invoice.module.css";
+import css from "../../pages/sales/salesInvoice/Invoice.module.css";
 
 import { GetAllSalesInvoice } from "../../Redux/sales/action";
 
@@ -52,7 +52,7 @@ const Purchasereturnpage = () => {
         setEndDate={setEndDate}
       />
       <div>
-         {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
+        {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
         <div>
           {openForm ? (
             <div className={css.formOuter}>
@@ -73,9 +73,7 @@ const Purchasereturnpage = () => {
                       })
                     }
                   />
-                   <SettingIcon
-                              onClick={() => setToggleSetting(true)}
-                           />
+                  <SettingIcon onClick={() => setToggleSetting(true)} />
                   <CloseIcon onClick={() => setOpenForm(false)} />
                 </div>
               </div>

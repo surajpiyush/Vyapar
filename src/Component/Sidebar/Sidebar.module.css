@@ -1,9 +1,11 @@
 .sideBarOuter {
-  background-color: var(--SlateGray);
+  background-color: var(--DeepOceanBlue);
   color: var(--pureWhite);
-  height: 100vh;
+  min-height: 100%;
   max-width: 300px;
-  width: 230px;
+  width: 275px;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Firm Details Css */
@@ -11,8 +13,10 @@
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 5px;
+  border-bottom: 2px solid var(--ShadowStone);
+  gap: 10px;
+  padding: 0px 8px;
+  min-height: 65px;
 }
 .firmLogoDiv {
   background-color: var(--blueB);
@@ -21,8 +25,8 @@
   display: grid;
   place-items: center;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
 
   img {
     display: block;
@@ -38,12 +42,13 @@
   display: grid;
   place-items: center;
   place-content: center;
-  border: 1px solid var(--DeepCharcoal);
+  border: 2px solid var(--DeepCharcoal);
   border-radius: 50%;
-  width: 16px;
-  height: 16px;
-  font-size: 14px;
-  margin: -14px 0px 0px 26px;
+  width: 13px;
+  height: 13px;
+  padding: 1px 0px 0px 0.8px;
+  font-size: 12px;
+  margin: -13px 0px 0px 25px;
 }
 .firmNameContDiv {
   cursor: pointer;
@@ -69,6 +74,10 @@
 }
 
 /* Sidebar Options css */
+.optionsOuter {
+  flex-grow: 1;
+  overflow: auto;
+}
 .activeSidebarOptionDiv {
   cursor: default;
   display: flex;

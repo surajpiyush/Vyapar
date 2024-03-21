@@ -2,7 +2,7 @@ import React from "react";
 import Pourchaseorder from "../../Component/Purchase/Pourchaseorder";
 import "./purchaseorderpage.css";
 import "./purchase-bill.css";
-import css from "../../styles/SalesStyles/Invoice.module.css";
+import css from "../../pages/sales/salesInvoice/Invoice.module.css";
 
 import { GetAllSalesInvoice } from "../../Redux/sales/action";
 
@@ -17,68 +17,66 @@ import Addpurchaseorderitems from "../../Component/Purchase/Addpurchaseorderitem
 import { useLocation, useNavigate } from "react-router-dom";
 import Setting from "../../Component/Setting/Setting";
 const Purchaseorderpage = ({ func }) => {
-   const [toggleSetting, setToggleSetting] = useState(false);
-   const toast = useToast();
-   const navigate = useNavigate();
-   const location = useLocation();
-   const dispatch = useDispatch();
-   const [openForm, setOpenForm] = useState(false);
-   const [startDate, setStartDate] = useState("2024-02-01");
-   const [endDate, setEndDate] = useState(
-      new Date().toISOString().split("T")[0]
-   );
-   const toggleSalesSuccess = useSelector(
-      (state) => state.SalesReducer.toggleSalesSuccess
-   );
-   const isLoading = useSelector((state) => state.SalesReducer.isLoading);
+  const [toggleSetting, setToggleSetting] = useState(false);
+  const toast = useToast();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const [openForm, setOpenForm] = useState(false);
+  const [startDate, setStartDate] = useState("2024-02-01");
+  const [endDate, setEndDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
+  const toggleSalesSuccess = useSelector(
+    (state) => state.SalesReducer.toggleSalesSuccess
+  );
+  const isLoading = useSelector((state) => state.SalesReducer.isLoading);
 
-   useEffect(() => {
-      GetAllSalesInvoice(dispatch, startDate, endDate);
-   }, [toggleSalesSuccess, startDate, endDate]);
+  useEffect(() => {
+    GetAllSalesInvoice(dispatch, startDate, endDate);
+  }, [toggleSalesSuccess, startDate, endDate]);
 
-   const formOpen = () => {
-      setOpenForm(true);
-   };
-   return (
-      <div className="purchase-bill-container">
-         <h4 className="purchase-order-h4">Orders</h4>
-         {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
-         <div>
-            <div>
-               {openForm ? (
-                  <div className={css.formOuter}>
-                     <div className={css.upperNav}>
-                        <div>
-                           <p className={css.activeForm}>
-                              <span>Sale #1</span>
-                              <CrossIcon />
-                           </p>
-                        </div>
-                        <div>
-                           <CalculatorIcon
-                              onClick={() =>
-                                 toast({
-                                    title: "Feature currently in development",
-                                    status: "info",
-                                    position: "top",
-                                 })
-                              }
-                           />
-                           <SettingIcon
-                              onClick={() => setToggleSetting(true)}
-                           />
-                           <CloseIcon onClick={() => setOpenForm(false)} />
-                        </div>
-                     </div>
-                     <Addpurchaseorderitems setOpenForm={setOpenForm} />
-                  </div>
-               ) : (
-                  <div>{!isLoading && <Pourchaseorder func={formOpen} />}</div>
-               )}
+  const formOpen = () => {
+    setOpenForm(true);
+  };
+  return (
+    <div className="purchase-bill-container">
+      <h4 className="purchase-order-h4">Orders</h4>
+      {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
+      <div>
+        <div>
+          {openForm ? (
+            <div className={css.formOuter}>
+              <div className={css.upperNav}>
+                <div>
+                  <p className={css.activeForm}>
+                    <span>Sale #1</span>
+                    <CrossIcon />
+                  </p>
+                </div>
+                <div>
+                  <CalculatorIcon
+                    onClick={() =>
+                      toast({
+                        title: "Feature currently in development",
+                        status: "info",
+                        position: "top",
+                      })
+                    }
+                  />
+                  <SettingIcon onClick={() => setToggleSetting(true)} />
+                  <CloseIcon onClick={() => setOpenForm(false)} />
+                </div>
+              </div>
+              <Addpurchaseorderitems setOpenForm={setOpenForm} />
             </div>
-         </div>
+          ) : (
+            <div>{!isLoading && <Pourchaseorder func={formOpen} />}</div>
+          )}
+        </div>
       </div>
-   );
+    </div>
+  );
 };
 
 export default Purchaseorderpage;

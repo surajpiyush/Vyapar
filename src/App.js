@@ -1,6 +1,6 @@
 import "./App.css";
 import Navbar from "./Component/Navbar/Navbar.jsx";
-import Header from "./Component/Layourt/Header.jsx";
+import Header from "./Component/Header/Header.jsx";
 import Sidebar from "./Component/Sidebar/Sidebar.jsx";
 import EditFirm from "./Page/Firm/EditFirm.jsx";
 import {
