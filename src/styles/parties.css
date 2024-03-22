@@ -311,7 +311,6 @@ input[type="checkbox"] {
 /* Parties Table Css */
 .partiestable-outer {
   width: 100%;
-  /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
   background: var(--pureWhite);
 }
 .partiestable-outer thead th:nth-of-type(2) {

@@ -1,0 +1,126 @@
+.partyFormOuterParent {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1500;
+  background: var(--overlayBg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+}
+.partyFormOuter {
+  background-color: var(--pureWhite);
+  width: 60%;
+  border-radius: 10px;
+  padding: 22px;
+}
+.formSectionsDiv {
+  display: flex;
+  justify-content: space-between;
+  /* align-items: center; */
+  flex-wrap: wrap;
+  margin: 20px auto;
+}
+.formHeaderIconCont {
+  height: 60px;
+  display: flex;
+  align-items: center;
+
+  svg {
+    cursor: pointer;
+    margin: 0px 10px;
+    font-size: 20px;
+    color: rgb(93, 92, 92);
+  }
+}
+.InpCss {
+  width: 200px;
+  padding: 10px;
+  border-radius: 5px;
+  outline: none;
+  border: 2px solid var(--blueB);
+  margin: 12px 0px;
+}
+.middleFormOptionsCont {
+  width: 100%;
+  display: flex;
+  border-bottom: 2px solid var(--greyC);
+
+  div {
+    cursor: pointer;
+    text-align: center;
+    width: 200px;
+    padding-bottom: 10px;
+    transition: all 0.15s ease;
+  }
+}
+.gstLeftSideInput {
+  display: flex;
+  flex-direction: column;
+
+  select {
+    width: 225px;
+  }
+
+  input {
+    width: 100%;
+  }
+}
+.addressHolderDiv {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  textarea {
+    position: relative;
+    margin-left: 20px;
+  }
+}
+.DisableShippingAddBtn {
+  cursor: pointer;
+}
+#AsOFDateCss {
+  display: flex;
+  flex-direction: column;
+  p {
+    margin-left: 25px;
+    font-size: 14px;
+    display: block;
+    width: fit-content;
+    background-color: white;
+    z-index: 100;
+    padding: 0px 8px;
+  }
+  input {
+    z-index: 50;
+    margin-top: -8px;
+    margin-left: 20px;
+    background-color: transparent;
+  }
+}
+.creditLimitOuterDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  span {
+    font-size: 16px;
+    font-weight: 600;
+  }
+}
+.FooterDivOuter {
+  display: flex;
+  flex-direction: row-reverse;
+}
+.FooterDivOuter button {
+  cursor: pointer;
+  background-color: var(--VividOrange);
+  color: var(--pureWhite);
+  border: none;
+  padding: 8px 20px;
+  margin-top: 10px;
+  border-radius: 6px;
+  font-size: 16px;
+}
