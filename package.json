@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "asaanly",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -37,8 +37,8 @@
   },
   "eslintConfig": {
     "extends": [
-      "asaanly",
-      "asaanly/jest"
+      "react-app",
+      "react-app/jest"
     ],
     "rules": {
       "react-hooks/exhaustive-deps": "off",
