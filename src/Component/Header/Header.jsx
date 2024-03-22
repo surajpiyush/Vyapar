@@ -4,9 +4,9 @@ import Setting from "../Setting/Setting";
 import { useState } from "react";
 import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { IoSettingsSharp as SettingIcon } from "react-icons/io5";
-import { IoIosSearch as SearchIcon } from "react-icons/io";
 import { RxCross2 as CrossIcon } from "react-icons/rx";
+import { IoIosSearch as SearchIcon } from "react-icons/io";
+import { IoSettingsSharp as SettingIcon } from "react-icons/io5";
 import { BsFillPlusCircleFill as PlusIcon } from "react-icons/bs";
 
 const Header = () => {

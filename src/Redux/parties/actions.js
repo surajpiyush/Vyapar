@@ -42,7 +42,7 @@ export const FetchAllParties = async (dispatch) => {
 };
 
 // ------------------------- Save Party Function ---- Didn't applied function curring due to thunk error in store.js
-export const SaveParty = async (dispatch, data, setPartyFormToggle, toast) => {
+export const SaveParty = async (dispatch, data, CloseForm, toast) => {
   toast.closeAll();
   dispatch({ type: SAVE_PARTY_LOADING });
   const token = localStorage.getItem("token");
@@ -62,7 +62,7 @@ export const SaveParty = async (dispatch, data, setPartyFormToggle, toast) => {
       status: "success",
       position: "top",
     });
-    setPartyFormToggle((prev) => !prev);
+    CloseForm(false);
   } catch (error) {
     toast({
       title:

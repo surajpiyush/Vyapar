@@ -5,7 +5,7 @@ import { USER_DETAILS } from "../../Redux/business/actionTypes";
 
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 // Icons
 import { BiSitemap } from "react-icons/bi";
@@ -104,6 +104,73 @@ const Sidebar = ({ setShowEditFirm }) => {
       {/* Sidebar Options */}
       <div className={css.optionsOuter}>
         {OldSidebarItems.map((items, index) => (
+          // <NavLink key={index}>
+          //   {/* <div
+          //     onClick={() => {
+          //       handleActiveItems(items.name);
+          //       if (
+          //         items.name == "Sale" ||
+          //         items.name == "Purchase" ||
+          //         items.name === "WhatsApp Marketing"
+          //       ) {
+          //         navigate(items?.to);
+          //         setToggleNavItems(!toggleNavItems);
+          //       }
+          //       if (items.name == "Setting") {
+          //         setToggleSetting(true);
+          //         setToggleNavItems(!toggleNavItems);
+          //       }
+          //     }}
+          //     className={
+          //       activeItems === items.name
+          //         ? css.activeSidebarOptionDiv
+          //         : css.inActiveSidebarOptionDiv
+          //     }
+          //     key={index}
+          //   >
+          //     <aside>
+          //       <div
+          //         className={css.optionsLeftSideDiv}
+          //         onClick={() => handleLayout(items.name)}
+          //       >
+          //         <div>{items.Icon}</div>
+          //         <div>{items.name}</div>
+          //       </div>
+
+          //       {toggleNavItems &&
+          //         activeItems === items.name &&
+          //         items.purchaseToggle && (
+          //           <div onClick={(e) => e.stopPropagation()}>
+          //             {items.purchaseToggle.map((nestedItems, nestedindex) => (
+          //               <aside
+          //                 key={nestedindex}
+          //                 onClick={() => {
+          //                   handleActiveNestedItems(nestedindex);
+          //                   navigate(nestedItems.navigateurl);
+          //                 }}
+          //                 className={
+          //                   activeNestedItems === nestedindex
+          //                     ? css.activeNestedOption
+          //                     : css.inActiveNestedOption
+          //                 }
+          //               >
+          //                 <h4 className={css.nestedOptionsText}>
+          //                   {nestedItems.name}
+          //                 </h4>
+          //                 <div>{nestedItems.Icon}</div>
+          //               </aside>
+          //             ))}
+          //           </div>
+          //         )}
+          //     </aside>
+
+          //     {items.extraIcon && (
+          //       <div className={css.optionsRightSideIcons}>
+          //         {items.extraIcon}
+          //       </div>
+          //     )}
+          //   </div> */}
+          // </NavLink>
           <div
             onClick={() => {
               handleActiveItems(items.name);
@@ -179,8 +246,8 @@ const SidebarItems = [{}];
 
 // Sidebar Options Array
 const OldSidebarItems = [
-  { Icon: <GoHomeFill />, name: "Home" },
-  { Icon: <HiMiniUsers />, name: "Parties", extraIcon: <FaPlus /> },
+  { Icon: <GoHomeFill />, name: "Home", to: "/" },
+  { Icon: <HiMiniUsers />, name: "Parties", ExtraIcon: <FaPlus /> },
   { Icon: <BiSitemap />, name: "Items", extraIcon: <FaPlus /> },
   {
     Icon: <BiSitemap />,
