@@ -26,7 +26,7 @@ const ItemsTableBody = memo(
          (state) => state.ItemReducer.getAllItemsLoading
        );
        const itemsList = useSelector((state) => state.ItemReducer.items);
-
+       const category = useSelector((state) => state.ItemReducer.category);
       const [foundItems, setFoundItems] = useState([]);
       
   // Itemslist Suggestions
@@ -57,7 +57,17 @@ const ItemsTableBody = memo(
          let taxAmount = parseToNumber(item?.taxAmount) || 0;
          let discountPercent = parseToNumber(item?.discountpersant) || 0;
          let discountAmount = parseToNumber(item?.discountAmount) || 0;
-         let taxPercent = parseToNumber(item?.taxPersant) || 0;
+         let taxPercent = 0;
+
+         if (item && item.taxPersant) {
+            const parts = item.taxPersant.split("@");
+            if (parts.length === 2) {
+               const numericValue = parseFloat(parts[1].trim());
+               if (!isNaN(numericValue)) {
+                  taxPercent = numericValue;
+               }
+            }
+         }
          let pricePerUnit = parseToNumber(item?.priceUnit) || 0;
          let qty = parseToNumber(item?.qty) || 0;
 
@@ -143,12 +153,38 @@ const ItemsTableBody = memo(
                </div>
             </td>
             <td className={css.itemNameBody}>
-               <select name="category" id="">
+               <select
+                  name="category"
+                  value={item?.category}
+                  // onChange={handleChange}
+                  className={css.selectTag}
+                  required
+               >
                   <option value="">Category</option>
-                  <option value="show">Show</option>
-                  <option value="tab">Tab</option>
-                  <option value="medicine">medicine</option>
-                  <option value="cloths">Cloths</option>{" "}
+                  {!item?.category ? (
+                     <option value="">No Categories Found</option>
+                  ) : (
+                     category
+                        .filter(
+                           (categoryItem) => categoryItem._id === item.category
+                        )
+                        .map((filteredItem) => (
+                           <option
+                              value={filteredItem._id}
+                              key={filteredItem._id}
+                           >
+                              {filteredItem?.categoryName}
+                           </option>
+                        ))
+                  )}
+                  {!category.some(
+                     (categoryItem) => categoryItem._id === item.category
+                  ) &&
+                     category.map((categoryItem) => (
+                        <option value={categoryItem._id} key={categoryItem._id}>
+                           {categoryItem.categoryName}
+                        </option>
+                     ))}
                </select>
             </td>
             <td
@@ -345,21 +381,21 @@ const ItemsTableBody = memo(
                         value={item.taxPersant}
                         onChange={(e) => handleTableInputChange(e, ind)}
                      >
-                        <option value="">None</option>
-                        <option value="0">IGST@0%</option>
-                        <option value="0">GST@0%</option>
-                        <option value="0.25">IGST@0.25%</option>
-                        <option value="0.25">GST@0.25%</option>
-                        <option value="3">IGST@3%</option>
-                        <option value="3">GST@3%</option>
-                        <option value="5">IGST@5%</option>
-                        <option value="5">GST@5%</option>
-                        <option value="12">IGST@12%</option>
-                        <option value="12">GST@12%</option>
-                        <option value="18">IGST@18%</option>
-                        <option value="18">GST@18%</option>
-                        <option value="28">IGST@28%</option>
-                        <option value="28">GST@28%</option>
+                       <option value="">None</option>
+                        <option value="IGST@0">IGST@0%</option>
+                        <option value="GST@0">GST@0%</option>
+                        <option value="IGST@0.25">IGST@0.25%</option>
+                        <option value="GST@0.25">GST@0.25%</option>
+                        <option value="IGST@3">IGST@3%</option>
+                        <option value="GST@3">GST@3%</option>
+                        <option value="IGST@5">IGST@5%</option>
+                        <option value="GST@5">GST@5%</option>
+                        <option value="IGST@12">IGST@12%</option>
+                        <option value="GST@12">GST@12%</option>
+                        <option value="IGST@18">IGST@18%</option>
+                        <option value="GST@18">GST@18%</option>
+                        <option value="IGST@28">IGST@28%</option>
+                        <option value="GST@28">GST@28%</option>
                      </select>
                   </div>
                   <input

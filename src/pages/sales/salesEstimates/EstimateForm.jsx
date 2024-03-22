@@ -75,7 +75,7 @@ const EstimateForm = ({ setOpenForm, setToggleSetting }) => {
       type: "Estimate",
       status: "Pending",
       customerName: "",
-      refNo: generateInvoiceNumber(),
+      refNo: estimatesList.length +1,
       invoiceDate: new Date().toISOString().split("T")[0],
       stateOfSupply: "",
       priceUnitWithTax: false,

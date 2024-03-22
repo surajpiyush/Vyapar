@@ -35,15 +35,15 @@ const handleRequestError = (dispatch, err) => {
    dispatch({ type: PURCHASE_FAILURE });
 };
 
-const handleDeleteSuccess = (dispatch, _id, res,toast) => {
+const handleDeleteSuccess = (dispatch, _id, res, toast) => {
    // console.log(res);
    dispatch({ type: DELETE_PURCHASEBILL_SUCCESS, payload: _id });
 
-toast({
-   title:`${res.data.msg}`,
-   status:"success",
-   position:"top"
-})
+   toast({
+      title: `${res.data.msg}`,
+      status: "success",
+      position: "top",
+   });
    // alert(`${res.data.msg}`);
 };
 
@@ -53,18 +53,89 @@ const handleUpdateSuccess = (dispatch, res) => {
    dispatch({ type: UPDATE_PURCHASEBILL_SUCCESS });
 };
 
-export const addPurchaseBill = (newItem) => (dispatch) => {
+// async (dispatch, data, setOpenForm, toast) => {
+//    toast.closeAll();
+//    dispatch(IS_LOADING());
+//    const token = localStorage.getItem("token");
+//    const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+//    try {
+//      // prettier-ignore
+//      const response = await axios.post( // eslint-disable-line no-unused-vars
+//        `${API_URL}/${firmId}/sale/create`,
+//        data,
+//        {
+//          headers: {
+//            Authorization: `Bearer ${token} `,
+//          },
+//        }
+//      );
+//      //  console.log("Post Sales Invoice Response:", response?.data);
+//      dispatch(POST_SALES_INVOICE_SUCCESS());
+//      setOpenForm(false);
+//      toast({
+//        title: "Invoice Added!",
+//        status: "success",
+//        position: "top",
+//      });
+//    } catch (error) {
+//      dispatch(IS_ERROR());
+//      toast({
+//        title:
+//          error?.response?.data?.msg ||
+//          error?.response?.data?.message ||
+//          "Something Went Wrong!",
+//        status: "error",
+//        position: "top",
+//      });
+//      console.log("Post Sales Invoice Response:", error);
+//    }
+//  };
+
+export const addPurchaseBill = async (
+   dispatch,
+   newItem,
+   setOpenForm,
+   toast
+) => {
+   toast.closeAll();
    dispatch({ type: PURCHASE_REQUEST });
 
-   axiosInstance
-      .post(`/${getFirmId()}/purchase/create`, newItem)
-      .then((res) => {
-         console.log("Add Purchase Response:", res.data.data);
-         dispatch({ type: POST_PURCHASEBILL_SUCCESS, payload: res.data.data });
-         alert("Bill Added ✔️");
-      })
-      .catch((err) => handleRequestError(dispatch, err));
-};
+   const token = localStorage.getItem("token");
+   const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
+   try {
+      const response = await axios.post(
+         `${API_URL}/${firmId}/purchase/create`,
+         newItem,
+         {
+            headers: {
+               Authorization: `Bearer ${token} `,
+            },
+         }
+      );
+      dispatch({
+         type: POST_PURCHASEBILL_SUCCESS,
+         payload: response.data.data,
+      });
+
+      setOpenForm(false);
+      toast({
+         title: "Purchase Bill Added!",
+         status: "success",
+         position: "top",
+      });
+   } catch (error) {
+      handleRequestError(dispatch, error);
+      toast({
+         title:
+            error?.response?.data?.msg ||
+            error?.response?.data?.message ||
+            "Something Went Wrong!",
+            status: "error",
+            position: "top",
+      });
+      console.log("Post Sales Invoice Response:", error);
+   }
+};    
 
 export const getPurchaseBill =
    ({ date }) =>
@@ -92,12 +163,12 @@ export const updatePurchaseBill = (_id, data) => (dispatch) => {
       .catch((err) => handleRequestError(dispatch, err));
 };
 
-export const deletePurchaseBill = (_id,toast) => (dispatch) => {
-   dispatch({ type: PURCHASE_REQUEST });  
+export const deletePurchaseBill = (_id, toast) => (dispatch) => {
+   dispatch({ type: PURCHASE_REQUEST });
 
    axiosInstance
       .delete(`/${getFirmId()}/purchase/delete/${_id}`)
-      .then((res) => handleDeleteSuccess(dispatch, _id, res,toast))
+      .then((res) => handleDeleteSuccess(dispatch, _id, res, toast))
       .catch((err) => handleRequestError(dispatch, err));
 };
 
@@ -143,12 +214,12 @@ export const updatePurchaseOrderBill = (_id, data) => (dispatch) => {
       .catch((err) => handleRequestError(dispatch, err));
 };
 
-export const deletePurchaseOrderBill = (_id,toast) => (dispatch) => {
+export const deletePurchaseOrderBill = (_id, toast) => (dispatch) => {
    dispatch({ type: PURCHASE_REQUEST });
 
    axiosInstance
       .delete(`/${getFirmId()}/purchaseOrder/delete/${_id}`)
-      .then((res) => handleDeleteSuccess(dispatch, _id, res,toast))
+      .then((res) => handleDeleteSuccess(dispatch, _id, res, toast))
       .catch((err) => handleRequestError(dispatch, err));
 };
 
@@ -194,12 +265,12 @@ export const updatePayoutBill = (_id, data) => (dispatch) => {
       .catch((err) => handleRequestError(dispatch, err));
 };
 
-export const deletePayoutBill = (_id,toast) => (dispatch) => {
+export const deletePayoutBill = (_id, toast) => (dispatch) => {
    dispatch({ type: PURCHASE_REQUEST });
 
    axiosInstance
       .delete(`/${getFirmId()}/purchaseOut/delete/${_id}`)
-      .then((res) => handleDeleteSuccess(dispatch, _id, res,toast))
+      .then((res) => handleDeleteSuccess(dispatch, _id, res, toast))
       .catch((err) => handleRequestError(dispatch, err));
 };
 
@@ -248,11 +319,11 @@ export const updatePurchaseReturnBill = (_id, data) => (dispatch) => {
       .catch((err) => handleRequestError(dispatch, err));
 };
 
-export const deletePurchaseReturnBill = (_id,toast) => (dispatch) => {
+export const deletePurchaseReturnBill = (_id, toast) => (dispatch) => {
    dispatch({ type: PURCHASE_REQUEST });
 
    axiosInstance
       .delete(`/${getFirmId()}/purchaseReturn/delete/${_id}`)
-      .then((res) => handleDeleteSuccess(dispatch, _id, res,toast))
+      .then((res) => handleDeleteSuccess(dispatch, _id, res, toast))
       .catch((err) => handleRequestError(dispatch, err));
 };

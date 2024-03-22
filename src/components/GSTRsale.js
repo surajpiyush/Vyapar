@@ -27,8 +27,10 @@ const GSTRsale = ({ tableHeader1, tableHeader2, data, sale }) => {
                <tbody>
                   {data?.map((item) => (
                      <tr key={item?.id} style={{ textAlign: "center" }}>
-                        <td>{item?.gstNo || "-"}</td>
-                        <td>{item.partyName || "-"}</td>
+                        <td>{item?.gstNo || item?.Data[0]?.gstNo || "-"}</td>
+                        <td>
+                           {item.partyName || item?.Data[0]?.partyName ||  "-"}
+                        </td>
 
                         <td>{sale ? item.invoiceNumber : item?.returnNo}</td>
                         <td>
@@ -40,9 +42,9 @@ const GSTRsale = ({ tableHeader1, tableHeader2, data, sale }) => {
                         {item.creditNo ? <td>{item.creditNo}</td> : ""}
                         <td>{item.amount}</td>
                         <td>{item.taxRate}</td>
-{!sale && <td>{" "}</td>}
-{!sale && <td>{" "}</td>}
-{!sale && <td>{" "}</td>}
+                        {!sale && <td> </td>}
+                        {!sale && <td> </td>}
+                        {!sale && <td> </td>}
                         <td>{item.cess || "-"}</td>
                         <td>{item.taxableValue}</td>
                         <td>{item.integreatedTax}</td>

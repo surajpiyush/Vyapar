@@ -7,7 +7,6 @@ import { useToast } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 
-
 export default function ItemsForm({ closeForm, handleSettingClick }) {
    const toast = useToast();
    const navigate = useNavigate();
@@ -217,7 +216,7 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
                         />
 
                         {/* Unit */}
-                        <button type="button" className="select-unit-btn">
+                        <div className={css.selectTag} >
                            {!sel ? (
                               <td
                                  className={css.unitBody}
@@ -229,6 +228,7 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
                                     onChange={handleChange}
                                     name="seleteUnit"
                                     placeholder="None"
+                                
                                  >
                                     <option value="">Select Unit</option>
                                     <option value="BAGS">BAGS (BAG)</option>
@@ -279,27 +279,37 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
                            ) : (
                               "Select Unit"
                            )}
-                        </button>
+                        </div>
                      </div>
-
-                     <select
-                        name="category"
-                        // value={currentCustomerData?._id}
-                        onChange={handleChange}
-                        className={css.selectTag}
-                        required
-                     >
-                        <option value="">Category</option>
-                        {itemIsLoading ? (
-                           <option value="">Loading Categories</option>
-                        ) : (
-                           category?.map((item, ind) => (
-                              <option value={item._id} key={ind + item._id}>
-                                 {item?.categoryName}
-                              </option>
-                           ))
-                        )}
-                     </select>
+                     <div>
+                        <select
+                           name="category"
+                           // value={currentCustomerData?._id}
+                           onChange={handleChange}
+                           className={css.selectTag}
+                           required
+                        >
+                           <option value="">Category</option>
+                           {itemIsLoading ? (
+                              <option value="">Loading Categories</option>
+                           ) : (
+                              category?.map((item, ind) => (
+                                 <option value={item._id} key={ind + item._id}>
+                                    {item?.categoryName}
+                                 </option>
+                              ))
+                           )}
+                        </select>
+                        <input
+                           type="number"
+                           name="itemCode"
+                           value={formData?.itemCode}
+                           onChange={handleChange}
+                           placeholder="Item Code *"
+                           className="inp-field"
+                           // required
+                        />
+                     </div>
                   </div>
 
                   {/* Toggle Pricing / Stock */}

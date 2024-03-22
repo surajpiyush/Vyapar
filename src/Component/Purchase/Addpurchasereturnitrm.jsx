@@ -5,16 +5,19 @@ import css from "../../styles/SalesStyles/SalesForms.module.css";
 import ItemsTableBody from "./AddPurchasereturn";
 
 import {
-    Button,
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuList,
-    useToast,
+   Button,
+   Menu,
+   MenuButton,
+   MenuItem,
+   MenuList,
+   useToast,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { AiFillFileAdd as AddDecriptionIcon } from "react-icons/ai";
-import { BiSolidCameraPlus as AddCameraIcon, BiSolidCheckboxChecked as CheckedBox } from "react-icons/bi";
+import {
+   BiSolidCameraPlus as AddCameraIcon,
+   BiSolidCheckboxChecked as CheckedBox,
+} from "react-icons/bi";
 import { FiPlusCircle as PlusIcon } from "react-icons/fi";
 import { HiMiniDocumentText as AddDocumentIcon } from "react-icons/hi2";
 import { ImCheckboxUnchecked as EmptyCheckedBox } from "react-icons/im";
@@ -61,7 +64,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
 
    const [invoiceItems, setInvoiceItems] = useState([
       {
-         category: "65c5cfc509b34ca8a0187497",
+         category: "",
          itemName: "",
          itemCode: "",
          hsnCode: "",
@@ -174,7 +177,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
          ...invoiceData,
          paymentType: paymentArr,
          priceUnitWithTax: invoiceData?.priceUnitWithTax == "true",
-         purchaseOrder:  saleData,
+         purchaseOrder: saleData,
       };
       console.log("data", purchaseReturnData);
       dispatch(addPurchaseReturn(purchaseReturnData));
@@ -196,8 +199,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
       let obj = {
          phoneNumber: currentCustomerData?.phoneNumber || "",
          balance: currentCustomerData?.openingBalance || "",
-         stateOfSupply:currentCustomerData?.state || "",
-
+         stateOfSupply: currentCustomerData?.state || "",
       };
       setInvoiceData((prev) => {
          return { ...prev, ...obj };
@@ -240,14 +242,15 @@ const Addpurchaseitem = ({ setOpenForm }) => {
    const handleMenuItemClick = (index, itemDetail) => {
       let currSaleItem = {
          ...invoiceItems[index],
-
          itemName: itemDetail?._id,
          mainName: itemDetail?.itemName,
          taxPersant: itemDetail?.taxRate.split("%")[0] || "",
-         qty: itemDetail?.stock?.openingQuantity || 0,
+         qty: Number(itemDetail?.stock?.openingQuantity) || 0,
          priceUnit: itemDetail?.stock?.atPrice || 0,
          unit: itemDetail?.seleteUnit?.baseUnit || "",
          hsnCode: itemDetail?.itemHsn || "",
+         itemCode: itemDetail?.itemCode || "",
+         category: itemDetail?.category || "",
       };
       let newSaleData = invoiceItems.map((ite, ind) =>
          ind == index ? currSaleItem : ite
@@ -275,7 +278,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
       e.stopPropagation();
       let newRowData = {
          id: 1,
-         category: "65c5cfc509b34ca8a0187497",
+         category: "",
          itemName: "",
          itemCode: "",
          hsnCode: "",
@@ -431,6 +434,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                   <div>
                      <p>State of supply</p>
                      <select
+                        value={invoiceData?.stateOfSupply}
                         name="stateOfSupply"
                         id=""
                         className={css.invoiceDateSelectInp}

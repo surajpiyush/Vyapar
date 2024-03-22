@@ -14,7 +14,10 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { AiFillFileAdd as AddDecriptionIcon } from "react-icons/ai";
-import { BiSolidCameraPlus as AddCameraIcon, BiSolidCheckboxChecked as CheckedBox } from "react-icons/bi";
+import {
+   BiSolidCameraPlus as AddCameraIcon,
+   BiSolidCheckboxChecked as CheckedBox,
+} from "react-icons/bi";
 import { FiPlusCircle as PlusIcon } from "react-icons/fi";
 import { HiMiniDocumentText as AddDocumentIcon } from "react-icons/hi2";
 import { ImCheckboxUnchecked as EmptyCheckedBox } from "react-icons/im";
@@ -63,7 +66,7 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
 
    const [invoiceItems, setInvoiceItems] = useState([
       {
-         category: "65c5cfc509b34ca8a0187497",
+         category: "",
          itemName: "",
          itemCode: "",
          hsnCode: "",
@@ -239,13 +242,15 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
          sale: saleData,
       };
       console.log("Purchase Data", purchaseBillData);
-      dispatch(
-         addPurchaseBill(purchaseBillData, () => {
-            // Success callback - Dispatch action to fetch updated data
-            dispatch(getPurchaseBill({ date }));
-         })
-      );
-      setOpenForm(false);
+      addPurchaseBill(dispatch, purchaseBillData, setOpenForm, toast);
+
+      // dispatch(
+      //    addPurchaseBill(purchaseBillData, () => {
+      //       // Success callback - Dispatch action to fetch updated data
+      //       dispatch(getPurchaseBill({ date }));
+      //    })
+      // );
+      // setOpenForm(false);
    };
 
    // for fetching all parties list on form mount
@@ -267,8 +272,7 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
          gstNo: currentCustomerData?.gstNo || "",
          phoneNumber: Number(currentCustomerData?.phoneNumber) || "",
          balance: currentCustomerData?.openingBalance || "",
-         stateOfSupply:currentCustomerData?.state || "",
-         
+         stateOfSupply: currentCustomerData?.state || "",
       };
       setInvoiceData((prev) => {
          return { ...prev, ...obj };
@@ -319,9 +323,9 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
          unit: itemDetail?.seleteUnit?.baseUnit || "",
          hsnCode: itemDetail?.itemHsn || "",
          itemCode: itemDetail?.itemCode || "",
-         category:itemDetail?.category || ""
+         category: itemDetail?.category || "",
       };
-      // console.log(itemDetail);   
+      // console.log(itemDetail);
       let newSaleData = invoiceItems.map((ite, ind) =>
          ind == index ? currSaleItem : ite
       );
@@ -500,25 +504,27 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
                      />
                   </div>
                   <br />
-                  <div className={css.inputDiv}>
-                     <label
-                        htmlFor="PO No"
-                        className={
-                           invoiceData.partyName
-                              ? css.activeLabel
-                              : css.inactiveLabel
-                        }
-                     >
-                        E-Way Bill
-                     </label>
-                     <input
-                        // required
-                        type="text"
-                        name="eWayBill"
-                        onChange={(e) => handleInputChange(e)}
-                        className={css.input}
-                     />
-                  </div>
+                  {invoiceData.total > 50000 && (
+                     <div className={css.inputDiv}>
+                        <label
+                           htmlFor="PO No"
+                           className={
+                              invoiceData.partyName
+                                 ? css.activeLabel
+                                 : css.inactiveLabel
+                           }
+                        >
+                           E-Way Bill
+                        </label>
+                        <input
+                           // required
+                           type="text"
+                           name="eWayBill"
+                           onChange={(e) => handleInputChange(e)}
+                           className={css.input}
+                        />
+                     </div>
+                  )}
                </div>
 
                <div className={css.rightSideCont}>
