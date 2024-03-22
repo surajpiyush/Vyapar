@@ -6,8 +6,7 @@ import { useState } from "react";
 import { useToast } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import SelectableList from "./modal";
-import SelectUnitButton from "./modal";
+
 
 export default function ItemsForm({ closeForm, handleSettingClick }) {
    const toast = useToast();

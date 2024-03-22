@@ -102,19 +102,23 @@ const GSTRHeader = ({
                   [tableData.length, "", tableData.length],
                   [],
                   [
-                     "GSTIN/UIN of Recipient",
-                     "Receiver Name",
+                     "STATUS",
                      "Invoice Number",
                      "Invoice date",
-                     "Invoice Value",
                      "Place Of Supply",
-                     "Reverse Charge",
-                     "Applicable % of Tax Rate",
+                     "Receiver Name",
+                     "GSTIN/UIN of Recipient",
                      "Invoice Type",
-                     "E-Commerce GSTIN",
+                     "PAYMENT TYPE",
+                     "Invoice Value",
+                     "Remaining Amount",
                      "Rate",
                      "Taxable Value",
                      "Cess Amount",
+
+                     "Reverse Charge",
+                     "Applicable % of Tax Rate",
+                     // "E-Commerce GSTIN",
                   ],
 
                   ...filteredData,
@@ -276,7 +280,7 @@ const GSTRHeader = ({
                XLSX.utils.book_append_sheet(workbook, hsn, "hsn");
                XLSX.utils.book_append_sheet(workbook, docs, "docs");
 
-               XLSX.writeFile(workbook, "data.xlsx");
+               XLSX.writeFile(workbook, `GSTR_${startDate}_${endDate}_${new Date().getHours()}.xlsx`);
 
                setLoading(false);
             } catch (error) {
@@ -341,6 +345,7 @@ const GSTRHeader = ({
             </div>
             <div
                className="sale-dashboard-icon"
+              
                onClick={() => saveTableData("XLSX")}
             >
                <BsFiletypeXlsx />

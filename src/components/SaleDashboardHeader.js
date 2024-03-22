@@ -269,7 +269,7 @@ const SaleDashboardHeader = ({
                XLSX.utils.book_append_sheet(workbook, hsn, "hsn");
                XLSX.utils.book_append_sheet(workbook, docs, "docs");
 
-               XLSX.writeFile(workbook, "data.xlsx");
+               XLSX.writeFile(workbook, `GR0001${startDate}_${endDate}.xlsx`);
 
                setLoading(false);
             } catch (error) {

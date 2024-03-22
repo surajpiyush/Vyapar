@@ -57,6 +57,24 @@ const OrderForm = ({ setOpenForm, setToggleSetting }) => {
    const [showItemForm, setShowAddItemsForm] = useState(false);
    const [balanceAmount, setBalanceAmount] = useState("");
 
+   
+   function generateOrderNumber() {
+      const currentDate = new Date();
+      const previousYear = (currentDate.getFullYear() - 1).toString().slice(-2);
+      const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+      const monthIndex = currentDate.getMonth();
+      const month = monthNames[monthIndex];
+      const hours = currentDate.getHours();
+      const minutes = currentDate.getMinutes();
+      const date = currentDate.getDate()
+      const sec = currentDate.getSeconds()
+  
+      // Format the invoice number
+      const orderNumber = `${date}${hours}${minutes}${sec}/${month}/${previousYear}-${Number(previousYear)+1}`;
+  
+      return orderNumber;
+  }
+
    const [tableRowsArr, setTableRowsArr] = useState([
       {
          itemName: "",
@@ -78,11 +96,7 @@ const OrderForm = ({ setOpenForm, setToggleSetting }) => {
       billingName: "",
       phoneNumber: "",
       billingAddress: "",
-      orderNo: `${new Date()
-         .toLocaleString("default", { month: "short" })
-         .toUpperCase()}${new Date().getTime()}${Math.floor(
-         Math.random() * 900
-      )}`,
+      orderNo: generateOrderNumber(),
       orderDate: new Date().toISOString().split("T")[0],
       dueDate: new Date().toISOString().split("T")[0],
       stateOfSupply: "",

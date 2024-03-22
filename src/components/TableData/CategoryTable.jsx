@@ -153,7 +153,8 @@ export default function ProductsTable({ func }) {
                         </tr>
                      </thead>
                      <tbody>
-                        {!loadingGetSelectedItemData &&
+                     {/* whenevr you complet this just remove 1==2 it was just for temporay */}
+                        { 1==2 &&!loadingGetSelectedItemData && 
                         selectedItemTransactionData?.purchaseBill ? (
                            Object.keys(selectedItemTransactionData).map(
                               (key, index) =>

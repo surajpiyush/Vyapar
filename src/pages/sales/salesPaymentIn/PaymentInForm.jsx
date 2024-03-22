@@ -35,13 +35,27 @@ const PaymentInForm = ({ closeForm, setToggleSetting }) => {
   const [currentCustomerData, setCurrentCustomerData] = useState({});
   const [paymentArr, setPaymentArr] = useState([{ types: "Cash", amount: 0 }]);
 
+  function generateReciptNumber() {
+    const currentDate = new Date();
+    const previousYear = (currentDate.getFullYear() - 1).toString().slice(-2);
+    const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+    const monthIndex = currentDate.getMonth();
+    const month = monthNames[monthIndex];
+    const hours = currentDate.getHours();
+    const minutes = currentDate.getMinutes();
+    const date = currentDate.getDate()
+    const sec = currentDate.getSeconds()
+
+    // Format the invoice number
+    const invoiceNumber = `${date}${hours}${minutes}${sec}/${month}/${previousYear}-${Number(previousYear)+1}`;
+
+    return invoiceNumber;
+}
   const [paymentData, setPaymentData] = useState({
     type: "Payment-In",
     status: "Received",
     party: "",
-    receiptNo: `${new Date()
-      .toLocaleString("default", { month: "short" })
-      .toUpperCase()}${new Date().getTime()}${Math.floor(Math.random() * 700)}`,
+    receiptNo: generateReciptNumber(),
     date: new Date().toISOString().split("T")[0],
     addDescription: "",
     recived: 0,

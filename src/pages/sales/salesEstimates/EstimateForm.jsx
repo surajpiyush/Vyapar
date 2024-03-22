@@ -39,6 +39,24 @@ const EstimateForm = ({ setOpenForm, setToggleSetting }) => {
    const [currentCustomerData, setCurrentCustomerData] = useState({});
    const [topMarginAddDescInp, setTopMarginAddDescInp] = useState("0px");
 
+   
+   function generateInvoiceNumber() {
+      const currentDate = new Date();
+      const previousYear = (currentDate.getFullYear() - 1).toString().slice(-2);
+      const monthNames = ['jan', 'fev', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+      const monthIndex = currentDate.getMonth();
+      const month = monthNames[monthIndex];
+      const hours = currentDate.getHours();
+      const minutes = currentDate.getMinutes();
+      const date = currentDate.getDate()
+      const sec = currentDate.getSeconds()
+  
+      // Format the invoice number
+      const invoiceNumber = `${date}.${hours}.${minutes}.${sec}/${month}/${previousYear}${Number(previousYear)+1}`;
+  
+      return invoiceNumber;
+  }
+
    const [tableRowsArr, setTableRowsArr] = useState([
       {
          itemName: "",
@@ -57,7 +75,7 @@ const EstimateForm = ({ setOpenForm, setToggleSetting }) => {
       type: "Estimate",
       status: "Pending",
       customerName: "",
-      refNo: estimatesList.length+1,
+      refNo: generateInvoiceNumber(),
       invoiceDate: new Date().toISOString().split("T")[0],
       stateOfSupply: "",
       priceUnitWithTax: false,
