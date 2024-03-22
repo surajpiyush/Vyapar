@@ -1,7 +1,7 @@
 // reducer.js
 import { UPDATE_CHECKBOX, UPDATE_SELECT_SETTING } from "./actionTypes";
 
-const initialState = {
+const transactionInitialState = {
    transactionsBox: {
       "Invoice/Bill Number": false,
       "Add Time on Transactions": false,
@@ -46,29 +46,91 @@ const initialState = {
    },
 };
 
+const itemInitialState = {
+   item: {
+      // Item settings
+      "Enable Barcode": false,
+      "What Do You Sell": "",
+      "BarCode Scan": false,
+      "Stock Maintenance": false,
+      Manufacturing: false,
+      "Show Low Stock Dialog": false,
+      "Items Unit": false,
+      "Default Unit": false,
+      "Item Category": false,
+      "Party Wise Item Rate": false,
+      Description: false,
+      "Item Wise Tax": false,
+      "Item Wise Discount": false,
+      "Update Sale Price From Transaction": false,
+      Quantity: true,
+      WholesalePrice: false,
+   },
+   additionalItemFiels: {
+      // Additional item fields
+      mrp: "",
+      serialNoTracking: false,
+      serialNoValue: "",
+      batchTracking: false,
+      batchNoValue: "",
+      expDate: "",
+      mfgDate: "",
+      modelNo: "",
+      size: "",
+   },
+};
+
+const partyInitialState = {
+   // Define initial state for product page here
+};
+
+const gstTaxInitialState = {
+   gst: {
+      "Enable GST": true,
+      "Enable HSN/SAC Code": true,
+      "Additional Cess On Item": false,
+      "Reverse Charge": false,
+      "Enable Place Of Supply": false,
+      "Composite Scheme": false,
+      "Enable TCS": false,
+   },
+};
+
+const initialState = {
+   transaction: transactionInitialState,
+   gst: gstTaxInitialState,
+   item: itemInitialState,
+   party: partyInitialState,
+};
+
 export const reducer = (state = initialState, action) => {
    switch (action.type) {
       case UPDATE_CHECKBOX: {
-         const { section, name, value } = action.payload;
+         // here page is transaction
+         const { page, section, name, value } = action.payload;
          return {
             ...state,
-            [section]: {
-               ...state[section],
-               [name]: value,
+            [page]: {
+               ...state[page],
+               [section]: {
+                  ...state[page][section],
+                  [name]: value,
+               },
             },
          };
-         break;
       }
       case UPDATE_SELECT_SETTING: {
-         const { section, key, value } = action.payload;
+         const { page, section, key, value } = action.payload;
          return {
             ...state,
-            [section]: {
-               ...state[section],
-               [key]: value,
+            [page]: {
+               ...state[page],
+               [section]: {
+                  ...state[page][section],
+                  [key]: value,
+               },
             },
          };
-         break;
       }
       default:
          return state;

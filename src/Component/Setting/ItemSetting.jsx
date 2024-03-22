@@ -1,9 +1,19 @@
 import css from "./ItemSetting.module.css";
-
-import { useNavigate } from "react-router-dom";
-
+import { useDispatch, useSelector } from "react-redux";
+import {
+   updateCheckbox,
+   updateSelectSetting,
+} from "../../Redux/setting/action";
 const ItemSetting = () => {
-   const navigate = useNavigate();
+   const dispatch = useDispatch();
+   const store = useSelector((state) => state.SettingReducer);
+   // console.log(store)
+   const page = "item";
+   // Application
+   const handleToggleTransactionsBox = (name) => {
+      dispatch(updateCheckbox(page, "item", name, !store.item.item[name]));
+   };
+
    return (
       <div>
          <section id={css.interface}>
@@ -11,210 +21,24 @@ const ItemSetting = () => {
                <div>
                   <div className={css.container}>
                      <div className={css.section}>
-                        <h2>Item Settings</h2>
-
-                        <div class={css.tab}>
-                           <div class={css.checkboxContainer}>
-                              <input
-                                 type="checkbox"
-                                 class="checkbox"
-                                 className={css.checkbox}
-                              />
-                              <label for="checkbox" className={css.label}>
-                                 Enable Barcode
-                              </label>
-                           </div>
-                        </div>
-
-                        <div class={css.tab}>
-                           <div class={css.checkboxContainer}>
-                              <label
-                                 for="checkbox"
-                                 style={{ fontSize: "1.25rem" }}
-                              >
-                                 What do You Sell?
-                              </label>
-                              <select>
-                                 <option value="">Product/Service</option>
-                                 <option value="Service">Service</option>
-                                 <option value="Product">Product</option>
-                              </select>
-                           </div>
-                        </div>
-
-                        <div class={css.tab}>
-                           <div class={css.checkboxContainer}>
-                              <input
-                                 type="checkbox"
-                                 class="checkbox"
-                                 className={css.checkbox}
-                              />
-                              <label for="checkbox" className={css.label}>
-                                 Barcode Scan
-                              </label>
-                           </div>
-                        </div>
-                        <div class={css.tab}>
-                           <div class={css.checkboxContainer}>
-                              <input
-                                 type="checkbox"
-                                 class="checkbox"
-                                 className={css.checkbox}
-                              />
-                              <label for="checkbox" className={css.label}>
-                                 Stock Maintenance
-                              </label>
-                           </div>
-                        </div>
-
-                        <div class={css.tab}>
-                           <div class={css.checkboxContainer}>
-                              <input
-                                 type="checkbox"
-                                 class="checkbox"
-                                 className={css.checkbox}
-                              />
-                              <label for="checkbox" className={css.label}>
-                                 Manufacturing
-                              </label>
-                           </div>
-                        </div>
-                        <div class={css.tab}>
-                           <div class={css.checkboxContainer}>
-                              <input
-                                 type="checkbox"
-                                 class="checkbox"
-                                 className={css.checkbox}
-                              />
-                              <label for="checkbox" className={css.label}>
-                                 Show Low Stock Dialog
-                              </label>
-                           </div>
-                        </div>
-                        <div class={css.tab}>
-                           <div class={css.checkboxContainer}>
-                              <input
-                                 type="checkbox"
-                                 class="checkbox"
-                                 className={css.checkbox}
-                              />
-                              <label for="checkbox" className={css.label}>
-                                 Items Unit
-                              </label>
-                           </div>
-                        </div>
-                        <div class={css.tab}>
-                           <div class={css.checkboxContainer}>
-                              <input
-                                 type="checkbox"
-                                 class="checkbox"
-                                 className={css.checkbox}
-                              />
-                              <label for="checkbox" className={css.label}>
-                                 Default Unit
-                              </label>
-                           </div>
-                        </div>
-                        <div class={css.tab}>
-                           <div class={css.checkboxContainer}>
-                              <input
-                                 type="checkbox"
-                                 class="checkbox"
-                                 className={css.checkbox}
-                              />
-                              <label for="checkbox" className={css.label}>
-                                 Item Category
-                              </label>
-                           </div>
-                        </div>
-                        <div class={css.tab}>
-                           <div class={css.checkboxContainer}>
-                              <input
-                                 type="checkbox"
-                                 class="checkbox"
-                                 className={css.checkbox}
-                              />
-                              <label for="checkbox" className={css.label}>
-                                 Party Wise Item Rate
-                              </label>
-                           </div>
-                        </div>
-                        <div class={css.tab}>
-                           <div class={css.checkboxContainer}>
-                              <input
-                                 type="checkbox"
-                                 class="checkbox"
-                                 className={css.checkbox}
-                              />
-                              <label for="checkbox" className={css.label}>
-                                 Description
-                              </label>
-                           </div>
-                        </div>
-                        <div class={css.tab}>
-                           <div class={css.checkboxContainer}>
-                              <input
-                                 type="checkbox"
-                                 class="checkbox"
-                                 className={css.checkbox}
-                              />
-                              <label for="checkbox" className={css.label}>
-                                 Item wise Tax
-                              </label>
-                           </div>
-                        </div>
-                        <div class={css.tab}>
-                           <div class={css.checkboxContainer}>
-                              <input
-                                 type="checkbox"
-                                 class="checkbox"
-                                 className={css.checkbox}
-                              />
-                              <label for="checkbox" className={css.label}>
-                                 Item wise Discount
-                              </label>
-                           </div>
-                        </div>
-                        <div class={css.tab}>
-                           <div class={css.checkboxContainer}>
-                              <input
-                                 type="checkbox"
-                                 class="checkbox"
-                                 className={css.checkbox}
-                              />
-                              <label for="checkbox" className={css.label}>
-                                 Update Sale Price from Transaction
-                              </label>
-                           </div>
-                        </div>
-                        <div class={css.tab}>
-                           <div class={css.checkboxContainer}>
-                              <label for="checkbox" className={css.label}>
-                                 Quantity
-                              </label>
-                              <input
-                                 type="number"
-                                 placeholder="2"
-                                 style={{
-                                    width: "20px",
-                                    border: "1px solid black",
-                                    padding: "auto",
-                                 }}
-                              />
-                           </div>
-                        </div>
-                        <div class={css.tab}>
-                           <div class={css.checkboxContainer}>
-                              <input
-                                 type="checkbox"
-                                 class="checkbox"
-                                 className={css.checkbox}
-                              />
-                              <label for="checkbox" className={css.label}>
-                                 Wholesale Price
-                              </label>
-                           </div>
-                        </div>
+                        <h2>Item Setting</h2>
+                        {Object.entries(store.item.item).map(
+                           ([name, checked]) => (
+                              <div key={name} className={css.tab}>
+                                 <div className={css.checkboxContainer}>
+                                    <input
+                                       type="checkbox"
+                                       className={css.checkbox}
+                                       checked={checked}
+                                       onChange={() =>
+                                          handleToggleTransactionsBox(name)
+                                       }
+                                    />
+                                    <label className={css.label}>{name}</label>
+                                 </div>
+                              </div>
+                           )
+                        )}
                      </div>
 
                      {/* Item Table */}
@@ -267,7 +91,6 @@ const ItemSetting = () => {
                                     border: "1px solid gray",
                                  }}
                                  className={css.checkbox}
-
                               />
                            </div>
                         </div>

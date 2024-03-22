@@ -9,30 +9,31 @@ import {
 const Transaction = () => {
    const dispatch = useDispatch();
    const store = useSelector((state) => state.SettingReducer);
-
+   // console.log(store)
+const page = "transaction"
    // Application
    const handleToggleTransactionsBox = (name) => {
       dispatch(
-         updateCheckbox("transactionsBox", name, !store.transactionsBox[name])
+         updateCheckbox(page,"transactionsBox", name, !store.transaction.transactionsBox[name])
       );
    };
 
    const handleToggleMoreTransactionFeatures = (name) => {
       dispatch(
-         updateCheckbox(
+         updateCheckbox(page,
             "moreTransactionFeatures",
             name,
-            !store.moreTransactionFeatures[name]
+            !store.transaction.moreTransactionFeatures[name]
          )
       );
    };
 
    const handleToggleItemTableCheckbox = (name) => {
       dispatch(
-         updateCheckbox(
+         updateCheckbox(page,
             "itemTableCheckboxes",
             name,
-            !store.itemTableCheckboxes[name]
+            !store.transaction.itemTableCheckboxes[name]
          )
       );
    };
@@ -40,21 +41,21 @@ const Transaction = () => {
    // Taxes and Discount
    const handleToggleTaxDiscountTotal = (name) => {
       dispatch(
-         updateCheckbox(
+         updateCheckbox(page,
             "taxesDiscountTotalsState",
             name,
-            !store.taxesDiscountTotalsState[name]
+            !store.transaction.taxesDiscountTotalsState[name]
          )
       );
    };
 
    const handleUpdateTaxDiscountTotalSelect = (key, value) => {
-      dispatch(updateSelectSetting("taxesDiscountTotalsState", key, value));
+      dispatch(updateSelectSetting(page,"taxesDiscountTotalsState", key, value));
    };
 
    // Transaction Prefixes
    const handleUpdateTransactionPrefixesSelect = (key, value) => {
-      dispatch(updateSelectSetting("transactionPrefixesState", key, value));
+      dispatch(updateSelectSetting(page,"transactionPrefixesState", key, value));
    };
 
    return (
@@ -66,7 +67,7 @@ const Transaction = () => {
                      {/* Transaction */}
                      <div className={css.section}>
                         <h2>Application</h2>
-                        {Object.entries(store.transactionsBox).map(
+                        {Object.entries(store.transaction.transactionsBox).map(
                            ([name, checked]) => (
                               <div key={name} className={css.tab}>
                                  <div className={css.checkboxContainer}>
@@ -87,7 +88,7 @@ const Transaction = () => {
                      {/* Table Data */}
                      <div className={css.section}>
                         <h2>Item Table</h2>
-                        {Object.entries(store.itemTableCheckboxes).map(
+                        {Object.entries(store.transaction.itemTableCheckboxes).map(
                            ([name, checked]) => (
                               <div key={name} className={css.tab}>
                                  <div className={css.checkboxContainer}>
@@ -108,7 +109,7 @@ const Transaction = () => {
                      {/* Taxes and discount */}
                      <div className={css.section}>
                         <h2>Taxes, Discount & Totals</h2>
-                        {Object.entries(store.taxesDiscountTotalsState).map(
+                        {Object.entries(store.transaction.taxesDiscountTotalsState).map(
                            ([name, checked]) => (
                               <div key={name} className={css.tab}>
                                  <div className={css.checkboxContainer}>
@@ -132,7 +133,7 @@ const Transaction = () => {
                                  name="nearest"
                                  style={{ display: "inline-block" }}
                                  value={
-                                    store.taxesDiscountTotalsState
+                                    store.transaction.taxesDiscountTotalsState
                                        .nearestSelectValue
                                  }
                                  onChange={(event) =>
@@ -158,7 +159,7 @@ const Transaction = () => {
                                  name="to"
                                  style={{ display: "inline-block" }}
                                  value={
-                                    store.taxesDiscountTotalsState.toSelectValue
+                                    store.transaction.taxesDiscountTotalsState.toSelectValue
                                  }
                                  onChange={(event) =>
                                     handleUpdateTaxDiscountTotalSelect(
@@ -179,7 +180,7 @@ const Transaction = () => {
                      {/* More Transaction Features */}
                      <div className={css.section}>
                         <h2>More Transaction Features</h2>
-                        {Object.entries(store.moreTransactionFeatures).map(
+                        {Object.entries(store.transaction.moreTransactionFeatures).map(
                            ([name, checked]) => (
                               <div key={name} className={css.tab}>
                                  <div className={css.checkboxContainer}>
@@ -208,7 +209,7 @@ const Transaction = () => {
                            <select
                               id={css.cars}
                               name="cars"
-                              value={store.transactionPrefixesState.firmSelectValue}
+                              value={store.transaction.transactionPrefixesState.firmSelectValue}
                               onChange={(event) =>
                                 handleUpdateTransactionPrefixesSelect(
                                     event,
@@ -230,7 +231,7 @@ const Transaction = () => {
                                  id={css.cars}
                                  name="cars"
                                  value={
-                                    store.transactionPrefixesState.saleSelectValue
+                                    store.transaction.transactionPrefixesState.saleSelectValue
                                  }
                                  onChange={(event) =>
                                   handleUpdateTransactionPrefixesSelect(
@@ -250,7 +251,7 @@ const Transaction = () => {
                                  id={css.cars}
                                  name="cars"
                                  value={
-                                    store.transactionPrefixesState.creditNoteSelectValue
+                                    store.transaction.transactionPrefixesState.creditNoteSelectValue
                                  }
                                  onChange={(event) =>
                                   handleUpdateTransactionPrefixesSelect(
@@ -268,7 +269,7 @@ const Transaction = () => {
                                  id={css.cars}
                                  name="cars"
                                  value={
-                                    store.transactionPrefixesState.saleOrderSelectValue
+                                    store.transaction.transactionPrefixesState.saleOrderSelectValue
                                  }
                                  onChange={(event) =>
                                   handleUpdateTransactionPrefixesSelect(
@@ -288,7 +289,7 @@ const Transaction = () => {
                                  id={css.cars}
                                  name="cars"
                                  value={
-                                    store.transactionPrefixesState.purchaseOrderSelectValue
+                                    store.transaction.transactionPrefixesState.purchaseOrderSelectValue
                                  }
                                  onChange={(event) =>
                                   handleUpdateTransactionPrefixesSelect(
@@ -306,7 +307,7 @@ const Transaction = () => {
                                  id={css.cars}
                                  name="cars"
                                  value={
-                                    store.transactionPrefixesState.estimateSelectValue
+                                    store.transaction.transactionPrefixesState.estimateSelectValue
                                  }
                                  onChange={(event) =>
                                   handleUpdateTransactionPrefixesSelect(
@@ -326,7 +327,7 @@ const Transaction = () => {
                                  id={css.cars}
                                  name="cars"
                                  value={
-                                    store.transactionPrefixesState.deliveryChallanSelectValue
+                                    store.transaction.transactionPrefixesState.deliveryChallanSelectValue
                                  }
                                  onChange={(event) =>
                                   handleUpdateTransactionPrefixesSelect(
@@ -344,7 +345,7 @@ const Transaction = () => {
                                  id={css.cars}
                                  name="cars"
                                  value={
-                                    store.transactionPrefixesState.paymentInSelectValue
+                                    store.transaction.transactionPrefixesState.paymentInSelectValue
                                  }
                                  onChange={(event) =>
                                   handleUpdateTransactionPrefixesSelect(
