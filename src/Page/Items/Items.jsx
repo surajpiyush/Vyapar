@@ -135,13 +135,13 @@ export default function Items() {
           Category
         </div>
         <div
-               className={css.navOptions}
-               onClick={() => {
-                  openSection(3);
-               }}
-            >
-               Unit
-            </div>
+          className={css.navOptions}
+          onClick={() => {
+            openSection(3);
+          }}
+        >
+          Unit
+        </div>
       </div>
 
       <div>
@@ -160,7 +160,7 @@ export default function Items() {
               )}
             </div>
           )}
-{/*           
+          {/*           
                {secondSec && (
                   <div>
                      {!(data.length > 0) ? (
