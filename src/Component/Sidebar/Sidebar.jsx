@@ -1,6 +1,8 @@
 import css from "./Sidebar.module.css";
 import Logo from "../../assets/Shop.svg";
 import Setting from "../../Component/Setting/Setting";
+import AddPartyForm from "../../Page/Parties/AddPartyForm";
+import ItemsForm from "../../components/addForm/ItemsForm";
 import { USER_DETAILS } from "../../Redux/business/actionTypes";
 
 import { useSelector } from "react-redux";
@@ -32,8 +34,6 @@ import {
   IoWallet as ExpensesIcon,
   IoStorefront as MyOnlineBankIcon,
 } from "react-icons/io5";
-import AddPartyForm from "../../Page/parties/AddPartyForm";
-import ItemsForm from "../../components/addForm/ItemsForm";
 
 const Sidebar = ({ setShowEditFirm }) => {
   const location = useLocation();
@@ -41,15 +41,15 @@ const Sidebar = ({ setShowEditFirm }) => {
   const toggleUpdate = useSelector(
     (state) => state.BusinessReducer.toggleUpdate
   );
-  const [activeNav, setActiveNav] = useState(location.pathname || "/");
   const [profileData, setProfileData] = useState(null);
-  const [openNestedLinks, setOpenNestedLinks] = useState(false);
-  const [showAddPartyForm, setShowAddShowPartyForm] = useState(false);
   const [openSettings, setOpenSettings] = useState(false);
+  const [openNestedLinks, setOpenNestedLinks] = useState(false);
+  const [showAddItemsForm, setShowAddItemsForm] = useState(false);
+  const [showAddPartyForm, setShowAddShowPartyForm] = useState(false);
+  const [activeNav, setActiveNav] = useState(location.pathname || "/");
   const [clickedNavItem, setClickedNavItemName] = useState(
     findNameByPathname(SidebarItems, location.pathname)
   );
-  const [showAddItemsForm, setShowAddItemsForm] = useState(false);
 
   // To set the current firm data
   useEffect(() => {
