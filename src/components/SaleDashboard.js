@@ -23,11 +23,15 @@ const SaleDashboard = ({
       let paid = 0;
       let unpaid = 0;
       data?.forEach((item) => {
-         paid += (item.amount || 0) - (item.balanceDue || 0);
-         unpaid += item.balanceDue || 0;
+
+  
+         if (item && item.amount && item.balanceDue) {
+            paid += Number(item.amount || 0) - Number(item.balanceDue || 0);
+            unpaid += Number(item.balanceDue || 0);
+         }
       });
-      setPaidAmount(paid);
-      setUnpaidAmount(unpaid);
+      setPaidAmount(paid.toFixed(2));
+      setUnpaidAmount(unpaid.toFixed(2));
    };
 
    // Call calculateAmounts when data, startDate, or endDate change
@@ -60,12 +64,12 @@ const SaleDashboard = ({
             <FaEquals />
             <div>
                <span>Total</span>
-               <h5>₹{paidAmount + unpaidAmount}</h5>
-            </div>
+               <h5>₹{Number(paidAmount) + Number(unpaidAmount)}</h5>
+            </div>   
          </div>
 
          {/* Search Bar And Button */}
-     
+         {/* Include ReportSearchBar and ReportBtn components here if needed */}
 
          {/* Table */}
          <PurchaseTableModel tableHeader={tableHeader} data={data} />

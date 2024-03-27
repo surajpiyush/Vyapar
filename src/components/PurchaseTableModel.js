@@ -1,7 +1,7 @@
 import { PrinterIcon, ShareIcon } from "../Component/utils/reactIcons";
 
 const PurchaseTableModel = ({ tableHeader, data }) => {
-   console.log(data);
+   console.log("Data:", data);
 
    return (
       <div>
@@ -17,38 +17,37 @@ const PurchaseTableModel = ({ tableHeader, data }) => {
                </tr>
             </thead>
             <tbody>
-               {data && data.length > 0 ? (
-                  data?.map((item, index) => (
-                     
-                     <tr>
+               {Array.isArray(data) && data.length > 0 ? (
+                  data.map((item, index) => (
+                     <tr key={item._id || index}>
                         <td>{index + 1}</td>
                         <td>
-                           {new Date(item?.invoiceDate).toLocaleDateString(
-                              "en-IN",
-                              {
-                                 day: "2-digit",
-                                 month: "2-digit",
-                                 year: "numeric",
-                              }
-                           )}
+                           {item.invoiceDate
+                              ? new Date(item.invoiceDate).toLocaleDateString(
+                                   "en-GB"
+                                )
+                              : "-"}
                         </td>
-                        <td>{item?.invoiceNumber ? item.invoiceNumber : "-"}</td>
-                        <td>{item?.partyName}</td>
-                        <td>{item?.transactionType}</td>
+
+                        <td>{item.invoiceNumber || "-"}</td>
+                        <td>{item.partyName || "-"}</td>
+                        <td>{item.transactionType || "-"}</td>
                         <td>
-                           {item?.paymentType[0]?.types || item?.paymentType[0]}
+                           {(item.paymentType && item.paymentType[0]?.types) ||
+                              "-"}
                         </td>
-                        <td>{item?.amount}</td>
-                        {/* <td>{item.recived}</td> */}
-                        <td>{item?.balanceDue}</td>
+                        <td>{item.amount || "-"}</td>
                         <td>
-                           {item?.dueDate
+                           {item.balanceDue > 0 && (item.balanceDue || "-")}
+                        </td>
+                        <td>
+                           {item.dueDate
                               ? new Date(item.dueDate).toLocaleDateString(
                                    "en-GB"
                                 )
                               : "-"}
                         </td>
-                        <td>{item?.status}</td>
+                        <td>{item.status || "-"}</td>
                         <td>
                            <PrinterIcon
                               onClick={() => {

@@ -64,7 +64,7 @@ export const reducer = (
       return {
         ...state,
         isLoading: false,
-        purchaseReportData: payload.data,
+        purchaseReportData: payload.data || [],
       };
     }
 
@@ -72,7 +72,7 @@ export const reducer = (
       return {
         ...state,
         isLoading: false,
-        dayBookData: payload.data,
+        dayBookData: payload.data || [],
       };
     }
 
@@ -80,7 +80,7 @@ export const reducer = (
       return {
         ...state,
         isLoading: false,
-        allTransectionsData: payload.data,
+        allTransectionsData: payload.data || [],
       };
     }
 
