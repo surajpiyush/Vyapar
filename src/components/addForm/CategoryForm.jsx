@@ -1,6 +1,9 @@
+import css from "../../Page/Firm/EditFirm.module.css";
+// import "../../styles/Items.css";
 import React, { useState } from "react";
 import { addCategory } from "../../Redux/items/actions";
 import { useDispatch } from "react-redux";
+import { IoMdClose as CloseIcon } from "react-icons/io";
 import { useToast } from "@chakra-ui/react";
 
 export default function CategoryForm(Props) {
@@ -14,39 +17,49 @@ export default function CategoryForm(Props) {
 
    const handleSave = () => {
       // console.log(categoryName);
-      const data = {categoryName:categoryName}
+      const data = { categoryName: categoryName };
       addCategory(dispatch, data, closeForm, toast);
    };
 
    return (
-      <div>
-         <div className="unit-form">
-            <div className="d-between">
-               <div className="">
-                  <h3>Add Category</h3>
-               </div>
-               <div className="">
-                  <i className="fa fa-close" onClick={closeForm}></i>
+      <div onClick={() => closeForm()} className={css.Overlay}>
+         <div
+            onClick={(e) => e.stopPropagation()}
+            className={css.OuterEditProfile}
+         >
+            {/* Top Nav */}
+            <div className={css.topNavDiv}>
+               <h2>Add Category</h2>
+               <CloseIcon onClick={() => closeForm()} />
+            </div>
+
+            {/* FormInputs */}
+            <div className={css.actualFormContDiv}>
+               <div className={css.TopSectionInputOuter}>
+                  <div className={css.rightSideTopDivOuter}>
+                     
+                     <div>
+                        <label htmlFor="#">
+                           Category Name <span style={{ color: "red" }}>*</span>
+                        </label>
+                        <input
+                           onChange={(e)=>setCategoryName(e.target.value)}
+                           name="categoryName"
+                           type="text"
+                           placeholder="Category name"
+                        />
+                     </div>
+                  </div>
                </div>
             </div>
-            <hr />
-            <div className="" style={{ textAlign: "start" }}>
-               <input
-                  type="text"
-                  className="inp-field"
-                  placeholder="Enter Category"
-                  style={{ width: "93%" }}
-                  onChange={(e) => setCategoryName(e.target.value)}
-               />
-            </div>
-            <div className="">
+
+            {/* Footer */}
+            <div className={css.footerDivOuter}>
+             
                <button
-                  className="imp-party-btn"
-                  onClick={() => {
-                     handleSave();
-                  }}
-               >
-                  Create
+                  type="submit"
+                  onClick={handleSave}
+               >Save
                </button>
             </div>
          </div>

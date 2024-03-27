@@ -1,10 +1,15 @@
+import { useToast } from "@chakra-ui/react";
 import React, { useState } from "react";
+import { addUnit } from "../../Redux/items/actions";
+import { useDispatch } from "react-redux";
 
 export default function UnitForm(Props) {
   const [data, setData] = useState({
-    unitShortName: "",
-    unitFullName: "",
+    shortName: "",
+    unitName: "",
   });
+  const toast = useToast();
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,6 +22,12 @@ export default function UnitForm(Props) {
     console.log("Working");
     Props.func(false);
   };
+
+  const handleSave = () => {
+    console.log("Add Unit Data:", data);
+    const info = {unitName:"disjfjdsf"}
+    addUnit(dispatch, data, closeForm, toast);
+ };
 
   return (
     <div>
@@ -36,7 +47,7 @@ export default function UnitForm(Props) {
             className="inp-field"
             placeholder="Unit Name"
             style={{ width: "93%" }}
-            name="unitFullName"
+            name="unitName"
             onChange={handleChange}
           />
           <input
@@ -44,7 +55,7 @@ export default function UnitForm(Props) {
             className="inp-field"
             placeholder="Short Name"
             style={{ width: "93%" }}
-            name="unitShortName"
+            name="shortName"
             onChange={handleChange}
           />
         </div>
@@ -53,7 +64,7 @@ export default function UnitForm(Props) {
           <button
             className="imp-party-btn"
             onClick={() => {
-              console.log(data);
+             handleSave()
             }}
           >
             Save

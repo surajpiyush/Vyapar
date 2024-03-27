@@ -134,14 +134,14 @@ export default function Items() {
         >
           Category
         </div>
-        {/* <div
+        <div
                className={css.navOptions}
                onClick={() => {
                   openSection(3);
                }}
             >
                Unit
-            </div> */}
+            </div>
       </div>
 
       <div>
@@ -160,7 +160,7 @@ export default function Items() {
               )}
             </div>
           )}
-          {/* 
+{/*           
                {secondSec && (
                   <div>
                      {!(data.length > 0) ? (
@@ -182,7 +182,7 @@ export default function Items() {
               {!category.length ? (
                 <FirstTimeFormToggle
                   img={party}
-                  onClick={() => setOpenForm(true)}
+                  onClick={() => openCategoryForm()}
                   BtnText="Add Your First Category"
                   MiddleText="Add Category you sell or purchase to manage your full Stock Inventory."
                 />
