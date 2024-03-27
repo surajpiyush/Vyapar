@@ -2,10 +2,21 @@
   background-color: var(--DeepOceanBlue);
   color: var(--pureWhite);
   min-height: 100%;
-  max-width: 300px;
-  width: 275px;
+  max-width: 232.5px;
+  min-width: 232.5px;
   display: flex;
   flex-direction: column;
+  position: relative;
+
+  ::-webkit-scrollbar-track {
+    display: none;
+  }
+  ::-webkit-scrollbar-thumb {
+    display: none;
+  }
+  ::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 /* Firm Details Css */
@@ -75,9 +86,88 @@
 
 /* Sidebar Options css */
 .optionsOuter {
-  flex-grow: 1;
+  font-family: var(--Rob);
   overflow: auto;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
+.navLinkOuter {
+}
+.mainNavLinkCss {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-left-width: 3.5px;
+  border-left-style: solid;
+  transition: all 0.25s ease;
+  padding: 10px;
+
+  div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    h3 {
+      margin: 0;
+      padding: 0;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+      font-weight: 400;
+    }
+    svg {
+      font-size: 18px;
+    }
+  }
+
+  > svg:nth-child(2) {
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.25s ease;
+  }
+}
+.childNavLinksOuterDiv {
+  display: flex;
+  flex-direction: column;
+  transition: all 0.25s ease;
+
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12.5px;
+    padding: 8px 10px 8px 40px;
+    transition: all 0.25s ease;
+    font-weight: 400;
+  }
+  a > svg {
+    font-size: 12px;
+  }
+}
+
+/*  */
+.navlinkMainItemDivOuter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.navlinkMainItemDivOuter > div:nth-of-type(1) {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  h5 {
+    margin: 0;
+    padding: 0;
+    font-size: 15px;
+    font-weight: 400;
+  }
+  svg {
+    font-size: 20px;
+  }
+}
+
 .activeSidebarOptionDiv {
   cursor: default;
   display: flex;

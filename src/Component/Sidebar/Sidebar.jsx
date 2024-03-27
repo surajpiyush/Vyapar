@@ -8,74 +8,78 @@ import { useEffect, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 // Icons
-import { BiSitemap } from "react-icons/bi";
-import { AiFillTool } from "react-icons/ai";
-import { GoHomeFill } from "react-icons/go";
-import { CiMoneyBill } from "react-icons/ci";
-import { HiMiniUsers } from "react-icons/hi2";
-import { FaPlus, FaWallet } from "react-icons/fa";
 import { FaPlus as PlusIcon } from "react-icons/fa6";
-import { IoMdSettings, IoIosArrowDown } from "react-icons/io";
-import { IoStatsChart, IoStorefrontSharp, IoCart } from "react-icons/io5";
+import { FaWhatsapp as WhatsAppIcon } from "react-icons/fa";
+import { AiFillTool as UtilitesIcon } from "react-icons/ai";
+import { BiSolidBank as CashBankIcon } from "react-icons/bi";
+import { BsBarChartFill as ReportsIcon } from "react-icons/bs";
 import {
-  MdCelebration,
-  MdOutlineWhatsapp,
-  MdSettingsBackupRestore,
-  MdOutlineArrowForwardIos,
+  IoMdHome as HomeIcon,
+  IoIosArrowDown as ArrowDownIcon,
+} from "react-icons/io";
+import {
+  MdPeopleAlt as PartiesIcon,
+  MdOutlineArrowForwardIos as RightArrowIcon,
+  MdOutlineSettingsBackupRestore as BackupRestoreIcon,
 } from "react-icons/md";
+import {
+  TbReport as SaleIcon,
+  TbDeviceRemote as QuickBillingIcon,
+  TbTriangleSquareCircleFilled as ItemsIcon,
+} from "react-icons/tb";
+import {
+  IoCart as PurchaseIcon,
+  IoWallet as ExpensesIcon,
+  IoStorefront as MyOnlineBankIcon,
+} from "react-icons/io5";
+import AddPartyForm from "../../Page/parties/AddPartyForm";
+import ItemsForm from "../../components/addForm/ItemsForm";
 
 const Sidebar = ({ setShowEditFirm }) => {
+  const location = useLocation();
   const navigate = useNavigate();
   const toggleUpdate = useSelector(
     (state) => state.BusinessReducer.toggleUpdate
   );
+  const [activeNav, setActiveNav] = useState(location.pathname || "/");
   const [profileData, setProfileData] = useState(null);
-  const [activeItems, setActiveItems] = useState("Home");
-  const [toggleSetting, setToggleSetting] = useState(false);
-  const [toggleNavItems, setToggleNavItems] = useState(false);
-  const [activeNestedItems, setActiveNestedItems] = useState(0);
+  const [openNestedLinks, setOpenNestedLinks] = useState(false);
+  const [showAddPartyForm, setShowAddShowPartyForm] = useState(false);
+  const [openSettings, setOpenSettings] = useState(false);
+  const [clickedNavItem, setClickedNavItemName] = useState(
+    findNameByPathname(SidebarItems, location.pathname)
+  );
+  const [showAddItemsForm, setShowAddItemsForm] = useState(false);
 
+  // To set the current firm data
   useEffect(() => {
     const UserDetails = JSON.parse(localStorage.getItem(USER_DETAILS));
     setProfileData(UserDetails);
   }, [toggleUpdate]);
 
   useEffect(() => {
-    setToggleNavItems(true);
-  }, [activeItems]);
-
-  const handleNestedSibarItems = () => {
-    setToggleNavItems(!toggleNavItems);
-  };
-
-  const handleActiveItems = (item) => {
-    if (item === "Home") {
-      navigate("/");
-    }
-    setActiveItems(item);
-    handleNestedSibarItems();
-  };
-
-  const handleActiveNestedItems = (index) => {
-    setActiveNestedItems(index);
-  };
-
-  const handleLayout = (item) => {
-    if (item === "Parties") {
-      navigate("/parties");
-    } else if (item === "Items") {
-      navigate("/items");
-    }
-  };
+    setOpenNestedLinks(true);
+  }, [activeNav]);
 
   return (
     <div className={css.sideBarOuter}>
-      {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
+      {showAddPartyForm && (
+        <AddPartyForm
+          CloseForm={setShowAddShowPartyForm}
+          OpenSettings={setOpenSettings}
+        />
+      )}
+      {showAddItemsForm && (
+        <ItemsForm
+          handleSettingClick={setOpenSettings}
+          closeForm={() => setShowAddItemsForm(false)}
+        />
+      )}
 
       {/* Firm Details */}
       <div
         className={css.firmDetailsDivOuter}
-        onClick={() => setToggleNavItems(false)}
+        onClick={() => setOpenNestedLinks(false)}
       >
         <div>
           <div className={css.firmLogoDiv}>
@@ -90,149 +94,136 @@ const Sidebar = ({ setShowEditFirm }) => {
         <div
           onClick={() => {
             setShowEditFirm(true);
-            setToggleNavItems(false);
+            setOpenNestedLinks(false);
           }}
           className={css.firmNameContDiv}
         >
           <h4>
             {profileData?.companyName ? profileData.companyName : "Loading..."}
           </h4>
-          <MdOutlineArrowForwardIos />
+          <RightArrowIcon />
         </div>
       </div>
 
       {/* Sidebar Options */}
       <div className={css.optionsOuter}>
-        {OldSidebarItems.map((items, index) => (
-          // <NavLink key={index}>
-          //   {/* <div
-          //     onClick={() => {
-          //       handleActiveItems(items.name);
-          //       if (
-          //         items.name == "Sale" ||
-          //         items.name == "Purchase" ||
-          //         items.name === "WhatsApp Marketing"
-          //       ) {
-          //         navigate(items?.to);
-          //         setToggleNavItems(!toggleNavItems);
-          //       }
-          //       if (items.name == "Setting") {
-          //         setToggleSetting(true);
-          //         setToggleNavItems(!toggleNavItems);
-          //       }
-          //     }}
-          //     className={
-          //       activeItems === items.name
-          //         ? css.activeSidebarOptionDiv
-          //         : css.inActiveSidebarOptionDiv
-          //     }
-          //     key={index}
-          //   >
-          //     <aside>
-          //       <div
-          //         className={css.optionsLeftSideDiv}
-          //         onClick={() => handleLayout(items.name)}
-          //       >
-          //         <div>{items.Icon}</div>
-          //         <div>{items.name}</div>
-          //       </div>
-
-          //       {toggleNavItems &&
-          //         activeItems === items.name &&
-          //         items.purchaseToggle && (
-          //           <div onClick={(e) => e.stopPropagation()}>
-          //             {items.purchaseToggle.map((nestedItems, nestedindex) => (
-          //               <aside
-          //                 key={nestedindex}
-          //                 onClick={() => {
-          //                   handleActiveNestedItems(nestedindex);
-          //                   navigate(nestedItems.navigateurl);
-          //                 }}
-          //                 className={
-          //                   activeNestedItems === nestedindex
-          //                     ? css.activeNestedOption
-          //                     : css.inActiveNestedOption
-          //                 }
-          //               >
-          //                 <h4 className={css.nestedOptionsText}>
-          //                   {nestedItems.name}
-          //                 </h4>
-          //                 <div>{nestedItems.Icon}</div>
-          //               </aside>
-          //             ))}
-          //           </div>
-          //         )}
-          //     </aside>
-
-          //     {items.extraIcon && (
-          //       <div className={css.optionsRightSideIcons}>
-          //         {items.extraIcon}
-          //       </div>
-          //     )}
-          //   </div> */}
-          // </NavLink>
-          <div
-            onClick={() => {
-              handleActiveItems(items.name);
-              if (
-                items.name == "Sale" ||
-                items.name == "Purchase" ||
-                items.name === "WhatsApp Marketing"
-              ) {
-                navigate(items?.to);
-                setToggleNavItems(!toggleNavItems);
+        {SidebarItems.map((item) => (
+          <div className={css.navLinkOuter} key={item?.name}>
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                setClickedNavItemName(item?.name);
+                if (
+                  openNestedLinks &&
+                  linksWithNestedRoutes.includes(item?.name) &&
+                  item?.childLinks?.find((obj) => obj?.to == location.pathname)
+                ) {
+                  setOpenNestedLinks(false);
+                } else if (
+                  !openNestedLinks &&
+                  linksWithNestedRoutes.includes(item?.name) &&
+                  item?.childLinks?.find((obj) => obj?.to == location.pathname)
+                ) {
+                  setOpenNestedLinks(true);
+                } else if (
+                  !linksWithNestedRoutes.includes(item?.name) &&
+                  item?.to
+                ) {
+                  setActiveNav(item?.to);
+                  navigate(item?.to ? item?.to : location.pathname);
+                } else if (
+                  !linksWithNestedRoutes.includes(item?.name) &&
+                  !item?.to
+                ) {
+                  setActiveNav(location.pathname);
+                } else if (
+                  openNestedLinks &&
+                  linksWithNestedRoutes.includes(item?.name)
+                ) {
+                  setActiveNav(item?.to);
+                  setOpenNestedLinks(false);
+                  navigate(item?.to ? item?.to : location.pathname);
+                } else if (
+                  !openNestedLinks &&
+                  linksWithNestedRoutes.includes(item?.name)
+                ) {
+                  setActiveNav(item?.to);
+                  setOpenNestedLinks(true);
+                  navigate(item?.to ? item?.to : location.pathname);
+                }
+              }}
+              style={
+                clickedNavItem == item?.name
+                  ? {
+                      borderColor: "var(--redB)",
+                      background: "var(--DeepA)",
+                      color: "var(--pureWhite)",
+                    }
+                  : {
+                      borderColor: "transparent",
+                      color: "var(--greyE)",
+                    }
               }
-              if (items.name == "Setting") {
-                setToggleSetting(true);
-                setToggleNavItems(!toggleNavItems);
-              }
-            }}
-            className={
-              activeItems === items.name
-                ? css.activeSidebarOptionDiv
-                : css.inActiveSidebarOptionDiv
-            }
-            key={index}
-          >
-            <aside>
-              <div
-                className={css.optionsLeftSideDiv}
-                onClick={() => handleLayout(items.name)}
-              >
-                <div>{items.Icon}</div>
-                <div>{items.name}</div>
+              className={css.mainNavLinkCss}
+            >
+              <div>
+                {item?.icon}
+                <h3>{item?.name}</h3>
               </div>
 
-              {toggleNavItems &&
-                activeItems === items.name &&
-                items.purchaseToggle && (
-                  <div onClick={(e) => e.stopPropagation()}>
-                    {items.purchaseToggle.map((nestedItems, nestedindex) => (
-                      <aside
-                        key={nestedindex}
-                        onClick={() => {
-                          handleActiveNestedItems(nestedindex);
-                          navigate(nestedItems.navigateurl);
-                        }}
-                        className={
-                          activeNestedItems === nestedindex
-                            ? css.activeNestedOption
-                            : css.inActiveNestedOption
-                        }
-                      >
-                        <h4 className={css.nestedOptionsText}>
-                          {nestedItems.name}
-                        </h4>
-                        <div>{nestedItems.Icon}</div>
-                      </aside>
-                    ))}
-                  </div>
-                )}
-            </aside>
+              {item?.rightSideIcon == "plus" ? (
+                <PlusIcon
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (activeNav == "/parties")
+                      return setShowAddShowPartyForm(true);
+                    if (activeNav == "/items") return setShowAddItemsForm(true);
+                  }}
+                />
+              ) : item?.rightSideIcon == "arrowDown" ? (
+                <ArrowDownIcon
+                  style={{
+                    transform:
+                      activeNav == item?.to && openNestedLinks
+                        ? "rotate(-180deg)"
+                        : "none",
+                  }}
+                />
+              ) : (
+                ""
+              )}
+            </div>
 
-            {items.extraIcon && (
-              <div className={css.optionsRightSideIcons}>{items.extraIcon}</div>
-            )}
+            {/* Nested Links */}
+            {linksWithNestedRoutes.includes(item?.name) &&
+              item?.childLinks?.find((obj) => obj?.to == location.pathname) &&
+              openNestedLinks && (
+                <div className={css.childNavLinksOuterDiv}>
+                  {item?.childLinks?.map((childNavItem) => (
+                    <NavLink
+                      style={({ isActive }) =>
+                        isActive
+                          ? {
+                              background: "var(--DeepBluishGrey)",
+                              color: "var(--pureWhite)",
+                              cursor: "default",
+                            }
+                          : {
+                              borderColor: "transparent",
+                              color: "var(--greyE)",
+                              cursor: "pointer",
+                            }
+                      }
+                      to={
+                        childNavItem?.to ? childNavItem?.to : location.pathname
+                      }
+                      key={childNavItem?.name}
+                    >
+                      {childNavItem?.name} <PlusIcon />
+                    </NavLink>
+                  ))}
+                </div>
+              )}
           </div>
         ))}
       </div>
@@ -242,195 +233,144 @@ const Sidebar = ({ setShowEditFirm }) => {
 
 export default Sidebar;
 
-const SidebarItems = [{}];
+// Include all the Sidebar Links which has nested Links for other routes
+const linksWithNestedRoutes = [
+  "Sale",
+  "Purchase",
+  "Backup/Restore",
+  "Utilities",
+  "Reports",
+];
 
 // Sidebar Options Array
-const OldSidebarItems = [
-  { Icon: <GoHomeFill />, name: "Home", to: "/" },
-  { Icon: <HiMiniUsers />, name: "Parties", ExtraIcon: <FaPlus /> },
-  { Icon: <BiSitemap />, name: "Items", extraIcon: <FaPlus /> },
+const SidebarItems = [
+  { icon: <HomeIcon />, name: "Home", to: "/", rightSideIcon: "none" },
   {
-    Icon: <BiSitemap />,
+    icon: <PartiesIcon />,
+    name: "Parties",
+    to: "/parties",
+    rightSideIcon: "plus",
+  },
+  { icon: <ItemsIcon />, name: "Items", to: "/items", rightSideIcon: "plus" },
+  {
+    icon: <SaleIcon />,
     name: "Sale",
-    extraIcon: <IoIosArrowDown />,
     to: "/invoices",
-    purchaseToggle: [
-      {
-        name: "Sale Invoices",
-        Icon: <PlusIcon />,
-        navigateurl: "/invoices",
-      },
-      {
-        name: "Estimate/ Quatation",
-        Icon: <PlusIcon />,
-        navigateurl: "/estimates",
-      },
-      {
-        name: "Payment In",
-        Icon: <PlusIcon />,
-        navigateurl: "/paymentin",
-      },
-      { name: "Sale Order", Icon: <PlusIcon />, navigateurl: "/saleorder" },
-      {
-        name: "Delivery Challan",
-        Icon: <PlusIcon />,
-        navigateurl: "/deliverychallan",
-      },
-      {
-        name: "Sale Return/ Cr. Note",
-        Icon: <PlusIcon />,
-        navigateurl: "/salereturn",
-      },
+    rightSideIcon: "arrowDown",
+    childLinks: [
+      { name: "Sale Invoices", to: "/invoices" },
+      { name: "Estimate/ Quatation", to: "/estimates" },
+      { name: "Payment In", to: "/paymentin" },
+      { name: "Sale Order", to: "/saleorder" },
+      { name: "Delivery Challan", to: "/deliverychallan" },
+      { name: "Sale Return/ Cr. Note", to: "/salereturn" },
     ],
   },
   {
-    Icon: <IoCart />,
+    icon: <PurchaseIcon />,
     name: "Purchase",
-    extraIcon: <IoIosArrowDown />,
     to: "/purchasebill",
-    purchaseToggle: [
-      {
-        name: "Purchase Bills",
-        Icon: <PlusIcon />,
-        navigateurl: "/purchasebill",
-      },
-      {
-        name: "Payment Out",
-        Icon: <PlusIcon />,
-        navigateurl: "/paymentout",
-      },
-      {
-        name: "Purchase Order",
-        Icon: <PlusIcon />,
-        navigateurl: "/paymentorder",
-      },
-      {
-        name: "Purchase Return/ Dr. Note",
-        Icon: <PlusIcon />,
-        navigateurl: "/purchasereturn",
-      },
+    rightSideIcon: "arrowDown",
+    childLinks: [
+      { name: "Purchase Bills", to: "/purchasebill" },
+      { name: "Payment Out", to: "/paymentout" },
+      { name: "Purchase Order", to: "/paymentorder" },
+      { name: "Purchase Return/ Dr. Note", to: "/purchasereturn" },
     ],
   },
-  { Icon: <CiMoneyBill />, name: "Quick Billing" },
-  { Icon: <CiMoneyBill />, name: "Expenses" },
-  { Icon: <FaWallet />, name: "Cash & Bank", extraIcon: <IoIosArrowDown /> },
-  { Icon: <IoStorefrontSharp />, name: "My Online Store" },
+  { icon: <QuickBillingIcon />, name: "Quick Billing", rightSideIcon: "none" },
+  { icon: <ExpensesIcon />, name: "Expenses", rightSideIcon: "none" },
+  { icon: <CashBankIcon />, name: "Cash & Bank", rightSideIcon: "arrowDown" },
   {
-    Icon: <IoStatsChart />,
+    icon: <MyOnlineBankIcon />,
+    name: "My Online Store",
+    rightSideIcon: "none",
+  },
+  {
+    icon: <ReportsIcon />,
     name: "Reports",
-    extraIcon: <IoIosArrowDown />,
-    purchaseToggle: [
-      { name: "Sale", Icon: <PlusIcon />, navigateurl: "/salereport" },
-      {
-        name: "Purchase",
-        Icon: <PlusIcon />,
-        navigateurl: "/purchasereport",
-      },
-      {
-        name: "Day Book",
-        Icon: <PlusIcon />,
-        navigateurl: "/daybookreport",
-      },
-      {
-        name: "All Transaction",
-        Icon: <PlusIcon />,
-        navigateurl: "/alltransactionreport",
-      },
-      {
-        name: "Cash Flow",
-        Icon: <PlusIcon />,
-        navigateurl: "/cashflowreport",
-      },
-      { name: "GSTR 1", Icon: <PlusIcon />, navigateurl: "/gstr1report" },
-      { name: "GSTR 2", Icon: <PlusIcon />, navigateurl: "/gstr2report" },
-      { name: "GSTR 3B", Icon: <PlusIcon />, navigateurl: "/gstr3breport" },
-      { name: "GSTR 9", Icon: <PlusIcon />, navigateurl: "/gstr9report" },
-      {
-        name: "Sale HSN",
-        Icon: <PlusIcon />,
-        navigateurl: "/salehsnreport",
-      },
+    to: "/salereport",
+    rightSideIcon: "arrowDown",
+    childLinks: [
+      { name: "Sale", to: "/salereport" },
+      { name: "Purchase", to: "/purchasereport" },
+      { name: "Day Book", to: "/daybookreport" },
+      { name: "All Transaction", to: "/alltransactionreport" },
+      { name: "Cash Flow", to: "/cashflowreport" },
+      { name: "GSTR1", to: "/gstr1report" },
+      { name: "GSTR2", to: "/gstr2report" },
+      { name: "GSTR 3B", to: "/gstr3breport" },
+      { name: "GSTR 9", to: "/gstr9report" },
+      { name: "Sale HSN", to: "/salehsnreport" },
     ],
   },
-
   {
-    Icon: <MdOutlineWhatsapp />,
+    icon: <WhatsAppIcon />,
     name: "WhatsApp Marketing",
-    to: "/marketing",
-    extraIcon: <MdCelebration />,
+    rightSideIcon: "whtsAppMarketing",
   },
-
   {
-    Icon: <MdSettingsBackupRestore />,
+    icon: <BackupRestoreIcon />,
     name: "Backup/Restore",
-    extraIcon: <IoIosArrowDown />,
-    to: "/setting",
-    purchaseToggle: [
-      {
-        name: "Auto Backup",
-        navigateurl: "/",
-      },
-      {
-        name: "Backup To Computer",
-        navigateurl: "/",
-      },
-      {
-        name: "Backup To Drive",
-        navigateurl: "/",
-      },
-      {
-        name: "Restore Backup",
-        navigateurl: "/",
-      },
+    rightSideIcon: "arrowDown",
+    childLinks: [
+      { name: "Auto Backup" },
+      { name: "Backup To Computer" },
+      { name: "Backup To Drive" },
+      { name: "Restore Backup" },
     ],
   },
-
   {
-    Icon: <AiFillTool />,
+    icon: <UtilitesIcon />,
     name: "Utilities",
-    extraIcon: <IoIosArrowDown />,
-    to: "/utilities",
-    purchaseToggle: [
-      {
-        name: "Generate Barcode",
-        // Icon: <PlusIcon />,
-        navigateurl: "/barcode",
-      },
-      {
-        name: "Import Items",
-        navigateurl: "/importItems",
-      },
-      {
-        name: "Bulk Update Items",
-        navigateurl: "/bulkUpdate",
-      },
-      { name: "Import From Tally", navigateurl: "/saleorder" },
-      {
-        name: "Import Parties",
-        navigateurl: "/",
-      },
-      {
-        name: "Export To Tally",
-        navigateurl: "/",
-      },
-      {
-        name: "Export Items",
-        navigateurl: "/",
-      },
-      {
-        name: "Verify My Data",
-        navigateurl: "/",
-      },
-      {
-        name: "Recycle Bin",
-        navigateurl: "/",
-      },
-      {
-        name: "Close Financial",
-        navigateurl: "/",
-      },
+    rightSideIcon: "arrowDown",
+    childLinks: [
+      { name: "Generate Barcode" },
+      { name: "Import Items" },
+      { name: "Bulk Update Items" },
+      { name: "Import From Tally" },
+      { name: "Import Parties" },
+      { name: "Import To Tally" },
+      { name: "Export To Tally" },
+      { name: "Export Items" },
+      { name: "Verify My Data" },
+      { name: "Recycle Bin" },
+      { name: "Close Financial Year" },
     ],
   },
-
-  // { Icon: <IoMdSettings />, name: "Setting" },
 ];
+
+// This function finds the active Sidebar item based on location.pathname
+function findNameByPathname(array, pathname) {
+  let foundName = null;
+  array.some((item) => {
+    if (item?.childLinks && item?.childLinks.length > 0) {
+      const childLinkMatch = item.childLinks.some(
+        (link) => link.to === pathname
+      );
+      if (childLinkMatch) {
+        foundName = item.name;
+        return true;
+      }
+    }
+    return false;
+  });
+  if (!foundName) {
+    foundName = findNameByPathnameRecurrsive(array, pathname);
+  }
+  return foundName;
+}
+function findNameByPathnameRecurrsive(arr, pathname) {
+  for (let i = 0; i < arr.length; i++) {
+    const obj = arr[i];
+    if (obj.childLinks) {
+      const foundChild = findNameByPathnameRecurrsive(obj.childLinks, pathname);
+      if (foundChild) {
+        return foundChild;
+      }
+    } else if (obj.to && obj.to === pathname) {
+      return obj.name;
+    }
+  }
+  return null;
+}
