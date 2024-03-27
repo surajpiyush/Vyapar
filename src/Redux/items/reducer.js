@@ -3,6 +3,10 @@ import {
    ITEM_FAILURE,
    GET_ITEM_SUCCESS,
    POST_ITEM_SUCCESS,
+   UNIT_REQUEST,
+   UNIT_FAILURE,
+ GETTING_UNIT,
+ ADDING_UNIT,
    LOADING_SINGLE_ITEM,
    ERROR_SINGLE_ITEM,
    SUCCESS_SINGLE_ITEM,
@@ -54,6 +58,9 @@ const initialState = {
    // Delete states
    loadingDelete: false,
    errorDelete: false,
+
+   // unit
+   unit :[],
 };
 
 export const reducer = (state = initialState, { type, payload }) => {
@@ -164,7 +171,7 @@ export const reducer = (state = initialState, { type, payload }) => {
          };
       }
 
-      // Category 
+      // Category
 
       case GETTING_CATEGORY: {
          return {
@@ -178,6 +185,26 @@ export const reducer = (state = initialState, { type, payload }) => {
             ...state,
             isLoading: false,
          };
+
+      // Unit=========================
+
+      case UNIT_REQUEST: {
+         return { ...state, isLoading: true, isError: false };
+      }
+      case GETTING_UNIT: {
+         return { ...state, isLoading: false, unit: payload };
+      }
+      case ADDING_UNIT: {
+         return {
+            ...state,
+            isLoading: false,
+            // items: payload,
+            toggleItems: !state.toggleItems,
+         };
+      }
+      case UNIT_FAILURE: {
+         return { ...state, isLoading: false, isError: true };
+      }
 
       default: {
          return state;

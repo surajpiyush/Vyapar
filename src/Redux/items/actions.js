@@ -21,6 +21,9 @@ import {
    SUCCESS_GET_SELECTED_ITEM,
    ADDING_CATEGORY,
    GETTING_CATEGORY,
+   UNIT_REQUEST,
+   ADDING_UNIT,
+   GETTING_UNIT,
 } from "./actionTypes";
 import { USER_DETAILS } from "../business/actionTypes";
 
@@ -254,7 +257,7 @@ export const addCategory = async (dispatch, categoryName, closeForm, toast) => {
       console.log("Adding Item Response:", response?.data);
       dispatch({ type: ADDING_CATEGORY });
       toast({
-         title: "Item Added Successfully",
+         title: "Category Added Successfully",
          status: "success",
          position: "top",
       });
@@ -287,6 +290,67 @@ export const getCategory = async (dispatch) => {
       );
       // console.log("Get items response:", response?.data);
       dispatch({ type: GETTING_CATEGORY, payload: response?.data?.data });
+   } catch (error) {
+      console.log("Error Getting Items data:", error);
+      dispatch({ type: ITEM_FAILURE });
+   }
+};
+
+
+
+// Unit
+// Add Unit
+export const addUnit = async (dispatch, categoryName, closeForm, toast) => {
+   toast.closeAll();
+
+   const token = localStorage.getItem("token");
+   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+   console.log(categoryName);
+   try {
+      const response = await axios.post(
+         `${API_URL}/${FirmId}/createUnitName`,
+         categoryName,
+         {
+            headers: { Authorization: `Bearer ${token}` },
+         }
+      );
+
+      console.log("Adding Item Response:", response?.data);
+      dispatch({ type: ADDING_UNIT });
+      toast({
+         title: "Unit Added Successfully",
+         status: "success",
+         position: "top",
+      });
+      closeForm(false);
+   } catch (error) {
+      console.log("Adding Category Error", error);
+      // dispatch({ type: ITEM_FAILURE });
+      toast({
+         title: "Something Went Wrong!",
+         description: error?.response?.data?.msg || "",
+         status: "error",
+         position: "top",
+      });
+   }
+};
+
+// get Unit
+export const getUnit = async (dispatch) => {
+   dispatch({ type: UNIT_REQUEST });
+   const token = localStorage.getItem("token");
+   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+   try {
+      const response = await axios.get(
+         `${API_URL}/${FirmId}/createUnitName/allUnitName`,
+         {
+            headers: {
+               Authorization: `Bearer ${token}`,
+            },
+         }
+      );
+      console.log("Get items response:", response?.data);
+      dispatch({ type: GETTING_UNIT, payload: response?.data?.data });
    } catch (error) {
       console.log("Error Getting Items data:", error);
       dispatch({ type: ITEM_FAILURE });
