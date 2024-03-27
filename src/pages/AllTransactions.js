@@ -118,7 +118,7 @@ const AllTransactions = () => {
                </div>
             )}
          </div>
-      </div>
+      </div>   
    );
 };
 

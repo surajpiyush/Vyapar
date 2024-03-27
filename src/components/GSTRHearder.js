@@ -1,3 +1,4 @@
+import css from "../Component/Sidebar/Sidebar.module.css";
 import React, { useState } from "react";
 import * as XLSX from "xlsx";
 import { BsFiletypeJson, BsFiletypeXlsx } from "react-icons/bs";
@@ -18,6 +19,31 @@ const GSTRHeader = ({
    // console.log(data);
    const toast = useToast();
    const [loading, setLoading] = useState(false);
+   const hideElementDuringPrint = () => {
+      const sideBarOuter = document.querySelector(`.${css.sideBarOuter}`);
+      const elementsToHide = document.querySelectorAll(
+         ".sale-dashboard-header > *"
+      );
+      elementsToHide.forEach((element) => {
+         element.style.display = "none";
+      });
+      if (sideBarOuter) {
+         sideBarOuter.style.display = "none";
+      }
+   };
+
+   const showElementAfterPrint = () => {
+      const sideBarOuter = document.querySelector(`.${css.sideBarOuter}`);
+      const elementsToHide = document.querySelectorAll(
+         ".sale-dashboard-header > *"
+      );
+      elementsToHide.forEach((element) => {
+         element.style.display = "";
+      });
+      if (sideBarOuter) {
+         sideBarOuter.style.display = "";
+      }
+   };
    const saveTableData = async (action) => {
       switch (action) {
          case "JSON":
@@ -41,16 +67,19 @@ const GSTRHeader = ({
             break;
 
          case "PRINT":
+            hideElementDuringPrint();
+
             // Trigger browser's print dialog
             window.print();
+
+            showElementAfterPrint();
             break;
 
-         case "XLSX":
+         case "GSTR1":
             try {
-               // Set loading state to true
+               
                setLoading(true);
 
-               // Filter headers
                const filteredHeaders = Object.keys(tableData[0]).filter(
                   (header) => header !== "_id"
                );
@@ -280,7 +309,10 @@ const GSTRHeader = ({
                XLSX.utils.book_append_sheet(workbook, hsn, "hsn");
                XLSX.utils.book_append_sheet(workbook, docs, "docs");
 
-               XLSX.writeFile(workbook, `GSTR_${startDate}_${endDate}_${new Date().getHours()}.xlsx`);
+               XLSX.writeFile(
+                  workbook,
+                  `GSTR1_${startDate}_${endDate}_${new Date().getHours()}.xlsx`
+               );
 
                setLoading(false);
             } catch (error) {
@@ -288,7 +320,10 @@ const GSTRHeader = ({
                setLoading(false);
             }
             break;
-
+         case "GSTR2" :
+            return{
+               
+            }
          default:
             console.warn("Unknown action:", action);
       }
@@ -345,8 +380,13 @@ const GSTRHeader = ({
             </div>
             <div
                className="sale-dashboard-icon"
-              
-               onClick={() => saveTableData("XLSX")}
+               onClick={() => {
+                  if(window.location.pathname === "/gstr1report"){
+                     saveTableData("GSTR1")
+                  }else{
+                     alert(window.location.pathname)
+                  }
+               }}
             >
                <BsFiletypeXlsx />
                <p>Xls</p>

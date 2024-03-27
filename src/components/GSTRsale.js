@@ -1,7 +1,7 @@
 const GSTRsale = ({ tableHeader1, tableHeader2, data, sale }) => {
    console.log(data, sale);
    return (
-      <>
+      <div >
          <table className="excel-like-table">
             <thead>
                <tr>
@@ -57,7 +57,7 @@ const GSTRsale = ({ tableHeader1, tableHeader2, data, sale }) => {
                </tbody>
             )}
          </table>
-      </>
+      </div>
    );
 };
 
