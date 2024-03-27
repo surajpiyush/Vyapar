@@ -63,7 +63,7 @@ const Sidebar = ({ setShowEditFirm }) => {
 
   return (
     <div className={css.sideBarOuter}>
-      {showAddPartyForm && (
+      {/* {showAddPartyForm && (
         <AddPartyForm
           CloseForm={setShowAddShowPartyForm}
           OpenSettings={setOpenSettings}
@@ -74,7 +74,7 @@ const Sidebar = ({ setShowEditFirm }) => {
           handleSettingClick={setOpenSettings}
           closeForm={() => setShowAddItemsForm(false)}
         />
-      )}
+      )} */}
 
       {/* Firm Details */}
       <div
@@ -174,7 +174,7 @@ const Sidebar = ({ setShowEditFirm }) => {
               {item?.rightSideIcon == "plus" ? (
                 <PlusIcon
                   onClick={(e) => {
-                    e.stopPropagation();
+                    // e.stopPropagation();
                     if (activeNav == "/parties")
                       return setShowAddShowPartyForm(true);
                     if (activeNav == "/items") return setShowAddItemsForm(true);

@@ -3,6 +3,9 @@
   min-height: 100%;
   display: flex;
 }
+
+/* Old Css */
+
 .homeContainer {
   flex-grow: 1;
 }

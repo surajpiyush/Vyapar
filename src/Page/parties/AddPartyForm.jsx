@@ -1,12 +1,10 @@
 import css from "./AddParties.module.css";
 import { useToast } from "@chakra-ui/react";
 import { SaveParty } from "../../Redux/parties/actions";
-import { SAVE_PARTY_INPUT_CHANGE } from "../../Redux/parties/actionTypes";
+import { SettingsIconOutline, CrossIcon } from "../../assets/Icons/ReactIcons";
 
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RxCross2 as CrossIcon } from "react-icons/rx";
-import { IoSettingsSharp as SettingIcon } from "react-icons/io5";
 
 const AddPartyForm = ({ CloseForm, OpenSettings }) => {
   const toast = useToast();
@@ -14,69 +12,46 @@ const AddPartyForm = ({ CloseForm, OpenSettings }) => {
   const postPartyLoading = useSelector(
     (state) => state.PartiesReducer.postPartyLoading
   );
-  const partyName = useSelector((state) => state.PartiesReducer.partyName);
-  const gstNo = useSelector((state) => state.PartiesReducer.gstNo);
-  const phoneNumber = useSelector((state) => state.PartiesReducer.phoneNumber);
-  const GSTType = useSelector((state) => state.PartiesReducer.GSTType);
-  const state = useSelector((state) => state.PartiesReducer.state);
-  const billingAddress = useSelector(
-    (state) => state.PartiesReducer.billingAddress
-  );
-  const shippingAddress = useSelector(
-    (state) => state.PartiesReducer.shippingAddress
-  );
-  const openingBalance = useSelector(
-    (state) => state.PartiesReducer.openingBalance
-  );
-  const asOfDate = useSelector((state) => state.PartiesReducer.asOfDate);
-  const email = useSelector((state) => state.PartiesReducer.email);
-  const creditLimit = useSelector((state) => state.PartiesReducer.creditLimit);
-
+  const [currInps, setCurrInps] = useState("GST & Address");
+  const [creditLimitToggle, setCreditLimitToggle] = useState(false);
   const [disableShippingAddress, setDisableShippingAddress] = useState(true);
-  const [limitToggle, setLimitToggle] = useState("");
-  const [formFieldsTabIndex, setFormFieldsTabIndex] = useState(0);
+  const [formData, setFormData] = useState({
+    partyName: "",
+    phoneNumber: "",
+    state: "",
+    email: "",
+    billingAddress: "",
+    shippingAddress: "",
+    openingBalance: "",
+    asOfDate: new Date().toISOString().split("T")[0],
+    creditLimit: "",
+
+    // gstNo: "",
+    // GSTType: "",
+  });
 
   // Handle Save Function
   const handleSave = (e) => {
     e.preventDefault();
     if (!postPartyLoading) {
-      let savePartyData = {
-        partyName,
-        gstNo,
-        //  partyGroup,
-        phoneNumber,
-        GSTType,
-        state,
-        email,
-        billingAddress,
-        shippingAddress,
-        openingBalance,
-        asOfDate,
-        creditLimit,
-      };
-      //  console.log("savePartyData", savePartyData);
-      SaveParty(dispatch, savePartyData, CloseForm, toast);
+      if (!StatesList.includes(formData?.state)) {
+        return toast({
+          title: "Please select a valid state from suggestion list!",
+          status: "warning",
+          position: "top",
+        });
+      }
+      // console.log("formData", formData);
+      SaveParty(dispatch, formData, CloseForm, toast);
     }
   };
 
   // Input Change Function
-  const handleInputChange = (event) => {
-    let { name, value } = event.target;
-    if (name === "asOfDate") {
-      const selectedDate = new Date(value);
-      const today = new Date();
-
-      if (selectedDate !== today) {
-        toast({
-          title: "Selected date should not be other than today",
-          status: "error",
-          position: "top",
-        });
-        // console.log("Selected date should not be after today");
-        value = new Date().toISOString().split("T")[0];
-      }
-    }
-    dispatch({ type: SAVE_PARTY_INPUT_CHANGE, payload: value, name });
+  const handleInpChange = (e) => {
+    let { name, value } = e.target;
+    setFormData((prev) => {
+      return { ...prev, [name]: value };
+    });
   };
 
   return (
@@ -93,397 +68,443 @@ const AddPartyForm = ({ CloseForm, OpenSettings }) => {
         className={css.partyFormOuter}
       >
         {/* Form Header */}
-        <div className={css.formSectionsDiv}>
+        <div className={css.formHeaderOuterDiv}>
+          <h3>Add Party</h3>
           <div>
-            <h3>Add Party</h3>
-          </div>
-          <div className={css.formHeaderIconCont}>
-            <SettingIcon onClick={() => OpenSettings(true)} />
+            <SettingsIconOutline onClick={() => OpenSettings(true)} />
             <CrossIcon onClick={() => CloseForm(false)} />
           </div>
         </div>
 
-        <div>
-          <div className={css.formSectionsDiv}>
+        {/* Middle  */}
+        <div className={css.middleOuter}>
+          <div className={css.upperInpCont}>
             {/* Party Name */}
-            <input
-              type="text"
-              placeholder="Party Name *"
-              value={partyName}
-              name="partyName"
-              onChange={handleInputChange}
-              className={css.InpCss}
-              required
-            />
-            {/* GSTIN */}
-            <input
-              type="text"
-              placeholder="GSTIN"
-              className={css.InpCss}
-              value={gstNo}
-              name="gstNo"
-              onChange={handleInputChange}
-              required
-            />
+            <div className={css.inputDiv}>
+              <input
+                type="text"
+                name="partyName"
+                value={formData?.partyName}
+                onChange={handleInpChange}
+                className={css.input}
+                required
+              />
+              <label
+                className={
+                  formData?.partyName ? css.activeLabel : css.inactiveLabel
+                }
+              >
+                Party Name*
+              </label>
+            </div>
             {/* Phone Number */}
-            <input
-              type="number"
-              maxLength={10}
-              placeholder="Phone Number *"
-              value={phoneNumber}
-              name="phoneNumber"
-              onChange={handleInputChange}
-              className={css.InpCss}
-              required
-            />
+            <div className={css.inputDiv}>
+              <input
+                type="number"
+                name="phoneNumber"
+                value={formData?.phoneNumber}
+                onChange={handleInpChange}
+                className={css.input}
+              />
+              <label
+                className={
+                  formData?.phoneNumber ? css.activeLabel : css.inactiveLabel
+                }
+              >
+                Phone Number
+              </label>
+            </div>
+            {/* GSTIN */}
+            {/* <div className={css.inputDiv}>
+              <input
+                type="text"
+                name="gstNo"
+                value={formData?.gstNo}
+                onChange={handleInpChange}
+                className={css.input}
+              />
+              <label
+                className={
+                  formData?.gstNo ? css.activeLabel : css.inactiveLabel
+                }
+              >
+                GSTIN
+              </label>
+            </div> */}
           </div>
 
-          {/* Form Option Toggler Div */}
-          <div className={css.middleFormOptionsCont}>
+          {/* Changer */}
+          <div className={css.changerOuterDiv}>
             <div
               style={{
-                borderBottom:
-                  formFieldsTabIndex == 0
-                    ? "3px solid var(--blueA)"
-                    : "3px solid transparent",
+                color:
+                  currInps == "GST & Address" ? "var(--blueB)" : "var(--greyH)",
+                borderColor:
+                  currInps == "GST & Address" ? "var(--blueB)" : "transparent",
               }}
-              onClick={() => {
-                setFormFieldsTabIndex(0);
-              }}
+              onClick={() => setCurrInps("GST & Address")}
+              className={css.changerDivs}
             >
               GST & Address
             </div>
             <div
               style={{
-                borderBottom:
-                  formFieldsTabIndex == 1
-                    ? "3px solid var(--blueA)"
-                    : "3px solid transparent",
+                color:
+                  currInps == "Credit & Balance"
+                    ? "var(--blueB)"
+                    : "var(--greyH)",
+                borderColor:
+                  currInps == "Credit & Balance"
+                    ? "var(--blueB)"
+                    : "transparent",
               }}
-              onClick={() => {
-                setFormFieldsTabIndex(1);
-              }}
+              onClick={() => setCurrInps("Credit & Balance")}
+              className={css.changerDivs}
             >
-              Balance & Credit
+              Credit & Balance
             </div>
             <div
               style={{
-                borderBottom:
-                  formFieldsTabIndex == 2
-                    ? "3px solid var(--blueA)"
-                    : "3px solid transparent",
+                color:
+                  currInps == "Additional Fields"
+                    ? "var(--blueB)"
+                    : "var(--greyH)",
+                borderColor:
+                  currInps == "Additional Fields"
+                    ? "var(--blueB)"
+                    : "transparent",
               }}
-              onClick={() => {
-                setFormFieldsTabIndex(2);
-              }}
+              onClick={() => setCurrInps("Additional Fields")}
+              className={css.changerDivs}
             >
-              Additional Field
+              Additional Fields
             </div>
           </div>
 
-          {/* GST & Address Form Fields */}
-          {formFieldsTabIndex == 0 && (
-            <div className={css.formSectionsDiv}>
-              <div className={css.gstLeftSideInput}>
-                <select
-                  value={GSTType}
-                  name="GSTType"
-                  onChange={handleInputChange}
-                  className={css.InpCss}
-                  required
-                >
-                  <option value="">GST Type</option>
-                  <option value="Unregistered/Consumer">
-                    Unregistered/Consumer
-                  </option>
-                  <option value="Registered Business - Regular">
-                    Registered Business - Regular
-                  </option>
-                  <option value="Registered Business - Composition">
-                    Registered Business - Composition
-                  </option>
-                </select>
-                <select
-                  value={state}
-                  name="state"
-                  onChange={handleInputChange}
-                  required
-                  className={css.InpCss}
-                >
-                  <option value="">State</option>
-                  <option value="Andhra Pradesh">Andhra Pradesh</option>
-                  <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-                  <option value="Assam">Assam</option>
-                  <option value="Bihar">Bihar</option>
-                  <option value="Chhattisgarh">Chhattisgarh</option>
-                  <option value="Goa">Goa</option>
-                  <option value="Gujarat">Gujarat</option>
-                  <option value="Haryana">Haryana</option>
-                  <option value="Himachal Pradesh">Himachal Pradesh</option>
-                  <option value="Jharkhand">Jharkhand</option>
-                  <option value="Karnataka">Karnataka</option>
-                  <option value="Kerala">Kerala</option>
-                  <option value="Madhya Pradesh">Madhya Pradesh</option>
-                  <option value="Maharashtra">Maharashtra</option>
-                  <option value="Manipur">Manipur</option>
-                  <option value="Meghalaya">Meghalaya</option>
-                  <option value="Mizoram">Mizoram</option>
-                  <option value="Nagaland">Nagaland</option>
-                  <option value="Odisha">Odisha</option>
-                  <option value="Punjab">Punjab</option>
-                  <option value="Rajasthan">Rajasthan</option>
-                  <option value="Sikkim">Sikkim</option>
-                  <option value="Tamil Nadu">Tamil Nadu</option>
-                  <option value="Telangana">Telangana</option>
-                  <option value="Tripura">Tripura</option>
-                  <option value="Uttar Pradesh">Uttar Pradesh</option>
-                  <option value="Uttarakhand">Uttarakhand</option>
-                  <option value="West Bengal">West Bengal</option>
-                  <option value="Andaman and Nicobar Islands">
-                    Andaman and Nicobar Islands
-                  </option>
-                  <option value="Chandigarh">Chandigarh</option>
-                  <option value="Dadra and Nagar Haveli">
-                    Dadra and Nagar Haveli
-                  </option>
-                  <option value="Daman and Diu">Daman and Diu</option>
-                  <option value="Lakshadweep">Lakshadweep</option>
-                  <option value="Delhi">Delhi</option>
-                  <option value="Puducherry">Puducherry</option>
-                </select>
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  value={email}
-                  onChange={handleInputChange}
-                  className={css.InpCss}
-                  required
-                />
+          {currInps == "GST & Address" ? (
+            // GST & Address - Inputs
+            <div className={css.gstAddressOuter}>
+              <div className={css.leftSideGstAddressDiv}>
+                {/* State */}
+                <div className={css.inputDiv}>
+                  <input
+                    type="text"
+                    name="state"
+                    value={formData?.state}
+                    onChange={handleInpChange}
+                    className={css.input}
+                    list="statesList"
+                  />
+                  <label
+                    className={
+                      formData?.state ? css.activeLabel : css.inactiveLabel
+                    }
+                  >
+                    State
+                  </label>
+                  <datalist id="statesList">
+                    <option value="">State</option>
+                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                    <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                    <option value="Assam">Assam</option>
+                    <option value="Bihar">Bihar</option>
+                    <option value="Chhattisgarh">Chhattisgarh</option>
+                    <option value="Goa">Goa</option>
+                    <option value="Gujarat">Gujarat</option>
+                    <option value="Haryana">Haryana</option>
+                    <option value="Himachal Pradesh">Himachal Pradesh</option>
+                    <option value="Jharkhand">Jharkhand</option>
+                    <option value="Karnataka">Karnataka</option>
+                    <option value="Kerala">Kerala</option>
+                    <option value="Madhya Pradesh">Madhya Pradesh</option>
+                    <option value="Maharashtra">Maharashtra</option>
+                    <option value="Manipur">Manipur</option>
+                    <option value="Meghalaya">Meghalaya</option>
+                    <option value="Mizoram">Mizoram</option>
+                    <option value="Nagaland">Nagaland</option>
+                    <option value="Odisha">Odisha</option>
+                    <option value="Punjab">Punjab</option>
+                    <option value="Rajasthan">Rajasthan</option>
+                    <option value="Sikkim">Sikkim</option>
+                    <option value="Tamil Nadu">Tamil Nadu</option>
+                    <option value="Telangana">Telangana</option>
+                    <option value="Tripura">Tripura</option>
+                    <option value="Uttar Pradesh">Uttar Pradesh</option>
+                    <option value="Uttarakhand">Uttarakhand</option>
+                    <option value="West Bengal">West Bengal</option>
+                    <option value="Andaman and Nicobar Islands">
+                      Andaman and Nicobar Islands
+                    </option>
+                    <option value="Chandigarh">Chandigarh</option>
+                    <option value="Dadra and Nagar Haveli">
+                      Dadra and Nagar Haveli
+                    </option>
+                    <option value="Daman and Diu">Daman and Diu</option>
+                    <option value="Lakshadweep">Lakshadweep</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Puducherry">Puducherry</option>
+                  </datalist>
+                </div>
+                {/* Email */}
+                <div className={css.inputDiv}>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData?.email}
+                    onChange={handleInpChange}
+                    className={css.input}
+                  />
+                  <label
+                    className={
+                      formData?.email ? css.activeLabel : css.inactiveLabel
+                    }
+                  >
+                    Email
+                  </label>
+                </div>
               </div>
-
-              <div className={css.formSectionsDiv}>
-                <div className={css.addressHolderDiv}>
+              <div className={css.rightSideGstAddressDiv}>
+                {/* Billing Address */}
+                <div className={css.inputDiv}>
                   <textarea
                     name="billingAddress"
-                    value={billingAddress}
-                    onChange={handleInputChange}
-                    placeholder="Billing Address"
-                    className={css.InpCss}
-                    required
+                    value={formData?.billingAddress}
+                    onChange={handleInpChange}
+                    className={css.input}
                   />
-                  {disableShippingAddress && (
-                    <textarea
-                      name="shippingAddress"
-                      value={shippingAddress}
-                      onChange={handleInputChange}
-                      placeholder="Shipping Address"
-                      className={css.InpCss}
-                      required
-                    />
-                  )}
-                  <span
-                    onClick={() => setDisableShippingAddress((prev) => !prev)}
-                    className={css.DisableShippingAddBtn}
+                  <label
+                    className={
+                      formData?.billingAddress
+                        ? css.activeLabel
+                        : css.inactiveLabel
+                    }
                   >
-                    {disableShippingAddress
-                      ? "- Disable Shipping Address"
-                      : "- Enable Shipping Address"}
-                  </span>
+                    Billing Address
+                  </label>
+                  <h3
+                    onClick={() => setDisableShippingAddress((prev) => !prev)}
+                    style={{
+                      color: !disableShippingAddress
+                        ? "var(--greyA)"
+                        : "var(--blueB)",
+                    }}
+                  >
+                    {disableShippingAddress ? "+ Enable" : "- Disable"} Shipping
+                    Address
+                  </h3>
+                </div>
+                {/* Shipping Address */}
+                <div
+                  style={{
+                    visibility: disableShippingAddress ? "hidden" : "visible",
+                  }}
+                  className={css.inputDiv}
+                >
+                  <textarea
+                    name="shippingAddress"
+                    value={formData?.shippingAddress}
+                    onChange={handleInpChange}
+                    className={css.input}
+                  />
+                  <label
+                    className={
+                      formData?.shippingAddress
+                        ? css.activeLabel
+                        : css.inactiveLabel
+                    }
+                  >
+                    Shipping Address
+                  </label>
                 </div>
               </div>
             </div>
-          )}
-          {/* Balance & Credit Form Fields */}
-          {formFieldsTabIndex == 1 && (
-            <div style={{ marginTop: "15px" }}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "start",
-                }}
-              >
-                <div id={css.AsOFDateCss}>
-                  <p>Opening Balance</p>
+          ) : currInps == "Credit & Balance" ? (
+            // Credit & Balance - Inputs
+            <div>
+              <div className={css.creditAndBalUpperInpDiv}>
+                {/* Opening Balance */}
+                <div className={css.inputDiv}>
                   <input
-                    type="text"
+                    type="number"
                     name="openingBalance"
-                    value={openingBalance}
-                    onChange={handleInputChange}
-                    placeholder="Opening Balance *"
-                    className={css.InpCss}
-                    required
+                    value={formData?.openingBalance}
+                    onChange={handleInpChange}
+                    className={css.input}
                   />
+                  <label
+                    className={
+                      formData?.openingBalance
+                        ? css.activeLabel
+                        : css.inactiveLabel
+                    }
+                  >
+                    Opening Balance
+                  </label>
                 </div>
-                <div id={css.AsOFDateCss}>
-                  <p>As of Date</p>
+                {/* As Of Date */}
+                <div className={css.inputDiv}>
                   <input
                     type="date"
                     name="asOfDate"
-                    value={new Date().toISOString().split("T")[0]}
-                    onChange={handleInputChange}
-                    placeholder="As of date *"
-                    className={css.InpCss}
-                    required
+                    value={formData?.asOfDate}
+                    onChange={handleInpChange}
+                    className={css.input}
                   />
+                  <label
+                    className={
+                      formData?.asOfDate ? css.activeLabel : css.inactiveLabel
+                    }
+                  >
+                    As Of Date
+                  </label>
                 </div>
               </div>
-              <hr />
               <div className={css.creditLimitOuterDiv}>
-                <span>Credit Limit</span>
-                <div style={{ marginTop: "10px" }}>
-                  <div
+                <h3>Credit Limit</h3>
+                <div>
+                  <label
                     style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "15px",
+                      color: !creditLimitToggle
+                        ? "var(--blueB)"
+                        : "var(--greyD)",
                     }}
+                    htmlFor="No Limit"
                   >
-                    <label
-                      htmlFor="No Limit"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "8px",
+                    <input
+                      type="radio"
+                      name="No Limit"
+                      checked={!creditLimitToggle}
+                      onChange={() => {
+                        setCreditLimitToggle(false);
                       }}
-                    >
-                      <input
-                        type="radio"
-                        name="No Limit"
-                        checked={!limitToggle}
-                        onChange={() => {
-                          setLimitToggle(false);
-                        }}
-                      />
-                      No Limit
-                    </label>
-                    <label
-                      htmlFor="Custom Limit"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "8px",
+                    />
+                    No Limit
+                  </label>
+                  <label
+                    style={{
+                      color: creditLimitToggle
+                        ? "var(--blueB)"
+                        : "var(--greyD)",
+                    }}
+                    htmlFor="Custom Limit"
+                  >
+                    <input
+                      type="radio"
+                      checked={creditLimitToggle}
+                      onChange={() => {
+                        setCreditLimitToggle(true);
                       }}
-                    >
-                      <input
-                        type="radio"
-                        checked={limitToggle}
-                        onChange={() => {
-                          setLimitToggle(true);
-                        }}
-                        name="Custom Limit"
-                      />
-                      Custom Limit
-                    </label>
-                  </div>
-                  {limitToggle && (
+                      name="Custom Limit"
+                    />
+                    Custom Limit
+                  </label>
+                </div>
+                {/* Credit Limit */}
+                {creditLimitToggle && (
+                  <div className={css.inputDiv}>
                     <input
                       type="number"
                       name="creditLimit"
-                      value={creditLimit}
-                      onChange={handleInputChange}
-                      style={{ marginLeft: "20px" }}
-                      className={css.InpCss}
-                      placeholder="Credit Limit"
-                      required
+                      value={formData?.creditLimit}
+                      onChange={handleInpChange}
+                      className={css.input}
                     />
-                  )}
+                    <label
+                      className={
+                        formData?.creditLimit
+                          ? css.activeLabel
+                          : css.inactiveLabel
+                      }
+                    >
+                      Credit Limit
+                    </label>
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : (
+            // Additional Fields - Inputs
+            <div className={css.additionalFieldOuter}>
+              {/* Additional Field 1 Name */}
+              <div className={css.singleAddFieldContOuter}>
+                <input type="checkbox" />
+                <div className={css.inputDiv}>
+                  <input
+                    type="text"
+                    name="addFieldName1"
+                    value={formData?.addFieldName1}
+                    onChange={handleInpChange}
+                    className={css.input}
+                  />
+                  <label
+                    className={
+                      formData?.addFieldName1
+                        ? css.activeLabel
+                        : css.inactiveLabel
+                    }
+                  >
+                    Additional Field 1 Name
+                  </label>
+                </div>
+              </div>
+              {/* Additional Field 2 Name */}
+              <div className={css.singleAddFieldContOuter}>
+                <input type="checkbox" />
+                <div className={css.inputDiv}>
+                  <input
+                    type="text"
+                    name="addFieldName2"
+                    value={formData?.addFieldName2}
+                    onChange={handleInpChange}
+                    className={css.input}
+                  />
+                  <label
+                    className={
+                      formData?.addFieldName2
+                        ? css.activeLabel
+                        : css.inactiveLabel
+                    }
+                  >
+                    Additional Field 2 Name
+                  </label>
+                </div>
+              </div>
+              {/* Additional Field 3 Name */}
+              <div className={css.singleAddFieldContOuter}>
+                <input type="checkbox" />
+                <div className={css.inputDiv}>
+                  <input
+                    type="text"
+                    name="addFieldName3"
+                    value={formData?.addFieldName3}
+                    onChange={handleInpChange}
+                    className={css.input}
+                  />
+                  <label
+                    className={
+                      formData?.addFieldName3
+                        ? css.activeLabel
+                        : css.inactiveLabel
+                    }
+                  >
+                    Additional Field 3 Name
+                  </label>
                 </div>
               </div>
             </div>
           )}
+        </div>
 
-          {/* Additional Fields Form Fields */}
-          {formFieldsTabIndex == 2 && (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "start",
-                marginTop: "10px",
-              }}
-            >
-              <div>
-                <input
-                  type="checkbox"
-                  style={{
-                    height: "20px",
-                    width: "20px",
-                    marginRight: "10px",
-                    position: "relative",
-                    top: "15px",
-                  }}
-                />
-                <input
-                  type="text"
-                  placeholder="Additional Value"
-                  className={css.InpCss}
-                />
-                <input
-                  type="text"
-                  placeholder="Value For"
-                  className={css.InpCss}
-                  style={{ marginLeft: "10px" }}
-                />
-              </div>
-              <div>
-                <input
-                  type="checkbox"
-                  style={{
-                    height: "20px",
-                    width: "20px",
-                    marginRight: "10px",
-                    position: "relative",
-                    top: "15px",
-                  }}
-                />
-                <input
-                  type="text"
-                  placeholder="Additional Value"
-                  className={css.InpCss}
-                />
-                <input
-                  type="text"
-                  placeholder="Value For"
-                  className={css.InpCss}
-                  style={{ marginLeft: "10px" }}
-                />
-              </div>
-              <div>
-                <input
-                  type="checkbox"
-                  style={{
-                    height: "20px",
-                    width: "20px",
-                    marginRight: "10px",
-                    position: "relative",
-                    top: "15px",
-                  }}
-                />
-                <input
-                  type="text"
-                  placeholder="Additional Value"
-                  className={css.InpCss}
-                />
-                <input
-                  type="text"
-                  placeholder="Value For"
-                  className={css.InpCss}
-                  style={{ marginLeft: "10px" }}
-                />
-              </div>
-            </div>
-          )}
-          <hr />
-          <div className={css.FooterDivOuter}>
-            <button
-              type="submit"
-              style={{ cursor: postPartyLoading ? "not-allowed" : "pointer" }}
-              disabled={postPartyLoading}
-            >
-              {postPartyLoading ? "Saving..." : "Save"}
-            </button>
-          </div>
+        {/* Form Footer */}
+        <div className={css.footerOuter}>
+          <button
+            type="submit"
+            style={{ cursor: postPartyLoading ? "not-allowed" : "pointer" }}
+            disabled={postPartyLoading}
+            className={css.saveBtn}
+          >
+            {postPartyLoading ? "Saving..." : "Save"}
+          </button>
         </div>
       </form>
     </div>
@@ -491,3 +512,41 @@ const AddPartyForm = ({ CloseForm, OpenSettings }) => {
 };
 
 export default AddPartyForm;
+
+export const StatesList = [
+  "Andhra Pradesh",
+  "Arunachal Pradesh",
+  "Assam",
+  "Bihar",
+  "Chhattisgarh",
+  "Goa",
+  "Gujarat",
+  "Haryana",
+  "Himachal Pradesh",
+  "Jharkhand",
+  "Karnataka",
+  "Kerala",
+  "Madhya Pradesh",
+  "Maharashtra",
+  "Manipur",
+  "Meghalaya",
+  "Mizoram",
+  "Nagaland",
+  "Odisha",
+  "Punjab",
+  "Rajasthan",
+  "Sikkim",
+  "Tamil Nadu",
+  "Telangana",
+  "Tripura",
+  "Uttar Pradesh",
+  "Uttarakhand",
+  "West Bengal",
+  "Andaman and Nicobar Islands",
+  "Chandigarh",
+  "Dadra and Nagar Haveli",
+  "Daman and Diu",
+  "Lakshadweep",
+  "Delhi",
+  "Puducherry",
+];

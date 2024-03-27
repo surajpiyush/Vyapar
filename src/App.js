@@ -130,8 +130,9 @@ function App() {
 
   return (
     <div id="App">
-      {!ignoreRoutes.includes(location.pathname) && <Navbar />}
       {showEditFirm && <EditFirm setShowEditFirm={setShowEditFirm} />}
+
+      {!ignoreRoutes.includes(location.pathname) && <Navbar />}
 
       {!ignoreRoutes.includes(location.pathname) && (
         <div className="appContentOuter">
@@ -145,7 +146,11 @@ function App() {
         </div>
       )}
 
-      {ignoreRoutes.includes(location.pathname) && <Outlet />}
+      {ignoreRoutes.includes(location.pathname) && (
+        <div className="outletOuterDiv">
+          <Outlet />
+        </div>
+      )}
     </div>
   );
 }

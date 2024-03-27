@@ -177,7 +177,6 @@
 }
 .input:focus {
   outline: none;
-  /* color: var(--greyA); */
 }
 .input:focus ~ .inactiveLabel {
   position: absolute;

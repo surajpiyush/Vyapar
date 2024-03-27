@@ -6,7 +6,7 @@ import {
   SAVE_PARTY_LOADING,
   SAVE_PARTY_ERROR,
   SAVE_PARTY_SUCCESS,
-  SAVE_PARTY_INPUT_CHANGE,
+  // SAVE_PARTY_INPUT_CHANGE,
   LOADING_GET_CURRENT_PARTY,
   ERROR_GET_CURRENT_PARTY,
   SUCCESS_GET_CURRENT_PARTY,
@@ -46,18 +46,6 @@ const initialState = {
   //   Delete Party states
   loadingDeleteParty: false,
   errorDeleteParty: false,
-  partyName: "",
-  gstNo: "",
-  phoneNumber: "",
-  partyGroup: "",
-  GSTType: "",
-  state: "",
-  email: "",
-  billingAddress: "",
-  shippingAddress: "",
-  openingBalance: "",
-  asOfDate: "",
-  creditLimit: "",
 };
 
 export const reducer = (state = initialState, { type, payload, name }) => {
@@ -85,8 +73,6 @@ export const reducer = (state = initialState, { type, payload, name }) => {
         postPartyLoading: false,
         togglePartiesData: !state.togglePartiesData,
       };
-    case SAVE_PARTY_INPUT_CHANGE:
-      return { ...state, [name]: payload };
 
     // Get Current Party actions
     case LOADING_GET_CURRENT_PARTY:
