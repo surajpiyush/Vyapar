@@ -22,36 +22,34 @@ const Purchase = () => {
    const store = useSelector((store) => store.ReportReducer);
    // const data = store?.purchaseReportData?.getPurchase || [];
    const data = [];
+
    const [startDate, setStartDate] = useState("2023-02-01");
    const [endDate, setEndDate] = useState(
       new Date().toISOString().split("T")[0]
    );
-   console.log(store);
-   const date = {
-      startDate: startDate,
-      endDate: endDate,
-   };
+   console.log(store.purchaseReportData.getPurchase);
+ 
    // console.log("date from purchase:", date);
    const dispatch = useDispatch();
    const prevDateRef = useRef(); 
 
-   // useEffect(() => {
+   useEffect(() => {
    
-   //    if (
-   //       prevDateRef.current &&
-   //       prevDateRef.current.startDate === startDate &&
-   //       prevDateRef.current.endDate === endDate
-   //    ) {
-   //       return; 
-   //    }
-   //    const date = {
-   //       startDate: startDate,
-   //       endDate: endDate,
-   //    };
-   //    dispatch(getPurchaseReport({ date }));
+      if (
+         prevDateRef.current &&
+         prevDateRef.current.startDate === startDate &&
+         prevDateRef.current.endDate === endDate
+      ) {
+         return; 
+      }
+      const date = {
+         startDate: startDate,
+         endDate: endDate,
+      };
+      dispatch(getPurchaseReport({ date }));
 
-   //    prevDateRef.current = { startDate, endDate };
-   // }, [startDate, endDate, dispatch]);
+      prevDateRef.current = { startDate, endDate };
+   }, [startDate, endDate, dispatch]);
 
    return (
       <SaleDashboard

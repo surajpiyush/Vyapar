@@ -1,7 +1,7 @@
 import css from "./Setting.module.css";
 import Print from "./Print/Print";
-import General from "./General";
-import Default from "./Default";
+import General from "./Transaction";
+import Default from "./General";
 import TaxAndGst from "./TaxAndGst";
 import { ignoreRoutes } from "../../App";
 
@@ -15,7 +15,7 @@ import PartySetting from "./PartySetting";
 function Setting({ setToggleSetting }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const [activeSidebar, setActiveSidebar] = useState("");
+  const [activeSidebar, setActiveSidebar] = useState("GENERAL");
 
   //   Sidebar click handler
   const handleSidebarClick = (clickedSidebar) => {
@@ -70,9 +70,9 @@ function Setting({ setToggleSetting }) {
 
         {/* Sections */}
         {activeSidebar == "" && <Default />}
-        {activeSidebar == "GENERAL" && <General />}
+        {activeSidebar == "GENERAL" && <Default />}
         {activeSidebar == "TRANSACTION" && (
-          <div>TRANSACTION Under Development</div>
+          <General />
         )}
         {activeSidebar == "PRINT" && <Print />}
         {activeSidebar == "TAXES & GST" && <TaxAndGst />}

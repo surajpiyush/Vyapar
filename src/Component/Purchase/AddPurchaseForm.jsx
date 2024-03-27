@@ -1,12 +1,13 @@
 import css from "../../styles/SalesStyles/SalesForms.module.css";
 
+import { useDispatch, useSelector } from "react-redux";
 import { memo, useEffect, useState } from "react";
 import { Menu, MenuList, MenuItem, MenuDivider } from "@chakra-ui/react";
 import { MdDelete as DeleteIcon } from "react-icons/md";
 import { TbArrowsMove as MoveIcon } from "react-icons/tb";
-import { useSelector } from "react-redux";
+import { getCategory } from "../../Redux/items/actions";
 
-const ItemsTableBody = memo(
+const AddPurchaseForm = memo(
    ({
       ind,
       item,
@@ -22,42 +23,44 @@ const ItemsTableBody = memo(
       getAllItemsLoading,
       items,
    }) => {
+      const dispatch = useDispatch();
       const loadingAllItems = useSelector(
          (state) => state.ItemReducer.getAllItemsLoading
-       );
-       const itemsList = useSelector((state) => state.ItemReducer.items);
-
+      );
+      const itemsList = useSelector((state) => state.ItemReducer.items);
+      const category = useSelector((state) => state.ItemReducer.category);
       const [foundItems, setFoundItems] = useState([]);
-      
-  // Itemslist Suggestions
+
+      useEffect(() => {
+         dispatch(getCategory);
+      }, []);
+
       useEffect(() => {
          const regex = new RegExp(item?.itemName, "i");
-    const itemsArr = Array.isArray(itemsList) ? itemsList : [];
+         const itemsArr = Array.isArray(itemsList) ? itemsList : [];
          const found = itemsArr?.filter((ite) => regex.test(ite.itemName));
          if (item?.itemName.length < 1) {
             return setFoundItems(items);
          }
-
          setFoundItems(found);
-      }, [item?.itemName,itemsList]);
-      // Sale Items Change Function
-      const handleTableInputChange = (e, index) => {
-         const { name, value } = e.target;
-         let currSaleItem = { ...invoiceItems[index], [name]: value };
-         let newSaleData = invoiceItems.map((ite, ind) =>
-            ind == index ? currSaleItem : ite
-         );
-         setInvoiceItems(newSaleData);
-      };
+      }, [item?.itemName, itemsList]);
 
       function AmountCalculator() {
          const parseToNumber = (value) => (value ? parseFloat(value) : 0);
-
          let amount = parseToNumber(item?.amount) || 0;
          let taxAmount = parseToNumber(item?.taxAmount) || 0;
          let discountPercent = parseToNumber(item?.discountpersant) || 0;
          let discountAmount = parseToNumber(item?.discountAmount) || 0;
-         let taxPercent = parseToNumber(item?.taxPersant) || 0;
+         let taxPercent = 0;
+         if (item && item.taxPersant) {
+            const parts = item.taxPersant.split("@");
+            if (parts.length === 2) {
+               const numericValue = parseFloat(parts[1].trim());
+               if (!isNaN(numericValue)) {
+                  taxPercent = numericValue;
+               }
+            }
+         }
          let pricePerUnit = parseToNumber(item?.priceUnit) || 0;
          let qty = parseToNumber(item?.qty) || 0;
 
@@ -99,6 +102,16 @@ const ItemsTableBody = memo(
          };
       }
 
+      // Sale Items Change Function
+      const handleTableInputChange = (e, index) => {
+         const { name, value } = e.target;
+         let currSaleItem = { ...invoiceItems[index], [name]: value };
+         let newSaleData = invoiceItems.map((ite, ind) =>
+            ind == index ? currSaleItem : ite
+         );
+         setInvoiceItems(newSaleData);
+      };
+
       useEffect(() => {
          AmountCalculator();
          const { amount, taxAmount, discountPercent, discountAmount } =
@@ -121,7 +134,7 @@ const ItemsTableBody = memo(
          item.discountpersant,
          item.taxPersant,
       ]);
-
+      //   console.log(item);
       return (
          <tr
             onClick={() => setIndexSaleItem(ind)}
@@ -143,12 +156,38 @@ const ItemsTableBody = memo(
                </div>
             </td>
             <td className={css.itemNameBody}>
-               <select name="category" id="">
+               <select
+                  name="category"
+                  value={item?.category}
+                  // onChange={handleChange}
+                  className={css.selectTag}
+                  required
+               >
                   <option value="">Category</option>
-                  <option value="show">Show</option>
-                  <option value="tab">Tab</option>
-                  <option value="medicine">medicine</option>
-                  <option value="cloths">Cloths</option>{" "}
+                  {!item?.category ? (
+                     <option value="">No Categories Found</option>
+                  ) : (
+                     category
+                        .filter(
+                           (categoryItem) => categoryItem._id === item.category
+                        )
+                        .map((filteredItem) => (
+                           <option
+                              value={filteredItem._id}
+                              key={filteredItem._id}
+                           >
+                              {filteredItem?.categoryName}
+                           </option>
+                        ))
+                  )}
+                  {!category.some(
+                     (categoryItem) => categoryItem._id === item.category
+                  ) &&
+                     category.map((categoryItem) => (
+                        <option value={categoryItem._id} key={categoryItem._id}>
+                           {categoryItem.categoryName}
+                        </option>
+                     ))}
                </select>
             </td>
             <td
@@ -191,7 +230,14 @@ const ItemsTableBody = memo(
                         Add Item
                      </MenuItem>
                      <MenuDivider />
-                     {getAllItemsLoading && <MenuItem>Loading Items</MenuItem>}
+                     {getAllItemsLoading && (
+                        <MenuItem>Loading Items...</MenuItem>
+                     )}
+                     {loadingAllItems && foundItems.length <= 0 && (
+                        <MenuItem style={{ color: "red" }}>
+                           No Items Found!
+                        </MenuItem>
+                     )}
                      {!getAllItemsLoading &&
                         foundItems?.map((itemList) => (
                            <MenuItem
@@ -214,7 +260,7 @@ const ItemsTableBody = memo(
                   className={css.tableInputs}
                   name="itemCode"
                   value={item?.itemCode}
-                  onChange={(e) => handleTableInputChange(e, ind)}
+                  // onChange={(e) => handleTableInputChange(e, ind)}
                   disabled
                />
             </td>
@@ -346,20 +392,20 @@ const ItemsTableBody = memo(
                         onChange={(e) => handleTableInputChange(e, ind)}
                      >
                         <option value="">None</option>
-                        <option value="0">IGST@0%</option>
-                        <option value="0">GST@0%</option>
-                        <option value="0.25">IGST@0.25%</option>
-                        <option value="0.25">GST@0.25%</option>
-                        <option value="3">IGST@3%</option>
-                        <option value="3">GST@3%</option>
-                        <option value="5">IGST@5%</option>
-                        <option value="5">GST@5%</option>
-                        <option value="12">IGST@12%</option>
-                        <option value="12">GST@12%</option>
-                        <option value="18">IGST@18%</option>
-                        <option value="18">GST@18%</option>
-                        <option value="28">IGST@28%</option>
-                        <option value="28">GST@28%</option>
+                        <option value="IGST@0">IGST@0%</option>
+                        <option value="GST@0">GST@0%</option>
+                        <option value="IGST@0.25">IGST@0.25%</option>
+                        <option value="GST@0.25">GST@0.25%</option>
+                        <option value="IGST@3">IGST@3%</option>
+                        <option value="GST@3">GST@3%</option>
+                        <option value="IGST@5">IGST@5%</option>
+                        <option value="GST@5">GST@5%</option>
+                        <option value="IGST@12">IGST@12%</option>
+                        <option value="GST@12">GST@12%</option>
+                        <option value="IGST@18">IGST@18%</option>
+                        <option value="GST@18">GST@18%</option>
+                        <option value="IGST@28">IGST@28%</option>
+                        <option value="GST@28">GST@28%</option>
                      </select>
                   </div>
                   <input
@@ -393,4 +439,4 @@ const ItemsTableBody = memo(
    }
 );
 
-export default ItemsTableBody;
+export default AddPurchaseForm;

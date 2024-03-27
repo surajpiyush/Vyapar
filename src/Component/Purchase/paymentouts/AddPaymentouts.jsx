@@ -83,9 +83,10 @@ const AddPaymentouts = ({ setOpenForm,date }) => {
          total: totalAmount,
       };
       // console.log("data", data2);
-      dispatch(addPayOut(data2));
-      setOpenForm(false);
-      dispatch(getPaymentOutBill({ date }));
+      addPayOut(dispatch,data2,setOpenForm,toast)
+      // setOpenForm(false);
+      // dispatch(getPaymentOutBill({ date }));
+      getPaymentOutBill(dispatch,date)
    
    };
 
@@ -230,7 +231,8 @@ const AddPaymentouts = ({ setOpenForm,date }) => {
                         required
                      />
                   </div>
-                  <div className={css.totalBottomDiv}>
+                  {/* this discount part is temporay removed as per CA sir but if asked than remove comment */}
+                  {/* <div className={css.totalBottomDiv}>
                      <p>Discount</p>
                      <div style={{ position: "relative" }}>
                         <input
@@ -251,8 +253,8 @@ const AddPaymentouts = ({ setOpenForm,date }) => {
                            %
                         </span>
                      </div>
-                  </div>
-
+                  </div> */}
+{/* 
                   <div className={css.totalBottomDiv}>
                      <p>Paid</p>
                      <input
@@ -268,7 +270,7 @@ const AddPaymentouts = ({ setOpenForm,date }) => {
                            cursor: "not-allowed",
                         }}
                      />
-                  </div>
+                  </div> */}
                </div>
             </div>
             <div className={css.bottomRightSideCont}></div>

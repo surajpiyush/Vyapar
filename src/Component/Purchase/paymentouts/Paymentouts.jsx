@@ -26,7 +26,7 @@ const Paymentouts = ({ func, date }) => {
    const [isEditing, setIsEditing] = useState(false);
    const [editedData, setEditedData] = useState(null);
    const store = useSelector((store) => store.PurchaseReducer);
-   const data =useSelector((store) => store.PurchaseReducer.paymentOutData)
+   const data = useSelector((store) => store.PurchaseReducer.paymentOutData);
 
    useEffect(() => {
       // Fetch payment out bills when component mounts or date changes
@@ -35,11 +35,7 @@ const Paymentouts = ({ func, date }) => {
 
    const handleDelete = (id) => {
       // Delete payment out bill
-      dispatch(
-         deletePayoutBill(id, toast, () => {
-            dispatch(getPaymentOutBill({ date }));
-         })
-      );
+      dispatch(deletePayoutBill(id, toast));
    };
 
    const handleEdit = (data) => {
@@ -105,7 +101,6 @@ const Paymentouts = ({ func, date }) => {
                               "categoryName",
                               "type",
                               "total",
-                              "recieved",
                               "balance",
                            ].map((item, index) => (
                               <th className="table-h" key={index}>
@@ -134,7 +129,6 @@ const Paymentouts = ({ func, date }) => {
                                           "categoryName",
                                           "type",
                                           "total",
-                                          "recieved",
                                           "balance",
                                        ]}
                                        data={editedData}
@@ -156,7 +150,6 @@ const Paymentouts = ({ func, date }) => {
                                        </td>
                                        <td className="table-h">{e.type}</td>
                                        <td className="table-h">₹{e.total}</td>
-                                       <td className="table-h">₹{e.paid}</td>
                                        <td className="table-h">₹{e.balance}</td>
                                        <td className="table-h">
                                           <PrinterIcon

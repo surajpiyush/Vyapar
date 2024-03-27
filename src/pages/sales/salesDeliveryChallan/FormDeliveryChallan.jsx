@@ -163,6 +163,7 @@ const FormDeliveryChallan = ({ setOpenForm, setToggleSetting }) => {
          phoneNumber: currentCustomerData?.phoneNumber || "",
          billingAddress: currentCustomerData?.billingAddress || "",
          openingBalance: currentCustomerData?.openingBalance || "",
+         stateOfSupply: currentCustomerData?.state || "",
       };
       setOrderData((prev) => {
          return { ...prev, ...obj };

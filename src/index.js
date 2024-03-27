@@ -14,7 +14,7 @@ import Marketing from "./pages/Marketing.jsx";
 import HsnReport from "./pages/HsnReport.jsx";
 import AuthPage from "./Page/Auth/AuthPage.jsx";
 import reportWebVitals from "./reportWebVitals";
-import Parties from "./Page/parties/Parties.jsx";
+import Parties from "./Page/Parties/Parties.jsx";
 import PageNotFound from "./pages/PageNotFound.jsx";
 import AddPurchase from "./Page/AddPurchasepage.jsx";
 import Paymentout from "./Page/Purchase/Paymentout.jsx";
@@ -28,7 +28,7 @@ import SalesReturn from "./pages/sales/salesReturn/SalesReturn.jsx";
 import Purchaseorderpage from "./Page/Purchase/Purchaseorderpage.jsx";
 import SalesInvoice from "./pages/sales/salesInvoice/SalesInvoice.jsx";
 import Purchasereturnpage from "./Page/Purchase/Purchasereturnpage.jsx";
-import AddPurchasereturn from "./Component/Purchase/AddPurchasereturn.jsx";
+import Addpurchasereturnpage from "./Page/Addpurchasereturnpage.jsx";
 import SalesEstimates from "./pages/sales/salesEstimates/SalesEstimates.jsx";
 import SalesPaymentln from "./pages/sales/salesPaymentIn/SalesPaymentIn.jsx";
 import SalesDeliveryChallan from "./pages/sales/salesDeliveryChallan/SalesDeliveryChallan.jsx";
@@ -97,7 +97,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/addpurchasereturn",
-        element: <AddPurchasereturn />,
+        element: <Addpurchasereturnpage />,
       },
       // Sales Routes
       {

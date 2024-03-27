@@ -2,7 +2,6 @@ import { GetAllItems } from "../../Redux/items/actions";
 import { FetchAllParties } from "../../Redux/parties/actions";
 import ItemsForm from "../../components/addForm/ItemsForm";
 import css from "../../styles/SalesStyles/SalesForms.module.css";
-import ItemsTableBody from "./Addpurchaseorder";
 
 import {
     Button,
@@ -21,6 +20,7 @@ import { ImCheckboxUnchecked as EmptyCheckedBox } from "react-icons/im";
 import { IoIosArrowDown as ArrowDown } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { addPurchaseOrder } from "../../Redux/purchase/action";
+import AddPurchaseForm from "./AddPurchaseForm";
 
 const Addpurchaseitem = ({ setOpenForm }) => {
    const data = useSelector((store) => store.PurchaseReducer.purchaseOrderData);
@@ -61,7 +61,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
    const [balanceAmount, setBalanceAmount] = useState("");
    const [invoiceItems, setInvoiceItems] = useState([
       {
-         category: "65c5cfc509b34ca8a0187497",
+         category: "",
          itemName: "",
          itemCode: "",
          hsnCode: "",
@@ -296,14 +296,15 @@ const Addpurchaseitem = ({ setOpenForm }) => {
       // console.log(itemDetail);
       let currSaleItem = {
          ...invoiceItems[index],
-
          itemName: itemDetail?._id,
          mainName: itemDetail?.itemName,
          taxPersant: itemDetail?.taxRate.split("%")[0] || "",
-         qty: itemDetail?.stock?.openingQuantity || 0,
+         qty: Number(itemDetail?.stock?.openingQuantity) || 0,
          priceUnit: itemDetail?.stock?.atPrice || 0,
          unit: itemDetail?.seleteUnit?.baseUnit || "",
          hsnCode: itemDetail?.itemHsn || "",
+         itemCode: itemDetail?.itemCode || "",
+         category: itemDetail?.category || "",
       };
       let newSaleData = invoiceItems.map((ite, ind) =>
          ind == index ? currSaleItem : ite
@@ -353,7 +354,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
    return (
       <form onSubmit={handleSubmit} className={css.formOuter}>
          <div className={css.topheader}>
-            <p>Purchase</p>
+            <p>Purchase Order</p>
          </div>
 
          <div className={css.ContentContainerDiv}>
@@ -581,7 +582,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                   <tbody>
                      {invoiceItems?.map((item, ind) => {
                         return (
-                           <ItemsTableBody
+                           <AddPurchaseForm
                               ind={ind}
                               item={item}
                               invoiceItems={invoiceItems}

@@ -6,13 +6,7 @@ import {
    getPurchaseOrder,
    updatePurchaseOrderBill,
 } from "../../Redux/purchase/action";
-import {
-   DeleteIcon,
-   DotsIcon,
-   EditIcon,
-   FilterIcon,
-   PrinterIcon,
-} from "../utils/reactIcons";
+import { DeleteIcon, EditIcon } from "../utils/reactIcons";
 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,7 +25,7 @@ const Pourchaseorder = ({ func }) => {
    // console.log(store);
    useEffect(() => {
       dispatch(getPurchaseOrder({ date }));
-   }, [dispatch,func]);
+   }, [dispatch, func]);
    const openForm = () => {
       func(true);
    };
@@ -39,7 +33,7 @@ const Pourchaseorder = ({ func }) => {
 
    // delete
    const handleDelete = (id) => {
-      dispatch(deletePurchaseOrderBill(id,toast));
+      dispatch(deletePurchaseOrderBill(id, toast));
    };
 
    const handleEdit = (data) => {
@@ -88,7 +82,6 @@ const Pourchaseorder = ({ func }) => {
             />
          ) : (
             <div className="payment-out-container">
-      
                <div className="transactions-buttons">
                   {/* <input type="text" /> */}
                   <button
