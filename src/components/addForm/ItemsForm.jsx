@@ -1,6 +1,6 @@
 import "../../styles/Items.css";
 import css from "../../styles/SalesStyles/SalesForms.module.css";
-import { addItem } from "../../Redux/items/actions";
+import { AddItem } from "../../Redux/items/actions";
 
 import { useState } from "react";
 import { useToast } from "@chakra-ui/react";
@@ -9,8 +9,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 export default function ItemsForm({ closeForm, handleSettingClick }) {
   const toast = useToast();
-  const navigate = useNavigate();
-  const location = useLocation();
   const [optToggle, setOptToggle] = useState(true);
   const [productOptToggle, setProductOptToggle] = useState(true);
   const [wsToggle, setWsToggle] = useState(false);
@@ -79,7 +77,7 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
   });
 
   // Input change handler
-  const handleChange = (e) => {
+  const handleInpChange = (e) => {
     const { name, value } = e.target;
     if (name == "seleteUnit") {
       const seletedUnit = { baseUnit: value, secondaryUnit: value };
@@ -93,7 +91,6 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
         [name]: value,
       }));
     }
-    // console.log(formData)
   };
 
   // Sale price change handler
@@ -140,7 +137,7 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
   // Submit Function
   const handleSave = () => {
     // console.log("Add Item Data:", formData);
-    addItem(dispatch, formData, closeForm, toast);
+    AddItem(dispatch, formData, closeForm, toast);
   };
 
   // Close Form Function
@@ -198,7 +195,7 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
                   type="text"
                   name="itemName"
                   value={formData?.itemName}
-                  onChange={handleChange}
+                  onChange={handleInpChange}
                   placeholder="Item Name *"
                   className="inp-field"
                   required
@@ -209,7 +206,7 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
                   type="number"
                   name="itemHsn"
                   value={formData?.itemHsn}
-                  onChange={handleChange}
+                  onChange={handleInpChange}
                   placeholder="Item HSN *"
                   className="inp-field"
                   required
@@ -224,9 +221,9 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
                       onClick={() => setSel(false)}
                     >
                       <select
-                        value={formData?.seleteUnit?.baseUnit}
-                        onChange={handleChange}
                         name="seleteUnit"
+                        value={formData?.seleteUnit?.baseUnit}
+                        onChange={handleInpChange}
                         placeholder="None"
                       >
                         <option value="">Select Unit</option>
@@ -264,7 +261,7 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
                 <select
                   name="category"
                   // value={currentCustomerData?._id}
-                  onChange={handleChange}
+                  onChange={handleInpChange}
                   className={css.selectTag}
                   required
                 >
@@ -283,7 +280,7 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
                   type="number"
                   name="itemCode"
                   value={formData?.itemCode}
-                  onChange={handleChange}
+                  onChange={handleInpChange}
                   placeholder="Item Code *"
                   className="inp-field"
                   // required
@@ -465,7 +462,7 @@ export default function ItemsForm({ closeForm, handleSettingClick }) {
                               <select
                                 name="taxRate"
                                 value={formData?.taxRate}
-                                onChange={handleChange}
+                                onChange={handleInpChange}
                                 className="item-inp-field"
                               >
                                 <option value="">None</option>

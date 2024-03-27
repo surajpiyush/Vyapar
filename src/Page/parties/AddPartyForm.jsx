@@ -31,7 +31,7 @@ const AddPartyForm = ({ CloseForm, OpenSettings }) => {
   });
 
   // Handle Save Function
-  const handleSave = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (!postPartyLoading) {
       if (!StatesList.includes(formData?.state)) {
@@ -60,14 +60,14 @@ const AddPartyForm = ({ CloseForm, OpenSettings }) => {
         e.stopPropagation();
         CloseForm(false);
       }}
-      className={css.partyFormOuterParent}
+      className={css.FormOuterParent}
     >
       <form
-        onSubmit={handleSave}
+        onSubmit={handleSubmit}
         onClick={(e) => e.stopPropagation()}
-        className={css.partyFormOuter}
+        className={css.actualFormOuter}
       >
-        {/* Form Header */}
+        {/* Header */}
         <div className={css.formHeaderOuterDiv}>
           <h3>Add Party</h3>
           <div>
@@ -495,7 +495,7 @@ const AddPartyForm = ({ CloseForm, OpenSettings }) => {
           )}
         </div>
 
-        {/* Form Footer */}
+        {/* Footer */}
         <div className={css.footerOuter}>
           <button
             type="submit"

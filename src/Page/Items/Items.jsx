@@ -1,5 +1,5 @@
-// import "../../styles/Items.css";
 import css from "./Items.module.css";
+import AddItemForm from "./AddItemForm";
 import party from "../../assets/Images/party.jpg";
 import Setting from "../../Component/Setting/Setting";
 import UnitForm from "../../components/addForm/UnitForm";
@@ -10,10 +10,10 @@ import ProductsTable from "../../components/TableData/ProductsTable";
 import ServicesTable from "../../components/TableData/ServicesTable";
 import CategoryTable from "../../components/TableData/CategoryTable";
 import StockAdjustment from "../../components/addForm/StockAdjustment";
+import FirstTimeFormToggle from "../../Component/FirmTimeForm/FirstTimeFormToggle";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import FirstTimeFormToggle from "../../Component/FirmTimeForm/FirstTimeFormToggle";
-import { getCategory, getitems } from "../../Redux/items/actions";
+import { GetAllCategories, getitems } from "../../Redux/items/actions";
 
 export default function Items() {
   const dispatch = useDispatch();
@@ -37,7 +37,7 @@ export default function Items() {
   }, [toggleItems]);
 
   useEffect(() => {
-    getCategory(dispatch);
+    GetAllCategories(dispatch);
   }, [dispatch, categoryForm]);
 
   const toggleForm = () => {
@@ -108,12 +108,20 @@ export default function Items() {
   return (
     <div>
       {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
+      {/* Old Add Item Form */}
       {openForm && (
         <ItemsForm
           handleSettingClick={handleSettingClick}
           closeForm={() => setOpenForm(false)}
         />
       )}
+      {/* New Add Item Form */}
+      {/* {openForm && (
+        <AddItemForm
+          OpenSettings={handleSettingClick}
+          CloseForm={setOpenForm}
+        />
+      )} */}
       {categoryForm && <CategoryForm func={closeCategoryForm} />}
       {unitForm && <UnitForm func={closeUnitForm} />}
       {adjustItem && <StockAdjustment func={closeAdjustForm} />}
