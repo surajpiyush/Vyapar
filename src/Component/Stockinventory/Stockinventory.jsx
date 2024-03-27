@@ -12,7 +12,6 @@ const Stockinventory = () => {
       <section className="stock-privacy-card">
         <p>Privacy</p>
         <div onClick={() => setopenToggle(!openToggle)}>
-          {" "}
           {openToggle ? (
             <OpenToggle className="toggleicon" />
           ) : (
