@@ -6,6 +6,7 @@ import {
   SET_CURRENT_COMPANY,
   UPDATE_PROFILE_SUCCESS,
   FETCH_COMPANIES_SUCCESS,
+  COMPANYDELETE,
 } from "./actionTypes";
 
 // Initial States
@@ -85,6 +86,13 @@ export const reducer = (state = initState, { type, payload, name }) => {
         ...state,
         [name]: payload,
       };
+    }
+    case COMPANYDELETE: {
+      return{
+        ...state,
+        isLoading:false,
+        toggleUpdate: !state.toggleUpdate,
+      }
     }
     default: {
       return state;
