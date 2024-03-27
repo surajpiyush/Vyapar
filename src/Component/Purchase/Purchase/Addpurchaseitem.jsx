@@ -2,7 +2,6 @@ import { GetAllItems } from "../../../Redux/items/actions";
 import { FetchAllParties } from "../../../Redux/parties/actions";
 import ItemsForm from "../../../components/addForm/ItemsForm";
 import css from "../../../styles/SalesStyles/SalesForms.module.css";
-import ItemsTableBody from "./Purchase";
 
 import {
    Button,
@@ -27,6 +26,7 @@ import {
    addPurchaseBill,
    getPurchaseBill,
 } from "../../../Redux/purchase/action";
+import AddPurchaseForm from "../AddPurchaseForm";
 
 const Addpurchaseitem = ({ setOpenForm, date }) => {
    const toast = useToast();
@@ -671,7 +671,7 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
                   <tbody>
                      {invoiceItems?.map((item, ind) => {
                         return (
-                           <ItemsTableBody
+                           <AddPurchaseForm
                               ind={ind}
                               item={item}
                               invoiceItems={invoiceItems}

@@ -1,10 +1,10 @@
 import React from "react";
-import AddPurchasereturn from "../Component/Purchase/AddPurchasereturn";
+import AddPurchasereturnitrm from "../Component/Purchase/Addpurchasereturnitrm";
 
 const Addpurchasereturnpage = () => {
   return (
     <div>
-      <AddPurchasereturn />
+      <AddPurchasereturnitrm />
     </div>
   );
 };

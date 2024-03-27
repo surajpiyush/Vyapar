@@ -35,11 +35,7 @@ const Paymentouts = ({ func, date }) => {
 
    const handleDelete = (id) => {
       // Delete payment out bill
-      dispatch(
-         deletePayoutBill(id, toast, () => {
-            dispatch(getPaymentOutBill({ date }));
-         })
-      );
+      dispatch(deletePayoutBill(id, toast));
    };
 
    const handleEdit = (data) => {

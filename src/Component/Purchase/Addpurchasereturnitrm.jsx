@@ -2,7 +2,6 @@ import { GetAllItems } from "../../Redux/items/actions";
 import { FetchAllParties } from "../../Redux/parties/actions";
 import ItemsForm from "../../components/addForm/ItemsForm";
 import css from "../../styles/SalesStyles/SalesForms.module.css";
-import ItemsTableBody from "./AddPurchasereturn";
 
 import {
    Button,
@@ -24,6 +23,7 @@ import { ImCheckboxUnchecked as EmptyCheckedBox } from "react-icons/im";
 import { IoIosArrowDown as ArrowDown } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { addPurchaseReturn } from "../../Redux/purchase/action";
+import AddPurchaseForm from "./AddPurchaseForm";
 
 const Addpurchaseitem = ({ setOpenForm }) => {
    const toast = useToast();
@@ -180,8 +180,8 @@ const Addpurchaseitem = ({ setOpenForm }) => {
          purchaseOrder: saleData,
       };
       console.log("data", purchaseReturnData);
-      dispatch(addPurchaseReturn(purchaseReturnData));
-      setOpenForm(false);
+      addPurchaseReturn(dispatch, purchaseReturnData, setOpenForm, toast);
+      // setOpenForm(false);
    };
 
    // for fetching all parties list on form mount
@@ -304,7 +304,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
    return (
       <form onSubmit={handleSubmit} className={css.formOuter}>
          <div className={css.topheader}>
-            <p>Purchase</p>
+            <p>Purchase Return</p>
          </div>
 
          <div className={css.ContentContainerDiv}>
@@ -421,7 +421,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                      />
                   </div>
 
-                  <div>
+                  {/* <div>
                      <p>Due Date</p>
                      <input
                         type="date"
@@ -430,7 +430,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                         onChange={(e) => handleInputChange(e)}
                         name="date"
                      />
-                  </div>
+                  </div> */}
                   <div>
                      <p>State of supply</p>
                      <select
@@ -544,7 +544,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                   <tbody>
                      {invoiceItems?.map((item, ind) => {
                         return (
-                           <ItemsTableBody
+                           <AddPurchaseForm
                               ind={ind}
                               item={item}
                               invoiceItems={invoiceItems}

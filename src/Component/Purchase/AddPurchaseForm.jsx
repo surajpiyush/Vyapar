@@ -1,12 +1,13 @@
 import css from "../../styles/SalesStyles/SalesForms.module.css";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { memo, useEffect, useState } from "react";
 import { Menu, MenuList, MenuItem, MenuDivider } from "@chakra-ui/react";
 import { MdDelete as DeleteIcon } from "react-icons/md";
 import { TbArrowsMove as MoveIcon } from "react-icons/tb";
+import { getCategory } from "../../Redux/items/actions";
 
-const ItemsTableBody = memo(
+const AddPurchaseForm = memo(
    ({
       ind,
       item,
@@ -22,6 +23,7 @@ const ItemsTableBody = memo(
       getAllItemsLoading,
       items,
    }) => {
+      const dispatch = useDispatch();
       const loadingAllItems = useSelector(
          (state) => state.ItemReducer.getAllItemsLoading
       );
@@ -29,7 +31,10 @@ const ItemsTableBody = memo(
       const category = useSelector((state) => state.ItemReducer.category);
       const [foundItems, setFoundItems] = useState([]);
 
-      // Itemslist Suggestions
+      useEffect(() => {
+         dispatch(getCategory);
+      }, []);
+
       useEffect(() => {
          const regex = new RegExp(item?.itemName, "i");
          const itemsArr = Array.isArray(itemsList) ? itemsList : [];
@@ -37,19 +42,16 @@ const ItemsTableBody = memo(
          if (item?.itemName.length < 1) {
             return setFoundItems(items);
          }
-
          setFoundItems(found);
       }, [item?.itemName, itemsList]);
 
       function AmountCalculator() {
          const parseToNumber = (value) => (value ? parseFloat(value) : 0);
-
          let amount = parseToNumber(item?.amount) || 0;
          let taxAmount = parseToNumber(item?.taxAmount) || 0;
          let discountPercent = parseToNumber(item?.discountpersant) || 0;
          let discountAmount = parseToNumber(item?.discountAmount) || 0;
          let taxPercent = 0;
-
          if (item && item.taxPersant) {
             const parts = item.taxPersant.split("@");
             if (parts.length === 2) {
@@ -132,7 +134,7 @@ const ItemsTableBody = memo(
          item.discountpersant,
          item.taxPersant,
       ]);
-      // console.log(item);
+      //   console.log(item);
       return (
          <tr
             onClick={() => setIndexSaleItem(ind)}
@@ -153,7 +155,7 @@ const ItemsTableBody = memo(
                   />
                </div>
             </td>
-            <td>
+            <td className={css.itemNameBody}>
                <select
                   name="category"
                   value={item?.category}
@@ -203,13 +205,13 @@ const ItemsTableBody = memo(
                   type="text"
                   name="itemName"
                   value={item?.mainName}
-                  className={css.itemNameBody}
                   onChange={(e) => {
                      handleTableInputChange(e, ind);
                   }}
                   onBlur={() => {
                      setShowItemsListMenu(false);
                   }}
+                  className={css.tableInputs}
                   required
                />
                <Menu isOpen={showItemsListMenu && ind == indexSaleItem}>
@@ -256,9 +258,9 @@ const ItemsTableBody = memo(
                <input
                   type="text"
                   className={css.tableInputs}
-                  value={item?.itemCode}
                   name="itemCode"
-                  onChange={(e) => handleTableInputChange(e, ind)}
+                  value={item?.itemCode}
+                  // onChange={(e) => handleTableInputChange(e, ind)}
                   disabled
                />
             </td>
@@ -389,7 +391,7 @@ const ItemsTableBody = memo(
                         value={item.taxPersant}
                         onChange={(e) => handleTableInputChange(e, ind)}
                      >
-                         <option value="">None</option>
+                        <option value="">None</option>
                         <option value="IGST@0">IGST@0%</option>
                         <option value="GST@0">GST@0%</option>
                         <option value="IGST@0.25">IGST@0.25%</option>
@@ -437,4 +439,4 @@ const ItemsTableBody = memo(
    }
 );
 
-export default ItemsTableBody;
+export default AddPurchaseForm;

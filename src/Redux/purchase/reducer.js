@@ -57,7 +57,6 @@ export const reducer = (state = initialState, { type, payload }) => {
          const updatedPurchaseBills = state.purchaseBillData.filter(
             (bill) => bill._id !== payload
          );
-         //  console.log(payload)
          return {
             ...state,
             purchaseBillData: updatedPurchaseBills,

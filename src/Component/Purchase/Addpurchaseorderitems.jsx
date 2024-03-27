@@ -2,7 +2,6 @@ import { GetAllItems } from "../../Redux/items/actions";
 import { FetchAllParties } from "../../Redux/parties/actions";
 import ItemsForm from "../../components/addForm/ItemsForm";
 import css from "../../styles/SalesStyles/SalesForms.module.css";
-import ItemsTableBody from "./Addpurchaseorder";
 
 import {
     Button,
@@ -21,6 +20,7 @@ import { ImCheckboxUnchecked as EmptyCheckedBox } from "react-icons/im";
 import { IoIosArrowDown as ArrowDown } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { addPurchaseOrder } from "../../Redux/purchase/action";
+import AddPurchaseForm from "./AddPurchaseForm";
 
 const Addpurchaseitem = ({ setOpenForm }) => {
    const data = useSelector((store) => store.PurchaseReducer.purchaseOrderData);
@@ -582,7 +582,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                   <tbody>
                      {invoiceItems?.map((item, ind) => {
                         return (
-                           <ItemsTableBody
+                           <AddPurchaseForm
                               ind={ind}
                               item={item}
                               invoiceItems={invoiceItems}

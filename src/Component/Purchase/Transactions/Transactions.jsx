@@ -117,9 +117,8 @@ const Transactions = ({ func, date, info }) => {
                      <tbody>
                         {!isLoading && showAllPurchaseBills.length ? (
                            showAllPurchaseBills?.map((e) => {
-                              {
-                                 /* info.paid += e?.amount - e?.balanceDue; */
-                              }
+                              info.paid += Number(e?.amount) - Number(e?.balanceDue);
+
                               info.unpaid += e.balanceDue;
                               info.total += e.amount;
 

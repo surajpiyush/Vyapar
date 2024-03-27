@@ -1,12 +1,12 @@
 import React from "react";
-import Purchase from "../Component/Purchase/Purchase/Purchase";
+import Addpurchaseitem from "../Component/Purchase/Addpurchasereturnitrm";
 
 const AddPurchase = () => {
-  return (
-    <div>
-      <Purchase />
-    </div>
-  );
+   return (
+      <div>
+         <Addpurchaseitem />
+      </div>
+   );
 };
 
 export default AddPurchase;

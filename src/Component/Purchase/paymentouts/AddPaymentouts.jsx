@@ -83,9 +83,10 @@ const AddPaymentouts = ({ setOpenForm,date }) => {
          total: totalAmount,
       };
       // console.log("data", data2);
-      dispatch(addPayOut(data2));
-      setOpenForm(false);
-      dispatch(getPaymentOutBill({ date }));
+      addPayOut(dispatch,data2,setOpenForm,toast)
+      // setOpenForm(false);
+      // dispatch(getPaymentOutBill({ date }));
+      getPaymentOutBill(dispatch,date)
    
    };
 
