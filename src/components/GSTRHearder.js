@@ -320,7 +320,10 @@ const GSTRHeader = ({
                setLoading(false);
             }
             break;
-
+         case "GSTR2" :
+            return{
+               
+            }
          default:
             console.warn("Unknown action:", action);
       }
