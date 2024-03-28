@@ -21,7 +21,7 @@ import { ImSpinner3 as BasicSpinner } from "react-icons/im";
 import EditableRow from "../../EditForm";
 import { useToast } from "@chakra-ui/react";
 
-const Transactions = ({ func, date, info }) => {
+const Transactions = ({ func, date, info,data }) => {
    const [isEditing, setIsEditing] = useState(false);
    const [editedData, setEditedData] = useState(null);
    const toast = useToast();
@@ -33,13 +33,13 @@ const Transactions = ({ func, date, info }) => {
    const showAllPurchaseBills = useSelector(
       (store) => store.PurchaseReducer.purchaseBillData
    );
-   console.log(showAllPurchaseBills);
+   // console.log(showAllPurchaseBills);
 
-   //console.log(date);
-   useEffect(() => {
-      dispatch(getPurchaseBill({ date }));
-      // console.log("first run succed")
-   }, [date, dispatch, func]);
+   console.log(date,data);
+   // useEffect(() => {
+   //    dispatch(getPurchaseBill({ date }));
+   //    // console.log("first run succed")
+   // }, [date, dispatch, func]);
 
    const handleEdit = (data) => {
       // console.log(data)

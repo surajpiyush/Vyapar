@@ -34,7 +34,7 @@ export default function Items() {
 
   useEffect(() => {
     getitems(dispatch);
-  }, [toggleItems]);
+  }, [dispatch,toggleItems]);
 
   useEffect(() => {
     GetAllCategories(dispatch);

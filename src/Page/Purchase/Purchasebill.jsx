@@ -14,6 +14,7 @@ import { MdOutlineSettings as SettingIcon } from "react-icons/md";
 import { IoMdCloseCircle as CloseIcon } from "react-icons/io";
 import { IoCloseOutline as CrossIcon } from "react-icons/io5";
 import Setting from "../../Component/Setting/Setting";
+import { getPurchaseBill } from "../../Redux/purchase/action";
 
 const Purchasebill = () => {
    const [toggleSetting, setToggleSetting] = useState(false);
@@ -27,20 +28,24 @@ const Purchasebill = () => {
    const [endDate, setEndDate] = useState(
       new Date().toISOString().split("T")[0]
    );
+   const date = { startDate: startDate, endDate: endDate };
    const info = { paid: 0, unpaid: 0, total: 0 };
    const toggleSalesSuccess = useSelector(
       (state) => state.SalesReducer.toggleSalesSuccess
    );
    const isLoading = useSelector((state) => state.SalesReducer.isLoading);
-
+   const AllPurchaseBills = useSelector(
+      (store) => store.PurchaseReducer.purchaseBillData
+   );
    useEffect(() => {
-      GetAllSalesInvoice(dispatch, startDate, endDate);
-   }, [toggleSalesSuccess, startDate, endDate]);
+      // GetAllSalesInvoice(dispatch, startDate, endDate);
+      dispatch(getPurchaseBill({ date }));
+   }, [dispatch,startDate,endDate]);
 
    const formOpen = () => {
       setOpenForm(true);
    };
-   const date = { startDate: startDate, endDate: endDate };
+   console.log("ALL BILLS IN THIS MONTH : ",AllPurchaseBills)
    return (
       <div className="purchase-bill-container">
          <Thismonth
@@ -49,6 +54,7 @@ const Purchasebill = () => {
             setStartDate={setStartDate}
             setEndDate={setEndDate}
             info={info}
+            data={AllPurchaseBills}
          />
          <div>
             {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
@@ -84,7 +90,7 @@ const Purchasebill = () => {
                ) : (
                   <div>
                      {!isLoading && (
-                        <Transactions func={formOpen} date={date} info={info} />
+                        <Transactions func={formOpen} date={date} info={info} data={AllPurchaseBills} />
                      )}
                   </div>
                )}

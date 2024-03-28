@@ -20,18 +20,14 @@ import {
 import "./Paymentouts.css";
 import { useToast } from "@chakra-ui/react";
 
-const Paymentouts = ({ func, date }) => {
+const Paymentouts = ({ func, date,data }) => {
    const toast = useToast();
    const dispatch = useDispatch();
    const [isEditing, setIsEditing] = useState(false);
    const [editedData, setEditedData] = useState(null);
    const store = useSelector((store) => store.PurchaseReducer);
-   const data = useSelector((store) => store.PurchaseReducer.paymentOutData);
 
-   useEffect(() => {
-      // Fetch payment out bills when component mounts or date changes
-      dispatch(getPaymentOutBill({ date }));
-   }, [date, dispatch, func]);
+   console.log(data)
 
    const handleDelete = (id) => {
       // Delete payment out bill
@@ -64,11 +60,11 @@ const Paymentouts = ({ func, date }) => {
    };
 
    const totaldisplay = useMemo(
-      () => data.reduce((acc, e) => acc + Number(e?.total), 0),
+      () => data?.reduce((acc, e) => acc + Number(e?.total), 0),
       [data]
    );
    const totalBalance = useMemo(
-      () => data.reduce((acc, e) => acc + Number(e?.balance), 0),
+      () => data?.reduce((acc, e) => acc + Number(e?.balance), 0),
       [data]
    );
 
