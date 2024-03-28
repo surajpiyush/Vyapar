@@ -19,13 +19,11 @@ import { useDispatch, useSelector } from "react-redux";
 import EditableRow from "../../EditForm";
 import { useToast } from "@chakra-ui/react";
 
-const Purchasereturn = ({ func, date }) => {
+const Purchasereturn = ({ func, date, data }) => {
    const dispatch = useDispatch();
    const toast = useToast();
    const isLoading = useSelector((store) => store.PurchaseReducer.isLoading);
-   const data = useSelector(
-      (store) => store.PurchaseReducer?.purchaseReturnData
-   );
+
    const [isEditing, setIsEditing] = useState(false);
    const [editedData, setEditedData] = useState(null);
    const display = [
@@ -39,10 +37,6 @@ const Purchasereturn = ({ func, date }) => {
       "recieve",
       "balance",
    ];
-
-   useEffect(() => {
-      dispatch(getPurchaseReturn({ date }));
-   }, [dispatch, date, func]);
 
    const handleDelete = (id) => {
       dispatch(
