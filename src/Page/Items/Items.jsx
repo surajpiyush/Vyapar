@@ -3,7 +3,6 @@ import AddItemForm from "./AddItemForm";
 import party from "../../assets/Images/party.jpg";
 import Setting from "../../Component/Setting/Setting";
 import UnitForm from "../../components/addForm/UnitForm";
-import ItemsForm from "../../components/addForm/ItemsForm";
 import UnitsTable from "../../components/TableData/UnitsTable";
 import CategoryForm from "../../components/addForm/CategoryForm";
 import ProductsTable from "../../components/TableData/ProductsTable";
@@ -37,7 +36,7 @@ export default function Items() {
 
   useEffect(() => {
     getitems(dispatch);
-  }, [dispatch,toggleItems]);
+  }, [dispatch, toggleItems]);
 
   useEffect(() => {
     GetAllCategories(dispatch);
@@ -111,20 +110,8 @@ export default function Items() {
   return (
     <div>
       {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
-      {/* Old Add Item Form */}
-      {openForm && (
-        <ItemsForm
-          handleSettingClick={handleSettingClick}
-          closeForm={() => setOpenForm(false)}
-        />
-      )}
       {/* New Add Item Form */}
-      {/* {openForm && (
-        <AddItemForm
-          OpenSettings={handleSettingClick}
-          CloseForm={setOpenForm}
-        />
-      )} */}
+      {openForm && <AddItemForm CloseForm={setOpenForm} />}
       {categoryForm && <CategoryForm func={closeCategoryForm} />}
       {unitForm && <UnitForm func={closeUnitForm} />}
       {adjustItem && <StockAdjustment func={closeAdjustForm} />}

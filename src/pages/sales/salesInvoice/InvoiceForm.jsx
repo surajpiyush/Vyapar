@@ -2,7 +2,7 @@ import FormItemsRowTable from "../../../Component/FormItemsRowTable";
 import { GetAllItems } from "../../../Redux/items/actions";
 import { FetchAllParties } from "../../../Redux/parties/actions";
 import { PostSalesInvoice } from "../../../Redux/sales/action";
-import ItemsForm from "../../../components/addForm/ItemsForm";
+//import ItemsForm from "../../../components/addForm/ItemsForm";
 import css from "../../../styles/SalesStyles/SalesForms.module.css";
 
 import {
@@ -24,6 +24,7 @@ import { HiMiniDocumentText as AddDocumentIcon } from "react-icons/hi2";
 import { ImCheckboxUnchecked as EmptyCheckedBox } from "react-icons/im";
 import { IoIosArrowDown as ArrowDown } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
+import AddItemForm from "../../../Page/Items/AddItemForm";
 
 const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
   const toast = useToast();
@@ -308,12 +309,7 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
       </div>
 
       <div className={css.ContentContainerDiv}>
-        {showItemForm && (
-          <ItemsForm
-            handleSettingClick={handleSettingClick}
-            closeForm={setShowAddItemsForm}
-          />
-        )}
+        {showItemForm && <AddItemForm CloseForm={setShowAddItemsForm} />}
 
         {/* Middle  */}
         <div className={css.middleOuter}>

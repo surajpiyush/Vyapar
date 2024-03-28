@@ -293,7 +293,7 @@ export const GetAllCategories = async (dispatch) => {
       { headers: { Authorization: `Bearer ${token}` } }
     );
 
-    console.log("Getting All Categories Response:", response?.data);
+    // console.log("Getting All Categories Response:", response?.data);
     dispatch({
       type: GET_All_CATEGORIES_SUCCESS,
       payload: response?.data?.data,

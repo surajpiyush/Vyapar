@@ -11,7 +11,7 @@
   background-color: var(--pureWhite);
   padding: 10px;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-  border-radius: 15px;
+  border-radius: 6px;
 }
 
 .stock-privacy-card {
@@ -19,7 +19,7 @@
   align-items: center;
   padding: 10px;
   background-color: var(--pureWhite);
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
   justify-content: space-between;
   /* gap: 25px; */

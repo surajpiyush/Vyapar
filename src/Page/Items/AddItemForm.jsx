@@ -1,16 +1,22 @@
 import css from "./AddItem.module.css";
-import { GetAllUnits, GetAllCategories } from "../../Redux/items/actions";
+import CategoryForm from "../../components/addForm/CategoryForm";
 import {
-  SettingsIconFilled,
+  AddItem,
+  GetAllUnits,
+  GetAllCategories,
+} from "../../Redux/items/actions";
+import {
   CrossIcon,
+  PlusIconThin,
   MinusCircleIcon,
+  SettingsIconFilled,
 } from "../../assets/Icons/ReactIcons";
 
-import { useEffect, useState } from "react";
 import { useToast } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const AddItemForm = ({ CloseForm, OpenSettings }) => {
+const AddItemForm = ({ CloseForm }) => {
   const toast = useToast();
   const dispatch = useDispatch();
   const isLoading = useSelector((store) => store.ItemReducer.isLoading);
@@ -29,6 +35,9 @@ const AddItemForm = ({ CloseForm, OpenSettings }) => {
   );
   const categoriesList = useSelector((store) => store.ItemReducer.category);
   const [currInps, setCurrInps] = useState("Pricing");
+  const [currCategoryName, setCurrCategoryName] = useState("");
+  const [showAddCategoryFom, setShowAddCategoryFom] = useState(false);
+  const [showCategoryMenu, setShowCategoryMenu] = useState(false);
   const [showWholeSalePrice, setShowWholeSalePrice] = useState(false);
   const [formData, setFormData] = useState({
     itemName: "",
@@ -40,7 +49,7 @@ const AddItemForm = ({ CloseForm, OpenSettings }) => {
       salePrice: "",
       tax: false,
       disOnSale: "",
-      discountType: "",
+      discountType: "Percentage",
     },
     wholesalePrice: {
       wholesalePrice: "",
@@ -84,13 +93,79 @@ const AddItemForm = ({ CloseForm, OpenSettings }) => {
       }));
     }
   };
+  // Sale price change handler
+  const handleSalePriceChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => {
+      return { ...prev, salePrice: { ...prev?.salePrice, [name]: value } };
+    });
+  };
+  // Wholesale price change handler
+  const handleWholesalePriceChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => {
+      return {
+        ...prev,
+        wholesalePrice: { ...prev?.wholesalePrice, [name]: value },
+      };
+    });
+  };
+  // Purchase price change handler
+  const handlePurchasePriceChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => {
+      return {
+        ...prev,
+        purchasePrice: { ...prev?.purchasePrice, [name]: value },
+      };
+    });
+  };
+  // Stock Change Handler
+  const handleStockChange = (e) => {
+    let { name, value } = e.target;
+    setFormData((prev) => {
+      return {
+        ...prev,
+        stock: { ...prev?.stock, [name]: value },
+      };
+    });
+  };
 
   //   Submit Function
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!isLoading) {
-      console.log("Add Item Data", formData);
-      // AddItem(dispatch, formData, CloseForm, toast);
+      let itemData = {
+        ...formData,
+        salePrice: {
+          ...formData?.salePrice,
+          salePrice: Number(formData?.salePrice?.salePrice),
+          tax: JSON.parse(formData?.salePrice?.tax),
+          disOnSale: Number(formData?.salePrice?.disOnSale),
+        },
+        wholesalePrice: {
+          ...formData?.wholesalePrice,
+          wholesalePrice: Number(formData?.wholesalePrice?.wholesalePrice),
+          tax: JSON.parse(formData?.wholesalePrice?.tax),
+          minimumWholesaleQty: Number(
+            formData?.wholesalePrice?.minimumWholesaleQty
+          ),
+        },
+        purchasePrice: {
+          ...formData?.purchasePrice,
+          purchasePrice: Number(formData?.purchasePrice?.purchasePrice),
+          tax: JSON.parse(formData?.purchasePrice?.tax),
+        },
+        stock: {
+          ...formData?.stock,
+          atPrice: Number(formData?.stock?.atPrice),
+          openingQuantity: Number(formData?.stock?.openingQuantity),
+          minStockToMaintain: Number(formData?.stock?.minStockToMaintain),
+        },
+      };
+
+      // console.log("Add Item Data", itemData);
+      AddItem(dispatch, itemData, CloseForm, toast);
     }
   };
 
@@ -102,22 +177,27 @@ const AddItemForm = ({ CloseForm, OpenSettings }) => {
       }}
       className={css.FormOuterParent}
     >
+      {showAddCategoryFom && <CategoryForm func={setShowAddCategoryFom} />}
+
       <form
         onSubmit={handleSubmit}
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e) => {
+          e.stopPropagation();
+          setShowCategoryMenu(false);
+        }}
         className={css.actualFormOuter}
       >
         {/* Header */}
         <div className={css.formHeaderOuterDiv}>
           <h3>Add Item</h3>
           <div>
-            <SettingsIconFilled onClick={() => OpenSettings(true)} />
             <CrossIcon onClick={() => CloseForm(false)} />
           </div>
         </div>
 
         {/* Middle  */}
         <div className={css.middleOuter}>
+          {/* Row 1 - Upper Inputs */}
           <div className={css.upperInpCont}>
             {/* Item Name */}
             <div className={css.inputDiv}>
@@ -209,61 +289,88 @@ const AddItemForm = ({ CloseForm, OpenSettings }) => {
               </label>
             </div>
           </div>
+
+          {/* Row 2 - Upper Inputs */}
           <div className={css.upperInpCont}>
             {/* Category */}
-            <div className={css.inputDiv}>
-              <select
-                name="seleteUnit"
-                value={formData?.seleteUnit?.baseUnit}
-                onChange={handleInpChange}
-                className={css.selectTag}
-              >
-                {loadingGetAllUnits ? (
-                  <>
-                    <option value="">Loading Units</option>
-                  </>
-                ) : (
-                  <>
-                    <option value="">None</option>
-                    {unitsList?.map((item) => (
-                      <option value={item?.unitName} key={item?.id}>
-                        {item?.unitName}
-                      </option>
-                    ))}
-                    <option value="BAGS">BAGS (BAG)</option>
-                    <option value="BOTTLES">BOTTLES (BTL)</option>
-                    <option value="BOX">BOX (BOX)</option>
-                    <option value="BUNDLES">BUNDLES (BUNDLE)</option>
-                    <option value="CANS">CANS (CAN)</option>
-                    <option value="CARTONS">CARTONS (CTN)</option>
-                    <option value="DOZENS">DOZENS (DZN)</option>
-                    <option value="GRAMMES">GRAMMES (GM)</option>
-                    <option value="KILOGRAMS">KILOGRAMS (KG)</option>
-                    <option value="LITRE">LITRE (LTR)</option>
-                    <option value="METERS">METERS (MTR)</option>
-                    <option value="MILILITRE">MILILITRE (ML)</option>
-                    <option value="NUMBERS">NUMBERS (NOS)</option>
-                    <option value="PACKS">PACKS (PAC)</option>
-                    <option value="PAIRS">PAIRS (PRS)</option>
-                    <option value="PIECES">PIECES (PCS)</option>
-                    <option value="QUINTAL">QUINTAL (QTL)</option>
-                    <option value="ROLLS">ROLLS (ROL)</option>
-                    <option value="SQUARE FEET">SQUARE FEET (SQF)</option>
-                    <option value="SQUARE METERS">SQUARE METERS (SQM)</option>
-                    <option value="TABLETS">TABLETS (TBS)</option>
-                  </>
-                )}
-              </select>
-              <label
-                className={
-                  formData?.seleteUnit?.baseUnit
-                    ? css.activeSelectLabel
-                    : css.inactiveSelectLabel
-                }
-              >
-                Category
-              </label>
+            <div
+              // onMouseOut={() => setShowCategoryMenu(false)}
+              // onMouseEnter={() => setShowCategoryMenu(true)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowCategoryMenu(true);
+              }}
+              className={css.cateOuterCont}
+            >
+              <div className={css.inputDiv}>
+                <div
+                  onClick={() => setShowCategoryMenu(true)}
+                  className={css.menuInpCss}
+                >
+                  <h3>{currCategoryName}</h3>
+                </div>
+                <label
+                  className={
+                    currCategoryName
+                      ? css.activeMenuLabel
+                      : css.inactiveMenuLabel
+                  }
+                >
+                  Category
+                </label>
+              </div>
+              {showCategoryMenu && (
+                <div
+                  onClick={() => setShowCategoryMenu(true)}
+                  // onMouseEnter={() => setShowCategoryMenu(true)}
+                  className={css.menuOuter}
+                >
+                  <div
+                    onClick={() => setShowAddCategoryFom(true)}
+                    className={css.topCateItemDiv}
+                  >
+                    <PlusIconThin />
+                    <h3>Add Category</h3>
+                  </div>
+                  {loadingGetAllCategories ? (
+                    <div className={css.topCateItemDiv}>
+                      <h3 style={{ color: "var(--greyA)" }}>Loading...</h3>
+                    </div>
+                  ) : (
+                    <div className={css.cateItemContDiv}>
+                      {categoriesList?.map((item, ind) => (
+                        <div
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            if (formData?.category == item?._id) {
+                              setFormData((prev) => {
+                                return { ...prev, category: "" };
+                              });
+                              setCurrCategoryName("");
+                              setShowCategoryMenu(false);
+                            } else {
+                              setFormData((prev) => {
+                                return { ...prev, category: item?._id };
+                              });
+                              setCurrCategoryName(item?.categoryName);
+                              setShowCategoryMenu(false);
+                            }
+                          }}
+                          className={css.cateItemCss}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={formData?.category == item?._id}
+                          />
+                          <h3>{item?.categoryName}</h3>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
+
             {/* Item Code */}
             <div className={css.inputDiv}>
               <input
@@ -322,7 +429,7 @@ const AddItemForm = ({ CloseForm, OpenSettings }) => {
                         type="number"
                         name="salePrice"
                         value={formData?.salePrice?.salePrice}
-                        onChange={handleInpChange}
+                        onChange={handleSalePriceChange}
                         className={css.input}
                       />
                       <label
@@ -339,7 +446,7 @@ const AddItemForm = ({ CloseForm, OpenSettings }) => {
                       <select
                         name="tax"
                         value={formData?.salePrice?.tax}
-                        onChange={handleInpChange}
+                        onChange={handleSalePriceChange}
                         className={css.input}
                       >
                         <option value={false}>Without Tax</option>
@@ -352,15 +459,15 @@ const AddItemForm = ({ CloseForm, OpenSettings }) => {
                     <div className={css.inputDiv}>
                       <input
                         type="number"
-                        name="salePrice"
-                        value={formData?.salePrice?.salePrice}
-                        onChange={handleInpChange}
+                        name="disOnSale"
+                        value={formData?.salePrice?.disOnSale}
+                        onChange={handleSalePriceChange}
                         style={{ width: "140px" }}
                         className={css.input}
                       />
                       <label
                         className={
-                          formData?.salePrice?.salePrice
+                          formData?.salePrice?.disOnSale
                             ? css.activeLabel
                             : css.inactiveLabel
                         }
@@ -370,9 +477,9 @@ const AddItemForm = ({ CloseForm, OpenSettings }) => {
                     </div>
                     <div className={css.inputDiv}>
                       <select
-                        name="tax"
-                        value={formData?.salePrice?.tax}
-                        onChange={handleInpChange}
+                        name="discountType"
+                        value={formData?.salePrice?.discountType}
+                        onChange={handleSalePriceChange}
                         className={css.input}
                       >
                         <option value="Percentage">Percentage</option>
@@ -405,7 +512,7 @@ const AddItemForm = ({ CloseForm, OpenSettings }) => {
                           type="number"
                           name="wholesalePrice"
                           value={formData?.wholesalePrice?.wholesalePrice}
-                          onChange={handleInpChange}
+                          onChange={handleWholesalePriceChange}
                           style={{ width: "125px" }}
                           className={css.input}
                         />
@@ -422,8 +529,8 @@ const AddItemForm = ({ CloseForm, OpenSettings }) => {
                       <div className={css.inputDiv}>
                         <select
                           name="tax"
-                          value={formData?.salePrice?.tax}
-                          onChange={handleInpChange}
+                          value={formData?.wholesalePrice?.tax}
+                          onChange={handleWholesalePriceChange}
                           className={css.input}
                         >
                           <option value={false}>Without Tax</option>
@@ -438,7 +545,7 @@ const AddItemForm = ({ CloseForm, OpenSettings }) => {
                           type="number"
                           name="minimumWholesaleQty"
                           value={formData?.wholesalePrice?.minimumWholesaleQty}
-                          onChange={handleInpChange}
+                          onChange={handleWholesalePriceChange}
                           style={{ width: "235px", borderRadius: "5px" }}
                           className={css.input}
                         />
@@ -468,7 +575,7 @@ const AddItemForm = ({ CloseForm, OpenSettings }) => {
                           type="number"
                           name="purchasePrice"
                           value={formData?.purchasePrice?.purchasePrice}
-                          onChange={handleInpChange}
+                          onChange={handlePurchasePriceChange}
                           className={css.input}
                         />
                         <label
@@ -485,7 +592,7 @@ const AddItemForm = ({ CloseForm, OpenSettings }) => {
                         <select
                           name="tax"
                           value={formData?.purchasePrice?.tax}
-                          onChange={handleInpChange}
+                          onChange={handlePurchasePriceChange}
                           className={css.input}
                         >
                           <option value={false}>Without Tax</option>
@@ -541,7 +648,7 @@ const AddItemForm = ({ CloseForm, OpenSettings }) => {
                     type="number"
                     name="openingQuantity"
                     value={formData?.stock?.openingQuantity}
-                    onChange={handleInpChange}
+                    onChange={handleStockChange}
                     className={css.input}
                   />
                   <label
@@ -560,7 +667,7 @@ const AddItemForm = ({ CloseForm, OpenSettings }) => {
                     type="number"
                     name="atPrice"
                     value={formData?.stock?.atPrice}
-                    onChange={handleInpChange}
+                    onChange={handleStockChange}
                     className={css.input}
                   />
                   <label
@@ -579,7 +686,7 @@ const AddItemForm = ({ CloseForm, OpenSettings }) => {
                     type="date"
                     name="asOfDate"
                     value={formData?.stock?.asOfDate}
-                    onChange={handleInpChange}
+                    onChange={handleStockChange}
                     className={css.input}
                   />
                   <label
@@ -600,9 +707,8 @@ const AddItemForm = ({ CloseForm, OpenSettings }) => {
                     type="number"
                     name="minStockToMaintain"
                     value={formData?.stock?.minStockToMaintain}
-                    onChange={handleInpChange}
+                    onChange={handleStockChange}
                     className={css.input}
-                    required
                   />
                   <label
                     className={
@@ -620,7 +726,7 @@ const AddItemForm = ({ CloseForm, OpenSettings }) => {
                     type="text"
                     name="location"
                     value={formData?.stock?.location}
-                    onChange={handleInpChange}
+                    onChange={handleStockChange}
                     className={css.input}
                   />
                   <label

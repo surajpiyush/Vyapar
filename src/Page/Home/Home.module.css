@@ -19,26 +19,27 @@
 .homeContainer {
   padding: 25px 0px;
 }
-.homeContainerDiv1,
+.homeContainerDiv1 {
+  padding: 0px 20px;
+  gap: 20px;
+  display: flex;
+  justify-content: space-between;
+}
 .homeContainerDiv2 {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  /* gap: 30px; */
-}
-
-.homeContainerDiv2 {
-  padding-top: 20px;
+  justify-content: space-between;
+  padding: 20px;
+  gap: 20px;
 }
 
 /* Sale.module.css */
 .SaleContainer {
+  flex-grow: 1;
   padding: 20px;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-  max-width: 50%;
   display: grid;
   gap: 10px;
-  border-radius: 15px;
+  border-radius: 6px;
   background: white;
 }
 
@@ -66,7 +67,7 @@
   gap: 6px;
   background-color: rgba(184, 184, 184, 0.21);
   padding: 10px 20px;
-  border-radius: 5px;
+  border-radius: 6px;
 }
 
 .SaleMonthDiv button {
@@ -143,12 +144,13 @@
 /* Purchase.module.css */
 
 .purchaseContainer {
+  flex-grow: 1;
   padding: 20px;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-  width: 300px;
+  /* width: 300px; */
   display: grid;
   gap: 10px;
-  border-radius: 15px;
+  border-radius: 6px;
   background: white;
 }
 
@@ -206,7 +208,7 @@
   gap: 6px;
   background-color: rgba(184, 184, 184, 0.21);
   padding: 10px 20px;
-  border-radius: 5px;
+  border-radius: 6px;
 }
 
 .purchaseMonthDiv button {
@@ -246,12 +248,13 @@
 
 /* Bottomitems css */
 .bottomItemContainer {
+  flex-grow: 1;
   padding: 20px;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-  max-width: 250px;
+  /* max-width: 250px; */
   display: grid;
   gap: 50px;
-  border-radius: 15px;
+  border-radius: 6px;
   background: white;
 }
 
@@ -299,7 +302,7 @@
   gap: 12px;
   background-color: var(--pureWhite);
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: 6px;
 }
 .expensesHeading,
 .expensesHeadingAside1 div {
@@ -352,7 +355,7 @@
   gap: 6px;
   background-color: rgba(184, 184, 184, 0.21);
   padding: 10px 30px;
-  border-radius: 5px;
+  border-radius: 6px;
 }
 .expensesMonthDiv button {
   border: none;
