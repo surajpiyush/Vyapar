@@ -19,8 +19,7 @@ import Setting from "../../Component/Setting/Setting";
 const Purchaseorderpage = ({ func }) => {
   const [toggleSetting, setToggleSetting] = useState(false);
   const toast = useToast();
-  const navigate = useNavigate();
-  const location = useLocation();
+ 
   const dispatch = useDispatch();
   const [openForm, setOpenForm] = useState(false);
   const [startDate, setStartDate] = useState("2024-02-01");
