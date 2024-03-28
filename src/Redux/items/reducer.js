@@ -30,6 +30,18 @@ import {
   ADD_CATEGORY_LOADING,
   GET_All_CATEGORIES_LOADING,
   GET_All_CATEGORIES_ERROR,
+  LOADING_UPDATE_CATEGORY,
+  ERROR_UPDATE_CATEGORY,
+  SUCCESS_UPDATE_CATEGORY,
+  LOADING_DELETE_CATEGORY,
+  ERROR_DELETE_CATEGORY,
+  SUCCESS_DELETE_CATEGORY,
+  LOADING_UPDATE_UNIT,
+  ERROR_UPDATE_UNIT,
+  SUCCESS_UPDATE_UNIT,
+  LOADING_DELETE_UNIT,
+  ERROR_DELETE_UNIT,
+  SUCCESS_DELETE_UNIT,
 } from "./actionTypes";
 
 const initialState = {
@@ -246,6 +258,35 @@ export const reducer = (state = initialState, { type, payload }) => {
         category: payload,
       };
     }
+    // Update Category
+    case LOADING_UPDATE_CATEGORY: {
+      return { ...state, loadingUpdate: true, errorUpdate: false };
+    }
+    case ERROR_UPDATE_CATEGORY: {
+      return { ...state, loadingUpdate: false, errorUpdate: true };
+    }
+    case SUCCESS_UPDATE_CATEGORY: {
+      return {
+        ...state,
+        isLoading: false,
+        loadingUpdate: false,
+        toggleItems: !state.toggleItems,
+      };
+    }
+    // Delete Category
+    case LOADING_DELETE_CATEGORY: {
+      return { ...state, loadingDelete: true, errorDelete: false };
+    }
+    case ERROR_DELETE_CATEGORY: {
+      return { ...state, loadingDelete: false, errorDelete: true };
+    }
+    case SUCCESS_DELETE_CATEGORY: {
+      return {
+        ...state,
+        loadingDelete: false,
+        toggleItems: !state.toggleItems,
+      };
+    }
 
     // ========================= Unit =========================
     // Get all Units
@@ -275,7 +316,6 @@ export const reducer = (state = initialState, { type, payload }) => {
         unit: payload,
       };
     }
-
     //  Adding New Unit
     case ADDING_UNIT_LOADING: {
       return {
@@ -302,6 +342,35 @@ export const reducer = (state = initialState, { type, payload }) => {
         loadingAddUnit: false,
         toggleItems: !state.toggleItems,
         newUnitAddedToggle: !state.newUnitAddedToggle,
+      };
+    }
+    // Update Unit
+    case LOADING_UPDATE_UNIT: {
+      return { ...state, loadingUpdate: true, errorUpdate: false };
+    }
+    case ERROR_UPDATE_UNIT: {
+      return { ...state, loadingUpdate: false, errorUpdate: true };
+    }
+    case SUCCESS_UPDATE_UNIT: {
+      return {
+        ...state,
+        isLoading: false,
+        loadingUpdate: false,
+        toggleItems: !state.toggleItems,
+      };
+    }
+    // Delete Unit
+    case LOADING_DELETE_UNIT: {
+      return { ...state, loadingDelete: true, errorDelete: false };
+    }
+    case ERROR_DELETE_UNIT: {
+      return { ...state, loadingDelete: false, errorDelete: true };
+    }
+    case SUCCESS_DELETE_UNIT: {
+      return {
+        ...state,
+        loadingDelete: false,
+        toggleItems: !state.toggleItems,
       };
     }
 

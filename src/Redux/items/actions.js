@@ -31,6 +31,15 @@ import {
   ADD_CATEGORY_ERROR,
   GET_All_CATEGORIES_LOADING,
   GET_All_CATEGORIES_ERROR,
+  SUCCESS_DELETE_UNIT,
+  ERROR_DELETE_UNIT,
+  LOADING_DELETE_UNIT,
+  ERROR_UPDATE_UNIT,
+  SUCCESS_UPDATE_UNIT,
+  LOADING_UPDATE_UNIT,
+  LOADING_UPDATE_CATEGORY,
+  SUCCESS_UPDATE_CATEGORY,
+  ERROR_UPDATE_CATEGORY,
 } from "./actionTypes";
 import { USER_DETAILS } from "../business/actionTypes";
 
@@ -295,6 +304,92 @@ export const GetAllCategories = async (dispatch) => {
   }
 };
 
+// Update Category
+export const UpdateCategory = async (
+  dispatch,
+  itemId,
+  updatedData,
+  setShowEditFirm,
+  toast
+) => {
+  toast.closeAll();
+  dispatch({ type: LOADING_UPDATE_CATEGORY });
+  const token = localStorage.getItem("token");
+  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+
+  try {
+    const response = await axios.patch(
+      `${API_URL}/${FirmId}/patchCategory/${itemId}`,
+      updatedData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log("Update Category Response:", response.data);
+    dispatch({ type: SUCCESS_UPDATE_CATEGORY });
+    setShowEditFirm(false);
+    toast({
+      title: "Category Updated",
+      status: "success",
+      position: "top",
+    });
+  } catch (error) {
+    dispatch({ type: ERROR_UPDATE_CATEGORY });
+    toast({
+      title:
+        error?.response?.data?.msg ||
+        error?.response?.data?.message ||
+        "Something Went Wrong!",
+      status: "error",
+      position: "top",
+    });
+    console.error("Error Updating Category:", error);
+  }
+};
+
+// Delete Category
+export const DeleteCategory = async (
+  dispatch,
+  partyId,
+  setShowEditFirm,
+  toast
+) => {
+  toast.closeAll();
+  dispatch({ type: LOADING_DELETE_ITEM });
+  const token = localStorage.getItem("token");
+  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+
+  try {
+    const response = await axios.delete(
+      `${API_URL}/${FirmId}/deleteCategory/${partyId}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    // console.log("Delete Item Response:", response?.data);
+    dispatch({ type: SUCCESS_DELETE_ITEM });
+    setShowEditFirm(false);
+    toast({
+      title: "Item Deleted",
+      status: "success",
+      position: "top",
+    });
+  } catch (error) {
+    dispatch({ type: ERROR_DELETE_ITEM });
+    console.log("Deleting Item Error:", error);
+    toast({
+      title:
+        error?.response?.data?.msg ||
+        error?.response?.data?.message ||
+        "Something Went Wrong!",
+      status: "error",
+      position: "top",
+    });
+  }
+};
+
 // ----------------------------------- Unit ---------------------------------
 // Add New Unit
 export const AddNewUnit = async (dispatch, unitData, closeForm, toast) => {
@@ -344,5 +439,86 @@ export const GetAllUnits = async (dispatch) => {
   } catch (error) {
     dispatch({ type: GET_ALL_UNITS_ERROR });
     console.log("Error Getting All Units:", error);
+  }
+};
+
+// Update Unit
+export const UpdateUnit = async (
+  dispatch,
+  itemId,
+  updatedData,
+  setShowEditFirm,
+  toast
+) => {
+  toast.closeAll();
+  dispatch({ type: LOADING_UPDATE_UNIT });
+  const token = localStorage.getItem("token");
+  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+
+  try {
+    const response = await axios.patch(
+      `${API_URL}/${FirmId}/patchUnit/${itemId}`,
+      updatedData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log("Update Category Response:", response.data);
+    dispatch({ type: SUCCESS_UPDATE_UNIT });
+    setShowEditFirm(false);
+    toast({
+      title: "Category Updated",
+      status: "success",
+      position: "top",
+    });
+  } catch (error) {
+    dispatch({ type: ERROR_UPDATE_UNIT });
+    toast({
+      title:
+        error?.response?.data?.msg ||
+        error?.response?.data?.message ||
+        "Something Went Wrong!",
+      status: "error",
+      position: "top",
+    });
+    console.error("Error Updating Category:", error);
+  }
+};
+
+// Delete Unit
+export const DeleteUnit = async (dispatch, partyId, setShowEditFirm, toast) => {
+  toast.closeAll();
+  dispatch({ type: LOADING_DELETE_UNIT });
+  const token = localStorage.getItem("token");
+  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+
+  try {
+    const response = await axios.delete(
+      `${API_URL}/${FirmId}/deleteUnit/${partyId}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    // console.log("Delete Item Response:", response?.data);
+    dispatch({ type: SUCCESS_DELETE_UNIT });
+    setShowEditFirm(false);
+    toast({
+      title: "Item Deleted",
+      status: "success",
+      position: "top",
+    });
+  } catch (error) {
+    dispatch({ type: ERROR_DELETE_UNIT });
+    console.log("Deleting Item Error:", error);
+    toast({
+      title:
+        error?.response?.data?.msg ||
+        error?.response?.data?.message ||
+        "Something Went Wrong!",
+      status: "error",
+      position: "top",
+    });
   }
 };

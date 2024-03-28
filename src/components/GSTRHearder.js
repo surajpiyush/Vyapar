@@ -20,15 +20,30 @@ const GSTRHeader = ({
    const toast = useToast();
    const [loading, setLoading] = useState(false);
    const getMonthName = (monthNumber) => {
-      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const months = [
+         "Jan",
+         "Feb",
+         "Mar",
+         "Apr",
+         "May",
+         "Jun",
+         "Jul",
+         "Aug",
+         "Sep",
+         "Oct",
+         "Nov",
+         "Dec",
+      ];
       return months[parseInt(monthNumber) - 1];
    };
-   const startDateParts = startDate.split('-'); 
-   const endDateParts = endDate.split('-'); 
-   const formattedStartDate = `${startDateParts[2]}-${getMonthName(startDateParts[1])}`; 
-   const formattedEndDate = `${endDateParts[2]}-${getMonthName(endDateParts[1])}`; 
-
-   
+   const startDateParts = startDate.split("-");
+   const endDateParts = endDate.split("-");
+   const formattedStartDate = `${startDateParts[2]}-${getMonthName(
+      startDateParts[1]
+   )}`;
+   const formattedEndDate = `${endDateParts[2]}-${getMonthName(
+      endDateParts[1]
+   )}`;
 
    // PRINT WALA PART
    const hideElementDuringPrint = () => {
@@ -321,10 +336,7 @@ const GSTRHeader = ({
                XLSX.utils.book_append_sheet(workbook, hsn, "hsn");
                XLSX.utils.book_append_sheet(workbook, docs, "docs");
 
-               XLSX.writeFile(
-                  workbook,
-                formattedFileName
-               );
+               XLSX.writeFile(workbook, formattedFileName);
 
                setLoading(false);
             } catch (error) {
@@ -332,7 +344,8 @@ const GSTRHeader = ({
                setLoading(false);
             }
             break;
-         case "GSTR2":
+        
+            case "GSTR2":
             try {
                setLoading(true);
                const formattedFileName = `GSTR2_${formattedStartDate}-${formattedEndDate}_09AEIPT7331R1ZJ.xlsx`;
@@ -408,7 +421,6 @@ const GSTRHeader = ({
 
                   ...filteredData,
                ]);
-             
 
                const cdnr = XLSX.utils.aoa_to_sheet([
                   ["Summary Fro CDNR"],
@@ -478,16 +490,12 @@ const GSTRHeader = ({
                   ][""],
                ]);
 
-             
                XLSX.utils.book_append_sheet(workbook, b2bsheet, "b2b");
                XLSX.utils.book_append_sheet(workbook, cdnr, "cdnr");
                XLSX.utils.book_append_sheet(workbook, exemp, "exemp");
                XLSX.utils.book_append_sheet(workbook, hsn, "hsnsum");
 
-               XLSX.writeFile(
-                  workbook,
-                 formattedFileName
-               );
+               XLSX.writeFile(workbook, formattedFileName);
 
                setLoading(false);
             } catch (error) {
@@ -495,7 +503,8 @@ const GSTRHeader = ({
                setLoading(false);
             }
             break;
-         default:
+       
+              default:
             console.warn("Unknown action:", action);
       }
    };

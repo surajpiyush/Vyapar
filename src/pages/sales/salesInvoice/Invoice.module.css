@@ -80,7 +80,28 @@
 }
 
 /* ============ */
+@media print {
+  .TableOuter {
+    width: 100%;
+    overflow-x: auto; 
+    rotate: 90;
+    border: 1px solid blue;
+    page-break-inside: avoid; 
+  }
 
+   table {
+    width: 100%; 
+    border-collapse: collapse;
+  }
+
+  tbody,
+  thead {
+    border: 1px solid rgb(255, 0, 0); 
+    padding: 8px; 
+  }
+}
+
+/* ======================================= */
 /* Table Css */
 .TableOuter {
   width: 98%;
