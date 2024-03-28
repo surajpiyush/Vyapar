@@ -20,6 +20,9 @@ export default function Items() {
   const items = useSelector((store) => store.ItemReducer.items);
   const category = useSelector((store) => store.ItemReducer.category);
   const isLoading = useSelector((store) => store.ItemReducer.isLoading);
+  const newCategoryAddedToggle = useSelector(
+    (store) => store.ItemReducer.newCategoryAddedToggle
+  );
   const toggleItems = useSelector((store) => store.ItemReducer.toggleItems);
   const [firstSec, setFirstSec] = useState(true);
   const [secondSec, setSecondSec] = useState(false);
@@ -38,7 +41,7 @@ export default function Items() {
 
   useEffect(() => {
     GetAllCategories(dispatch);
-  }, [dispatch, categoryForm]);
+  }, [newCategoryAddedToggle]);
 
   const toggleForm = () => {
     setOpenForm(!openForm);
@@ -75,7 +78,7 @@ export default function Items() {
   const data = [1];
 
   const openSection = (val) => {
-    console.log("working val", val);
+    // console.log("working val", val);
     if (val === 0) {
       setFirstSec(true);
       setSecondSec(false);
@@ -104,7 +107,7 @@ export default function Items() {
     setOpenForm(false);
     setToggleSetting(true);
   };
-  console.log(category);
+  //console.log(category);
   return (
     <div>
       {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
