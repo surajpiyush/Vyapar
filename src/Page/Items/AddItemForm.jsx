@@ -1,9 +1,5 @@
 import css from "./AddItem.module.css";
-import {
-  AddItem,
-  GetAllCategories,
-  GetAllUnits,
-} from "../../Redux/items/actions";
+import { GetAllUnits, GetAllCategories } from "../../Redux/items/actions";
 import {
   SettingsIconFilled,
   CrossIcon,
