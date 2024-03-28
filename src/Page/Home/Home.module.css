@@ -19,19 +19,17 @@
 .homeContainer {
   padding: 25px 0px;
 }
-.homeContainerDiv1,
-.homeContainerDiv2 {
+.homeContainerDiv1 {
   padding: 0px 20px;
   gap: 20px;
   display: flex;
-  /* flex-wrap: wrap; */
-  justify-content: space-around;
-  /* gap: 30px; */
-  /* border: 1px solid red; */
+  justify-content: space-between;
 }
-
 .homeContainerDiv2 {
-  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  gap: 20px;
 }
 
 /* Sale.module.css */
@@ -146,9 +144,10 @@
 /* Purchase.module.css */
 
 .purchaseContainer {
+  flex-grow: 1;
   padding: 20px;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-  width: 300px;
+  /* width: 300px; */
   display: grid;
   gap: 10px;
   border-radius: 6px;
@@ -249,9 +248,10 @@
 
 /* Bottomitems css */
 .bottomItemContainer {
+  flex-grow: 1;
   padding: 20px;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-  max-width: 250px;
+  /* max-width: 250px; */
   display: grid;
   gap: 50px;
   border-radius: 6px;

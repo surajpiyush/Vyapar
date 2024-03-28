@@ -98,64 +98,60 @@ const Home = () => {
           </div>
         </div>
 
+        {/* Bottomitems.jsx */}
         <div className={css.homeContainerDiv2}>
-          {/* Bottomitems.jsx */}
-          <div className={css.bottomItemsContainer}>
-            {bottomcarditems.map((item, index) => (
-              <div key={index} className={css.bottomItemContainer}>
-                <div>
-                  <div className={css.bottomItemDiv2}>
-                    <div>{item.Icon}</div>
-                    <h3>{item.heading}</h3>
-                  </div>
+          {bottomcarditems.map((item, index) => (
+            <div key={index} className={css.bottomItemContainer}>
+              <div>
+                <div className={css.bottomItemDiv2}>
+                  <div>{item.Icon}</div>
+                  <h3>{item.heading}</h3>
+                </div>
+                <div className={css.bottomAmountDiv}>
                   <div className={css.bottomAmountDiv}>
-                    <div className={css.bottomAmountDiv}>
-                      <FaRupeeSign />
-                      <h3>00</h3>
-                      <span>.00</span>
-                    </div>
-                  </div>
-                </div>
-                <div className={css.bottomItemDiv4}>
-                  <p>{item.paragraph}</p>
-                </div>
-              </div>
-            ))}
-
-            {/* Purchase.jsx */}
-            <div className={css.purchaseContainer}>
-              <section className={css.purchaseHeading}>
-                <aside className={css.purchaseHeadingAside1}>
-                  <div>
-                    <TbNotes className={css.purchaseHeadingNotes} />
-                    <h4>Purchase</h4>
-                  </div>
-                  <div className={css.purchaseAmountDiv}>
                     <FaRupeeSign />
                     <h3>00</h3>
                     <span>.00</span>
                   </div>
-                </aside>
-                <aside className={css.purchaseHeadingAside2}>
-                  <div className={css.purchaseMonthDiv}>
-                    <button>This Month</button>
-                    {isMonthModelOpenForPurchase ? (
-                      <FaCaretUp />
-                    ) : (
-                      <FaCaretDown />
-                    )}
-                  </div>
-                </aside>
-              </section>
-              <section className={css.purchaseContent}>
-                <aside className={css.purchaseContentAside2}>
-                  <div className={css.purchaseLine}></div>
-                  <p className={css.purchaseReport}>
-                    Report: From 01 to 29 Feb
-                  </p>
-                </aside>
-              </section>
+                </div>
+              </div>
+              <div className={css.bottomItemDiv4}>
+                <p>{item.paragraph}</p>
+              </div>
             </div>
+          ))}
+
+          {/* Purchase.jsx */}
+          <div className={css.purchaseContainer}>
+            <section className={css.purchaseHeading}>
+              <aside className={css.purchaseHeadingAside1}>
+                <div>
+                  <TbNotes className={css.purchaseHeadingNotes} />
+                  <h4>Purchase</h4>
+                </div>
+                <div className={css.purchaseAmountDiv}>
+                  <FaRupeeSign />
+                  <h3>00</h3>
+                  <span>.00</span>
+                </div>
+              </aside>
+              <aside className={css.purchaseHeadingAside2}>
+                <div className={css.purchaseMonthDiv}>
+                  <button>This Month</button>
+                  {isMonthModelOpenForPurchase ? (
+                    <FaCaretUp />
+                  ) : (
+                    <FaCaretDown />
+                  )}
+                </div>
+              </aside>
+            </section>
+            <section className={css.purchaseContent}>
+              <aside className={css.purchaseContentAside2}>
+                <div className={css.purchaseLine}></div>
+                <p className={css.purchaseReport}>Report: From 01 to 29 Feb</p>
+              </aside>
+            </section>
           </div>
         </div>
       </div>
