@@ -1,5 +1,10 @@
 import css from "../../Page/Firm/EditFirm.module.css";
-import { UpdateItem, DeleteItem } from "../../Redux/items/actions";
+import {
+   UpdateItem,
+   DeleteItem,
+   UpdateCategory,
+   DeleteCategory,
+} from "../../Redux/items/actions";
 
 import { useState } from "react";
 import { useToast } from "@chakra-ui/react";
@@ -17,57 +22,56 @@ const CategoryEditForm = ({ setShowEditFirm, item }) => {
    const loadingDelete = useSelector(
       (state) => state.ItemReducer.loadingDelete
    );
+
    const [categoryData, setCategoryData] = useState(item);
 
    //   Input Change Function
    const handleInputChange = (e) => {
       const { name, value } = e.target;
-      if (name === "openingQuantity") {
-         setCategoryData((prevData) => ({
-            ...prevData,
-            stock: {
-               ...prevData.stock,
-               openingQuantity: value,
-            },
-         }));
-      } else {
-         setCategoryData((prevData) => ({
-            ...prevData,
-            [name]: value,
-         }));
-      }
+
+      setCategoryData((prevData) => ({
+         ...prevData,
+         [name]: value,
+      }));
    };
 
-   //   Update Item Function
+   //   Update category Function
    const handleUpdate = () => {
+      console.log(categoryData);
       toast({
          title: "Backend under development",
          status: "info",
          position: "top",
       });
-      // UpdateItem(dispatch, categoryData?._id, categoryData, setShowEditFirm, toast);
+
+      UpdateCategory(
+         dispatch,
+         categoryData?._id,
+         categoryData,
+         setShowEditFirm,
+         toast
+      );
    };
 
-   //   Delete Item Function
+   //   Delete category Function
    const handleDelete = () => {
       toast({
          title: "Backend under development",
          status: "info",
          position: "top",
       });
-      // DeleteItem(dispatch, categoryData?._id, setShowEditFirm, toast);
+      DeleteCategory(dispatch, categoryData?._id, setShowEditFirm, toast);
    };
 
    return (
       <div onClick={() => setShowEditFirm(false)} className={css.Overlay}>
          <div
-           
             onClick={(e) => e.stopPropagation()}
             className={css.OuterEditProfile}
          >
             {/* Top Nav */}
             <div className={css.topNavDiv}>
-               <h2>Edit Item</h2>
+               <h2>Edit Category</h2>
                <CloseIcon onClick={() => setShowEditFirm(false)} />
             </div>
 
@@ -83,7 +87,6 @@ const CategoryEditForm = ({ setShowEditFirm, item }) => {
                            readOnly
                            type="text"
                            placeholder="Item ID"
-                         
                         />
                      </div>
                      <div>

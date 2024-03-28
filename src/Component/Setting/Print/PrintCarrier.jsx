@@ -22,7 +22,7 @@ const PrintCarrier = ({ currPrintItem }) => {
     });
   }, [updateSalePrintSettings]);
 
-  // console.log(currPrintItem);
+  console.log(currPrintItem);
 
   return printData?.layoutIndex == 0 ? (
     <RPLayout1 printData={printData} currPrintItem={currPrintItem} />

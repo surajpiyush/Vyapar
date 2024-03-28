@@ -1,39 +1,36 @@
-import css from "./Sidebar.module.css";
-import Logo from "../../assets/Shop.svg";
-import Setting from "../../Component/Setting/Setting";
-import AddPartyForm from "../../Page/Parties/AddPartyForm";
-import ItemsForm from "../../components/addForm/ItemsForm";
 import { USER_DETAILS } from "../../Redux/business/actionTypes";
+import Logo from "../../assets/Shop.svg";
+import css from "./Sidebar.module.css";
 
-import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 // Icons
-import { FaPlus as PlusIcon } from "react-icons/fa6";
-import { FaWhatsapp as WhatsAppIcon } from "react-icons/fa";
 import { AiFillTool as UtilitesIcon } from "react-icons/ai";
 import { BiSolidBank as CashBankIcon } from "react-icons/bi";
 import { BsBarChartFill as ReportsIcon } from "react-icons/bs";
+import { FaWhatsapp as WhatsAppIcon } from "react-icons/fa";
+import { FaPlus as PlusIcon } from "react-icons/fa6";
 import {
-  IoMdHome as HomeIcon,
   IoIosArrowDown as ArrowDownIcon,
+  IoMdHome as HomeIcon,
 } from "react-icons/io";
 import {
-  MdPeopleAlt as PartiesIcon,
-  MdOutlineArrowForwardIos as RightArrowIcon,
-  MdOutlineSettingsBackupRestore as BackupRestoreIcon,
-} from "react-icons/md";
-import {
-  TbReport as SaleIcon,
-  TbDeviceRemote as QuickBillingIcon,
-  TbTriangleSquareCircleFilled as ItemsIcon,
-} from "react-icons/tb";
-import {
-  IoCart as PurchaseIcon,
   IoWallet as ExpensesIcon,
   IoStorefront as MyOnlineBankIcon,
+  IoCart as PurchaseIcon,
 } from "react-icons/io5";
+import {
+  MdOutlineSettingsBackupRestore as BackupRestoreIcon,
+  MdPeopleAlt as PartiesIcon,
+  MdOutlineArrowForwardIos as RightArrowIcon,
+} from "react-icons/md";
+import {
+  TbTriangleSquareCircleFilled as ItemsIcon,
+  TbDeviceRemote as QuickBillingIcon,
+  TbReport as SaleIcon,
+} from "react-icons/tb";
 
 const Sidebar = ({ setShowEditFirm }) => {
   const location = useLocation();

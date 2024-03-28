@@ -8,7 +8,7 @@ import { IoMdClose as CloseIcon } from "react-icons/io";
 import { RiDeleteBinLine as DeleteIcon } from "react-icons/ri";
 import { ImSpinner3 as SpinnerIcon } from "react-icons/im";
 
-const UnitEditForm = ({ setShowEditFirm, item }) => {
+const UnitEditForm = ({ setShowEditFirm, unit }) => {
    const toast = useToast();
    const dispatch = useDispatch();
    const loadingUpdate = useSelector(
@@ -17,7 +17,7 @@ const UnitEditForm = ({ setShowEditFirm, item }) => {
    const loadingDelete = useSelector(
       (state) => state.ItemReducer.loadingDelete
    );
-   const [unitData, setUnitData] = useState(item);
+   const [unitData, setUnitData] = useState(unit);
 
    //   Input Change Function
    const handleInputChange = (e) => {
@@ -69,7 +69,6 @@ const UnitEditForm = ({ setShowEditFirm, item }) => {
                         <label htmlFor="#">Unit ID</label>
                         <input
                            value={unitData?._id}
-                       
                            readOnly
                            type="text"
                            placeholder="Item ID"
@@ -77,7 +76,8 @@ const UnitEditForm = ({ setShowEditFirm, item }) => {
                      </div>
                      <div>
                         <label htmlFor="#">
-                           Unit Full Name <span style={{ color: "red" }}>*</span>
+                           Unit Full Name{" "}
+                           <span style={{ color: "red" }}>*</span>
                         </label>
                         <input
                            value={unitData?.unitName}
@@ -89,7 +89,8 @@ const UnitEditForm = ({ setShowEditFirm, item }) => {
                      </div>
                      <div>
                         <label htmlFor="#">
-                           Unit Short Name <span style={{ color: "red" }}>*</span>
+                           Unit Short Name{" "}
+                           <span style={{ color: "red" }}>*</span>
                         </label>
                         <input
                            value={unitData?.shortName}

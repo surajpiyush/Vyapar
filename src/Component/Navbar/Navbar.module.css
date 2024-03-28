@@ -8,6 +8,7 @@
   width: 100%;
   height: 32px;
 }
+
 .innerParentDiv {
   height: 100%;
   margin: auto;
@@ -148,3 +149,10 @@
 .footerOuterDiv button:hover {
   background-color: var(--blueA);
 }
+
+
+@media print {
+  .navOuterDiv {
+    display: none;
+  }
+} 

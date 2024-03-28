@@ -7,11 +7,13 @@ import AddCompanyPage from "./Page/Firm/AddCompanyPage.jsx";
 import CompaniesPage from "./Page/Firm/CompaniesPage.jsx";
 import Home from "./Page/Home/Home.jsx";
 import Items from "./Page/Items/Items.jsx";
+import Parties from "./Page/Parties/Parties.jsx";
+
+
 import Paymentout from "./Page/Purchase/Paymentout.jsx";
 import Purchasebill from "./Page/Purchase/Purchasebill.jsx";
 import Purchaseorderpage from "./Page/Purchase/Purchaseorderpage.jsx";
 import Purchasereturnpage from "./Page/Purchase/Purchasereturnpage.jsx";
-import Parties from "./Page/parties/Parties.jsx";
 import { store } from "./Redux/store.js";
 import "./index.css";
 import AllTransaction from "./pages/AllTransactions.js";

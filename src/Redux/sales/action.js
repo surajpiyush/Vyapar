@@ -108,7 +108,7 @@ export const GetSingleInvoiceData = async (dispatch, itemId, toast) => {
     const response = await axios.get(
       `${API_URL}/${firmId}/sale/getInvoice/${itemId}`,
       {
-        headers: {
+        headers: {  
           Authorization: `Bearer ${token} `,
         },
       }

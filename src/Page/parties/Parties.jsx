@@ -5,6 +5,7 @@ import { FetchAllParties } from "../../Redux/parties/actions";
 import party from "../../assets/Images/party.jpg";
 import PartiesTable from "../../components/TableData/PartiesTable";
 import AddPartyForm from "./AddPartyForm";
+
 import css from "./Parties.module.css";
 
 import { useEffect, useState } from "react";

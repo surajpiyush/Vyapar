@@ -5,8 +5,8 @@ import {
    POST_ITEM_SUCCESS,
    UNIT_REQUEST,
    UNIT_FAILURE,
- GETTING_UNIT,
- ADDING_UNIT,
+   GETTING_UNIT,
+   ADDING_UNIT,
    LOADING_SINGLE_ITEM,
    ERROR_SINGLE_ITEM,
    SUCCESS_SINGLE_ITEM,
@@ -24,6 +24,18 @@ import {
    SUCCESS_GET_SELECTED_ITEM,
    GETTING_CATEGORY,
    ADDING_CATEGORY,
+   LOADING_UPDATE_CATEGORY,
+   ERROR_UPDATE_CATEGORY,
+   SUCCESS_UPDATE_CATEGORY,
+   LOADING_DELETE_CATEGORY,
+   ERROR_DELETE_CATEGORY,
+   SUCCESS_DELETE_CATEGORY,
+   LOADING_UPDATE_UNIT,
+   ERROR_UPDATE_UNIT,
+   SUCCESS_UPDATE_UNIT,
+   LOADING_DELETE_UNIT,
+   ERROR_DELETE_UNIT,
+   SUCCESS_DELETE_UNIT,
 } from "./actionTypes";
 
 const initialState = {
@@ -60,7 +72,7 @@ const initialState = {
    errorDelete: false,
 
    // unit
-   unit :[],
+   unit: [],
 };
 
 export const reducer = (state = initialState, { type, payload }) => {
@@ -172,7 +184,6 @@ export const reducer = (state = initialState, { type, payload }) => {
       }
 
       // Category
-
       case GETTING_CATEGORY: {
          return {
             ...state,
@@ -185,6 +196,36 @@ export const reducer = (state = initialState, { type, payload }) => {
             ...state,
             isLoading: false,
          };
+      // Update Category
+      case LOADING_UPDATE_CATEGORY: {
+         return { ...state, loadingUpdate: true, errorUpdate: false };
+      }
+      case ERROR_UPDATE_CATEGORY: {
+         return { ...state, loadingUpdate: false, errorUpdate: true };
+      }
+      case SUCCESS_UPDATE_CATEGORY: {
+         return {
+            ...state,
+            isLoading: false,
+            loadingUpdate: false,
+            toggleItems: !state.toggleItems,
+         };
+      }
+
+      // Delete Item
+      case LOADING_DELETE_CATEGORY: {
+         return { ...state, loadingDelete: true, errorDelete: false };
+      }
+      case ERROR_DELETE_CATEGORY: {
+         return { ...state, loadingDelete: false, errorDelete: true };
+      }
+      case SUCCESS_DELETE_CATEGORY: {
+         return {
+            ...state,
+            loadingDelete: false,
+            toggleItems: !state.toggleItems,
+         };
+      }
 
       // Unit=========================
 
@@ -204,6 +245,36 @@ export const reducer = (state = initialState, { type, payload }) => {
       }
       case UNIT_FAILURE: {
          return { ...state, isLoading: false, isError: true };
+      }
+      // Update Category
+      case LOADING_UPDATE_UNIT: {
+         return { ...state, loadingUpdate: true, errorUpdate: false };
+      }
+      case ERROR_UPDATE_UNIT: {
+         return { ...state, loadingUpdate: false, errorUpdate: true };
+      }
+      case SUCCESS_UPDATE_UNIT: {
+         return {
+            ...state,
+            isLoading: false,
+            loadingUpdate: false,
+            toggleItems: !state.toggleItems,
+         };
+      }
+
+      // Delete Item
+      case LOADING_DELETE_UNIT: {
+         return { ...state, loadingDelete: true, errorDelete: false };
+      }
+      case ERROR_DELETE_UNIT: {
+         return { ...state, loadingDelete: false, errorDelete: true };
+      }
+      case SUCCESS_DELETE_UNIT: {
+         return {
+            ...state,
+            loadingDelete: false,
+            toggleItems: !state.toggleItems,
+         };
       }
 
       default: {

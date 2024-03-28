@@ -232,3 +232,9 @@
   font-size: 30px;
   color: gray;
 }
+
+@media print {
+  .HeaderContainer {
+    display: none;
+  }
+} 
