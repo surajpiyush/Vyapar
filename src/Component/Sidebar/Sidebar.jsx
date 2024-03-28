@@ -1,9 +1,6 @@
-import css from "./Sidebar.module.css";
-import Logo from "../../assets/Shop.svg";
-import Setting from "../../Component/Setting/Setting";
-import AddPartyForm from "../../Page/parties/AddPartyForm";
-import ItemsForm from "../../components/addForm/ItemsForm";
 import { USER_DETAILS } from "../../Redux/business/actionTypes";
+import Logo from "../../assets/Shop.svg";
+import css from "./Sidebar.module.css";
 
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -16,23 +13,23 @@ import { BsBarChartFill as ReportsIcon } from "react-icons/bs";
 import { FaWhatsapp as WhatsAppIcon } from "react-icons/fa";
 import { FaPlus as PlusIcon } from "react-icons/fa6";
 import {
-   IoIosArrowDown as ArrowDownIcon,
-   IoMdHome as HomeIcon,
+  IoIosArrowDown as ArrowDownIcon,
+  IoMdHome as HomeIcon,
 } from "react-icons/io";
 import {
-   IoWallet as ExpensesIcon,
-   IoStorefront as MyOnlineBankIcon,
-   IoCart as PurchaseIcon,
+  IoWallet as ExpensesIcon,
+  IoStorefront as MyOnlineBankIcon,
+  IoCart as PurchaseIcon,
 } from "react-icons/io5";
 import {
-   MdOutlineSettingsBackupRestore as BackupRestoreIcon,
-   MdPeopleAlt as PartiesIcon,
-   MdOutlineArrowForwardIos as RightArrowIcon,
+  MdOutlineSettingsBackupRestore as BackupRestoreIcon,
+  MdPeopleAlt as PartiesIcon,
+  MdOutlineArrowForwardIos as RightArrowIcon,
 } from "react-icons/md";
 import {
-   TbTriangleSquareCircleFilled as ItemsIcon,
-   TbDeviceRemote as QuickBillingIcon,
-   TbReport as SaleIcon,
+  TbTriangleSquareCircleFilled as ItemsIcon,
+  TbDeviceRemote as QuickBillingIcon,
+  TbReport as SaleIcon,
 } from "react-icons/tb";
 
 const Sidebar = ({ setShowEditFirm }) => {
