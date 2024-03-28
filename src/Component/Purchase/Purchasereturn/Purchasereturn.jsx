@@ -89,16 +89,16 @@ const Purchasereturn = ({ func, date, data }) => {
                   <thead className="table-head">
                      <tr className="table-row">
                         <th className="table-h">#</th>
-                        <th className="table-h">Date</th>
-                        <th className="table-h">Return No.</th>
-                        <th className="table-h">Party Name</th>
-                        <th className="table-h">Category Name</th>
-                        <th className="table-h">Type</th>
-                        <th className="table-h">Total</th>
-                        <th className="table-h">Received</th>
-                        <th className="table-h">Balance Due</th>
-                        <th className="table-h">Print</th>
-                        <th className="table-h">Action</th>
+                        <th className="table-h">DATE</th>
+                        <th className="table-h">RETURN NO.</th>
+                        <th className="table-h">PARTY NAME</th>
+                        <th className="table-h">CATEGORY NAME</th>
+                        <th className="table-h">TYPE</th>
+                        <th className="table-h">TOTAL</th>
+                        <th className="table-h">RECIEVED</th>
+                        <th className="table-h">BALANCE DUE</th>
+                        <th className="table-h">STATUS</th>
+                        <th className="table-h">PRINT/ACTION</th>
                      </tr>
                   </thead>
                   {!isLoading ? (
@@ -145,12 +145,12 @@ const Purchasereturn = ({ func, date, data }) => {
                                           0}
                                     </td>
                                     <td className="table-h">
+                                      {e.status}
+                                    </td>
+                                    <td className="table-h">
                                        <PrinterIcon
                                           onClick={() => window.print()}
                                        />
-                                       <DotsIcon />
-                                    </td>
-                                    <td className="table-h">
                                        <DeleteIcon
                                           onClick={() => handleDelete(e._id)}
                                        />

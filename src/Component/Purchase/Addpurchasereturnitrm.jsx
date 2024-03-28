@@ -1,6 +1,7 @@
 import { GetAllItems } from "../../Redux/items/actions";
 import { FetchAllParties } from "../../Redux/parties/actions";
 import ItemsForm from "../../components/addForm/ItemsForm";
+import CategoryForm from '../../components/addForm/CategoryForm'
 import css from "../../styles/SalesStyles/SalesForms.module.css";
 
 import {
@@ -56,6 +57,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
    const [indexSaleItem, setIndexSaleItem] = useState(0);
    const [rowFooterData, setRowFooterData] = useState({});
    const [showItemForm, setShowItemForm] = useState(false);
+   const [showCategoryForm, setShowCategoryForm] = useState(false);
    const [receiveAmount, setReceiveAmount] = useState(0);
    const [balanceAmount, setBalanceAmount] = useState(0);
    const [paymentArr, setPaymentArr] = useState([
@@ -309,6 +311,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
 
          <div className={css.ContentContainerDiv}>
             {showItemForm && <ItemsForm closeForm={setShowItemForm} />}
+            {showCategoryForm && <CategoryForm closeForm={setShowCategoryForm} />}
 
             {/* Middle  */}
             <div className={css.middleOuter}>
@@ -553,6 +556,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                               handleMenuItemClick={handleMenuItemClick}
                               setShowItemsListMenu={setShowItemsListMenu}
                               setShowItemForm={setShowItemForm}
+                              setShowCategoryForm={setShowCategoryForm}
                               setIndexSaleItem={setIndexSaleItem}
                               items={items}
                               getAllItemsLoading={getAllItemsLoading}

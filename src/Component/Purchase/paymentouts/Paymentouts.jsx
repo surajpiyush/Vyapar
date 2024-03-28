@@ -91,13 +91,16 @@ const Paymentouts = ({ func, date,data }) => {
                         <tr className="table-row">
                            {[
                               "#",
-                              "date",
-                              "refNo",
-                              "partyName",
-                              "categoryName",
-                              "type",
-                              "total",
-                              "balance",
+                              "DATE",
+                              "REF NO.",
+                              "PARTYNAME",
+                              "CATEGORY NAME",
+                              "TYPE",
+                              "TOTAL",
+                              "RECEIVED/PAID",
+                              "BALANCE",
+                              "DUE DATE",
+                              "STATUS"
                            ].map((item, index) => (
                               <th className="table-h" key={index}>
                                  <div className="table-items">{item}</div>
@@ -146,7 +149,13 @@ const Paymentouts = ({ func, date,data }) => {
                                        </td>
                                        <td className="table-h">{e.type}</td>
                                        <td className="table-h">₹{e.total}</td>
+                                       <td className="table-h">{e.paid}</td>
                                        <td className="table-h">₹{e.balance}</td>
+                                       <td className="table-h">
+                                          {FormatDate(e.date)}
+                                       </td>
+                                       <td className="table-h">₹{e.status}</td>
+
                                        <td className="table-h">
                                           <PrinterIcon
                                              onClick={() => window.print()}

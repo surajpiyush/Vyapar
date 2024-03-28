@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
 import "./months.css";
 import { ArrowDownIcon, EqualIcon, PlusIcon } from "../utils/reactIcons";
@@ -16,6 +16,8 @@ const Thismonth = ({
    data,
 }) => {
    const toast = useToast();
+   const [paidAmount, setPaidAmount] = useState(0);
+   const [unpaidAmount, setUnpaidAmount] = useState(0);
    const handleStartDateChange = (e) => {
       setStartDate(e.target.value);
    };
@@ -23,7 +25,7 @@ const Thismonth = ({
    const handleEndDateChange = (e) => {
       setEndDate(e.target.value);
    };
-   // console.log(data)
+   console.log("data in from month",data);
 
    const [loading, setLoading] = useState(false);
    const getMonthName = (monthNumber) => {
@@ -43,7 +45,7 @@ const Thismonth = ({
       ];
       return months[parseInt(monthNumber) - 1];
    };
-   const startDateParts = startDate.split("-"); 
+   const startDateParts = startDate.split("-");
    const endDateParts = endDate.split("-");
    const formattedStartDate = `${startDateParts[2]}-${getMonthName(
       startDateParts[1]
@@ -85,7 +87,7 @@ const Thismonth = ({
          case "EXCEL":
             try {
                setLoading(true);
-               const formattedFileName = `GSTR1_${formattedStartDate}_${formattedEndDate}_09AEIPT7331R1ZJ.xlsx`;
+               const formattedFileName = `${window.location.pathname}_Data_${formattedStartDate}_${formattedEndDate}_09AEIPT7331R1ZJ.xlsx`;
                const filteredHeaders = Object.keys(data[0]).filter(
                   (header) => header !== "_id"
                );
@@ -328,6 +330,19 @@ const Thismonth = ({
             console.warn("Unknown action:", action);
       }
    };
+   // Calculate paid and unpaid amounts from the data
+   useEffect(() => {
+      let paid = 0;
+      let unpaid = 0;
+
+      data.forEach((item) => {
+         paid += item.amount || 0;
+         unpaid += item.balanceDue || 0;
+      });
+      setPaidAmount(paid);
+      setUnpaidAmount(unpaid);
+   }, [data]);
+
    return (
       <div className="this-month-container">
          <section className="this-month-top">
@@ -370,7 +385,7 @@ const Thismonth = ({
                   <div className="d-flex-col">
                      <div
                         onClick={() => {
-                          saveTableData("EXCEL")
+                           saveTableData("EXCEL");
                         }}
                      >
                         <div style={{ padding: "10px 0 0 30px" }}>
@@ -384,7 +399,7 @@ const Thismonth = ({
                   <div className="d-flex-col">
                      <div
                         onClick={() => {
-                          saveTableData("PRINT")
+                           saveTableData("PRINT");
                         }}
                      >
                         <div>
@@ -402,17 +417,19 @@ const Thismonth = ({
             <section className="this-month-card-section">
                <aside className="this-month-paid-card">
                   <p>Paid</p>
-                  <p className="this-month-rupee">₹ 0</p>
+                  <p className="this-month-rupee">₹ {paidAmount}</p>
                </aside>
                <PlusIcon />
                <aside className="this-month-paid-card this-month-paid-card-unpaid">
                   <p>Unpaid</p>
-                  <p className="this-month-rupee">₹ 0</p>
+                  <p className="this-month-rupee">₹ {unpaidAmount}</p>
                </aside>
                <EqualIcon />
                <aside className="this-month-paid-card this-month-paid-card-total">
                   <p>Total</p>
-                  <p className="this-month-rupee">₹ 0</p>
+                  <p className="this-month-rupee">
+                     ₹ {paidAmount + unpaidAmount}
+                  </p>
                </aside>
             </section>
          )}

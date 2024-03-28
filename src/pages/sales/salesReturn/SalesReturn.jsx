@@ -177,63 +177,7 @@ export default function SalesReturn() {
                 </select>
               </div>
             </div>
-            <div
-              className={css.dFlex}
-              style={{ gap: "20px", paddingRight: "25px" }}
-            >
-              <div>
-                <div
-                  onClick={() =>
-                    toast({
-                      title: "Feature currently in development",
-                      status: "info",
-                      position: "top",
-                    })
-                  }
-                >
-                  <i className="fa fa-bar-chart" aria-hidden="true"></i>
-                </div>
-                <div>
-                  <span>Graph</span>
-                </div>
-              </div>
-              <div className="d-flex-col">
-                <div
-                  onClick={() =>
-                    toast({
-                      title: "Feature currently in development",
-                      status: "info",
-                      position: "top",
-                    })
-                  }
-                >
-                  <div>
-                    <i class="fa fa-file-excel-o" aria-hidden="true"></i>
-                  </div>
-                  <div>
-                    <span>Excel Report</span>
-                  </div>
-                </div>
-              </div>
-              <div className="d-flex-col">
-                <div
-                  onClick={() =>
-                    toast({
-                      title: "Feature currently in development",
-                      status: "info",
-                      position: "top",
-                    })
-                  }
-                >
-                  <div>
-                    <i className="fa fa-print" aria-hidden="true"></i>
-                  </div>
-                  <div>
-                    <span>Print</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+           
           </div>
           {/* <div
                   className="d-flex"

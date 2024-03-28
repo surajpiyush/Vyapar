@@ -63,6 +63,7 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
    const [showItemForm, setShowItemForm] = useState(false);
    const [balanceAmount, setBalanceAmount] = useState(0);
    const [paymentArr, setPaymentArr] = useState([{ types: "Cash", amount: 0 }]);
+   const setting = useSelector((state) => state.SettingReducer.transaction);
 
    const [invoiceItems, setInvoiceItems] = useState([
       {
@@ -630,9 +631,14 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
                         <th className={css.unitHead}>ITEM CODE</th>
                         <th className={css.unitHead}>HSN CODE</th>
                         {/* <th className={css.itemNameHead}>DESCRIPTION</th> */}
-                        <th className={css.unitHead}>COUNT</th>
+                        {setting?.itemTableCheckboxes?.Count && (
+                           <th className={css.unitHead}>COUNT</th>
+                        )}
                         <th className={css.qtyHead}>QTY</th>
-                        <th className={css.unitHead}>FREE QTY</th>
+                        {setting?.itemTableCheckboxes &&
+                           setting.itemTableCheckboxes[
+                              "Free Item Quantity"
+                           ] && <th className={css.unitHead}>FREE QTY</th>}
                         <th className={css.unitHead}>UNIT</th>
 
                         <th className={css.priceUnitHead}>
@@ -703,14 +709,20 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
                         <td></td>
                         {/* <td></td> */}
                         <td></td>
-                        <td className={css.addRowChildTd}>
-                           {rowFooterData?.totalCount}
-                        </td>
+                        {setting?.itemTableCheckboxes?.Count && (
+                           <td className={css.addRowChildTd}>
+                              {rowFooterData?.totalCount}
+                           </td>
+                        )}
                         <td className={css.addRowChildTd}>
                            {rowFooterData?.totalQty}
                         </td>
                         <td></td>
-                        <td></td>
+                        {setting?.itemTableCheckboxes &&
+                           setting.itemTableCheckboxes[
+                              "Free Item Quantity"
+                           ] && <td></td>}
+
                         <td></td>
 
                         <td className={css.addRowChildTd}>

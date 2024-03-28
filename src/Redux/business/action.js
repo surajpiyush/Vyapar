@@ -76,7 +76,7 @@ export const AddBusinessLoginRequest = async (
          title:
             error?.response?.data?.message ||
             error?.response?.data?.msg ||
-            "Something Went Wrong!",
+            "Something Went Wrong!",   
          status: "error",
          position: "top",
       });
