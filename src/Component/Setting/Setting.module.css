@@ -1,0 +1,162 @@
+.Outer {
+  background-color: var(--greyB);
+  position: fixed;
+  display: flex;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2000;
+  height: 100vh;
+}
+
+/* **************
+** Sidebar Css **
+*****************/
+.SidebarOuterDiv {
+  background: var(--DeepCharcoal);
+  color: var(--greyishBlue);
+  overflow: auto;
+  width: 250px;
+  height: 100%;
+}
+.searchIconDiv {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 15px;
+}
+.searchIconDiv h3 {
+  cursor: default;
+  font-size: 20px;
+  font-weight: 400;
+}
+.searchIconDiv svg {
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s ease;
+}
+.searchIconDiv svg:hover {
+  color: var(--yellowA);
+}
+.OptionsContSidebarDiv {
+  margin-top: -10px;
+}
+.OptionsContSidebarDiv div {
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  padding: 14px 0px 14px 15px;
+  color: var(--DeepCharcoal);
+  margin-left: 4px;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  transition: all 0.17s ease;
+}
+.OptionsContSidebarDiv .activeSidebarSection {
+  background-color: var(--greyB);
+}
+.OptionsContSidebarDiv .inActiveSidebarSection {
+  color: var(--bluishGrey);
+}
+
+/* **************
+** Content Css **
+*****************/
+.contentOuterDiv {
+  flex: 2;
+  height: 100%;
+  overflow: auto;
+}
+.navContentOuterDiv {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin: 15px auto 0px;
+}
+.navContentOuterDiv svg {
+  cursor: pointer;
+  font-size: 28px;
+  border-radius: 50%;
+  color: var(--greyA);
+}
+
+/* Old Css */
+
+#interface {
+  overflow: auto;
+}
+.container {
+  overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  overflow-x: auto;
+  font-size: larger;
+}
+
+.section {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+.section h2 {
+  font-size: 1.4em;
+  padding-top: 0;
+  text-align: left;
+  border-bottom: 3px solid #ccc;
+  padding-bottom: 20px;
+}
+
+.label {
+  font-size: 1.2em;
+  padding: 3px;
+}
+
+.container1 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.section1 {
+  width: 30%;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+.section1 h2 {
+  font-size: 1.2em;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 15px;
+}
+
+.legend {
+  color: #333;
+  font-size: 1em;
+  top: -1em;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  writing-mode: horizontal-tb;
+}
+
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Adjust the gap between label and checkbox */
+}
+
+.checkbox {
+  font-size: larger;
+  width: 40px;
+  height: 35px;
+}

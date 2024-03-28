@@ -1,0 +1,86 @@
+// requesting and falure handeling
+export const ITEM_REQUEST = "ITEM_REQUEST";
+export const ITEM_FAILURE = "ITEM_FAILURE";
+// for getting existing items
+export const GET_ITEM_SUCCESS = "GET_ITEM_SUCCESS";
+
+// for posting new item
+export const POST_ITEM_SUCCESS = "POST_ITEM_SUCCESS";
+
+// Get Selected Item
+export const LOADING_GET_SELECTED_ITEM = "LOADING_GET_SELECTED_ITEM";
+export const ERROR_GET_SELECTED_ITEM = "ERROR_GET_SELECTED_ITEM";
+export const SUCCESS_GET_SELECTED_ITEM = "SUCCESS_GET_SELECTED_ITEM";
+
+// for editing
+export const LOADING_UPDATE_ITEM = "LOADING_UPDATE_ITEM";
+export const ERROR_UPDATE_ITEM = "ERROR_UPDATE_ITEM";
+export const SUCCESS_UPDATE_ITEM = "SUCCESS_UPDATE_ITEM";
+
+// Delete Item
+export const LOADING_DELETE_ITEM = "LOADING_DELETE_ITEM";
+export const ERROR_DELETE_ITEM = "ERROR_DELETE_ITEM";
+export const SUCCESS_DELETE_ITEM = "SUCCESS_DELETE_ITEM";
+
+// for getting single item
+export const LOADING_SINGLE_ITEM = "LOADING_SINGLE_ITEM";
+export const ERROR_SINGLE_ITEM = "ERROR_SINGLE_ITEM";
+export const SUCCESS_SINGLE_ITEM = "SUCCESS_SINGLE_ITEM";
+
+export const LOADING_GET_ALL_ITEMS = "LOADING_GET_ALL_ITEMS";
+export const ERROR_GET_ALL_ITEMS = "ERROR_GET_ALL_ITEMS";
+export const SUCCESS_GET_ALL_ITEMS = "SUCCESS_GET_ALL_ITEMS";
+
+// ======================= Category ==============================
+// Category
+export const LOADING_CATEGORY = "LOADING_CATEGORY";
+// Get All Categories
+export const GET_All_CATEGORIES_LOADING = "GET_All_CATEGORIES_LOADING";
+export const GET_All_CATEGORIES_ERROR = "GET_All_CATEGORIES_ERROR";
+export const GET_All_CATEGORIES_SUCCESS = "GET_All_CATEGORIES_SUCCESS";
+
+// Add New Category
+export const ADD_CATEGORY_LOADING = "ADD_CATEGORY_LOADING";
+export const ADD_CATEGORY_ERROR = "ADD_CATEGORY_ERROR";
+export const ADD_CATEGORY_SUCCESS = "ADD_CATEGORY_SUCCESS";
+
+//  Update/Edit Category
+export const LOADING_UPDATE_CATEGORY = "LOADING_UPDATE_CATEGORY";
+export const ERROR_UPDATE_CATEGORY = "ERROR_UPDATE_CATEGORY";
+export const SUCCESS_UPDATE_CATEGORY = "SUCCESS_UPDATE_CATEGORY";
+
+// Delete Category
+export const LOADING_DELETE_CATEGORY = "LOADING_DELETE_CATEGORY";
+export const ERROR_DELETE_CATEGORY = "ERROR_DELETE_CATEGORY";
+export const SUCCESS_DELETE_CATEGORY = "SUCCESS_DELETE_CATEGORY";
+
+// Get Single Category
+export const LOADING_SINGLE_CATEGORY = "LOADING_SINGLE_CATEGORY";
+export const ERROR_SINGLE_CATEGORY = "ERROR_SINGLE_CATEGORY";
+export const SUCCESS_SINGLE_CATEGORY = "SUCCESS_SINGLE_CATEGORY";
+
+// ======================= Unit ==============================
+// Get All Units
+export const GET_ALL_UNITS_LOADING = "GET_ALL_UNITS_LOADING";
+export const GET_ALL_UNITS_ERROR = "GET_ALL_UNITS_ERROR";
+export const GET_ALL_UNITS_SUCCESS = "GET_ALL_UNITS_SUCCESS";
+
+// Add New Unit
+export const ADDING_UNIT_SUCCESS = "ADDING_UNIT_SUCCESS";
+export const ADDING_UNIT_LOADING = "ADDING_UNIT_LOADING";
+export const ADDING_UNIT_ERROR = "ADDING_UNIT_ERROR";
+
+// Update/Edit Unit
+export const LOADING_UPDATE_UNIT = "LOADING_UPDATE_UNIT";
+export const ERROR_UPDATE_UNIT = "ERROR_UPDATE_UNIT";
+export const SUCCESS_UPDATE_UNIT = "SUCCESS_UPDATE_UNIT";
+
+// Delete Unit
+export const LOADING_DELETE_UNIT = "LOADING_DELETE_UNIT";
+export const ERROR_DELETE_UNIT = "ERROR_DELETE_UNIT";
+export const SUCCESS_DELETE_UNIT = "SUCCESS_DELETE_UNIT";
+
+// Get Single Unit
+export const LOADING_SINGLE_UNIT = "LOADING_SINGLE_UNIT";
+export const ERROR_SINGLE_UNIT = "ERROR_SINGLE_UNIT";
+export const SUCCESS_SINGLE_UNIT = "SUCCESS_SINGLE_UNIT";

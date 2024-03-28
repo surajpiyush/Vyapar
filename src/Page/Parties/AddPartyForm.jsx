@@ -1,0 +1,552 @@
+import css from "./AddParties.module.css";
+import { useToast } from "@chakra-ui/react";
+import { SaveParty } from "../../Redux/parties/actions";
+import { SettingsIconOutline, CrossIcon } from "../../assets/Icons/ReactIcons";
+
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+const AddPartyForm = ({ CloseForm, OpenSettings }) => {
+  const toast = useToast();
+  const dispatch = useDispatch();
+  const postPartyLoading = useSelector(
+    (state) => state.PartiesReducer.postPartyLoading
+  );
+  const [currInps, setCurrInps] = useState("GST & Address");
+  const [creditLimitToggle, setCreditLimitToggle] = useState(false);
+  const [disableShippingAddress, setDisableShippingAddress] = useState(true);
+  const [formData, setFormData] = useState({
+    partyName: "",
+    phoneNumber: "",
+    state: "",
+    email: "",
+    billingAddress: "",
+    shippingAddress: "",
+    openingBalance: "",
+    asOfDate: new Date().toISOString().split("T")[0],
+    creditLimit: "",
+
+    // gstNo: "",
+    // GSTType: "",
+  });
+
+  // Handle Save Function
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!postPartyLoading) {
+      if (!StatesList.includes(formData?.state)) {
+        return toast({
+          title: "Please select a valid state from suggestion list!",
+          status: "warning",
+          position: "top",
+        });
+      }
+      // console.log("formData", formData);
+      SaveParty(dispatch, formData, CloseForm, toast);
+    }
+  };
+
+  // Input Change Function
+  const handleInpChange = (e) => {
+    let { name, value } = e.target;
+    setFormData((prev) => {
+      return { ...prev, [name]: value };
+    });
+  };
+
+  return (
+    <div
+      onClick={(e) => {
+        e.stopPropagation();
+        CloseForm(false);
+      }}
+      className={css.FormOuterParent}
+    >
+      <form
+        onSubmit={handleSubmit}
+        onClick={(e) => e.stopPropagation()}
+        className={css.actualFormOuter}
+      >
+        {/* Header */}
+        <div className={css.formHeaderOuterDiv}>
+          <h3>Add Party</h3>
+          <div>
+            <SettingsIconOutline onClick={() => OpenSettings(true)} />
+            <CrossIcon onClick={() => CloseForm(false)} />
+          </div>
+        </div>
+
+        {/* Middle  */}
+        <div className={css.middleOuter}>
+          <div className={css.upperInpCont}>
+            {/* Party Name */}
+            <div className={css.inputDiv}>
+              <input
+                type="text"
+                name="partyName"
+                value={formData?.partyName}
+                onChange={handleInpChange}
+                className={css.input}
+                required
+              />
+              <label
+                className={
+                  formData?.partyName ? css.activeLabel : css.inactiveLabel
+                }
+              >
+                Party Name*
+              </label>
+            </div>
+            {/* Phone Number */}
+            <div className={css.inputDiv}>
+              <input
+                type="number"
+                name="phoneNumber"
+                value={formData?.phoneNumber}
+                onChange={handleInpChange}
+                className={css.input}
+              />
+              <label
+                className={
+                  formData?.phoneNumber ? css.activeLabel : css.inactiveLabel
+                }
+              >
+                Phone Number
+              </label>
+            </div>
+            {/* GSTIN */}
+            {/* <div className={css.inputDiv}>
+              <input
+                type="text"
+                name="gstNo"
+                value={formData?.gstNo}
+                onChange={handleInpChange}
+                className={css.input}
+              />
+              <label
+                className={
+                  formData?.gstNo ? css.activeLabel : css.inactiveLabel
+                }
+              >
+                GSTIN
+              </label>
+            </div> */}
+          </div>
+
+          {/* Changer */}
+          <div className={css.changerOuterDiv}>
+            <div
+              style={{
+                color:
+                  currInps == "GST & Address" ? "var(--blueB)" : "var(--greyH)",
+                borderColor:
+                  currInps == "GST & Address" ? "var(--blueB)" : "transparent",
+              }}
+              onClick={() => setCurrInps("GST & Address")}
+              className={css.changerDivs}
+            >
+              GST & Address
+            </div>
+            <div
+              style={{
+                color:
+                  currInps == "Credit & Balance"
+                    ? "var(--blueB)"
+                    : "var(--greyH)",
+                borderColor:
+                  currInps == "Credit & Balance"
+                    ? "var(--blueB)"
+                    : "transparent",
+              }}
+              onClick={() => setCurrInps("Credit & Balance")}
+              className={css.changerDivs}
+            >
+              Credit & Balance
+            </div>
+            <div
+              style={{
+                color:
+                  currInps == "Additional Fields"
+                    ? "var(--blueB)"
+                    : "var(--greyH)",
+                borderColor:
+                  currInps == "Additional Fields"
+                    ? "var(--blueB)"
+                    : "transparent",
+              }}
+              onClick={() => setCurrInps("Additional Fields")}
+              className={css.changerDivs}
+            >
+              Additional Fields
+            </div>
+          </div>
+
+          {currInps == "GST & Address" ? (
+            // GST & Address - Inputs
+            <div className={css.gstAddressOuter}>
+              <div className={css.leftSideGstAddressDiv}>
+                {/* State */}
+                <div className={css.inputDiv}>
+                  <input
+                    type="text"
+                    name="state"
+                    value={formData?.state}
+                    onChange={handleInpChange}
+                    className={css.input}
+                    list="statesList"
+                  />
+                  <label
+                    className={
+                      formData?.state ? css.activeLabel : css.inactiveLabel
+                    }
+                  >
+                    State
+                  </label>
+                  <datalist id="statesList">
+                    <option value="">State</option>
+                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                    <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                    <option value="Assam">Assam</option>
+                    <option value="Bihar">Bihar</option>
+                    <option value="Chhattisgarh">Chhattisgarh</option>
+                    <option value="Goa">Goa</option>
+                    <option value="Gujarat">Gujarat</option>
+                    <option value="Haryana">Haryana</option>
+                    <option value="Himachal Pradesh">Himachal Pradesh</option>
+                    <option value="Jharkhand">Jharkhand</option>
+                    <option value="Karnataka">Karnataka</option>
+                    <option value="Kerala">Kerala</option>
+                    <option value="Madhya Pradesh">Madhya Pradesh</option>
+                    <option value="Maharashtra">Maharashtra</option>
+                    <option value="Manipur">Manipur</option>
+                    <option value="Meghalaya">Meghalaya</option>
+                    <option value="Mizoram">Mizoram</option>
+                    <option value="Nagaland">Nagaland</option>
+                    <option value="Odisha">Odisha</option>
+                    <option value="Punjab">Punjab</option>
+                    <option value="Rajasthan">Rajasthan</option>
+                    <option value="Sikkim">Sikkim</option>
+                    <option value="Tamil Nadu">Tamil Nadu</option>
+                    <option value="Telangana">Telangana</option>
+                    <option value="Tripura">Tripura</option>
+                    <option value="Uttar Pradesh">Uttar Pradesh</option>
+                    <option value="Uttarakhand">Uttarakhand</option>
+                    <option value="West Bengal">West Bengal</option>
+                    <option value="Andaman and Nicobar Islands">
+                      Andaman and Nicobar Islands
+                    </option>
+                    <option value="Chandigarh">Chandigarh</option>
+                    <option value="Dadra and Nagar Haveli">
+                      Dadra and Nagar Haveli
+                    </option>
+                    <option value="Daman and Diu">Daman and Diu</option>
+                    <option value="Lakshadweep">Lakshadweep</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Puducherry">Puducherry</option>
+                  </datalist>
+                </div>
+                {/* Email */}
+                <div className={css.inputDiv}>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData?.email}
+                    onChange={handleInpChange}
+                    className={css.input}
+                  />
+                  <label
+                    className={
+                      formData?.email ? css.activeLabel : css.inactiveLabel
+                    }
+                  >
+                    Email
+                  </label>
+                </div>
+              </div>
+              <div className={css.rightSideGstAddressDiv}>
+                {/* Billing Address */}
+                <div className={css.inputDiv}>
+                  <textarea
+                    name="billingAddress"
+                    value={formData?.billingAddress}
+                    onChange={handleInpChange}
+                    className={css.input}
+                  />
+                  <label
+                    className={
+                      formData?.billingAddress
+                        ? css.activeLabel
+                        : css.inactiveLabel
+                    }
+                  >
+                    Billing Address
+                  </label>
+                  <h3
+                    onClick={() => setDisableShippingAddress((prev) => !prev)}
+                    style={{
+                      color: !disableShippingAddress
+                        ? "var(--greyA)"
+                        : "var(--blueB)",
+                    }}
+                  >
+                    {disableShippingAddress ? "+ Enable" : "- Disable"} Shipping
+                    Address
+                  </h3>
+                </div>
+                {/* Shipping Address */}
+                <div
+                  style={{
+                    visibility: disableShippingAddress ? "hidden" : "visible",
+                  }}
+                  className={css.inputDiv}
+                >
+                  <textarea
+                    name="shippingAddress"
+                    value={formData?.shippingAddress}
+                    onChange={handleInpChange}
+                    className={css.input}
+                  />
+                  <label
+                    className={
+                      formData?.shippingAddress
+                        ? css.activeLabel
+                        : css.inactiveLabel
+                    }
+                  >
+                    Shipping Address
+                  </label>
+                </div>
+              </div>
+            </div>
+          ) : currInps == "Credit & Balance" ? (
+            // Credit & Balance - Inputs
+            <div>
+              <div className={css.creditAndBalUpperInpDiv}>
+                {/* Opening Balance */}
+                <div className={css.inputDiv}>
+                  <input
+                    type="number"
+                    name="openingBalance"
+                    value={formData?.openingBalance}
+                    onChange={handleInpChange}
+                    className={css.input}
+                  />
+                  <label
+                    className={
+                      formData?.openingBalance
+                        ? css.activeLabel
+                        : css.inactiveLabel
+                    }
+                  >
+                    Opening Balance
+                  </label>
+                </div>
+                {/* As Of Date */}
+                <div className={css.inputDiv}>
+                  <input
+                    type="date"
+                    name="asOfDate"
+                    value={formData?.asOfDate}
+                    onChange={handleInpChange}
+                    className={css.input}
+                  />
+                  <label
+                    className={
+                      formData?.asOfDate ? css.activeLabel : css.inactiveLabel
+                    }
+                  >
+                    As Of Date
+                  </label>
+                </div>
+              </div>
+              <div className={css.creditLimitOuterDiv}>
+                <h3>Credit Limit</h3>
+                <div>
+                  <label
+                    style={{
+                      color: !creditLimitToggle
+                        ? "var(--blueB)"
+                        : "var(--greyD)",
+                    }}
+                    htmlFor="No Limit"
+                  >
+                    <input
+                      type="radio"
+                      name="No Limit"
+                      checked={!creditLimitToggle}
+                      onChange={() => {
+                        setCreditLimitToggle(false);
+                      }}
+                    />
+                    No Limit
+                  </label>
+                  <label
+                    style={{
+                      color: creditLimitToggle
+                        ? "var(--blueB)"
+                        : "var(--greyD)",
+                    }}
+                    htmlFor="Custom Limit"
+                  >
+                    <input
+                      type="radio"
+                      checked={creditLimitToggle}
+                      onChange={() => {
+                        setCreditLimitToggle(true);
+                      }}
+                      name="Custom Limit"
+                    />
+                    Custom Limit
+                  </label>
+                </div>
+                {/* Credit Limit */}
+                {creditLimitToggle && (
+                  <div className={css.inputDiv}>
+                    <input
+                      type="number"
+                      name="creditLimit"
+                      value={formData?.creditLimit}
+                      onChange={handleInpChange}
+                      className={css.input}
+                    />
+                    <label
+                      className={
+                        formData?.creditLimit
+                          ? css.activeLabel
+                          : css.inactiveLabel
+                      }
+                    >
+                      Credit Limit
+                    </label>
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : (
+            // Additional Fields - Inputs
+            <div className={css.additionalFieldOuter}>
+              {/* Additional Field 1 Name */}
+              <div className={css.singleAddFieldContOuter}>
+                <input type="checkbox" />
+                <div className={css.inputDiv}>
+                  <input
+                    type="text"
+                    name="addFieldName1"
+                    value={formData?.addFieldName1}
+                    onChange={handleInpChange}
+                    className={css.input}
+                  />
+                  <label
+                    className={
+                      formData?.addFieldName1
+                        ? css.activeLabel
+                        : css.inactiveLabel
+                    }
+                  >
+                    Additional Field 1 Name
+                  </label>
+                </div>
+              </div>
+              {/* Additional Field 2 Name */}
+              <div className={css.singleAddFieldContOuter}>
+                <input type="checkbox" />
+                <div className={css.inputDiv}>
+                  <input
+                    type="text"
+                    name="addFieldName2"
+                    value={formData?.addFieldName2}
+                    onChange={handleInpChange}
+                    className={css.input}
+                  />
+                  <label
+                    className={
+                      formData?.addFieldName2
+                        ? css.activeLabel
+                        : css.inactiveLabel
+                    }
+                  >
+                    Additional Field 2 Name
+                  </label>
+                </div>
+              </div>
+              {/* Additional Field 3 Name */}
+              <div className={css.singleAddFieldContOuter}>
+                <input type="checkbox" />
+                <div className={css.inputDiv}>
+                  <input
+                    type="text"
+                    name="addFieldName3"
+                    value={formData?.addFieldName3}
+                    onChange={handleInpChange}
+                    className={css.input}
+                  />
+                  <label
+                    className={
+                      formData?.addFieldName3
+                        ? css.activeLabel
+                        : css.inactiveLabel
+                    }
+                  >
+                    Additional Field 3 Name
+                  </label>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Footer */}
+        <div className={css.footerOuter}>
+          <button
+            type="submit"
+            style={{ cursor: postPartyLoading ? "not-allowed" : "pointer" }}
+            disabled={postPartyLoading}
+            className={css.saveBtn}
+          >
+            {postPartyLoading ? "Saving..." : "Save"}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default AddPartyForm;
+
+export const StatesList = [
+  "Andhra Pradesh",
+  "Arunachal Pradesh",
+  "Assam",
+  "Bihar",
+  "Chhattisgarh",
+  "Goa",
+  "Gujarat",
+  "Haryana",
+  "Himachal Pradesh",
+  "Jharkhand",
+  "Karnataka",
+  "Kerala",
+  "Madhya Pradesh",
+  "Maharashtra",
+  "Manipur",
+  "Meghalaya",
+  "Mizoram",
+  "Nagaland",
+  "Odisha",
+  "Punjab",
+  "Rajasthan",
+  "Sikkim",
+  "Tamil Nadu",
+  "Telangana",
+  "Tripura",
+  "Uttar Pradesh",
+  "Uttarakhand",
+  "West Bengal",
+  "Andaman and Nicobar Islands",
+  "Chandigarh",
+  "Dadra and Nagar Haveli",
+  "Daman and Diu",
+  "Lakshadweep",
+  "Delhi",
+  "Puducherry",
+];

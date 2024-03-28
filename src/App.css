@@ -1,0 +1,112 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+  --blueA: blue;
+  --blueB: #098df9;
+  --blueC: #c4e2fa;
+  --blueD: rgb(66, 66, 253);
+  --BlueBerry: #4b75f2;
+  --SereneSky: #abc0ff;
+  --ElectricBlue: #043be0;
+  --violetA: rgb(6, 17, 139);
+  --bluishGrey: #b8cbdc;
+  --deepForest: #353f3e;
+  --ShadowStone: #404b4a;
+  --SlateGray: #313636;
+  --DeepOceanBlue: #282c34;
+  --DeepA: #15171c;
+  --DeepBluishGrey: #2b3645;
+  --pureWhite: #fff;
+  --greyA: grey;
+  --greyB: rgb(234, 234, 234);
+  --greyC: rgb(200, 200, 200);
+  --greyD: rgb(108, 108, 108);
+  --greyE: rgb(190, 190, 190);
+  --greyF: rgb(242, 242, 242);
+  --greyG: rgb(156, 156, 156);
+  --greyH: rgb(191, 191, 191);
+  --mistyGrey: #e4e4e4;
+  --greyishBlue: rgb(241, 245, 247);
+  --redA: red;
+  --redB: rgb(252, 44, 44);
+  --redC: rgb(248, 85, 85);
+  --redD: rgb(247, 65, 65);
+  --redE: rgb(252, 222, 222);
+  --yellowA: rgb(255, 204, 0);
+  --VividOrange: #ff8a00;
+  --overlayBg: rgba(0, 0, 0, 0.377);
+  --overlayBg2: rgba(0, 0, 0, 0.544);
+  --DeepCharcoal: #111827;
+  --SlateTranslucent: rgba(25, 25, 25, 0.274);
+
+  /* Box Shadows */
+  --shadowA: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+  --shadowB: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+  --shadowC: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  --shadowD: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  --shadowE: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  --shadowF: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+
+  /* Fonts */
+  --Pop: "Poppins", sans-serif;
+  --Ral: "Raleway", sans-serif;
+  --Rob: "Roboto", sans-serif;
+  --Ver: "Verdana", sans-serif;
+  --Gill: "Gill Sans", sans-serif;
+  --Rom: "Times", "Times New Roman", serif;
+  --Cur: Apple Chancery, cursive;
+  --Free: FreeMono, monospace;
+}
+
+/* Print */
+@media print {
+  @page {
+    size: 210mm 297mm;
+  }
+}
+
+/***************
+** Scroll Css ** 
+****************/
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--greyA);
+  border-radius: 50px;
+}
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/***************
+** App.js Css ** 
+****************/
+#App {
+  font-family: var(--Pop);
+  background-color: var(--greyB);
+  overflow: auto;
+}
+.appContentOuter {
+  display: flex;
+  height: 100vh;
+  padding-top: 32px;
+}
+.rightSideContentOuter {
+  flex-grow: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--greyF);
+}
+.outletOuterDiv {
+  overflow: auto;
+}

@@ -1,0 +1,69 @@
+.itemFormOuterDiv {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--overlayBg);
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow-y: scroll;
+  z-index: 1800;
+}
+
+.item-form {
+  padding: 20px;
+  background-color: white;
+  box-shadow: var(--shadowB);
+  border-radius: 5px;
+  overflow-y: scroll;
+  overflow: auto;
+  /* overflow: hidden; */
+  z-index: 2000;
+}
+
+.select-unit-btn {
+  background-color: coral;
+  color: rgb(253, 251, 251);
+  border-width: 0px;
+  margin-top: 20px;
+  height: 40px;
+  width: 150px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.input-cont {
+  display: flex;
+  align-items: flex-center;
+  gap: 20px;
+}
+
+.item-inp-field {
+  padding: 10px;
+  width: 120px;
+}
+
+.save-btn-cont {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.save-btn-cont button {
+  background-color: orange;
+  padding: 8px 40px;
+  border-width: 0px;
+  color: white;
+}
+
+.unit-form {
+  padding: 20px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  box-shadow: 3px 5px 10px grey;
+}

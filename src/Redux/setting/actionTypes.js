@@ -1,0 +1,3 @@
+// actionTypes.js
+export const UPDATE_CHECKBOX = "UPDATE_CHECKBOX";
+export const UPDATE_SELECT_SETTING = "UPDATE_SELECT_SETTING";

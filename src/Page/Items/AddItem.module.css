@@ -1,0 +1,313 @@
+.FormOuterParent {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1500;
+  background: var(--overlayBg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  cursor: default;
+}
+.actualFormOuter {
+  background-color: var(--pureWhite);
+  width: 60%;
+  max-height: 85%;
+  min-height: 67.5%;
+  border-radius: 10px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+}
+.formHeaderOuterDiv {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--Rob);
+  border-bottom: 2px solid var(--greyF);
+  padding: 0px 0px 14px;
+
+  h3 {
+    padding: 0;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--DeepBluishGrey);
+  }
+  div {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  div svg {
+    cursor: pointer;
+    font-size: 22px;
+    color: var(--greyD);
+  }
+}
+
+/* Input css */
+.inputDiv {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  position: relative;
+}
+.input {
+  border: 0.5px solid var(--greyC);
+  background-color: transparent;
+  z-index: 50;
+  height: 35px;
+  border-radius: 5px;
+  width: 220px;
+  padding: 0px 10px;
+  font-size: 14px;
+  font-weight: 400;
+}
+.input:focus {
+  outline: none;
+  border: 0.5px solid var(--blueB);
+  z-index: 50;
+}
+.input:focus ~ .inactiveLabel {
+  position: absolute;
+  pointer-events: none;
+  z-index: 100;
+  white-space: nowrap;
+  width: fit-content;
+  margin-left: 3px;
+  font-size: 14px;
+  margin-top: 36.5px;
+  letter-spacing: 0.5px;
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 1px;
+  padding: 0px 5px;
+  border-radius: 5px;
+  color: var(--blueB);
+  background-color: var(--pureWhite);
+  transform: translateY(-45px) scale(0.9);
+  transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.inactiveLabel {
+  position: absolute;
+  pointer-events: none;
+  white-space: nowrap;
+  width: fit-content;
+  z-index: 100;
+  margin-left: 8px;
+  font-size: 14px;
+  margin-top: 34px;
+  font-size: 13.5px;
+  font-weight: 400;
+  background-color: var(--pureWhite);
+  color: var(--greyG);
+  transform: translateY(-26.5px);
+  transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.activeLabel {
+  position: absolute;
+  pointer-events: none;
+  z-index: 100;
+  white-space: nowrap;
+  width: fit-content;
+  margin-left: 3px;
+  font-size: 14px;
+  margin-top: 36.5px;
+  letter-spacing: 0.5px;
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 1px;
+  padding: 0px 5px;
+  border-radius: 5px;
+  color: var(--blueB);
+  background-color: var(--pureWhite);
+  transform: translateY(-45px) scale(0.9);
+  transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+/* For Select Tags */
+.selectTag {
+  border: 0.5px solid var(--greyC);
+  background-color: transparent;
+  z-index: 50;
+  height: 35px;
+  border-radius: 5px;
+  width: 220px;
+  padding: 0px 10px;
+  font-size: 14px;
+  font-weight: 400;
+}
+.selectTag:focus {
+  outline: none;
+  border: 0.5px solid var(--blueB);
+  z-index: 50;
+}
+.inactiveSelectLabel {
+  position: absolute;
+  pointer-events: none;
+  white-space: nowrap;
+  width: 85%;
+  z-index: 100;
+  margin-left: 8px;
+  font-size: 14px;
+  margin-top: 34px;
+  font-size: 13.5px;
+  font-weight: 400;
+  background-color: var(--pureWhite);
+  color: var(--greyG);
+  transform: translateY(-26.5px);
+  transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.activeSelectLabel {
+  position: absolute;
+  pointer-events: none;
+  z-index: 100;
+  white-space: nowrap;
+  width: fit-content;
+  margin-left: 3px;
+  font-size: 14px;
+  margin-top: 36.5px;
+  letter-spacing: 0.5px;
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 1px;
+  padding: 0px 5px;
+  border-radius: 5px;
+  color: var(--blueB);
+  background-color: var(--pureWhite);
+  transform: translateY(-45px) scale(0.9);
+  transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Middle css */
+.middleOuter {
+  flex-grow: 1;
+  overflow: auto;
+  width: 100%;
+}
+.upperInpCont {
+  margin: 25px auto 0px;
+  display: flex;
+  align-items: center;
+  gap: 22.5px;
+}
+.changerOuter {
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid var(--greyH);
+}
+.singleChangeItemDiv {
+  cursor: pointer;
+  border-bottom-width: 3px;
+  border-bottom-style: solid;
+  font-size: 14px;
+  font-weight: 500;
+  width: 80px;
+  text-align: center;
+  padding: 27.5px 0px 8px;
+  transition: all 0.2s ease;
+}
+.PricingUpperDiv {
+  width: 100%;
+  border: 1px solid var(--greyB);
+  background-color: var(--greyishBlue);
+  padding: 22.5px 22.5px 0px;
+  border-radius: 5px;
+  margin: 45px auto 20px;
+
+  h3 {
+    font-size: 14px;
+    margin-bottom: 27.5px;
+  }
+}
+.showWholeSaleCss {
+  cursor: pointer;
+  color: var(--blueB);
+  font-size: 14px;
+  margin-bottom: 27.5px;
+  font-weight: 500;
+}
+.hideWholeSaleCss {
+  font-size: 14px;
+  margin-bottom: 27.5px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 22.5px;
+
+  span {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: var(--greyG);
+    gap: 7.5px;
+  }
+}
+.rowInpCont {
+  display: flex;
+  align-items: center;
+  gap: 22.5px;
+  margin-bottom: 30px;
+}
+.attachedInpConts {
+  display: flex;
+  align-items: center;
+
+  input {
+    width: 115px;
+    background-color: var(--pureWhite);
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+  select {
+    cursor: pointer;
+    background-color: var(--pureWhite);
+    width: 115px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    font-size: 12px;
+    padding: 0px 0px 0px 4px;
+  }
+}
+.PricingLowerDiv {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.lowerDivOuterInpConts {
+  width: 50%;
+  border: 1px solid var(--greyB);
+  background-color: var(--greyishBlue);
+  padding: 22.5px 22.5px 0px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+
+  h3 {
+    font-size: 14px;
+    margin-bottom: 27.5px;
+  }
+}
+
+/* Footer Css */
+.footerOuter {
+  background-color: var(--pureWhite);
+  display: flex;
+  flex-direction: row-reverse;
+  border-top: 2px solid var(--greyF);
+  padding-top: 20px;
+}
+.saveBtn {
+  background-color: var(--blueB);
+  color: var(--pureWhite);
+  font-size: 14px;
+  padding: 8.5px 0px;
+  width: 110px;
+  border-radius: 7px;
+  font-weight: 400;
+  transition: all 0.2s ease;
+}
+.saveBtn:hover {
+  background-color: var(--ElectricBlue);
+}
