@@ -1,3 +1,4 @@
+import "./index.css";
 import App from "./App";
 import AddPurchase from "./Page/AddPurchasepage.jsx";
 import Addpurchaseorderpage from "./Page/Addpurchaseorderpage.jsx";
@@ -9,13 +10,10 @@ import Home from "./Page/Home/Home.jsx";
 import Items from "./Page/Items/Items.jsx";
 import Parties from "./Page/Parties/Parties.jsx";
 
-
 import Paymentout from "./Page/Purchase/Paymentout.jsx";
 import Purchasebill from "./Page/Purchase/Purchasebill.jsx";
 import Purchaseorderpage from "./Page/Purchase/Purchaseorderpage.jsx";
 import Purchasereturnpage from "./Page/Purchase/Purchasereturnpage.jsx";
-import { store } from "./Redux/store.js";
-import "./index.css";
 import AllTransaction from "./pages/AllTransactions.js";
 import CashFlow from "./pages/CashFlow.js";
 import DayBook from "./pages/DayBook.js";
@@ -35,6 +33,7 @@ import SalesOrder from "./pages/sales/salesOrder/SalesOrder.jsx";
 import SalesPaymentln from "./pages/sales/salesPaymentIn/SalesPaymentIn.jsx";
 import SalesReturn from "./pages/sales/salesReturn/SalesReturn.jsx";
 import reportWebVitals from "./reportWebVitals";
+import { store } from "./Redux/store.js";
 
 import { ChakraProvider } from "@chakra-ui/react";
 import React from "react";
