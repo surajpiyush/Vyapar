@@ -31,48 +31,56 @@ export const LOADING_GET_ALL_ITEMS = "LOADING_GET_ALL_ITEMS";
 export const ERROR_GET_ALL_ITEMS = "ERROR_GET_ALL_ITEMS";
 export const SUCCESS_GET_ALL_ITEMS = "SUCCESS_GET_ALL_ITEMS";
 
-
-// ==================================CATREGORY =========================
-
+// ======================= Category ==============================
+// Category
 export const LOADING_CATEGORY = "LOADING_CATEGORY";
-export const ADDING_CATEGORY = "ADDING_CATEGORY";
-export const GETTING_CATEGORY = "GETTING_CATEGORY";
+// Get All Categories
+export const GET_All_CATEGORIES_LOADING = "GET_All_CATEGORIES_LOADING";
+export const GET_All_CATEGORIES_ERROR = "GET_All_CATEGORIES_ERROR";
+export const GET_All_CATEGORIES_SUCCESS = "GET_All_CATEGORIES_SUCCESS";
 
-// for editing
+// Add New Category
+export const ADD_CATEGORY_LOADING = "ADD_CATEGORY_LOADING";
+export const ADD_CATEGORY_ERROR = "ADD_CATEGORY_ERROR";
+export const ADD_CATEGORY_SUCCESS = "ADD_CATEGORY_SUCCESS";
+
+//  Update/Edit Category
 export const LOADING_UPDATE_CATEGORY = "LOADING_UPDATE_CATEGORY";
 export const ERROR_UPDATE_CATEGORY = "ERROR_UPDATE_CATEGORY";
 export const SUCCESS_UPDATE_CATEGORY = "SUCCESS_UPDATE_CATEGORY";
 
-// Delete CATEGORY
+// Delete Category
 export const LOADING_DELETE_CATEGORY = "LOADING_DELETE_CATEGORY";
 export const ERROR_DELETE_CATEGORY = "ERROR_DELETE_CATEGORY";
 export const SUCCESS_DELETE_CATEGORY = "SUCCESS_DELETE_CATEGORY";
 
-// for getting single CATEGORY
+// Get Single Category
 export const LOADING_SINGLE_CATEGORY = "LOADING_SINGLE_CATEGORY";
 export const ERROR_SINGLE_CATEGORY = "ERROR_SINGLE_CATEGORY";
 export const SUCCESS_SINGLE_CATEGORY = "SUCCESS_SINGLE_CATEGORY";
 
-// =================Unit =======================================
-export const UNIT_REQUEST = "UNIT_REQUEST";
-export const UNIT_FAILURE = "UNIT_FAILURE";
+// ======================= Unit ==============================
+// Get All Units
+export const GET_ALL_UNITS_LOADING = "GET_ALL_UNITS_LOADING";
+export const GET_ALL_UNITS_ERROR = "GET_ALL_UNITS_ERROR";
+export const GET_ALL_UNITS_SUCCESS = "GET_ALL_UNITS_SUCCESS";
 
-export const LOADING_UNIT = "LOADING_UNIT";
-export const ADDING_UNIT = "ADDING_UNIT";
-export const GETTING_UNIT = "GETTING_UNIT";
+// Add New Unit
+export const ADDING_UNIT_SUCCESS = "ADDING_UNIT_SUCCESS";
+export const ADDING_UNIT_LOADING = "ADDING_UNIT_LOADING";
+export const ADDING_UNIT_ERROR = "ADDING_UNIT_ERROR";
 
-// for editing
+// Update/Edit Unit
 export const LOADING_UPDATE_UNIT = "LOADING_UPDATE_UNIT";
 export const ERROR_UPDATE_UNIT = "ERROR_UPDATE_UNIT";
 export const SUCCESS_UPDATE_UNIT = "SUCCESS_UPDATE_UNIT";
 
-// Delete CATEGORY
+// Delete Unit
 export const LOADING_DELETE_UNIT = "LOADING_DELETE_UNIT";
 export const ERROR_DELETE_UNIT = "ERROR_DELETE_UNIT";
 export const SUCCESS_DELETE_UNIT = "SUCCESS_DELETE_UNIT";
 
-// for getting single CATEGORY
+// Get Single Unit
 export const LOADING_SINGLE_UNIT = "LOADING_SINGLE_UNIT";
 export const ERROR_SINGLE_UNIT = "ERROR_SINGLE_UNIT";
 export const SUCCESS_SINGLE_UNIT = "SUCCESS_SINGLE_UNIT";
-

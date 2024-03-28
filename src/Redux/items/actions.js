@@ -19,11 +19,18 @@ import {
   LOADING_GET_SELECTED_ITEM,
   ERROR_GET_SELECTED_ITEM,
   SUCCESS_GET_SELECTED_ITEM,
-  ADDING_CATEGORY,
-  GETTING_CATEGORY,
-  UNIT_REQUEST,
-  ADDING_UNIT,
-  GETTING_UNIT,
+  ADD_CATEGORY_SUCCESS,
+  GET_All_CATEGORIES_SUCCESS,
+  GET_ALL_UNITS_LOADING,
+  ADDING_UNIT_SUCCESS,
+  GET_ALL_UNITS_SUCCESS,
+  ADDING_UNIT_LOADING,
+  ADDING_UNIT_ERROR,
+  GET_ALL_UNITS_ERROR,
+  ADD_CATEGORY_LOADING,
+  ADD_CATEGORY_ERROR,
+  GET_All_CATEGORIES_LOADING,
+  GET_All_CATEGORIES_ERROR,
 } from "./actionTypes";
 import { USER_DETAILS } from "../business/actionTypes";
 
@@ -54,14 +61,14 @@ export const AddItem = async (dispatch, newItem, closeForm, toast) => {
     });
     closeForm(false);
   } catch (error) {
-    console.log("Adding Items Error", error);
-    dispatch({ type: ITEM_FAILURE });
     toast({
       title: "Something Went Wrong!",
       description: error?.response?.data?.msg || "",
       status: "error",
       position: "top",
     });
+    dispatch({ type: ITEM_FAILURE });
+    console.log("Adding Items Error:", error);
   }
 };
 
@@ -70,17 +77,17 @@ export const getitems = async (dispatch) => {
   dispatch({ type: ITEM_REQUEST });
   const token = localStorage.getItem("token");
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+
   try {
     const response = await axios.get(`${API_URL}/${FirmId}/item/allItem`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: { Authorization: `Bearer ${token}` },
     });
+
     // console.log("Get items response:", response?.data);
     dispatch({ type: GET_ITEM_SUCCESS, payload: response?.data?.data });
   } catch (error) {
-    console.log("Error Getting Items data:", error);
     dispatch({ type: ITEM_FAILURE });
+    console.log("Getting Items Data Error:", error);
   }
 };
 
@@ -93,9 +100,7 @@ export const GetSelectedItemData = async (dispatch, itemId) => {
   try {
     const response = await axios.get(
       `${API_URL}/${FirmId}/item/itemById/${itemId}`,
-      {
-        headers: { Authorization: `Bearer ${token} ` },
-      }
+      { headers: { Authorization: `Bearer ${token} ` } }
     );
 
     // console.log("Get Selected Item Data Response:", response?.data);
@@ -108,7 +113,7 @@ export const GetSelectedItemData = async (dispatch, itemId) => {
     });
   } catch (error) {
     dispatch({ type: ERROR_GET_SELECTED_ITEM });
-    console.log("Error Getting Selected Item Data:", error);
+    console.log("Getting Selected Item Data Error:", error);
   }
 };
 
@@ -117,20 +122,18 @@ export const GetSingleItem = async (dispatch, itemId) => {
   dispatch({ type: LOADING_SINGLE_ITEM });
   const token = localStorage.getItem("token");
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+
   try {
     const response = await axios.get(
       `${API_URL}/${FirmId}/sale/getInvoice/${itemId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token} `,
-        },
-      }
+      { headers: { Authorization: `Bearer ${token} ` } }
     );
 
+    // console.log("Getting Single Item Response:", response);
     dispatch({ type: SUCCESS_SINGLE_ITEM, payload: response?.data?.data });
   } catch (error) {
-    console.log("Getting Single Item Error:", error);
     dispatch({ type: ERROR_SINGLE_ITEM });
+    console.log("Getting Single Item Error:", error);
   }
 };
 
@@ -139,17 +142,17 @@ export const GetAllItems = () => async (dispatch) => {
   dispatch({ type: LOADING_GET_ALL_ITEMS });
   const token = localStorage.getItem("token");
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+
   try {
     const response = await axios.get(`${API_URL}/${FirmId}/item/allItemData`, {
-      headers: {
-        Authorization: `Bearer ${token} `,
-      },
+      headers: { Authorization: `Bearer ${token} ` },
     });
+
     // console.log("Get All Items Response:", response.data);
     dispatch({ type: SUCCESS_GET_ALL_ITEMS, payload: response?.data?.data });
   } catch (error) {
-    console.log("Getting All Items Error:", error);
     dispatch({ type: ERROR_GET_ALL_ITEMS });
+    console.log("Getting All Items Error:", error);
   }
 };
 
@@ -161,8 +164,8 @@ export const UpdateItem = async (
   setShowEditFirm,
   toast
 ) => {
-  toast.closeAll();
   dispatch({ type: LOADING_UPDATE_ITEM });
+  toast.closeAll();
   const token = localStorage.getItem("token");
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
@@ -170,22 +173,18 @@ export const UpdateItem = async (
     const response = await axios.patch(
       `${API_URL}/${FirmId}/item/${itemId}`,
       updatedData,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+      { headers: { Authorization: `Bearer ${token}` } }
     );
-    console.log("Update Item Response:", response.data);
+
+    // console.log("Update Item Response:", response.data);
     dispatch({ type: SUCCESS_UPDATE_ITEM });
-    setShowEditFirm(false);
     toast({
       title: "Item Updated",
       status: "success",
       position: "top",
     });
+    setShowEditFirm(false);
   } catch (error) {
-    dispatch({ type: ERROR_UPDATE_ITEM });
     toast({
       title:
         error?.response?.data?.msg ||
@@ -194,35 +193,33 @@ export const UpdateItem = async (
       status: "error",
       position: "top",
     });
-    console.error("Error Updating Item:", error);
+    dispatch({ type: ERROR_UPDATE_ITEM });
+    console.error("Updating Item Error:", error);
   }
 };
 
 // Delete Item ************************
 export const DeleteItem = async (dispatch, partyId, setShowEditFirm, toast) => {
-  toast.closeAll();
   dispatch({ type: LOADING_DELETE_ITEM });
+  toast.closeAll();
   const token = localStorage.getItem("token");
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
   try {
     const response = await axios.delete(
       `${API_URL}/${FirmId}/item/${partyId}`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
+      { headers: { Authorization: `Bearer ${token}` } }
     );
+
     // console.log("Delete Item Response:", response?.data);
     dispatch({ type: SUCCESS_DELETE_ITEM });
-    setShowEditFirm(false);
     toast({
-      title: "Item Deleted",
+      title: "Item Deleted!",
       status: "success",
       position: "top",
     });
+    setShowEditFirm(false);
   } catch (error) {
-    dispatch({ type: ERROR_DELETE_ITEM });
-    console.log("Deleting Item Error:", error);
     toast({
       title:
         error?.response?.data?.msg ||
@@ -231,123 +228,121 @@ export const DeleteItem = async (dispatch, partyId, setShowEditFirm, toast) => {
       status: "error",
       position: "top",
     });
+    dispatch({ type: ERROR_DELETE_ITEM });
+    console.log("Deleting Item Error:", error);
   }
 };
 
-// Category
-// Add category
-export const addCategory = async (dispatch, categoryName, closeForm, toast) => {
+//  -------------------------------- Category -----------------------------
+// Add New Category
+export const AddNewCategory = async (
+  dispatch,
+  categoryData,
+  closeForm,
+  toast
+) => {
+  dispatch({ type: ADD_CATEGORY_LOADING });
   toast.closeAll();
-
   const token = localStorage.getItem("token");
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
-  console.log(categoryName);
+
   try {
     const response = await axios.post(
       `${API_URL}/${FirmId}/createCategoryName`,
-      categoryName,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
+      categoryData,
+      { headers: { Authorization: `Bearer ${token}` } }
     );
 
-    console.log("Adding Item Response:", response?.data);
-    dispatch({ type: ADDING_CATEGORY });
+    // console.log("Adding Category Response:", response?.data);
+    dispatch({ type: ADD_CATEGORY_SUCCESS });
     toast({
-      title: "Category Added Successfully",
+      title: "Category Added!",
       status: "success",
       position: "top",
     });
     closeForm(false);
   } catch (error) {
-    console.log("Adding Category Error", error);
-    // dispatch({ type: ITEM_FAILURE });
     toast({
-      title: "Something Went Wrong!",
-      description: error?.response?.data?.msg || "",
+      title: error?.response?.data?.msg || "Something Went Wrong!",
       status: "error",
       position: "top",
     });
+    dispatch({ type: ADD_CATEGORY_ERROR });
+    console.log("Adding Category Error:", error);
   }
 };
 
-// get category
+// Get All Categories
 export const GetAllCategories = async (dispatch) => {
-  dispatch({ type: ITEM_REQUEST });
+  dispatch({ type: GET_All_CATEGORIES_LOADING });
   const token = localStorage.getItem("token");
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+
   try {
     const response = await axios.get(
       `${API_URL}/${FirmId}/categoryName/allCategoryName`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+      { headers: { Authorization: `Bearer ${token}` } }
     );
-    // console.log("Get items response:", response?.data);
-    dispatch({ type: GETTING_CATEGORY, payload: response?.data?.data });
+
+    console.log("Getting All Categories Response:", response?.data);
+    dispatch({
+      type: GET_All_CATEGORIES_SUCCESS,
+      payload: response?.data?.data,
+    });
   } catch (error) {
-    console.log("Error Getting Items data:", error);
-    dispatch({ type: ITEM_FAILURE });
+    dispatch({ type: GET_All_CATEGORIES_ERROR });
+    console.log("Getting All Categories Error:", error);
   }
 };
 
-// Unit
-// Add Unit
-export const addUnit = async (dispatch, categoryName, closeForm, toast) => {
+// ----------------------------------- Unit ---------------------------------
+// Add New Unit
+export const AddNewUnit = async (dispatch, unitData, closeForm, toast) => {
+  dispatch({ type: ADDING_UNIT_LOADING });
   toast.closeAll();
-
   const token = localStorage.getItem("token");
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
-  console.log(categoryName);
+  // console.log(categoryName);
   try {
     const response = await axios.post(
       `${API_URL}/${FirmId}/createUnitName`,
-      categoryName,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
+      unitData,
+      { headers: { Authorization: `Bearer ${token}` } }
     );
 
-    console.log("Adding Item Response:", response?.data);
-    dispatch({ type: ADDING_UNIT });
+    // console.log("Adding Item Response:", response?.data);
+    dispatch({ type: ADDING_UNIT_SUCCESS });
     toast({
-      title: "Unit Added Successfully",
+      title: "Unit Added!",
       status: "success",
       position: "top",
     });
     closeForm(false);
   } catch (error) {
-    console.log("Adding Category Error", error);
-    // dispatch({ type: ITEM_FAILURE });
     toast({
-      title: "Something Went Wrong!",
-      description: error?.response?.data?.msg || "",
+      title: error?.response?.data?.msg || "Something Went Wrong!",
       status: "error",
       position: "top",
     });
+    dispatch({ type: ADDING_UNIT_ERROR });
+    console.log("Adding Unit Error", error);
   }
 };
 
-// get Unit
-export const getUnit = async (dispatch) => {
-  dispatch({ type: UNIT_REQUEST });
+// Get All Units
+export const GetAllUnits = async (dispatch) => {
+  dispatch({ type: GET_ALL_UNITS_LOADING });
   const token = localStorage.getItem("token");
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
   try {
     const response = await axios.get(
       `${API_URL}/${FirmId}/createUnitName/allUnitName`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+      { headers: { Authorization: `Bearer ${token}` } }
     );
-    console.log("Get items response:", response?.data);
-    dispatch({ type: GETTING_UNIT, payload: response?.data?.data });
+    // console.log("Get All Units response:", response?.data);
+    dispatch({ type: GET_ALL_UNITS_SUCCESS, payload: response?.data?.data });
   } catch (error) {
-    console.log("Error Getting Items data:", error);
-    dispatch({ type: ITEM_FAILURE });
+    dispatch({ type: GET_ALL_UNITS_ERROR });
+    console.log("Error Getting All Units:", error);
   }
 };
