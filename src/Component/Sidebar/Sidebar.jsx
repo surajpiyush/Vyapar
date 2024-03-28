@@ -1,7 +1,7 @@
 import css from "./Sidebar.module.css";
 import Logo from "../../assets/Shop.svg";
 import Setting from "../../Component/Setting/Setting";
-import AddPartyForm from "../../Page/Parties/AddPartyForm";
+import AddPartyForm from "../../Page/parties/AddPartyForm";
 import ItemsForm from "../../components/addForm/ItemsForm";
 import { USER_DETAILS } from "../../Redux/business/actionTypes";
 
