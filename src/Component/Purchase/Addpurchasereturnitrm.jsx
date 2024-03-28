@@ -19,7 +19,7 @@ import {
 } from "react-icons/bi";
 import { FiPlusCircle as PlusIcon } from "react-icons/fi";
 import { HiMiniDocumentText as AddDocumentIcon } from "react-icons/hi2";
-	@@ -26,402 +26,393 @@ import { addPurchaseReturn } from "../../Redux/purchase/action";
+import { addPurchaseReturn } from "../../Redux/purchase/action";
 import AddPurchaseForm from "./AddPurchaseForm";
 
 const Addpurchaseitem = ({ setOpenForm }) => {
