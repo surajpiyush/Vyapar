@@ -1,0 +1,375 @@
+.Overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 2500;
+    background: var(--overlayBg2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .OuterEditProfile {
+    font-family: var(--Rob);
+    background-color: var(--greyishBlue);
+    border-radius: 8px;
+    padding: 20px 20px 0px;
+    width: 620px;
+    max-height: 85%;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+  }
+  .topNavDiv {
+    flex: 1;
+    font-family: var(--Rob);
+    color: var(--deepForest);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  
+    h2 {
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      cursor: default;
+    }
+  
+    svg {
+      font-size: 24px;
+      cursor: pointer;
+    }
+  }
+  .actualFormContDiv {
+    overflow: auto;
+    flex-grow: 1;
+    height: 100%;
+  }
+  
+  /* Top Section Inputs */
+  .TopSectionInputOuter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 12px auto 0px;
+    gap: 10px;
+  }
+  .leftSideTopDivOuter {
+    text-align: center;
+    width: 48%;
+  }
+  .FirmLogoOuterDiv {
+    padding: 0;
+    width: 140px;
+    text-align: center;
+    margin: 0px auto 20px;
+    border-radius: 5px;
+    overflow: hidden;
+  
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  }
+  .imgUploadDiv {
+    cursor: pointer;
+    margin: auto;
+    border: 1px dashed var(--greyA);
+    text-align: center;
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 20px 15px 15px;
+    height: fit-content;
+    transition: all 0.15s ease;
+  }
+  .imgUploadDiv h2 {
+    color: var(--greyA);
+    font-size: 16px;
+    margin-top: -6px;
+  }
+  .imgUploadDiv input {
+    cursor: pointer;
+    display: none;
+    margin: 10px auto 0px;
+  }
+  .imgUploadDiv:hover input {
+    display: block;
+  }
+  .rightSideTopDivOuter {
+    flex-grow: 2;
+    padding: 5px;
+  }
+  .rightSideTopDivOuter div {
+    padding: 5px;
+  }
+  .rightSideTopDivOuter div label {
+    display: block;
+    font-size: 12px;
+    color: rgb(44, 43, 43);
+    padding: 3px 0;
+  }
+  .rightSideTopDivOuter div input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid gray;
+  }
+  .rightSideTopDivOuter div input:focus {
+    outline: none;
+  }
+  .rightSideTopDivOuter div p {
+    font-size: 12px;
+    color: blue;
+  }
+  
+  /* Bottom Form Css */
+  .BottomOuterSection h4 {
+    border-radius: 10px;
+    padding: 10px 10px;
+    font-size: 18px;
+    border-radius: 10px;
+    color: blue;
+    font-weight: 400;
+  }
+  .bottomLeftSideDiv div,
+  .bottomRightSideDiv div {
+    padding: 5px;
+  }
+  .bottomLeftSideDiv div label,
+  .bottomRightSideDiv div label {
+    display: block;
+    font-size: 12px;
+    color: rgb(44, 43, 43);
+    padding: 3px 0;
+  }
+  .bottomLeftSideDiv div input,
+  .bottomRightSideDiv div input,
+  .bottomLeftSideDiv div textarea {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid gray;
+  }
+  .bottomLeftSideDiv div input:focus,
+  .bottomRightSideDiv div input:focus,
+  .bottomLeftSideDiv div textarea:focus {
+    outline: none;
+  }
+  .bottomHeadBorder {
+    width: 100%;
+    height: 0.5px;
+    background-color: blue;
+  }
+  .bottomInputContsDivOuter {
+    padding: 10px 10px;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .bottomLeftSideDiv,
+  .bottomRightSideDiv {
+    width: 100%;
+  }
+  .bottomLeftSideDiv div select,
+  .bottomRightSideDiv div select {
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid gray;
+  }
+  .bottomLeftSideDiv div select option,
+  .bottomRightSideDiv div select option {
+    width: 100%;
+    padding: 20px;
+    border-radius: 5px;
+    border: 1px solid gray;
+  }
+  .bottomLeftSideDiv div select:focus,
+  .bottomRightSideDiv div select:focus {
+    outline: none;
+  }
+  
+  /* Signature */
+  .signatureContOuterDiv {
+    text-align: center;
+    width: 100%;
+    margin: 20px auto;
+  }
+  .signDiv {
+    width: 50%;
+    text-align: center;
+    margin: 0px auto 20px;
+    border-radius: 5px;
+    overflow: hidden;
+  
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .signUploadDiv {
+    cursor: pointer;
+    margin: auto;
+    border: 1px dashed var(--greyA);
+    text-align: center;
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 20px 15px 15px;
+    height: fit-content;
+    transition: all 0.15s ease;
+  }
+  .signUploadDiv h2 {
+    color: var(--greyA);
+    font-size: 16px;
+    margin-top: -6px;
+  }
+  .signUploadDiv input {
+    cursor: pointer;
+    display: none;
+    margin: 10px auto 0px;
+  }
+  .signUploadDiv:hover input {
+    display: block;
+  }
+  
+  /* Footer Css */
+  .footerDivOuter {
+    flex: 2;
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    background-color: var(--greyishBlue);
+    padding: 12px 10px 15px;
+    border-top: 0.5px solid var(--greyC);
+  }
+  .footerDivOuter button {
+    background-color: var(--ElectricBlue);
+    font-family: var(--Pop);
+    padding: 5px 22px;
+    font-size: 16px;
+    border: none;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    letter-spacing: 0.5px;
+  }
+  .footerDivOuter button:hover {
+    background-color: var(--blueA);
+  }
+  #deleteBtn {    
+    cursor: pointer;
+    margin-right: 18px;
+    padding: 5px 12px;
+    background-color: var(--redC);
+    transition: all 0.2s ease;
+  }
+  
+  #deleteBtn:hover {
+    background-color: var(--redB);
+  }
+  
+  /* Footer Loader Css */
+  #footerLoader {
+    width: 48px;
+    height: 48px;
+    border: 5px solid #fff;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+  }
+  
+  @keyframes rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* Input Css */
+  .inputDiv {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    position: relative;
+  }
+  .input {
+    border: 0.5px solid var(--greyC);
+    background-color: var(--greyB);
+    z-index: 50;
+    height: 30px;
+    border-radius: 6px;
+    width: 200px;
+    padding: 18px;
+  }
+  .input:focus {
+    outline: none;
+    /* color: var(--greyA); */
+  }
+  .input:focus ~ .inactiveLabel {
+    position: absolute;
+    pointer-events: none;
+    z-index: 100;
+    background-color: var(--greyB);
+    white-space: nowrap;
+    width: fit-content;
+    margin-left: 10px;
+    font-size: 14px;
+    margin-top: 35px;
+    letter-spacing: 0.5px;
+    font-size: 14px;
+    font-weight: 400;
+    transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    color: var(--greyA);
+    transform: translateY(-45px) scale(0.9);
+    padding: 1px 5px;
+    border-radius: 5px;
+    letter-spacing: 1px;
+  }
+  .inactiveLabel {
+    position: absolute;
+    pointer-events: none;
+    z-index: 100;
+    background-color: var(--greyB);
+    white-space: nowrap;
+    width: fit-content;
+    margin-left: 10px;
+    font-size: 14px;
+    margin-top: 35px;
+    letter-spacing: 0.5px;
+    color: var(--greyA);
+    font-size: 14px;
+    font-weight: 400;
+    transform: translateY(-26.5px);
+    transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .activeLabel {
+    position: absolute;
+    pointer-events: none;
+    z-index: 100;
+    background-color: var(--greyB);
+    white-space: nowrap;
+    width: fit-content;
+    margin-left: 10px;
+    font-size: 14px;
+    margin-top: 35px;
+    letter-spacing: 0.5px;
+    font-size: 14px;
+    font-weight: 400;
+    transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    color: var(--greyA);
+    transform: translateY(-45px) scale(0.9);
+    padding: 1px 5px;
+    border-radius: 5px;
+    letter-spacing: 1px;
+  }
+  

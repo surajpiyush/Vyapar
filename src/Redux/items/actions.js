@@ -469,7 +469,7 @@ export const UpdateUnit = async (
     dispatch({ type: SUCCESS_UPDATE_UNIT });
     setShowEditFirm(false);
     toast({
-      title: "Category Updated",
+      title: "Unit Updated",
       status: "success",
       position: "top",
     });
@@ -488,7 +488,7 @@ export const UpdateUnit = async (
 };
 
 // Delete Unit
-export const DeleteUnit = async (dispatch, partyId, setShowEditFirm, toast) => {
+export const DeleteUnit = async (dispatch, unittId, setShowEditFirm, toast) => {
   toast.closeAll();
   dispatch({ type: LOADING_DELETE_UNIT });
   const token = localStorage.getItem("token");
@@ -496,7 +496,7 @@ export const DeleteUnit = async (dispatch, partyId, setShowEditFirm, toast) => {
 
   try {
     const response = await axios.delete(
-      `${API_URL}/${FirmId}/deleteUnit/${partyId}`,
+      `${API_URL}/${FirmId}/deleteUnit/${unittId}`,                     
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -505,7 +505,7 @@ export const DeleteUnit = async (dispatch, partyId, setShowEditFirm, toast) => {
     dispatch({ type: SUCCESS_DELETE_UNIT });
     setShowEditFirm(false);
     toast({
-      title: "Item Deleted",
+      title: "Unit Deleted",
       status: "success",
       position: "top",
     });

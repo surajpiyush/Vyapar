@@ -53,7 +53,7 @@ export default function UnitsTable({ func }) {
   return (
     <div className={css.OuterDiv}>
       {showEditFirm && (
-        <UnitEditForm setShowEditFirm={setShowEditFirm} item={editItem} />
+        <UnitEditForm setShowEditFirm={setShowEditFirm} unit={editItem} />
       )}
 
       <div className={css.flexBoxDivCont}>

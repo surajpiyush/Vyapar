@@ -1,4 +1,4 @@
-import css from "../../Page/Firm/EditFirm.module.css";
+import css from "../../Page/Items/edit.module.css";
 import {
    UpdateItem,
    DeleteItem,

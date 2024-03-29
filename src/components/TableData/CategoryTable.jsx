@@ -17,7 +17,7 @@ import { PiDotsThreeVerticalBold as VerticalDots } from "react-icons/pi";
 import { IoSearchCircleSharp as SearchIcon } from "react-icons/io5";
 import CategoryEditForm from "../addForm/CategoryEditForm";
 
-export default function ProductsTable({ func }) {
+export default function CategoryTable({ func }) {
   const dispatch = useDispatch();
   const category = useSelector((store) => store.ItemReducer.category);
   const isLoading = useSelector((store) => store.ItemReducer.isLoading);
