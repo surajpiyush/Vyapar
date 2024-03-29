@@ -1,5 +1,6 @@
-import css from "../../Page/Firm/EditFirm.module.css";
-import { UpdateItem, DeleteItem } from "../../Redux/items/actions";
+import css from "../../Page/Items/edit.module.css";
+
+import { UpdateItem, DeleteItem, UpdateUnit, DeleteUnit } from "../../Redux/items/actions";
 
 import { useState } from "react";
 import { useToast } from "@chakra-ui/react";
@@ -28,25 +29,26 @@ const UnitEditForm = ({ setShowEditFirm, unit }) => {
          [name]: value,
       }));
    };
+   // console.log(unit)
 
    //   Update Item Function
    const handleUpdate = () => {
-      toast({
-         title: "Backend under development",
-         status: "info",
-         position: "top",
-      });
-      // UpdateItem(dispatch, unitData?._id, unitData, setShowEditFirm, toast);
+      // toast({
+      //    title: "Backend under development",
+      //    status: "info",
+      //    position: "top",
+      // });
+      UpdateUnit(dispatch, unitData?._id, unitData, setShowEditFirm, toast);
    };
 
    //   Delete Item Function
    const handleDelete = () => {
-      toast({
-         title: "Backend under development",
-         status: "info",
-         position: "top",
-      });
-      // DeleteItem(dispatch, unitData?._id, setShowEditFirm, toast);
+      // toast({
+      //    title: "Backend under development",
+      //    status: "info",
+      //    position: "top",
+      // });
+      DeleteUnit(dispatch, unitData?._id, setShowEditFirm, toast);
    };
 
    return (

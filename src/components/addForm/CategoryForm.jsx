@@ -1,5 +1,6 @@
 // import "../../styles/Items.css";
-import css from "../../Page/Firm/EditFirm.module.css";
+import css from "../../Page/Items/edit.module.css";
+
 import { AddNewCategory } from "../../Redux/items/actions";
 
 import { useState } from "react";
