@@ -1,11 +1,11 @@
 .navOuter {
-  background-color: var(--greyB);
-  color: var(--BlueBerry);
+  background-color: var(--greyF);
   display: flex;
   direction: row;
   align-items: flex-center;
   justify-content: space-between;
-  height: 60px;
+  height: 45px;
+  border-bottom: 2px solid var(--greyG);
 }
 .navOptions {
   text-align: center;
@@ -14,8 +14,12 @@
   align-items: center;
   justify-content: center;
   font-size: 18px;
-  border-bottom: 4px solid var(--blueB);
-  cursor: default;
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 /* Items Table file css */
