@@ -1,5 +1,4 @@
 import css from "../../Page/Parties/Parties.module.css";
-import PartyEditForm from "../addForm/PartyEditForm";
 import { GetCurrentPartyData } from "../../Redux/parties/actions";
 
 import { useState } from "react";
@@ -35,11 +34,8 @@ export default function PartiesTable({ func }) {
   return (
     <div className={css.OuterDiv}>
       {showEditForm && (
-        <PartyEditForm
-          setShowEditForm={setShowEditForm}
-          party={editPartyData}
-        />
-        //   <EditPartyForm CloseForm={setShowEditForm} partyData={editPartyData} />
+     
+         <EditPartyForm CloseForm={setShowEditForm} partyData={editPartyData} />
       )}
 
       <div className={css.flexBoxDivCont}>

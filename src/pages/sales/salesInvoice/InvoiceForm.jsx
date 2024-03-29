@@ -27,7 +27,8 @@ import { ImCheckboxUnchecked as EmptyCheckedBox } from "react-icons/im";
 import { IoIosArrowDown as ArrowDown } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 
-const InvoiceForm = ({ setOpenForm, setToggleSetting, setConfirmModel }) => {
+const InvoiceForm = ({ setOpenForm, setToggleSetting,setConfirmModel ,confirmModel,setTemp}) => {
+
   const toast = useToast();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.SalesReducer.isLoading);
@@ -188,12 +189,12 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting, setConfirmModel }) => {
       //   },
       // ],
     };
-    setConfirmModel(true);
-    setOpenForm(false);
-    // <InvoiceGenerator invoiceData={data} />;
+    // setConfirmModel(true);
+    // setOpenForm(false);
     // GetSingleInvoiceData(dispatch, e?._id, toast);
     PostSalesInvoice(dispatch, data, setOpenForm, toast);
-
+    
+    setTemp(data)
     console.log("invoiceData", data);
   };
 
@@ -859,8 +860,10 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting, setConfirmModel }) => {
         >
           <p>Share</p>
           <ArrowDown />
+
         </div> */}
       </div>
+      
     </form>
   );
 };

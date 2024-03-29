@@ -273,3 +273,18 @@
 .saveBtn:hover {
   background-color: var(--ElectricBlue);
 }
+
+.deleteBtn {
+  background-color: var(--redC);
+  color: var(--pureWhite);
+  font-size: 14px;
+   padding: 5px 12px;
+  width: 40px;
+  border-radius: 7px;
+  font-weight: 400;
+  transition: all 0.2s ease;
+}
+
+.deleteBtn:hover {
+  background-color: var(--redB);
+}
