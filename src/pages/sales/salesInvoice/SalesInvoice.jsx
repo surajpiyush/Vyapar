@@ -67,6 +67,7 @@ export default function SalesInvoice() {
       (state) => state.SalesReducer.SingleInvoiceData
    );
    const [confirmModel,setConfirmModel] = useState(true)
+   const [temp,setTemp] = useState('')
   
    //   This useEffect is written to get all items data to extract item names ********************************
    useEffect(() => {
@@ -168,12 +169,12 @@ export default function SalesInvoice() {
    }, [toggleSingleInvoiceSuccess]);
    // *********************************************************************************
 
-  
+//   console.log(SingleInvoiceData)
 
    return (
       <div>
          {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
-         {/* {confirmModel && <InvoiceGenerator />} */}
+         {confirmModel && <InvoiceGenerator invoiceData={temp} />} 
          {/* Print Component */}
          {loadingSingleInvoice ? (
             <Loader2 />
@@ -223,6 +224,8 @@ export default function SalesInvoice() {
                   setToggleSetting={setToggleSetting}
                   setOpenForm={setOpenForm}
                   setConfirmModel={setConfirmModel}
+                  confirmModel = {confirmModel}
+                  setTemp={setTemp}
                />
             </div>
          )}
