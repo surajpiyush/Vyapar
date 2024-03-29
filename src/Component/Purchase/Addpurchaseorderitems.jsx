@@ -325,8 +325,8 @@ const Addpurchaseitem = ({ setOpenForm }) => {
   const handleAddRow = (e) => {
     e.stopPropagation();
     let newRowData = {
-      id: 1,
-      category: "65c5cfc509b34ca8a0187497",
+     
+      category: "",
       itemName: "",
       itemCode: "",
       hsnCode: "",

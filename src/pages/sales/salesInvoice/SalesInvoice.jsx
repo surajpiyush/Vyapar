@@ -30,6 +30,7 @@ import { IoSearch as SearchIcon } from "react-icons/io5";
 import { FiPlusCircle as PlusIcon } from "react-icons/fi";
 import { CiFilter as FilterIcon } from "react-icons/ci";
 import { VscGraph } from "react-icons/vsc";
+import InvoiceGenerator from "../invoiceGenerator";
 
 export default function SalesInvoice() {
    const toast = useToast();
@@ -65,7 +66,8 @@ export default function SalesInvoice() {
    const SingleInvoiceData = useSelector(
       (state) => state.SalesReducer.SingleInvoiceData
    );
-
+   const [confirmModel,setConfirmModel] = useState(true)
+  
    //   This useEffect is written to get all items data to extract item names ********************************
    useEffect(() => {
       dispatch(GetAllItems());
@@ -171,7 +173,7 @@ export default function SalesInvoice() {
    return (
       <div>
          {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
-
+         {/* {confirmModel && <InvoiceGenerator />} */}
          {/* Print Component */}
          {loadingSingleInvoice ? (
             <Loader2 />
@@ -220,6 +222,7 @@ export default function SalesInvoice() {
                <InvoiceForm
                   setToggleSetting={setToggleSetting}
                   setOpenForm={setOpenForm}
+                  setConfirmModel={setConfirmModel}
                />
             </div>
          )}

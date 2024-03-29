@@ -25,7 +25,7 @@ const Thismonth = ({
    const handleEndDateChange = (e) => {
       setEndDate(e.target.value);
    };
-   console.log("data in from month",data);
+   // console.log("data in from month",data);
 
    const [loading, setLoading] = useState(false);
    const getMonthName = (monthNumber) => {

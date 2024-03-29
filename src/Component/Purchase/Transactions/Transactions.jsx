@@ -35,7 +35,7 @@ const Transactions = ({ func, date, info,data }) => {
    );
    // console.log(showAllPurchaseBills);
 
-   console.log(date,data);
+
    // useEffect(() => {
    //    dispatch(getPurchaseBill({ date }));
    //    // console.log("first run succed")
