@@ -9,7 +9,11 @@ import ProductsTable from "../../components/TableData/ProductsTable";
 import CategoryTable from "../../components/TableData/CategoryTable";
 import StockAdjustment from "../../components/addForm/StockAdjustment";
 import FirstTimeFormToggle from "../../Component/FirmTimeForm/FirstTimeFormToggle";
-import { GetAllCategories, getitems } from "../../Redux/items/actions";
+import {
+  GetAllCategories,
+  GetAllUnits,
+  getitems,
+} from "../../Redux/items/actions";
 
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,11 +22,15 @@ export default function Items() {
   const dispatch = useDispatch();
   const items = useSelector((store) => store.ItemReducer.items);
   const category = useSelector((store) => store.ItemReducer.category);
+  const unitList = useSelector((store) => store.ItemReducer.unit);
   const isLoading = useSelector((store) => store.ItemReducer.isLoading);
   const newCategoryAddedToggle = useSelector(
     (store) => store.ItemReducer.newCategoryAddedToggle
   );
   const toggleItems = useSelector((store) => store.ItemReducer.toggleItems);
+  const newUnitAddedToggle = useSelector(
+    (store) => store.ItemReducer.newUnitAddedToggle
+  );
   const [openForm, setOpenForm] = useState(false);
   const [categoryForm, setCategoryForm] = useState(false);
   const [unitForm, setUnitForm] = useState(false);
@@ -35,10 +43,15 @@ export default function Items() {
     getitems(dispatch);
   }, [dispatch, toggleItems]);
 
-  // To Fetch All Items
+  // To Fetch All Categories
   useEffect(() => {
     GetAllCategories(dispatch);
   }, [newCategoryAddedToggle]);
+
+  // To Fetch All Units
+  useEffect(() => {
+    GetAllUnits(dispatch);
+  }, [newUnitAddedToggle]);
 
   const dataFromChild = (val) => {
     setOpenForm(val);
@@ -139,7 +152,7 @@ export default function Items() {
               MiddleText="Add CATEGORY you sell or purchase to manage your full Stock Inventory."
             />
           ) : (
-            <div className="" style={{ width: "100%" }}>
+            <div style={{ width: "100%" }}>
               <CategoryTable func={openCategoryForm} />
             </div>
           )}
@@ -147,21 +160,15 @@ export default function Items() {
       ) : (
         // UNIT
         <div className="d-cen b-cont">
-          {!(data.length > 0) ? (
-            <div className="">
-              <div className="">
-                <img src={party} alt="" className="party-img" />
-                <p>
-                  Add your customers & suppliers. Manage your business with
-                  them.
-                </p>
-                <button className="party-button" onClick={openUnitForm}>
-                  Add Your First Units
-                </button>
-              </div>
-            </div>
+          {!unitList.length ? (
+            <FirstTimeFormToggle
+              img={party}
+              onClick={() => setUnitForm(true)}
+              BtnText="Add Your First Units"
+              MiddleText="Add your customers & suppliers. Manage your business with them."
+            />
           ) : (
-            <div className="" style={{ width: "100%" }}>
+            <div style={{ width: "100%" }}>
               <UnitsTable func={openUnitForm} />
             </div>
           )}

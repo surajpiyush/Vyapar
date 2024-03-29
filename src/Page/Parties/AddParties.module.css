@@ -100,6 +100,7 @@
   font-size: 14px;
   margin-top: 34px;
   font-size: 13.5px;
+  width: 85%;
   font-weight: 400;
   background-color: var(--pureWhite);
   color: var(--greyG);
@@ -172,13 +173,6 @@
   padding: 0px 25px 0px;
   gap: 25px;
 
-  h3 {
-    cursor: pointer;
-    margin-top: 10px;
-    font-size: 13.5px;
-    font-weight: 400;
-  }
-
   textarea {
     height: 80px;
     padding-top: 6px;
@@ -249,6 +243,13 @@
   cursor: pointer;
   width: 18px;
   height: 18px;
+}
+.textBtnCss {
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 13.5px;
+  font-weight: 400;
+  width: fit-content;
 }
 
 /* Footer Css */

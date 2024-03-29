@@ -25,8 +25,12 @@ const AddPartyForm = ({ CloseForm, OpenSettings }) => {
     openingBalance: "",
     asOfDate: new Date().toISOString().split("T")[0],
     creditLimit: "",
-
-    // gstNo: "",
+    gstNo: "",
+    additionalField: [
+      { name: "", value: "", editable: false },
+      { name: "", value: "", editable: false },
+      { name: "", value: "", editable: false },
+    ],
     // GSTType: "",
   });
 
@@ -34,13 +38,6 @@ const AddPartyForm = ({ CloseForm, OpenSettings }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!postPartyLoading) {
-      if (!StatesList.includes(formData?.state)) {
-        return toast({
-          title: "Please select a valid state from suggestion list!",
-          status: "warning",
-          position: "top",
-        });
-      }
       // console.log("formData", formData);
       SaveParty(dispatch, formData, CloseForm, toast);
     }
@@ -51,6 +48,38 @@ const AddPartyForm = ({ CloseForm, OpenSettings }) => {
     let { name, value } = e.target;
     setFormData((prev) => {
       return { ...prev, [name]: value };
+    });
+  };
+
+  // Additional Field Input Change
+  const addFieldInpChange = (e, fieldIndex) => {
+    const { name, type } = e.target;
+    let newAddFieldArr = formData?.additionalField?.map((item, ind) => {
+      if (ind != fieldIndex) {
+        return item;
+      } else {
+        let obj = {
+          ...item,
+          [name]: type == "checkbox" ? e.target.checked : e.target.value,
+        };
+        return obj;
+      }
+    });
+    setFormData((prev) => {
+      return { ...prev, additionalField: newAddFieldArr };
+    });
+  };
+
+  // Add More Additional Fields
+  const AddMoreAdditionalField = () => {
+    setFormData((prev) => {
+      return {
+        ...prev,
+        additionalField: [
+          ...prev?.additionalField,
+          { name: "", value: "", editable: false },
+        ],
+      };
     });
   };
 
@@ -115,7 +144,7 @@ const AddPartyForm = ({ CloseForm, OpenSettings }) => {
               </label>
             </div>
             {/* GSTIN */}
-            {/* <div className={css.inputDiv}>
+            <div className={css.inputDiv}>
               <input
                 type="text"
                 name="gstNo"
@@ -130,7 +159,7 @@ const AddPartyForm = ({ CloseForm, OpenSettings }) => {
               >
                 GSTIN
               </label>
-            </div> */}
+            </div>
           </div>
 
           {/* Changer */}
@@ -187,23 +216,13 @@ const AddPartyForm = ({ CloseForm, OpenSettings }) => {
               <div className={css.leftSideGstAddressDiv}>
                 {/* State */}
                 <div className={css.inputDiv}>
-                  <input
-                    type="text"
+                  <select
                     name="state"
                     value={formData?.state}
                     onChange={handleInpChange}
                     className={css.input}
-                    list="statesList"
-                  />
-                  <label
-                    className={
-                      formData?.state ? css.activeLabel : css.inactiveLabel
-                    }
                   >
-                    State
-                  </label>
-                  <datalist id="statesList">
-                    <option value="">State</option>
+                    <option value="">Select State</option>
                     <option value="Andhra Pradesh">Andhra Pradesh</option>
                     <option value="Arunachal Pradesh">Arunachal Pradesh</option>
                     <option value="Assam">Assam</option>
@@ -243,7 +262,14 @@ const AddPartyForm = ({ CloseForm, OpenSettings }) => {
                     <option value="Lakshadweep">Lakshadweep</option>
                     <option value="Delhi">Delhi</option>
                     <option value="Puducherry">Puducherry</option>
-                  </datalist>
+                  </select>
+                  <label
+                    className={
+                      formData?.state ? css.activeLabel : css.inactiveLabel
+                    }
+                  >
+                    State
+                  </label>
                 </div>
                 {/* Email */}
                 <div className={css.inputDiv}>
@@ -288,6 +314,7 @@ const AddPartyForm = ({ CloseForm, OpenSettings }) => {
                         ? "var(--greyA)"
                         : "var(--blueB)",
                     }}
+                    className={css.textBtnCss}
                   >
                     {disableShippingAddress ? "+ Enable" : "- Disable"} Shipping
                     Address
@@ -425,72 +452,65 @@ const AddPartyForm = ({ CloseForm, OpenSettings }) => {
           ) : (
             // Additional Fields - Inputs
             <div className={css.additionalFieldOuter}>
-              {/* Additional Field 1 Name */}
-              <div className={css.singleAddFieldContOuter}>
-                <input type="checkbox" />
-                <div className={css.inputDiv}>
+              {formData?.additionalField?.map((addFieldItem, fieldIndex) => (
+                <div className={css.singleAddFieldContOuter}>
                   <input
-                    type="text"
-                    name="addFieldName1"
-                    value={formData?.addFieldName1}
-                    onChange={handleInpChange}
-                    className={css.input}
+                    type="checkbox"
+                    name="editable"
+                    checked={addFieldItem?.editable}
+                    onChange={(e) => addFieldInpChange(e, fieldIndex)}
                   />
-                  <label
-                    className={
-                      formData?.addFieldName1
-                        ? css.activeLabel
-                        : css.inactiveLabel
-                    }
-                  >
-                    Additional Field 1 Name
-                  </label>
+                  {/* Name */}
+                  <div className={css.inputDiv}>
+                    <input
+                      type="text"
+                      name="name"
+                      value={addFieldItem?.name}
+                      onChange={(e) => addFieldInpChange(e, fieldIndex)}
+                      readOnly={!addFieldItem?.editable}
+                      className={css.input}
+                    />
+                    <label
+                      className={
+                        addFieldItem?.name ? css.activeLabel : css.inactiveLabel
+                      }
+                    >
+                      Additional Field {fieldIndex + 1} Name
+                    </label>
+                  </div>
+                  {/* Value */}
+                  {addFieldItem?.name && (
+                    <div className={css.inputDiv}>
+                      <input
+                        type="text"
+                        name="value"
+                        value={addFieldItem?.value}
+                        onChange={(e) => addFieldInpChange(e, fieldIndex)}
+                        readOnly={!addFieldItem?.editable}
+                        className={css.input}
+                      />
+                      <label
+                        className={
+                          addFieldItem?.value
+                            ? css.activeLabel
+                            : css.inactiveLabel
+                        }
+                      >
+                        {addFieldItem?.name} Value
+                      </label>
+                    </div>
+                  )}
                 </div>
-              </div>
-              {/* Additional Field 2 Name */}
-              <div className={css.singleAddFieldContOuter}>
-                <input type="checkbox" />
-                <div className={css.inputDiv}>
-                  <input
-                    type="text"
-                    name="addFieldName2"
-                    value={formData?.addFieldName2}
-                    onChange={handleInpChange}
-                    className={css.input}
-                  />
-                  <label
-                    className={
-                      formData?.addFieldName2
-                        ? css.activeLabel
-                        : css.inactiveLabel
-                    }
-                  >
-                    Additional Field 2 Name
-                  </label>
-                </div>
-              </div>
-              {/* Additional Field 3 Name */}
-              <div className={css.singleAddFieldContOuter}>
-                <input type="checkbox" />
-                <div className={css.inputDiv}>
-                  <input
-                    type="text"
-                    name="addFieldName3"
-                    value={formData?.addFieldName3}
-                    onChange={handleInpChange}
-                    className={css.input}
-                  />
-                  <label
-                    className={
-                      formData?.addFieldName3
-                        ? css.activeLabel
-                        : css.inactiveLabel
-                    }
-                  >
-                    Additional Field 3 Name
-                  </label>
-                </div>
-              </div>
+              ))}
+              <h3
+                onClick={AddMoreAdditionalField}
+                style={{
+                  color: "var(--blueB)",
+                }}
+                className={css.textBtnCss}
+              >
+                + Add More Additional Fields
+              </h3>
             </div>
           )}
         </div>
@@ -512,41 +532,3 @@ const AddPartyForm = ({ CloseForm, OpenSettings }) => {
 };
 
 export default AddPartyForm;
-
-export const StatesList = [
-  "Andhra Pradesh",
-  "Arunachal Pradesh",
-  "Assam",
-  "Bihar",
-  "Chhattisgarh",
-  "Goa",
-  "Gujarat",
-  "Haryana",
-  "Himachal Pradesh",
-  "Jharkhand",
-  "Karnataka",
-  "Kerala",
-  "Madhya Pradesh",
-  "Maharashtra",
-  "Manipur",
-  "Meghalaya",
-  "Mizoram",
-  "Nagaland",
-  "Odisha",
-  "Punjab",
-  "Rajasthan",
-  "Sikkim",
-  "Tamil Nadu",
-  "Telangana",
-  "Tripura",
-  "Uttar Pradesh",
-  "Uttarakhand",
-  "West Bengal",
-  "Andaman and Nicobar Islands",
-  "Chandigarh",
-  "Dadra and Nagar Haveli",
-  "Daman and Diu",
-  "Lakshadweep",
-  "Delhi",
-  "Puducherry",
-];

@@ -38,19 +38,34 @@ const PaymentInForm = ({ closeForm, setToggleSetting }) => {
   function generateReciptNumber() {
     const currentDate = new Date();
     const previousYear = (currentDate.getFullYear() - 1).toString().slice(-2);
-    const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+    const monthNames = [
+      "JAN",
+      "FEB",
+      "MAR",
+      "APR",
+      "MAY",
+      "JUN",
+      "JUL",
+      "AUG",
+      "SEP",
+      "OCT",
+      "NOV",
+      "DEC",
+    ];
     const monthIndex = currentDate.getMonth();
     const month = monthNames[monthIndex];
     const hours = currentDate.getHours();
     const minutes = currentDate.getMinutes();
-    const date = currentDate.getDate()
-    const sec = currentDate.getSeconds()
+    const date = currentDate.getDate();
+    const sec = currentDate.getSeconds();
 
     // Format the invoice number
-    const invoiceNumber = `${date}${hours}${minutes}${sec}/${month}/${previousYear}-${Number(previousYear)+1}`;
+    const invoiceNumber = `${date}${hours}${minutes}${sec}/${month}/${previousYear}-${
+      Number(previousYear) + 1
+    }`;
 
     return invoiceNumber;
-}
+  }
   const [paymentData, setPaymentData] = useState({
     type: "Payment-In",
     status: "Received",
@@ -363,7 +378,7 @@ const PaymentInForm = ({ closeForm, setToggleSetting }) => {
         {/* Footer */}
         <div className={css.FooterOuter}>
           <button type="submit">{isLoading ? "Saving" : "Save"}</button>
-          <div
+          {/* <div
             className={css.shareBtn}
             onClick={() =>
               toast({
@@ -375,7 +390,7 @@ const PaymentInForm = ({ closeForm, setToggleSetting }) => {
           >
             <p>Share</p>
             <ArrowDown />
-          </div>
+          </div> */}
         </div>
       </form>
     </div>

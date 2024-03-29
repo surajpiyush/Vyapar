@@ -64,8 +64,12 @@ export default function ProductsTable({ func }) {
             <table className={css.leftSideTableCss}>
               <thead>
                 <tr>
-                  <th>ITEM</th>
-                  <th>QUANTITY</th>
+                  <th>
+                    <div>ITEM</div>
+                  </th>
+                  <th>
+                    <div>QUANTITY</div>
+                  </th>
                 </tr>
               </thead>
               {!isLoading && (

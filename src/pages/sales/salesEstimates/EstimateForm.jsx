@@ -1,9 +1,8 @@
+import css from "../../../styles/SalesStyles/SalesForms.module.css";
 import FormItemsRowTable from "../../../Component/FormItemsRowTable";
 import { GetAllItems } from "../../../Redux/items/actions";
 import { FetchAllParties } from "../../../Redux/parties/actions";
 import { PostEstimates } from "../../../Redux/sales/action";
-//import ItemsForm from "../../../components/addForm/ItemsForm";
-import css from "../../../styles/SalesStyles/SalesForms.module.css";
 
 import { useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
@@ -523,7 +522,7 @@ const EstimateForm = ({ setOpenForm, setToggleSetting }) => {
       {/* Footer */}
       <div className={css.FooterOuter}>
         <button type="submit">{isLoading ? "Saving" : "Save"}</button>
-        <div
+        {/* <div
           className={css.shareBtn}
           onClick={() =>
             toast({
@@ -535,7 +534,7 @@ const EstimateForm = ({ setOpenForm, setToggleSetting }) => {
         >
           <p>Share</p>
           <ArrowDown />
-        </div>
+        </div> */}
       </div>
     </form>
   );

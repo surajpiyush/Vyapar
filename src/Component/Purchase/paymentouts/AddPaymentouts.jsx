@@ -477,7 +477,7 @@ const AddPaymentouts = ({ setOpenForm, date }) => {
       {/* Footer */}
       <div className={css.FooterOuter}>
         <button type="submit">{isLoading ? "Saving" : "Save"}</button>
-        <div
+        {/* <div
           className={css.shareBtn}
           onClick={() =>
             toast({
@@ -489,7 +489,7 @@ const AddPaymentouts = ({ setOpenForm, date }) => {
         >
           <p>Share</p>
           <ArrowDown />
-        </div>
+        </div> */}
       </div>
     </form>
   );

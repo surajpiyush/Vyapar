@@ -8,7 +8,7 @@ import { IoMdClose as CloseIcon } from "react-icons/io";
 import { RiDeleteBinLine as DeleteIcon } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 
-const PartyEditForm = ({ setShowEditFirm, party }) => {
+const PartyEditForm = ({ setShowEditForm, party }) => {
   const toast = useToast();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.PartiesReducer.isLoading);
@@ -29,24 +29,25 @@ const PartyEditForm = ({ setShowEditFirm, party }) => {
 
   //   Update Party Function
   const handleEdit = () => {
-    UpdateParty(dispatch, partyData?._id, partyData, setShowEditFirm, toast);
+    UpdateParty(dispatch, partyData?._id, partyData, setShowEditForm, toast);
   };
 
   //   Delete Party Function
   const handleDelete = () => {
-    DeleteParty(dispatch, partyData?._id, setShowEditFirm, toast);
+    DeleteParty(dispatch, partyData?._id, setShowEditForm, toast);
   };
 
   return (
-    <div onClick={() => setShowEditFirm(false)} className={css.Overlay}>
-      <div style={{zIndex:1000}}
+    <div onClick={() => setShowEditForm(false)} className={css.Overlay}>
+      <div
+        style={{ zIndex: 1000 }}
         onClick={(e) => e.stopPropagation()}
         className={css.OuterEditProfile}
       >
         {/* Top Nav */}
         <div className={css.topNavDiv}>
           <h2>Edit Party</h2>
-          <CloseIcon onClick={() => setShowEditFirm(false)} />
+          <CloseIcon onClick={() => setShowEditForm(false)} />
         </div>
 
         {/* FormInputs */}

@@ -1,8 +1,9 @@
+import css from "../../../styles/SalesStyles/SalesForms.module.css";
+import AddItemForm from "../../../Page/Items/AddItemForm";
 import FormItemsRowTable from "../../../Component/FormItemsRowTable";
 import { GetAllItems } from "../../../Redux/items/actions";
 import { FetchAllParties } from "../../../Redux/parties/actions";
 import { PostDeliveryChallan } from "../../../Redux/sales/action";
-import css from "../../../styles/SalesStyles/SalesForms.module.css";
 
 import { useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
@@ -16,7 +17,6 @@ import { HiMiniDocumentText as AddDocumentIcon } from "react-icons/hi2";
 import { ImCheckboxUnchecked as EmptyCheckedBox } from "react-icons/im";
 import { IoIosArrowDown as ArrowDown } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import AddItemForm from "../../../Page/Items/AddItemForm";
 
 const FormDeliveryChallan = ({ setOpenForm, setToggleSetting }) => {
   const toast = useToast();
@@ -788,7 +788,7 @@ const FormDeliveryChallan = ({ setOpenForm, setToggleSetting }) => {
       {/* Footer */}
       <div className={css.FooterOuter}>
         <button type="submit">{isLoading ? "Saving" : "Save"}</button>
-        <div
+        {/* <div
           className={css.shareBtn}
           onClick={() =>
             toast({
@@ -800,7 +800,7 @@ const FormDeliveryChallan = ({ setOpenForm, setToggleSetting }) => {
         >
           <p>Share</p>
           <ArrowDown />
-        </div>
+        </div> */}
       </div>
     </form>
   );
