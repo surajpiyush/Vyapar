@@ -1,14 +1,15 @@
 import css from "../../Page/Items/Items.module.css";
 import UnitEditForm from "../addForm/UnitEditForm";
 import { GetSelectedItemData, GetAllUnits } from "../../Redux/items/actions";
+import {
+  BasicSpinnerIcon,
+  FilterIcon,
+  SearchIconBlackBg,
+  VerticalDotsIcon,
+} from "../../assets/Icons/ReactIcons";
 
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { CiFilter as FilterIcon } from "react-icons/ci";
-import { ImSpinner3 as BasicSpinner } from "react-icons/im";
-import { IoIosArrowRoundUp as UpArrowIcon } from "react-icons/io";
-import { IoSearchCircleSharp as SearchIcon } from "react-icons/io5";
-import { PiDotsThreeVerticalBold as VerticalDots } from "react-icons/pi";
 
 export default function UnitsTable({ func }) {
   const dispatch = useDispatch();
@@ -28,10 +29,11 @@ export default function UnitsTable({ func }) {
   );
   const [editItem, setEditItem] = useState([]);
   const [showEditFirm, setShowEditFirm] = useState(false);
+  const [currUnit, setCurrUnit] = useState({});
 
   // Item Click Handler
   const handleItemClick = (item) => {
-    GetSelectedItemData(dispatch, item?._id);
+    //  GetSelectedItemData(dispatch, item?._id);
   };
 
   const handleStatusToggle = (index) => {
@@ -58,7 +60,7 @@ export default function UnitsTable({ func }) {
         {/* Left Side Content */}
         <div className={css.itemsLeftSideDiv}>
           <div className={css.addBtnDivOuter}>
-            <SearchIcon />
+            <SearchIconBlackBg />
             <button className={css.addBtnCss} onClick={openForm}>
               + Add Unit
             </button>
@@ -69,8 +71,12 @@ export default function UnitsTable({ func }) {
             <table className={css.leftSideTableCss}>
               <thead>
                 <tr>
-                  <th>FULLNAME</th>
-                  <th>SHORTNAME</th>
+                  <th>
+                    <div>FULLNAME</div>
+                  </th>
+                  <th>
+                    <div>SHORTNAME</div>
+                  </th>
                 </tr>
               </thead>
               {!isLoading && (
@@ -80,13 +86,14 @@ export default function UnitsTable({ func }) {
                       key={index}
                       onClick={() => {
                         handleItemClick(e);
+                        setCurrUnit(e);
                       }}
                     >
                       <td>{e?.unitName}</td>
                       <td>
                         <span>
                           {e?.shortName}
-                          <VerticalDots
+                          <VerticalDotsIcon
                             onClick={() => {
                               setEditItem(e);
                               setShowEditFirm(true);
@@ -99,44 +106,22 @@ export default function UnitsTable({ func }) {
                 </tbody>
               )}
             </table>
-            {isLoading && <BasicSpinner className={css.miniSpinnerCss} />}
+            {isLoading && <BasicSpinnerIcon className={css.miniSpinnerCss} />}
           </div>
         </div>
 
         {/* Right Side Content */}
         <div className={css.partiesRightSideDiv}>
-          {!loadingGetSelectedItemData && selectedItemData?.itemName && (
+          {currUnit?.unitName && (
             <div className={css.PartyDetailsOuter}>
               <div>
-                <h5>
-                  {selectedItemData?.itemName ? selectedItemData?.itemName : ""}
-                </h5>
-                <p>
-                  {selectedItemData?.salePrice?.price &&
-                    `Sales Price: ₹${selectedItemData?.salePrice?.price}`}
-                </p>
-                <p>
-                  Stock Quantity:{" "}
-                  {selectedItemData?.stock?.openingQuantity ||
-                    selectedItemData?.ReservedQuantity ||
-                    1}
-                </p>
-              </div>
-              <div>
-                <p>
-                  {selectedItemData?.purchasePrice?.price &&
-                    `Purchase Price: ₹${selectedItemData?.purchasePrice?.price}`}
-                </p>
-                <p>
-                  {selectedItemData?.StockValue &&
-                    `Stock Value: ₹${selectedItemData?.StockValue}`}
-                </p>
+                <p>{currUnit?.unitName}</p>
               </div>
             </div>
           )}
 
           <div className={css.transactionHeadingContDiv}>
-            <h3>Units</h3>
+            <h3>UNITS</h3>
             <input type="text" placeholder="Search" />
           </div>
 
@@ -145,18 +130,23 @@ export default function UnitsTable({ func }) {
               <thead>
                 <tr>
                   <th>
-                    <div> </div>
+                    <div style={{ minWidth: "30px", height: "31px" }}></div>
                   </th>
                   <th>
                     <div>
-                      Conversation
+                      Conversion
                       <FilterIcon />
                     </div>
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {!loadingGetSelectedItemData &&
+                <tr>
+                  <td style={{ textAlign: "center" }} colSpan="3">
+                    No Rows To Show
+                  </td>
+                </tr>
+                {/* {!loadingGetSelectedItemData &&
                 selectedItemTransactionData?.purchaseBill ? (
                   Object.keys(selectedItemTransactionData).map((key, index) =>
                     selectedItemTransactionData[key].map((e, innerIndex) => (
@@ -166,7 +156,6 @@ export default function UnitsTable({ func }) {
                         <td>{e.name}</td>
                         <td>{new Date(e.date).toLocaleDateString()}</td>
                         <td>{e.quantity}</td>
-                        {/* <td>-</td> */}
                         <td>
                           <button
                             style={{ border: "none" }}
@@ -184,13 +173,13 @@ export default function UnitsTable({ func }) {
                       <td colSpan="7">No Item Data Available</td>
                     )}
                   </tr>
-                )}
+                )} */}
               </tbody>
             </table>
           </div>
 
           {loadingGetSelectedItemData && (
-            <BasicSpinner className={css.rightSideTableSpinnerCss} />
+            <BasicSpinnerIcon className={css.rightSideTableSpinnerCss} />
           )}
         </div>
       </div>

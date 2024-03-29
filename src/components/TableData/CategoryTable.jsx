@@ -1,6 +1,5 @@
 // import "../../styles/parties.css";
 import css from "../../Page/Items/Items.module.css";
-import ItemEditForm from "../addForm/ItemEditForm";
 import {
   GetSelectedItemData,
   GetAllCategories,
@@ -33,11 +32,13 @@ export default function ProductsTable({ func }) {
   );
   const [editItem, setEditItem] = useState([]);
   const [showEditFirm, setShowEditFirm] = useState(false);
+  const [currCate, setCurrCate] = useState({});
 
   // Item Click Handler
   const handleItemClick = (item) => {
-    GetSelectedItemData(dispatch, item?._id);
+    // GetSelectedItemData(dispatch, item?._id);
   };
+
   useEffect(() => {
     dispatch(GetAllCategories);
   }, [dispatch]);
@@ -72,8 +73,12 @@ export default function ProductsTable({ func }) {
             <table className={css.leftSideTableCss}>
               <thead>
                 <tr>
-                  <th>CATEGORY</th>
-                  <th>ITEM</th>
+                  <th>
+                    <div>CATEGORY</div>
+                  </th>
+                  <th>
+                    <div>ITEM</div>
+                  </th>
                 </tr>
               </thead>
               {!isLoading && (
@@ -83,6 +88,7 @@ export default function ProductsTable({ func }) {
                       key={index}
                       onClick={() => {
                         handleItemClick(e);
+                        setCurrCate(e);
                       }}
                     >
                       <td>{e?.categoryName}</td>
@@ -108,23 +114,17 @@ export default function ProductsTable({ func }) {
 
         {/* Right Side Content */}
         <div className={css.partiesRightSideDiv}>
-          <div className="">
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-            >
-              <p>ITEMS NOT IN ANY CATEGORY</p>
-              <button className={css.addBtnCss}>Move to this Category</button>
+          {currCate?.categoryName && (
+            <div className={css.PartyDetailsOuter}>
+              <div>
+                <p>{currCate?.categoryName}</p>
+                <p>{currCate?.items}</p>
+              </div>
             </div>
-            <div>
-              <p>0.00</p>
-            </div>
-          </div>
+          )}
 
           <div className={css.transactionHeadingContDiv}>
-            <h3>Item</h3>
+            <h3>ITEMS</h3>
             <input type="text" placeholder="Search" />
           </div>
 
@@ -151,8 +151,13 @@ export default function ProductsTable({ func }) {
                 </tr>
               </thead>
               <tbody>
-                {/* whenevr you complet this just remove 1==2 it was just for temporay */}
-                {1 == 2 &&
+                <tr>
+                  <td style={{ textAlign: "center" }} colSpan="3">
+                    No Rows To Show
+                  </td>
+                </tr>
+
+                {/* {1 == 2 &&
                 !loadingGetSelectedItemData &&
                 selectedItemTransactionData?.purchaseBill ? (
                   Object.keys(selectedItemTransactionData).map((key, index) =>
@@ -163,7 +168,6 @@ export default function ProductsTable({ func }) {
                         <td>{e.name}</td>
                         <td>{new Date(e.date).toLocaleDateString()}</td>
                         <td>{e.quantity}</td>
-                        {/* <td>-</td> */}
                         <td>
                           <button
                             style={{ border: "none" }}
@@ -181,7 +185,7 @@ export default function ProductsTable({ func }) {
                       <td colSpan="7">No Item Data Available</td>
                     )}
                   </tr>
-                )}
+                )} */}
               </tbody>
             </table>
           </div>

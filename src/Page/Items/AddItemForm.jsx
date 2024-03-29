@@ -9,7 +9,6 @@ import {
   CrossIcon,
   PlusIconThin,
   MinusCircleIcon,
-  SettingsIconFilled,
 } from "../../assets/Icons/ReactIcons";
 
 import { useToast } from "@chakra-ui/react";
@@ -294,8 +293,6 @@ const AddItemForm = ({ CloseForm }) => {
           <div className={css.upperInpCont}>
             {/* Category */}
             <div
-              // onMouseOut={() => setShowCategoryMenu(false)}
-              // onMouseEnter={() => setShowCategoryMenu(true)}
               onClick={(e) => {
                 e.stopPropagation();
                 setShowCategoryMenu(true);
@@ -322,7 +319,6 @@ const AddItemForm = ({ CloseForm }) => {
               {showCategoryMenu && (
                 <div
                   onClick={() => setShowCategoryMenu(true)}
-                  // onMouseEnter={() => setShowCategoryMenu(true)}
                   className={css.menuOuter}
                 >
                   <div

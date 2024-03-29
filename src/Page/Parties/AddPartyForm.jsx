@@ -25,8 +25,7 @@ const AddPartyForm = ({ CloseForm, OpenSettings }) => {
     openingBalance: "",
     asOfDate: new Date().toISOString().split("T")[0],
     creditLimit: "",
-
-    // gstNo: "",
+    gstNo: "",
     // GSTType: "",
   });
 
@@ -115,7 +114,7 @@ const AddPartyForm = ({ CloseForm, OpenSettings }) => {
               </label>
             </div>
             {/* GSTIN */}
-            {/* <div className={css.inputDiv}>
+            <div className={css.inputDiv}>
               <input
                 type="text"
                 name="gstNo"
@@ -130,7 +129,7 @@ const AddPartyForm = ({ CloseForm, OpenSettings }) => {
               >
                 GSTIN
               </label>
-            </div> */}
+            </div>
           </div>
 
           {/* Changer */}
@@ -187,23 +186,13 @@ const AddPartyForm = ({ CloseForm, OpenSettings }) => {
               <div className={css.leftSideGstAddressDiv}>
                 {/* State */}
                 <div className={css.inputDiv}>
-                  <input
-                    type="text"
+                  <select
                     name="state"
                     value={formData?.state}
                     onChange={handleInpChange}
                     className={css.input}
-                    list="statesList"
-                  />
-                  <label
-                    className={
-                      formData?.state ? css.activeLabel : css.inactiveLabel
-                    }
                   >
-                    State
-                  </label>
-                  <datalist id="statesList">
-                    <option value="">State</option>
+                    <option value="">Select State</option>
                     <option value="Andhra Pradesh">Andhra Pradesh</option>
                     <option value="Arunachal Pradesh">Arunachal Pradesh</option>
                     <option value="Assam">Assam</option>
@@ -243,7 +232,14 @@ const AddPartyForm = ({ CloseForm, OpenSettings }) => {
                     <option value="Lakshadweep">Lakshadweep</option>
                     <option value="Delhi">Delhi</option>
                     <option value="Puducherry">Puducherry</option>
-                  </datalist>
+                  </select>
+                  <label
+                    className={
+                      formData?.state ? css.activeLabel : css.inactiveLabel
+                    }
+                  >
+                    State
+                  </label>
                 </div>
                 {/* Email */}
                 <div className={css.inputDiv}>
