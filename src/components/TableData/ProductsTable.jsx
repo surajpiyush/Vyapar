@@ -12,6 +12,7 @@ import { CiFilter as FilterIcon } from "react-icons/ci";
 import { IoIosArrowRoundUp as UpArrowIcon } from "react-icons/io";
 import { PiDotsThreeVerticalBold as VerticalDots } from "react-icons/pi";
 import { IoSearchCircleSharp as SearchIcon } from "react-icons/io5";
+import AddItemForm from "../../Page/Items/AddItemForm";
 
 export default function ProductsTable({ func }) {
   const dispatch = useDispatch();
@@ -28,6 +29,8 @@ export default function ProductsTable({ func }) {
   );
   const [editItem, setEditItem] = useState([]);
   const [showEditFirm, setShowEditFirm] = useState(false);
+  // const [openForm, setOpenForm] = useState(false);
+  const [showEditItemForm, setShowEditItemForm] = useState(false);
 
   // Item Click Handler
   const handleItemClick = (item) => {
@@ -45,8 +48,12 @@ export default function ProductsTable({ func }) {
 
   return (
     <div className={css.OuterDiv}>
-      {showEditFirm && (
-        <ItemEditForm setShowEditFirm={setShowEditFirm} item={editItem} />
+      {/* {showEditItemForm && (
+        <ItemEditForm setShowEditFirm={setShowEditItemForm} item={editItem} />
+      )} */}
+      {/* Edit Item Form */}
+      {showEditItemForm && (
+        <AddItemForm usedAsEditForm={true} CloseForm={setShowEditItemForm} />
       )}
 
       <div className={css.flexBoxDivCont}>
@@ -88,7 +95,7 @@ export default function ProductsTable({ func }) {
                           <VerticalDots
                             onClick={() => {
                               setEditItem(e);
-                              setShowEditFirm(true);
+                              setShowEditItemForm(true);
                             }}
                           />
                         </span>
