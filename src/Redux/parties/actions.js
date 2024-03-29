@@ -179,7 +179,7 @@ export const GetCurrentPartyData = (partyId) => async (dispatch) => {
     const response = await axios.get(`${API_URL}/${FirmId}/party/${partyId}`, {
       headers: { Authorization: `Bearer ${token} ` },
     });
-    // console.log("Get Current Party Data Response", response?.data?.data);
+    console.log("Get Current Party Data Response", response?.data?.data);
     dispatch({
       type: SUCCESS_GET_CURRENT_PARTY,
       payload: response?.data?.data,
