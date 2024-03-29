@@ -15,7 +15,7 @@ import { useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const AddItemForm = ({ CloseForm }) => {
+const AddItemForm = ({ CloseForm, usedAsEditForm = false }) => {
   const toast = useToast();
   const dispatch = useDispatch();
   const isLoading = useSelector((store) => store.ItemReducer.isLoading);
@@ -163,8 +163,12 @@ const AddItemForm = ({ CloseForm }) => {
         },
       };
 
+      if (usedAsEditForm) {
+        // AddItem(dispatch, itemData, CloseForm, toast);
+      } else {
+        AddItem(dispatch, itemData, CloseForm, toast);
+      }
       // console.log("Add Item Data", itemData);
-      AddItem(dispatch, itemData, CloseForm, toast);
     }
   };
 
