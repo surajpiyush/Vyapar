@@ -28,7 +28,7 @@ export default function Items() {
   const [unitForm, setUnitForm] = useState(false);
   const [adjustItem, setAdjustItem] = useState(false);
   const [toggleSetting, setToggleSetting] = useState(false);
-  const [currPage, setCurrPage] = useState("Products");
+  const [currPage, setCurrPage] = useState("PRODUCTS");
 
   // To Fetch All Items
   useEffect(() => {
@@ -74,52 +74,69 @@ export default function Items() {
         <div
           className={css.navOptions}
           onClick={() => {
-            setCurrPage("Products");
+            setCurrPage("PRODUCTS");
+          }}
+          style={{
+            borderColor:
+              currPage == "PRODUCTS" ? "var(--blueB)" : "transparent",
+            color:
+              currPage == "PRODUCTS" ? "var(--DeepBluishGrey)" : "var(--greyG)",
           }}
         >
-          Products
+          PRODUCTS
         </div>
         <div
           className={css.navOptions}
           onClick={() => {
-            setCurrPage("Category");
+            setCurrPage("CATEGORY");
+          }}
+          style={{
+            borderColor:
+              currPage == "CATEGORY" ? "var(--blueB)" : "transparent",
+            color:
+              currPage == "CATEGORY" ? "var(--DeepBluishGrey)" : "var(--greyG)",
           }}
         >
-          Category
+          CATEGORY
         </div>
         <div
           className={css.navOptions}
           onClick={() => {
-            setCurrPage("Unit");
+            setCurrPage("UNIT");
+          }}
+          style={{
+            borderColor: currPage == "UNIT" ? "var(--blueB)" : "transparent",
+            color:
+              currPage == "UNIT" ? "var(--DeepBluishGrey)" : "var(--greyG)",
           }}
         >
-          Unit
+          UNIT
         </div>
       </div>
 
-      {currPage == "Products" ? (
-        // Products
+      {currPage == "PRODUCTS" ? (
+        // PRODUCTS
         <div className="d-cen b-cont">
           {!items.length ? (
             <FirstTimeFormToggle
               img={party}
               onClick={() => setOpenForm(true)}
               BtnText="Add Your First Item"
-              MiddleText="Add Products/Items you sell or purchase to manage your full Stock Inventory."
+              MiddleText="Add PRODUCTS/Items you sell or purchase to manage your full Stock Inventory."
             />
           ) : (
             <ProductsTable func={dataFromChild} />
           )}
         </div>
-      ) : currPage == "Category" ? (
-        // Category
+      ) : currPage == "CATEGORY" ? (
+        // CATEGORY
         <div className="d-cen b-cont">
           {!category.length ? (
             <FirstTimeFormToggle
               img={party}
               onClick={() => openCategoryForm()}
-              BtnText="Add Your First Category"
-              MiddleText="Add Category you sell or purchase to manage your full Stock Inventory."
+              BtnText="Add Your First CATEGORY"
+              MiddleText="Add CATEGORY you sell or purchase to manage your full Stock Inventory."
             />
           ) : (
             <div className="" style={{ width: "100%" }}>
@@ -128,7 +145,7 @@ export default function Items() {
           )}
         </div>
       ) : (
-        // Unit
+        // UNIT
         <div className="d-cen b-cont">
           {!(data.length > 0) ? (
             <div className="">
