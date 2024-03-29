@@ -1,38 +1,72 @@
 // import "../../styles/Items.css";
 import css from "../../Page/Items/edit.module.css";
+import {
+  AddNewCategory,
+  DeleteCategory,
+  UpdateCategory,
+} from "../../Redux/items/actions";
+import {
+  BasicSpinnerIcon,
+  DeleteIcon,
+  CloseIcon,
+} from "../../assets/Icons/ReactIcons";
 
-import { AddNewCategory } from "../../Redux/items/actions";
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useToast } from "@chakra-ui/react";
-import { useDispatch } from "react-redux";
-import { IoMdClose as CloseIcon } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
 
-export default function CategoryForm(Props) {
+export default function CategoryForm({
+  func,
+  useAsUpdateForm = false,
+  clickedItem = {},
+}) {
   const toast = useToast();
   const dispatch = useDispatch();
-  const [categoryName, setCategoryName] = useState("");
+  const loadingUpdate = useSelector((state) => state.ItemReducer.loadingUpdate);
+  const loadingDelete = useSelector((state) => state.ItemReducer.loadingDelete);
+  const loadingAddCategory = useSelector(
+    (state) => state.ItemReducer.loadingAddCategory
+  );
+  const [formData, setFormData] = useState({ categoryName: "" });
+
+  useEffect(() => {
+    if (useAsUpdateForm) {
+      setFormData((prev) => {
+        // console.log("clickedItem", clickedItem);
+        return { ...prev, ...clickedItem };
+      });
+    }
+  }, []);
 
   const closeForm = () => {
     //  console.log("Working");
-    Props.func(false);
+    func(false);
   };
 
-  const handleSave = () => {
-    // console.log(categoryName);
-    const data = { categoryName: categoryName };
-    AddNewCategory(dispatch, data, closeForm, toast);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (useAsUpdateForm) {
+      UpdateCategory(dispatch, formData?._id, formData, func, toast);
+    } else {
+      AddNewCategory(dispatch, formData, closeForm, toast);
+    }
+  };
+
+  // Delete Category
+  const handleDelete = () => {
+    DeleteCategory(dispatch, formData?._id, func, toast);
   };
 
   return (
     <div onClick={() => closeForm()} className={css.Overlay}>
-      <div
+      <form
+        onSubmit={handleSubmit}
         onClick={(e) => e.stopPropagation()}
         className={css.OuterEditProfile}
       >
         {/* Top Nav */}
         <div className={css.topNavDiv}>
-          <h2>Add Category</h2>
+          <h2> {useAsUpdateForm ? "Edit" : "Add"} Category</h2>
           <CloseIcon onClick={() => closeForm()} />
         </div>
 
@@ -45,10 +79,16 @@ export default function CategoryForm(Props) {
                   Category Name <span style={{ color: "red" }}>*</span>
                 </label>
                 <input
-                  onChange={(e) => setCategoryName(e.target.value)}
-                  name="categoryName"
                   type="text"
+                  name="categoryName"
+                  value={formData?.categoryName}
+                  onChange={(e) =>
+                    setFormData((prev) => {
+                      return { ...prev, [e.target.name]: e.target.value };
+                    })
+                  }
                   placeholder="Category name"
+                  required
                 />
               </div>
             </div>
@@ -57,11 +97,27 @@ export default function CategoryForm(Props) {
 
         {/* Footer */}
         <div className={css.footerDivOuter}>
-          <button type="submit" onClick={handleSave}>
-            Save
-          </button>
+          {useAsUpdateForm && (
+            <button
+              type="button"
+              onClick={handleDelete}
+              disabled={loadingDelete}
+              id={css.deleteBtn}
+            >
+              {loadingDelete ? <BasicSpinnerIcon /> : <DeleteIcon />}
+            </button>
+          )}
+          {useAsUpdateForm ? (
+            <button type="submit" disabled={loadingUpdate}>
+              {loadingUpdate ? "Updating..." : "Update"}
+            </button>
+          ) : (
+            <button type="submit" disabled={loadingAddCategory}>
+              {loadingAddCategory ? "Saving..." : "Save"}
+            </button>
+          )}
         </div>
-      </div>
+      </form>
     </div>
   );
 }
