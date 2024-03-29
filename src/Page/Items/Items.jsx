@@ -41,7 +41,7 @@ export default function Items() {
   // To Fetch All Items
   useEffect(() => {
     getitems(dispatch);
-  }, [dispatch, toggleItems]);
+  }, [toggleItems]);
 
   // To Fetch All Categories
   useEffect(() => {

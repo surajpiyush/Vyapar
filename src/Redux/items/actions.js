@@ -88,11 +88,11 @@ export const getitems = async (dispatch) => {
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
   try {
-    const response = await axios.get(`${API_URL}/${FirmId}/item/allItem`, {
+    const response = await axios.get(`${API_URL}/${FirmId}/item/allItemData`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    // console.log("Get items response:", response?.data);
+    console.log("Get items response:", response?.data);
     dispatch({ type: GET_ITEM_SUCCESS, payload: response?.data?.data });
   } catch (error) {
     dispatch({ type: ITEM_FAILURE });

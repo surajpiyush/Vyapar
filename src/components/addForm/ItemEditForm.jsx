@@ -47,7 +47,7 @@ const ItemEditForm = ({ setShowEditFirm, item }) => {
   return (
     <div onClick={() => setShowEditFirm(false)} className={css.Overlay}>
       <div
-      style={{zIndex:1000}}
+        style={{ zIndex: 1000 }}
         onClick={(e) => e.stopPropagation()}
         className={css.OuterEditProfile}
       >

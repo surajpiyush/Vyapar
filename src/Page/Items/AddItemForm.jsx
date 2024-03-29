@@ -4,6 +4,7 @@ import {
   AddItem,
   GetAllUnits,
   GetAllCategories,
+  UpdateItem,
 } from "../../Redux/items/actions";
 import {
   CrossIcon,
@@ -15,7 +16,11 @@ import { useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const AddItemForm = ({ CloseForm, usedAsEditForm = false }) => {
+const AddItemForm = ({
+  CloseForm,
+  usedAsEditForm = false,
+  clickedItemData = {},
+}) => {
   const toast = useToast();
   const dispatch = useDispatch();
   const isLoading = useSelector((store) => store.ItemReducer.isLoading);
@@ -28,6 +33,13 @@ const AddItemForm = ({ CloseForm, usedAsEditForm = false }) => {
   );
   const newCategoryAddedToggle = useSelector(
     (store) => store.ItemReducer.newCategoryAddedToggle
+  );
+  const loadingUpdate = useSelector((store) => store.ItemReducer.loadingUpdate);
+  const loadingGetSelectedItemData = useSelector(
+    (store) => store.ItemReducer.loadingGetSelectedItemData
+  );
+  const selectedItemData = useSelector(
+    (store) => store.ItemReducer.selectedItemData
   );
   const loadingGetAllCategories = useSelector(
     (store) => store.ItemReducer.loadingGetAllCategories
@@ -65,6 +77,15 @@ const AddItemForm = ({ CloseForm, usedAsEditForm = false }) => {
       location: "",
     },
   });
+
+  useEffect(() => {
+    if (usedAsEditForm) {
+      setFormData((prev) => {
+        return { ...prev, ...clickedItemData };
+      });
+    }
+    console.log("clickedItemData", clickedItemData);
+  }, []);
 
   //   for fetching Units List
   useEffect(() => {
@@ -134,7 +155,7 @@ const AddItemForm = ({ CloseForm, usedAsEditForm = false }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!isLoading) {
-      let itemData = {
+      let ItemData = {
         ...formData,
         salePrice: {
           ...formData?.salePrice,
@@ -164,11 +185,11 @@ const AddItemForm = ({ CloseForm, usedAsEditForm = false }) => {
       };
 
       if (usedAsEditForm) {
-        // AddItem(dispatch, itemData, CloseForm, toast);
+        UpdateItem(dispatch, ItemData?._id, ItemData, CloseForm, toast);
       } else {
-        AddItem(dispatch, itemData, CloseForm, toast);
+        AddItem(dispatch, ItemData, CloseForm, toast);
       }
-      // console.log("Add Item Data", itemData);
+      // console.log("Add Item Data", clickedItemData);
     }
   };
 
@@ -192,7 +213,7 @@ const AddItemForm = ({ CloseForm, usedAsEditForm = false }) => {
       >
         {/* Header */}
         <div className={css.formHeaderOuterDiv}>
-          <h3>Add Item</h3>
+          <h3> {usedAsEditForm ? "Edit" : "Add"} Item</h3>
           <div>
             <CrossIcon onClick={() => CloseForm(false)} />
           </div>
@@ -252,8 +273,8 @@ const AddItemForm = ({ CloseForm, usedAsEditForm = false }) => {
                 ) : (
                   <>
                     <option value="">None</option>
-                    {unitsList?.map((item) => (
-                      <option value={item?.unitName} key={item?.id}>
+                    {unitsList?.map((item, index) => (
+                      <option value={item?.unitName} key={item?.id + index}>
                         {item?.unitName}
                       </option>
                     ))}
@@ -357,6 +378,7 @@ const AddItemForm = ({ CloseForm, usedAsEditForm = false }) => {
                             }
                           }}
                           className={css.cateItemCss}
+                          key={item?._id + ind}
                         >
                           <input
                             type="checkbox"
@@ -746,14 +768,25 @@ const AddItemForm = ({ CloseForm, usedAsEditForm = false }) => {
 
         {/* Footer */}
         <div className={css.footerOuter}>
-          <button
-            type="submit"
-            style={{ cursor: isLoading ? "not-allowed" : "pointer" }}
-            disabled={isLoading}
-            className={css.saveBtn}
-          >
-            {isLoading ? "Saving..." : "Save"}
-          </button>
+          {usedAsEditForm ? (
+            <button
+              type="submit"
+              style={{ cursor: loadingUpdate ? "not-allowed" : "pointer" }}
+              disabled={loadingUpdate}
+              className={css.saveBtn}
+            >
+              {loadingUpdate ? "Updating..." : "Update"}
+            </button>
+          ) : (
+            <button
+              type="submit"
+              style={{ cursor: isLoading ? "not-allowed" : "pointer" }}
+              disabled={isLoading}
+              className={css.saveBtn}
+            >
+              {isLoading ? "Saving..." : "Save"}
+            </button>
+          )}
         </div>
       </form>
     </div>

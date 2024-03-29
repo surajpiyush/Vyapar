@@ -27,15 +27,9 @@ export default function ProductsTable({ func }) {
   const selectedItemTransactionData = useSelector(
     (store) => store.ItemReducer.selectedItemTransactionData
   );
-  const [editItem, setEditItem] = useState([]);
-  const [showEditFirm, setShowEditFirm] = useState(false);
-  // const [openForm, setOpenForm] = useState(false);
-  const [showEditItemForm, setShowEditItemForm] = useState(false);
 
-  // Item Click Handler
-  const handleItemClick = (item) => {
-    GetSelectedItemData(dispatch, item?._id);
-  };
+  const [showEditItemForm, setShowEditItemForm] = useState(false);
+  const [clickedItemData, setClickedItemData] = useState({});
 
   const handleStatusToggle = (index) => {
     const updatedTableData = [...selectedItemTransactionData];
@@ -48,12 +42,13 @@ export default function ProductsTable({ func }) {
 
   return (
     <div className={css.OuterDiv}>
-      {/* {showEditItemForm && (
-        <ItemEditForm setShowEditFirm={setShowEditItemForm} item={editItem} />
-      )} */}
       {/* Edit Item Form */}
       {showEditItemForm && (
-        <AddItemForm usedAsEditForm={true} CloseForm={setShowEditItemForm} />
+        <AddItemForm
+          clickedItemData={clickedItemData}
+          usedAsEditForm={true}
+          CloseForm={setShowEditItemForm}
+        />
       )}
 
       <div className={css.flexBoxDivCont}>
@@ -83,9 +78,11 @@ export default function ProductsTable({ func }) {
                 <tbody>
                   {items?.map((e, index) => (
                     <tr
-                      key={index}
+                      key={e?._id + index}
                       onClick={() => {
-                        handleItemClick(e);
+                        // handleItemClick(e);
+                        setClickedItemData(e);
+                        GetSelectedItemData(dispatch, e?._id);
                       }}
                     >
                       <td>{e?.itemName}</td>
@@ -94,7 +91,7 @@ export default function ProductsTable({ func }) {
                           {e?.stock?.openingQuantity || 0}
                           <VerticalDots
                             onClick={() => {
-                              setEditItem(e);
+                              // setEditItem(e);
                               setShowEditItemForm(true);
                             }}
                           />
@@ -192,7 +189,7 @@ export default function ProductsTable({ func }) {
                 selectedItemTransactionData?.purchaseBill ? (
                   Object.keys(selectedItemTransactionData).map((key, index) =>
                     selectedItemTransactionData[key].map((e, innerIndex) => (
-                      <tr key={index}>
+                      <tr key={index + e?.type + innerIndex}>
                         <td>{e.type}</td>
                         <td>{e.invoiceOrRefNo}</td>
                         <td>{e.name}</td>
