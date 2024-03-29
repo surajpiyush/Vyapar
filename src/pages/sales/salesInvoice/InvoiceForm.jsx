@@ -1,10 +1,11 @@
+import css from "../../../styles/SalesStyles/SalesForms.module.css";
+import InvoiceGenerator from "../invoiceGenerator";
+import AddItemForm from "../../../Page/Items/AddItemForm";
 import FormItemsRowTable from "../../../Component/FormItemsRowTable";
 import { GetAllItems } from "../../../Redux/items/actions";
 import { FetchAllParties } from "../../../Redux/parties/actions";
 import { PostSalesInvoice } from "../../../Redux/sales/action";
-//import ItemsForm from "../../../components/addForm/ItemsForm";
-import css from "../../../styles/SalesStyles/SalesForms.module.css";
-import {  GetSingleInvoiceData } from "../../../Redux/sales/action";
+import { GetSingleInvoiceData } from "../../../Redux/sales/action";
 
 import {
   Button,
@@ -25,10 +26,8 @@ import { HiMiniDocumentText as AddDocumentIcon } from "react-icons/hi2";
 import { ImCheckboxUnchecked as EmptyCheckedBox } from "react-icons/im";
 import { IoIosArrowDown as ArrowDown } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import AddItemForm from "../../../Page/Items/AddItemForm";
-import InvoiceGenerator from "../invoiceGenerator";
 
-const InvoiceForm = ({ setOpenForm, setToggleSetting,setConfirmModel }) => {
+const InvoiceForm = ({ setOpenForm, setToggleSetting, setConfirmModel }) => {
   const toast = useToast();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.SalesReducer.isLoading);
@@ -118,7 +117,7 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting,setConfirmModel }) => {
       hour: "2-digit",
       minute: "2-digit",
       hour12: false,
-   }),
+    }),
     stateOfSupply: "",
     priceUnitWithTax: "false",
     addDescription: "",
@@ -127,7 +126,6 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting,setConfirmModel }) => {
     balance: "",
   });
 
-  
   // Update total footer values
   useEffect(() => {
     let footerObj = {
@@ -849,7 +847,7 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting,setConfirmModel }) => {
       {/* Footer */}
       <div className={css.FooterOuter}>
         <button type="submit">{isLoading ? "Saving" : "Save"}</button>
-        <div
+        {/* <div
           className={css.shareBtn}
           onClick={() =>
             toast({
@@ -861,7 +859,7 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting,setConfirmModel }) => {
         >
           <p>Share</p>
           <ArrowDown />
-        </div>
+        </div> */}
       </div>
     </form>
   );

@@ -325,7 +325,6 @@ const Addpurchaseitem = ({ setOpenForm }) => {
   const handleAddRow = (e) => {
     e.stopPropagation();
     let newRowData = {
-     
       category: "",
       itemName: "",
       itemCode: "",
@@ -907,7 +906,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
       {/* Footer */}
       <div className={css.FooterOuter}>
         <button type="submit">{isLoading ? "Saving" : "Save"}</button>
-        <div
+        {/* <div
           className={css.shareBtn}
           onClick={() =>
             toast({
@@ -919,7 +918,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
         >
           <p>Share</p>
           <ArrowDown />
-        </div>
+        </div> */}
       </div>
     </form>
   );
