@@ -174,7 +174,7 @@ export default function SalesInvoice() {
    return (
       <div>
          {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
-         {confirmModel && <InvoiceGenerator invoiceData={temp} />} 
+         {/* {confirmModel && <InvoiceGenerator invoiceData={temp} />}  */}
          {/* Print Component */}
          {loadingSingleInvoice ? (
             <Loader2 />
