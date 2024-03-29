@@ -1,6 +1,6 @@
 // import "../../styles/parties.css";
 import css from "../../Page/Items/Items.module.css";
-import ItemEditForm from "../addForm/ItemEditForm";
+import AddItemForm from "../../Page/Items/AddItemForm";
 import { GetSelectedItemData, getitems } from "../../Redux/items/actions";
 import { USER_DETAILS } from "../../Redux/business/actionTypes";
 
@@ -12,7 +12,6 @@ import { CiFilter as FilterIcon } from "react-icons/ci";
 import { IoIosArrowRoundUp as UpArrowIcon } from "react-icons/io";
 import { PiDotsThreeVerticalBold as VerticalDots } from "react-icons/pi";
 import { IoSearchCircleSharp as SearchIcon } from "react-icons/io5";
-import AddItemForm from "../../Page/Items/AddItemForm";
 
 export default function ProductsTable({ func }) {
   const dispatch = useDispatch();
