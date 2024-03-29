@@ -31,20 +31,43 @@ const AllTransactions = () => {
    const store = useSelector(
       (store) => store.ReportReducer.allTransectionsData
    );
-   const temp = store.flatMap((data) => [
-      ...data.PuchaseBill[0]?.PuchaseBill,
-      ...data.PuchaseReturn[0]?.PuchaseReturn,
-      ...data.PurchaseOut[0]?.purchaseout,
-      ...data.purchaseOrder[0]?.purchaseOrder,
-      ...data.saleDeliverychallans[0]?.saleDeliverychallans,
-      ...data.PaymentIn[0]?.PaymentIn,
-      ...data.SaleCash[0]?.SaleCash,
-      ...data.SaleOrder[0]?.SaleOrder,
-      ...data.SalereturnCredit[0]?.SalereturnCredit,
-      ...data.ExpensesWithGst[0]?.ExpensesWithGst,
-      ...data.ExpensesWithOutGst[0]?.ExpensesWithOutGst,
-   ]);
 
+   const temp = store?.flatMap((data) => [
+      ...(Array.isArray(data?.PuchaseBill[0]?.PuchaseBill)
+         ? data.PuchaseBill[0].PuchaseBill
+         : []),
+      ...(Array.isArray(data?.PuchaseReturn[0]?.PuchaseReturn)
+         ? data.PuchaseReturn[0].PuchaseReturn
+         : []),
+      ...(Array.isArray(data?.PurchaseOut[0]?.purchaseout)
+         ? data.PurchaseOut[0].purchaseout
+         : []),
+      ...(Array.isArray(data?.purchaseOrder[0]?.purchaseOrder)
+         ? data.purchaseOrder[0].purchaseOrder
+         : []),
+      ...(Array.isArray(data?.saleDeliverychallans[0]?.saleDeliverychallans)
+         ? data.saleDeliverychallans[0].saleDeliverychallans
+         : []),
+      ...(Array.isArray(data?.PaymentIn[0]?.PaymentIn)
+         ? data.PaymentIn[0].PaymentIn
+         : []),
+      ...(Array.isArray(data?.SaleCash[0]?.SaleCash)
+         ? data.SaleCash[0].SaleCash
+         : []),
+      ...(Array.isArray(data?.SaleOrder[0]?.SaleOrder)
+         ? data.SaleOrder[0].SaleOrder
+         : []),
+      ...(Array.isArray(data?.SalereturnCredit[0]?.SalereturnCredit)
+         ? data.SalereturnCredit[0].SalereturnCredit
+         : []),
+      ...(Array.isArray(data?.ExpensesWithGst[0]?.ExpensesWithGst)
+         ? data.ExpensesWithGst[0].ExpensesWithGst
+         : []),
+      ...(Array.isArray(data?.ExpensesWithOutGst[0]?.ExpensesWithOutGst)
+         ? data.ExpensesWithOutGst[0].ExpensesWithOutGst
+         : []),
+   ]);
+console.log(store)
    const SelectorType = [
       "All Transaction",
       "Sale",
@@ -97,28 +120,11 @@ const AllTransactions = () => {
          <div style={{ margin: "20px 0 10px 20px" }}>
             <ReportSearchBar />
          </div>
-         <div
-            style={{
-               marginLeft: "0px",
-               marginRight: "0px",
-      //          boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
-      //   borderRadius:"15px",
-               background: "red",zIndex:300
-            }}
-         >
-            {store.length > 0 ? (
-               <TableModel tableHeader={tableHeader} data={temp} />
-            ) : (
-               <div style={{ textAlign: "center" }}>
-                  {temp.length === 0 ? (
-                     <p>No data available.</p>
-                  ) : (
-                     <BasicSpinner style={{ fontSize: "30px" }} />
-                  )}
-               </div>
-            )}
-         </div>
-      </div>   
+<div>
+
+         <TableModel tableHeader={tableHeader} data={temp} />
+</div>
+      </div>
    );
 };
 

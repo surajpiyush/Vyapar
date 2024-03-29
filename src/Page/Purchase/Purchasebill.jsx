@@ -33,19 +33,19 @@ const Purchasebill = () => {
    const toggleSalesSuccess = useSelector(
       (state) => state.SalesReducer.toggleSalesSuccess
    );
-   const isLoading = useSelector((state) => state.SalesReducer.isLoading);
+   const isLoading = useSelector((state) => state.PurchaseReducer.isLoading);
    const AllPurchaseBills = useSelector(
       (store) => store.PurchaseReducer.purchaseBillData
    );
    useEffect(() => {
       // GetAllSalesInvoice(dispatch, startDate, endDate);
       dispatch(getPurchaseBill({ date }));
-   }, [dispatch,startDate,endDate]);
+   }, [dispatch,startDate,endDate,openForm]);
 
    const formOpen = () => {
       setOpenForm(true);
    };
-   console.log("ALL BILLS IN THIS MONTH : ",AllPurchaseBills)
+  
    return (
       <div className="purchase-bill-container">
          <Thismonth

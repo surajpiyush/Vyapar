@@ -15,7 +15,7 @@ const SaleDashboardHeader = ({
    endDate,
 }) => {
    const tableData = data;
-   console.log(tableData);
+   // console.log(tableData);
 
    const toast = useToast();
    const [loading, setLoading] = useState(false);

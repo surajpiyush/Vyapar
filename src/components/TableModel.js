@@ -15,8 +15,9 @@ const TableModel = ({ tableHeader, data }) => {
                   ))}
                </tr>
             </thead>
+            <tbody >
             {!data.length ? (
-               <h2
+               <tr
                   style={{
                      textAlign: "center",
                      margin: "20px auto",
@@ -25,12 +26,8 @@ const TableModel = ({ tableHeader, data }) => {
                   }}
                >
                   No Transactions data available for the specified dates
-               </h2>
-            ) : (
-               ""
-            )}
-            <tbody >
-               {data?.map((item, index) => (
+               </tr>
+            ) : (data?.map((item, index) => (
                   <tr key={item.id} style={{textAlign:"center"}}>
                      <td>{index + 1}</td>
 
@@ -65,7 +62,7 @@ const TableModel = ({ tableHeader, data }) => {
                         <ShareIcon />
                      </td>
                   </tr>
-               ))}
+               )))}
             </tbody>
          </table>
       </div>

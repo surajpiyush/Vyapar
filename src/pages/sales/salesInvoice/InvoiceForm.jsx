@@ -4,6 +4,7 @@ import { FetchAllParties } from "../../../Redux/parties/actions";
 import { PostSalesInvoice } from "../../../Redux/sales/action";
 //import ItemsForm from "../../../components/addForm/ItemsForm";
 import css from "../../../styles/SalesStyles/SalesForms.module.css";
+import {  GetSingleInvoiceData } from "../../../Redux/sales/action";
 
 import {
   Button,
@@ -25,8 +26,9 @@ import { ImCheckboxUnchecked as EmptyCheckedBox } from "react-icons/im";
 import { IoIosArrowDown as ArrowDown } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import AddItemForm from "../../../Page/Items/AddItemForm";
+import InvoiceGenerator from "../invoiceGenerator";
 
-const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
+const InvoiceForm = ({ setOpenForm, setToggleSetting,setConfirmModel }) => {
   const toast = useToast();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.SalesReducer.isLoading);
@@ -112,6 +114,11 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
     phoneNumber: "",
     invoiceNumber: generateInvoiceNumber(),
     invoiceDate: new Date().toISOString().split("T")[0],
+    time: new Date().toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+   }),
     stateOfSupply: "",
     priceUnitWithTax: "false",
     addDescription: "",
@@ -120,6 +127,7 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
     balance: "",
   });
 
+  
   // Update total footer values
   useEffect(() => {
     let footerObj = {
@@ -182,9 +190,13 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
       //   },
       // ],
     };
+    setConfirmModel(true);
+    setOpenForm(false);
+    // <InvoiceGenerator invoiceData={data} />;
+    // GetSingleInvoiceData(dispatch, e?._id, toast);
     PostSalesInvoice(dispatch, data, setOpenForm, toast);
 
-    // console.log("invoiceData", data);
+    console.log("invoiceData", data);
   };
 
   // for fetching all parties list on form mount
@@ -310,7 +322,6 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
 
       <div className={css.ContentContainerDiv}>
         {showItemForm && <AddItemForm CloseForm={setShowAddItemsForm} />}
-
         {/* Middle  */}
         <div className={css.middleOuter}>
           <div className={css.leftSideCont}>
@@ -408,6 +419,19 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
                 value={invoiceData?.invoiceDate}
                 onChange={handleInputChange}
                 className={css.invoiceDateSelectInp}
+                readOnly
+              />
+            </div>
+            <div>
+              <p>Invoice Time</p>
+              <input
+                type="time"
+                placeholder="Invoice Time"
+                name="time"
+                value={invoiceData?.time}
+                onChange={handleInputChange}
+                className={css.invoiceDateSelectInp}
+                readOnly
               />
             </div>
             <div>

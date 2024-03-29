@@ -30,7 +30,7 @@ const AddPurchaseForm = memo(
       const itemsList = useSelector((state) => state.ItemReducer.items);
       const category = useSelector((state) => state.ItemReducer.category);
       const setting = useSelector((state) => state.SettingReducer.transaction);
-      console.log(setting);
+      // console.log(setting);
       const [foundItems, setFoundItems] = useState([]);
 
       useEffect(() => {
