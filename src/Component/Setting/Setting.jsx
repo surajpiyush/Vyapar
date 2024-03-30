@@ -75,9 +75,9 @@ function Setting({ setToggleSetting }) {
         {activeSidebar == "USER MANAGEMENT" && (
           <div>USER MANAGEMENT Under Development</div>
         )}
-        {activeSidebar == "TRANSACTION MESSAGE" && (
+        {/* {activeSidebar == "TRANSACTION MESSAGE" && (
           <div>TRANSACTION MESSAGE Under Development</div>
-        )}
+        )} */}
         {activeSidebar == "PARTY" && <PartySetting />}
         {activeSidebar == "ITEM" && <ItemSetting />}
       </div>
@@ -91,34 +91,26 @@ export default Setting;
 const SidebarOptions = [
   {
     name: "GENERAL",
-    to: "/general ",
   },
   {
     name: "TRANSACTION",
-    to: "/setting",
   },
   {
     name: "PRINT",
-    to: "/print",
   },
   {
     name: "TAXES & GST",
-    to: "/taxesgst",
   },
   {
     name: "USER MANAGEMENT",
-    to: "/transaction-message",
   },
-  {
-    name: "TRANSACTION MESSAGE",
-    to: "/transaction-message",
-  },
+  // {
+  //   name: "TRANSACTION MESSAGE",
+  // },
   {
     name: "PARTY",
-    to: "/party",
   },
   {
     name: "ITEM",
-    to: "/item",
   },
 ];
