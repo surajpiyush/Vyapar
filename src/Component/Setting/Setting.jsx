@@ -1,16 +1,15 @@
 import css from "./Setting.module.css";
+import General from "./General";
 import Print from "./Print/Print";
-import General from "./Transaction";
-import Default from "./General";
 import TaxAndGst from "./TaxAndGst";
-import { ignoreRoutes } from "../../App";
-
-import { useState } from "react";
-import { useNavigate, NavLink, useLocation } from "react-router-dom";
-import { FaSearch as SearchIcon } from "react-icons/fa";
-import { IoMdCloseCircle as CloseIcon } from "react-icons/io";
+import Transaction from "./Transaction";
 import ItemSetting from "./ItemSetting";
 import PartySetting from "./PartySetting";
+import { ignoreRoutes } from "../../App";
+import { CloseIcon2, SearchIcon2 } from "../../assets/Icons/ReactIcons";
+
+import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function Setting({ setToggleSetting }) {
   const navigate = useNavigate();
@@ -36,7 +35,7 @@ function Setting({ setToggleSetting }) {
       >
         <div className={css.searchIconDiv}>
           <h3 onClick={() => handleSidebarClick("")}>Settings</h3>
-          <SearchIcon />
+          <SearchIcon2 />
         </div>
         <div className={css.OptionsContSidebarDiv}>
           {SidebarOptions?.map((itemSidebar, indSidebar) => (
@@ -65,23 +64,20 @@ function Setting({ setToggleSetting }) {
         className={css.contentOuterDiv}
       >
         <div className={css.navContentOuterDiv}>
-          <CloseIcon onClick={() => setToggleSetting(false)} />
+          <CloseIcon2 onClick={() => setToggleSetting(false)} />
         </div>
 
         {/* Sections */}
-        {activeSidebar == "" && <Default />}
-        {activeSidebar == "GENERAL" && <Default />}
-        {activeSidebar == "TRANSACTION" && (
-          <General />
-        )}
+        {activeSidebar == "GENERAL" && <General />}
+        {activeSidebar == "TRANSACTION" && <Transaction />}
         {activeSidebar == "PRINT" && <Print />}
         {activeSidebar == "TAXES & GST" && <TaxAndGst />}
         {activeSidebar == "USER MANAGEMENT" && (
           <div>USER MANAGEMENT Under Development</div>
         )}
-        {activeSidebar == "TRANSACTION MESSAGE" && (
+        {/* {activeSidebar == "TRANSACTION MESSAGE" && (
           <div>TRANSACTION MESSAGE Under Development</div>
-        )}
+        )} */}
         {activeSidebar == "PARTY" && <PartySetting />}
         {activeSidebar == "ITEM" && <ItemSetting />}
       </div>
@@ -95,34 +91,26 @@ export default Setting;
 const SidebarOptions = [
   {
     name: "GENERAL",
-    to: "/general ",
   },
   {
     name: "TRANSACTION",
-    to: "/setting",
   },
   {
     name: "PRINT",
-    to: "/print",
   },
   {
     name: "TAXES & GST",
-    to: "/taxesgst",
   },
   {
     name: "USER MANAGEMENT",
-    to: "/transaction-message",
   },
-  {
-    name: "TRANSACTION MESSAGE",
-    to: "/transaction-message",
-  },
+  // {
+  //   name: "TRANSACTION MESSAGE",
+  // },
   {
     name: "PARTY",
-    to: "/party",
   },
   {
     name: "ITEM",
-    to: "/item",
   },
 ];

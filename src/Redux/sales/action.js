@@ -1,3 +1,4 @@
+import { API_URL } from "../store";
 import { USER_DETAILS } from "../business/actionTypes";
 import {
   IS_LOADING,
@@ -32,8 +33,6 @@ import {
 } from "./reducer";
 
 import axios from "axios";
-
-const API_URL = `https://asaanly.in`;
 
 // --------------------------------------- INVOICE ------------------------------------
 // Post Sales Invoice Request
@@ -108,7 +107,7 @@ export const GetSingleInvoiceData = async (dispatch, itemId, toast) => {
     const response = await axios.get(
       `${API_URL}/${firmId}/sale/getInvoice/${itemId}`,
       {
-        headers: {  
+        headers: {
           Authorization: `Bearer ${token} `,
         },
       }

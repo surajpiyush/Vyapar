@@ -320,8 +320,8 @@ export const reducer = (state = initialState, { type, payload }) => {
     case ADDING_UNIT_LOADING: {
       return {
         ...state,
-        isLoading: true,
-        isError: false,
+        // isLoading: true,
+        // isError: false,
         loadingAddUnit: true,
         errorAddUnit: false,
       };
@@ -329,8 +329,8 @@ export const reducer = (state = initialState, { type, payload }) => {
     case ADDING_UNIT_ERROR: {
       return {
         ...state,
-        isLoading: false,
-        isError: true,
+        // isLoading: false,
+        // isError: true,
         loadingAddUnit: false,
         errorAddUnit: true,
       };
@@ -338,7 +338,7 @@ export const reducer = (state = initialState, { type, payload }) => {
     case ADDING_UNIT_SUCCESS: {
       return {
         ...state,
-        isLoading: false,
+        // isLoading: false,
         loadingAddUnit: false,
         toggleItems: !state.toggleItems,
         newUnitAddedToggle: !state.newUnitAddedToggle,
@@ -354,7 +354,7 @@ export const reducer = (state = initialState, { type, payload }) => {
     case SUCCESS_UPDATE_UNIT: {
       return {
         ...state,
-        isLoading: false,
+        // isLoading: false,
         loadingUpdate: false,
         toggleItems: !state.toggleItems,
       };

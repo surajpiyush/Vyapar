@@ -259,6 +259,7 @@
   flex-direction: row-reverse;
   border-top: 2px solid var(--greyF);
   padding-top: 20px;
+  gap: 20px;
 }
 .saveBtn {
   background-color: var(--blueB);
@@ -273,18 +274,16 @@
 .saveBtn:hover {
   background-color: var(--ElectricBlue);
 }
-
 .deleteBtn {
   background-color: var(--redC);
   color: var(--pureWhite);
   font-size: 14px;
-   padding: 5px 12px;
+  padding: 5px 12px;
   width: 40px;
   border-radius: 7px;
   font-weight: 400;
   transition: all 0.2s ease;
 }
-
 .deleteBtn:hover {
   background-color: var(--redB);
 }

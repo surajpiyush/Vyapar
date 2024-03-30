@@ -1,14 +1,20 @@
+import "./StockInventory.css";
 import css from "./Home.module.css";
-import Stockinventory from "../../Component/Stockinventory/Stockinventory";
+import {
+  WalletIcon,
+  RupeesIcon,
+  DocumentIcon,
+  UpArrowIcon2,
+  ArrowUpFilledIcon,
+  ArrowDownFilledIcon,
+  CloseToggleIcon,
+  OpenToggleIcon,
+} from "../../assets/Icons/ReactIcons";
 
 import { useState } from "react";
-import { TbNotes } from "react-icons/tb";
-import { IoWallet } from "react-icons/io5";
-import { BiUpArrowAlt } from "react-icons/bi";
-import { IoStatsChart } from "react-icons/io5";
-import { FaCaretDown, FaCaretUp, FaRupeeSign } from "react-icons/fa";
 
 const Home = () => {
+  const [privacyToggle, setPrivacyToggle] = useState(false);
   const [isMonthModelOpenForSale, setIsMonthModelOpenForSale] = useState(false);
   const [isMonthModelOpenForPurchase, setIsMonthModelOpenForPurchase] =
     useState(false);
@@ -20,19 +26,23 @@ const Home = () => {
   return (
     <div className={css.homeOuter}>
       {/* Home.jsx */}
-      <div className={css.homeContainer}>
+      <div className={css.leftSideOuter}>
         <div className={css.homeContainerDiv1}>
           {/* Sale.jsx */}
           <div className={css.SaleContainer}>
             <section className={css.SaleHeading}>
               <aside className={css.SaleHeadingAside1}>
-                <TbNotes className={css.SaleHeadingNotes} />
+                <DocumentIcon className={css.SaleHeadingNotes} />
                 <h4>Sale</h4>
               </aside>
               <aside className={css.SaleHeadingAside2}>
                 <div className={css.SaleMonthDiv}>
                   <button>This Month</button>
-                  {isMonthModelOpenForSale ? <FaCaretUp /> : <FaCaretDown />}
+                  {isMonthModelOpenForSale ? (
+                    <ArrowUpFilledIcon />
+                  ) : (
+                    <ArrowDownFilledIcon />
+                  )}
                 </div>
               </aside>
             </section>
@@ -40,7 +50,7 @@ const Home = () => {
               <aside className={css.SaleContentAside1}>
                 <div>
                   <div className={css.SaleAmountDiv}>
-                    <FaRupeeSign />
+                    <RupeesIcon />
                     <h3>00</h3>
                     <span>.00</span>
                   </div>
@@ -48,7 +58,7 @@ const Home = () => {
                 </div>
                 <div className={css.SaleGrowthData}>
                   <div>
-                    <BiUpArrowAlt className={css.SaleTopArrowIcon} />
+                    <UpArrowIcon2 className={css.SaleTopArrowIcon} />
                     <p className={css.SaleGrowthDataPercent}>0 %</p>
                   </div>
                   <p className={css.SaleGrowthText}>This Month Growth</p>
@@ -66,12 +76,12 @@ const Home = () => {
             <section className={css.expensesHeading}>
               <aside className={css.expensesHeadingAside1}>
                 <div>
-                  <IoWallet className={css.expensesHeadingNotes} />
+                  <WalletIcon className={css.expensesHeadingNotes} />
                   <h4>Expenses</h4>
                 </div>
 
                 <div className={css.expensesAmountDiv}>
-                  <FaRupeeSign />
+                  <RupeesIcon />
                   <h3>00</h3>
                   <span>.00</span>
                 </div>
@@ -80,9 +90,9 @@ const Home = () => {
                     <button>
                       This Month{" "}
                       {ismonthmodelopenForExpenses ? (
-                        <FaCaretUp />
+                        <ArrowUpFilledIcon />
                       ) : (
-                        <FaCaretDown />
+                        <ArrowDownFilledIcon />
                       )}
                     </button>
                   </div>
@@ -109,7 +119,7 @@ const Home = () => {
                 </div>
                 <div className={css.bottomAmountDiv}>
                   <div className={css.bottomAmountDiv}>
-                    <FaRupeeSign />
+                    <RupeesIcon />
                     <h3>00</h3>
                     <span>.00</span>
                   </div>
@@ -126,11 +136,11 @@ const Home = () => {
             <section className={css.purchaseHeading}>
               <aside className={css.purchaseHeadingAside1}>
                 <div>
-                  <TbNotes className={css.purchaseHeadingNotes} />
+                  <DocumentIcon className={css.purchaseHeadingNotes} />
                   <h4>Purchase</h4>
                 </div>
                 <div className={css.purchaseAmountDiv}>
-                  <FaRupeeSign />
+                  <RupeesIcon />
                   <h3>00</h3>
                   <span>.00</span>
                 </div>
@@ -139,9 +149,9 @@ const Home = () => {
                 <div className={css.purchaseMonthDiv}>
                   <button>This Month</button>
                   {isMonthModelOpenForPurchase ? (
-                    <FaCaretUp />
+                    <ArrowUpFilledIcon />
                   ) : (
-                    <FaCaretDown />
+                    <ArrowDownFilledIcon />
                   )}
                 </div>
               </aside>
@@ -156,8 +166,85 @@ const Home = () => {
         </div>
       </div>
 
-      <div className={css.appRightSidebar}>
-        <Stockinventory />
+      {/* Right Side */}
+      <div className={css.rightSideOuter}>
+        <div className={css.privacyDiv}>
+          <h3>Privacy</h3>
+          {privacyToggle ? (
+            <CloseToggleIcon
+              onClick={() => setPrivacyToggle(false)}
+              id={css.closedToggleIconCss}
+            />
+          ) : (
+            <OpenToggleIcon
+              onClick={() => setPrivacyToggle(true)}
+              id={css.openToggleIconCss}
+            />
+          )}
+        </div>
+
+        <div className={css.stockInvDivOuter}>
+          <h3>Stock Inventory</h3>
+        </div>
+        <div className="stock-privacy-container">
+          <div style={{ maxHeight: "70vh", overflow: "auto" }}>
+            <section className="stock-stock-value-section">
+              <h4>Stock Value</h4>
+              <div className="purchase-amount-div">
+                <RupeesIcon />
+                <h3>00</h3>
+                <span>.00</span>
+              </div>
+            </section>
+            <section className="low-stocks-section">
+              <h4>Low Stcoks</h4>
+              <p>None of your stocks has low value</p>
+            </section>
+            <section className="cash-bank-section">
+              <h4 className="stock-headers">Cash & Banks</h4>
+              {["Bank Accounts", "Loan Amounts"].map((items, ind) => (
+                <div className="cash-bank-card" key={ind}>
+                  <h4>{items}</h4>
+                  <div className="purchase-amount-div">
+                    <RupeesIcon />
+                    <h3>00</h3>
+                    <span>.00</span>
+                  </div>
+                </div>
+              ))}
+            </section>
+            <section className="stock-sale-section">
+              <h4>Sale</h4>
+              {["Sale Orders", "Delivery Challan"].map((item, ind) => (
+                <div className="stock-sale-card" key={ind}>
+                  <h4>{item}</h4>
+                  <div>
+                    <p>No. of Open Orders</p>
+                    <p>0</p>
+                  </div>
+                  <div>
+                    <p>Open sale Order Amount</p>
+                    <p>0</p>
+                  </div>
+                </div>
+              ))}
+            </section>
+            <div className="purchanse-stokc-orders">
+              <h4 className="stock-headers">Purchase</h4>
+              <section className="stock-purchase-orders-card">
+                <h4>Purchase Orders</h4>
+                <div>
+                  <p>No. of purchase Orders</p>
+                  <p>0</p>
+                </div>
+                <div>
+                  <p>Purchase Orders Amount</p>
+                  <p>0</p>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -167,12 +254,12 @@ export default Home;
 
 const bottomcarditems = [
   {
-    Icon: <FaCaretDown />,
+    Icon: <ArrowDownFilledIcon />,
     heading: "You'll Receive",
     paragraph: "You don't have any pending amount to be received",
   },
   {
-    Icon: <FaCaretUp />,
+    Icon: <ArrowUpFilledIcon />,
     heading: "You'll Pay",
     paragraph: "You don't have to pay any amount",
   },

@@ -1,4 +1,4 @@
-import { REGULAR_PRINTER_DATA, THERMAL_PRINTER_DATA } from "../store";
+import { API_URL } from "../store";
 import {
   ISLOADING,
   ISERROR,
@@ -8,10 +8,9 @@ import {
   FETCH_COMPANIES_SUCCESS,
   COMPANYDELETE,
 } from "./actionTypes";
+import { REGULAR_PRINTER_DATA, THERMAL_PRINTER_DATA } from "../store";
 
 import axios from "axios";
-
-const API_URL = `https://asaanly.in`;
 
 // Company Register Request ---- Didn't applied function curring due to thunk error in store.js
 export const FetchAllCompanies = async (dispatch) => {

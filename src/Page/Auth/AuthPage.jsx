@@ -1,5 +1,6 @@
 import css from "./Auth.module.css";
 import Logo from "../../assets/Shop.svg";
+import { API_URL } from "../../Redux/store";
 
 import axios from "axios";
 import { useToast } from "@chakra-ui/react";
@@ -10,7 +11,6 @@ import { MdOutlineMailOutline as MailIcon } from "react-icons/md";
 import { FaRegUserCircle as UserIcon } from "react-icons/fa";
 import { CgOrganisation as CompanyIcon } from "react-icons/cg";
 
-const API_URL = "https://asaanly.in";
 const backGroundImg =
   "https://png.pngtree.com/thumb_back/fh260/background/20200801/pngtree-purple-abstract-background-fluid-gradient-with-wave-forms-image_375467.jpg";
 

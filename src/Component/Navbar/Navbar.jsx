@@ -2,17 +2,15 @@ import css from "./Navbar.module.css";
 import Logo from "../../assets/Shop.svg";
 import { LOGOUT } from "../../Redux/business/action";
 import { USER_DETAILS } from "../../Redux/business/actionTypes";
+import { RefreshIcon, CloseIcon2 } from "../../assets/Icons/ReactIcons";
 
 import { useState } from "react";
 import { useToast } from "@chakra-ui/react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { IoMdRefresh as RefreshIcon } from "react-icons/io";
-import { IoMdCloseCircle as CloseIcon } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const toast = useToast();
   const navigate = useNavigate();
-  const location = useLocation();
   const [inpVal, setInpVal] = useState(
     JSON.parse(localStorage.getItem(USER_DETAILS))?.companyName || ""
   );
@@ -101,7 +99,7 @@ const Navbar = () => {
           >
             <div className={css.headerRenameForm}>
               <div>Update company display name</div>
-              <CloseIcon onClick={() => setShowRename(false)} />
+              <CloseIcon2 onClick={() => setShowRename(false)} />
             </div>
             <div className={css.renameInputDivOuter}>
               <input

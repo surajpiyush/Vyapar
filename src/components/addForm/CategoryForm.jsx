@@ -1,4 +1,3 @@
-// import "../../styles/Items.css";
 import css from "../../Page/Items/edit.module.css";
 import {
   AddNewCategory,
@@ -6,13 +5,13 @@ import {
   UpdateCategory,
 } from "../../Redux/items/actions";
 import {
-  BasicSpinnerIcon,
-  DeleteIcon,
   CloseIcon,
+  DeleteIcon,
+  BasicSpinnerIcon,
 } from "../../assets/Icons/ReactIcons";
 
-import { useEffect, useState } from "react";
 import { useToast } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function CategoryForm({
@@ -32,7 +31,6 @@ export default function CategoryForm({
   useEffect(() => {
     if (useAsUpdateForm) {
       setFormData((prev) => {
-        // console.log("clickedItem", clickedItem);
         return { ...prev, ...clickedItem };
       });
     }

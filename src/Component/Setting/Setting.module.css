@@ -7,6 +7,7 @@
   width: 100%;
   z-index: 2000;
   height: 100vh;
+  color: var(--DeepCharcoal);
 }
 
 /* **************
@@ -16,8 +17,11 @@
   background: var(--DeepCharcoal);
   color: var(--greyishBlue);
   overflow: auto;
-  width: 250px;
+  display: flex;
+  flex-direction: column;
   height: 100%;
+  min-width: 280px;
+  max-width: 280px;
 }
 .searchIconDiv {
   display: flex;
@@ -40,6 +44,8 @@
 }
 .OptionsContSidebarDiv {
   margin-top: -10px;
+  flex-grow: 1;
+  overflow: auto;
 }
 .OptionsContSidebarDiv div {
   cursor: pointer;
@@ -66,7 +72,7 @@
 ** Content Css **
 *****************/
 .contentOuterDiv {
-  flex: 2;
+  flex-grow: 1;
   height: 100%;
   overflow: auto;
 }
@@ -83,11 +89,81 @@
   color: var(--greyA);
 }
 
-/* Old Css */
+/* Sections Css */
+.SectionOuter {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 30px;
 
-#interface {
-  overflow: auto;
+  @media (max-width: 1280px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: 992px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
+.itemOuter {
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  gap: 22.5px;
+
+  h2:nth-of-type(1) {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--greyC);
+  }
+}
+.inpContDivOuter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.inpContDivOuter input[type="checkbox"] {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+}
+.inpContDivOuter select {
+  background-color: transparent;
+  font-size: 14px;
+  font-weight: 400;
+  border-bottom: 1px solid var(--greyD);
+  padding: 0px 0px 5px;
+  margin-right: 17.5px;
+  cursor: pointer;
+}
+.inpContDivOuter select:focus {
+  outline: none;
+  border-bottom: 1px solid var(--greyD);
+}
+.simpleTextLabel {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--ShadowStone);
+}
+.simpleText1 {
+  padding: 0;
+  margin: 0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--ShadowStone);
+  font-size: 14px;
+  font-weight: 300;
+}
+
+/**************
+*** Old Css ***
+***************/
+
+/* #interface {
+  overflow: auto;
+} */
 .container {
   overflow-y: auto;
   display: flex;
@@ -98,7 +174,7 @@
 }
 
 .section {
-  width: 30%;
+  width: fit-content;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -126,7 +202,7 @@
 }
 
 .section1 {
-  width: 30%;
+  /* width: 30%; */
   margin-bottom: 20px;
   padding: 20px;
 }
@@ -159,4 +235,8 @@
   font-size: larger;
   width: 40px;
   height: 35px;
+}
+.fieldset {
+  display: flex;
+  align-items: center;
 }

@@ -1,4 +1,5 @@
-import axios from "axios";
+import { API_URL } from "../store";
+import { USER_DETAILS } from "../business/actionTypes";
 import {
   GET_ITEM_SUCCESS,
   POST_ITEM_SUCCESS,
@@ -41,9 +42,8 @@ import {
   SUCCESS_UPDATE_CATEGORY,
   ERROR_UPDATE_CATEGORY,
 } from "./actionTypes";
-import { USER_DETAILS } from "../business/actionTypes";
 
-const API_URL = "https://asaanly.in";
+import axios from "axios";
 
 // Add Item **********************************************************
 export const AddItem = async (dispatch, newItem, closeForm, toast) => {
@@ -56,9 +56,7 @@ export const AddItem = async (dispatch, newItem, closeForm, toast) => {
     const response = await axios.post(
       `${API_URL}/${FirmId}/insertItem`,
       newItem,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
+      { headers: { Authorization: `Bearer ${token}` } }
     );
 
     // console.log("Adding Item Response:", response?.data);
@@ -92,7 +90,7 @@ export const getitems = async (dispatch) => {
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    console.log("Get items response:", response?.data);
+    // console.log("Get items response:", response?.data);
     dispatch({ type: GET_ITEM_SUCCESS, payload: response?.data?.data });
   } catch (error) {
     dispatch({ type: ITEM_FAILURE });
@@ -321,13 +319,10 @@ export const UpdateCategory = async (
     const response = await axios.patch(
       `${API_URL}/${FirmId}/patchCategory/${itemId}`,
       updatedData,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+      { headers: { Authorization: `Bearer ${token}` } }
     );
-    console.log("Update Category Response:", response.data);
+
+    // console.log("Update Category Response:", response.data);
     dispatch({ type: SUCCESS_UPDATE_CATEGORY });
     setShowEditFirm(false);
     toast({
@@ -364,10 +359,9 @@ export const DeleteCategory = async (
   try {
     const response = await axios.delete(
       `${API_URL}/${FirmId}/deleteCategory/${partyId}`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
+      { headers: { Authorization: `Bearer ${token}` } }
     );
+
     // console.log("Delete Item Response:", response?.data);
     dispatch({ type: SUCCESS_DELETE_ITEM });
     setShowEditFirm(false);
@@ -397,7 +391,7 @@ export const AddNewUnit = async (dispatch, unitData, closeForm, toast) => {
   toast.closeAll();
   const token = localStorage.getItem("token");
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
-  // console.log(categoryName);
+
   try {
     const response = await axios.post(
       `${API_URL}/${FirmId}/createUnitName`,
@@ -429,11 +423,13 @@ export const GetAllUnits = async (dispatch) => {
   dispatch({ type: GET_ALL_UNITS_LOADING });
   const token = localStorage.getItem("token");
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+
   try {
     const response = await axios.get(
       `${API_URL}/${FirmId}/createUnitName/allUnitName`,
       { headers: { Authorization: `Bearer ${token}` } }
     );
+
     // console.log("Get All Units response:", response?.data);
     dispatch({ type: GET_ALL_UNITS_SUCCESS, payload: response?.data?.data });
   } catch (error) {
@@ -459,13 +455,10 @@ export const UpdateUnit = async (
     const response = await axios.patch(
       `${API_URL}/${FirmId}/patchUnit/${itemId}`,
       updatedData,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+      { headers: { Authorization: `Bearer ${token}` } }
     );
-    console.log("Update Category Response:", response.data);
+
+    // console.log("Update Category Response:", response.data);
     dispatch({ type: SUCCESS_UPDATE_UNIT });
     setShowEditFirm(false);
     toast({
@@ -496,11 +489,10 @@ export const DeleteUnit = async (dispatch, unittId, setShowEditFirm, toast) => {
 
   try {
     const response = await axios.delete(
-      `${API_URL}/${FirmId}/deleteUnit/${unittId}`,                     
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
+      `${API_URL}/${FirmId}/deleteUnit/${unittId}`,
+      { headers: { Authorization: `Bearer ${token}` } }
     );
+
     // console.log("Delete Item Response:", response?.data);
     dispatch({ type: SUCCESS_DELETE_UNIT });
     setShowEditFirm(false);

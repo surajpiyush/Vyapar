@@ -1,13 +1,15 @@
 import css from "./Header.module.css";
 import Setting from "../Setting/Setting";
+import {
+  CrossIcon,
+  PlusIcon2,
+  SearchIcon,
+  SettingsIconFilled,
+} from "../../assets/Icons/ReactIcons";
 
 import { useState } from "react";
 import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { RxCross2 as CrossIcon } from "react-icons/rx";
-import { IoIosSearch as SearchIcon } from "react-icons/io";
-import { IoSettingsSharp as SettingIcon } from "react-icons/io5";
-import { BsFillPlusCircleFill as PlusIcon } from "react-icons/bs";
 
 const Header = () => {
   const toast = useToast();
@@ -56,14 +58,14 @@ const Header = () => {
                     });
                 }}
               >
-                <PlusIcon /> {item}
+                <PlusIcon2 /> {item}
               </button>
             </div>
           ))}
         </div>
 
         <div className={css.lastBtnDivOuter}>
-          <SettingIcon onClick={() => setToggleSetting(true)} />
+          <SettingsIconFilled onClick={() => setToggleSetting(true)} />
         </div>
       </div>
     </div>

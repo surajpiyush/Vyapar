@@ -66,6 +66,8 @@ export default function SalesInvoice() {
    const SingleInvoiceData = useSelector(
       (state) => state.SalesReducer.SingleInvoiceData
    );
+   const [confirmModel, setConfirmModel] = useState(true);
+   const [temp, setTemp] = useState("");
 
    //   This useEffect is written to get all items data to extract item names ********************************
    useEffect(() => {
@@ -150,7 +152,6 @@ export default function SalesInvoice() {
    const [storedPrintData, setStoredPrintData] = useState(
       JSON.parse(sessionStorage.getItem(REGULAR_PRINTER_DATA)) || {}
    );
-
    // for updating printer settings
    useEffect(() => {
       const sessionStorageData =
@@ -167,12 +168,13 @@ export default function SalesInvoice() {
    }, [toggleSingleInvoiceSuccess]);
    // *********************************************************************************
 
+   //   console.log(SingleInvoiceData)
+
    return (
       <div>
          {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
-         {/* {confirmModel && <InvoiceGenerator invoiceData={temp} />} */}
+         {/* {confirmModel && <InvoiceGenerator invoiceData={temp} />}  */}
          {/* Print Component */}
-
          {loadingSingleInvoice ? (
             <Loader2 />
          ) : (
@@ -220,6 +222,9 @@ export default function SalesInvoice() {
                <InvoiceForm
                   setToggleSetting={setToggleSetting}
                   setOpenForm={setOpenForm}
+                  setConfirmModel={setConfirmModel}
+                  confirmModel={confirmModel}
+                  setTemp={setTemp}
                />
             </div>
          )}

@@ -1,31 +1,34 @@
-import { applyMiddleware, combineReducers, compose, createStore } from "redux";
 import { thunk } from "redux-thunk";
+import { applyMiddleware, combineReducers, compose, createStore } from "redux";
 
 import { reducer as BusinessReducer } from "./business/reducer";
 import { reducer as ItemReducer } from "./items/reducer";
 import { reducer as PartiesReducer } from "./parties/reducer";
 import { reducer as PurchaseReducer } from "./purchase/reducer";
 import { reducer as ReportReducer } from "./report/reducer";
-import { reducer as SettingReducer } from "./setting/reducer"
+import { reducer as SettingReducer } from "./setting/reducer";
 import SalesReducer from "./sales/reducer";
 
 const rootReducer = combineReducers({
-   ItemReducer,
-   PartiesReducer,
-   BusinessReducer,
-   SalesReducer,
-   PurchaseReducer,
-   ReportReducer,
-   SettingReducer,
+  ItemReducer,
+  PartiesReducer,
+  BusinessReducer,
+  SalesReducer,
+  PurchaseReducer,
+  ReportReducer,
+  SettingReducer,
 });
 
 // Enhance store with Redux DevTools Extension
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export const store = createStore(
-   rootReducer,
-   composeEnhancers(applyMiddleware(thunk))
+  rootReducer,
+  composeEnhancers(applyMiddleware(thunk))
 );
+
+// ------------------ API URL -----------------
+export const API_URL = "https://asaanly.in";
 
 // Local Storage / Session Storage Keys
 export const TOKEN = "TOKEN";

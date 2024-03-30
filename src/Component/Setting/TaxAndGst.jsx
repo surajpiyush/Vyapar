@@ -1,54 +1,49 @@
 import css from "./Setting.module.css";
-import { useDispatch, useSelector } from "react-redux";
 import {
-   updateCheckbox,
-   updateSelectSetting,
+  updateCheckbox,
+  updateSelectSetting,
 } from "../../Redux/setting/action";
-const TaxAndGst = () => {
-   const dispatch = useDispatch();
-   const store = useSelector((state) => state.SettingReducer);
-   // console.log(store)
-   const page = "gst";
-   // Application
-   const handleToggleTransactionsBox = (name) => {
-      dispatch(updateCheckbox(page, "gst", name, !store.gst.gst[name]));
-   };
 
-   return (
-      <div>
-         <section id={css.interface}>
-            <div>
-               <div>
-                  <div className={css.container}>
-                     <div className={css.section}>
-                        <h2>GST Settings</h2>
-                        {Object.entries(store.gst.gst).map(
-                           ([name, checked]) => (
-                              <div key={name} className={css.tab}>
-                                 <div className={css.checkboxContainer}>
-                                    <input
-                                       type="checkbox"
-                                       className={css.checkbox}
-                                       checked={checked}
-                                       onChange={() =>
-                                          handleToggleTransactionsBox(name)
-                                       }
-                                    />
-                                    <label className={css.label}>{name}</label>
-                                 </div>
-                              </div>
-                           )
-                        )}
-                       </div>
-                  </div>
-               </div>
-               <div>
-                  <button>Tax List </button>
-               </div>
-            </div>
-         </section>
+import { useDispatch, useSelector } from "react-redux";
+
+const TaxAndGst = () => {
+  const page = "taxAndgst";
+  const dispatch = useDispatch();
+  const store = useSelector((state) => state.SettingReducer);
+
+  // GST Settings
+  const handleGstSettings = (name) => {
+    dispatch(
+      updateCheckbox(
+        page,
+        "gstSettings",
+        name,
+        !store?.[page]?.gstSettings[name]
+      )
+    );
+  };
+
+  return (
+    <div className={css.SectionOuter}>
+      {/* GST Settings */}
+      <div className={css.itemOuter}>
+        <h2>GST Settings</h2>
+        {store?.[page]?.gstSettings &&
+          Object.entries(store?.[page]?.gstSettings).map(
+            ([name, checked], ind) => (
+              <div key={name + ind} className={css.inpContDivOuter}>
+                <input
+                  type="checkbox"
+                  checked={checked}
+                  onChange={() => handleGstSettings(name)}
+                />
+                <label className={css.simpleTextLabel}>{name}</label>
+              </div>
+            )
+          )}
       </div>
-   );
+    </div>
+  );
 };
 
 export default TaxAndGst;

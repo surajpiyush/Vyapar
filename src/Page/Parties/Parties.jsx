@@ -42,7 +42,7 @@ export default function Parties() {
       )}
 
       <div className={css.navOuter}>
-        <div className={css.navOptions}>Name</div>
+        <div className={css.navOptions}>NAME</div>
       </div>
 
       {!isLoading && partiesData.length != 0 && (

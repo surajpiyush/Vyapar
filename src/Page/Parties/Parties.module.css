@@ -1,21 +1,25 @@
 .navOuter {
-  background-color: var(--greyB);
-  color: var(--BlueBerry);
   display: flex;
-  direction: row;
-  align-items: flex-center;
+  align-items: center;
   justify-content: space-between;
-  height: 60px;
+  background-color: var(--greyF);
+  border-bottom: 2px solid var(--greyG);
+  height: 45px;
 }
 .navOptions {
   text-align: center;
+  color: var(--blueB);
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 18px;
-  border-bottom: 4px solid var(--blueB);
+  border-bottom: 2px solid var(--blueB);
   cursor: default;
+  transition: all 0.2s ease;
+  font-size: 16px;
+  font-weight: 600;
+  height: 100%;
 }
 
 /* Parties Table file css */

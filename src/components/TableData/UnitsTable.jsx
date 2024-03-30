@@ -1,11 +1,11 @@
 import css from "../../Page/Items/Items.module.css";
-import UnitEditForm from "../addForm/UnitEditForm";
-import { GetSelectedItemData, GetAllUnits } from "../../Redux/items/actions";
+import UnitForm from "../addForm/UnitForm";
+import { GetAllUnits } from "../../Redux/items/actions";
 import {
-  BasicSpinnerIcon,
   FilterIcon,
-  SearchIconBlackBg,
   VerticalDotsIcon,
+  BasicSpinnerIcon,
+  SearchIconBlackBg,
 } from "../../assets/Icons/ReactIcons";
 
 import { useEffect, useState } from "react";
@@ -21,39 +21,28 @@ export default function UnitsTable({ func }) {
   const loadingGetSelectedItemData = useSelector(
     (store) => store.ItemReducer.loadingGetSelectedItemData
   );
-  const selectedItemData = useSelector(
-    (store) => store.ItemReducer.selectedItemData
-  );
-  const selectedItemTransactionData = useSelector(
-    (store) => store.ItemReducer.selectedItemTransactionData
-  );
-  const [editItem, setEditItem] = useState([]);
-  const [showEditFirm, setShowEditFirm] = useState(false);
-  const [currUnit, setCurrUnit] = useState({});
 
-  // Item Click Handler
-  const handleItemClick = (item) => {
-    //  GetSelectedItemData(dispatch, item?._id);
-  };
-
-  const handleStatusToggle = (index) => {
-    const updatedTableData = [...selectedItemTransactionData];
-    updatedTableData[index].status = !updatedTableData[index].status;
-  };
-
-  const openForm = () => {
-    func(true);
-  };
+  const [showUnitForm, setShowUnitForm] = useState(false);
+  const [editUnitData, setEditUnitData] = useState({});
 
   // to fetch all Units
   useEffect(() => {
     GetAllUnits(dispatch);
   }, [newUnitAddedToggle]);
 
+  const openForm = () => {
+    func(true);
+  };
+
   return (
     <div className={css.OuterDiv}>
-      {showEditFirm && (
-        <UnitEditForm setShowEditFirm={setShowEditFirm} unit={editItem} />
+      {/* Edit Unit Form */}
+      {showUnitForm && (
+        <UnitForm
+          usedAsEditForm={true}
+          func={setShowUnitForm}
+          editUnitData={editUnitData}
+        />
       )}
 
       <div className={css.flexBoxDivCont}>
@@ -81,22 +70,20 @@ export default function UnitsTable({ func }) {
               </thead>
               {!isLoading && (
                 <tbody>
-                  {units?.map((e, index) => (
+                  {units?.map((unitItem, index) => (
                     <tr
-                      key={index}
+                      key={index + unitItem?._id}
                       onClick={() => {
-                        handleItemClick(e);
-                        setCurrUnit(e);
+                        setEditUnitData(unitItem);
                       }}
                     >
-                      <td>{e?.unitName}</td>
+                      <td>{unitItem?.unitName}</td>
                       <td>
                         <span>
-                          {e?.shortName}
+                          {unitItem?.shortName}
                           <VerticalDotsIcon
                             onClick={() => {
-                              setEditItem(e);
-                              setShowEditFirm(true);
+                              setShowUnitForm(true);
                             }}
                           />
                         </span>
@@ -112,10 +99,10 @@ export default function UnitsTable({ func }) {
 
         {/* Right Side Content */}
         <div className={css.partiesRightSideDiv}>
-          {currUnit?.unitName && (
+          {editUnitData?.unitName && (
             <div className={css.PartyDetailsOuter}>
               <div>
-                <p>{currUnit?.unitName}</p>
+                <p>{editUnitData?.unitName}</p>
               </div>
             </div>
           )}
