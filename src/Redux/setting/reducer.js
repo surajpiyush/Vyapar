@@ -73,53 +73,66 @@ const taxAndgstInitalState = {
   },
 };
 
-// ##############################
+// Party
+const partyInitialState = {
+  partySettings: {
+    "Party Grouping": false,
+    "Shipping Address": false,
+    "Enable Payment Reminder": true,
+    "Remind me for payment due in": 1,
+  },
+  enableLoyaltyPoint: {
+    "Enable Loyalty Point": false,
+  },
+};
+
+// Item
 const itemInitialState = {
-  item: {
-    // Item settings
-    "Enable Barcode": true,
-    "What Do You Sell": "",
-    "BarCode Scan": true,
+  itemSettings: {
+    "Enable Item": true,
+    "What Do You Sell": "Product/Service",
+    "Barcode Scan": false,
     "Stock Maintenance": true,
-    Manufacturing: true,
+    Manufacturing: false,
     "Show Low Stock Dialog": true,
     "Items Unit": true,
-    "Default Unit": true,
+    "Default Unit": false,
     "Item Category": true,
-    "Party Wise Item Rate": true,
-    Description: true,
+    "Party Wise Item Rate": false,
+    Description: false,
     "Item Wise Tax": true,
     "Item Wise Discount": true,
-    "Update Sale Price From Transaction": true,
-    Quantity: true,
-    WholesalePrice: true,
+    "Update Sale Price from Transaction": false,
+    Quantity: 2,
+    "Wholesale Price": false,
   },
   additionalItemFiels: {
-    // Additional item fields
-    mrp: "",
-    serialNoTracking: true,
-    serialNoValue: "",
-    batchTracking: true,
-    batchNoValue: "",
-    expDate: "",
-    mfgDate: "",
-    modelNo: "",
-    size: "",
+    MRP: "",
+    "Serial No./ IMEI No. etc": false,
+    "Serial No Value": "",
+    "Batch No.": false,
+    "Batch No Value": "",
+    "Exp Date": false,
+    "Exp Date Value": "",
+    "MFG Date": false,
+    "MFG Date Value": "",
+    "Model No": false,
+    "Model No Value": "",
+    Size: false,
+    "Size Value": "",
   },
 };
-const partyInitialState = {
-  // Define initial state for product page here
-};
-// ##############################
 
+// Initial State
 const initialState = {
   general: generalInitalState,
   transaction: transactionInitialState,
   taxAndgst: taxAndgstInitalState,
-  item: itemInitialState,
   party: partyInitialState,
+  item: itemInitialState,
 };
 
+// Reducer
 export const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case UPDATE_CHECKBOX: {
