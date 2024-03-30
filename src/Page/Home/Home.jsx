@@ -1,4 +1,3 @@
-import "./StockInventory.css";
 import css from "./Home.module.css";
 import {
   WalletIcon,
@@ -49,11 +48,9 @@ const Home = () => {
             <section className={css.SaleContent}>
               <aside className={css.SaleContentAside1}>
                 <div>
-                  <div className={css.SaleAmountDiv}>
-                    <RupeesIcon />
-                    <h3>00</h3>
-                    <span>.00</span>
-                  </div>
+                  <h3 className={css.bigAmountText}>
+                    ₹ 00<span>.00</span>
+                  </h3>
                   <p className={css.SaleAmountText}>Total Sale (Feb)</p>
                 </div>
                 <div className={css.SaleGrowthData}>
@@ -80,11 +77,9 @@ const Home = () => {
                   <h4>Expenses</h4>
                 </div>
 
-                <div className={css.expensesAmountDiv}>
-                  <RupeesIcon />
-                  <h3>00</h3>
-                  <span>.00</span>
-                </div>
+                <h3 className={css.mediumAmountText}>
+                  ₹ 00<span>.00</span>
+                </h3>
                 <aside className={css.expensesHeadingAside2}>
                   <div className={css.expensesMonthDiv}>
                     <button>
@@ -118,11 +113,9 @@ const Home = () => {
                   <h3>{item.heading}</h3>
                 </div>
                 <div className={css.bottomAmountDiv}>
-                  <div className={css.bottomAmountDiv}>
-                    <RupeesIcon />
-                    <h3>00</h3>
-                    <span>.00</span>
-                  </div>
+                  <h3 className={css.mediumAmountText}>
+                    ₹ 00<span>.00</span>
+                  </h3>
                 </div>
               </div>
               <div className={css.bottomItemDiv4}>
@@ -139,11 +132,9 @@ const Home = () => {
                   <DocumentIcon className={css.purchaseHeadingNotes} />
                   <h4>Purchase</h4>
                 </div>
-                <div className={css.purchaseAmountDiv}>
-                  <RupeesIcon />
-                  <h3>00</h3>
-                  <span>.00</span>
-                </div>
+                <h3 className={css.mediumAmountText}>
+                  ₹ 00<span>.00</span>
+                </h3>
               </aside>
               <aside className={css.purchaseHeadingAside2}>
                 <div className={css.purchaseMonthDiv}>
@@ -171,77 +162,64 @@ const Home = () => {
         <div className={css.privacyDiv}>
           <h3>Privacy</h3>
           {privacyToggle ? (
-            <CloseToggleIcon
-              onClick={() => setPrivacyToggle(false)}
-              id={css.closedToggleIconCss}
-            />
+            <CloseToggleIcon onClick={() => setPrivacyToggle(false)} />
           ) : (
-            <OpenToggleIcon
-              onClick={() => setPrivacyToggle(true)}
-              id={css.openToggleIconCss}
-            />
+            <OpenToggleIcon onClick={() => setPrivacyToggle(true)} />
           )}
         </div>
-
-        <div className={css.stockInvDivOuter}>
-          <h3>Stock Inventory</h3>
-        </div>
-        <div className="stock-privacy-container">
-          <div style={{ maxHeight: "70vh", overflow: "auto" }}>
-            <section className="stock-stock-value-section">
-              <h4>Stock Value</h4>
-              <div className="purchase-amount-div">
-                <RupeesIcon />
-                <h3>00</h3>
-                <span>.00</span>
+        <div className={css.stockInvItemContDiv}>
+          <div className={css.stockInvDivOuter}>
+            <h3>Stock Inventory</h3>
+          </div>
+          <div className={css.stockItemCardsOuterDiv}>
+            <h4>Stock Value</h4>
+            <h3>
+              ₹ 00<span>.00</span>
+            </h3>
+          </div>
+          <div className={css.stockItemCardsOuterDiv}>
+            <h4>Low Stocks</h4>
+            <p>None of your stocks has low value.</p>
+          </div>
+          <div className={css.stockInvDivOuter}>
+            <h3>Cash & Banks</h3>
+          </div>
+          {["Bank Accounts", "Loan Amounts"].map((items, ind) => (
+            <div className={css.stockItemCardsOuterDiv} key={ind + items}>
+              <h4>{items}</h4>
+              <h3>
+                ₹ 00<span>.00</span>
+              </h3>
+            </div>
+          ))}
+          <div className={css.stockInvDivOuter}>
+            <h3>Sale</h3>
+          </div>
+          {["Sale Orders", "Delivery Challan"].map((item, ind) => (
+            <div className={css.stockItemCardsOuterDiv} key={ind + item}>
+              <h4>{item}</h4>
+              <div>
+                <span>No. of Open Orders</span>
+                <span>0</span>
               </div>
-            </section>
-            <section className="low-stocks-section">
-              <h4>Low Stcoks</h4>
-              <p>None of your stocks has low value</p>
-            </section>
-            <section className="cash-bank-section">
-              <h4 className="stock-headers">Cash & Banks</h4>
-              {["Bank Accounts", "Loan Amounts"].map((items, ind) => (
-                <div className="cash-bank-card" key={ind}>
-                  <h4>{items}</h4>
-                  <div className="purchase-amount-div">
-                    <RupeesIcon />
-                    <h3>00</h3>
-                    <span>.00</span>
-                  </div>
-                </div>
-              ))}
-            </section>
-            <section className="stock-sale-section">
-              <h4>Sale</h4>
-              {["Sale Orders", "Delivery Challan"].map((item, ind) => (
-                <div className="stock-sale-card" key={ind}>
-                  <h4>{item}</h4>
-                  <div>
-                    <p>No. of Open Orders</p>
-                    <p>0</p>
-                  </div>
-                  <div>
-                    <p>Open sale Order Amount</p>
-                    <p>0</p>
-                  </div>
-                </div>
-              ))}
-            </section>
-            <div className="purchanse-stokc-orders">
-              <h4 className="stock-headers">Purchase</h4>
-              <section className="stock-purchase-orders-card">
-                <h4>Purchase Orders</h4>
-                <div>
-                  <p>No. of purchase Orders</p>
-                  <p>0</p>
-                </div>
-                <div>
-                  <p>Purchase Orders Amount</p>
-                  <p>0</p>
-                </div>
-              </section>
+              <div>
+                <span>Open sale Order Amount</span>
+                <span>0</span>
+              </div>
+            </div>
+          ))}
+          <div className={css.stockInvDivOuter}>
+            <h3>Purchase</h3>
+          </div>
+          <div className={css.stockItemCardsOuterDiv}>
+            <h4>Purchase Orders</h4>
+            <div>
+              <span>No. of purchase Orders</span>
+              <span>0</span>
+            </div>
+            <div>
+              <span>Purchase Orders Amount</span>
+              <span>0</span>
             </div>
           </div>
         </div>
