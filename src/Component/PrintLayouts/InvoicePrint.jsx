@@ -24,6 +24,22 @@ const InvoicePrint = ({ currPrintItem }) => {
       return foundItem?.itemName || "";
    };
 
+   const calculateTotal = () => {
+      const total = currPrintItem?.sale?.reduce((acc, item) => {
+         const qty = item.qty || 0;
+         const priceUnit = item.priceUnit || 0;
+         const discountAmount = item.discountAmount || 0;
+         const taxPercent = item.taxPersant
+            ? item.taxPersant.replace("GST@", "")
+            : 0;
+         const priceWithTax =
+            Number(priceUnit) + Number(priceUnit) * (Number(taxPercent) / 100);
+         const amount = priceWithTax * qty;
+         return acc + amount;
+      }, 0);
+      return total || 0;
+   };
+
    return (
       <div
          className={css.OuterRP1}
@@ -115,9 +131,7 @@ const InvoicePrint = ({ currPrintItem }) => {
                      <h2>{currPrintItem?.billingAddress}</h2>
                   )}
                   {storedPrintData?.showPhoneNumber && (
-                     <h2>
-                        Contact No.: {currPrintItem?.phoneNumber || 8888888888}
-                     </h2>
+                     <h2>Contact No.: {currPrintItem?.phoneNumber}</h2>
                   )}
                   {storedPrintData?.showEmail && (
                      <h2>Email: {currPrintItem?.email}</h2>
@@ -161,7 +175,7 @@ const InvoicePrint = ({ currPrintItem }) => {
                         <th>Item name</th>
                         <th>Quantity</th>
                         <th>Rate</th>
-                        <th>Discount</th>
+                        {/* <th>Discount</th> */}
                         <th>Rate with GST</th>
                         <th>Amount</th>
                      </tr>
@@ -183,7 +197,7 @@ const InvoicePrint = ({ currPrintItem }) => {
                         const priceWithTax =
                            Number(priceUnit) +
                            Number(priceUnit) * (Number(taxPercent) / 100);
-                        const amount = (priceWithTax - discountAmount) * qty;
+                        const amount = priceWithTax * qty;
                         const formattedPriceWithTax =
                            typeof priceWithTax === "number"
                               ? priceWithTax.toFixed(2)
@@ -195,7 +209,7 @@ const InvoicePrint = ({ currPrintItem }) => {
                               <td>{mainName}</td>
                               <td>{qty}</td>
                               <td>₹{priceUnit}</td>
-                              <td>₹{discountAmount}</td>
+                              {/* <td>₹{discountAmount}</td> */}
                               <td>₹{formattedPriceWithTax}</td>{" "}
                               {/* Use formattedPriceWithTax here */}
                               <td>₹{amount.toFixed(2)}</td>
@@ -215,16 +229,16 @@ const InvoicePrint = ({ currPrintItem }) => {
                            </td>
                         )}
                         <td></td>
-                        <td>
+                        {/* <td>
                            ₹{" "}
                            {currPrintItem?.sale?.reduce(
                               (total, item) =>
                                  total + Number(item.discountAmount),
                               0
                            )}
-                        </td>
+                        </td> */}
                         <td></td>
-                        <td>₹ {currPrintItem?.total || 0}</td>
+                        <td>₹ {calculateTotal()}</td>
                      </tr>
                   </tbody>
                </table>
@@ -261,7 +275,7 @@ const InvoicePrint = ({ currPrintItem }) => {
                      {/* Calculations for Subtotal, Discount, and Total */}
                      <div>
                         <h2>Sub Total</h2>
-                        <h2>₹ {currPrintItem?.total || 0}</h2>
+                        <h2>₹ {calculateTotal()}</h2>
                      </div>
                      <div>
                         <h2>Discount</h2>
@@ -277,7 +291,6 @@ const InvoicePrint = ({ currPrintItem }) => {
                      <div>
                         <h2>Discount(%)</h2>
                         <h2>
-                           ₹
                            {currPrintItem?.sale?.reduce((total, item) => {
                               let discountPercentage =
                                  +item?.discountpersant || 0;
@@ -287,7 +300,8 @@ const InvoicePrint = ({ currPrintItem }) => {
                                     ? Number(discountPercentage)
                                     : 0)
                               );
-                           }, 0)}
+                           }, 0)}{" "}
+                           %
                         </h2>
                      </div>
                      {/* Total */}
@@ -299,11 +313,15 @@ const InvoicePrint = ({ currPrintItem }) => {
                         }}
                      >
                         <h2>Total</h2>
-                        <h2>₹ {currPrintItem?.total - currPrintItem?.sale?.reduce(
-                              (total, item) =>
-                                 total + Number(item?.discountAmount),
-                              0
-                           )}</h2>
+                        <h2>
+                           ₹{" "}
+                           {calculateTotal() -
+                              currPrintItem?.sale?.reduce(
+                                 (total, item) =>
+                                    total + Number(item?.discountAmount),
+                                 0
+                              )}
+                        </h2>
                      </div>
                   </div>
 
