@@ -27,7 +27,7 @@ export const FetchAllParties = async (dispatch) => {
   const token = localStorage.getItem("token");
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
   try {
-    const response = await axios.get(`${API_URL}/${FirmId}/party/getAllData`, {
+    const response = await axios.get(`${API_URL}/${FirmId}/party/getAll`, {
       headers: {
         Authorization: `Bearer ${token} `,
       },

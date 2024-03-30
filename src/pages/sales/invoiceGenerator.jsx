@@ -1,53 +1,97 @@
-import React, { useState } from 'react';
-import { jsPDF } from 'jspdf';
-import 'jspdf-autotable';
+import css from "../../Page/Items/edit.module.css";
+import React, { useRef, useState } from "react";
+import { jsPDF } from "jspdf";
+import "jspdf-autotable";
+import emailjs from "emailjs-com";
+import InvoicePrint from "../../Component/PrintLayouts/InvoicePrint";
+import { useReactToPrint } from "react-to-print";
+import { CloseIcon } from "../../assets/Icons/ReactIcons";
 
-const InvoiceGenerator = ({ invoiceData }) => {
-  const [printMode, setPrintMode] = useState(false); // State to track print mode
+const InvoiceGenerator = ({ invoiceData, setConfirmModel }) => {
+   const [printMode, setPrintMode] = useState(true);
+   let printComponentRef = useRef();
+   console.log(invoiceData);
 
-  const generatePDF = () => {
-    const doc = new jsPDF();
+   // Function to generate PDF
+   const generatePDF = () => {
+      // Create a new jsPDF instance
+      const doc = new jsPDF();
 
-    // Set up initial y-coordinate
-    let y = 10;
+      // Get the HTML content of the InvoicePrint component
+      const printComponentHTML = printComponentRef.current.innerHTML;
 
-    // Invoice header
-    doc.setFontSize(18);
-    doc.text('Invoice', 105, y, { align: 'center' });
-    y += 10; // Increment y-coordinate
-    doc.setFontSize(12);
-    doc.text(`Customer Name: ${invoiceData.billingName}`, 10, y);
-    y += 10;
-    doc.text(`Invoice Number: ${invoiceData.invoiceNumber}`, 10, y);
-    y += 10;
-    doc.text(`Invoice Date: ${invoiceData.invoiceDate}`, 10, y);
-    y += 20;
+      // Add the HTML content to the PDF
+      doc.html(printComponentHTML, {
+         callback: () => {
+            // Save the PDF
+            doc.save("invoice.pdf");
+         },
+      });
+      setConfirmModel(false);
+   };
 
-    // Item list
-    doc.setFontSize(14);
-    doc.text('Item List', 10, y);
-    y += 10;
-    doc.autoTable({
-      startY: y,
-      head: [['Item', 'Quantity', 'Price', 'Total']],
-      body: invoiceData.sale.map(item => [item.mainName, item.qty, item.priceUnit, (item.qty * item.priceUnit).toFixed(2)])
-    });
-    y = doc.lastAutoTable.finalY + 20; // Update y-coordinate
+   // Function to handle printing
+   const handlePrint = useReactToPrint({
+      content: () => printComponentRef.current,
+   });
 
-    // Total
-    doc.setFontSize(12);
-    doc.text(`Total: ₹ ${invoiceData.total}`, 150, y, { align: 'right' });
+   return (
+      <div className={css.Overlay} style={{ zIndex: "5000" }}>
+         <div
+            onClick={(e) => e.stopPropagation()}
+            className={css.OuterEditProfile}
+         >
+            <div className={css.topNavDiv}>
+               <h2> DO YOU WANT YOU TO PRINT THE INVOICE</h2>
+               <CloseIcon onClick={() => setConfirmModel(false)} />
+            </div>
+            <div style={{ display: "flex",margin:"25px", justifyContent:"space-evenly" }}>
+               {/* Button to generate PDF */}
+               {/* <button onClick={generatePDF}>Download PDF</button> */}
 
-    // Download mode, save as PDF
-    doc.save('invoice.pdf');
-  };
-
-  return (
-    <div style={{ position: "relative", top: "10%", cursor: "pointer", border: "1px solid red", display: "flex", gap: "50px" }}>
-      <button onClick={generatePDF}>Download PDF</button>
-      <button onClick={() => setPrintMode(true)}>Print</button>
-    </div>
-  );
+               {/* Button to trigger printing */}
+               <button
+                  style={{
+                    backgroundColor: "var(--ElectricBlue)",
+                     padding: "5px 22px",
+                     // font-size: 16px;
+                     border: "none",
+                     color: "white",
+                     bordeRadius: "16px",
+                     cursor: "pointer",
+                     transition: "all 0.15s ease",
+                     letterSpacing: "0.5px",
+                  }}
+                  onClick={handlePrint}
+               >
+                  YES
+               </button>
+               <button
+                  style={{
+                    backgroundColor: "var(--ElectricBlue)",
+                     padding: "5px 22px",
+                     // font-size: 16px;
+                     border: "none",
+                     color: "white",
+                     bordeRadius: "6px",
+                     cursor: "pointer",
+                     transition: "all 0.15s ease",
+                     letterSpacing: "0.5px",
+                  }}
+                  onClick={()=>setConfirmModel(false)}
+               >
+                  NO
+               </button>
+            </div>
+            {/* Hidden div to hold the printable component */}
+            <div style={{ display: "none" }}>
+               <div ref={printComponentRef}>
+                  <InvoicePrint currPrintItem={invoiceData} />
+               </div>
+            </div>
+         </div>
+      </div>
+   );
 };
 
 export default InvoiceGenerator;

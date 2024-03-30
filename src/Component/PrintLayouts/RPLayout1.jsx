@@ -345,12 +345,12 @@ const RPLayout1 = ({ currPrintItem, usedAsDemo = false }) => {
                         let numericalDis = 0;
                         if (orgDis == null) {
                           return total + numericalDis;
-                        }
+                        {/* }
                         if (orgDis && orgDis?.includes("%")) {
-                          numericalDis = Number(orgDis.split("%")[0]);
+                          numericalDis = Number(orgDis.split("%")[0]); */}
                         } else if (orgDis) {
                           numericalDis = Number(orgDis);
-                        }
+                        } 
                         return total + item?.numericalDis;
                       }, 0)}{" "}
                   ₹

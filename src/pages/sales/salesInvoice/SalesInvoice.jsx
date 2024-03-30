@@ -66,9 +66,7 @@ export default function SalesInvoice() {
    const SingleInvoiceData = useSelector(
       (state) => state.SalesReducer.SingleInvoiceData
    );
-   const [confirmModel,setConfirmModel] = useState(true)
-   const [temp,setTemp] = useState('')
-  
+
    //   This useEffect is written to get all items data to extract item names ********************************
    useEffect(() => {
       dispatch(GetAllItems());
@@ -169,13 +167,12 @@ export default function SalesInvoice() {
    }, [toggleSingleInvoiceSuccess]);
    // *********************************************************************************
 
-//   console.log(SingleInvoiceData)
-
    return (
       <div>
          {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
-         {/* {confirmModel && <InvoiceGenerator invoiceData={temp} />}  */}
+         {/* {confirmModel && <InvoiceGenerator invoiceData={temp} />} */}
          {/* Print Component */}
+
          {loadingSingleInvoice ? (
             <Loader2 />
          ) : (
@@ -223,9 +220,6 @@ export default function SalesInvoice() {
                <InvoiceForm
                   setToggleSetting={setToggleSetting}
                   setOpenForm={setOpenForm}
-                  setConfirmModel={setConfirmModel}
-                  confirmModel = {confirmModel}
-                  setTemp={setTemp}
                />
             </div>
          )}
@@ -291,7 +285,6 @@ export default function SalesInvoice() {
                         </select>
                      </div>
                   </div>
-                 
                </div>
                <div style={{ display: "flex", gap: "20px", marginTop: "20px" }}>
                   <div
@@ -391,96 +384,96 @@ export default function SalesInvoice() {
                   </div>
 
                   <div className={css.TabelOuterDivSaleOrder}>
-                        <table>
-                            <thead>
-                              <tr>
-                                  <th>
-                                    <div>
-                                        DATE
-                                        {/*  <FilterIcon /> */}
-                                    </div>
-                                  </th>
-                                  <th>
-                                    <div>
-                                        INVOICE NO.
-                                        {/*  <FilterIcon /> */}
-                                    </div>
-                                  </th>
-                                  <th>
-                                    <div>
-                                        PARTY NAME.
-                                        {/*  <FilterIcon /> */}
-                                    </div>
-                                  </th>
-                                  <th>
-                                    <div>
-                                        TRANSACTION TYPE
-                                        {/*  <FilterIcon /> */}
-                                    </div>
-                                  </th>
-                                  <th>
-                                    <div>
-                                        PAYMENT TYPE
-                                        {/*  <FilterIcon /> */}
-                                    </div>
-                                  </th>
-                                  <th>
-                                    <div>
-                                        AMOUNT
-                                        {/*  <FilterIcon /> */}
-                                    </div>
-                                  </th>
-                                  <th>
-                                    <div>
-                                        BALANCE DUE
-                                        {/*  <FilterIcon /> */}
-                                    </div>
-                                  </th>
-                                  <th>
-                                    <div>
-                                        DUE DATE
-                                        {/*  <FilterIcon /> */}
-                                    </div>
-                                  </th>
-                                  <th>
-                                    <div>
-                                        STATUS
-                                        {/*  <FilterIcon /> */}
-                                    </div>
-                                  </th>
-                                  <th>Action</th>
-                              </tr>
-                            </thead>
+                     <table>
+                        <thead>
+                           <tr>
+                              <th>
+                                 <div>
+                                    DATE
+                                    {/*  <FilterIcon /> */}
+                                 </div>
+                              </th>
+                              <th>
+                                 <div>
+                                    INVOICE NO.
+                                    {/*  <FilterIcon /> */}
+                                 </div>
+                              </th>
+                              <th>
+                                 <div>
+                                    PARTY NAME.
+                                    {/*  <FilterIcon /> */}
+                                 </div>
+                              </th>
+                              <th>
+                                 <div>
+                                    TRANSACTION TYPE
+                                    {/*  <FilterIcon /> */}
+                                 </div>
+                              </th>
+                              <th>
+                                 <div>
+                                    PAYMENT TYPE
+                                    {/*  <FilterIcon /> */}
+                                 </div>
+                              </th>
+                              <th>
+                                 <div>
+                                    AMOUNT
+                                    {/*  <FilterIcon /> */}
+                                 </div>
+                              </th>
+                              <th>
+                                 <div>
+                                    BALANCE DUE
+                                    {/*  <FilterIcon /> */}
+                                 </div>
+                              </th>
+                              <th>
+                                 <div>
+                                    DUE DATE
+                                    {/*  <FilterIcon /> */}
+                                 </div>
+                              </th>
+                              <th>
+                                 <div>
+                                    STATUS
+                                    {/*  <FilterIcon /> */}
+                                 </div>
+                              </th>
+                              <th>Action</th>
+                           </tr>
+                        </thead>
 
-                            <tbody>
-                              {!isLoading &&
-                                  invoicesList?.map((item, ind) =>
-                                    isEditing && editedData?._id === item._id ? (
-                                        <tr
-                                          style={{
-                                              width: "82%",
-                                              position: "absolute",
-                                          }}
-                                        >
-                                          <EditableRow
-                                              display={display}
-                                              data={editedData}
-                                              onSave={handleSave}
-                                              onCancel={handleCancel}
-                                          />
-                                        </tr>
-                                    ) : (
-                                        <TableInvoice
-                                          {...item}
-                                          ind={ind}
-                                          handleEdit={handleEdit}
-                                          handleDelete={handleDelete}
-                                          key={ind + item?._id}
-                                        />
-                                    )
-                                  )}
-                            </tbody>
-                        </table>
+                        <tbody>
+                           {!isLoading &&
+                              invoicesList?.map((item, ind) =>
+                                 isEditing && editedData?._id === item._id ? (
+                                    <tr
+                                       style={{
+                                          width: "82%",
+                                          position: "absolute",
+                                       }}
+                                    >
+                                       <EditableRow
+                                          display={display}
+                                          data={editedData}
+                                          onSave={handleSave}
+                                          onCancel={handleCancel}
+                                       />
+                                    </tr>
+                                 ) : (
+                                    <TableInvoice
+                                       {...item}
+                                       ind={ind}
+                                       handleEdit={handleEdit}
+                                       handleDelete={handleDelete}
+                                       key={ind + item?._id}
+                                    />
+                                 )
+                              )}
+                        </tbody>
+                     </table>
                      {isLoading && (
                         <h2
                            style={{
