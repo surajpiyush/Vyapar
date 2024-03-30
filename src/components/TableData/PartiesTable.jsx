@@ -1,13 +1,15 @@
 import css from "../../Page/Parties/Parties.module.css";
+import AddPartyForm from "../../Page/Parties/AddPartyForm";
 import { GetCurrentPartyData } from "../../Redux/parties/actions";
+import {
+  FilterIcon,
+  BasicSpinnerIcon,
+  SearchIconBlackBg,
+  VerticalDotsIcon,
+} from "../../assets/Icons/ReactIcons";
 
 import { useState } from "react";
-import { CiFilter as FilterIcon } from "react-icons/ci";
-import { ImSpinner3 as BasicSpinner } from "react-icons/im";
-import { IoSearchCircleSharp as SearchIcon } from "react-icons/io5";
-import { PiDotsThreeVerticalBold as VerticalDots } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
-import EditPartyForm from "../../Page/Parties/EditPartyForm";
 
 export default function PartiesTable({ func }) {
   const dispatch = useDispatch();
@@ -33,15 +35,20 @@ export default function PartiesTable({ func }) {
 
   return (
     <div className={css.OuterDiv}>
+      {/* Edit Party Form */}
       {showEditForm && (
-        <EditPartyForm CloseForm={setShowEditForm} partyData={editPartyData} />
+        <AddPartyForm
+          CloseForm={setShowEditForm}
+          usedAsEditForm={true}
+          editPartyData={editPartyData}
+        />
       )}
 
       <div className={css.flexBoxDivCont}>
         {/* Left Side Content */}
         <div className={css.partiesLeftSideDiv}>
           <div className={css.addBtnDivOuter}>
-            <SearchIcon />
+            <SearchIconBlackBg />
             <button className={css.addBtnCss} onClick={openForm}>
               + Add Party
             </button>
@@ -62,6 +69,7 @@ export default function PartiesTable({ func }) {
                     <tr
                       key={ind + item._id}
                       onClick={() => {
+                        setEditPartyData(item);
                         if (!loadingGetCurrentPartyData) {
                           dispatch(GetCurrentPartyData(item._id));
                         }
@@ -71,10 +79,8 @@ export default function PartiesTable({ func }) {
                       <td>
                         <span>
                           {Number(item.openingBalance).toFixed(2)}
-                          <VerticalDots
+                          <VerticalDotsIcon
                             onClick={() => {
-                              // console.log("party item", item);
-                              setEditPartyData(item);
                               setShowEditForm(true);
                             }}
                           />
@@ -86,7 +92,7 @@ export default function PartiesTable({ func }) {
               )}
             </table>
             {isLoadingParties && (
-              <BasicSpinner className={css.miniSpinnerCss} />
+              <BasicSpinnerIcon className={css.miniSpinnerCss} />
             )}
           </div>
         </div>
@@ -170,7 +176,7 @@ export default function PartiesTable({ func }) {
           </div>
 
           {loadingGetCurrentPartyData && (
-            <BasicSpinner className={css.rightSideTableSpinnerCss} />
+            <BasicSpinnerIcon className={css.rightSideTableSpinnerCss} />
           )}
         </div>
       </div>

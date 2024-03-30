@@ -1,3 +1,4 @@
+import { API_URL } from "../store";
 import { USER_DETAILS } from "../business/actionTypes";
 import {
   FETCH_PARTIES_LOADING,
@@ -19,25 +20,22 @@ import {
 
 import axios from "axios";
 
-const API_URL = "https://asaanly.in";
-
 // ----------------------- Fetch All Parties Data Function ---- Didn't applied function curring due to thunk error in store.js
 export const FetchAllParties = async (dispatch) => {
   dispatch({ type: FETCH_PARTIES_LOADING });
   const token = localStorage.getItem("token");
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+
   try {
-    const response = await axios.get(`${API_URL}/${FirmId}/party/getAllData`, {
-      headers: {
-        Authorization: `Bearer ${token} `,
-      },
+    const response = await axios.get(`${API_URL}/${FirmId}/party/getAll`, {
+      headers: { Authorization: `Bearer ${token} ` },
     });
 
     console.log("Fetch All Parties Response", response?.data);
     dispatch({ type: FETCH_PARTIES_SUCCESS, payload: response?.data?.data });
   } catch (error) {
     dispatch({ type: FETCH_PARTIES_ERROR });
-    console.error("Error Fetching Parties Data:", error);
+    console.error("Getting All Parties Data Error:", error);
   }
 };
 
@@ -100,7 +98,7 @@ export const UpdateParty = async (
         },
       }
     );
-    console.log("Update Party Response:", response.data);
+    // console.log("Update Party Response:", response.data);
     dispatch({
       type: SUCCESS_GET_CURRENT_PARTY,
       payload: response.data,

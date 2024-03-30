@@ -1,17 +1,35 @@
 import css from "./AddParties.module.css";
-import { useToast } from "@chakra-ui/react";
-import { SaveParty } from "../../Redux/parties/actions";
-import { SettingsIconOutline, CrossIcon } from "../../assets/Icons/ReactIcons";
+import {
+  DeleteParty,
+  SaveParty,
+  UpdateParty,
+} from "../../Redux/parties/actions";
+import {
+  SettingsIconOutline,
+  CrossIcon,
+  BasicSpinnerIcon,
+  DeleteIcon,
+} from "../../assets/Icons/ReactIcons";
 
-import { useState } from "react";
+import { useToast } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const AddPartyForm = ({ CloseForm, OpenSettings }) => {
+const AddPartyForm = ({
+  CloseForm,
+  OpenSettings,
+  usedAsEditForm = false,
+  editPartyData = {},
+}) => {
   const toast = useToast();
   const dispatch = useDispatch();
   const postPartyLoading = useSelector(
     (state) => state.PartiesReducer.postPartyLoading
   );
+  const loadingDeleteParty = useSelector(
+    (state) => state.PartiesReducer.loadingDeleteParty
+  );
+  const loadingEdit = useSelector((state) => state.PartiesReducer.loadingEdit);
   const [currInps, setCurrInps] = useState("GST & Address");
   const [creditLimitToggle, setCreditLimitToggle] = useState(false);
   const [disableShippingAddress, setDisableShippingAddress] = useState(true);
@@ -34,13 +52,46 @@ const AddPartyForm = ({ CloseForm, OpenSettings }) => {
     // GSTType: "",
   });
 
+  // for mixing edit form data when used as edit party form
+  useEffect(() => {
+    if (usedAsEditForm) {
+      setFormData((prev) => {
+        return { ...prev, ...editPartyData };
+      });
+    }
+  }, []);
+
   // Handle Save Function
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!postPartyLoading) {
-      // console.log("formData", formData);
-      SaveParty(dispatch, formData, CloseForm, toast);
+    let partyFormData = {
+      ...formData,
+      additionalField: formData?.additionalField.filter(
+        (field) => field.name !== ""
+      ),
+    };
+    if (usedAsEditForm) {
+      if (!loadingEdit) {
+        // console.log("Update Party Data", partyFormData);
+        UpdateParty(
+          dispatch,
+          partyFormData?._id,
+          partyFormData,
+          CloseForm,
+          toast
+        );
+      }
+    } else {
+      if (!postPartyLoading) {
+        // console.log("Add New Party Data", partyFormData);
+        SaveParty(dispatch, partyFormData, CloseForm, toast);
+      }
     }
+  };
+
+  //   Delete Party Function
+  const handleDelete = () => {
+    DeleteParty(dispatch, formData?._id, CloseForm, toast);
   };
 
   // Input Change Function
@@ -98,9 +149,11 @@ const AddPartyForm = ({ CloseForm, OpenSettings }) => {
       >
         {/* Header */}
         <div className={css.formHeaderOuterDiv}>
-          <h3>Add Party</h3>
+          <h3>{usedAsEditForm ? "Edit" : "Add"} Party</h3>
           <div>
-            <SettingsIconOutline onClick={() => OpenSettings(true)} />
+            {!usedAsEditForm && (
+              <SettingsIconOutline onClick={() => OpenSettings(true)} />
+            )}
             <CrossIcon onClick={() => CloseForm(false)} />
           </div>
         </div>
@@ -517,14 +570,37 @@ const AddPartyForm = ({ CloseForm, OpenSettings }) => {
 
         {/* Footer */}
         <div className={css.footerOuter}>
-          <button
-            type="submit"
-            style={{ cursor: postPartyLoading ? "not-allowed" : "pointer" }}
-            disabled={postPartyLoading}
-            className={css.saveBtn}
-          >
-            {postPartyLoading ? "Saving..." : "Save"}
-          </button>
+          {usedAsEditForm ? (
+            <button
+              type="submit"
+              style={{
+                cursor: loadingEdit ? "not-allowed" : "pointer",
+              }}
+              disabled={loadingEdit}
+              className={css.saveBtn}
+            >
+              {loadingEdit ? "Updating..." : "Update"}
+            </button>
+          ) : (
+            <button
+              type="submit"
+              style={{ cursor: postPartyLoading ? "not-allowed" : "pointer" }}
+              disabled={postPartyLoading}
+              className={css.saveBtn}
+            >
+              {postPartyLoading ? "Saving..." : "Save"}
+            </button>
+          )}
+          {usedAsEditForm && (
+            <button
+              type="button"
+              onClick={handleDelete}
+              disabled={loadingDeleteParty}
+              className={css.deleteBtn}
+            >
+              {loadingDeleteParty ? <BasicSpinnerIcon /> : <DeleteIcon />}
+            </button>
+          )}
         </div>
       </form>
     </div>
