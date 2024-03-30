@@ -27,11 +27,11 @@ export const FetchAllParties = async (dispatch) => {
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
   try {
-    const response = await axios.get(`${API_URL}/${FirmId}/party/getAll`, {
+    const response = await axios.get(`${API_URL}/${FirmId}/party/getAllData`, {
       headers: { Authorization: `Bearer ${token} ` },
     });
 
-    console.log("Fetch All Parties Response", response?.data);
+    //  console.log("Fetch All Parties Response", response?.data);
     dispatch({ type: FETCH_PARTIES_SUCCESS, payload: response?.data?.data });
   } catch (error) {
     dispatch({ type: FETCH_PARTIES_ERROR });
