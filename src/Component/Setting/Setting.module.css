@@ -89,15 +89,27 @@
   color: var(--greyA);
 }
 
-/*  */
+/* Sections Css */
+.SectionOuter {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+
+  @media (max-width: 1280px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: 992px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
 
 /**************
 *** Old Css ***
 ***************/
 
-#interface {
+/* #interface {
   overflow: auto;
-}
+} */
 .container {
   overflow-y: auto;
   display: flex;
@@ -108,7 +120,7 @@
 }
 
 .section {
-  width: 30%;
+  width: fit-content;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -136,7 +148,7 @@
 }
 
 .section1 {
-  width: 30%;
+  /* width: 30%; */
   margin-bottom: 20px;
   padding: 20px;
 }
@@ -169,4 +181,8 @@
   font-size: larger;
   width: 40px;
   height: 35px;
+}
+.fieldset {
+  display: flex;
+  align-items: center;
 }
