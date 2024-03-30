@@ -46,7 +46,7 @@ export default function Items() {
   // To Fetch All Categories
   useEffect(() => {
     GetAllCategories(dispatch);
-  }, [newCategoryAddedToggle]);
+  }, [newCategoryAddedToggle, toggleItems]);
 
   // To Fetch All Units
   useEffect(() => {

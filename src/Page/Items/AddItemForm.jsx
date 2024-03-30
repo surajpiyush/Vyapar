@@ -5,12 +5,15 @@ import {
   GetAllUnits,
   GetAllCategories,
   UpdateItem,
+  DeleteItem,
 } from "../../Redux/items/actions";
 import {
   CrossIcon,
   PlusIconThin,
   MinusCircleIcon,
 } from "../../assets/Icons/ReactIcons";
+import { RiDeleteBinLine as DeleteIcon } from "react-icons/ri";
+import { ImSpinner3 as SpinnerIcon } from "react-icons/im";
 
 import { useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
@@ -28,6 +31,7 @@ const AddItemForm = ({
     (store) => store.ItemReducer.newUnitAddedToggle
   );
   const unitsList = useSelector((store) => store.ItemReducer.unit);
+  const loadingDelete = useSelector((store) => store.ItemReducer.loadingDelete);
   const loadingGetAllUnits = useSelector(
     (store) => store.ItemReducer.loadingGetAllUnits
   );
@@ -191,6 +195,11 @@ const AddItemForm = ({
       }
       // console.log("Add Item Data", clickedItemData);
     }
+  };
+
+  //   Delete Item Function
+  const handleDelete = () => {
+    DeleteItem(dispatch, formData?._id, CloseForm, toast);
   };
 
   return (
@@ -785,6 +794,17 @@ const AddItemForm = ({
               className={css.saveBtn}
             >
               {isLoading ? "Saving..." : "Save"}
+            </button>
+          )}
+
+          {usedAsEditForm && (
+            <button
+              type="button"
+              onClick={handleDelete}
+              disabled={loadingDelete}
+              id={css.deleteBtn}
+            >
+              {loadingDelete ? <SpinnerIcon /> : <DeleteIcon />}
             </button>
           )}
         </div>

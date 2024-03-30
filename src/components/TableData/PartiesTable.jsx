@@ -34,8 +34,7 @@ export default function PartiesTable({ func }) {
   return (
     <div className={css.OuterDiv}>
       {showEditForm && (
-     
-         <EditPartyForm CloseForm={setShowEditForm} partyData={editPartyData} />
+        <EditPartyForm CloseForm={setShowEditForm} partyData={editPartyData} />
       )}
 
       <div className={css.flexBoxDivCont}>
@@ -74,6 +73,7 @@ export default function PartiesTable({ func }) {
                           {Number(item.openingBalance).toFixed(2)}
                           <VerticalDots
                             onClick={() => {
+                              // console.log("party item", item);
                               setEditPartyData(item);
                               setShowEditForm(true);
                             }}

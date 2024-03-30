@@ -444,3 +444,15 @@
 .saveBtn:hover {
   background-color: var(--ElectricBlue);
 }
+#deleteBtn {
+  cursor: pointer;
+  margin-right: 18px;
+  padding: 5px 12px;
+  background-color: var(--redC);
+  border-radius: 6px;
+  color: var(--pureWhite);
+  transition: all 0.2s ease;
+}
+#deleteBtn:hover {
+  background-color: var(--redB);
+}

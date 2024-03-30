@@ -3,6 +3,7 @@ import { RxCross2 as CrossIcon } from "react-icons/rx";
 import { CiFilter as FilterIcon } from "react-icons/ci";
 import { FaPlus as PlusIconThin } from "react-icons/fa6";
 import { FiMinusCircle as MinusCircleIcon } from "react-icons/fi";
+import { RiDeleteBinLine as DeleteIcon } from "react-icons/ri";
 import {
   PiToggleLeftFill as OpenToggleIcon,
   PiToggleRightThin as CloseToggleIcon,
@@ -25,6 +26,7 @@ export {
   CrossIcon,
   CloseIcon,
   FilterIcon,
+  DeleteIcon,
   UpArrowIcon,
   PlusIconThin,
   OpenToggleIcon,

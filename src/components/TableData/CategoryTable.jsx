@@ -1,5 +1,6 @@
 // import "../../styles/parties.css";
 import css from "../../Page/Items/Items.module.css";
+import CategoryForm from "../addForm/CategoryForm";
 import {
   GetSelectedItemData,
   GetAllCategories,
@@ -7,7 +8,6 @@ import {
 } from "../../Redux/items/actions";
 import { USER_DETAILS } from "../../Redux/business/actionTypes";
 
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ImSpinner3 as BasicSpinner } from "react-icons/im";
@@ -15,7 +15,6 @@ import { CiFilter as FilterIcon } from "react-icons/ci";
 import { IoIosArrowRoundUp as UpArrowIcon } from "react-icons/io";
 import { PiDotsThreeVerticalBold as VerticalDots } from "react-icons/pi";
 import { IoSearchCircleSharp as SearchIcon } from "react-icons/io5";
-import CategoryEditForm from "../addForm/CategoryEditForm";
 
 export default function CategoryTable({ func }) {
   const dispatch = useDispatch();
@@ -30,18 +29,9 @@ export default function CategoryTable({ func }) {
   const selectedItemTransactionData = useSelector(
     (store) => store.ItemReducer.selectedItemTransactionData
   );
-  const [editItem, setEditItem] = useState([]);
-  const [showEditFirm, setShowEditFirm] = useState(false);
+
+  const [showEditForm, setShowEditForm] = useState(false);
   const [currCate, setCurrCate] = useState({});
-
-  // Item Click Handler
-  const handleItemClick = (item) => {
-    // GetSelectedItemData(dispatch, item?._id);
-  };
-
-  useEffect(() => {
-    dispatch(GetAllCategories);
-  }, [dispatch]);
 
   const handleStatusToggle = (index) => {
     const updatedTableData = [...selectedItemTransactionData];
@@ -54,8 +44,12 @@ export default function CategoryTable({ func }) {
 
   return (
     <div className={css.OuterDiv}>
-      {showEditFirm && (
-        <CategoryEditForm setShowEditFirm={setShowEditFirm} item={editItem} />
+      {showEditForm && (
+        <CategoryForm
+          func={setShowEditForm}
+          useAsUpdateForm={true}
+          clickedItem={currCate}
+        />
       )}
 
       <div className={css.flexBoxDivCont}>
@@ -87,7 +81,6 @@ export default function CategoryTable({ func }) {
                     <tr
                       key={index}
                       onClick={() => {
-                        handleItemClick(e);
                         setCurrCate(e);
                       }}
                     >
@@ -97,8 +90,8 @@ export default function CategoryTable({ func }) {
                           {e?.item || 0}
                           <VerticalDots
                             onClick={() => {
-                              setEditItem(e);
-                              setShowEditFirm(true);
+                              // setEditItem(e);
+                              setShowEditForm(true);
                             }}
                           />
                         </span>
