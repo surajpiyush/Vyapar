@@ -7,6 +7,7 @@
   width: 100%;
   z-index: 2000;
   height: 100vh;
+  color: var(--DeepCharcoal);
 }
 
 /* **************
@@ -16,8 +17,11 @@
   background: var(--DeepCharcoal);
   color: var(--greyishBlue);
   overflow: auto;
-  width: 250px;
+  display: flex;
+  flex-direction: column;
   height: 100%;
+  min-width: 280px;
+  max-width: 280px;
 }
 .searchIconDiv {
   display: flex;
@@ -40,6 +44,8 @@
 }
 .OptionsContSidebarDiv {
   margin-top: -10px;
+  flex-grow: 1;
+  overflow: auto;
 }
 .OptionsContSidebarDiv div {
   cursor: pointer;
@@ -66,7 +72,7 @@
 ** Content Css **
 *****************/
 .contentOuterDiv {
-  flex: 2;
+  flex-grow: 1;
   height: 100%;
   overflow: auto;
 }
@@ -83,7 +89,11 @@
   color: var(--greyA);
 }
 
-/* Old Css */
+/*  */
+
+/**************
+*** Old Css ***
+***************/
 
 #interface {
   overflow: auto;

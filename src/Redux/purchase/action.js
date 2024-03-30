@@ -22,6 +22,7 @@ import {
 
 import axios from "axios";
 
+// Add Purchase Bill Request
 export const addPurchaseBill = async (
   dispatch,
   newItem,
@@ -37,18 +38,13 @@ export const addPurchaseBill = async (
     const response = await axios.post(
       `${API_URL}/${firmId}/purchase/create`,
       newItem,
-      {
-        headers: {
-          Authorization: `Bearer ${token} `,
-        },
-      }
+      { headers: { Authorization: `Bearer ${token} ` } }
     );
 
     dispatch({
       type: POST_PURCHASEBILL_SUCCESS,
       payload: response.data.data,
     });
-
     setOpenForm(false);
     toast({
       title: "Purchase Bill Added!",
@@ -56,9 +52,6 @@ export const addPurchaseBill = async (
       position: "top",
     });
   } catch (error) {
-    console.error(error);
-    dispatch({ type: PURCHASE_FAILURE });
-
     toast({
       title:
         error?.response?.data?.msg ||
@@ -67,74 +60,66 @@ export const addPurchaseBill = async (
       status: "error",
       position: "top",
     });
-    console.log("Post Sales Invoice Response:", error);
+    dispatch({ type: PURCHASE_FAILURE });
+    console.log("Adding Purchase Bill Error:", error);
   }
 };
 
+// Get All Purchase Bill
 export const getPurchaseBill =
   ({ date }) =>
   (dispatch) => {
     dispatch({ type: PURCHASE_REQUEST });
-
     const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
     const token = localStorage.getItem("token");
 
     axios
       .get(
         `${API_URL}/${firmId}/purchase/getAll?startDate=${date.startDate}&endDate=${date.endDate}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token} `,
-          },
-        }
+        { headers: { Authorization: `Bearer ${token} ` } }
       )
       .then((res) => {
         dispatch({ type: GET_PURCHASEBILL_SUCCESS, payload: res.data });
       })
       .catch((err) => {
-        console.error(err);
         dispatch({ type: PURCHASE_FAILURE });
+        console.error("Getting All Purchase Bill Error:", err);
       });
   };
 
+// Update Purchase Bill
 export const updatePurchaseBill = (_id, data) => (dispatch) => {
   dispatch({ type: PURCHASE_REQUEST });
-
   const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
   const token = localStorage.getItem("token");
 
   axios
     .put(`${API_URL}/${firmId}/purchase/update/${_id}`, data, {
-      headers: {
-        Authorization: `Bearer ${token} `,
-      },
+      headers: { Authorization: `Bearer ${token} ` },
     })
     .then((res) => {
-      console.log(res);
-      alert(res?.data?.msg);
+      console.log("Update Purchase Bill Response:", res);
       dispatch({ type: UPDATE_PURCHASEBILL_SUCCESS });
+      alert(res?.data?.msg);
     })
     .catch((err) => {
-      console.error(err);
       dispatch({ type: PURCHASE_FAILURE });
+      console.error("Update Purchase Bill Error:", err);
     });
 };
 
+// Delete Purchase Bill
 export const deletePurchaseBill = (_id, toast) => (dispatch) => {
   dispatch({ type: PURCHASE_REQUEST });
-
   const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
   const token = localStorage.getItem("token");
 
   axios
     .delete(`${API_URL}/${firmId}/purchase/delete/${_id}`, {
-      headers: {
-        Authorization: `Bearer ${token} `,
-      },
+      headers: { Authorization: `Bearer ${token} ` },
     })
     .then((res) => {
       dispatch({ type: DELETE_PURCHASEBILL_SUCCESS, payload: _id });
-
       toast({
         title: `${res.data.msg}`,
         status: "success",
@@ -142,13 +127,12 @@ export const deletePurchaseBill = (_id, toast) => (dispatch) => {
       });
     })
     .catch((err) => {
-      console.error(err);
       dispatch({ type: PURCHASE_FAILURE });
+      console.error("Deleting Purchase Bill Error:", err);
     });
 };
 
 // purchase Order
-
 export const addPurchaseOrder = async (
   dispatch,
   newItem,
@@ -157,35 +141,27 @@ export const addPurchaseOrder = async (
 ) => {
   toast.closeAll();
   dispatch({ type: PURCHASE_REQUEST });
+  const token = localStorage.getItem("token");
+  const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
 
   try {
-    const token = localStorage.getItem("token");
-    const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
     const response = await axios.post(
       `${API_URL}/${firmId}/purchaseOrder/create`,
       newItem,
-      {
-        headers: {
-          Authorization: `Bearer ${token} `,
-        },
-      }
+      { headers: { Authorization: `Bearer ${token} ` } }
     );
 
     dispatch({
       type: POST_PURCHASEORDER_SUCCESS,
-      payload: response.data.data,
+      payload: response?.data?.data || [],
     });
-
-    setOpenForm(false);
     toast({
       title: "Purchase Bill Added!",
       status: "success",
       position: "top",
     });
+    setOpenForm(false);
   } catch (error) {
-    console.error(error);
-    dispatch({ type: PURCHASE_FAILURE });
-
     toast({
       title:
         error?.response?.data?.msg ||
@@ -194,6 +170,7 @@ export const addPurchaseOrder = async (
       status: "error",
       position: "top",
     });
+    dispatch({ type: PURCHASE_FAILURE });
     console.log("Post Sales Invoice Response:", error);
   }
 };

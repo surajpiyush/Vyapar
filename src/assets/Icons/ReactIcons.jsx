@@ -1,4 +1,3 @@
-import { FaPlus as PlusIcon } from "react-icons/fa";
 import { RxCross2 as CrossIcon } from "react-icons/rx";
 import { CiFilter as FilterIcon } from "react-icons/ci";
 import { FaPlus as PlusIconThin } from "react-icons/fa6";
@@ -6,6 +5,7 @@ import { RiDeleteBinLine as DeleteIcon } from "react-icons/ri";
 import { ImSpinner3 as BasicSpinnerIcon } from "react-icons/im";
 import { FiMinusCircle as MinusCircleIcon } from "react-icons/fi";
 import { BsFillPlusCircleFill as PlusIcon2 } from "react-icons/bs";
+import { FaPlus as PlusIcon, FaSearch as SearchIcon2 } from "react-icons/fa";
 import {
   PiToggleLeftFill as OpenToggleIcon,
   PiToggleRightThin as CloseToggleIcon,
@@ -35,6 +35,7 @@ export {
   SearchIcon,
   DeleteIcon,
   RefreshIcon,
+  SearchIcon2,
   UpArrowIcon,
   PlusIconThin,
   OpenToggleIcon,
