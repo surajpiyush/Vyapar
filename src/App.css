@@ -30,6 +30,7 @@
   --greyF: rgb(242, 242, 242);
   --greyG: rgb(156, 156, 156);
   --greyH: rgb(191, 191, 191);
+  --greyI: rgb(123, 123, 123);
   --mistyGrey: #e4e4e4;
   --greyishBlue: rgb(241, 245, 247);
   --redA: red;
@@ -53,6 +54,7 @@
   --shadowE: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   --shadowF: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
     rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  --shadowG: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 
   /* Fonts */
   --Pop: "Poppins", sans-serif;
