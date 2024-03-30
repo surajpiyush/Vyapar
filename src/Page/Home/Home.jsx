@@ -26,7 +26,7 @@ const Home = () => {
   return (
     <div className={css.homeOuter}>
       {/* Home.jsx */}
-      <div className={css.homeContainer}>
+      <div className={css.leftSideOuter}>
         <div className={css.homeContainerDiv1}>
           {/* Sale.jsx */}
           <div className={css.SaleContainer}>
@@ -167,7 +167,7 @@ const Home = () => {
       </div>
 
       {/* Right Side */}
-      <div className={css.appRightSidebar}>
+      <div className={css.rightSideOuter}>
         <div className={css.privacyDiv}>
           <h3>Privacy</h3>
           {privacyToggle ? (

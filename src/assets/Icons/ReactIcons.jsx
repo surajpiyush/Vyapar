@@ -1,18 +1,18 @@
 import { RxCross2 as CrossIcon } from "react-icons/rx";
 import { CiFilter as FilterIcon } from "react-icons/ci";
 import { FaPlus as PlusIconThin } from "react-icons/fa6";
+import { AiFillTool as UtilitesIcon } from "react-icons/ai";
 import { RiDeleteBinLine as DeleteIcon } from "react-icons/ri";
 import { ImSpinner3 as BasicSpinnerIcon } from "react-icons/im";
 import { FiMinusCircle as MinusCircleIcon } from "react-icons/fi";
-import { AiFillTool as UtilitesIcon } from "react-icons/ai";
 import {
   BsBarChartFill as StatsIcon,
   BsFillPlusCircleFill as PlusIcon2,
 } from "react-icons/bs";
 import {
   TbReport as DocumentIcon,
-  TbTriangleSquareCircleFilled as ShapesIconFilled,
   TbDeviceRemote as RemoteDeviceIcon,
+  TbTriangleSquareCircleFilled as ShapesIconFilled,
 } from "react-icons/tb";
 import {
   BiSolidBank as BankIcon,
@@ -33,25 +33,25 @@ import {
 } from "react-icons/pi";
 import {
   IoWallet as WalletIcon,
-  IoSettingsSharp as SettingsIconFilled,
-  IoSettingsOutline as SettingsIconOutline,
-  IoSearchCircleSharp as SearchIconBlackBg,
-  IoStorefront as ShopIconFilled,
   IoCart as CartIconFilled,
+  IoStorefront as ShopIconFilled,
+  IoSettingsSharp as SettingsIconFilled,
+  IoSearchCircleSharp as SearchIconBlackBg,
+  IoSettingsOutline as SettingsIconOutline,
 } from "react-icons/io5";
 import {
+  IoMdHome as HomeIcon,
   IoMdClose as CloseIcon,
   IoIosSearch as SearchIcon,
-  IoIosArrowDown as DownArrowIcon,
-  IoMdHome as HomeIcon,
   IoMdRefresh as RefreshIcon,
   IoMdCloseCircle as CloseIcon2,
+  IoIosArrowDown as DownArrowIcon,
   IoIosArrowRoundUp as UpArrowIcon,
 } from "react-icons/io";
 import {
-  MdOutlineSettingsBackupRestore as BackupRestoreIcon,
   MdPeopleAlt as PeopleIconFilled,
   MdOutlineArrowForwardIos as RightArrowIcon,
+  MdOutlineSettingsBackupRestore as BackupRestoreIcon,
 } from "react-icons/md";
 
 // ------------------------------- EXPORTS ---------------------------------
