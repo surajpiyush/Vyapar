@@ -38,7 +38,7 @@ const InvoiceGenerator = ({ invoiceData, setConfirmModel }) => {
    return (
       <div className={css.Overlay} style={{ zIndex: "5000" }}>
          <div
-            onClick={(e) => e.stopPropagation()}
+           
             className={css.OuterEditProfile}
          >
             <div className={css.topNavDiv}>

@@ -194,12 +194,12 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
       };
 
       setConfirmModel(true);
+      setTemp(data);
 
       // setOpenForm(false);
       // GetSingleInvoiceData(dispatch, e?._id, toast);
       PostSalesInvoice(dispatch, data, setOpenForm, toast);
 
-      setTemp(data);
       console.log("invoiceData", data);
    };
 
