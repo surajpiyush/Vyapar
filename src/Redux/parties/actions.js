@@ -28,7 +28,9 @@ export const FetchAllParties = async (dispatch) => {
 
   try {
     const response = await axios.get(`${API_URL}/${FirmId}/party/getAllData`, {
-      headers: { Authorization: `Bearer ${token} ` },
+      headers: {
+        Authorization: `Bearer ${token} `,
+      },
     });
 
     //  console.log("Fetch All Parties Response", response?.data);

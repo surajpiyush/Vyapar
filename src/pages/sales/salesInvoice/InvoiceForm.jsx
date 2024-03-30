@@ -27,7 +27,7 @@ import { ImCheckboxUnchecked as EmptyCheckedBox } from "react-icons/im";
 import { IoIosArrowDown as ArrowDown } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 
-const InvoiceForm = ({ setOpenForm, setToggleSetting,setConfirmModel ,confirmModel,setTemp}) => {
+const InvoiceForm = ({ setOpenForm, setToggleSetting}) => {
 
   const toast = useToast();
   const dispatch = useDispatch();
@@ -54,7 +54,8 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting,setConfirmModel ,confirmMod
   const [showItemForm, setShowAddItemsForm] = useState(false);
   const [balanceAmount, setBalanceAmount] = useState("");
   const [paymentArr, setPaymentArr] = useState([{ types: "Cash", amount: 0 }]);
-
+  const [confirmModel, setConfirmModel] = useState(false);
+const [temp,setTemp] = useState('')
   function generateInvoiceNumber() {
     const currentDate = new Date();
     const previousYear = (currentDate.getFullYear() - 1).toString().slice(-2);
@@ -189,7 +190,10 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting,setConfirmModel ,confirmMod
       //   },
       // ],
     };
-    // setConfirmModel(true);
+
+    setConfirmModel(true);
+
+
     // setOpenForm(false);
     // GetSingleInvoiceData(dispatch, e?._id, toast);
     PostSalesInvoice(dispatch, data, setOpenForm, toast);
@@ -321,6 +325,8 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting,setConfirmModel ,confirmMod
 
       <div className={css.ContentContainerDiv}>
         {showItemForm && <AddItemForm CloseForm={setShowAddItemsForm} />}
+         {confirmModel && <InvoiceGenerator invoiceData={temp} setConfirmModel={setConfirmModel} />}
+        
         {/* Middle  */}
         <div className={css.middleOuter}>
           <div className={css.leftSideCont}>
