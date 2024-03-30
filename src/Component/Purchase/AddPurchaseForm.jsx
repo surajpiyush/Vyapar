@@ -299,7 +299,7 @@ const AddPurchaseForm = memo(
                      // value={item?.count}
                      onChange={(e) => handleTableInputChange(e, ind)}
                      placeholder="0"
-                  />
+                  /> 
                </td>
             )}
             <td className={css.qtyBody} onClick={() => setIndexSaleItem(ind)}>
