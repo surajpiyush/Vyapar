@@ -490,7 +490,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                            <div>
                               <p>Payment Terms</p>
                               <select
-                                 required
+                                 // required
                                  name="paymentTerms"
                                  onChange={(e) => handleInputChange(e)}
                               >
@@ -810,32 +810,20 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                      </div>
                   )}
                   <div
-                     onClick={(e) => {
-                        e.stopPropagation();
-                        toast({
-                           title: "Feature currently in development",
-                           status: "info",
-                           position: "top",
-                        });
-                     }}
+                   
                      className={css.addDecriptionDiv}
                      style={{ width: "150px" }}
                   >
+                  <input type="file" />
                      <AddCameraIcon />
                      <p>ADD IMAGE</p>
                   </div>
                   <div
-                     onClick={(e) => {
-                        e.stopPropagation();
-                        toast({
-                           title: "Feature currently in development",
-                           status: "info",
-                           position: "top",
-                        });
-                     }}
+                    
                      className={css.addDecriptionDiv}
                      style={{ width: "150px" }}
                   >
+                  <input type="file"  />
                      <AddDocumentIcon />
                      <p>ADD DOCUMENT</p>
                   </div>

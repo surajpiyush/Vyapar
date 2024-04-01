@@ -891,36 +891,25 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
                      </div>
                   )}
                   <div
-                     onClick={(e) => {
-                        e.stopPropagation();
-                        toast({
-                           title: "Feature currently in development",
-                           status: "info",
-                           position: "top",
-                        });
-                     }}
+                    
                      className={css.addDecriptionDiv}
                      style={{ width: "150px" }}
                   >
                      <AddCameraIcon />
+                     <input type="file" />
                      <p>ADD IMAGE</p>
                   </div>
                   <div
-                     onClick={(e) => {
-                        e.stopPropagation();
-                        toast({
-                           title: "Feature currently in development",
-                           status: "info",
-                           position: "top",
-                        });
-                     }}
+                    
                      className={css.addDecriptionDiv}
                      style={{ width: "150px" }}
                   >
+                  <input type="file" />
                      <AddDocumentIcon />
                      <p>ADD DOCUMENT</p>
                   </div>
                </div>
+          
                <div className={css.bottomRightSideCont}>
                   <div className={css.rightSideUpperInputsDiv}>
                      <div className={css.roundOffDiv}>

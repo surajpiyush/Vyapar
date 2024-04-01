@@ -41,7 +41,7 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
    const toggleItems = useSelector((state) => state.ItemReducer.toggleItems);
    const invoicesList = useSelector((state) => state.SalesReducer.invoicesList);
    const setting = useSelector((state) => state.SettingReducer.transaction);
-  
+
    const [currentCustomerData, setCurrentCustomerData] = useState({});
    const [toggleDesc, setToggleDesc] = useState(false);
    const [toggleRoundOff, setToggleRoundOff] = useState(false);
@@ -61,7 +61,6 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
    const [temp, setTemp] = useState("");
    function generateInvoiceNumber() {
       const currentDate = new Date();
-      const previousYear = (currentDate.getFullYear() - 1).toString().slice(-2);
       const monthNames = [
          "JAN",
          "FEB",
@@ -78,11 +77,15 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
       ];
       const monthIndex = currentDate.getMonth();
       const month = monthNames[monthIndex];
+      const previousYear =
+      monthIndex < 3
+            ? (currentDate.getFullYear() - 1).toString().slice(-2)
+            : currentDate.getFullYear().toString().slice(-2);
       const hours = currentDate.getHours();
       const minutes = currentDate.getMinutes();
       const date = currentDate.getDate();
       const sec = currentDate.getSeconds();
-
+console.log(monthIndex)
       // Format the invoice number
       const invoiceNumber = `${date}${hours}${minutes}${sec}/${month}/${previousYear}-${
          Number(previousYear) + 1

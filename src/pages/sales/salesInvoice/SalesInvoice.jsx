@@ -84,8 +84,8 @@ export default function SalesInvoice() {
          paid += item.amount || 0;
          unpaid += item.balanceDue || 0;
       });
-      setPaidAmount(paid);
-      setUnpaidAmount(unpaid);
+      // setPaidAmount(paid);
+      // setUnpaidAmount(unpaid);
    };
    // To fetch Invoices data
    useEffect(() => {
@@ -346,7 +346,6 @@ export default function SalesInvoice() {
                   <div
                      style={{
                         backgroundColor: "rgba(144, 202, 249,0.5)",
-
                         padding: "12px 30px",
                         color: "white",
                         borderRadius: "10px",

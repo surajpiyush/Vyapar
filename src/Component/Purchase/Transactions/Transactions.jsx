@@ -2,6 +2,7 @@ import "./Transactions.css";
 import party from "../../../assets/Images/party.jpg";
 import FirstTimeFormToggle from "../../FirmTimeForm/FirstTimeFormToggle";
 import {
+   GetSinglePurchaseBillData,
    deletePurchaseBill,
    getPurchaseBill,
    updatePurchaseBill,
@@ -9,58 +10,52 @@ import {
 import {
    DotsIcon,
    FilterIcon,
-   PrinterIcon,
+
    ShareIcon,
    DeleteIcon,
    EditIcon,
 } from "../../utils/reactIcons";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ImSpinner3 as BasicSpinner } from "react-icons/im";
 import EditableRow from "../../EditForm";
 import { useToast } from "@chakra-ui/react";
+import EditPurchaseForm from "../EditPurchaseForm";
 
-const Transactions = ({ func, date, info,data }) => {
+const Transactions = ({ func, date, info, data }) => {
    const [isEditing, setIsEditing] = useState(false);
    const [editedData, setEditedData] = useState(null);
    const toast = useToast();
-   const openForm = () => {
-      func(true);
-   };
    const dispatch = useDispatch();
    const isLoading = useSelector((store) => store.PurchaseReducer.isLoading);
    const showAllPurchaseBills = useSelector(
       (store) => store.PurchaseReducer.purchaseBillData
    );
-   // console.log(showAllPurchaseBills);
+   const singleData = useSelector(
+      (store) => store.PurchaseReducer.singlePurchseData
+   );
 
-
-   // useEffect(() => {
-   //    dispatch(getPurchaseBill({ date }));
-   //    // console.log("first run succed")
-   // }, [date, dispatch, func]);
+   const openForm = () => {
+      func(true);
+   };
 
    const handleEdit = (data) => {
-      // console.log(data)
       setIsEditing(true);
       setEditedData(data);
    };
+
    const handleDelete = (id) => {
-      // Dispatch action to delete the purchase invoice
       dispatch(
          deletePurchaseBill(id, toast, () => {
-            // Success callback - Fetch updated data after deletion
             dispatch(getPurchaseBill({ date }));
          })
       );
    };
 
    const handleSave = (updatedData) => {
-      // Dispatch action to update the purchase invoice
       dispatch(
          updatePurchaseBill(updatedData._id, updatedData, () => {
-            // Success callback - Fetch updated data after saving
             dispatch(getPurchaseBill({ date }));
          })
       );
@@ -69,10 +64,10 @@ const Transactions = ({ func, date, info,data }) => {
    };
 
    const handleCancel = () => {
-      // If the user cancels, reset the state without saving
       setIsEditing(false);
       setEditedData(null);
    };
+
    const display = [
       "billDate",
       "billNumber",
@@ -83,15 +78,17 @@ const Transactions = ({ func, date, info,data }) => {
       "status",
       "hariom",
    ];
+
    // console.log(showAllPurchaseBills);
    return (
       <div className={`main-container ${isEditing ? "editing" : ""}`}>
+         {/* {isEditing && <EditPurchaseForm />} */}
          {!isLoading && !showAllPurchaseBills.length ? (
             <FirstTimeFormToggle
                img={party}
                onClick={() => openForm()}
                BtnText="Add Your First Purchase Invoice"
-               MiddleText="Make Purchase invoices & Print or share with your customers directly via WhatsApp or Email."
+               MiddleText="Make Purchase invoices & share with your customers directly via WhatsApp or Email."
             />
          ) : (
             <div className="transactions-container">
@@ -117,7 +114,8 @@ const Transactions = ({ func, date, info,data }) => {
                      <tbody>
                         {!isLoading && showAllPurchaseBills.length ? (
                            showAllPurchaseBills?.map((e) => {
-                              info.paid += Number(e?.amount) - Number(e?.balanceDue);
+                              info.paid +=
+                                 Number(e?.amount) - Number(e?.balanceDue);
 
                               info.unpaid += e.balanceDue;
                               info.total += e.amount;
@@ -160,11 +158,6 @@ const Transactions = ({ func, date, info,data }) => {
                                           </td>
                                           <td>{e.status}</td>
                                           <td>
-                                             <button
-                                                onClick={() => window.print()}
-                                             >
-                                                <PrinterIcon />
-                                             </button>
                                              <button
                                                 onClick={() =>
                                                    handleDelete(e._id)

@@ -336,8 +336,8 @@ const Thismonth = ({
       let unpaid = 0;
 
       data.forEach((item) => {
-         paid += item.amount || 0;
-         unpaid += item.balanceDue || 0;
+         paid += parseFloat(item.amount) || 0; 
+         unpaid += parseFloat(item.balanceDue) || 0; 
       });
       setPaidAmount(paid);
       setUnpaidAmount(unpaid);
@@ -417,18 +417,21 @@ const Thismonth = ({
             <section className="this-month-card-section">
                <aside className="this-month-paid-card">
                   <p>Paid</p>
-                  <p className="this-month-rupee">₹ {paidAmount}</p>
+                  <p className="this-month-rupee">₹ {paidAmount.toFixed(2)}</p>
                </aside>
                <PlusIcon />
                <aside className="this-month-paid-card this-month-paid-card-unpaid">
                   <p>Unpaid</p>
-                  <p className="this-month-rupee">₹ {unpaidAmount}</p>
+                  <p className="this-month-rupee">
+                     ₹ {unpaidAmount.toFixed(2)}
+                  </p>
                </aside>
                <EqualIcon />
                <aside className="this-month-paid-card this-month-paid-card-total">
                   <p>Total</p>
                   <p className="this-month-rupee">
-                     ₹ {paidAmount + unpaidAmount}
+                  ₹ {(paidAmount + unpaidAmount).toFixed(2)}
+
                   </p>
                </aside>
             </section>
