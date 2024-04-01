@@ -34,7 +34,7 @@ function Setting({ setToggleSetting }) {
         className={css.SidebarOuterDiv}
       >
         <div className={css.searchIconDiv}>
-          <h3 onClick={() => handleSidebarClick("")}>Settings</h3>
+          <h3 >Settings</h3>
           <SearchIcon2 />
         </div>
         <div className={css.OptionsContSidebarDiv}>

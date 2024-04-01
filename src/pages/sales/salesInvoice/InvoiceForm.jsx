@@ -40,7 +40,8 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
    const partiesData = useSelector((state) => state.PartiesReducer.partiesData);
    const toggleItems = useSelector((state) => state.ItemReducer.toggleItems);
    const invoicesList = useSelector((state) => state.SalesReducer.invoicesList);
-
+   const setting = useSelector((state) => state.SettingReducer.transaction);
+  
    const [currentCustomerData, setCurrentCustomerData] = useState({});
    const [toggleDesc, setToggleDesc] = useState(false);
    const [toggleRoundOff, setToggleRoundOff] = useState(false);
@@ -413,18 +414,20 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
                </div>
 
                <div className={css.rightSideCont}>
-                  <div>
-                     <p>Invoice Number</p>
-                     <input
-                        type="text"
-                        placeholder="1"
-                        name="invoiceNumber"
-                        value={invoiceData?.invoiceNumber}
-                        onChange={handleInputChange}
-                        className={css.invoiceNumInp}
-                        required
-                     />
-                  </div>
+                  {setting?.transactionHeader["Invoice/Bill No."] && (
+                     <div>
+                        <p>Invoice Number</p>
+                        <input
+                           type="text"
+                           placeholder="1"
+                           name="invoiceNumber"
+                           value={invoiceData?.invoiceNumber}
+                           onChange={handleInputChange}
+                           className={css.invoiceNumInp}
+                           required
+                        />
+                     </div>
+                  )}
                   <div>
                      <p>Invoice Date</p>
                      <input
@@ -437,18 +440,20 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
                         readOnly
                      />
                   </div>
-                  <div>
-                     <p>Invoice Time</p>
-                     <input
-                        type="time"
-                        placeholder="Invoice Time"
-                        name="time"
-                        value={invoiceData?.time}
-                        onChange={handleInputChange}
-                        className={css.invoiceDateSelectInp}
-                        readOnly
-                     />
-                  </div>
+                  {setting?.transactionHeader["Add Time on Transactions"] && (
+                     <div>
+                        <p>Invoice Time</p>
+                        <input
+                           type="time"
+                           placeholder="Invoice Time"
+                           name="time"
+                           value={invoiceData?.time}
+                           onChange={handleInputChange}
+                           className={css.invoiceDateSelectInp}
+                           readOnly
+                        />
+                     </div>
+                  )}
                   <div>
                      <p>State of supply</p>
                      <select

@@ -287,7 +287,7 @@ const AddPurchaseForm = memo(
                   placeholder="0"
                />
             </td> */}
-            {setting?.itemTableCheckboxes?.Count && (
+            {setting?.itemsTable?.Count && (
                <td
                   className={css.qtyBody}
                   onClick={() => setIndexSaleItem(ind)}
@@ -313,8 +313,8 @@ const AddPurchaseForm = memo(
                   className={css.tableInputs}
                />
             </td>
-            {setting?.itemTableCheckboxes &&
-               setting.itemTableCheckboxes["Free Item Quantity"] && (
+            {setting?.itemsTable &&
+               setting.itemsTable["Free Item Quantity"] && (
                   <td
                      className={css.qtyBody}
                      onClick={() => setIndexSaleItem(ind)}
