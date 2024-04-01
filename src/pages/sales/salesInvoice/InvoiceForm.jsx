@@ -78,14 +78,14 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
       const monthIndex = currentDate.getMonth();
       const month = monthNames[monthIndex];
       const previousYear =
-      monthIndex < 3
+         monthIndex < 3
             ? (currentDate.getFullYear() - 1).toString().slice(-2)
             : currentDate.getFullYear().toString().slice(-2);
       const hours = currentDate.getHours();
       const minutes = currentDate.getMinutes();
       const date = currentDate.getDate();
       const sec = currentDate.getSeconds();
-console.log(monthIndex)
+      console.log(monthIndex);
       // Format the invoice number
       const invoiceNumber = `${date}${hours}${minutes}${sec}/${month}/${previousYear}-${
          Number(previousYear) + 1
@@ -755,32 +755,20 @@ console.log(monthIndex)
                      </div>
                   )}
                   <div
-                     onClick={(e) => {
-                        e.stopPropagation();
-                        toast({
-                           title: "Feature currently in development",
-                           status: "info",
-                           position: "top",
-                        });
-                     }}
+                   
                      className={css.addDecriptionDiv}
                      style={{ width: "150px" }}
                   >
+                  <input type="file" />
                      <AddCameraIcon />
                      <p>ADD IMAGE</p>
                   </div>
                   <div
-                     onClick={(e) => {
-                        e.stopPropagation();
-                        toast({
-                           title: "Feature currently in development",
-                           status: "info",
-                           position: "top",
-                        });
-                     }}
+                    
                      className={css.addDecriptionDiv}
                      style={{ width: "150px" }}
                   >
+                  <input type="file" />
                      <AddDocumentIcon />
                      <p>ADD DOCUMENT</p>
                   </div>
