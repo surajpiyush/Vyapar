@@ -8,6 +8,7 @@ import { FiMinusCircle as MinusCircleIcon } from "react-icons/fi";
 import {
   BsBarChartFill as StatsIcon,
   BsFillPlusCircleFill as PlusIcon2,
+  BsFillTrashFill as DeleteIcon2,
 } from "react-icons/bs";
 import {
   TbReport as DocumentIcon,
@@ -42,6 +43,7 @@ import {
 import {
   IoMdHome as HomeIcon,
   IoMdClose as CloseIcon,
+  IoMdPrint as PrintIcon2,
   IoIosSearch as SearchIcon,
   IoMdRefresh as RefreshIcon,
   IoMdCloseCircle as CloseIcon2,
@@ -52,10 +54,13 @@ import {
   MdPeopleAlt as PeopleIconFilled,
   MdOutlineArrowForwardIos as RightArrowIcon,
   MdOutlineSettingsBackupRestore as BackupRestoreIcon,
+  MdModeEdit as EditIcon,
 } from "react-icons/md";
 
 // ------------------------------- EXPORTS ---------------------------------
 export {
+  PrintIcon2,
+  EditIcon,
   StatsIcon,
   ShapesIconFilled,
   RemoteDeviceIcon,
@@ -82,6 +87,7 @@ export {
   FilterIcon,
   SearchIcon,
   DeleteIcon,
+  DeleteIcon2,
   RefreshIcon,
   SearchIcon2,
   UpArrowIcon,

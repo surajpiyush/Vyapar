@@ -1,8 +1,6 @@
+import css from "./CreditNotes.module.css";
 import { FormatDate } from "../../../Redux/sales/action";
-
-import { MdLocalPrintshop as PrintIcon } from "react-icons/md";
-import { IoIosShareAlt as ShareIcon } from "react-icons/io";
-import { DeleteIcon, EditIcon } from "../../../Component/utils/reactIcons";
+import { EditIcon, DeleteIcon2 } from "../../../assets/Icons/ReactIcons";
 
 const TableCreditNotes = ({
   _id,
@@ -51,14 +49,10 @@ const TableCreditNotes = ({
         <div style={{ textAlign: "right" }}>{balance}</div>
       </td>
       <td>
-        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <PrintIcon />
-          <ShareIcon />
+        <div className={css.actionDivContent}>
+          <DeleteIcon2 onClick={() => handleDelete(_id)} />
+          <EditIcon onClick={() => handleEdit(_id)} />
         </div>
-      </td>
-      <td>
-        <DeleteIcon onClick={() => handleDelete(_id)} />
-        <EditIcon onClick={() => handleEdit(_id)} />
       </td>
     </tr>
   );

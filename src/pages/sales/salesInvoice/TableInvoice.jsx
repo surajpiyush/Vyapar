@@ -1,9 +1,10 @@
+import css from "./Invoice.module.css";
 import { FormatDate, GetSingleInvoiceData } from "../../../Redux/sales/action";
 import {
-  DeleteIcon,
   EditIcon,
   PrintIcon2,
-} from "../../../Component/utils/reactIcons";
+  DeleteIcon2,
+} from "../../../assets/Icons/ReactIcons";
 
 import { useToast } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
@@ -54,15 +55,8 @@ const TableInvoice = ({
         <div>{status}</div>
       </td>
       <td>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            fontSize: "18px",
-            gap: "4px",
-          }}
-        >
-          <DeleteIcon onClick={() => handleDelete(_id)} />
+        <div className={css.actionDivContent}>
+          <DeleteIcon2 onClick={() => handleDelete(_id)} />
           <EditIcon onClick={() => handleEdit(_id)} />
           <PrintIcon2
             onClick={() => {

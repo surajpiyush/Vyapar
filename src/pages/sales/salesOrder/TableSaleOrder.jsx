@@ -1,8 +1,10 @@
-import { DeleteIcon, EditIcon } from "../../../Component/utils/reactIcons";
+import css from "./Order.module.css";
 import { FormatDate } from "../../../Redux/sales/action";
+import { EditIcon, DeleteIcon2 } from "../../../assets/Icons/ReactIcons";
 
 const TableSaleOrder = ({
-  _id,handleDelete,
+  _id,
+  handleDelete,
   ind,
   partyName,
   no,
@@ -13,7 +15,7 @@ const TableSaleOrder = ({
   type,
   status,
   action,
-  handleEdit
+  handleEdit,
   // paymentType,
 }) => {
   return (
@@ -42,13 +44,14 @@ const TableSaleOrder = ({
       <td>
         <div>{status}</div>
       </td>
-      <td>
+      {/* <td>
         <div>{action}</div>
-      </td>
+      </td> */}
       <td>
-      <DeleteIcon onClick={() => handleDelete(_id)} />
-      <EditIcon onClick={() => handleEdit(_id)} />
-
+        <div className={css.actionDivContent}>
+          <DeleteIcon2 onClick={() => handleDelete(_id)} />
+          <EditIcon onClick={() => handleEdit(_id)} />
+        </div>
       </td>
     </tr>
   );

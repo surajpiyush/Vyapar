@@ -89,3 +89,54 @@
     color: white;
   }
 }
+
+/******************
+    Loader 1 Css 
+*******************/
+.Loader3Outer {
+  width: 100%;
+  height: 100%;
+  background: var(--overlayBg);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  position: relative;
+  justify-content: center;
+
+  h2 {
+    color: var(--pureWhite);
+    font-size: 16px;
+    font-weight: 400;
+    margin-top: 160px;
+  }
+}
+.loader3 {
+  width: 64px;
+  height: 64px;
+  position: absolute;
+  background-image: linear-gradient(var(--pureWhite) 16px, transparent 0),
+    linear-gradient(var(--VividOrangeRed) 16px, transparent 0),
+    linear-gradient(var(--VividOrangeRed) 16px, transparent 0),
+    linear-gradient(var(--pureWhite) 16px, transparent 0);
+  background-repeat: no-repeat;
+  background-size: 16px 16px;
+  background-position: left top, left bottom, right top, right bottom;
+  animation: loading3Anim 1s linear infinite;
+}
+@keyframes loading3Anim {
+  0% {
+    width: 64px;
+    height: 64px;
+    transform: rotate(0deg);
+  }
+  50% {
+    width: 30px;
+    height: 30px;
+    transform: rotate(180deg);
+  }
+  100% {
+    width: 64px;
+    height: 64px;
+    transform: rotate(360deg);
+  }
+}

@@ -2,6 +2,8 @@ import css from "./Order.module.css";
 import party from "../../../assets/Images/party.jpg";
 import OrderForm from "./OrderForm";
 import TableSaleOrder from "./TableSaleOrder";
+import EditableRow from "../../../Component/EditForm";
+import Loader3 from "../../../Component/Loaders/Loader3";
 import Setting from "../../../Component/Setting/Setting";
 import FirstTimeFormToggle from "../../../Component/FirmTimeForm/FirstTimeFormToggle";
 import {
@@ -9,8 +11,9 @@ import {
   deleteAllSaleOrder,
   updateAllSaleOrder,
 } from "../../../Redux/sales/action";
+import { PlusIcon2 } from "../../../assets/Icons/ReactIcons";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useToast } from "@chakra-ui/react";
 import { IoCalculator as CalculatorIcon } from "react-icons/io5";
@@ -21,7 +24,6 @@ import { IoSearch as SearchIcon } from "react-icons/io5";
 import { FiPlusCircle as PlusIcon } from "react-icons/fi";
 import { CiFilter as FilterIcon } from "react-icons/ci";
 import { useLocation, useNavigate } from "react-router-dom";
-import EditableRow from "../../../Component/EditForm";
 
 export default function SalesOrder() {
   const [isEditing, setIsEditing] = useState(false);
@@ -40,11 +42,14 @@ export default function SalesOrder() {
 
   const [openForm, setOpenForm] = useState(false);
   const [toggleSetting, setToggleSetting] = useState(false);
-  const [toggleSections, setToggleSections] = useState(false);
+  const [startDate, setStartDate] = useState("2024-02-01");
+  const [endDate, setEndDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
 
   useEffect(() => {
-    GetAllSaleOrders(dispatch);
-  }, [toggleSaleOrder]);
+    GetAllSaleOrders(dispatch, startDate, endDate);
+  }, [toggleSaleOrder, startDate, endDate]);
 
   const formOpen = () => {
     setOpenForm(true);
@@ -87,218 +92,183 @@ export default function SalesOrder() {
     "typee",
     "status",
   ];
-  return (
+  return isLoading ? (
+    <Loader3 text="Loading Payment-In" />
+  ) : (
     <div>
       {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
 
-      <div className={css.headerNavOuter}>
-        <div
-          onClick={() => {
-            setToggleSections(false);
-          }}
-          style={{
-            borderColor: !toggleSections ? "var(--blueB)" : "transparent",
-          }}
-        >
-          SALE ORDERS
-        </div>
-        {/* <div
-          onClick={() => {
-            setToggleSections(true);
-          }}
-          style={{
-            borderColor: toggleSections ? "var(--blueB)" : "transparent",
-          }}
-        >
-          ONLINE ORDERS
-        </div> */}
+      <div className={css.navOuter}>
+        <div className={css.navOptions}>SALE ORDERS</div>
       </div>
 
-      {!toggleSections ? (
-        // Sale Orders Section
-        <div className="">
-          {openForm && (
-            <div className={css.formOuter}>
-              <div className={css.upperNav}>
-                <div>
-                  <p className={css.activeForm}>
-                    <span>Sale Order #1</span>
-                    <CrossIcon />
-                  </p>
-                </div>
-                <div>
-                  <CalculatorIcon
-                    onClick={() =>
-                      toast({
-                        title: "Feature currently in development",
-                        status: "info",
-                        position: "top",
-                      })
-                    }
-                  />
-                  <SettingIcon onClick={() => setToggleSetting(true)} />
-                  <CloseIcon onClick={() => setOpenForm(false)} />
-                </div>
-              </div>
-              <OrderForm
-                setToggleSetting={setToggleSetting}
-                setOpenForm={setOpenForm}
-              />
+      {/* Add Sale Order Form */}
+      {openForm && (
+        <div className={css.formOuter}>
+          <div className={css.upperNav}>
+            <div>
+              <p className={css.activeForm}>
+                <span>Sale Order #1</span>
+                <CrossIcon />
+              </p>
             </div>
-          )}
-
-          <div className="d-cen b-cont text-center text-center">
-            <div className={css.TableOuter}>
-              <div className={css.saleOrderUpperNav}>
-                <div className={css.leftSideDivSaleOuter}>
-                  <p>TRANSACTIONS</p>
-                  <div className={css.saleOrderSearchDiv}>
-                    <SearchIcon />
-                    <div>
-                      <input type="text" />
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <button
-                    type="button"
-                    onClick={formOpen}
-                    className={css.addSaleOrderBtn}
-                  >
-                    <PlusIcon /> Add Sale Order
-                  </button>
-                </div>
-              </div>
-              <div className={css.TabelOuterDivSaleOrder}>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>
-                        <div>
-                          DATE
-                          {/*  <FilterIcon /> */}
-                        </div>
-                      </th>
-                      <th>
-                        <div>
-                          NO.
-                          {/*  <FilterIcon /> */}
-                        </div>
-                      </th>
-                      <th>
-                        <div>
-                          DUE DATE
-                          {/*  <FilterIcon /> */}
-                        </div>
-                      </th>
-                      <th>
-                        <div>
-                          PARTY
-                          {/*  <FilterIcon /> */}
-                        </div>
-                      </th>
-                      <th>
-                        <div>
-                          TOTAL AMOUNT
-                          {/*  <FilterIcon /> */}
-                        </div>
-                      </th>
-                      <th>
-                        <div>
-                          BALANCE
-                          {/*  <FilterIcon /> */}
-                        </div>
-                      </th>
-                      <th>
-                        <div>
-                          TYPE
-                          {/*  <FilterIcon /> */}
-                        </div>
-                      </th>
-                      <th>
-                        <div>
-                          STATUS
-                          {/*  <FilterIcon /> */}
-                        </div>
-                      </th>
-                      <th>
-                        <div>
-                          ACTION
-                          {/*  <FilterIcon /> */}
-                        </div>
-                      </th>
-                      <th></th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {!isLoading &&
-                      saleOrderList?.map((item, ind) =>
-                        isEditing && editedData?._id === item._id ? (
-                          <tr
-                            style={{
-                              width: "82%",
-                              position: "absolute",
-                            }}
-                          >
-                            <EditableRow
-                              display={display}
-                              data={editedData}
-                              onSave={handleSave}
-                              onCancel={handleCancel}
-                            />
-                          </tr>
-                        ) : (
-                          <TableSaleOrder
-                            {...item}
-                            ind={ind}
-                            key={ind + item?._id}
-                            handleDelete={handleDelete}
-                            handleEdit={handleEdit}
-                          />
-                        )
-                      )}
-                  </tbody>
-                </table>
-                {isLoading && (
-                  <h2
-                    style={{
-                      color: "green",
-                      textAlign: "center",
-                      margin: "20px auto",
-                    }}
-                  >
-                    Loading Sale Orders...
-                  </h2>
-                )}
-              </div>
+            <div>
+              <CalculatorIcon
+                onClick={() =>
+                  toast({
+                    title: "Feature currently in development",
+                    status: "info",
+                    position: "top",
+                  })
+                }
+              />
+              <SettingIcon onClick={() => setToggleSetting(true)} />
+              <CloseIcon onClick={() => setOpenForm(false)} />
             </div>
           </div>
-
-          {!isLoading && !saleOrderList.length > 0 && (
-            <div style={{ marginTop: "-450px" }}>
-              <FirstTimeFormToggle
-                img={party}
-                onClick={formOpen}
-                BtnText="Add Your First Sale Order"
-                MiddleText="Make & share sale orders & convert them to sale invoice instantly."
-              />
-            </div>
-          )}
-        </div>
-      ) : (
-        // Online Orders Section
-        <div className="d-cen b-cont text-center">
-          <div className="">
-            <img src={party} alt="" className="party-img" />
-            <p style={{ fontWeight: "bold" }}>No Online Orders</p>
-            <p>Share your Online Store to get orders.</p>
-            <button className="party-button">
-              <i className="fa fa-share"></i> <span>Share Store</span>
-            </button>
-          </div>
+          <OrderForm
+            setToggleSetting={setToggleSetting}
+            setOpenForm={setOpenForm}
+          />
         </div>
       )}
+
+      <div className={css.Outer}>
+        {/* Top Nav */}
+        <div className={css.topNavOuter}>
+          <div className={css.navTopADiv}>
+            <select defaultValue="This Month" className={css.monthSelectTag}>
+              <option value="All Sale Invoices">All Sale Invoices</option>
+              <option value="This Month">This Month</option>
+              <option value="Last Month">Last Month</option>
+              <option value="This Quarter">This Quarter</option>
+              <option value="This Year">This Year</option>
+              <option value="Custom">Custom</option>
+            </select>
+            <div className={css.divContainingDateInps}>
+              <h3>Between</h3>
+              <div>
+                <input
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                />
+                <p>To</p>
+                <input
+                  type="date"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                />
+              </div>
+            </div>
+            <select defaultValue="ALL FIRMS" className={css.navFirmsSelectTag}>
+              <option value="ALL FIRMS">ALL FIRMS</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Middle */}
+        {saleOrderList?.length ? (
+          <div className={css.ContentOuter}>
+            <div className={css.contentUpperNav}>
+              <div className={css.leftSideDivSaleOuter}>
+                <p>TRANSACTIONS</p>
+                <div className={css.saleOrderSearchDiv}>
+                  <SearchIcon />
+                  <div>
+                    <input type="text" />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <button
+                  type="button"
+                  onClick={formOpen}
+                  className={css.addBtnCss}
+                >
+                  <PlusIcon2 /> Add Sale Order
+                </button>
+              </div>
+            </div>
+
+            <div className={css.contentTableOuterDiv}>
+              <table>
+                <thead>
+                  <tr>
+                    <th>
+                      <div>DATE</div>
+                    </th>
+                    <th>
+                      <div>REF NO.</div>
+                    </th>
+                    <th>
+                      <div>DUE DATE</div>
+                    </th>
+                    <th>
+                      <div>PARTY</div>
+                    </th>
+                    <th>
+                      <div>TOTAL AMOUNT</div>
+                    </th>
+                    <th>
+                      <div>BALANCE</div>
+                    </th>
+                    <th>
+                      <div>TYPE</div>
+                    </th>
+                    <th>
+                      <div>STATUS</div>
+                    </th>
+                    <th>
+                      <div>ACTION</div>
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {!isLoading &&
+                    saleOrderList?.map((item, ind) =>
+                      isEditing && editedData?._id === item._id ? (
+                        <tr
+                          style={{
+                            width: "82%",
+                            position: "absolute",
+                          }}
+                        >
+                          <EditableRow
+                            display={display}
+                            data={editedData}
+                            onSave={handleSave}
+                            onCancel={handleCancel}
+                          />
+                        </tr>
+                      ) : (
+                        <TableSaleOrder
+                          {...item}
+                          ind={ind}
+                          key={ind + item?._id}
+                          handleDelete={handleDelete}
+                          handleEdit={handleEdit}
+                        />
+                      )
+                    )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <FirstTimeFormToggle
+              marginTop="10px"
+              height="67.25vh"
+              img={party}
+              onClick={formOpen}
+              BtnText="Add Your First Sale Order"
+              MiddleText="Make & share sale orders & convert them to sale invoice instantly."
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }
