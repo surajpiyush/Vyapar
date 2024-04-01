@@ -1,5 +1,6 @@
-import { DeleteIcon, EditIcon } from "../../../Component/utils/reactIcons";
+import css from "./Estimate.module.css";
 import { FormatDate } from "../../../Redux/sales/action";
+import { EditIcon, DeleteIcon2 } from "../../../assets/Icons/ReactIcons";
 
 const TableEstimates = ({
   _id,
@@ -34,14 +35,14 @@ const TableEstimates = ({
       <td>
         <div>{status}</div>
       </td>
-      <td>
+      {/* <td>
         <div>{action}</div>
-      </td>
+      </td> */}
       <td>
-        <DeleteIcon onClick={() => handleDelete(_id)} />
-        <p style={{ fontSize: "1.5rem" }}>
+        <div className={css.actionDivContent}>
+          <DeleteIcon2 onClick={() => handleDelete(_id)} />
           <EditIcon onClick={() => handleEdit(_id)} />
-        </p>
+        </div>
       </td>
     </tr>
   );

@@ -1,12 +1,13 @@
-.emptyData {
+.OuterDiv {
   width: 100%;
-  min-height: 70vh;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: default;
+  background: var(--pureWhite);
+  border-radius: 6px;
 }
-.emptyDataImgDiv {
+.ImgDiv {
   margin: auto;
   width: 250px;
   height: 250px;
@@ -20,14 +21,14 @@
     mix-blend-mode: multiply;
   }
 }
-.emptyData p {
+.OuterDiv p {
   color: var(--greyA);
   font-size: 16px;
   word-spacing: 0.5px;
   margin: auto;
   text-align: center;
 }
-.emptyData button {
+.OuterDiv button {
   display: block;
   cursor: pointer;
   margin: 30px auto;

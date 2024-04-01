@@ -87,6 +87,7 @@ const salesSlice = createSlice({
     },
     UPDATE_SALES_INVOICE_SUCCESS: (state) => {
       state.isLoading = false;
+      state.toggleSalesSuccess = !state.toggleSalesSuccess;
     },
 
     // ESTIMATES ------------------------------------------------------

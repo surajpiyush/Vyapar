@@ -79,16 +79,14 @@ export const GetAllSalesInvoice = async (dispatch, startDate, endDate) => {
   dispatch(IS_LOADING());
   const token = localStorage.getItem("token");
   const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+
   // console.log("firmid", firmId);
   try {
     const response = await axios.get(
       `${API_URL}/${firmId}/sale/getAll?startDate=${startDate}&endDate=${endDate}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token} `,
-        },
-      }
+      { headers: { Authorization: `Bearer ${token} ` } }
     );
+
     // console.log("Get All Invoices Response:", response?.data);
     dispatch(GET_SALES_INVOICE_SUCCESS(response?.data?.data));
   } catch (error) {
@@ -219,17 +217,14 @@ export const GetAllEstimates = async (dispatch, startDate, endDate) => {
   dispatch(IS_LOADING());
   const token = localStorage.getItem("token");
   const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+
   try {
-    // prettier-ignore
-    const response = await axios.get( // eslint-disable-line no-unused-vars
+    const response = await axios.get(
       `${API_URL}/${firmId}/sale/saleEstimate/getAll?startDate=${startDate}&endDate=${endDate}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token} `,
-        },
-      }
+      { headers: { Authorization: `Bearer ${token} ` } }
     );
-    console.log("Getting All Estimates Response:", response?.data);
+
+    // console.log("Getting All Estimates Response:", response?.data);
     dispatch(GET_ESTIMATE_SUCCESS(response?.data?.data));
   } catch (error) {
     dispatch(IS_ERROR());
@@ -436,26 +431,22 @@ export const PostSaleOrder = async (dispatch, data, setOpenForm, toast) => {
 };
 
 // Post Sale Order Request
-export const GetAllSaleOrders = async (dispatch) => {
+export const GetAllSaleOrders = async (dispatch, startDate, endDate) => {
   dispatch(IS_LOADING());
   const token = localStorage.getItem("token");
   const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
-  const startDate = "2024-02-01";
-  const endDate = new Date().toISOString().split("T")[0];
+
   try {
     const response = await axios.get(
       `${API_URL}/${firmId}/sale/saleOrder/getAll?startDate=${startDate}&endDate=${endDate}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token} `,
-        },
-      }
+      { headers: { Authorization: `Bearer ${token} ` } }
     );
+
     // console.log("Get All Sale Orders Response:", response?.data);
     dispatch(GET_All_SALE_ORDER_SUCCESS(response?.data?.data));
   } catch (error) {
     dispatch(IS_ERROR());
-    console.log("Error Getting All Sale Orders:", error);
+    console.log("Getting All Sale Orders Error:", error);
   }
 };
 
@@ -555,19 +546,17 @@ export const PostDeliveryChallan = async (
 };
 
 // Get All Delivery Challans Request
-export const GetAllDeliveryChallans = async (dispatch) => {
+export const GetAllDeliveryChallans = async (dispatch, startDate, endDate) => {
   dispatch(IS_LOADING());
   const token = localStorage.getItem("token");
   const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+
   try {
     const response = await axios.get(
-      `${API_URL}/${firmId}/sale/deliveryChallan/getAll`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+      `${API_URL}/${firmId}/sale/deliveryChallan/getAll?startDate=${startDate}&endDate=${endDate}`,
+      { headers: { Authorization: `Bearer ${token}` } }
     );
+
     // console.log("Getting All Delivery Challans Response:", response?.data);
     dispatch(GET_ALL_DELIVERY_CHALLAN_SUCCESS(response?.data?.data));
   } catch (error) {
@@ -749,6 +738,7 @@ export const FormatDate = (dateString) => {
   return formattedDate;
 };
 
+// This function takes price in number and returns in form of words
 export function ConvertPriceToWords(price) {
   // Check if the input is a valid number
   if (isNaN(price) || price < 0) {
@@ -857,4 +847,39 @@ export function ConvertPriceToWords(price) {
   }
   result += "only";
   return result.trim();
+}
+
+export function generateInvoiceNumber() {
+  const currentDate = new Date();
+  const monthNames = [
+    "JAN",
+    "FEB",
+    "MAR",
+    "APR",
+    "MAY",
+    "JUN",
+    "JUL",
+    "AUG",
+    "SEP",
+    "OCT",
+    "NOV",
+    "DEC",
+  ];
+  const monthIndex = currentDate.getMonth();
+  const month = monthNames[monthIndex];
+  const previousYear =
+    monthIndex < 3
+      ? (currentDate.getFullYear() - 1).toString().slice(-2)
+      : currentDate.getFullYear().toString().slice(-2);
+  const hours = currentDate.getHours();
+  const minutes = currentDate.getMinutes();
+  const date = currentDate.getDate();
+  const sec = currentDate.getSeconds();
+  console.log(monthIndex);
+  // Format the invoice number
+  const invoiceNumber = `${date}${hours}${minutes}${sec}/${month}/${previousYear}-${
+    Number(previousYear) + 1
+  }`;
+
+  return invoiceNumber;
 }

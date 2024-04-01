@@ -9,6 +9,7 @@ import { FetchAllParties } from "../../Redux/parties/actions";
 
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Loader3 from "../../Component/Loaders/Loader3";
 
 export default function Parties() {
   const dispatch = useDispatch();
@@ -30,9 +31,11 @@ export default function Parties() {
     setPartyFormIsOpen(val);
   };
 
-  return (
+  return isLoading ? (
+    <Loader3 text="Loading Parties" />
+  ) : (
     <div>
-      {isLoading && <Loader1 />}
+      {/* {isLoading && <Loader1 />} */}
       {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
       {partyFormIsOpen && (
         <AddPartyForm

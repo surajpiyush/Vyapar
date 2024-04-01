@@ -1,13 +1,17 @@
 import css from "./PaymentIn.module.css";
+import party from "../../../assets/Images/party.jpg";
 import PaymentInForm from "./PaymentInForm";
 import TablePaymentIn from "./TablePaymentIn";
 import EditableRow from "../../../Component/EditForm";
 import Setting from "../../../Component/Setting/Setting";
+import Loader3 from "../../../Component/Loaders/Loader3";
+import FirstTimeFormToggle from "../../../Component/FirmTimeForm/FirstTimeFormToggle";
 import {
   GetAllPaymentIn,
   deletePaymentIn,
   updatePaymentIn,
 } from "../../../Redux/sales/action";
+import { PlusIcon2 } from "../../../assets/Icons/ReactIcons";
 
 import { useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
@@ -91,10 +95,13 @@ export default function SalesPaymentIn() {
     // "statuss",
   ];
 
-  return (
-    <div>
+  return isLoading ? (
+    <Loader3 text="Loading Payment-In" />
+  ) : (
+    <div className={css.Outer}>
       {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
 
+      {/* Add PaymentIn Form */}
       {openForm && (
         <PaymentInForm
           setToggleSetting={setToggleSetting}
@@ -102,112 +109,64 @@ export default function SalesPaymentIn() {
         />
       )}
 
-      <div className="grp-cont-invoice">
-        <div className={css.TableOuter}>
-          <div
-            className={css.dBetween}
-            style={{
-              alignItems: "center",
-              padding: "10px",
-            }}
-          >
-            <div className={css.dFlex} style={{ gap: "10px" }}>
-              <div className={css.dFlex}>
-                <select name="" id="" className={css.invoiceSelect}>
-                  <option value="">This Month</option>
-                  <option value="">This Quarter</option>
-                  <option value="">Last Month</option>
-                  <option value="">This Year</option>
-                  <option value="">Custom</option>
-                </select>
-              </div>
-              <div className={css.dFlex} style={{ border: "1px solid gray" }}>
-                <div
-                  style={{
-                    padding: "3px 12px 2px 15px",
-                    background: "gray",
-                  }}
-                >
-                  <p> Between</p>
-                </div>
-
-                <input
-                  type="date"
-                  value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
-                  className={css.invoiceInput}
-                />
-                <div
-                  style={{
-                    padding: "3px 12px 2px 15px",
-                  }}
-                >
-                  <span>To</span>
-                </div>
-
-                <input
-                  type="date"
-                  value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
-                  className="invoice-input"
-                />
-              </div>
-              <div className={css.dFlex}>
-                <select name="" id="" className={css.invoiceSelect}>
-                  <option value="">All Firms</option>
-                  <option value="">My Company</option>
-                </select>
-              </div>
+      {/* Top Nav */}
+      <div className={css.topNavOuter}>
+        <div className={css.navTopADiv}>
+          <select defaultValue="This Month" className={css.monthSelectTag}>
+            <option value="All Sale Invoices">All Sale Invoices</option>
+            <option value="This Month">This Month</option>
+            <option value="Last Month">Last Month</option>
+            <option value="This Quarter">This Quarter</option>
+            <option value="This Year">This Year</option>
+            <option value="Custom">Custom</option>
+          </select>
+          <div className={css.divContainingDateInps}>
+            <h3>Between</h3>
+            <div>
+              <input
+                type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+              />
+              <p>To</p>
+              <input
+                type="date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+              />
             </div>
           </div>
-          {/* <div
-                  className={css.dFlex}
-                  style={{ gap: "20px", marginTop: "20px" }}
-               >
-                  <div className="" style={{ marginLeft: "10px" }}>
-                     <select name="" id="" className={css.invoiceSelect}>
-                        <option value="">Payment In</option>
-                        <option value="">All Transactions</option>
-                        <option value="">Sale</option>
-                        <option value="">Purchase</option>
-                     </select>
-                  </div>
-               </div> */}
+          <select defaultValue="ALL FIRMS" className={css.navFirmsSelectTag}>
+            <option value="ALL FIRMS">ALL FIRMS</option>
+          </select>
         </div>
       </div>
 
-      <div className="d-cen b-cont text-center text-center">
-        <div className={css.TableOuter}>
-          <div>
-            <div
-              className={css.leftSideDivSaleOuter}
-              style={{ padding: "25px 5px" }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                }}
-              >
-                <div className={css.saleOrderSearchDiv}>
-                  <SearchIcon />
-                  <div>
-                    <input type="text" />
-                  </div>
-                </div>
+      {/* Middle */}
+      {paymentInList?.length ? (
+        <div className={css.ContentOuter}>
+          <div className={css.contentUpperNav}>
+            <div className={css.leftSideDivSaleOuter}>
+              <p>TRANSACTIONS</p>
+              <div className={css.saleOrderSearchDiv}>
+                <SearchIcon />
                 <div>
-                  <button
-                    type="button"
-                    onClick={formOpen}
-                    className={css.addSaleOrderBtn}
-                  >
-                    <PlusIcon /> Add PaymentIn
-                  </button>
+                  <input type="text" />
                 </div>
               </div>
             </div>
+            <div>
+              <button
+                type="button"
+                onClick={formOpen}
+                className={css.addBtnCss}
+              >
+                <PlusIcon2 /> Add Payment-In
+              </button>
+            </div>
           </div>
-          <div className={css.TabelOuterDivSaleOrder}>
+
+          <div className={css.contentTableOuterDiv}>
             <table>
               <thead>
                 <tr>
@@ -215,62 +174,29 @@ export default function SalesPaymentIn() {
                     <div>#</div>
                   </th>
                   <th>
-                    <div>
-                      DATE
-                      {/*  <FilterIcon /> */}
-                    </div>
+                    <div>DATE</div>
                   </th>
                   <th>
-                    <div>
-                      REF NO.
-                      {/*  <FilterIcon /> */}
-                    </div>
+                    <div>REF NO.</div>
                   </th>
                   <th>
-                    <div>
-                      PARTY NAME
-                      {/*  <FilterIcon /> */}
-                    </div>
-                  </th>
-                  {/* <th>
-                    <div>
-                      CATEGORY NAME
-                       <FilterIcon />
-                    </div>
-                  </th> */}
-                  <th>
-                    <div>
-                      TYPE
-                      {/*  <FilterIcon /> */}
-                    </div>
+                    <div>PARTY NAME</div>
                   </th>
                   <th>
-                    <div>
-                      TOTAL
-                      {/*  <FilterIcon /> */}
-                    </div>
+                    <div>TYPE</div>
                   </th>
                   <th>
-                    <div>
-                      RECEIVED/PAID
-                      {/*  <FilterIcon /> */}
-                    </div>
+                    <div>RECEIVED/PAID</div>
                   </th>
                   <th>
-                    <div>
-                      BALANCE
-                      {/*  <FilterIcon /> */}
-                    </div>
+                    <div>BALANCE</div>
                   </th>
                   <th>
-                    <div>
-                      PRINT/SHARE
-                      {/*  <FilterIcon /> */}
-                    </div>
+                    <div>Action</div>
                   </th>
-                  <th></th>
                 </tr>
               </thead>
+
               <tbody>
                 {!isLoading &&
                   paymentInList?.map((item, ind) =>
@@ -300,32 +226,20 @@ export default function SalesPaymentIn() {
                   )}
               </tbody>
             </table>
-            {isLoading && (
-              <h2
-                style={{
-                  color: "green",
-                  textAlign: "center",
-                  margin: "20px auto",
-                }}
-              >
-                Loading Payment-In Data...
-              </h2>
-            )}
-            {!isLoading && paymentInList?.length <= 0 && (
-              <h2
-                style={{
-                  color: "Red",
-                  textAlign: "center",
-                  margin: "20px auto",
-                  color: "red",
-                }}
-              >
-                No Payment-In Data Available for the specified dates...
-              </h2>
-            )}
           </div>
         </div>
-      </div>
+      ) : (
+        <div>
+          <FirstTimeFormToggle
+            marginTop="10px"
+            height="73.25vh"
+            img={party}
+            onClick={() => setOpenForm(true)}
+            BtnText="Add Your First Sale Invoice"
+            MiddleText="Make Sale invoices & Print or share with your customers directly via WhatsApp or Email."
+          />
+        </div>
+      )}
     </div>
   );
 }

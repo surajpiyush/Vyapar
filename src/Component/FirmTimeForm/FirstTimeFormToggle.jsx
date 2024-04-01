@@ -6,12 +6,20 @@ const FirstTimeFormToggle = ({
   BtnText,
   MiddleText,
   BelowText,
+  marginTop = "0px",
+  height = "72vh",
 }) => {
   return (
-    <div className={css.emptyData}>
+    <div
+      style={{
+        marginTop,
+        height: height,
+      }}
+      className={css.OuterDiv}
+    >
       <div>
-        <div className={css.emptyDataImgDiv}>
-          <img src={img} alt="" />
+        <div className={css.ImgDiv}>
+          <img src={img} alt={BtnText} />
         </div>
         <p>{MiddleText}</p>
         <p>{BelowText}</p>

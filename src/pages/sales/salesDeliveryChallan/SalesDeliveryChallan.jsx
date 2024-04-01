@@ -2,6 +2,7 @@ import css from "./DeliveryChallan.module.css";
 import party from "../../../assets/Images/party.jpg";
 import EditableRow from "../../../Component/EditForm";
 import FormDeliveryChallan from "./FormDeliveryChallan";
+import Loader3 from "../../../Component/Loaders/Loader3";
 import Setting from "../../../Component/Setting/Setting";
 import TableDeliveryChallan from "./TableDeliveryChallan";
 import FirstTimeFormToggle from "../../../Component/FirmTimeForm/FirstTimeFormToggle";
@@ -9,6 +10,7 @@ import {
   GetAllDeliveryChallans,
   deleteAllDeliveryChallan,
 } from "../../../Redux/sales/action";
+import { PlusIcon2 } from "../../../assets/Icons/ReactIcons";
 
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -37,14 +39,16 @@ export default function SalesDeliveryChallan() {
   const deliveryChallanList = useSelector(
     (state) => state.SalesReducer.deliveryChallanList
   );
-
-  //   console.log(deliveryChallanList);
   const [openForm, setOpenForm] = useState(false);
   const [toggleSetting, setToggleSetting] = useState(false);
+  const [startDate, setStartDate] = useState("2024-02-01");
+  const [endDate, setEndDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
 
   useEffect(() => {
-    GetAllDeliveryChallans(dispatch);
-  }, [toggleDeliveryChallan]);
+    GetAllDeliveryChallans(dispatch, startDate, endDate);
+  }, [toggleDeliveryChallan, startDate, endDate]);
 
   const formOpen = () => {
     setOpenForm(true);
@@ -87,132 +91,13 @@ export default function SalesDeliveryChallan() {
     "statuss",
   ];
 
-  return (
+  return isLoading ? (
+    <Loader3 text="Loading Delivery Challans" />
+  ) : (
     <div>
       {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
 
-      <div className="nav">
-        <div className="nav-opt">Delivery Challan</div>
-      </div>
-
-      {/* Top Nav */}
-      <div className="d-cen b-cont text-center text-center">
-        <div className={css.TableOuter}>
-          <div className={css.saleOrderUpperNav}>
-            <div className={css.leftSideDivSaleOuter}>
-              <p>TRANSACTIONS</p>
-              <div className={css.saleOrderSearchDiv}>
-                <SearchIcon />
-                <div>
-                  <input type="text" />
-                </div>
-              </div>
-            </div>
-            <div>
-              <button
-                type="button"
-                onClick={formOpen}
-                className={css.addSaleOrderBtn}
-              >
-                <PlusIcon /> Add Delivery Challan
-              </button>
-            </div>
-          </div>
-          <div className={css.TabelOuterDivSaleOrder}>
-            <table>
-              <thead>
-                <tr>
-                  <th>
-                    <div>
-                      DATE
-                      {/*  <FilterIcon /> */}
-                    </div>
-                  </th>
-                  <th>
-                    <div>
-                      PARTY
-                      {/*  <FilterIcon /> */}
-                    </div>
-                  </th>
-                  <th>
-                    <div>
-                      Challan NO.
-                      {/*  <FilterIcon /> */}
-                    </div>
-                  </th>
-                  <th>
-                    <div>
-                      DUE DATE
-                      {/*  <FilterIcon /> */}
-                    </div>
-                  </th>
-                  <th>
-                    <div>
-                      TOTAL AMOUNT
-                      {/*  <FilterIcon /> */}
-                    </div>
-                  </th>
-                  <th>
-                    <div>
-                      STATUS
-                      {/*  <FilterIcon /> */}
-                    </div>
-                  </th>
-                  <th>
-                    <div>
-                      ACTION
-                      {/*  <FilterIcon /> */}
-                    </div>
-                  </th>
-                  <th></th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {!isLoading &&
-                  deliveryChallanList?.map((item, ind) =>
-                    isEditing && editedData?._id === item._id ? (
-                      <tr
-                        style={{
-                          width: "82%",
-                          position: "absolute",
-                        }}
-                      >
-                        <EditableRow
-                          display={display}
-                          data={editedData}
-                          onSave={handleSave}
-                          onCancel={handleCancel}
-                        />
-                      </tr>
-                    ) : (
-                      <TableDeliveryChallan
-                        {...item}
-                        ind={ind}
-                        key={ind + item?._id}
-                        handleDelete={handleDelete}
-                        handleEdit={handleEdit}
-                      />
-                    )
-                  )}
-              </tbody>
-            </table>
-            {isLoading && (
-              <h2
-                style={{
-                  color: "green",
-                  textAlign: "center",
-                  margin: "20px auto",
-                }}
-              >
-                Loading Delivery Challans...
-              </h2>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Form */}
+      {/* Add Delivery Challan Form */}
       {openForm && (
         <div className={css.formOuter}>
           <div className={css.upperNav}>
@@ -243,16 +128,143 @@ export default function SalesDeliveryChallan() {
         </div>
       )}
 
-      {!isLoading && deliveryChallanList.length <= 0 && (
-        <div style={{ marginTop: "-450px" }}>
-          <FirstTimeFormToggle
-            img={party}
-            onClick={formOpen}
-            BtnText="Add Your First Delivery Challan"
-            MiddleText="Add Delivery Challan to manage your full Stock Inventory."
-          />
+      <div className={css.navOuter}>
+        <div className={css.navOptions}>DELIVERY CHALLAN</div>
+      </div>
+
+      <div className={css.Outer}>
+        {/* Top Nav */}
+        <div className={css.topNavOuter}>
+          <div className={css.navTopADiv}>
+            <select defaultValue="This Month" className={css.monthSelectTag}>
+              <option value="All Sale Invoices">All Sale Invoices</option>
+              <option value="This Month">This Month</option>
+              <option value="Last Month">Last Month</option>
+              <option value="This Quarter">This Quarter</option>
+              <option value="This Year">This Year</option>
+              <option value="Custom">Custom</option>
+            </select>
+            <div className={css.divContainingDateInps}>
+              <h3>Between</h3>
+              <div>
+                <input
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                />
+                <p>To</p>
+                <input
+                  type="date"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                />
+              </div>
+            </div>
+            <select defaultValue="ALL FIRMS" className={css.navFirmsSelectTag}>
+              <option value="ALL FIRMS">ALL FIRMS</option>
+            </select>
+          </div>
         </div>
-      )}
+
+        {/* Middle */}
+        {deliveryChallanList?.length ? (
+          <div className={css.ContentOuter}>
+            <div className={css.contentUpperNav}>
+              <div className={css.leftSideDivSaleOuter}>
+                <p>TRANSACTIONS</p>
+                <div className={css.saleOrderSearchDiv}>
+                  <SearchIcon />
+                  <div>
+                    <input type="text" />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <button
+                  type="button"
+                  onClick={formOpen}
+                  className={css.addBtnCss}
+                >
+                  <PlusIcon2 /> Add Delivery Challan
+                </button>
+              </div>
+            </div>
+
+            <div className={css.contentTableOuterDiv}>
+              <table>
+                <thead>
+                  <tr>
+                    <th>
+                      <div>DATE</div>
+                    </th>
+                    <th>
+                      <div>PARTY</div>
+                    </th>
+                    <th>
+                      <div>CHALLAN NO.</div>
+                    </th>
+                    <th>
+                      <div>DUE DATE</div>
+                    </th>
+                    <th>
+                      <div>TOTAL</div>
+                    </th>
+                    <th>
+                      <div>TOTAL AMOUNT</div>
+                    </th>
+                    <th>
+                      <div>STATUS</div>
+                    </th>
+                    <th>
+                      <div>ACTION</div>
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {!isLoading &&
+                    deliveryChallanList?.map((item, ind) =>
+                      isEditing && editedData?._id === item._id ? (
+                        <tr
+                          style={{
+                            width: "82%",
+                            position: "absolute",
+                          }}
+                        >
+                          <EditableRow
+                            display={display}
+                            data={editedData}
+                            onSave={handleSave}
+                            onCancel={handleCancel}
+                          />
+                        </tr>
+                      ) : (
+                        <TableDeliveryChallan
+                          {...item}
+                          ind={ind}
+                          key={ind + item?._id}
+                          handleDelete={handleDelete}
+                          handleEdit={handleEdit}
+                        />
+                      )
+                    )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <FirstTimeFormToggle
+              marginTop="10px"
+              height="67.25vh"
+              img={party}
+              onClick={formOpen}
+              BtnText="Add Your First Delivery Challan"
+              MiddleText="Add Delivery Challan to manage your full Stock Inventory."
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

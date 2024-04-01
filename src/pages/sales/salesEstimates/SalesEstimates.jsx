@@ -1,14 +1,18 @@
 import css from "./Estimate.module.css";
 import party from "../../../assets/Images/party.jpg";
 import EstimateForm from "./EstimateForm";
+import EditableRow from "../../../Component/EditForm";
+import Loader3 from "../../../Component/Loaders/Loader3";
+import Setting from "../../../Component/Setting/Setting";
 import FirstTimeFormToggle from "../../../Component/FirmTimeForm/FirstTimeFormToggle";
 import {
   GetAllEstimates,
   deleteAllEstimates,
   updateAllEstimates,
 } from "../../../Redux/sales/action";
+import { PlusIcon2 } from "../../../assets/Icons/ReactIcons";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useToast } from "@chakra-ui/react";
 import { IoCalculator as CalculatorIcon } from "react-icons/io5";
@@ -20,8 +24,6 @@ import { FiPlusCircle as PlusIcon } from "react-icons/fi";
 import { CiFilter as FilterIcon } from "react-icons/ci";
 import TableEstimates from "./TableEstimates";
 import { useLocation, useNavigate } from "react-router-dom";
-import Setting from "../../../Component/Setting/Setting";
-import EditableRow from "../../../Component/EditForm";
 
 export default function SalesEstimates() {
   const [isEditing, setIsEditing] = useState(false);
@@ -90,8 +92,10 @@ export default function SalesEstimates() {
     "statuss",
   ];
 
-  return (
-    <div style={{ minHeight: "100vh" }}>
+  return isLoading ? (
+    <Loader3 text="Loading Estimates/Quatations" />
+  ) : (
+    <div className={css.Outer}>
       {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
 
       {/* Form */}
@@ -125,146 +129,88 @@ export default function SalesEstimates() {
         </div>
       )}
 
-      <div className="grp-cont-invoice">
-        <div className={css.TabelOuterDivSaleOrder}>
-          <div className={css.dBetween} style={{ alignItems: "center" }}>
-            <div className={css.dFlex} style={{ gap: "10px" }}>
-              <div className={css.dFlex}>
-                <select name="" id="" className={css.invoiceSelect}>
-                  <option value="">This Month</option>
-                  <option value="">This Quarter</option>
-                  <option value="">Last Month</option>
-                  <option value="">This Year</option>
-                  <option value="">Custom</option>
-                </select>
-              </div>
-              <div className={css.dFlex} style={{ border: "1px solid gray" }}>
-                <div
-                  style={{
-                    padding: "3px 12px 2px 15px",
-                    background: "gray",
-                  }}
-                >
-                  <p> Between</p>
-                </div>
-
-                <input
-                  type="date"
-                  value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
-                  className={css.invoiceInput}
-                />
-                <div
-                  style={{
-                    padding: "3px 12px 2px 15px",
-                  }}
-                >
-                  <span>To</span>
-                </div>
-
-                <input
-                  type="date"
-                  value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
-                  className="invoice-input"
-                />
-              </div>
-              <div className={css.dFlex}>
-                <select name="" id="" className={css.invoiceSelect}>
-                  <option value="">All Firms</option>
-                  <option value="">My Company</option>
-                </select>
-              </div>
+      {/* Top Nav */}
+      <div className={css.topNavOuter}>
+        <div className={css.navTopADiv}>
+          <select defaultValue="This Month" className={css.monthSelectTag}>
+            <option value="All Sale Invoices">All Sale Invoices</option>
+            <option value="This Month">This Month</option>
+            <option value="Last Month">Last Month</option>
+            <option value="This Quarter">This Quarter</option>
+            <option value="This Year">This Year</option>
+            <option value="Custom">Custom</option>
+          </select>
+          <div className={css.divContainingDateInps}>
+            <h3>Between</h3>
+            <div>
+              <input
+                type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+              />
+              <p>To</p>
+              <input
+                type="date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+              />
             </div>
           </div>
+          <select defaultValue="ALL FIRMS" className={css.navFirmsSelectTag}>
+            <option value="ALL FIRMS">ALL FIRMS</option>
+          </select>
         </div>
       </div>
 
-      <div className="">
-        <div className={css.TableOuter}>
-          <div className={css.TabelOuterDivSaleOrder}>
-            <div>
-              <div className={css.leftSideDivSaleOuter}>
-                <p
-                  style={{
-                    display: "block",
-                    fontSize: "24px",
-                    width: "70vw",
-                    textAlign: "center",
-                  }}
-                >
-                  TRANSACTIONS
-                </p>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <div className={css.saleOrderSearchDiv}>
-                    <SearchIcon />
-                    <div>
-                      <input type="text" />
-                    </div>
-                  </div>
-                  <div>
-                    <button
-                      type="button"
-                      onClick={formOpen}
-                      className={css.addSaleOrderBtn}
-                    >
-                      <PlusIcon /> Add Estimate
-                    </button>
-                  </div>
+      {/* Middle */}
+      {estimatesList?.length ? (
+        <div className={css.ContentOuter}>
+          <div className={css.contentUpperNav}>
+            <div className={css.leftSideDivSaleOuter}>
+              <p>TRANSACTIONS</p>
+              <div className={css.saleOrderSearchDiv}>
+                <SearchIcon />
+                <div>
+                  <input type="text" />
                 </div>
               </div>
             </div>
+            <div>
+              <button
+                type="button"
+                onClick={formOpen}
+                className={css.addBtnCss}
+              >
+                <PlusIcon2 /> Add Estimate
+              </button>
+            </div>
+          </div>
+
+          <div className={css.contentTableOuterDiv}>
             <table>
               <thead>
                 <tr>
                   <th>
-                    <div>
-                      DATE
-                      {/*  <FilterIcon /> */}
-                    </div>
+                    <div>DATE</div>
                   </th>
                   <th>
-                    <div>
-                      REFERENCE NO
-                      {/*  <FilterIcon /> */}
-                    </div>
+                    <div>REFERENCE NO.</div>
                   </th>
                   <th>
-                    <div>
-                      NAME
-                      {/*  <FilterIcon /> */}
-                    </div>
+                    <div>NAME</div>
                   </th>
                   <th>
-                    <div>
-                      TOTAL AMOUNT
-                      {/*  <FilterIcon /> */}
-                    </div>
+                    <div>TOTAL AMOUNT</div>
                   </th>
                   <th>
-                    <div>
-                      BALANCE
-                      {/*  <FilterIcon /> */}
-                    </div>
+                    <div>BALANCE</div>
                   </th>
                   <th>
-                    <div>
-                      STATUS
-                      {/*  <FilterIcon /> */}
-                    </div>
+                    <div>STATUS</div>
                   </th>
                   <th>
-                    <div>
-                      ACTION
-                      {/*  <FilterIcon /> */}
-                    </div>
+                    <div>ACTION</div>
                   </th>
-                  <th></th>
                 </tr>
               </thead>
 
@@ -297,24 +243,13 @@ export default function SalesEstimates() {
                   )}
               </tbody>
             </table>
-            {isLoading && (
-              <h2
-                style={{
-                  color: "green",
-                  textAlign: "center",
-                  margin: "20px auto",
-                }}
-              >
-                Loading Estimates Data...
-              </h2>
-            )}
           </div>
         </div>
-      </div>
-
-      {estimatesList.length == 0 && !isLoading && (
-        <div style={{ marginTop: "-550px" }}>
+      ) : (
+        <div>
           <FirstTimeFormToggle
+            marginTop="10px"
+            height="73.25vh"
             img={party}
             onClick={() => setOpenForm(true)}
             BtnText="Add Your First Estimate"
