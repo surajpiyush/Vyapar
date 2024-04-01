@@ -186,7 +186,7 @@ export const addPurchaseOrder = async (
          newItem,
          { headers: { Authorization: `Bearer ${token} ` } }
       );
-
+// console.log("BIll Addeed in purchase order ",response.data.data)
       dispatch({
          type: POST_PURCHASEORDER_SUCCESS,
          payload: response?.data?.data || [],

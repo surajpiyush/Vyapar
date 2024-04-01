@@ -490,7 +490,7 @@ const OrderForm = ({ setOpenForm, setToggleSetting }) => {
                 <th className={css.amountHead}>
                   <div>
                     <p>Amount</p>
-                    <PlusIcon />
+                    {/* <PlusIcon /> */}
                   </div>
                 </th>
               </tr>

@@ -545,7 +545,7 @@ console.log(monthIndex)
                 <th className={css.amountHead}>
                   <div>
                     <p>Amount</p>
-                    <PlusIcon />
+                    {/* <PlusIcon /> */}
                   </div>
                 </th>
               </tr>
@@ -740,17 +740,11 @@ console.log(monthIndex)
                      </div>
                   )}
                   <div
-                     onClick={(e) => {
-                        e.stopPropagation();
-                        toast({
-                           title: "Feature currently in development",
-                           status: "info",
-                           position: "top",
-                        });
-                     }}
+                  
                      className={css.addDecriptionDiv}
                      style={{ width: "150px" }}
                   >
+                  <input type="file" />
                      <AddCameraIcon />
                      <p>ADD IMAGE</p>
                   </div>

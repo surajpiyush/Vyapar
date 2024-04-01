@@ -659,7 +659,7 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
                         <th className={css.amountHead}>
                            <div>
                               <p>Amount</p>
-                              <PlusIcon />
+                              {/* <PlusIcon /> */}
                            </div>
                         </th>
                      </tr>

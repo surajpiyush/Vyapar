@@ -232,10 +232,8 @@ const Addpurchaseitem = ({ setOpenForm }) => {
          purchaseOrder: [...invoiceData.purchaseOrder, saleData],
       };
       console.log("data", purchaseBillData);
-
-      dispatch(addPurchaseOrder(purchaseBillData));
-      setOpenForm(false);
-      dispatch();
+      addPurchaseOrder(dispatch, purchaseBillData, setOpenForm, toast);
+      // dispatch(addPurchaseOrder(purchaseBillData));
    };
    // for fetching all parties list on form mount
    useEffect(() => {
@@ -587,7 +585,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                         <th className={css.amountHead}>
                            <div>
                               <p>Amount</p>
-                              <PlusIcon />
+                              {/* <PlusIcon /> */}
                            </div>
                         </th>
                      </tr>
@@ -810,20 +808,18 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                      </div>
                   )}
                   <div
-                   
                      className={css.addDecriptionDiv}
                      style={{ width: "150px" }}
                   >
-                  <input type="file" />
+                     <input type="file" />
                      <AddCameraIcon />
                      <p>ADD IMAGE</p>
                   </div>
                   <div
-                    
                      className={css.addDecriptionDiv}
                      style={{ width: "150px" }}
                   >
-                  <input type="file"  />
+                     <input type="file" />
                      <AddDocumentIcon />
                      <p>ADD DOCUMENT</p>
                   </div>
