@@ -7,11 +7,9 @@ import {
 } from "../../../Redux/purchase/action";
 import {
   DeleteIcon,
-  DotsIcon,
+
   EditIcon,
-  FilterIcon,
-  PrinterIcon,
-  ShareIcon,
+  
 } from "../../utils/reactIcons";
 import React, { useEffect, useState } from "react";
 import { ImSpinner3 as BasicSpinner } from "react-icons/im";
@@ -98,7 +96,7 @@ const Purchasereturn = ({ func, date, data }) => {
                 <th className="table-h">RECIEVED</th>
                 <th className="table-h">BALANCE DUE</th>
                 <th className="table-h">STATUS</th>
-                <th className="table-h">PRINT/ACTION</th>
+                <th className="table-h">ACTION</th>
               </tr>
             </thead>
             {!isLoading ? (
@@ -135,7 +133,7 @@ const Purchasereturn = ({ func, date, data }) => {
                         </td>
                         <td className="table-h">{e.status}</td>
                         <td className="table-h">
-                          <PrinterIcon onClick={() => window.print()} />
+                       
                           <DeleteIcon onClick={() => handleDelete(e._id)} />
                           <EditIcon onClick={() => handleEdit(e)} />
                         </td>

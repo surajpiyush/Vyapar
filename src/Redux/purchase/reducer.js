@@ -7,6 +7,7 @@ import {
    GET_PURCHASEBILL_SUCCESS,
    GET_PURCHASEORDER_SUCCESS,
    GET_PURCHASERETURN_SUCCESS,
+   GET_SINGLE_PURCHASEBILL_SUCCESS,
    POST_PAYOUT_SUCCESS,
    POST_PURCHASEBILL_SUCCESS,
    POST_PURCHASEORDER_SUCCESS,
@@ -27,7 +28,7 @@ const initialState = {
    paymentOutData: [],
    purchaseOrderData: [],
    purchaseReturnData: [],
-
+   singlePurchseData :{},
    
 };
 
@@ -44,6 +45,13 @@ export const reducer = (state = initialState, { type, payload }) => {
             isLoading: false,
             purchaseBillData: payload.data,
          };
+      }
+      case GET_SINGLE_PURCHASEBILL_SUCCESS :{
+         return {
+            ...state,
+            isLoading:false,
+            singlePurchseData:payload.data[0][0]
+         }
       }
       case POST_PURCHASEBILL_SUCCESS: {
          return {

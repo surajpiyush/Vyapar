@@ -12,7 +12,7 @@ import {
   DeleteIcon,
   DotsIcon,
   EditIcon,
-  PrinterIcon,
+
 } from "../../utils/reactIcons";
 
 import { useToast } from "@chakra-ui/react";
@@ -106,9 +106,7 @@ const Paymentouts = ({ func, date, data }) => {
                       <div className="table-items">{item}</div>
                     </th>
                   ))}
-                  <th className="table-h">
-                    <div className="table-items">Print</div>
-                  </th>
+                 
                   <th className="table-h">
                     <div className="table-items">Action</div>
                   </th>
@@ -148,10 +146,6 @@ const Paymentouts = ({ func, date, data }) => {
                           <td className="table-h">{FormatDate(e.date)}</td>
                           <td className="table-h">₹{e.status}</td>
 
-                          <td className="table-h">
-                            <PrinterIcon onClick={() => window.print()} />
-                            <DotsIcon />
-                          </td>
                           <td className="table-h">
                             <DeleteIcon onClick={() => handleDelete(e._id)} />
                             <EditIcon onClick={() => handleEdit(e)} />

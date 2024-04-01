@@ -501,13 +501,13 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                         <th className={css.itemNameHead}>ITEM CODE</th>
                         <th className={css.itemNameHead}>HSN CODE</th>
                         {/* <th className={css.itemNameHead}>DESCRIPTION</th> */}
-                        {setting?.itemTableCheckboxes &&
-                           setting.itemTableCheckboxes.Count && (
+                        {setting?.itemsTable &&
+                           setting.itemsTable.Count && (
                               <th className={css.itemNameHead}>COUNT</th>
                            )}
                         <th className={css.qtyHead}>QTY</th>
-                        {setting?.itemTableCheckboxes &&
-                           setting.itemTableCheckboxes[
+                        {setting?.itemsTable &&
+                           setting.itemsTable[
                               "Free Item Quantity"
                            ] && <th className={css.itemNameHead}>FREE QTY</th>}
                         <th className={css.unitHead}>UNIT</th>
@@ -580,8 +580,8 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                         <td></td>
                         <td></td>
                         <td></td>
-                        {setting?.itemTableCheckboxes &&
-                           setting.itemTableCheckboxes.Count && (
+                        {setting?.itemsTable &&
+                           setting.itemsTable.Count && (
                               <td className={css.addRowChildTd}>
                                  {rowFooterData?.totalCount}
                               </td>
@@ -589,8 +589,8 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                         <td className={css.addRowChildTd}>
                            {rowFooterData?.totalQty}
                         </td>
-                        {setting?.itemTableCheckboxes &&
-                           setting.itemTableCheckboxes[
+                        {setting?.itemsTable &&
+                           setting.itemsTable[
                               "Free Item Quantity"
                            ] && <td></td>}
                         <td></td>
@@ -774,32 +774,20 @@ const Addpurchaseitem = ({ setOpenForm }) => {
                      </div>
                   )}
                   <div
-                     onClick={(e) => {
-                        e.stopPropagation();
-                        toast({
-                           title: "Feature currently in development",
-                           status: "info",
-                           position: "top",
-                        });
-                     }}
+                    
                      className={css.addDecriptionDiv}
                      style={{ width: "150px" }}
                   >
+                  <input type="file" />
                      <AddCameraIcon />
                      <p>ADD IMAGE</p>
                   </div>
                   <div
-                     onClick={(e) => {
-                        e.stopPropagation();
-                        toast({
-                           title: "Feature currently in development",
-                           status: "info",
-                           position: "top",
-                        });
-                     }}
+                    
                      className={css.addDecriptionDiv}
                      style={{ width: "150px" }}
                   >
+                  <input type="file" />
                      <AddDocumentIcon />
                      <p>ADD DOCUMENT</p>
                   </div>

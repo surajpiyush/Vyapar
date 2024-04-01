@@ -449,17 +449,11 @@ const EstimateForm = ({ setOpenForm, setToggleSetting }) => {
               </div>
             )}
             <div
-              onClick={(e) => {
-                e.stopPropagation();
-                toast({
-                  title: "Feature currently in development",
-                  status: "info",
-                  position: "top",
-                });
-              }}
+            
               className={css.addDecriptionDiv}
               style={{ width: "150px" }}
             >
+            <input type="file" />
               <AddCameraIcon />
               <p>ADD IMAGE</p>
             </div>

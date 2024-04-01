@@ -126,9 +126,7 @@ const Pourchaseorder = ({ func }) => {
                         <th className="table-h">
                            <div className="table-items">Action</div>
                         </th>
-                        <th className="table-h">
-                           <div className="table-items">Print</div>
-                        </th>
+                      
                      </tr>
                   </thead>
                   {!store.isLoading ? (

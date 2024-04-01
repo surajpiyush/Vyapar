@@ -4,7 +4,10 @@ import AddItemForm from "../../../Page/Items/AddItemForm";
 import FormItemsRowTable from "../../../Component/FormItemsRowTable";
 import { GetAllItems } from "../../../Redux/items/actions";
 import { FetchAllParties } from "../../../Redux/parties/actions";
-import { PostSalesInvoice } from "../../../Redux/sales/action";
+import {
+  PostSalesInvoice,
+  generateInvoiceNumber,
+} from "../../../Redux/sales/action";
 import { GetSingleInvoiceData } from "../../../Redux/sales/action";
 
 import {
@@ -38,6 +41,7 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
   const partiesData = useSelector((state) => state.PartiesReducer.partiesData);
   const toggleItems = useSelector((state) => state.ItemReducer.toggleItems);
   const invoicesList = useSelector((state) => state.SalesReducer.invoicesList);
+  const setting = useSelector((state) => state.SettingReducer.transaction);
 
   const [currentCustomerData, setCurrentCustomerData] = useState({});
   const [toggleDesc, setToggleDesc] = useState(false);
@@ -55,37 +59,6 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
   const [paymentArr, setPaymentArr] = useState([{ types: "Cash", amount: 0 }]);
   const [confirmModel, setConfirmModel] = useState(false);
   const [temp, setTemp] = useState("");
-  function generateInvoiceNumber() {
-    const currentDate = new Date();
-    const previousYear = (currentDate.getFullYear() - 1).toString().slice(-2);
-    const monthNames = [
-      "JAN",
-      "FEB",
-      "MAR",
-      "APR",
-      "MAY",
-      "JUN",
-      "JUL",
-      "AUG",
-      "SEP",
-      "OCT",
-      "NOV",
-      "DEC",
-    ];
-    const monthIndex = currentDate.getMonth();
-    const month = monthNames[monthIndex];
-    const hours = currentDate.getHours();
-    const minutes = currentDate.getMinutes();
-    const date = currentDate.getDate();
-    const sec = currentDate.getSeconds();
-
-    // Format the invoice number
-    const invoiceNumber = `${date}${hours}${minutes}${sec}/${month}/${previousYear}-${
-      Number(previousYear) + 1
-    }`;
-
-    return invoiceNumber;
-  }
 
   // Example usage
   //   const invoiceNumber = generateInvoiceNumber();
@@ -406,18 +379,20 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
           </div>
 
           <div className={css.rightSideCont}>
-            <div>
-              <p>Invoice Number</p>
-              <input
-                type="text"
-                placeholder="1"
-                name="invoiceNumber"
-                value={invoiceData?.invoiceNumber}
-                onChange={handleInputChange}
-                className={css.invoiceNumInp}
-                required
-              />
-            </div>
+            {setting?.transactionHeader["Invoice/Bill No."] && (
+              <div>
+                <p>Invoice Number</p>
+                <input
+                  type="text"
+                  placeholder="1"
+                  name="invoiceNumber"
+                  value={invoiceData?.invoiceNumber}
+                  onChange={handleInputChange}
+                  className={css.invoiceNumInp}
+                  required
+                />
+              </div>
+            )}
             <div>
               <p>Invoice Date</p>
               <input
@@ -430,18 +405,20 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
                 readOnly
               />
             </div>
-            <div>
-              <p>Invoice Time</p>
-              <input
-                type="time"
-                placeholder="Invoice Time"
-                name="time"
-                value={invoiceData?.time}
-                onChange={handleInputChange}
-                className={css.invoiceDateSelectInp}
-                readOnly
-              />
-            </div>
+            {setting?.transactionHeader["Add Time on Transactions"] && (
+              <div>
+                <p>Invoice Time</p>
+                <input
+                  type="time"
+                  placeholder="Invoice Time"
+                  name="time"
+                  value={invoiceData?.time}
+                  onChange={handleInputChange}
+                  className={css.invoiceDateSelectInp}
+                  readOnly
+                />
+              </div>
+            )}
             <div>
               <p>State of supply</p>
               <select

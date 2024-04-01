@@ -351,14 +351,9 @@ const PaymentInForm = ({ closeForm, setToggleSetting }) => {
             )}
             <div className={css.cameraDiv}>
               <AddCameraIcon
-                onClick={() =>
-                  toast({
-                    title: "Feature under Development",
-                    status: "info",
-                    position: "top",
-                  })
-                }
+               
               />
+              <input type="file" />
             </div>
           </div>
           <div className={css.rightSideBottomDiv}>

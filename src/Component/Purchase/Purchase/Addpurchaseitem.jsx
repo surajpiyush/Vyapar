@@ -50,7 +50,7 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
    );
    const setting = useSelector((state) => state.SettingReducer.transaction);
 
-   // console.log(partiesData)
+   console.log(setting);
    const [currentCustomerData, setCurrentCustomerData] = useState({});
    const [toggleDesc, setToggleDesc] = useState(false);
    const [toggleRoundOff, setToggleRoundOff] = useState(false);
@@ -442,48 +442,56 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
                   </div>
                </div>
                <div>
-                  <div className={css.inputDiv}>
-                     <label
-                        htmlFor="PO No"
-                        className={
-                           invoiceData.partyName
-                              ? css.activeLabel
-                              : css.inactiveLabel
-                        }
-                     >
-                        PO No.
-                     </label>
-                     <input
-                        // required
-                        type="text"
-                        name="poNo"
-                        className={css.input}
-                        onChange={(e) => handleInputChange(e)}
-                     />
-                  </div>
-                  <br />
-                  <div className={css.inputDiv}>
-                     <label
-                        htmlFor="PO Date"
-                        className={
-                           invoiceData.partyName
-                              ? css.activeLabel
-                              : css.inactiveLabel
-                        }
-                     >
-                        PO Date
-                     </label>
-                     <input
-                        // required
-                        type="Date"
-                        name="poDate"
-                        defaultValue={new Date().toISOString().split("T")[0]}
-                        className={css.input}
-                        onChange={(e) => handleInputChange(e)}
-                     />
-                  </div>
-                  <br />
-                  {invoiceData.total > 50000 && (
+                  {setting?.transactionHeader[
+                     "Customers P.O Details on Transactions"
+                  ] && (
+                     <div>
+                        <div className={css.inputDiv}>
+                           <label
+                              htmlFor="PO No"
+                              className={
+                                 invoiceData.partyName
+                                    ? css.activeLabel
+                                    : css.inactiveLabel
+                              }
+                           >
+                              PO No.
+                           </label>
+                           <input
+                              // required
+                              type="text"
+                              name="poNo"
+                              className={css.input}
+                              onChange={(e) => handleInputChange(e)}
+                           />
+                        </div>
+                        <br />
+                        <div className={css.inputDiv}>
+                           <label
+                              htmlFor="PO Date"
+                              className={
+                                 invoiceData.partyName
+                                    ? css.activeLabel
+                                    : css.inactiveLabel
+                              }
+                           >
+                              PO Date
+                           </label>
+                           <input
+                              // required
+                              type="Date"
+                              name="poDate"
+                              defaultValue={
+                                 new Date().toISOString().split("T")[0]
+                              }
+                              className={css.input}
+                              onChange={(e) => handleInputChange(e)}
+                           />
+                        </div>
+                        <br />
+                     </div>
+                  )}
+                  {setting?.moreTransactionFeatures["E-way bill no"] && (
                      <div className={css.inputDiv}>
                         <label
                            htmlFor="PO No"
@@ -505,6 +513,7 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
                      </div>
                   )}
                </div>
+
                <div className={css.rightSideCont}>
                   <div>
                      <p>Bill Number</p>
@@ -547,32 +556,38 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
                         // readOnly
                      />
                   </div>
-                  <div>
-                     <p>Payment Terms</p>
-                     <select
-                        required
-                        name="paymentTerms"
-                        onChange={(e) => handleInputChange(e)}
-                     >
-                        <option value="">Due On Recipt</option>
-                        <option value="net 15">Net 15</option>
-                        <option value="net 30">Net 30</option>
-                        <option value="net 45">Net 45</option>
-                        <option value="net 60">Net 60</option>
-                     </select>
-                  </div>
-                  <div>
-                     <p>Due Date</p>
-                     <input
-                        required
-                        type="date"
-                        placeholder="Due Date"
-                        className={css.invoiceDateSelectInp}
-                        onChange={(e) => handleInputChange(e)}
-                        value={invoiceData?.dueDate}
-                        name="dueDate"
-                     />
-                  </div>
+                  {setting?.moreTransactionFeatures &&
+                     setting.moreTransactionFeatures["Due Dates and Payment Terms"] && (
+                        <>
+                           <div> 
+                              <p>Payment Terms</p>
+                              <select
+                                 required
+                                 name="paymentTerms"
+                                 onChange={(e) => handleInputChange(e)}
+                              >
+                                 <option value="">Due On Recipt</option>
+                                 <option value="net 15">Net 15</option>
+                                 <option value="net 30">Net 30</option>
+                                 <option value="net 45">Net 45</option>
+                                 <option value="net 60">Net 60</option>
+                              </select>
+                           </div>
+                           <div>
+                              <p>Due Date</p>
+                              <input
+                                 required
+                                 type="date"
+                                 placeholder="Due Date"
+                                 className={css.invoiceDateSelectInp}
+                                 onChange={(e) => handleInputChange(e)}
+                                 value={invoiceData?.dueDate}
+                                 name="dueDate"
+                              />
+                           </div>
+                        </>
+                     )}
+
                   <div>
                      <p>State of supply</p>
                      <select
@@ -607,14 +622,14 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
                         <th className={css.unitHead}>ITEM CODE</th>
                         <th className={css.unitHead}>HSN CODE</th>
                         {/* <th className={css.itemNameHead}>DESCRIPTION</th> */}
-                        {setting?.itemTableCheckboxes?.Count && (
+                        {setting?.itemsTable?.Count && (
                            <th className={css.unitHead}>COUNT</th>
                         )}
                         <th className={css.qtyHead}>QTY</th>
-                        {setting?.itemTableCheckboxes &&
-                           setting.itemTableCheckboxes[
-                              "Free Item Quantity"
-                           ] && <th className={css.unitHead}>FREE QTY</th>}{" "}
+                        {setting?.itemsTable &&
+                           setting.itemsTable["Free Item Quantity"] && (
+                              <th className={css.unitHead}>FREE QTY</th>
+                           )}{" "}
                         <th className={css.unitHead}>UNIT</th>
                         <th className={css.priceUnitHead}>
                            <p>PRICE/UNIT</p>
@@ -686,19 +701,18 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
                         <td></td>
                         {/* <td></td> */}
                         <td></td>
-                        {setting?.itemTableCheckboxes &&
-                           setting.itemTableCheckboxes.Count &&
-                        <td className={css.addRowChildTd}>
-                           {rowFooterData?.totalCount}
-                        </td>}
+                        {setting?.itemsTable && setting.itemsTable.Count && (
+                           <td className={css.addRowChildTd}>
+                              {rowFooterData?.totalCount}
+                           </td>
+                        )}
                         <td className={css.addRowChildTd}>
                            {rowFooterData?.totalQty}
                         </td>
-                        {setting?.itemTableCheckboxes &&
-                           setting.itemTableCheckboxes[
-                              "Free Item Quantity"
-                           ] &&
-                        <td></td> }
+                        {setting?.itemsTable &&
+                           setting.itemsTable["Free Item Quantity"] && (
+                              <td></td>
+                           )}
                         <td></td>
                         <td></td>
                         <td className={css.addRowChildTd}>
@@ -877,36 +891,25 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
                      </div>
                   )}
                   <div
-                     onClick={(e) => {
-                        e.stopPropagation();
-                        toast({
-                           title: "Feature currently in development",
-                           status: "info",
-                           position: "top",
-                        });
-                     }}
+                    
                      className={css.addDecriptionDiv}
                      style={{ width: "150px" }}
                   >
                      <AddCameraIcon />
+                     <input type="file" />
                      <p>ADD IMAGE</p>
                   </div>
                   <div
-                     onClick={(e) => {
-                        e.stopPropagation();
-                        toast({
-                           title: "Feature currently in development",
-                           status: "info",
-                           position: "top",
-                        });
-                     }}
+                    
                      className={css.addDecriptionDiv}
                      style={{ width: "150px" }}
                   >
+                  <input type="file" />
                      <AddDocumentIcon />
                      <p>ADD DOCUMENT</p>
                   </div>
                </div>
+          
                <div className={css.bottomRightSideCont}>
                   <div className={css.rightSideUpperInputsDiv}>
                      <div className={css.roundOffDiv}>

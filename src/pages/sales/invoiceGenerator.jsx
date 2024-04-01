@@ -7,7 +7,7 @@ import InvoicePrint from "../../Component/PrintLayouts/InvoicePrint";
 import { useReactToPrint } from "react-to-print";
 import { CloseIcon } from "../../assets/Icons/ReactIcons";
 
-const InvoiceGenerator = ({ invoiceData, setConfirmModel }) => {
+const InvoiceGenerator = ({ invoiceData, setConfirmModel = false }) => {
    const [printMode, setPrintMode] = useState(true);
    let printComponentRef = useRef();
    console.log(invoiceData);
@@ -37,22 +37,25 @@ const InvoiceGenerator = ({ invoiceData, setConfirmModel }) => {
 
    return (
       <div className={css.Overlay} style={{ zIndex: "5000" }}>
-         <div
-           
-            className={css.OuterEditProfile}
-         >
+         <div className={css.OuterEditProfile}>
             <div className={css.topNavDiv}>
                <h2> DO YOU WANT YOU TO PRINT THE INVOICE</h2>
                <CloseIcon onClick={() => setConfirmModel(false)} />
             </div>
-            <div style={{ display: "flex",margin:"25px", justifyContent:"space-evenly" }}>
+            <div
+               style={{
+                  display: "flex",
+                  margin: "25px",
+                  justifyContent: "space-evenly",
+               }}
+            >
                {/* Button to generate PDF */}
                {/* <button onClick={generatePDF}>Download PDF</button> */}
 
                {/* Button to trigger printing */}
                <button
                   style={{
-                    backgroundColor: "var(--ElectricBlue)",
+                     backgroundColor: "var(--ElectricBlue)",
                      padding: "5px 22px",
                      // font-size: 16px;
                      border: "none",
@@ -68,7 +71,7 @@ const InvoiceGenerator = ({ invoiceData, setConfirmModel }) => {
                </button>
                <button
                   style={{
-                    backgroundColor: "var(--ElectricBlue)",
+                     backgroundColor: "var(--ElectricBlue)",
                      padding: "5px 22px",
                      // font-size: 16px;
                      border: "none",
@@ -78,7 +81,7 @@ const InvoiceGenerator = ({ invoiceData, setConfirmModel }) => {
                      transition: "all 0.15s ease",
                      letterSpacing: "0.5px",
                   }}
-                  onClick={()=>setConfirmModel(false)}
+                  onClick={() => setConfirmModel(false)}
                >
                   NO
                </button>

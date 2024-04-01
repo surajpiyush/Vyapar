@@ -7,9 +7,9 @@ import { MdDelete as DeleteIcon } from "react-icons/md";
 import { TbArrowsMove as MoveIcon } from "react-icons/tb";
 import { GetAllCategories } from "../../Redux/items/actions";
 
-const AddPurchaseForm = memo(
+const EditPurchaseForm = memo(
    ({
-      ind,
+      ind = 1,
       item,
       invoiceItems,
       setInvoiceItems,
@@ -452,4 +452,4 @@ const AddPurchaseForm = memo(
    }
 );
 
-export default AddPurchaseForm;
+export default EditPurchaseForm;
