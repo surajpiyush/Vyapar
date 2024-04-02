@@ -249,7 +249,6 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
   // for fetching all items list on form mount
   useEffect(() => {
     GetAllItems(dispatch);
-    // console.log(items)
   }, [toggleItems]);
   //  for updating Firm Data
   useEffect(() => {

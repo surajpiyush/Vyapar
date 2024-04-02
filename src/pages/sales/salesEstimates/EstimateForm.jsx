@@ -120,7 +120,7 @@ const EstimateForm = ({ setOpenForm, setToggleSetting }) => {
 
   // for fetching all items list on form mount
   useEffect(() => {
-    dispatch(GetAllItems());
+    GetAllItems(dispatch)
   }, [toggleItems]);
 
   // Update total footer values

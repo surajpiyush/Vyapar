@@ -67,7 +67,9 @@ const AllTransactions = () => {
          ? data.ExpensesWithOutGst[0].ExpensesWithOutGst
          : []),
    ]);
-console.log(store)
+// console.log(temp)
+   temp?.sort((a, b) => new Date(a.date) - new Date(b.date));
+   // console.log(store)
    const SelectorType = [
       "All Transaction",
       "Sale",
@@ -120,10 +122,9 @@ console.log(store)
          <div style={{ margin: "20px 0 10px 20px" }}>
             <ReportSearchBar />
          </div>
-<div>
-
-         <TableModel tableHeader={tableHeader} data={temp} />
-</div>
+         <div>
+            <TableModel tableHeader={tableHeader} data={temp} />
+         </div>
       </div>
    );
 };

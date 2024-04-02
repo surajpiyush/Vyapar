@@ -56,7 +56,9 @@ const Transactions = ({ func, date, info, data }) => {
       )
     );
   };
-
+// useEffect(()=>{
+//   GetAllPurchaseBill(dispatch,startDate,endDate)
+// },[])
   const handleSave = (updatedData) => {
     dispatch(
       updatePurchaseBill(updatedData._id, updatedData, () =>
@@ -83,11 +85,11 @@ const Transactions = ({ func, date, info, data }) => {
     "hariom",
   ];
 
-  // console.log(showAllPurchaseBills);
+  console.log(data);
   return (
     <div className={`main-container ${isEditing ? "editing" : ""}`}>
       {/* {isEditing && <EditPurchaseForm />} */}
-      {!isLoading && !showAllPurchaseBills.length ? (
+      {!isLoading && !data.length ? (
         <FirstTimeFormToggle
           img={party}
           onClick={() => openForm()}
@@ -116,8 +118,8 @@ const Transactions = ({ func, date, info, data }) => {
                 </tr>
               </thead>
               <tbody>
-                {!isLoading && showAllPurchaseBills.length ? (
-                  showAllPurchaseBills?.map((e) => {
+                {!isLoading && data.length ? (
+                  data?.map((e) => {
                     info.paid += Number(e?.amount) - Number(e?.balanceDue);
 
                     info.unpaid += e.balanceDue;
