@@ -43,10 +43,10 @@ const TableInvoice = ({
         <div>{paymentType[0]?.types}</div>
       </td>
       <td>
-        <div style={{ textAlign: "right" }}>{amount}</div>
+        <div style={{ textAlign: "right" }}>₹{amount}</div>
       </td>
       <td>
-        <div style={{ textAlign: "right" }}>{balanceDue}</div>
+        <div style={{ textAlign: "right" }}>₹{balanceDue}</div>
       </td>
       <td>
         <div>{dueDate}</div>

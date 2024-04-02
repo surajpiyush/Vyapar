@@ -82,14 +82,6 @@ export default function SalesDeliveryChallan() {
     setIsEditing(false);
     setEditedData(null);
   };
-  const display = [
-    "invoiceDate",
-    "partyName",
-    "challanNo",
-    "dueDate",
-    "amount",
-    "statuss",
-  ];
 
   return isLoading ? (
     <Loader3 text="Loading Delivery Challans" />
@@ -194,30 +186,19 @@ export default function SalesDeliveryChallan() {
               <table>
                 <thead>
                   <tr>
-                    <th>
-                      <div>DATE</div>
-                    </th>
-                    <th>
-                      <div>PARTY</div>
-                    </th>
-                    <th>
-                      <div>CHALLAN NO.</div>
-                    </th>
-                    <th>
-                      <div>DUE DATE</div>
-                    </th>
-                    <th>
-                      <div>TOTAL</div>
-                    </th>
-                    <th>
-                      <div>TOTAL AMOUNT</div>
-                    </th>
-                    <th>
-                      <div>STATUS</div>
-                    </th>
-                    <th>
-                      <div>ACTION</div>
-                    </th>
+                    {[
+                      "DATE",
+                      "PARTY",
+                      "CHALLAN NO.",
+                      "DUE DATE",
+                      "TOTAL",
+                      "STATUS",
+                      "ACTION",
+                    ].map((item, ind) => (
+                      <th key={item + ind}>
+                        <div>{item}</div>
+                      </th>
+                    ))}
                   </tr>
                 </thead>
 
@@ -232,7 +213,14 @@ export default function SalesDeliveryChallan() {
                           }}
                         >
                           <EditableRow
-                            display={display}
+                            display={[
+                              "invoiceDate",
+                              "partyName",
+                              "challanNo",
+                              "dueDate",
+                              "amount",
+                              "statuss",
+                            ]}
                             data={editedData}
                             onSave={handleSave}
                             onCancel={handleCancel}

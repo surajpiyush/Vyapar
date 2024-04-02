@@ -59,7 +59,7 @@ export default function SalesPaymentIn() {
 
   const handleEdit = (_id) => {
     const data = paymentInList.filter((e) => e._id === _id);
-    console.log(data);
+    // console.log(data);
     setIsEditing(true);
     setEditedData(data[0]);
   };
@@ -80,20 +80,6 @@ export default function SalesPaymentIn() {
     setIsEditing(false);
     setEditedData(null);
   };
-  const display = [
-    "#",
-    "invoiceDate",
-    "refNo",
-    "partyName",
-    "category",
-    "type",
-    "total",
-    // "paymentType",
-    "recieved",
-    "balance",
-    // "duedate",
-    // "statuss",
-  ];
 
   return isLoading ? (
     <Loader3 text="Loading Payment-In" />
@@ -170,30 +156,20 @@ export default function SalesPaymentIn() {
             <table>
               <thead>
                 <tr>
-                  <th>
-                    <div>#</div>
-                  </th>
-                  <th>
-                    <div>DATE</div>
-                  </th>
-                  <th>
-                    <div>REF NO.</div>
-                  </th>
-                  <th>
-                    <div>PARTY NAME</div>
-                  </th>
-                  <th>
-                    <div>TYPE</div>
-                  </th>
-                  <th>
-                    <div>RECEIVED/PAID</div>
-                  </th>
-                  <th>
-                    <div>BALANCE</div>
-                  </th>
-                  <th>
-                    <div>ACTION</div>
-                  </th>
+                  {[
+                    "#",
+                    "DATE",
+                    "REF NO.",
+                    "PARTY NAME",
+                    "TYPE",
+                    "RECEIVED/PAID",
+                    "BALANCE",
+                    "ACTION",
+                  ].map((item, ind) => (
+                    <th key={item + ind}>
+                      <div>{item}</div>
+                    </th>
+                  ))}
                 </tr>
               </thead>
 
@@ -208,7 +184,20 @@ export default function SalesPaymentIn() {
                         }}
                       >
                         <EditableRow
-                          display={display}
+                          display={[
+                            "#",
+                            "invoiceDate",
+                            "refNo",
+                            "partyName",
+                            "category",
+                            "type",
+                            "total",
+                            // "paymentType",
+                            "recieved",
+                            "balance",
+                            // "duedate",
+                            // "statuss",
+                          ]}
                           data={editedData}
                           onSave={handleSave}
                           onCancel={handleCancel}

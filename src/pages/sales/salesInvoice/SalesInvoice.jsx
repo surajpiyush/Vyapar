@@ -126,20 +126,6 @@ export default function SalesInvoice() {
     setEditedData(null);
   };
 
-  // Items to display while Update form is active
-  const display = [
-    "invoiceDate",
-    "invoiceNumber",
-    "partyName",
-    "transactionType",
-    "paymentType",
-    "amount",
-    "balanceDue",
-    "duedate",
-    "status",
-    "hariom",
-  ];
-
   // ***************************** Print ************************************
   const handlePrint = useReactToPrint({
     content: () => printComponentRef.current,
@@ -321,36 +307,22 @@ export default function SalesInvoice() {
             <table>
               <thead>
                 <tr>
-                  <th>
-                    <div>DATE</div>
-                  </th>
-                  <th>
-                    <div>INVOICE NO.</div>
-                  </th>
-                  <th>
-                    <div>PARTY NAME</div>
-                  </th>
-                  <th>
-                    <div>TRANSACTION TYPE</div>
-                  </th>
-                  <th>
-                    <div>PAYMENT TYPE</div>
-                  </th>
-                  <th>
-                    <div>AMOUNT</div>
-                  </th>
-                  <th>
-                    <div>BALANCE DUE</div>
-                  </th>
-                  <th>
-                    <div>DUE DATE</div>
-                  </th>
-                  <th>
-                    <div>STATUS</div>
-                  </th>
-                  <th>
-                    <div>ACTION</div>
-                  </th>
+                  {[
+                    "DATE",
+                    "INVOICE NO.",
+                    "PARTY NAME",
+                    "TRANSACTION TYPE",
+                    "PAYMENT TYPE",
+                    "AMOUNT",
+                    "BALANCE DUE",
+                    "DUE DATE",
+                    "STATUS",
+                    "ACTION",
+                  ].map((item, ind) => (
+                    <th key={item + ind}>
+                      <div>{item}</div>
+                    </th>
+                  ))}
                 </tr>
               </thead>
 
@@ -366,7 +338,18 @@ export default function SalesInvoice() {
                         key={item?._id + ind}
                       >
                         <EditableRow
-                          display={display}
+                          display={[
+                            "invoiceDate",
+                            "invoiceNumber",
+                            "partyName",
+                            "transactionType",
+                            "paymentType",
+                            "amount",
+                            "balanceDue",
+                            "duedate",
+                            "status",
+                            "hariom",
+                          ]}
                           data={editedData}
                           onSave={handleSave}
                           onCancel={handleCancel}

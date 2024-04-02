@@ -42,10 +42,10 @@ const TablePaymentIn = ({
         <div style={{ textAlign: "right" }}>{total}</div>
       </td> */}
       <td>
-        <div style={{ textAlign: "right" }}>{recived}</div>
+        <div style={{ textAlign: "right" }}>₹{recived}</div>
       </td>
       <td>
-        <div style={{ textAlign: "right" }}>{balance}</div>
+        <div style={{ textAlign: "right" }}>₹{balance}</div>
       </td>
       <td>
         <div className={css.actionDivContent}>

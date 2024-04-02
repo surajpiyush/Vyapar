@@ -13,14 +13,15 @@ import { FiPlusCircle as PlusIcon } from "react-icons/fi";
 import { HiMiniDocumentText as AddDocumentIcon } from "react-icons/hi2";
 import { IoIosArrowDown as ArrowDown } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import { addPayOut, getPaymentOutBill } from "../../../Redux/purchase/action";
+import { addPayOut, GetAllPaymentOut } from "../../../Redux/purchase/action";
 import css from "../../../styles/SalesStyles/SalesForms.module.css";
-import "./Paymentouts.css";
+//import "./Paymentouts.css";
 
 //import ItemsForm from "../../../components/addForm/ItemsForm";
 import { FetchAllParties } from "../../../Redux/parties/actions";
 import AddItemForm from "../../../Page/Items/AddItemForm";
-const AddPaymentouts = ({ setOpenForm, date }) => {
+
+const AddPaymentOutForm = ({ setOpenForm }) => {
   const toast = useToast();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.PurchaseReducer.isLoading);
@@ -83,8 +84,8 @@ const AddPaymentouts = ({ setOpenForm, date }) => {
     // console.log("data", data2);
     addPayOut(dispatch, data2, setOpenForm, toast);
     // setOpenForm(false);
-    // dispatch(getPaymentOutBill({ date }));
-    getPaymentOutBill(dispatch, date);
+    // dispatch(GetAllPaymentOut({ date }));
+    // GetAllPaymentOut(dispatch, date);
   };
 
   // for fetching all parties list on form mount
@@ -440,21 +441,13 @@ const AddPaymentouts = ({ setOpenForm, date }) => {
                 <p>ADD DESCRIPTION</p>
               </div>
             )}
-            <div
-             
-              className={css.addDecriptionDiv}
-              style={{ width: "150px" }}
-            >
-            <input type="file" />
+            <div className={css.addDecriptionDiv} style={{ width: "150px" }}>
+              <input type="file" />
               <AddCameraIcon />
               <p>ADD IMAGE</p>
             </div>
-            <div
-            
-              className={css.addDecriptionDiv}
-              style={{ width: "150px" }}
-            >
-            <input type="file" />
+            <div className={css.addDecriptionDiv} style={{ width: "150px" }}>
+              <input type="file" />
               <AddDocumentIcon />
               <p>ADD DOCUMENT</p>
             </div>
@@ -483,4 +476,4 @@ const AddPaymentouts = ({ setOpenForm, date }) => {
   );
 };
 
-export default AddPaymentouts;
+export default AddPaymentOutForm;

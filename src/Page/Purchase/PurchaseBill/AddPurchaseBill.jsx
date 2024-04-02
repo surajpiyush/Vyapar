@@ -28,7 +28,7 @@ import {
   getPurchaseBill,
 } from "../../../Redux/purchase/action";
 
-const AddPurchaseBillForm = ({ setOpenForm, date }) => {
+const AddPurchaseBillForm = ({ setOpenForm }) => {
   const toast = useToast();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.SalesReducer.isLoading);

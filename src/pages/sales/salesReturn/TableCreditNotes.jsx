@@ -40,13 +40,13 @@ const TableCreditNotes = ({
         <div>{type}</div>
       </td>
       <td>
-        <div style={{ textAlign: "right" }}>{total}</div>
+        <div style={{ textAlign: "right" }}>₹{total}</div>
       </td>
       <td>
-        <div style={{ textAlign: "right" }}>{paidAmount ? paidAmount : 0}</div>
+        <div style={{ textAlign: "right" }}>₹{paidAmount ? paidAmount : 0}</div>
       </td>
       <td>
-        <div style={{ textAlign: "right" }}>{balance}</div>
+        <div style={{ textAlign: "right" }}>₹{balance}</div>
       </td>
       <td>
         <div className={css.actionDivContent}>

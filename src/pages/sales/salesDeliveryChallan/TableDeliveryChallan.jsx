@@ -29,14 +29,14 @@ const TableDeliveryChallan = ({
         <div>{FormatDate(dueDate)}</div>
       </td>
       <td>
-        <div style={{ textAlign: "right" }}>{amount}</div>
+        <div style={{ textAlign: "right" }}>₹{amount}</div>
       </td>
       <td>
         <div>{status}</div>
       </td>
-      <td>
+      {/* <td>
         <div>{action}</div>
-      </td>
+      </td> */}
       <td>
         <div className={css.actionDivContent}>
           <DeleteIcon2 onClick={() => handleDelete(_id)} />

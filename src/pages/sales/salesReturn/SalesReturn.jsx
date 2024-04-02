@@ -82,18 +82,6 @@ export default function SalesReturn() {
     setIsEditing(false);
     setEditedData(null);
   };
-  const display = [
-    "invoiceDate",
-    "invoiceNumber",
-    "partyName",
-    "transactionType",
-    "paymentType",
-    "amount",
-    "balanceDue",
-    "duedate",
-    "status",
-    "hariom",
-  ];
 
   return isLoading ? (
     <Loader3 text="Loading Sale Returns" />
@@ -193,33 +181,21 @@ export default function SalesReturn() {
             <table>
               <thead>
                 <tr>
-                  <th>
-                    <div>#</div>
-                  </th>
-                  <th>
-                    <div>DATE</div>
-                  </th>
-                  <th>
-                    <div>REF NO.</div>
-                  </th>
-                  <th>
-                    <div>PARTY NAME</div>
-                  </th>
-                  <th>
-                    <div>TYPE</div>
-                  </th>
-                  <th>
-                    <div>TOTAL</div>
-                  </th>
-                  <th>
-                    <div>RECEIVED/PAID</div>
-                  </th>
-                  <th>
-                    <div>BALANCE</div>
-                  </th>
-                  <th>
-                    <div>ACTION</div>
-                  </th>
+                  {[
+                    "#",
+                    "DATE",
+                    "REF NO.",
+                    "PARTY NAME",
+                    "TYPE",
+                    "TOTAL",
+                    "RECEIVED/PAID",
+                    "BALANCE",
+                    "ACTION",
+                  ].map((item, ind) => (
+                    <th key={item + ind}>
+                      <div>{item}</div>
+                    </th>
+                  ))}
                 </tr>
               </thead>
 
@@ -234,7 +210,18 @@ export default function SalesReturn() {
                         }}
                       >
                         <EditableRow
-                          display={display}
+                          display={[
+                            "invoiceDate",
+                            "invoiceNumber",
+                            "partyName",
+                            "transactionType",
+                            "paymentType",
+                            "amount",
+                            "balanceDue",
+                            "duedate",
+                            "status",
+                            "hariom",
+                          ]}
                           data={editedData}
                           onSave={handleSave}
                           onCancel={handleCancel}

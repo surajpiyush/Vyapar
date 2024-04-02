@@ -83,14 +83,6 @@ export default function SalesEstimates() {
     setIsEditing(false);
     setEditedData({});
   };
-  const display = [
-    "invoiceDate",
-    "refNo",
-    "partyName",
-    "amount",
-    "balanceDue",
-    "statuss",
-  ];
 
   return isLoading ? (
     <Loader3 text="Loading Estimates/Quatations" />
@@ -190,27 +182,19 @@ export default function SalesEstimates() {
             <table>
               <thead>
                 <tr>
-                  <th>
-                    <div>DATE</div>
-                  </th>
-                  <th>
-                    <div>REFERENCE NO.</div>
-                  </th>
-                  <th>
-                    <div>NAME</div>
-                  </th>
-                  <th>
-                    <div>TOTAL AMOUNT</div>
-                  </th>
-                  <th>
-                    <div>BALANCE</div>
-                  </th>
-                  <th>
-                    <div>STATUS</div>
-                  </th>
-                  <th>
-                    <div>ACTION</div>
-                  </th>
+                  {[
+                    "DATE",
+                    "REFERENCE NO.",
+                    "NAME",
+                    "TOTAL AMOUNT",
+                    "BALANCE",
+                    "STATUS",
+                    "ACTION",
+                  ].map((item, ind) => (
+                    <th key={item + ind}>
+                      <div>{item}</div>
+                    </th>
+                  ))}
                 </tr>
               </thead>
 
@@ -225,7 +209,14 @@ export default function SalesEstimates() {
                         }}
                       >
                         <EditableRow
-                          display={display}
+                          display={[
+                            "invoiceDate",
+                            "refNo",
+                            "partyName",
+                            "amount",
+                            "balanceDue",
+                            "statuss",
+                          ]}
                           data={editedData}
                           onSave={handleSave}
                           onCancel={handleCancel}
