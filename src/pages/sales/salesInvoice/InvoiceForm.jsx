@@ -215,7 +215,8 @@ console.log(monthIndex)
 
   // for fetching all items list on form mount
   useEffect(() => {
-    dispatch(GetAllItems());
+    // dispatch(GetAllItems());
+    GetAllItems(dispatch)
   }, [toggleItems]);
 
   //  for updating Firm Data

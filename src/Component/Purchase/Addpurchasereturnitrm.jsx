@@ -192,7 +192,7 @@ const Addpurchaseitem = ({ setOpenForm }) => {
 
    // for fetching all items list on form mount
    useEffect(() => {
-      dispatch(GetAllItems());
+      GetAllItems(dispatch)
    }, [toggleItems]);
 
    // for changing current firm data
