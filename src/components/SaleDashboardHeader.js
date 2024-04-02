@@ -35,10 +35,53 @@ const SaleDashboardHeader = ({
                   (header) => header !== "_id"
                );
 
-               // Construct data array with filtered data
-               const filteredData = tableData.map((row) =>
+               // Filter taxable and tax-free data
+               const taxableData = tableData.filter(
+                  (row) =>
+                     row["taxableValue"] !== null && row["taxableValue"] > 0
+               );
+               const taxFreeData = tableData.filter(
+                  (row) =>
+                     row["taxableValue"] === null || row["taxableValue"] === 0
+               );
+
+               // for b2b
+               // Construct data array with filtered taxable data
+               const filteredTaxableData = taxableData.map((row) =>
                   filteredHeaders.map((header) => row[header])
                );
+
+               // Calculate total number of recipients and total number of invoices
+               const uniquePartyNamesTax = [
+                  ...new Set(taxableData.map((row) => row.partyName)),
+               ];
+
+               const totalRecipientsTax = uniquePartyNamesTax.length;
+               const totalInvoicesTax = filteredTaxableData.length;
+
+               // Calculate total taxable value and total cess
+               const totalTaxableValue = filteredTaxableData.reduce(
+                  (acc, row) => acc + (row.taxableValue || 0),
+                  0
+               );
+               const totalCess = filteredTaxableData.reduce(
+                  (acc, row) => acc + (row.cess || 0),
+                  0
+               );
+
+               // for b2cl
+               // Construct data array with filtered tax-free data for b2CLsheet
+               const filteredTaxFreeData = taxFreeData.map((row) =>
+                  filteredHeaders.map((header) => row[header])
+               );
+
+               // Calculate total number of recipients and total number of invoices
+               const uniquePartyNamesTaxFree = [
+                  ...new Set(taxFreeData.map((row) => row.partyName)),
+               ];
+
+               const totalRecipientsTaxFree = uniquePartyNamesTaxFree.length;
+               const totalInvoicesTaxFree = filteredTaxFreeData.length;
 
                // Fetch Excel file
                const response = await fetch(
@@ -79,24 +122,48 @@ const SaleDashboardHeader = ({
                      "Total Taxable Value",
                      "Total Cess",
                   ],
-                  [tableData.length, "", tableData.length],
+                  [
+                     totalRecipientsTax,
+                     "",
+                     totalInvoicesTax,
+                     "",
+                     "",
+                     "",
+                     "",
+                     "",
+                     "",
+                     "",
+                     "",
+                     totalTaxableValue,
+                     totalCess,
+                  ],
                   [],
                   [
-                     "Date Of Invoice",
+                     "Status",
                      "Invoice Number",
+                     "Date Of Invoice",
+                     "State of Supply",
                      "Supplier",
-                     "Category Name",
+                     "GSTIN NUMBER",
                      "Type of Transection",
+                     "Mode of Payment",
                      "Total Amount",
                      "Total Balance",
-                     "Due Date",
-                     "Status",
+                     "Rate of GST",
+                     "Taxable Amount",
+                     "CESS",
                   ],
-                  ...filteredData,
+                  ...filteredTaxableData,
                ]);
+
                const b2CLsheet = XLSX.utils.aoa_to_sheet([
                   ["Summary Fro B2CL"],
                   [
+                     "No. Of Recipients",
+                     "",
+                     "No. Of Invoices",
+                     "",
+                     "",
                      "",
                      "",
                      "",
@@ -104,22 +171,42 @@ const SaleDashboardHeader = ({
                      "",
                      "",
                      "Total Taxable Value",
-                     "Total Css",
-                     "",
+                     "Total Cess",
                   ],
                   [
+                     totalRecipientsTaxFree,
+                     "",
+                     totalInvoicesTaxFree,
+
+                     "",
+                     "",
+                     "",
+                     "",
+                     "",
+                     "",
+                     "",
+                     "",
+                     0,
+                     0,
+                  ],
+                  [""],
+                  [
+                     "Status",
                      "Invoice Number",
-                     "Invoice Date",
-                     "Invoice Value",
-                     "Place of Supply",
-                     "Applicable %",
-                     "Rate",
-                     "Taxable Value",
-                     "Cess Amount",
-                     "E-Commerce GSTIN",
+                     "Date Of Invoice",
+                     "State of Supply",
+                     "Supplier",
+                     "GSTIN NUMBER",
+                     "Type of Transection",
+                     "Mode of Payment",
+                     "Total Amount",
+                     "Total Balance",
+                     "Rate of GST",
+                     "Taxable Amount",
+                     "CESS",
                   ],
 
-                  [""],
+                  ...filteredTaxFreeData,
                ]);
                const b2cs = XLSX.utils.aoa_to_sheet([
                   ["Summary Fro B2CL"],
@@ -135,33 +222,21 @@ const SaleDashboardHeader = ({
                      "",
                   ],
                   [
-                     "Invoice Number",
-                     "Invoice Date",
-                     "Invoice Value",
-                     "Place of Supply",
-                     "Applicable %",
+                     "Type",
+                     "Place Of Supply",
+                     "Applicable % of Tax Rate",
                      "Rate",
                      "Taxable Value",
                      "Cess Amount",
-                     "E-Commerce GSTIN",
+                     "	E-Commerce GSTIN",
                   ],
 
                   [""],
                ]);
 
                const cdnr = XLSX.utils.aoa_to_sheet([
-                  ["Summary Fro B2CL"],
-                  [
-                     "",
-                     "",
-                     "",
-                     "",
-                     "",
-                     "",
-                     "Total Taxable Value",
-                     "Total Css",
-                     "",
-                  ],
+                  ["Summary For CDNR(9B)"],
+                  ["", "", "", "", "", "", "", "", "", "", ""],
                   [
                      "Invoice Number",
                      "Invoice Date",
@@ -178,35 +253,16 @@ const SaleDashboardHeader = ({
                ]);
 
                const exemp = XLSX.utils.aoa_to_sheet([
-                  ["Summary Fro B2CL"],
-                  [
-                     "",
-                     "",
-                     "",
-                     "",
-                     "",
-                     "",
-                     "Total Taxable Value",
-                     "Total Css",
-                     "",
-                  ],
-                  [
-                     "Invoice Number",
-                     "Invoice Date",
-                     "Invoice Value",
-                     "Place of Supply",
-                     "Applicable %",
-                     "Rate",
-                     "Taxable Value",
-                     "Cess Amount",
-                     "E-Commerce GSTIN",
-                  ],
+                  ["Summary For Nil rated,"],
+                  ["exempted and non GST outward supplies (8)"],
+                  ["", "Total Nill Value", "Total Css", ""],
+                  [""],
 
                   [""],
                ]);
 
                const hsn = XLSX.utils.aoa_to_sheet([
-                  ["Summary Fro B2CL"],
+                  ["Summary for HSN"],
                   [
                      "",
                      "",
@@ -214,52 +270,31 @@ const SaleDashboardHeader = ({
                      "",
                      "",
                      "",
+                     "Total Value",
                      "Total Taxable Value",
-                     "Total Css",
+                     "Total Integrated Tax",
+                     "Total Central Tax",
                      "",
+                     "Total State/UT Tax",
+                     "Total Cess",
                   ],
+                  [""],
                   [
-                     "Invoice Number",
-                     "Invoice Date",
-                     "Invoice Value",
-                     "Place of Supply",
-                     "Applicable %",
-                     "Rate",
+                     "HSN",
+                     "	Description	UQC",
+                     "Total Quantity",
+                     "Total Value	Rate",
                      "Taxable Value",
+                     "Integrated Tax Amount",
+                     "Central Tax Amount",
+                     "State/UT Tax Amount",
                      "Cess Amount",
-                     "E-Commerce GSTIN",
                   ],
 
                   [""],
                ]);
 
-               const docs = XLSX.utils.aoa_to_sheet([
-                  ["Summary Fro B2CL"],
-                  [
-                     "",
-                     "",
-                     "",
-                     "",
-                     "",
-                     "",
-                     "Total Taxable Value",
-                     "Total Css",
-                     "",
-                  ],
-                  [
-                     "Invoice Number",
-                     "Invoice Date",
-                     "Invoice Value",
-                     "Place of Supply",
-                     "Applicable %",
-                     "Rate",
-                     "Taxable Value",
-                     "Cess Amount",
-                     "E-Commerce GSTIN",
-                  ],
-
-                  [""],
-               ]);
+               const docs = workbookMine.Sheets["docs"];
 
                XLSX.utils.book_append_sheet(workbook, b2bsheet, "b2b");
                XLSX.utils.book_append_sheet(workbook, b2CLsheet, "b2cl");
