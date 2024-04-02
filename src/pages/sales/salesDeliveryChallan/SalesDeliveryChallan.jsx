@@ -227,8 +227,8 @@ export default function SalesDeliveryChallan() {
                       isEditing && editedData?._id === item._id ? (
                         <tr
                           style={{
-                            width: "82%",
-                            position: "absolute",
+                            width: "80%",
+                            position: "relative",
                           }}
                         >
                           <EditableRow
@@ -253,16 +253,14 @@ export default function SalesDeliveryChallan() {
             </div>
           </div>
         ) : (
-          <div>
-            <FirstTimeFormToggle
-              marginTop="10px"
-              height="67.25vh"
-              img={party}
-              onClick={formOpen}
-              BtnText="Add Your First Delivery Challan"
-              MiddleText="Add Delivery Challan to manage your full Stock Inventory."
-            />
-          </div>
+          <FirstTimeFormToggle
+            marginTop="10px"
+            height="67.25vh"
+            img={party}
+            onClick={formOpen}
+            BtnText="Add Your First Delivery Challan"
+            MiddleText="Add Delivery Challan to manage your full Stock Inventory."
+          />
         )}
       </div>
     </div>

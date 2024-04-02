@@ -229,8 +229,8 @@ export default function SalesReturn() {
                     isEditing && editedData?._id === item._id ? (
                       <tr
                         style={{
-                          width: "82%",
-                          position: "absolute",
+                          width: "80%",
+                          position: "relative",
                         }}
                       >
                         <EditableRow
@@ -255,16 +255,14 @@ export default function SalesReturn() {
           </div>
         </div>
       ) : (
-        <div>
-          <FirstTimeFormToggle
-            marginTop="10px"
-            height="73.25vh"
-            img={party}
-            onClick={() => setOpenForm(true)}
-            BtnText="Add A Credit Note"
-            MiddleText="Make a sale return credit note & share with your parties by WhatsApp, Email or Printed copies."
-          />
-        </div>
+        <FirstTimeFormToggle
+          marginTop="10px"
+          height="73.25vh"
+          img={party}
+          onClick={() => setOpenForm(true)}
+          BtnText="Add A Credit Note"
+          MiddleText="Make a sale return credit note & share with your parties by WhatsApp, Email or Printed copies."
+        />
       )}
     </div>
   );

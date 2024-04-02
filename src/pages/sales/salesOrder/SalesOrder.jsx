@@ -231,8 +231,8 @@ export default function SalesOrder() {
                       isEditing && editedData?._id === item._id ? (
                         <tr
                           style={{
-                            width: "82%",
-                            position: "absolute",
+                            width: "80%",
+                            position: "relative",
                           }}
                         >
                           <EditableRow

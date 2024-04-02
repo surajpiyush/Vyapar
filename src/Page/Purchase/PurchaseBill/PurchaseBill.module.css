@@ -129,7 +129,7 @@
   border-radius: 6px;
   display: flex;
   flex-direction: column;
-  height: 61.75vh;
+  height: 61.25vh;
 }
 .contentUpperNav {
   display: flex;
@@ -221,7 +221,7 @@
   .actionDivContent {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 12.5px;
     width: fit-content;
     margin: auto;
 

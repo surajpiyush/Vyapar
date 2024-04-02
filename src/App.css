@@ -43,6 +43,7 @@
   --GoldenBeige: rgb(236, 209, 127);
   --VividOrangeRed: #ff3d00;
   --SemiTransparentMint: rgba(155, 245, 215, 0.75);
+  --EmeraldGreen: #4caf50;
   --overlayBg: rgba(0, 0, 0, 0.377);
   --overlayBg2: rgba(0, 0, 0, 0.544);
   --DeepCharcoal: #111827;
@@ -116,5 +117,5 @@
 }
 .outletOuterDiv {
   flex-grow: 1;
-  overflow: hidden;
+  /* overflow: hidden; */
 }

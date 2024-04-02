@@ -192,7 +192,7 @@ export default function SalesPaymentIn() {
                     <div>BALANCE</div>
                   </th>
                   <th>
-                    <div>Action</div>
+                    <div>ACTION</div>
                   </th>
                 </tr>
               </thead>
@@ -203,8 +203,8 @@ export default function SalesPaymentIn() {
                     isEditing && editedData?._id === item._id ? (
                       <tr
                         style={{
-                          width: "82%",
-                          position: "absolute",
+                          width: "80%",
+                          position: "relative",
                         }}
                       >
                         <EditableRow
@@ -229,16 +229,14 @@ export default function SalesPaymentIn() {
           </div>
         </div>
       ) : (
-        <div>
-          <FirstTimeFormToggle
-            marginTop="10px"
-            height="73.25vh"
-            img={party}
-            onClick={() => setOpenForm(true)}
-            BtnText="Add Your First Sale Invoice"
-            MiddleText="Make Sale invoices & Print or share with your customers directly via WhatsApp or Email."
-          />
-        </div>
+        <FirstTimeFormToggle
+          marginTop="10px"
+          height="73.25vh"
+          img={party}
+          onClick={() => setOpenForm(true)}
+          BtnText="Add Your First Sale Invoice"
+          MiddleText="Make Sale invoices & Print or share with your customers directly via WhatsApp or Email."
+        />
       )}
     </div>
   );
