@@ -2,18 +2,17 @@ import "./Transactions.css";
 import party from "../../../assets/Images/party.jpg";
 import FirstTimeFormToggle from "../../FirmTimeForm/FirstTimeFormToggle";
 import {
-   GetSinglePurchaseBillData,
-   deletePurchaseBill,
-   getPurchaseBill,
-   updatePurchaseBill,
+  GetSinglePurchaseBillData,
+  deletePurchaseBill,
+  GetAllPurchaseBill,
+  updatePurchaseBill,
 } from "../../../Redux/purchase/action";
 import {
-   DotsIcon,
-   FilterIcon,
-
-   ShareIcon,
-   DeleteIcon,
-   EditIcon,
+  DotsIcon,
+  FilterIcon,
+  ShareIcon,
+  DeleteIcon,
+  EditIcon,
 } from "../../utils/reactIcons";
 
 import React, { useEffect, useRef, useState } from "react";
@@ -24,178 +23,173 @@ import { useToast } from "@chakra-ui/react";
 import EditPurchaseForm from "../EditPurchaseForm";
 
 const Transactions = ({ func, date, info, data }) => {
-   const [isEditing, setIsEditing] = useState(false);
-   const [editedData, setEditedData] = useState(null);
-   const toast = useToast();
-   const dispatch = useDispatch();
-   const isLoading = useSelector((store) => store.PurchaseReducer.isLoading);
-   const showAllPurchaseBills = useSelector(
-      (store) => store.PurchaseReducer.purchaseBillData
-   );
-   const singleData = useSelector(
-      (store) => store.PurchaseReducer.singlePurchseData
-   );
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedData, setEditedData] = useState(null);
+  const toast = useToast();
+  const dispatch = useDispatch();
+  const isLoading = useSelector((store) => store.PurchaseReducer.isLoading);
+  const showAllPurchaseBills = useSelector(
+    (store) => store.PurchaseReducer.purchaseBillData
+  );
+  const singleData = useSelector(
+    (store) => store.PurchaseReducer.singlePurchseData
+  );
 
-   const openForm = () => {
-      func(true);
-   };
+  const [startDate, setStartDate] = useState("2024-02-01");
+  const [endDate, setEndDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
 
-   const handleEdit = (data) => {
-      setIsEditing(true);
-      setEditedData(data);
-   };
+  const openForm = () => {
+    func(true);
+  };
 
-   const handleDelete = (id) => {
-      dispatch(
-         deletePurchaseBill(id, toast, () => {
-            dispatch(getPurchaseBill({ date }));
-         })
-      );
-   };
+  const handleEdit = (data) => {
+    setIsEditing(true);
+    setEditedData(data);
+  };
 
-   const handleSave = (updatedData) => {
-      dispatch(
-         updatePurchaseBill(updatedData._id, updatedData, () => {
-            dispatch(getPurchaseBill({ date }));
-         })
-      );
-      setIsEditing(false);
-      setEditedData(null);
-   };
+  const handleDelete = (id) => {
+    dispatch(
+      deletePurchaseBill(id, toast, () =>
+        GetAllPurchaseBill(dispatch, startDate, endDate)
+      )
+    );
+  };
 
-   const handleCancel = () => {
-      setIsEditing(false);
-      setEditedData(null);
-   };
+  const handleSave = (updatedData) => {
+    dispatch(
+      updatePurchaseBill(updatedData._id, updatedData, () =>
+        GetAllPurchaseBill(dispatch, startDate, endDate)
+      )
+    );
+    setIsEditing(false);
+    setEditedData(null);
+  };
 
-   const display = [
-      "billDate",
-      "billNumber",
-      "partyName",
-      "paymentType",
-      "amount",
-      "balanceDue",
-      "status",
-      "hariom",
-   ];
+  const handleCancel = () => {
+    setIsEditing(false);
+    setEditedData(null);
+  };
 
-   // console.log(showAllPurchaseBills);
-   return (
-      <div className={`main-container ${isEditing ? "editing" : ""}`}>
-         {/* {isEditing && <EditPurchaseForm />} */}
-         {!isLoading && !showAllPurchaseBills.length ? (
-            <FirstTimeFormToggle
-               img={party}
-               onClick={() => openForm()}
-               BtnText="Add Your First Purchase Invoice"
-               MiddleText="Make Purchase invoices & share with your customers directly via WhatsApp or Email."
-            />
-         ) : (
-            <div className="transactions-container">
-               <div className="transactions-buttons">
-                  <button onClick={() => openForm()}>
-                     <span>+</span> Add Purchase
-                  </button>
-               </div>
-               <section className="transaction-tables">
-                  <table>
-                     <thead>
-                        <tr>
-                           <th>DATE</th>
-                           <th>INVOICE NO.</th>
-                           <th>PARTY NAME</th>
-                           <th>PAYMENT TYPE</th>
-                           <th>AMOUNT</th>
-                           <th>BALANCE DUE</th>
-                           <th>STATUS</th>
-                           <th>Actions</th>
-                        </tr>
-                     </thead>
-                     <tbody>
-                        {!isLoading && showAllPurchaseBills.length ? (
-                           showAllPurchaseBills?.map((e) => {
-                              info.paid +=
-                                 Number(e?.amount) - Number(e?.balanceDue);
+  const display = [
+    "billDate",
+    "billNumber",
+    "partyName",
+    "paymentType",
+    "amount",
+    "balanceDue",
+    "status",
+    "hariom",
+  ];
 
-                              info.unpaid += e.balanceDue;
-                              info.total += e.amount;
+  // console.log(showAllPurchaseBills);
+  return (
+    <div className={`main-container ${isEditing ? "editing" : ""}`}>
+      {/* {isEditing && <EditPurchaseForm />} */}
+      {!isLoading && !showAllPurchaseBills.length ? (
+        <FirstTimeFormToggle
+          img={party}
+          onClick={() => openForm()}
+          BtnText="Add Your First Purchase Invoice"
+          MiddleText="Make Purchase invoices & share with your customers directly via WhatsApp or Email."
+        />
+      ) : (
+        <div className="transactions-container">
+          <div className="transactions-buttons">
+            <button onClick={() => openForm()}>
+              <span>+</span> Add Purchase
+            </button>
+          </div>
+          <section className="transaction-tables">
+            <table>
+              <thead>
+                <tr>
+                  <th>DATE</th>
+                  <th>INVOICE NO.</th>
+                  <th>PARTY NAME</th>
+                  <th>PAYMENT TYPE</th>
+                  <th>AMOUNT</th>
+                  <th>BALANCE DUE</th>
+                  <th>STATUS</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {!isLoading && showAllPurchaseBills.length ? (
+                  showAllPurchaseBills?.map((e) => {
+                    info.paid += Number(e?.amount) - Number(e?.balanceDue);
 
-                              return (
-                                 <React.Fragment key={e._id}>
-                                    {isEditing && editedData?._id === e._id ? (
-                                       <tr
-                                          style={{
-                                             width: "80%",
-                                             position: "absolute",
-                                          }}
-                                       >
-                                          <EditableRow
-                                             display={display}
-                                             data={editedData}
-                                             onSave={handleSave}
-                                             onCancel={handleCancel}
-                                          />
-                                       </tr>
-                                    ) : (
-                                       <tr key={e._id}>
-                                          <td>
-                                             {new Date(
-                                                e.billDate
-                                             ).toLocaleDateString("en-IN", {
-                                                day: "2-digit",
-                                                month: "2-digit",
-                                                year: "numeric",
-                                             })}
-                                          </td>
-                                          <td>{e.billNumber}</td>
-                                          <td>{e?.partyName}</td>
-                                          <td>{e.paymentType[0]?.types}</td>
-                                          <td>{e.amount}</td>
-                                          <td>
-                                             {e.status === "Paid"
-                                                ? 0
-                                                : e?.balanceDue}
-                                          </td>
-                                          <td>{e.status}</td>
-                                          <td>
-                                             <button
-                                                onClick={() =>
-                                                   handleDelete(e._id)
-                                                }
-                                             >
-                                                <DeleteIcon />
-                                             </button>
-                                             <button
-                                                onClick={() => handleEdit(e)}
-                                             >
-                                                <EditIcon />
-                                             </button>
-                                          </td>
-                                       </tr>
-                                    )}
-                                 </React.Fragment>
-                              );
-                           })
+                    info.unpaid += e.balanceDue;
+                    info.total += e.amount;
+
+                    return (
+                      <React.Fragment key={e._id}>
+                        {isEditing && editedData?._id === e._id ? (
+                          <tr
+                            style={{
+                              width: "80%",
+                              position: "absolute",
+                            }}
+                          >
+                            <EditableRow
+                              display={display}
+                              data={editedData}
+                              onSave={handleSave}
+                              onCancel={handleCancel}
+                            />
+                          </tr>
                         ) : (
-                           <tr>
-                              <td colSpan="8">
-                                 <BasicSpinner
-                                    style={{
-                                       width: "100%",
-                                       margin: "60px auto",
-                                       fontSize: "30px",
-                                    }}
-                                 />
-                              </td>
-                           </tr>
+                          <tr key={e._id}>
+                            <td>
+                              {new Date(e.billDate).toLocaleDateString(
+                                "en-IN",
+                                {
+                                  day: "2-digit",
+                                  month: "2-digit",
+                                  year: "numeric",
+                                }
+                              )}
+                            </td>
+                            <td>{e.billNumber}</td>
+                            <td>{e?.partyName}</td>
+                            <td>{e.paymentType[0]?.types}</td>
+                            <td>{e.amount}</td>
+                            <td>{e.status === "Paid" ? 0 : e?.balanceDue}</td>
+                            <td>{e.status}</td>
+                            <td>
+                              <button onClick={() => handleDelete(e._id)}>
+                                <DeleteIcon />
+                              </button>
+                              <button onClick={() => handleEdit(e)}>
+                                <EditIcon />
+                              </button>
+                            </td>
+                          </tr>
                         )}
-                     </tbody>
-                  </table>
-               </section>
-            </div>
-         )}{" "}
-      </div>
-   );
+                      </React.Fragment>
+                    );
+                  })
+                ) : (
+                  <tr>
+                    <td colSpan="8">
+                      <BasicSpinner
+                        style={{
+                          width: "100%",
+                          margin: "60px auto",
+                          fontSize: "30px",
+                        }}
+                      />
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </section>
+        </div>
+      )}{" "}
+    </div>
+  );
 };
 
 export default Transactions;

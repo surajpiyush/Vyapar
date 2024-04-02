@@ -98,6 +98,25 @@ export const getitems = async (dispatch) => {
   }
 };
 
+// Get All Items List ********************************
+export const GetAllItems = async (dispatch) => {
+  dispatch({ type: LOADING_GET_ALL_ITEMS });
+  const token = localStorage.getItem("token");
+  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+
+  try {
+    const response = await axios.get(`${API_URL}/${FirmId}/item/allItemData`, {
+      headers: { Authorization: `Bearer ${token} ` },
+    });
+
+    // console.log("Get All Items Response:", response.data);
+    dispatch({ type: SUCCESS_GET_ALL_ITEMS, payload: response?.data?.data });
+  } catch (error) {
+    dispatch({ type: ERROR_GET_ALL_ITEMS });
+    console.log("Getting All Items Error:", error);
+  }
+};
+
 // Get Single Item ***************************************
 export const GetSelectedItemData = async (dispatch, itemId) => {
   dispatch({ type: LOADING_GET_SELECTED_ITEM });
@@ -141,25 +160,6 @@ export const GetSingleItem = async (dispatch, itemId) => {
   } catch (error) {
     dispatch({ type: ERROR_SINGLE_ITEM });
     console.log("Getting Single Item Error:", error);
-  }
-};
-
-// Get All Items List ********************************
-export const GetAllItems = () => async (dispatch) => {
-  dispatch({ type: LOADING_GET_ALL_ITEMS });
-  const token = localStorage.getItem("token");
-  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
-
-  try {
-    const response = await axios.get(`${API_URL}/${FirmId}/item/allItemData`, {
-      headers: { Authorization: `Bearer ${token} ` },
-    });
-
-    // console.log("Get All Items Response:", response.data);
-    dispatch({ type: SUCCESS_GET_ALL_ITEMS, payload: response?.data?.data });
-  } catch (error) {
-    dispatch({ type: ERROR_GET_ALL_ITEMS });
-    console.log("Getting All Items Error:", error);
   }
 };
 

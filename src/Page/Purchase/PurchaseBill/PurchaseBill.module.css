@@ -1,0 +1,315 @@
+.Outer {
+  width: 100%;
+  min-height: 100%;
+  max-height: 100%;
+  background-color: var(--bluishGrey);
+  padding: 10px;
+}
+
+/************
+    ** Top Nav **
+    *************/
+.topNavOuter {
+  width: 100%;
+  background: var(--pureWhite);
+  border-radius: 6px;
+}
+.navTopADiv {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px 15px 0px;
+}
+.divContainingDateInps {
+  cursor: default;
+  display: flex;
+  align-items: center;
+  border: 0.5px solid var(--greyC);
+  gap: 15px;
+  overflow: hidden;
+  border-radius: 4px;
+
+  h3 {
+    display: block;
+    margin: 0;
+    font-size: 12.5px;
+    font-weight: 400;
+    height: 100%;
+    color: var(--pureWhite);
+    background: var(--greyG);
+    padding: 7.5px;
+  }
+}
+.divContainingDateInps div {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 100%;
+  padding-right: 10px;
+
+  p {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 300;
+    padding: 0px 7.5px;
+    color: var(--DeepBluishGrey);
+  }
+  input {
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--DeepBluishGrey);
+    width: 100px;
+  }
+  input:focus {
+    outline: none;
+  }
+}
+.monthSelectTag {
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: var(--DeepBluishGrey);
+}
+.monthSelectTag:focus {
+  outline: none;
+}
+.navFirmsSelectTag {
+  cursor: pointer;
+  border: 0.5px solid var(--greyC);
+  border-radius: 4px;
+  padding: 5px;
+  color: var(--DeepBluishGrey);
+  font-size: 13px;
+}
+.navTopBDiv {
+  cursor: default;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 25px 25px 10px;
+}
+.navCalculatedDivs {
+  color: var(--pureWhite);
+  color: var(--DeepBluishGrey);
+  text-align: left;
+  border-radius: 8px;
+  padding: 15px 15px 10px;
+
+  h2 {
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 4px;
+  }
+  h3 {
+    padding: 0;
+    margin: 0;
+    font-size: 20px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+}
+.mathmaticalSigns {
+  font-size: 21px;
+  font-weight: 600;
+  color: var(--DeepBluishGrey);
+}
+
+/****************
+    ** Content Css **
+    *****************/
+.ContentOuter {
+  width: 100%;
+  background: var(--pureWhite);
+  margin: 10px auto 0px;
+  padding: 15px 10px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  height: 61.75vh;
+}
+.contentUpperNav {
+  display: flex;
+  justify-content: space-between;
+}
+.contentUpperNav .leftSideDivSaleOuter {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  p:nth-of-type(1) {
+    cursor: default;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+}
+.saleOrderSearchDiv {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 2px;
+  border: 1px solid var(--greyC);
+  text-align: left;
+  padding: 3px 8px;
+
+  svg {
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--greyC);
+  }
+}
+.saleOrderSearchDiv input {
+  border: none;
+  height: 100%;
+  color: var(--greyA);
+}
+.saleOrderSearchDiv input:focus {
+  outline: none;
+  flex: 2;
+}
+.addBtnCss {
+  cursor: pointer;
+  color: var(--pureWhite);
+  background-color: var(--blueB);
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 400;
+  margin: 40px 5px 0px 0px;
+  padding: 5px 15px;
+  border-radius: 6px;
+  gap: 10px;
+}
+.contentTableOuterDiv {
+  width: 100%;
+  flex-grow: 1;
+  overflow: auto;
+
+  table {
+    width: 100%;
+  }
+
+  table thead th {
+    border: 1px solid var(--greyC);
+    height: 40px;
+  }
+  table thead th div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13.5px;
+    font-weight: 600;
+    padding: 0px 5px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: var(--greyA);
+  }
+  table tbody td {
+    height: 40px;
+    padding: 5px;
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    border: 1px solid var(--greyC);
+  }
+  .actionDivContent {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    width: fit-content;
+    margin: auto;
+
+    svg {
+      cursor: pointer;
+      color: var(--greyD);
+      transition: all 0.25s ease;
+    }
+    svg:hover {
+      color: var(--DeepBluishGrey);
+    }
+  }
+}
+
+/* -------------------------- */
+.formOuter {
+  cursor: default;
+  background-color: var(--greyB);
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  z-index: 1500;
+  top: 0;
+  left: 0;
+}
+
+/* Form Top Upper Nav */
+.upperNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 15px;
+  height: 30px;
+}
+.upperNav > div:nth-of-type(1) {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  height: 100%;
+}
+.upperNav > div:nth-of-type(1) > p {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 200px;
+  height: 100%;
+  padding: 0px 10px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  font-size: 13px;
+
+  svg {
+    font-size: 14px;
+    cursor: pointer;
+  }
+}
+.upperNav > div:nth-of-type(1) > .activeForm {
+  background-color: white;
+}
+.upperNav > div:nth-of-type(2) {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.upperNav > div:nth-of-type(2) > svg {
+  cursor: pointer;
+  color: var(--greyA);
+  font-size: 18px;
+}
+
+/* ============ */
+@media print {
+  .TableOuter {
+    width: 100%;
+    overflow-x: auto;
+    rotate: 90;
+    border: 1px solid blue;
+    page-break-inside: avoid;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  tbody,
+  thead {
+    border: 1px solid rgb(255, 0, 0);
+    padding: 8px;
+  }
+}

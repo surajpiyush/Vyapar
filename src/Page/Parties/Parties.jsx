@@ -1,15 +1,14 @@
 import css from "./Parties.module.css";
 import AddPartyForm from "./AddPartyForm";
 import party from "../../assets/Images/party.jpg";
-import Loader1 from "../../Component/Loaders/Loader1";
 import Setting from "../../Component/Setting/Setting";
+import Loader3 from "../../Component/Loaders/Loader3";
 import PartiesTable from "../../components/TableData/PartiesTable";
 import FirstTimeFormToggle from "../../Component/FirmTimeForm/FirstTimeFormToggle";
 import { FetchAllParties } from "../../Redux/parties/actions";
 
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Loader3 from "../../Component/Loaders/Loader3";
 
 export default function Parties() {
   const dispatch = useDispatch();
@@ -35,8 +34,9 @@ export default function Parties() {
     <Loader3 text="Loading Parties" />
   ) : (
     <div>
-      {/* {isLoading && <Loader1 />} */}
       {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
+
+      {/* Add Party Form */}
       {partyFormIsOpen && (
         <AddPartyForm
           CloseForm={setPartyFormIsOpen}
@@ -48,18 +48,19 @@ export default function Parties() {
         <div className={css.navOptions}>NAME</div>
       </div>
 
-      {!isLoading && partiesData.length != 0 && (
-        <PartiesTable func={dataFromChild} />
-      )}
-
-      {!isLoading && partiesData.length == 0 && (
-        <FirstTimeFormToggle
-          img={party}
-          onClick={() => setPartyFormIsOpen(true)}
-          BtnText="Add Party"
-          MiddleText="Add your customers & suppliers. Manage your business with them."
-        />
-      )}
+      <div className={css.Outer}>
+        {partiesData.length > 0 ? (
+          <PartiesTable func={dataFromChild} />
+        ) : (
+          <FirstTimeFormToggle
+            height="100%"
+            img={party}
+            onClick={() => setPartyFormIsOpen(true)}
+            BtnText="Add Party"
+            MiddleText="Add your customers & suppliers. Manage your business with them."
+          />
+        )}
+      </div>
     </div>
   );
 }

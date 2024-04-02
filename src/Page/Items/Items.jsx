@@ -11,76 +11,71 @@ import StockAdjustment from "../../components/addForm/StockAdjustment";
 import FirstTimeFormToggle from "../../Component/FirmTimeForm/FirstTimeFormToggle";
 import {
   GetAllCategories,
+  GetAllItems,
   GetAllUnits,
   getitems,
 } from "../../Redux/items/actions";
 
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Loader3 from "../../Component/Loaders/Loader3";
 
 export default function Items() {
   const dispatch = useDispatch();
-  const items = useSelector((store) => store.ItemReducer.items);
-  const category = useSelector((store) => store.ItemReducer.category);
-  const unitList = useSelector((store) => store.ItemReducer.unit);
-  const isLoading = useSelector((store) => store.ItemReducer.isLoading);
+  const [adjustItem, setAdjustItem] = useState(false);
+  const [currPage, setCurrPage] = useState("PRODUCTS");
+  const [showUnitForm, setShowUnitForm] = useState(false);
+  const [toggleSetting, setToggleSetting] = useState(false);
+  const [showAddItemForm, setShowAddItemForm] = useState(false);
+  const [showAddCategoryForm, setShowAddCategoryForm] = useState(false);
+
+  // Items
+  const itemsList = useSelector((store) => store.ItemReducer.items);
+  const toggleItems = useSelector((store) => store.ItemReducer.toggleItems);
+  const getAllItemsLoading = useSelector(
+    (store) => store.ItemReducer.getAllItemsLoading
+  );
+
+  // Category
+  const categoriesList = useSelector((store) => store.ItemReducer.category);
   const newCategoryAddedToggle = useSelector(
     (store) => store.ItemReducer.newCategoryAddedToggle
   );
-  const toggleItems = useSelector((store) => store.ItemReducer.toggleItems);
+  const loadingGetAllCategories = useSelector(
+    (store) => store.ItemReducer.loadingGetAllCategories
+  );
+
+  // Unit
+  const unitList = useSelector((store) => store.ItemReducer.unit);
   const newUnitAddedToggle = useSelector(
     (store) => store.ItemReducer.newUnitAddedToggle
   );
-  const [openForm, setOpenForm] = useState(false);
-  const [categoryForm, setCategoryForm] = useState(false);
-  const [unitForm, setUnitForm] = useState(false);
-  const [adjustItem, setAdjustItem] = useState(false);
-  const [toggleSetting, setToggleSetting] = useState(false);
-  const [currPage, setCurrPage] = useState("PRODUCTS");
+  const loadingGetAllUnits = useSelector(
+    (store) => store.ItemReducer.loadingGetAllUnits
+  );
 
-  // To Fetch All Items
+  // Fetch Items Data
   useEffect(() => {
-    getitems(dispatch);
+    GetAllItems(dispatch);
   }, [toggleItems]);
 
   // To Fetch All Categories
   useEffect(() => {
     GetAllCategories(dispatch);
-  }, [newCategoryAddedToggle, toggleItems]);
+  }, [newCategoryAddedToggle]);
 
   // To Fetch All Units
   useEffect(() => {
     GetAllUnits(dispatch);
   }, [newUnitAddedToggle]);
 
-  const dataFromChild = (val) => {
-    setOpenForm(val);
-  };
-  const openCategoryForm = () => {
-    setCategoryForm(true);
-  };
-  const closeCategoryForm = () => {
-    setCategoryForm(false);
-  };
-  const openUnitForm = () => {
-    setUnitForm(true);
-  };
-  const closeUnitForm = () => {
-    setUnitForm(false);
-  };
-  const closeAdjustForm = () => {
-    setAdjustItem(false);
-  };
-
-  const data = [1];
-
   return (
     <div>
       {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
-      {openForm && <AddItemForm CloseForm={setOpenForm} />}
-      {categoryForm && <CategoryForm func={closeCategoryForm} />}
-      {unitForm && <UnitForm func={closeUnitForm} />}
-      {adjustItem && <StockAdjustment func={closeAdjustForm} />}
+      {showAddItemForm && <AddItemForm CloseForm={setShowAddItemForm} />}
+      {showAddCategoryForm && <CategoryForm func={setShowAddCategoryForm} />}
+      {showUnitForm && <UnitForm func={setShowUnitForm} />}
+      {adjustItem && <StockAdjustment func={setAdjustItem} />}
 
       {/* Toggle Current Item Page */}
       <div className={css.navOuter}>
@@ -129,48 +124,53 @@ export default function Items() {
 
       {currPage == "PRODUCTS" ? (
         // PRODUCTS
-        <div className="d-cen b-cont">
-          {!items.length ? (
-            <FirstTimeFormToggle
-              img={party}
-              onClick={() => setOpenForm(true)}
-              BtnText="Add Your First Item"
-              MiddleText="Add PRODUCTS/Items you sell or purchase to manage your full Stock Inventory."
-            />
+        <div className={css.Outer}>
+          {getAllItemsLoading ? (
+            <Loader3 text="Loading Products" />
+          ) : itemsList.length > 0 ? (
+            <ProductsTable showAddForm={setShowAddItemForm} />
           ) : (
-            <ProductsTable func={dataFromChild} />
+            <FirstTimeFormToggle
+              height="100%"
+              img={party}
+              onClick={() => setShowAddItemForm(true)}
+              BtnText="Add Your First Item"
+              MiddleText="Add Products/Items you sell or purchase to manage your full Stock Inventory."
+            />
           )}
         </div>
       ) : currPage == "CATEGORY" ? (
         // CATEGORY
-        <div className="d-cen b-cont">
-          {!category.length ? (
-            <FirstTimeFormToggle
-              img={party}
-              onClick={() => openCategoryForm()}
-              BtnText="Add Your First CATEGORY"
-              MiddleText="Add CATEGORY you sell or purchase to manage your full Stock Inventory."
-            />
+        <div className={css.Outer}>
+          {loadingGetAllCategories ? (
+            <Loader3 text="Loading Categories" />
+          ) : categoriesList.length > 0 ? (
+            <CategoryTable showAddForm={setShowAddCategoryForm} />
           ) : (
-            <div style={{ width: "100%" }}>
-              <CategoryTable func={openCategoryForm} />
-            </div>
+            <FirstTimeFormToggle
+              height="100%"
+              img={party}
+              onClick={() => setShowAddCategoryForm(true)}
+              BtnText="Add Your First Category"
+              MiddleText="Add Categories you sell or purchase to manage your full Stock Inventory."
+            />
           )}
         </div>
       ) : (
         // UNIT
-        <div className="d-cen b-cont">
-          {!unitList.length ? (
+        <div className={css.Outer}>
+          {loadingGetAllUnits ? (
+            <Loader3 text="Loading Units" />
+          ) : unitList.length > 0 ? (
+            <UnitsTable showAddForm={setShowAddCategoryForm} />
+          ) : (
             <FirstTimeFormToggle
+              height="100%"
               img={party}
-              onClick={() => setUnitForm(true)}
-              BtnText="Add Your First Units"
+              onClick={() => setShowUnitForm(true)}
+              BtnText="Add Your First Unit"
               MiddleText="Add your customers & suppliers. Manage your business with them."
             />
-          ) : (
-            <div style={{ width: "100%" }}>
-              <UnitsTable func={openUnitForm} />
-            </div>
           )}
         </div>
       )}

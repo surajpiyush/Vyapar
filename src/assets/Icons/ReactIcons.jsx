@@ -2,13 +2,18 @@ import { RxCross2 as CrossIcon } from "react-icons/rx";
 import { CiFilter as FilterIcon } from "react-icons/ci";
 import { FaPlus as PlusIconThin } from "react-icons/fa6";
 import { AiFillTool as UtilitesIcon } from "react-icons/ai";
-import { RiDeleteBinLine as DeleteIcon } from "react-icons/ri";
+import {
+  RiDeleteBinLine as DeleteIcon,
+  RiFileExcel2Line as ExcelIconOutline,
+} from "react-icons/ri";
 import { ImSpinner3 as BasicSpinnerIcon } from "react-icons/im";
 import { FiMinusCircle as MinusCircleIcon } from "react-icons/fi";
 import {
   BsBarChartFill as StatsIcon,
   BsFillPlusCircleFill as PlusIcon2,
   BsFillTrashFill as DeleteIcon2,
+  BsFiletypeXlsx as ExcelIcon,
+  BsFiletypeJson as JsonIconOutline,
 } from "react-icons/bs";
 import {
   TbReport as DocumentIcon,
@@ -39,6 +44,7 @@ import {
   IoSettingsSharp as SettingsIconFilled,
   IoSearchCircleSharp as SearchIconBlackBg,
   IoSettingsOutline as SettingsIconOutline,
+  IoPrintOutline as PrintIconOutline,
 } from "react-icons/io5";
 import {
   IoMdHome as HomeIcon,
@@ -60,6 +66,10 @@ import {
 // ------------------------------- EXPORTS ---------------------------------
 export {
   PrintIcon2,
+  JsonIconOutline,
+  PrintIconOutline,
+  ExcelIcon,
+  ExcelIconOutline,
   EditIcon,
   StatsIcon,
   ShapesIconFilled,

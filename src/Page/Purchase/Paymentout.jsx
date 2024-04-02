@@ -1,4 +1,4 @@
-import "./purchase-bill.css";
+// import "./purchase-bill.css";
 import css from "../../pages/sales/salesInvoice/Invoice.module.css";
 import Setting from "../../Component/Setting/Setting";
 import Thismonth from "../../Component/Purchase/Thismonth";

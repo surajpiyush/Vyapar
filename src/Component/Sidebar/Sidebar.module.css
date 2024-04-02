@@ -7,16 +7,6 @@
   display: flex;
   flex-direction: column;
   position: relative;
-
-  ::-webkit-scrollbar-track {
-    display: none;
-  }
-  ::-webkit-scrollbar-thumb {
-    display: none;
-  }
-  ::-webkit-scrollbar {
-    display: none;
-  }
 }
 
 /* Firm Details Css */
@@ -232,9 +222,8 @@
   letter-spacing: 0.5px;
 }
 
-
 @media print {
   .sideBarOuter {
     display: none;
   }
-} 
+}

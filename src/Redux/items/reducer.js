@@ -99,22 +99,41 @@ const initialState = {
 
 export const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
+    // Add Item
     case ITEM_REQUEST: {
       return { ...state, isLoading: true, isError: false };
-    }
-    case GET_ITEM_SUCCESS: {
-      return { ...state, isLoading: false, items: payload };
     }
     case POST_ITEM_SUCCESS: {
       return {
         ...state,
         isLoading: false,
-        // items: payload,
         toggleItems: !state.toggleItems,
       };
     }
     case ITEM_FAILURE: {
       return { ...state, isLoading: false, isError: true };
+    }
+
+    // Get All Items Success
+    case GET_ITEM_SUCCESS: {
+      return { ...state, isLoading: false, items: payload };
+    }
+
+    //  Get All Items
+    case LOADING_GET_ALL_ITEMS: {
+      return { ...state, getAllItemsLoading: true, getAllItemsError: false };
+    }
+    case ERROR_GET_ALL_ITEMS: {
+      return { ...state, getAllItemsLoading: false, getAllItemsError: true };
+    }
+    case SUCCESS_GET_ALL_ITEMS: {
+      return {
+        ...state,
+        getAllItemsLoading: false,
+        items: payload,
+        allItems: payload,
+        fetchAllItemsSuccessToggle: !state.fetchAllItemsSuccessToggle,
+      };
     }
 
     // Get Selected Item Data actions
@@ -138,23 +157,6 @@ export const reducer = (state = initialState, { type, payload }) => {
         loadingGetSelectedItemData: false,
         selectedItemData: payload?.selectedItemData,
         selectedItemTransactionData: payload?.selectedItemTransactionData,
-      };
-    }
-
-    //  Get All Items
-    case LOADING_GET_ALL_ITEMS: {
-      return { ...state, getAllItemsLoading: true, getAllItemsError: false };
-    }
-    case ERROR_GET_ALL_ITEMS: {
-      return { ...state, getAllItemsLoading: false, getAllItemsError: true };
-    }
-    case SUCCESS_GET_ALL_ITEMS: {
-      return {
-        ...state,
-        getAllItemsLoading: false,
-        items: payload,
-        allItems: payload,
-        fetchAllItemsSuccessToggle: !state.fetchAllItemsSuccessToggle,
       };
     }
 

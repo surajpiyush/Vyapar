@@ -709,9 +709,7 @@ export const updateAllCreditNotes = (_id, data) => (dispatch) => {
 
   axios
     .put(`${API_URL}/${firmId}/sale/saleReturnCredit/${_id}`, data, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: { Authorization: `Bearer ${token}` },
     })
     .then((res) => {
       // console.log("Update Sales Credit Note Response:", res?.data);

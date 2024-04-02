@@ -257,16 +257,14 @@ export default function SalesOrder() {
             </div>
           </div>
         ) : (
-          <div>
-            <FirstTimeFormToggle
-              marginTop="10px"
-              height="67.25vh"
-              img={party}
-              onClick={formOpen}
-              BtnText="Add Your First Sale Order"
-              MiddleText="Make & share sale orders & convert them to sale invoice instantly."
-            />
-          </div>
+          <FirstTimeFormToggle
+            marginTop="10px"
+            height="67.25vh"
+            img={party}
+            onClick={formOpen}
+            BtnText="Add Your First Sale Order"
+            MiddleText="Make & share sale orders & convert them to sale invoice instantly."
+          />
         )}
       </div>
     </div>

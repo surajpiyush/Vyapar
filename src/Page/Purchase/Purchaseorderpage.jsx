@@ -1,7 +1,7 @@
 import React from "react";
 import Pourchaseorder from "../../Component/Purchase/Pourchaseorder";
 import "./purchaseorderpage.css";
-import "./purchase-bill.css";
+// import "./purchase-bill.css";
 import css from "../../pages/sales/salesInvoice/Invoice.module.css";
 
 import { GetAllSalesInvoice } from "../../Redux/sales/action";
@@ -19,7 +19,7 @@ import Setting from "../../Component/Setting/Setting";
 const Purchaseorderpage = ({ func }) => {
   const [toggleSetting, setToggleSetting] = useState(false);
   const toast = useToast();
- 
+
   const dispatch = useDispatch();
   const [openForm, setOpenForm] = useState(false);
   const [startDate, setStartDate] = useState("2024-02-01");

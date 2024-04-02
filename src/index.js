@@ -21,7 +21,6 @@ import Paymentout from "./Page/Purchase/Paymentout.jsx";
 import AllTransaction from "./pages/AllTransactions.js";
 import CompaniesPage from "./Page/Firm/CompaniesPage.jsx";
 import AddCompanyPage from "./Page/Firm/AddCompanyPage.jsx";
-import Purchasebill from "./Page/Purchase/Purchasebill.jsx";
 import SalesOrder from "./pages/sales/salesOrder/SalesOrder.jsx";
 import Addpurchaseorderpage from "./Page/Addpurchaseorderpage.jsx";
 import SalesReturn from "./pages/sales/salesReturn/SalesReturn.jsx";
@@ -29,6 +28,7 @@ import Addpurchasereturnpage from "./Page/Addpurchasereturnpage.jsx";
 import Purchaseorderpage from "./Page/Purchase/Purchaseorderpage.jsx";
 import SalesInvoice from "./pages/sales/salesInvoice/SalesInvoice.jsx";
 import Purchasereturnpage from "./Page/Purchase/Purchasereturnpage.jsx";
+import PurchaseBill from "./Page/Purchase/PurchaseBill/PurchaseBill.jsx";
 import SalesEstimates from "./pages/sales/salesEstimates/SalesEstimates.jsx";
 import SalesPaymentln from "./pages/sales/salesPaymentIn/SalesPaymentIn.jsx";
 import SalesDeliveryChallan from "./pages/sales/salesDeliveryChallan/SalesDeliveryChallan.jsx";
@@ -71,9 +71,11 @@ const router = createBrowserRouter([
         path: "/auth",
         element: <AuthPage />,
       },
+
+      // Puchase
       {
         path: "/purchasebill",
-        element: <Purchasebill />,
+        element: <PurchaseBill />,
       },
       {
         path: "/paymentout",
