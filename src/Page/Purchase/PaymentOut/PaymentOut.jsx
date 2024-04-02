@@ -87,6 +87,7 @@ const PaymentOut = () => {
     <Loader3 text="Loading Payment Out" />
   ) : (
     <div className={css.Outer}>
+      {/* log */}
       {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
 
       {/* Add Purchase Bill Form */}
