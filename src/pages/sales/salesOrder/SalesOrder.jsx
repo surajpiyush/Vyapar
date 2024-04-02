@@ -61,17 +61,17 @@ export default function SalesOrder() {
 
   const handleEdit = (_id) => {
     const data = saleOrderList.filter((e) => e._id === _id);
-    console.log(data);
+    // console.log(data);
     setIsEditing(true);
     setEditedData(data[0]);
   };
 
   const handleSave = (updatedData) => {
     updatedData.partyname = updatedData.partyName;
-    console.log("updatedData-", updatedData);
+    // console.log("updatedData-", updatedData);
     const id = updatedData._id;
 
-    dispatch(updateAllSaleOrder(updatedData._id, updatedData));
+    dispatch(updateAllSaleOrder(updatedData?._id, updatedData));
     setIsEditing(false);
     setEditedData(null);
     GetAllSaleOrders(dispatch);
@@ -82,18 +82,9 @@ export default function SalesOrder() {
     setIsEditing(false);
     setEditedData(null);
   };
-  const display = [
-    "date",
-    "refNo",
-    "duedatee",
-    "partyName",
-    "total",
-    "balance",
-    "typee",
-    "status",
-  ];
+
   return isLoading ? (
-    <Loader3 text="Loading Payment-In" />
+    <Loader3 text="Loading Sale Orders" />
   ) : (
     <div>
       {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
@@ -195,33 +186,21 @@ export default function SalesOrder() {
               <table>
                 <thead>
                   <tr>
-                    <th>
-                      <div>DATE</div>
-                    </th>
-                    <th>
-                      <div>REF NO.</div>
-                    </th>
-                    <th>
-                      <div>DUE DATE</div>
-                    </th>
-                    <th>
-                      <div>PARTY</div>
-                    </th>
-                    <th>
-                      <div>TOTAL AMOUNT</div>
-                    </th>
-                    <th>
-                      <div>BALANCE</div>
-                    </th>
-                    <th>
-                      <div>TYPE</div>
-                    </th>
-                    <th>
-                      <div>STATUS</div>
-                    </th>
-                    <th>
-                      <div>ACTION</div>
-                    </th>
+                    {[
+                      "DATE",
+                      "REF NO.",
+                      "DUE DATE",
+                      "PARTY",
+                      "TOTAL AMOUNT",
+                      "BALANCE",
+                      "TYPE",
+                      "STATUS",
+                      "ACTION",
+                    ].map((item, ind) => (
+                      <th key={item + ind}>
+                        <div>{item}</div>
+                      </th>
+                    ))}
                   </tr>
                 </thead>
 
@@ -231,12 +210,21 @@ export default function SalesOrder() {
                       isEditing && editedData?._id === item._id ? (
                         <tr
                           style={{
-                            width: "82%",
-                            position: "absolute",
+                            width: "80%",
+                            position: "relative",
                           }}
                         >
                           <EditableRow
-                            display={display}
+                            display={[
+                              "date",
+                              "refNo",
+                              "duedatee",
+                              "partyName",
+                              "total",
+                              "balance",
+                              "typee",
+                              "status",
+                            ]}
                             data={editedData}
                             onSave={handleSave}
                             onCancel={handleCancel}

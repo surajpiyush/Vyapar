@@ -1,16 +1,31 @@
-//import "./PurchaseBill.css";
 import css from "./PurchaseBill.module.css";
 import Setting from "../../../Component/Setting/Setting";
-import Thismonth from "../../../Component/Purchase/Thismonth";
-import Transactions from "../../../Component/Purchase/Transactions/Transactions";
-import AddPurchaseItem from "../../../Component/Purchase/Purchase/Addpurchaseitem";
-import { GetAllPurchaseBill } from "../../../Redux/purchase/action";
-import { GetAllSalesInvoice } from "../../../Redux/sales/action";
-import { CloseIcon2 } from "../../../assets/Icons/ReactIcons";
+import party from "../../../assets/Images/party.jpg";
+import EditableRow from "../../../Component/EditForm";
+import Loader3 from "../../../Component/Loaders/Loader3";
+import AddPurchaseBill from "./AddPurchaseBill";
+import UpperControlPanel from "../../../Component/UpperControlPanel/UpperControlPanel";
+import FirstTimeFormToggle from "../../../Component/FirmTimeForm/FirstTimeFormToggle";
+import {
+   GetAllPurchaseBill,
+   deletePurchaseBill,
+   updatePurchaseBill,
+} from "../../../Redux/purchase/action";
+import {
+   CloseIcon2,
+   DeleteIcon2,
+   EditIcon,
+   PlusIcon2,
+   SearchIcon,
+   CalculatorIcon,
+   SettingsIconOutline2,
+   CrossIcon,
+} from "../../../assets/Icons/ReactIcons";
 
 import { useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import { useLocation, useNavigate } from "react-router-dom";
 import { IoCalculator as CalculatorIcon } from "react-icons/io5";
 import { MdOutlineSettings as SettingIcon } from "react-icons/md";
@@ -20,8 +35,10 @@ import UpperControlPanel from "../../../Component/UpperControlPanel/UpperControl
 import EditPurchaseForm from "../../../Component/Purchase/EditPurchaseForm";
 
 const PurchaseBill = () => {
-   const [toggleSetting, setToggleSetting] = useState(false);
    const [isEditing, setIsEditing] = useState(false);
+   const [editedData, setEditedData] = useState(null);
+
+   const [toggleSetting, setToggleSetting] = useState(false);
 
    const toast = useToast();
    const location = useLocation();
@@ -77,6 +94,20 @@ const PurchaseBill = () => {
       GetAllPurchaseBill(dispatch, startDate, endDate);
    }, [toggleAddPurchaseBill, startDate, endDate]);
 
+   // To Get All Purchase Bill Data
+   useEffect(() => {
+      GetAllPurchaseBill(dispatch, startDate, endDate);
+   }, [toggleAddPurchaseBill, startDate, endDate]);
+
+   // Handle Delete
+   const handleDelete = (id) => {
+      dispatch(
+         deletePurchaseBill(id, toast, () =>
+            GetAllPurchaseBill(dispatch, startDate, endDate)
+         )
+      );
+   };
+
    const formOpen = () => {
       setOpenForm(true);
    };
@@ -107,14 +138,15 @@ const PurchaseBill = () => {
                            })
                         }
                      />
-                     <SettingIcon onClick={() => setToggleSetting(true)} />
+                     <SettingsIconOutline2
+                        onClick={() => setToggleSetting(true)}
+                     />
                      <CloseIcon2 onClick={() => setOpenForm(false)} />
                   </div>
                </div>
-
-               <AddPurchaseItem
+               <AddPurchaseBill
                   setOpenForm={setOpenForm}
-                  date={{ startDate, endDate }}
+                  // date={{ startDate, endDate }}
                />
             </div>
          )}
@@ -142,7 +174,7 @@ const PurchaseBill = () => {
                   </div>
                </div>
 
-               <EditPurchaseForm data = {data} />
+               <EditPurchaseForm data={data} />
             </div>
          )}
          {/* Top Nav */}
@@ -158,18 +190,145 @@ const PurchaseBill = () => {
             unpaidAmount={unpaidAmount}
          />
 
-         {/*  */}
+         {/* Middle */}
+         {PurchaseBillData?.length > 0 ? (
+            <div className={css.ContentOuter}>
+               <div className={css.contentUpperNav}>
+                  <div className={css.leftSideDivSaleOuter}>
+                     <p>TRANSACTIONS</p>
+                     <div className={css.saleOrderSearchDiv}>
+                        <SearchIcon />
+                        <div>
+                           <input type="text" />
+                        </div>
+                     </div>
+                  </div>
+                  <div>
+                     <button
+                        type="button"
+                        onClick={() => setOpenForm(true)}
+                        className={css.addBtnCss}
+                     >
+                        <PlusIcon2 /> Add Purchase
+                     </button>
+                  </div>
+               </div>
 
-         <div>
-            <Transactions
-               func={formOpen}
-               date={{ startDate, endDate }}
-               info={info}
-               data={PurchaseBillData}
-               isEditing={isEditing}
-               setIsEditing={setIsEditing}
+               <div className={css.contentTableOuterDiv}>
+                  <table>
+                     <thead>
+                        <tr>
+                           <th>
+                              <div>DATE</div>
+                           </th>
+                           <th>
+                              <div>INVOICE NO.</div>
+                           </th>
+                           <th>
+                              <div>PARTY NAME</div>
+                           </th>
+                           <th>
+                              <div>PAYMENT TYPE</div>
+                           </th>
+                           <th>
+                              <div>AMOUNT</div>
+                           </th>
+                           <th>
+                              <div>BALANCE DUE</div>
+                           </th>
+                           <th>
+                              <div>STATUS</div>
+                           </th>
+                           <th>
+                              <div>ACTION</div>
+                           </th>
+                        </tr>
+                     </thead>
+
+                     <tbody>
+                        {!getAllPurchaseLoading &&
+                           PurchaseBillData?.map((item, ind) =>
+                              isEditing && editedData?._id === item._id ? (
+                                 <tr
+                                    style={{
+                                       width: "80%",
+                                       position: "relative",
+                                    }}
+                                    key={item?._id + ind}
+                                 >
+                                    <EditableRow
+                                       display={[
+                                          "billDate",
+                                          "billNumber",
+                                          "partyName",
+                                          "paymentType",
+                                          "amount",
+                                          "balanceDue",
+                                          "status",
+                                          "hariom",
+                                       ]}
+                                       data={editedData}
+                                       onSave={handleUpdate}
+                                       onCancel={handleCancel}
+                                    />
+                                 </tr>
+                              ) : (
+                                 <tr key={item?._id + ind}>
+                                    <td>
+                                       {new Date(
+                                          item?.billDate
+                                       ).toLocaleDateString("en-IN", {
+                                          day: "2-digit",
+                                          month: "2-digit",
+                                          year: "numeric",
+                                       })}
+                                    </td>
+                                    <td>{item?.billNumber}</td>
+                                    <td>{item?.partyName}</td>
+                                    <td>{item?.paymentType[0]?.types}</td>
+                                    <td style={{ textAlign: "right" }}>
+                                       ₹{item?.amount}
+                                    </td>
+                                    <td style={{ textAlign: "right" }}>
+                                       ₹
+                                       {item?.status === "Paid"
+                                          ? 0
+                                          : item?.balanceDue}
+                                    </td>
+                                    <td>{item?.status}</td>
+                                    <td>
+                                       <div className={css.actionDivContent}>
+                                          <button
+                                             onClick={() =>
+                                                handleDelete(item?._id)
+                                             }
+                                          >
+                                             <DeleteIcon2 />
+                                          </button>
+                                          <button
+                                             onClick={() => handleEdit(item)}
+                                          >
+                                             <EditIcon />
+                                          </button>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              )
+                           )}
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+         ) : (
+            <FirstTimeFormToggle
+               marginTop="10px"
+               height="61.25vh"
+               img={party}
+               onClick={() => setOpenForm(true)}
+               BtnText="Add Your First Purchase Bill"
+               MiddleText="Make Purchase Bills & share with your customers directly via WhatsApp or Email."
             />
-         </div>
+         )}
       </div>
    );
 };

@@ -1,12 +1,13 @@
-import "./Editform.css";
+import css from "./EditForm.module.css";
+
 import { useState } from "react";
 
 const EditableRow = ({ display, data, onSave, onCancel }) => {
   const [editedData, setEditedData] = useState(data);
-  console.log("editedAbleData; -", editedData);
+  // console.log("editedAbleData; -", editedData);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-
     setEditedData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -14,20 +15,27 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
   };
 
   return (
-    <section className="transaction-tables edit-mode">
+    <div
+      className={css.EditableOuter}
+      // className="transaction-tables edit-mode"
+    >
       {display.includes("#") ? (
-        <div className="transaction-table">
+        <div
+          className={css.inputContDiv}
+          //className="transaction-table"
+        >
           <input
             type="text"
             name="#"
             value={"#"}
             readOnly
-            style={{
-              backgroundColor: "#f4f4f4",
-              color: "#888",
-              border: "1px solid #ddd",
-              cursor: "not-allowed",
-            }}
+            className={css.inputCss}
+            // style={{
+            //   backgroundColor: "#f4f4f4",
+            //   color: "#888",
+            //   border: "1px solid #ddd",
+            //   cursor: "not-allowed",
+            // }}
           />
         </div>
       ) : (
@@ -35,7 +43,10 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
       )}
       {/* sale */}
       {display.includes("invoiceDate") ? (
-        <div className="transaction-table">
+        <div
+          className={css.inputContDiv}
+          //className="transaction-table"
+        >
           <input
             type="text"
             name="invoiceDate"
@@ -48,31 +59,36 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
               }
             )}
             //    onChange={handleInputChange}
+            className={css.inputCss}
             readOnly
-            style={{
-              backgroundColor: "#f4f4f4",
-              color: "#888",
-              border: "1px solid #ddd",
-              cursor: "not-allowed",
-            }}
+            // style={{
+            //   backgroundColor: "#f4f4f4",
+            //   color: "#888",
+            //   border: "1px solid #ddd",
+            //   cursor: "not-allowed",
+            // }}
           />
         </div>
       ) : (
         ""
       )}
       {display.includes("invoiceNumber") ? (
-        <div className="transaction-table">
+        <div
+          className={css.inputContDiv}
+          //className="transaction-table"
+        >
           <input
             type="text"
             name="invoiceNumber"
             value={editedData.invoiceNumber}
+            className={css.inputCss}
             readOnly
-            style={{
-              backgroundColor: "#f4f4f4",
-              color: "#888",
-              border: "1px solid #ddd",
-              cursor: "not-allowed",
-            }}
+            // style={{
+            //   backgroundColor: "#f4f4f4",
+            //   color: "#888",
+            //   border: "1px solid #ddd",
+            //   cursor: "not-allowed",
+            // }}
           />
         </div>
       ) : (
@@ -80,7 +96,10 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
       )}
 
       {display.includes("billDate") ? (
-        <div className="transaction-table">
+        <div
+          className={css.inputContDiv}
+          //className="transaction-table"
+        >
           <input
             type="text"
             name="billDate"
@@ -90,20 +109,24 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
               year: "numeric",
             })}
             //    onChange={handleInputChange}
+            className={css.inputCss}
             readOnly
-            style={{
-              backgroundColor: "#f4f4f4",
-              color: "#888",
-              border: "1px solid #ddd",
-              cursor: "not-allowed",
-            }}
+            // style={{
+            //   backgroundColor: "#f4f4f4",
+            //   color: "#888",
+            //   border: "1px solid #ddd",
+            //   cursor: "not-allowed",
+            // }}
           />
         </div>
       ) : (
         ""
       )}
       {display.includes("date") ? (
-        <div className="transaction-table">
+        <div
+          className={css.inputContDiv}
+          //className="transaction-table"
+        >
           <input
             type="text"
             name="date"
@@ -112,39 +135,47 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
               month: "2-digit",
               year: "numeric",
             })}
+            className={css.inputCss}
             //    onChange={handleInputChange}
             readOnly
-            style={{
-              backgroundColor: "#f4f4f4",
-              color: "#888",
-              border: "1px solid #ddd",
-              cursor: "not-allowed",
-            }}
+            // style={{
+            //   backgroundColor: "#f4f4f4",
+            //   color: "#888",
+            //   border: "1px solid #ddd",
+            //   cursor: "not-allowed",
+            // }}
           />
         </div>
       ) : (
         ""
       )}
       {display.includes("orderNumber") ? (
-        <div className="transaction-table">
+        <div
+          className={css.inputContDiv}
+          //className="transaction-table"
+        >
           <input
             type="text"
             name="orderNumber"
             value={editedData.orderNumber}
             readOnly
-            style={{
-              backgroundColor: "#f4f4f4",
-              color: "#888",
-              border: "1px solid #ddd",
-              cursor: "not-allowed",
-            }}
+            className={css.inputCss}
+            // style={{
+            //   backgroundColor: "#f4f4f4",
+            //   color: "#888",
+            //   border: "1px solid #ddd",
+            //   cursor: "not-allowed",
+            // }}
           />
         </div>
       ) : (
         ""
       )}
       {display.includes("refNo") ? (
-        <div className="transaction-table">
+        <div
+          className={css.inputContDiv}
+          //className="transaction-table"
+        >
           <input
             type="text"
             name="refNo"
@@ -154,6 +185,7 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
               editedData?.receiptNo ||
               editedData.no
             }
+            className={css.inputCss}
             handleInputChange={handleInputChange}
           />
         </div>
@@ -161,19 +193,26 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
         ""
       )}
       {display.includes("billNumber") ? (
-        <div className="transaction-table">
+        <div
+          className={css.inputContDiv}
+          //className="transaction-table"
+        >
           <input
             type="text"
             name="invoice"
             value={editedData.billNumber}
             onChange={handleInputChange}
+            className={css.inputCss}
           />
         </div>
       ) : (
         ""
       )}
       {display.includes("duedatee") ? (
-        <div className="transaction-table">
+        <div
+          className={css.inputContDiv}
+          //className="transaction-table"
+        >
           <input
             type="text"
             name="date"
@@ -182,6 +221,7 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
               month: "2-digit",
               year: "numeric",
             })}
+            className={css.inputCss}
             //    onChange={handleInputChange}
             readOnly
             style={{
@@ -195,48 +235,59 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
       ) : (
         ""
       )}
-
       {display.includes("partyName") ? (
-        <div className="transaction-table">
+        <div
+          className={css.inputContDiv}
+          //className="transaction-table"
+        >
           <input
             type="text"
             name="partyName"
             value={editedData.partyName || editedData.partyname}
             onChange={handleInputChange}
+            className={css.inputCss}
           />
         </div>
       ) : (
         ""
       )}
-
       {display.includes("challanNo") ? (
-        <div className="transaction-table">
+        <div
+          className={css.inputContDiv}
+          //className="transaction-table"
+        >
           <input
             type="text"
             name="challanNumber"
             value={editedData.challanNumber}
             onChange={handleInputChange}
+            className={css.inputCss}
           />
         </div>
       ) : (
         ""
       )}
-
       {display.includes("transactionType") ? (
-        <div className="transaction-table">
+        <div
+          className={css.inputContDiv}
+          //className="transaction-table"
+        >
           <input
             type="text"
             name="transactionType"
             value={editedData.transactionType}
             onChange={handleInputChange}
+            className={css.inputCss}
           />
         </div>
       ) : (
         ""
       )}
-
       {display.includes("dueDate") ? (
-        <div className="transaction-table">
+        <div
+          className={css.inputContDiv}
+          //className="transaction-table"
+        >
           <input
             type="text"
             name="dueDate"
@@ -246,18 +297,23 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
               year: "numeric",
             })}
             onChange={handleInputChange}
+            className={css.inputCss}
           />
         </div>
       ) : (
         ""
       )}
       {display.includes("categoryName") ? (
-        <div className="transaction-table">
+        <div
+          className={css.inputContDiv}
+          //className="transaction-table"
+        >
           <input
             type="text"
             name="categotyName"
             value={editedData.categotyName}
             handleInputChange={handleInputChange}
+            className={css.inputCss}
           />
         </div>
       ) : (
@@ -265,86 +321,113 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
       )}
 
       {display.includes("type") ? (
-        <div className="transaction-table">
+        <div
+          className={css.inputContDiv}
+          //className="transaction-table"
+        >
           <input
             type="text"
             name="type"
             value={editedData.type}
             handleInputChange={handleInputChange}
+            className={css.inputCss}
           />
         </div>
       ) : (
         ""
       )}
       {display.includes("total") ? (
-        <div className="transaction-table">
+        <div
+          className={css.inputContDiv}
+          //className="transaction-table"
+        >
           <input
             type="text"
             name="total"
             value={editedData.total}
             handleInputChange={handleInputChange}
+            className={css.inputCss}
           />
         </div>
       ) : (
         ""
       )}
       {display.includes("recieved") ? (
-        <div className="transaction-table">
+        <div
+          className={css.inputContDiv}
+          //className="transaction-table"
+        >
           <input
             type="text"
             name="recieved"
             value={editedData.recieved || editedData.recived}
             handleInputChange={handleInputChange}
+            className={css.inputCss}
           />
         </div>
       ) : (
         ""
       )}
       {display.includes("balance") ? (
-        <div className="transaction-table">
+        <div
+          className={css.inputContDiv}
+          //className="transaction-table"
+        >
           <input
             type="text"
             name="balance"
             value={editedData.balance}
             handleInputChange={handleInputChange}
+            className={css.inputCss}
           />
         </div>
       ) : (
         ""
       )}
       {display.includes("paymentType") ? (
-        <div className="transaction-table">
+        <div
+          className={css.inputContDiv}
+          //className="transaction-table"
+        >
           <input
             type="text"
             name="paymentType"
             value={editedData.paymentType[0].type || "cash"}
             onChange={handleInputChange}
             readOnly
-            style={{
-              backgroundColor: "#f4f4f4",
-              color: "#888",
-              border: "1px solid #ddd",
-              cursor: "not-allowed",
-            }}
+            className={css.inputCss}
+            // style={{
+            //   backgroundColor: "#f4f4f4",
+            //   color: "#888",
+            //   border: "1px solid #ddd",
+            //   cursor: "not-allowed",
+            // }}
           />
         </div>
       ) : (
         ""
       )}
       {display.includes("amount") ? (
-        <div className="transaction-table">
+        <div
+          className={css.inputContDiv}
+          //className="transaction-table"
+        >
           <input
             type="text"
             name="amount"
             value={editedData.amount || editedData?.totalAmount}
             onChange={handleInputChange}
+            className={css.inputCss}
           />
         </div>
       ) : (
         ""
       )}
       {display.includes("balanceDue") ? (
-        <div className="transaction-table">
+        <div
+          className={css.inputContDiv}
+          //className="transaction-table"
+        >
           <input
             type="text"
             name="balanceDue"
@@ -354,6 +437,7 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
                 : (editedData.amount || editedData.totalAmount) -
                   (editedData.balanceAmount || 0)
             }
+            className={css.inputCss}
             // value={editedData.balanceDue}
             onChange={handleInputChange}
           />
@@ -363,7 +447,10 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
       )}
 
       {display.includes("duedate") ? (
-        <div className="transaction-table">
+        <div
+          className={css.inputContDiv}
+          //className="transaction-table"
+        >
           <input
             type="text"
             name="dueDate"
@@ -372,6 +459,7 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
               month: "2-digit",
               year: "numeric",
             })}
+            className={css.inputCss}
             onChange={handleInputChange}
           />
         </div>
@@ -379,12 +467,16 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
         ""
       )}
       {display.includes("typee") ? (
-        <div className="transaction-table">
+        <div
+          className={css.inputContDiv}
+          //className="transaction-table"
+        >
           <input
             type="text"
             name="type"
             value={editedData.type}
             handleInputChange={handleInputChange}
+            className={css.inputCss}
           />
         </div>
       ) : (
@@ -392,11 +484,15 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
       )}
 
       {display.includes("statuss") ? (
-        <div className="transaction-table">
+        <div
+          className={css.inputContDiv}
+          //className="transaction-table"
+        >
           <input
             type="text"
             name="status"
             value={editedData.status}
+            className={css.inputCss}
             onChange={handleInputChange}
           />
         </div>
@@ -405,11 +501,15 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
       )}
 
       {display.includes("status") ? (
-        <div className="transaction-table">
+        <div
+          className={css.inputContDiv}
+          //className="transaction-table"
+        >
           <select
             name="status"
             value={editedData.status}
             onChange={handleInputChange}
+            className={css.inputCss}
           >
             <option value="Paid">Paid</option>
             <option value="Unpaid">Unpaid</option>
@@ -418,23 +518,29 @@ const EditableRow = ({ display, data, onSave, onCancel }) => {
       ) : (
         ""
       )}
-
-      <div className="transaction-table">
+      <div
+        className={css.BtnCont}
+        // className="transaction-table"
+      >
         {/* Save and Cancel buttons */}
         <button
           onClick={() => {
             editedData.partyName = "65f03dbfea4408e949bac492";
-            // console.log(editedData)
             onSave(editedData);
           }}
+          className={css.updateBtn}
         >
           Update
         </button>
-        <button className="cancel" onClick={onCancel}>
+        <button
+          //className="cancel"
+          onClick={onCancel}
+          className={css.deleteBtn}
+        >
           Cancel
         </button>
       </div>
-    </section>
+    </div>
   );
 };
 

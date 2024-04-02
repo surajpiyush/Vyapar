@@ -27,10 +27,10 @@ const TableEstimates = ({
         <div>{partyName}</div>
       </td>
       <td>
-        <div style={{ textAlign: "right" }}>{totalAmount}</div>
+        <div style={{ textAlign: "right" }}>₹{totalAmount}</div>
       </td>
       <td>
-        <div style={{ textAlign: "right" }}>{balanceDue}</div>
+        <div style={{ textAlign: "right" }}>₹{balanceDue}</div>
       </td>
       <td>
         <div>{status}</div>

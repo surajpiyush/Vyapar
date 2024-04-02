@@ -6,6 +6,9 @@ import {
   DELETE_PURCHASEBILL_SUCCESS,
   DELETE_PURCHASEORDER_SUCCESS,
   DELETE_PURCHASERETURN_SUCCESS,
+  GET_ALL_PAYMENT_OUT_ERROR,
+  GET_ALL_PAYMENT_OUT_LOADING,
+  GET_ALL_PAYMENT_OUT_SUCCESS,
   GET_ALL_PURCHASE_BILL_ERROR,
   GET_ALL_PURCHASE_BILL_LOADING,
   GET_ALL_PURCHASE_BILL_SUCCESS,
@@ -20,6 +23,7 @@ import {
   POST_PURCHASERETURN_SUCCESS,
   PURCHASE_FAILURE,
   PURCHASE_REQUEST,
+  UPDATE_PAYOUTBILL_SUCCESS,
   UPDATE_PURCHASEBILL_SUCCESS,
 } from "./actionTypes";
 
@@ -39,12 +43,18 @@ const initialState = {
   getAllPurchaseError: false,
   getAllPurchaseBillSuccess: false,
 
-  // partiesData: [],
+  // Add Payment Out
+  toggleAddPaymentOutSuccess: false,
 
+  // Get All Payment Out
+  getAllPaymentOutLoading: false,
+  getAllPaymentOutError: false,
+  paymentOutData: [],
+
+  // partiesData: [],
   purchaseBillData: [],
   partyName: "",
   phoneNumber: "",
-  paymentOutData: [],
   purchaseOrderData: [],
   purchaseReturnData: [],
   singlePurchseData: {},
@@ -134,31 +144,50 @@ export const reducer = (state = initialState, { type, payload }) => {
       };
     }
 
-    // Purchase PaymentOut Bill
-    case GET_PAYOUTBILL_SUCCESS: {
-      return {
-        ...state,
-        isLoading: false,
-        paymentOutData: payload.data,
-      };
-    }
+    // --------------------------------- Payment Out -------------------------------------
+    // Add Payment Out
     case POST_PAYOUT_SUCCESS: {
       return {
         ...state,
         isLoading: false,
-        purchaseOutData: [...state.paymentOutData, payload],
+        toggleAddPaymentOutSuccess: !state.toggleAddPaymentOutSuccess,
+      };
+    }
+    // Get All Payment Out
+    case GET_ALL_PAYMENT_OUT_LOADING: {
+      return {
+        ...state,
+        getAllPaymentOutLoading: true,
+        getAllPaymentOutError: false,
+      };
+    }
+    case GET_ALL_PAYMENT_OUT_ERROR: {
+      return {
+        ...state,
+        getAllPaymentOutLoading: false,
+        getAllPaymentOutError: true,
+      };
+    }
+    case GET_ALL_PAYMENT_OUT_SUCCESS: {
+      return {
+        ...state,
+        paymentOutData: payload,
+        getAllPaymentOutLoading: false,
+      };
+    }
+
+    case UPDATE_PAYOUTBILL_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        toggleAddPaymentOutSuccess: !state.toggleAddPaymentOutSuccess,
       };
     }
     case DELETE_PAYOUTBILL_SUCCESS:
-      // Remove the deleted purchase bill from the state
-      const updatedPayOutBills = state.paymentOutData.filter(
-        (bill) => bill._id !== payload
-      );
-      //  console.log(payload)
       return {
         ...state,
-        paymentOutData: updatedPayOutBills,
         isLoading: false,
+        toggleAddPaymentOutSuccess: !state.toggleAddPaymentOutSuccess,
       };
 
     // Purchase OrderBill

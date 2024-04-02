@@ -45,6 +45,7 @@ import {
   IoSearchCircleSharp as SearchIconBlackBg,
   IoSettingsOutline as SettingsIconOutline,
   IoPrintOutline as PrintIconOutline,
+  IoCalculator as CalculatorIcon,
 } from "react-icons/io5";
 import {
   IoMdHome as HomeIcon,
@@ -60,6 +61,7 @@ import {
   MdPeopleAlt as PeopleIconFilled,
   MdOutlineArrowForwardIos as RightArrowIcon,
   MdOutlineSettingsBackupRestore as BackupRestoreIcon,
+  MdOutlineSettings as SettingsIconOutline2,
   MdModeEdit as EditIcon,
 } from "react-icons/md";
 
@@ -67,8 +69,10 @@ import {
 export {
   PrintIcon2,
   JsonIconOutline,
+  SettingsIconOutline2,
   PrintIconOutline,
   ExcelIcon,
+  CalculatorIcon,
   ExcelIconOutline,
   EditIcon,
   StatsIcon,

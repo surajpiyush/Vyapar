@@ -83,14 +83,6 @@ export default function SalesEstimates() {
     setIsEditing(false);
     setEditedData({});
   };
-  const display = [
-    "invoiceDate",
-    "refNo",
-    "partyName",
-    "amount",
-    "balanceDue",
-    "statuss",
-  ];
 
   return isLoading ? (
     <Loader3 text="Loading Estimates/Quatations" />
@@ -190,27 +182,19 @@ export default function SalesEstimates() {
             <table>
               <thead>
                 <tr>
-                  <th>
-                    <div>DATE</div>
-                  </th>
-                  <th>
-                    <div>REFERENCE NO.</div>
-                  </th>
-                  <th>
-                    <div>NAME</div>
-                  </th>
-                  <th>
-                    <div>TOTAL AMOUNT</div>
-                  </th>
-                  <th>
-                    <div>BALANCE</div>
-                  </th>
-                  <th>
-                    <div>STATUS</div>
-                  </th>
-                  <th>
-                    <div>ACTION</div>
-                  </th>
+                  {[
+                    "DATE",
+                    "REFERENCE NO.",
+                    "NAME",
+                    "TOTAL AMOUNT",
+                    "BALANCE",
+                    "STATUS",
+                    "ACTION",
+                  ].map((item, ind) => (
+                    <th key={item + ind}>
+                      <div>{item}</div>
+                    </th>
+                  ))}
                 </tr>
               </thead>
 
@@ -220,12 +204,19 @@ export default function SalesEstimates() {
                     isEditing && editedData?._id == item._id ? (
                       <tr
                         style={{
-                          width: "82%",
-                          position: "absolute",
+                          width: "80%",
+                          position: "relative",
                         }}
                       >
                         <EditableRow
-                          display={display}
+                          display={[
+                            "invoiceDate",
+                            "refNo",
+                            "partyName",
+                            "amount",
+                            "balanceDue",
+                            "statuss",
+                          ]}
                           data={editedData}
                           onSave={handleSave}
                           onCancel={handleCancel}
@@ -246,17 +237,15 @@ export default function SalesEstimates() {
           </div>
         </div>
       ) : (
-        <div>
-          <FirstTimeFormToggle
-            marginTop="10px"
-            height="73.25vh"
-            img={party}
-            onClick={() => setOpenForm(true)}
-            BtnText="Add Your First Estimate"
-            MiddleText="Make Estimates/Quotations/Proforma Invoices and share with your parties by WhatsApp, Email or Printed copies."
-            BelowText="You can convert them to Sale invoices later by just click of a button"
-          />
-        </div>
+        <FirstTimeFormToggle
+          marginTop="10px"
+          height="73.25vh"
+          img={party}
+          onClick={() => setOpenForm(true)}
+          BtnText="Add Your First Estimate"
+          MiddleText="Make Estimates/Quotations/Proforma Invoices and share with your parties by WhatsApp, Email or Printed copies."
+          BelowText="You can convert them to Sale invoices later by just click of a button"
+        />
       )}
     </div>
   );

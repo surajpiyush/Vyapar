@@ -33,10 +33,10 @@ const TableSaleOrder = ({
         <div>{partyName}</div>
       </td>
       <td>
-        <div style={{ textAlign: "right" }}>{total}</div>
+        <div style={{ textAlign: "right" }}>₹{total}</div>
       </td>
       <td>
-        <div style={{ textAlign: "right" }}>{balance}</div>
+        <div style={{ textAlign: "right" }}>₹{balance}</div>
       </td>
       <td>
         <div>{type}</div>

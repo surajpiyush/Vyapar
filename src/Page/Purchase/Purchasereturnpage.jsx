@@ -1,10 +1,6 @@
-import React from "react";
-import Thismonth from "../../Component/Purchase/Thismonth";
-import Paymentouts from "../../Component/Purchase/paymentouts/Paymentouts";
-import Purchasereturn from "../../Component/Purchase/Purchasereturn/Purchasereturn";
-// import "./purchase-bill.css";
-import AddPurchaseItem from "../../Component/Purchase/Purchase/Addpurchaseitem";
 import css from "../../pages/sales/salesInvoice/Invoice.module.css";
+import Thismonth from "../../Component/Purchase/Thismonth";
+import Purchasereturn from "../../Component/Purchase/Purchasereturn/Purchasereturn";
 
 import { GetAllSalesInvoice } from "../../Redux/sales/action";
 

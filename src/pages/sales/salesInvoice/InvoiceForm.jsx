@@ -43,57 +43,56 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
   const invoicesList = useSelector((state) => state.SalesReducer.invoicesList);
   const setting = useSelector((state) => state.SettingReducer.transaction);
 
-   const [currentCustomerData, setCurrentCustomerData] = useState({});
-   const [toggleDesc, setToggleDesc] = useState(false);
-   const [toggleRoundOff, setToggleRoundOff] = useState(false);
-   const [toggleReceived, setToggleReceived] = useState(false);
-   const [toggleCheckReferenceInp, setToggleCheckReferenceInp] =
-      useState(false);
-   const [paymentTypeSelectTag, setPaymentTypeSelectTag] = useState("Cash");
-   const [checkReferenceInpval, setCheckReferenceInpval] = useState("");
-   const [topMarginAddDescInp, setTopMarginAddDescInp] = useState("");
-   const [showItemsListMenu, setShowItemsListMenu] = useState(false);
-   const [activeRowIndex, setActiveRowIndex] = useState(0);
-   const [rowFooterData, setRowFooterData] = useState({});
-   const [showItemForm, setShowAddItemsForm] = useState(false);
-   const [balanceAmount, setBalanceAmount] = useState("");
-   const [paymentArr, setPaymentArr] = useState([{ types: "Cash", amount: 0 }]);
-   const [confirmModel, setConfirmModel] = useState(false);
-   const [temp, setTemp] = useState("");
-   function generateInvoiceNumber() {
-      const currentDate = new Date();
-      const monthNames = [
-         "JAN",
-         "FEB",
-         "MAR",
-         "APR",
-         "MAY",
-         "JUN",
-         "JUL",
-         "AUG",
-         "SEP",
-         "OCT",
-         "NOV",
-         "DEC",
-      ];
-      const monthIndex = currentDate.getMonth();
-      const month = monthNames[monthIndex];
-      const previousYear =
+  const [currentCustomerData, setCurrentCustomerData] = useState({});
+  const [toggleDesc, setToggleDesc] = useState(false);
+  const [toggleRoundOff, setToggleRoundOff] = useState(false);
+  const [toggleReceived, setToggleReceived] = useState(false);
+  const [toggleCheckReferenceInp, setToggleCheckReferenceInp] = useState(false);
+  const [paymentTypeSelectTag, setPaymentTypeSelectTag] = useState("Cash");
+  const [checkReferenceInpval, setCheckReferenceInpval] = useState("");
+  const [topMarginAddDescInp, setTopMarginAddDescInp] = useState("");
+  const [showItemsListMenu, setShowItemsListMenu] = useState(false);
+  const [activeRowIndex, setActiveRowIndex] = useState(0);
+  const [rowFooterData, setRowFooterData] = useState({});
+  const [showItemForm, setShowAddItemsForm] = useState(false);
+  const [balanceAmount, setBalanceAmount] = useState("");
+  const [paymentArr, setPaymentArr] = useState([{ types: "Cash", amount: 0 }]);
+  const [confirmModel, setConfirmModel] = useState(false);
+  const [temp, setTemp] = useState("");
+  function generateInvoiceNumber() {
+    const currentDate = new Date();
+    const monthNames = [
+      "JAN",
+      "FEB",
+      "MAR",
+      "APR",
+      "MAY",
+      "JUN",
+      "JUL",
+      "AUG",
+      "SEP",
+      "OCT",
+      "NOV",
+      "DEC",
+    ];
+    const monthIndex = currentDate.getMonth();
+    const month = monthNames[monthIndex];
+    const previousYear =
       monthIndex < 3
-            ? (currentDate.getFullYear() - 1).toString().slice(-2)
-            : currentDate.getFullYear().toString().slice(-2);
-      const hours = currentDate.getHours();
-      const minutes = currentDate.getMinutes();
-      const date = currentDate.getDate();
-      const sec = currentDate.getSeconds();
-console.log(monthIndex)
-      // Format the invoice number
-      const invoiceNumber = `${date}${hours}${minutes}${sec}/${month}/${previousYear}-${
-         Number(previousYear) + 1
-      }`;
+        ? (currentDate.getFullYear() - 1).toString().slice(-2)
+        : currentDate.getFullYear().toString().slice(-2);
+    const hours = currentDate.getHours();
+    const minutes = currentDate.getMinutes();
+    const date = currentDate.getDate();
+    const sec = currentDate.getSeconds();
+    console.log(monthIndex);
+    // Format the invoice number
+    const invoiceNumber = `${date}${hours}${minutes}${sec}/${month}/${previousYear}-${
+      Number(previousYear) + 1
+    }`;
 
-      return invoiceNumber;
-   }
+    return invoiceNumber;
+  }
 
   // Example usage
   //   const invoiceNumber = generateInvoiceNumber();
@@ -216,7 +215,7 @@ console.log(monthIndex)
   // for fetching all items list on form mount
   useEffect(() => {
     // dispatch(GetAllItems());
-    GetAllItems(dispatch)
+    GetAllItems(dispatch);
   }, [toggleItems]);
 
   //  for updating Firm Data
@@ -698,67 +697,59 @@ console.log(monthIndex)
               )}
             </div>
 
-                  {toggleDesc ? (
-                     <div
-                        className={css.inputDiv}
-                        style={{ marginTop: topMarginAddDescInp }}
-                     >
-                        <textarea
-                           value={invoiceData.addDescription}
-                           name="addDescription"
-                           onChange={handleInputChange}
-                           className={css.input}
-                           style={{
-                              height: "110px",
-                              width: "230px",
-                           }}
-                           required
-                        />
-                        <label
-                           htmlFor="addDescription"
-                           className={
-                              invoiceData.addDescription
-                                 ? css.activeLabel
-                                 : css.inactiveLabel
-                           }
-                        >
-                           Description
-                        </label>
-                     </div>
-                  ) : (
-                     <div
-                        onClick={(e) => {
-                           e.stopPropagation();
-                           setToggleDesc(true);
-                        }}
-                        className={css.addDecriptionDiv}
-                        style={{
-                           width: "150px",
-                        }}
-                     >
-                        <AddDecriptionIcon />
-                        <p>ADD DESCRIPTION</p>
-                     </div>
-                  )}
-                  <div
-                  
-                     className={css.addDecriptionDiv}
-                     style={{ width: "150px" }}
-                  >
-                  <input type="file" />
-                     <AddCameraIcon />
-                     <p>ADD IMAGE</p>
-                  </div>
-                  <div
-                    
-                     className={css.addDecriptionDiv}
-                     style={{ width: "150px" }}
-                  >
-                    <input type="file" />
-                     <AddDocumentIcon />
-                     <p>ADD DOCUMENT</p>
-                  </div>
-               </div>
+            {toggleDesc ? (
+              <div
+                className={css.inputDiv}
+                style={{ marginTop: topMarginAddDescInp }}
+              >
+                <textarea
+                  value={invoiceData.addDescription}
+                  name="addDescription"
+                  onChange={handleInputChange}
+                  className={css.input}
+                  style={{
+                    height: "110px",
+                    width: "230px",
+                  }}
+                  required
+                />
+                <label
+                  htmlFor="addDescription"
+                  className={
+                    invoiceData.addDescription
+                      ? css.activeLabel
+                      : css.inactiveLabel
+                  }
+                >
+                  Description
+                </label>
+              </div>
+            ) : (
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setToggleDesc(true);
+                }}
+                className={css.addDecriptionDiv}
+                style={{
+                  width: "150px",
+                }}
+              >
+                <AddDecriptionIcon />
+                <p>ADD DESCRIPTION</p>
+              </div>
+            )}
+            <div className={css.addDecriptionDiv} style={{ width: "150px" }}>
+              <input type="file" />
+              <AddCameraIcon />
+              <p>ADD IMAGE</p>
+            </div>
+            <div className={css.addDecriptionDiv} style={{ width: "150px" }}>
+              <input type="file" />
+              <AddDocumentIcon />
+              <p>ADD DOCUMENT</p>
+            </div>
+          </div>
 
           <div className={css.bottomRightSideCont}>
             <div className={css.rightSideUpperInputsDiv}>

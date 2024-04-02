@@ -17,11 +17,11 @@ import reportWebVitals from "./reportWebVitals";
 import Parties from "./Page/Parties/Parties.jsx";
 import PageNotFound from "./pages/PageNotFound.jsx";
 import AddPurchase from "./Page/AddPurchasepage.jsx";
-import Paymentout from "./Page/Purchase/Paymentout.jsx";
 import AllTransaction from "./pages/AllTransactions.js";
 import CompaniesPage from "./Page/Firm/CompaniesPage.jsx";
 import AddCompanyPage from "./Page/Firm/AddCompanyPage.jsx";
 import SalesOrder from "./pages/sales/salesOrder/SalesOrder.jsx";
+import PaymentOut from "./Page/Purchase/PaymentOut/PaymentOut.jsx";
 import Addpurchaseorderpage from "./Page/Addpurchaseorderpage.jsx";
 import SalesReturn from "./pages/sales/salesReturn/SalesReturn.jsx";
 import Addpurchasereturnpage from "./Page/Addpurchasereturnpage.jsx";
@@ -79,7 +79,8 @@ const router = createBrowserRouter([
       },
       {
         path: "/paymentout",
-        element: <Paymentout />,
+        // element: <Paymentout />,
+        element: <PaymentOut />,
       },
       {
         path: "/paymentorder",

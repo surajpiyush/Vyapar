@@ -7,6 +7,9 @@ import {
   DELETE_PURCHASEBILL_SUCCESS,
   DELETE_PURCHASEORDER_SUCCESS,
   DELETE_PURCHASERETURN_SUCCESS,
+  GET_ALL_PAYMENT_OUT_ERROR,
+  GET_ALL_PAYMENT_OUT_LOADING,
+  GET_ALL_PAYMENT_OUT_SUCCESS,
   GET_ALL_PURCHASE_BILL_ERROR,
   GET_ALL_PURCHASE_BILL_LOADING,
   GET_ALL_PURCHASE_BILL_SUCCESS,
@@ -29,6 +32,7 @@ import {
 
 import axios from "axios";
 
+// -------------------------------- PURCHASE BILL ----------------------------
 // Add Purchase Bill Request
 export const AddPurchaseBill = async (
   dispatch,
@@ -175,7 +179,7 @@ export const deletePurchaseBill = (_id, toast) => (dispatch) => {
     });
 };
 
-// purchase Order
+// Add purchase Order
 export const addPurchaseOrder = async (
   dispatch,
   newItem,
@@ -294,127 +298,145 @@ export const deletePurchaseOrderBill = (_id, toast) => (dispatch) => {
     });
 };
 
-// ---------------------------------------------------------------
-// Purchase paymentOut Bills
-
+// -------------------------------- PAYMENT OUT ----------------------------
+// Add Payment Out
 export const addPayOut = async (dispatch, newItem, setOpenForm, toast) => {
   toast.closeAll();
   dispatch({ type: PURCHASE_REQUEST });
+  const token = localStorage.getItem("token");
+  const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
 
   try {
-    const token = localStorage.getItem("token");
-    const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
     const response = await axios.post(
       `${API_URL}/${firmId}/purchaseOut/create`,
       newItem,
-      {
-        headers: {
-          Authorization: `Bearer ${token} `,
-        },
-      }
+      { headers: { Authorization: `Bearer ${token} ` } }
     );
 
-    dispatch({
-      type: POST_PAYOUT_SUCCESS,
-      payload: response.data.data,
-    });
-
-    setOpenForm(false);
+    // console.log("Add Payment Out Response", response);
+    dispatch({ type: POST_PAYOUT_SUCCESS });
     toast({
-      title: "Purchase Bill Added!",
+      title: "Purchase Out Added!",
       status: "success",
       position: "top",
     });
+    setOpenForm(false);
   } catch (error) {
-    console.error(error);
     dispatch({ type: PURCHASE_FAILURE });
-
     toast({
-      title:
-        error?.response?.data?.msg ||
-        error?.response?.data?.message ||
-        "Something Went Wrong!",
+      description:
+        error?.response?.data?.msg || error?.response?.data?.message || "",
+      title: "Something Went Wrong!",
       status: "error",
       position: "top",
     });
-    console.log("Post Sales Invoice Response:", error);
+    console.log("Add Payment Out Error", error);
   }
 };
 
-export const getPaymentOutBill =
-  ({ date }) =>
-  (dispatch) => {
-    dispatch({ type: PURCHASE_REQUEST });
-
-    const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
-    const token = localStorage.getItem("token");
-
-    axios
-      .get(
-        `${API_URL}/${firmId}/purchaseOut/getAll?startDate=${date.startDate}&endDate=${date.endDate}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token} `,
-          },
-        }
-      )
-      .then((res) => {
-        dispatch({ type: GET_PAYOUTBILL_SUCCESS, payload: res.data });
-      })
-      .catch((err) => {
-        console.error(err);
-        dispatch({ type: PURCHASE_FAILURE });
-      });
-  };
-
-export const updatePayoutBill = (_id, data) => (dispatch) => {
-  dispatch({ type: PURCHASE_REQUEST });
-
+// Get All Payment Out
+export const GetAllPaymentOut = async (dispatch, startDate, endDate) => {
+  dispatch({ type: GET_ALL_PAYMENT_OUT_LOADING });
   const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
   const token = localStorage.getItem("token");
 
-  axios
-    .put(`${API_URL}/${firmId}/purchaseOut/update/${_id}`, data, {
-      headers: {
-        Authorization: `Bearer ${token} `,
-      },
-    })
-    .then((res) => {
-      console.log(res);
-      alert(res?.data?.msg);
-      dispatch({ type: UPDATE_PAYOUTBILL_SUCCESS });
-    })
-    .catch((err) => {
-      console.error(err);
-      dispatch({ type: PURCHASE_FAILURE });
+  try {
+    const response = await axios.get(
+      `${API_URL}/${firmId}/purchaseOut/getAll?startDate=${startDate}&endDate=${endDate}`,
+      { headers: { Authorization: `Bearer ${token} ` } }
+    );
+
+    console.log("Get All Payment Out Response:", response);
+    dispatch({
+      type: GET_ALL_PAYMENT_OUT_SUCCESS,
+      payload: response?.data?.data || [],
     });
+  } catch (error) {
+    dispatch({ type: GET_ALL_PAYMENT_OUT_ERROR });
+    console.error("Get All Payment Out Error:", error);
+  }
 };
 
-export const deletePayoutBill = (_id, toast) => (dispatch) => {
+export const updatePayoutBill = async (
+  dispatch,
+  dataId,
+  data,
+  toast,
+  setIsEditing,
+  setEditedData
+) => {
+  toast.closeAll();
   dispatch({ type: PURCHASE_REQUEST });
-  console.log(_id);
   const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
   const token = localStorage.getItem("token");
 
-  axios
-    .delete(`${API_URL}/${firmId}/purchaseOut/delete/${_id}`, {
-      headers: {
-        Authorization: `Bearer ${token} `,
-      },
-    })
-    .then((res) => {
-      dispatch({ type: DELETE_PAYOUTBILL_SUCCESS, payload: _id });
+  try {
+    const response = await axios.put(
+      `${API_URL}/${firmId}/purchaseOut/update/${dataId}`,
+      data,
+      { headers: { Authorization: `Bearer ${token} ` } }
+    );
 
-      toast({
-        title: `${res.data.msg}`,
-        status: "success",
-        position: "top",
-      });
-    })
-    .catch((err) => {
-      console.error(err);
-      dispatch({ type: PURCHASE_FAILURE });
+    // console.log("Update Payment-Out Response:",response);
+    dispatch({ type: UPDATE_PAYOUTBILL_SUCCESS });
+    toast({
+      title: "Payment-Out Updated",
+      status: "success",
+      position: "top",
     });
+    setIsEditing(false);
+    setEditedData({});
+  } catch (error) {
+    toast({
+      description:
+        error?.response?.data?.msg || error?.response?.data?.message || "",
+      title: "Something Went Wrong!",
+      status: "error",
+      position: "top",
+    });
+    dispatch({ type: PURCHASE_FAILURE });
+    console.log("Update Payment-Out Error:", error);
+  }
+};
+
+export const deletePayoutBill = async (
+  dispatch,
+  dataId,
+  toast,
+  setIsEditing,
+  setEditedData
+) => {
+  toast.closeAll();
+  dispatch({ type: PURCHASE_REQUEST });
+  const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
+  const token = localStorage.getItem("token");
+
+  try {
+    const response = await axios.delete(
+      `${API_URL}/${firmId}/purchaseOut/delete/${dataId}`,
+      { headers: { Authorization: `Bearer ${token} ` } }
+    );
+
+    // console.log("Delete Payment-Out Response:",response);
+    dispatch({ type: DELETE_PAYOUTBILL_SUCCESS });
+    toast({
+      title: "Payment-Out Deleted",
+      status: "success",
+      position: "top",
+    });
+    setIsEditing(false);
+    setEditedData({});
+  } catch (error) {
+    toast({
+      description:
+        error?.response?.data?.msg || error?.response?.data?.message || "",
+      title: "Something Went Wrong!",
+      status: "error",
+      position: "top",
+    });
+    dispatch({ type: PURCHASE_FAILURE });
+    console.log("Delete Payment-Out Error:", error);
+  }
 };
 
 // -------------------------------------------------

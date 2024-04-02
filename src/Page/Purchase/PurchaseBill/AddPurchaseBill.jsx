@@ -1,6 +1,6 @@
 import css from "../../../styles/SalesStyles/SalesForms.module.css";
-import ItemsForm from "../../../Page/Items/AddItemForm";
-import AddPurchaseForm from "../AddPurchaseForm";
+import AddItemForm from "../../../Page/Items/AddItemForm";
+import AddPurchaseForm from "../../../Component/Purchase/AddPurchaseForm";
 import { GetAllItems } from "../../../Redux/items/actions";
 import { FetchAllParties } from "../../../Redux/parties/actions";
 
@@ -28,7 +28,7 @@ import {
   getPurchaseBill,
 } from "../../../Redux/purchase/action";
 
-const Addpurchaseitem = ({ setOpenForm, date }) => {
+const AddPurchaseBillForm = ({ setOpenForm }) => {
   const toast = useToast();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.SalesReducer.isLoading);
@@ -248,9 +248,7 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
   }, [togglePartiesData]);
   // for fetching all items list on form mount
   useEffect(() => {
-    // dispatch(GetAllItems());
-    GetAllItems(dispatch)
-    // console.log(items)
+    GetAllItems(dispatch);
   }, [toggleItems]);
   //  for updating Firm Data
   useEffect(() => {
@@ -362,7 +360,7 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
         <p>Purchase</p>
       </div>
       <div className={css.ContentContainerDiv}>
-        {showItemForm && <ItemsForm closeForm={setShowItemForm} />}
+        {showItemForm && <AddItemForm CloseForm={setShowItemForm} />}
         {/* Middle  */}
         <div className={css.middleOuter}>
           <div className={css.leftSideCont}>
@@ -1004,4 +1002,4 @@ const Addpurchaseitem = ({ setOpenForm, date }) => {
     </form>
   );
 };
-export default Addpurchaseitem;
+export default AddPurchaseBillForm;

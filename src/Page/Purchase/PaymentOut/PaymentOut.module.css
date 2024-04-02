@@ -7,8 +7,8 @@
 }
 
 /************
-    ** Top Nav **
-    *************/
+      ** Top Nav **
+      *************/
 .topNavOuter {
   width: 100%;
   background: var(--pureWhite);
@@ -119,8 +119,8 @@
 }
 
 /****************
-    ** Content Css **
-    *****************/
+      ** Content Css **
+      *****************/
 .ContentOuter {
   width: 100%;
   background: var(--pureWhite);
@@ -129,7 +129,7 @@
   border-radius: 6px;
   display: flex;
   flex-direction: column;
-  height: 61.25vh;
+  height: 72.5vh;
 }
 .contentUpperNav {
   display: flex;
