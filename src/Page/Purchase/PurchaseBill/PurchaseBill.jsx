@@ -8,6 +8,7 @@ import UpperControlPanel from "../../../Component/UpperControlPanel/UpperControl
 import FirstTimeFormToggle from "../../../Component/FirmTimeForm/FirstTimeFormToggle";
 import {
    GetAllPurchaseBill,
+   GetSinglePurchaseBillData,
    deletePurchaseBill,
    updatePurchaseBill,
 } from "../../../Redux/purchase/action";
@@ -27,11 +28,9 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useLocation, useNavigate } from "react-router-dom";
-import { IoCalculator as CalculatorIcon } from "react-icons/io5";
+
 import { MdOutlineSettings as SettingIcon } from "react-icons/md";
-import { IoCloseOutline as CrossIcon } from "react-icons/io5";
-import Loader3 from "../../../Component/Loaders/Loader3";
-import UpperControlPanel from "../../../Component/UpperControlPanel/UpperControlPanel";
+
 import EditPurchaseForm from "../../../Component/Purchase/EditPurchaseForm";
 
 const PurchaseBill = () => {
@@ -98,6 +97,11 @@ const PurchaseBill = () => {
    useEffect(() => {
       GetAllPurchaseBill(dispatch, startDate, endDate);
    }, [toggleAddPurchaseBill, startDate, endDate]);
+
+   const handleEdit = (id) => {
+    setIsEditing(true);
+   GetSinglePurchaseBillData(dispatch,id,toast)
+ };
 
    // Handle Delete
    const handleDelete = (id) => {
@@ -247,74 +251,46 @@ const PurchaseBill = () => {
 
                      <tbody>
                         {!getAllPurchaseLoading &&
-                           PurchaseBillData?.map((item, ind) =>
-                              isEditing && editedData?._id === item._id ? (
-                                 <tr
-                                    style={{
-                                       width: "80%",
-                                       position: "relative",
-                                    }}
-                                    key={item?._id + ind}
-                                 >
-                                    <EditableRow
-                                       display={[
-                                          "billDate",
-                                          "billNumber",
-                                          "partyName",
-                                          "paymentType",
-                                          "amount",
-                                          "balanceDue",
-                                          "status",
-                                          "hariom",
-                                       ]}
-                                       data={editedData}
-                                       onSave={handleUpdate}
-                                       onCancel={handleCancel}
-                                    />
-                                 </tr>
-                              ) : (
-                                 <tr key={item?._id + ind}>
-                                    <td>
-                                       {new Date(
-                                          item?.billDate
-                                       ).toLocaleDateString("en-IN", {
-                                          day: "2-digit",
-                                          month: "2-digit",
-                                          year: "numeric",
-                                       })}
-                                    </td>
-                                    <td>{item?.billNumber}</td>
-                                    <td>{item?.partyName}</td>
-                                    <td>{item?.paymentType[0]?.types}</td>
-                                    <td style={{ textAlign: "right" }}>
-                                       ₹{item?.amount}
-                                    </td>
-                                    <td style={{ textAlign: "right" }}>
-                                       ₹
-                                       {item?.status === "Paid"
-                                          ? 0
-                                          : item?.balanceDue}
-                                    </td>
-                                    <td>{item?.status}</td>
-                                    <td>
-                                       <div className={css.actionDivContent}>
-                                          <button
-                                             onClick={() =>
-                                                handleDelete(item?._id)
-                                             }
-                                          >
-                                             <DeleteIcon2 />
-                                          </button>
-                                          <button
-                                             onClick={() => handleEdit(item)}
-                                          >
-                                             <EditIcon />
-                                          </button>
-                                       </div>
-                                    </td>
-                                 </tr>
-                              )
-                           )}
+                           PurchaseBillData?.map((item, ind) => (
+                              <tr key={item?._id + ind}>
+                                 <td>
+                                    {new Date(
+                                       item?.billDate
+                                    ).toLocaleDateString("en-IN", {
+                                       day: "2-digit",
+                                       month: "2-digit",
+                                       year: "numeric",
+                                    })}
+                                 </td>
+                                 <td>{item?.billNumber}</td>
+                                 <td>{item?.partyName}</td>
+                                 <td>{item?.paymentType[0]?.types}</td>
+                                 <td style={{ textAlign: "right" }}>
+                                    ₹{item?.amount}
+                                 </td>
+                                 <td style={{ textAlign: "right" }}>
+                                    ₹
+                                    {item?.status === "Paid"
+                                       ? 0
+                                       : item?.balanceDue}
+                                 </td>
+                                 <td>{item?.status}</td>
+                                 <td>
+                                    <div className={css.actionDivContent}>
+                                       <button
+                                          onClick={() =>
+                                             handleDelete(item?._id)
+                                          }
+                                       >
+                                          <DeleteIcon2 />
+                                       </button>
+                                       <button onClick={() => handleEdit(item?._id)}>
+                                          <EditIcon />
+                                       </button>
+                                    </div>
+                                 </td>
+                              </tr>
+                           ))}
                      </tbody>
                   </table>
                </div>
