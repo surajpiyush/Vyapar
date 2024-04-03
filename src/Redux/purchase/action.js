@@ -495,7 +495,7 @@ export const GetAllPurchaseReturns = async (dispatch, startDate, endDate) => {
       { headers: { Authorization: `Bearer ${token} ` } }
     );
 
-    console.log("Get All Payment Return Response:", response);
+    //  console.log("Get All Payment Return Response:", response);
     dispatch({
       type: GET_PURCHASE_RETURN_SUCCESS,
       payload: response?.data?.data || [],
