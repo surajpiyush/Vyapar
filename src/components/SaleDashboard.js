@@ -23,8 +23,6 @@ const SaleDashboard = ({
       let paid = 0;
       let unpaid = 0;
       data?.forEach((item) => {
-
-  
          if (item && item.amount && item.balanceDue) {
             paid += Number(item.amount || 0) - Number(item.balanceDue || 0);
             unpaid += Number(item.balanceDue || 0);
@@ -64,8 +62,10 @@ const SaleDashboard = ({
             <FaEquals />
             <div>
                <span>Total</span>
-               <h5>₹{Number(paidAmount) + Number(unpaidAmount)}</h5>
-            </div>   
+               <h5>
+                  ₹{(Number(paidAmount) + Number(unpaidAmount)).toFixed(2)}
+               </h5>
+            </div>
          </div>
 
          {/* Search Bar And Button */}

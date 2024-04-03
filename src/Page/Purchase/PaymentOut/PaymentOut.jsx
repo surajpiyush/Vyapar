@@ -127,7 +127,7 @@ const PaymentOut = () => {
         setStartDate={setStartDate}
         setEndDate={setEndDate}
         showPaymentData={false}
-        showPrintOptions={true}
+        showPrintOptions={false}
         data={paymentOutData}
         //paidAmount={paidAmount}
         //unpaidAmount={unpaidAmount}

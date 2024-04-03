@@ -35,6 +35,7 @@ import { useReactToPrint } from "react-to-print";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IoMdCloseCircle as CloseIcon } from "react-icons/io";
+import InvoicePrint from "../../../Component/PrintLayouts/InvoicePrint";
 //import { IoCloseOutline as CrossIcon } from "react-icons/io5";
 
 export default function SalesInvoice() {
@@ -171,7 +172,7 @@ export default function SalesInvoice() {
         >
           <div ref={printComponentRef}>
             {storedPrintData?.layoutIndex == 0 ? (
-              <RPLayout1 currPrintItem={SingleInvoiceData} />
+              <InvoicePrint currPrintItem={SingleInvoiceData} />
             ) : storedPrintData?.layoutIndex == 1 ? (
               <RPLayout2 currPrintItem={SingleInvoiceData} />
             ) : (

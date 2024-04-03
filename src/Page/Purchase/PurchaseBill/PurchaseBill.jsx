@@ -167,7 +167,7 @@ const PurchaseBill = () => {
                      <SettingsIconOutline2
                         onClick={() => setToggleSetting(true)}
                      />
-                     <CloseIcon2 onClick={() => setOpenForm(false)} />
+                     <CloseIcon2 onClick={() => setIsEditing(false)} />
                   </div>
                </div>
                <EditPurchaseForm data={singlePurchaseBillData} />
@@ -182,7 +182,7 @@ const PurchaseBill = () => {
             setStartDate={setStartDate}
             setEndDate={setEndDate}
             showPaymentData={true}
-            showPrintOptions={true}
+            showPrintOptions={false}
             data={PurchaseBillData}
             paidAmount={paidAmount}
             unpaidAmount={unpaidAmount}

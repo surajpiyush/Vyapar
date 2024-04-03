@@ -82,7 +82,7 @@ const Thismonth = ({
         // hideElementDuringPrint();
 
         // Trigger browser's print dialog
-        window.print();
+        // window.print();
 
         // showElementAfterPrint();
         break;
@@ -355,8 +355,9 @@ const Thismonth = ({
                 </div>
               </div>
             </div>
+            <h1>hello</h1>
             <div className="d-flex-col">
-              <div
+              {/* <div
                 onClick={() => {
                   saveTableData("PRINT");
                 }}
@@ -367,7 +368,7 @@ const Thismonth = ({
                 <div>
                   <span>Print</span>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </aside>
