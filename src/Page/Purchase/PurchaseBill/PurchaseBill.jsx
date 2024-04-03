@@ -71,10 +71,6 @@ const PurchaseBill = () => {
     setUnpaidAmount(unpaid);
   }, [getAllPurchaseBillSuccess]);
 
-  useEffect(() => {
-    GetAllPurchaseBill(dispatch, startDate, endDate);
-  }, [toggleAddPurchaseBill, startDate, endDate]);
-
   // To Get All Purchase Bill Data
   useEffect(() => {
     GetAllPurchaseBill(dispatch, startDate, endDate);
@@ -131,6 +127,7 @@ const PurchaseBill = () => {
         </div>
       )}
 
+      {/* Edit Purchase Bill */}
       {isEditing && (
         <div className={css.formOuter}>
           <div className={css.upperNav}>
@@ -199,30 +196,20 @@ const PurchaseBill = () => {
             <table>
               <thead>
                 <tr>
-                  <th>
-                    <div>DATE</div>
-                  </th>
-                  <th>
-                    <div>INVOICE NO.</div>
-                  </th>
-                  <th>
-                    <div>PARTY NAME</div>
-                  </th>
-                  <th>
-                    <div>PAYMENT TYPE</div>
-                  </th>
-                  <th>
-                    <div>AMOUNT</div>
-                  </th>
-                  <th>
-                    <div>BALANCE DUE</div>
-                  </th>
-                  <th>
-                    <div>STATUS</div>
-                  </th>
-                  <th>
-                    <div>ACTION</div>
-                  </th>
+                  {[
+                    "DATE",
+                    "INVOICE NO.",
+                    "PARTY NAME",
+                    "PAYMENT TYPE",
+                    "AMOUNT",
+                    "BALANCE DUE",
+                    "STATUS",
+                    "ACTION",
+                  ].map((item, ind) => (
+                    <th key={item + ind}>
+                      <div>{item}</div>
+                    </th>
+                  ))}
                 </tr>
               </thead>
 

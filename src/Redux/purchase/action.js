@@ -16,7 +16,9 @@ import {
   GET_PAYOUTBILL_SUCCESS,
   GET_PURCHASEBILL_SUCCESS,
   GET_PURCHASEORDER_SUCCESS,
-  GET_PURCHASERETURN_SUCCESS,
+  GET_PURCHASE_RETURN_ERROR,
+  GET_PURCHASE_RETURN_LOADING,
+  GET_PURCHASE_RETURN_SUCCESS,
   GET_SINGLE_PURCHASEBILL_SUCCESS,
   POST_PAYOUT_SUCCESS,
   POST_PURCHASEBILL_SUCCESS,
@@ -346,7 +348,7 @@ export const GetAllPaymentOut = async (dispatch, startDate, endDate) => {
       { headers: { Authorization: `Bearer ${token} ` } }
     );
 
-    console.log("Get All Payment Out Response:", response);
+    // console.log("Get All Payment Out Response:", response);
     dispatch({
       type: GET_ALL_PAYMENT_OUT_SUCCESS,
       payload: response?.data?.data || [],
@@ -357,6 +359,7 @@ export const GetAllPaymentOut = async (dispatch, startDate, endDate) => {
   }
 };
 
+// Update Payment-Out
 export const updatePayoutBill = async (
   dispatch,
   dataId,
@@ -399,6 +402,7 @@ export const updatePayoutBill = async (
   }
 };
 
+// Delete Payment-Out
 export const deletePayoutBill = async (
   dispatch,
   dataId,
@@ -439,130 +443,141 @@ export const deletePayoutBill = async (
   }
 };
 
-// -------------------------------------------------
-// Purchse Returnbills
-
+// ------------------------------------------------- Purchase Return -------------------------------------------------
+// Add Purchase Return
 export const addPurchaseReturn = async (
   dispatch,
   newItem,
   setOpenForm,
   toast
 ) => {
-  toast.closeAll();
   dispatch({ type: PURCHASE_REQUEST });
+  toast.closeAll();
+  const token = localStorage.getItem("token");
+  const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
 
   try {
-    const token = localStorage.getItem("token");
-    const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
     const response = await axios.post(
       `${API_URL}/${firmId}/purchaseReturn/create`,
       newItem,
-      {
-        headers: {
-          Authorization: `Bearer ${token} `,
-        },
-      }
+      { headers: { Authorization: `Bearer ${token} ` } }
     );
 
-    dispatch({
-      type: POST_PURCHASERETURN_SUCCESS,
-      payload: response.data.data,
-    });
-
-    setOpenForm(false);
+    // console.log("Add Payment Return Response:", response);
+    dispatch({ type: POST_PURCHASERETURN_SUCCESS });
     toast({
-      title: "Purchase Bill Added!",
+      title: "Purchase Return Added!",
+      status: "success",
+      position: "top",
+    });
+    setOpenForm(false);
+  } catch (error) {
+    dispatch({ type: PURCHASE_FAILURE });
+    toast({
+      description:
+        error?.response?.data?.msg || error?.response?.data?.message || "",
+      title: "Something Went Wrong!",
+      status: "error",
+      position: "top",
+    });
+    console.log("Add Payment Return Error:", error);
+  }
+};
+
+export const GetAllPurchaseReturns = async (dispatch, startDate, endDate) => {
+  dispatch({ type: GET_PURCHASE_RETURN_LOADING });
+  const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
+  const token = localStorage.getItem("token");
+
+  try {
+    const response = await axios.get(
+      `${API_URL}/${firmId}/purchaseReturn/getAll?startDate=${startDate}&endDate=${endDate}`,
+      { headers: { Authorization: `Bearer ${token} ` } }
+    );
+
+    console.log("Get All Payment Return Response:", response);
+    dispatch({
+      type: GET_PURCHASE_RETURN_SUCCESS,
+      payload: response?.data?.data || [],
+    });
+  } catch (error) {
+    dispatch({ type: GET_PURCHASE_RETURN_ERROR });
+    console.log("Get All Payment Return Error:", error);
+  }
+};
+
+// Update Purchase Return
+export const UpdatePurchaseReturn = async (
+  dispatch,
+  dataId,
+  data,
+  toast,
+  setIsEditing,
+  setEditedData
+) => {
+  dispatch({ type: PURCHASE_REQUEST });
+  toast.closeAll();
+  const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
+  const token = localStorage.getItem("token");
+
+  try {
+    const response = await axios.put(
+      `${API_URL}/${firmId}/purchaseReturn/update/${dataId}`,
+      data,
+      { headers: { Authorization: `Bearer ${token} ` } }
+    );
+
+    // console.log(Update Payment Return Response:", response);
+    dispatch({ type: UPDATE_PURCHASERETURN_SUCCESS });
+    toast({
+      title: "Purchase Return Updated!",
+      status: "success",
+      position: "top",
+    });
+    setIsEditing(false);
+    setEditedData({});
+  } catch (error) {
+    dispatch({ type: PURCHASE_FAILURE });
+    toast({
+      description:
+        error?.response?.data?.msg || error?.response?.data?.message || "",
+      title: "Something Went Wrong!",
+      status: "error",
+      position: "top",
+    });
+    console.log("Update Payment Return Error:", error);
+  }
+};
+
+// Delete Purchase Return
+export const DeletePurchaseReturn = async (dispatch, itemId, toast) => {
+  dispatch({ type: PURCHASE_REQUEST });
+  toast.closeAll();
+  const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
+  const token = localStorage.getItem("token");
+
+  try {
+    const response = await axios.delete(
+      `${API_URL}/${firmId}/purchaseReturn/delete/${itemId}`,
+      { headers: { Authorization: `Bearer ${token} ` } }
+    );
+
+    // console.log(Delete Payment Return Response:", response);
+    dispatch({ type: DELETE_PURCHASERETURN_SUCCESS });
+    toast({
+      title: "Purchase Return Deleted!",
       status: "success",
       position: "top",
     });
   } catch (error) {
-    console.error(error);
     dispatch({ type: PURCHASE_FAILURE });
-
     toast({
-      title:
-        error?.response?.data?.msg ||
-        error?.response?.data?.message ||
-        "Something Went Wrong!",
+      description:
+        error?.response?.data?.msg || error?.response?.data?.message || "",
+      title: "Something Went Wrong!",
       status: "error",
       position: "top",
     });
-    console.log("Post Sales Invoice Response:", error);
+    console.log("Delete Payment Return Error:", error);
   }
-};
-
-export const getPurchaseReturn =
-  ({ date }) =>
-  (dispatch) => {
-    dispatch({ type: PURCHASE_REQUEST });
-
-    const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
-    const token = localStorage.getItem("token");
-
-    axios
-      .get(
-        `${API_URL}/${firmId}/purchaseReturn/getAll?startDate=${date.startDate}&endDate=${date.endDate}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token} `,
-          },
-        }
-      )
-      .then((res) => {
-        dispatch({ type: GET_PURCHASERETURN_SUCCESS, payload: res.data });
-      })
-      .catch((err) => {
-        console.error(err);
-        dispatch({ type: PURCHASE_FAILURE });
-      });
-  };
-
-export const updatePurchaseReturnBill = (_id, data) => (dispatch) => {
-  dispatch({ type: PURCHASE_REQUEST });
-
-  const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
-  const token = localStorage.getItem("token");
-
-  axios
-    .put(`${API_URL}/${firmId}/purchaseReturn/update/${_id}`, data, {
-      headers: {
-        Authorization: `Bearer ${token} `,
-      },
-    })
-    .then((res) => {
-      console.log(res);
-      alert(res?.data?.msg);
-      dispatch({ type: UPDATE_PURCHASERETURN_SUCCESS });
-    })
-    .catch((err) => {
-      console.error(err);
-      dispatch({ type: PURCHASE_FAILURE });
-    });
-};
-
-export const deletePurchaseReturnBill = (_id, toast) => (dispatch) => {
-  dispatch({ type: PURCHASE_REQUEST });
-
-  const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
-  const token = localStorage.getItem("token");
-
-  axios
-    .delete(`${API_URL}/${firmId}/purchaseReturn/delete/${_id}`, {
-      headers: {
-        Authorization: `Bearer ${token} `,
-      },
-    })
-    .then((res) => {
-      dispatch({ type: DELETE_PURCHASERETURN_SUCCESS, payload: _id });
-
-      toast({
-        title: `${res.data.msg}`,
-        status: "success",
-        position: "top",
-      });
-    })
-    .catch((err) => {
-      console.error(err);
-      dispatch({ type: PURCHASE_FAILURE });
-    });
 };

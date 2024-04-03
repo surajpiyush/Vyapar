@@ -16,21 +16,18 @@ import AuthPage from "./Page/Auth/AuthPage.jsx";
 import reportWebVitals from "./reportWebVitals";
 import Parties from "./Page/Parties/Parties.jsx";
 import PageNotFound from "./pages/PageNotFound.jsx";
-import AddPurchase from "./Page/AddPurchasepage.jsx";
 import AllTransaction from "./pages/AllTransactions.js";
 import CompaniesPage from "./Page/Firm/CompaniesPage.jsx";
 import AddCompanyPage from "./Page/Firm/AddCompanyPage.jsx";
 import SalesOrder from "./pages/sales/salesOrder/SalesOrder.jsx";
 import PaymentOut from "./Page/Purchase/PaymentOut/PaymentOut.jsx";
-import Addpurchaseorderpage from "./Page/Addpurchaseorderpage.jsx";
 import SalesReturn from "./pages/sales/salesReturn/SalesReturn.jsx";
-import Addpurchasereturnpage from "./Page/Addpurchasereturnpage.jsx";
 import Purchaseorderpage from "./Page/Purchase/Purchaseorderpage.jsx";
 import SalesInvoice from "./pages/sales/salesInvoice/SalesInvoice.jsx";
-import Purchasereturnpage from "./Page/Purchase/Purchasereturnpage.jsx";
 import PurchaseBill from "./Page/Purchase/PurchaseBill/PurchaseBill.jsx";
 import SalesEstimates from "./pages/sales/salesEstimates/SalesEstimates.jsx";
 import SalesPaymentln from "./pages/sales/salesPaymentIn/SalesPaymentIn.jsx";
+import PurchaseReturn from "./Page/Purchase/PurchaseReturn/PurchaseReturn.jsx";
 import SalesDeliveryChallan from "./pages/sales/salesDeliveryChallan/SalesDeliveryChallan.jsx";
 import { store } from "./Redux/store.js";
 
@@ -49,6 +46,11 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home />,
       },
+      // Auth Routes
+      {
+        path: "/auth",
+        element: <AuthPage />,
+      },
       // Firm / Company Routes
       {
         path: "/companies",
@@ -58,28 +60,23 @@ const router = createBrowserRouter([
         path: "/addCompany",
         element: <AddCompanyPage />,
       },
-
+      // Party Routes
       {
         path: "/parties",
         element: <Parties />,
       },
+      // Items/Products Routes
       {
         path: "/items",
         element: <Items />,
       },
-      {
-        path: "/auth",
-        element: <AuthPage />,
-      },
-
-      // Puchase
+      // Puchase Routes
       {
         path: "/purchasebill",
         element: <PurchaseBill />,
       },
       {
         path: "/paymentout",
-        // element: <Paymentout />,
         element: <PaymentOut />,
       },
       {
@@ -88,20 +85,9 @@ const router = createBrowserRouter([
       },
       {
         path: "/purchasereturn",
-        element: <Purchasereturnpage />,
+        element: <PurchaseReturn />,
       },
-      {
-        path: "/addpurchase",
-        element: <AddPurchase />,
-      },
-      {
-        path: "/addpurchaseorder",
-        element: <Addpurchaseorderpage />,
-      },
-      {
-        path: "/addpurchasereturn",
-        element: <Addpurchasereturnpage />,
-      },
+
       // Sales Routes
       {
         path: "/invoices",

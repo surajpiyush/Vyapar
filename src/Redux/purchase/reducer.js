@@ -15,7 +15,9 @@ import {
   GET_PAYOUTBILL_SUCCESS,
   GET_PURCHASEBILL_SUCCESS,
   GET_PURCHASEORDER_SUCCESS,
-  GET_PURCHASERETURN_SUCCESS,
+  GET_PURCHASE_RETURN_ERROR,
+  GET_PURCHASE_RETURN_LOADING,
+  GET_PURCHASE_RETURN_SUCCESS,
   GET_SINGLE_PURCHASEBILL_SUCCESS,
   POST_PAYOUT_SUCCESS,
   POST_PURCHASEBILL_SUCCESS,
@@ -25,6 +27,7 @@ import {
   PURCHASE_REQUEST,
   UPDATE_PAYOUTBILL_SUCCESS,
   UPDATE_PURCHASEBILL_SUCCESS,
+  UPDATE_PURCHASERETURN_SUCCESS,
 } from "./actionTypes";
 
 const initialState = {
@@ -51,12 +54,19 @@ const initialState = {
   getAllPaymentOutError: false,
   paymentOutData: [],
 
+  // Add Payment Return
+  toggleAddPaymentReturnSuccess: false,
+
+  // Get All Purchase Return
+  purchaseReturnData: [],
+  getAllPaymentReturnLoading: false,
+  getAllPaymentReturnError: false,
+  getAllPurchaseReturnSuccess: false,
+
   // partiesData: [],
-  purchaseBillData: [],
   partyName: "",
   phoneNumber: "",
   purchaseOrderData: [],
-  purchaseReturnData: [],
   singlePurchseData: {},
 };
 
@@ -217,31 +227,51 @@ export const reducer = (state = initialState, { type, payload }) => {
         isLoading: false,
       };
 
-    // PurchaeReturn Bills
-    case GET_PURCHASERETURN_SUCCESS: {
-      return {
-        ...state,
-        isLoading: false,
-        purchaseReturnData: payload.data,
-      };
-    }
+    // ---------------------------------  Purchae Return -------------------------------------
+    // Add Purchae Return
     case POST_PURCHASERETURN_SUCCESS: {
       return {
         ...state,
         isLoading: false,
-        purchaseReturnData: [...state.purchaseReturnData, payload],
+        toggleAddPaymentReturnSuccess: !state.toggleAddPaymentReturnSuccess,
       };
     }
-    case DELETE_PURCHASERETURN_SUCCESS:
-      // Remove the deleted purchase bill from the state
-      const updatedPurchaseReturnData = state.purchaseReturnData.filter(
-        (bill) => bill._id !== payload
-      );
-      //  console.log(payload)
+    // Get All Purchase Returns
+    case GET_PURCHASE_RETURN_LOADING: {
       return {
         ...state,
-        purchaseReturnData: updatedPurchaseReturnData,
+        getAllPaymentReturnLoading: true,
+        getAllPaymentReturnError: false,
+      };
+    }
+    case GET_PURCHASE_RETURN_ERROR: {
+      return {
+        ...state,
+        getAllPaymentReturnLoading: false,
+        getAllPaymentReturnError: true,
+      };
+    }
+    case GET_PURCHASE_RETURN_SUCCESS: {
+      return {
+        ...state,
+        getAllPaymentReturnLoading: false,
+        purchaseReturnData: payload,
+        getAllPurchaseReturnSuccess: !state.getAllPurchaseReturnSuccess,
+      };
+    }
+    // Update Purchase Return
+    case UPDATE_PURCHASERETURN_SUCCESS:
+      return {
+        ...state,
         isLoading: false,
+        toggleAddPaymentReturnSuccess: !state.toggleAddPaymentReturnSuccess,
+      };
+    // Delete Purchase Return
+    case DELETE_PURCHASERETURN_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        toggleAddPaymentReturnSuccess: !state.toggleAddPaymentReturnSuccess,
       };
 
     case PURCHASE_FAILURE: {
