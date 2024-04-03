@@ -27,38 +27,41 @@ import { useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { MdOutlineSettings as SettingIcon } from "react-icons/md";
-import { UPDATE_PURCHASEBILL_SUCCESS } from "../../../Redux/purchase/actionTypes";
 
 const PurchaseBill = () => {
-   const toast = useToast();
-   const dispatch = useDispatch();
-   const [isEditing, setIsEditing] = useState(false);
-   const [editedData, setEditedData] = useState(null);
-   const [toggleSetting, setToggleSetting] = useState(false);
-   const [openForm, setOpenForm] = useState(false);
-   const [startDate, setStartDate] = useState("2024-02-01");
-   const [endDate, setEndDate] = useState(
-      new Date().toISOString().split("T")[0]
-   );
-   // Add Purchase Bill Toggle
-   const toggleAddPurchaseBill = useSelector(
-      (state) => state.PurchaseReducer.toggleAddPurchaseBill
-   );
-   // Get All Purchase Bill Loading
-   const getAllPurchaseLoading = useSelector(
-      (state) => state.PurchaseReducer.getAllPurchaseLoading
-   );
-   // Get All Purchase Bill Success Toggle
-   const getAllPurchaseBillSuccess = useSelector(
-      (state) => state.PurchaseReducer.getAllPurchaseBillSuccess
-   );
-   // Purchase Bill Data
-   const PurchaseBillData = useSelector(
-      (state) => state.PurchaseReducer.PurchaseBillData
-   );
-   const data = useSelector((store) => store.PurchaseReducer.singlePurchseData);
-   const [paidAmount, setPaidAmount] = useState(0);
-   const [unpaidAmount, setUnpaidAmount] = useState(0);
+
+  
+  const toast = useToast();
+  const dispatch = useDispatch();
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedData, setEditedData] = useState(null);
+  const [toggleSetting, setToggleSetting] = useState(false);
+  const [openForm, setOpenForm] = useState(false);
+  const [startDate, setStartDate] = useState("2024-02-01");
+  const [endDate, setEndDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
+  // Add Purchase Bill Toggle
+  const toggleAddPurchaseBill = useSelector(
+    (state) => state.PurchaseReducer.toggleAddPurchaseBill
+  );
+  // Get All Purchase Bill Loading
+  const getAllPurchaseLoading = useSelector(
+    (state) => state.PurchaseReducer.getAllPurchaseLoading
+  );
+  // Get All Purchase Bill Success Toggle
+  const getAllPurchaseBillSuccess = useSelector(
+    (state) => state.PurchaseReducer.getAllPurchaseBillSuccess
+  );
+  // Purchase Bill Data
+  const PurchaseBillData = useSelector(
+    (state) => state.PurchaseReducer.PurchaseBillData
+  );
+  const singlePurchaseBillData = useSelector(
+    (store) => store.PurchaseReducer.singlePurchseData
+  );
+  const [paidAmount, setPaidAmount] = useState(0);
+  const [unpaidAmount, setUnpaidAmount] = useState(0);
 
    // To Calculate Paid/Unpaid amounts on getAll Success request
    useEffect(() => {
@@ -142,13 +145,12 @@ const PurchaseBill = () => {
             </div>
          )}
 
-         {/* Edit Purchase Bill */}
-         {isEditing && !getAllPurchaseLoading && (
+         {isEditing && (
             <div className={css.formOuter}>
                <div className={css.upperNav}>
                   <div>
                      <p className={css.activeForm}>
-                        <span>Edit Purchase Bill</span>
+                        <span>Purchase Bill #1</span>
                         <CrossIcon />
                      </p>
                   </div>
@@ -162,15 +164,16 @@ const PurchaseBill = () => {
                            })
                         }
                      />
-                     <SettingIcon onClick={() => setToggleSetting(true)} />
-                     <CloseIcon2 onClick={() => setIsEditing(false)} />
+                     <SettingsIconOutline2
+                        onClick={() => setToggleSetting(true)}
+                     />
+                     <CloseIcon2 onClick={() => setOpenForm(false)} />
                   </div>
                </div>
-               {data && (
-                  <EditPurchaseForm data={data}  />
-               )}
+               <EditPurchaseForm data={singlePurchaseBillData} />
             </div>
          )}
+       
 
          {/* Top Nav */}
          <UpperControlPanel

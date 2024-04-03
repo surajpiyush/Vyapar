@@ -268,7 +268,7 @@ const SidebarItems = [
     childLinks: [
       { name: "Purchase Bills", to: "/purchasebill" },
       { name: "Payment Out", to: "/paymentout" },
-      { name: "Purchase Order", to: "/paymentorder" },
+      { name: "Purchase Order", to: "/purchaseorder" },
       { name: "Purchase Return/ Dr. Note", to: "/purchasereturn" },
     ],
   },
