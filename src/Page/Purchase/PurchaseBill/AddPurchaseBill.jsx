@@ -71,9 +71,9 @@ const AddPurchaseBillForm = ({ setOpenForm }) => {
       itemCode: "",
       hsnCode: "",
       description: "Description of item 1",
-      // count: 0,
+      count: 0,
       qty: 0,
-      // freeqty: 0,
+      freeqty: 0,
       unit: "",
       priceUnit: 0,
       discountAmount: 0,
@@ -354,6 +354,7 @@ const AddPurchaseBillForm = ({ setOpenForm }) => {
     const deletedRowdata = invoiceItems.filter((_, ind) => ind != index);
     setInvoiceItems(deletedRowdata);
   };
+
   return (
     <form onSubmit={handleSubmit} className={css.formOuter}>
       <div className={css.topheader}>
