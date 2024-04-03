@@ -22,9 +22,10 @@ import AddCompanyPage from "./Page/Firm/AddCompanyPage.jsx";
 import SalesOrder from "./pages/sales/salesOrder/SalesOrder.jsx";
 import PaymentOut from "./Page/Purchase/PaymentOut/PaymentOut.jsx";
 import SalesReturn from "./pages/sales/salesReturn/SalesReturn.jsx";
-import Purchaseorderpage from "./Page/Purchase/Purchaseorderpage.jsx";
+// import Purchaseorderpage from "./Page/Purchase/Purchaseorderpage.jsx";
 import SalesInvoice from "./pages/sales/salesInvoice/SalesInvoice.jsx";
 import PurchaseBill from "./Page/Purchase/PurchaseBill/PurchaseBill.jsx";
+import PurchaseOrder from "./Page/Purchase/PurchaseOrder/PurchaseOrder.jsx";
 import SalesEstimates from "./pages/sales/salesEstimates/SalesEstimates.jsx";
 import SalesPaymentln from "./pages/sales/salesPaymentIn/SalesPaymentIn.jsx";
 import PurchaseReturn from "./Page/Purchase/PurchaseReturn/PurchaseReturn.jsx";
@@ -80,8 +81,9 @@ const router = createBrowserRouter([
         element: <PaymentOut />,
       },
       {
-        path: "/paymentorder",
-        element: <Purchaseorderpage />,
+        path: "/purchaseorder",
+        element: <PurchaseOrder />,
+        // element: <Purchaseorderpage />,
       },
       {
         path: "/purchasereturn",

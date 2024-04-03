@@ -204,7 +204,7 @@ export const addPurchaseOrder = async (
       { headers: { Authorization: `Bearer ${token} ` } }
     );
 
-    // console.log("Purchase order Response:",response)
+    // console.log("Add Purchase order Response:",response)
     dispatch({ type: POST_PURCHASEORDER_SUCCESS });
     toast({
       title: "Purchase Order Added!",

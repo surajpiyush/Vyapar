@@ -55,7 +55,9 @@ const PurchaseBill = () => {
   const PurchaseBillData = useSelector(
     (state) => state.PurchaseReducer.PurchaseBillData
   );
-  const data = useSelector((store) => store.PurchaseReducer.singlePurchseData);
+  const singlePurchaseBillData = useSelector(
+    (store) => store.PurchaseReducer.singlePurchseData
+  );
   const [paidAmount, setPaidAmount] = useState(0);
   const [unpaidAmount, setUnpaidAmount] = useState(0);
 
@@ -151,7 +153,7 @@ const PurchaseBill = () => {
               <CloseIcon2 onClick={() => setIsEditing(false)} />
             </div>
           </div>
-          <EditPurchaseForm data={data} />
+          <EditPurchaseForm data={singlePurchaseBillData} />
         </div>
       )}
 
