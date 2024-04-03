@@ -12,6 +12,9 @@ import {
   GET_ALL_PURCHASE_BILL_ERROR,
   GET_ALL_PURCHASE_BILL_LOADING,
   GET_ALL_PURCHASE_BILL_SUCCESS,
+  GET_ALL_PURCHASE_ORDER_ERROR,
+  GET_ALL_PURCHASE_ORDER_LOADING,
+  GET_ALL_PURCHASE_ORDER_SUCCESS,
   GET_PAYOUTBILL_SUCCESS,
   GET_PURCHASEBILL_SUCCESS,
   GET_PURCHASEORDER_SUCCESS,
@@ -27,6 +30,7 @@ import {
   PURCHASE_REQUEST,
   UPDATE_PAYOUTBILL_SUCCESS,
   UPDATE_PURCHASEBILL_SUCCESS,
+  UPDATE_PURCHASEORDER_SUCCESS,
   UPDATE_PURCHASERETURN_SUCCESS,
 } from "./actionTypes";
 
@@ -63,10 +67,17 @@ const initialState = {
   getAllPaymentReturnError: false,
   getAllPurchaseReturnSuccess: false,
 
-  // partiesData: [],
+  // Add Purchase Order
+  toggleAddPaymentOrderSuccess: false,
+
+  // Get All Purchase Orders
+  purchaseOrderData: [],
+  getAllPurchaseOrderLoading: false,
+  getAllPurchaseOrderError: false,
+  getAllPurchaseOrderSuccess: false,
+
   partyName: "",
   phoneNumber: "",
-  purchaseOrderData: [],
   singlePurchseData: {},
 };
 
@@ -185,7 +196,7 @@ export const reducer = (state = initialState, { type, payload }) => {
         getAllPaymentOutLoading: false,
       };
     }
-
+    // Update Payment-Out
     case UPDATE_PAYOUTBILL_SUCCESS: {
       return {
         ...state,
@@ -193,6 +204,7 @@ export const reducer = (state = initialState, { type, payload }) => {
         toggleAddPaymentOutSuccess: !state.toggleAddPaymentOutSuccess,
       };
     }
+    // Delete Payment-Out
     case DELETE_PAYOUTBILL_SUCCESS:
       return {
         ...state,
@@ -200,31 +212,54 @@ export const reducer = (state = initialState, { type, payload }) => {
         toggleAddPaymentOutSuccess: !state.toggleAddPaymentOutSuccess,
       };
 
-    // Purchase OrderBill
-    case GET_PURCHASEORDER_SUCCESS: {
-      return {
-        ...state,
-        isLoading: false,
-        purchaseOrderData: payload.data,
-      };
-    }
+    // ---------------------------------  Purchae Order -------------------------------------
+    // Add Purchae Order
     case POST_PURCHASEORDER_SUCCESS: {
       return {
         ...state,
         isLoading: false,
-        purchaseOrderData: [...state.purchaseOrderData, payload],
+        toggleAddPaymentOrderSuccess: !state.toggleAddPaymentOrderSuccess,
       };
     }
-    case DELETE_PURCHASEORDER_SUCCESS:
-      // Remove the deleted purchase bill from the state
-      const updatedPurchaseOrderData = state.purchaseOrderData.filter(
-        (bill) => bill._id !== payload
-      );
-      //  console.log(payload)
+    // Get All Purchase Order
+    case GET_ALL_PURCHASE_ORDER_LOADING: {
       return {
         ...state,
-        purchaseOrderData: updatedPurchaseOrderData,
+        getAllPurchaseOrderLoading: true,
+        getAllPurchaseOrderError: false,
+      };
+    }
+    // Get All Purchase Order
+    case GET_ALL_PURCHASE_ORDER_ERROR: {
+      return {
+        ...state,
+        getAllPurchaseOrderLoading: false,
+        getAllPurchaseOrderError: true,
+      };
+    }
+    // Get All Purchase Order
+    case GET_ALL_PURCHASE_ORDER_SUCCESS: {
+      return {
+        ...state,
+        purchaseOrderData: payload,
+        getAllPurchaseOrderSuccess: false,
+        getAllPurchaseOrderLoading: false,
+      };
+    }
+    // Update Purchae Order
+    case UPDATE_PURCHASEORDER_SUCCESS: {
+      return {
+        ...state,
         isLoading: false,
+        toggleAddPaymentOrderSuccess: !state.toggleAddPaymentOrderSuccess,
+      };
+    }
+    // Delete Purchase Order
+    case DELETE_PURCHASEORDER_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        toggleAddPaymentOrderSuccess: !state.toggleAddPaymentOrderSuccess,
       };
 
     // ---------------------------------  Purchae Return -------------------------------------
