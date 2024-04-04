@@ -144,7 +144,7 @@ const PurchaseReturn = () => {
         setStartDate={setStartDate}
         setEndDate={setEndDate}
         showPaymentData={true}
-        showPrintOptions={true}
+        showPrintOptions={false}
         data={purchaseReturnData}
         paidAmount={paidAmount}
         unpaidAmount={unpaidAmount}

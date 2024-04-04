@@ -1,12 +1,11 @@
 import css from "../../styles/SalesStyles/SalesForms.module.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { memo, useState } from "react";
 import { TbArrowsMove as MoveIcon } from "react-icons/tb";
+import { updatePurchaseBill } from "../../Redux/purchase/action";
 const EditPurchaseForm = memo((data) => {
    const category = useSelector((state) => state.ItemReducer.category);
-
-   data = data?.data;
-   console.log(data);
+   const dispatch = useDispatch();
    const sortedStates = [
       "Andaman and Nicobar Islands",
       "Andhra Pradesh",
@@ -46,13 +45,41 @@ const EditPurchaseForm = memo((data) => {
    ];
 
    const [formData, setFormData] = useState(data?.data);
+   console.log(formData.partyData);
 
    const handleInputChange = (e) => {
       const { name, value } = e.target;
-      setFormData((prevData) => ({
-         ...prevData,
-         [name]: value,
-      }));
+      console.log(name);
+      if (
+         name === "partyName" ||
+         name === "phoneNumber" ||
+         name === "gstNo" ||
+         name === "billingAddress"
+      ) {
+         setFormData((prev) => ({
+            ...prev,
+            partyData: prev.partyData.map((item, index) => {
+               if (index === 0) {
+                  return {
+                     ...item,
+                     [name]: value,
+                  };
+               }
+               if (!(name in item)) {
+                  return {
+                     ...item,
+                     [name]: value,
+                  };
+               }
+               return item;
+            }),
+         }));
+      } else {
+         setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+         }));
+      }
    };
 
    const handleItemChange = (e, index) => {
@@ -70,9 +97,10 @@ const EditPurchaseForm = memo((data) => {
 
    const handleUpdate = (e) => {
       e.preventDefault();
-      console.log(formData);
+      // dispatch(updatePurchaseBill(formData._id, formData));
+      updatePurchaseBill(dispatch,formData._id,formData)
+      // setIsEditing(false);
    };
-   
 
    return (
       <form className={css.formOuter} onSubmit={handleUpdate}>
@@ -88,7 +116,7 @@ const EditPurchaseForm = memo((data) => {
                         <label htmlFor="">Party Name</label>
                         <input
                            type="text"
-                           value={data?.partyData?.[0]?.partyName}
+                           value={formData?.partyData?.[0]?.partyName}
                            name="partyName"
                            onChange={handleInputChange}
                            className={css.input}
@@ -100,21 +128,21 @@ const EditPurchaseForm = memo((data) => {
                      <label htmlFor="">Phone No.</label>
                      <input
                         type="number"
-                        value={data?.partyData?.[0]?.phoneNumber}
+                        value={formData?.partyData?.[0]?.phoneNumber}
                         name="phoneNumber"
                         onChange={handleInputChange}
                         className={css.input}
                      />
                   </div>
                   <div className={css.inputDiv}>
+                     <label htmlFor="">GST Number</label>
                      <input
                         type="text"
-                        value={data?.partyData?.[0]?.gstNo}
+                        value={formData?.partyData?.[0]?.gstNo}
                         name="gstNo"
                         onChange={handleInputChange}
                         className={css.input}
                      />
-                     <label htmlFor="">GST Number</label>
                   </div>
                </div>
                <div>
@@ -126,7 +154,7 @@ const EditPurchaseForm = memo((data) => {
                            type="text"
                            name="poNo"
                            className={css.input}
-                           value={data?.partyData?.[0]?.poNumber || ""}
+                           value={formData?.poNumber || ""}
                            onChange={handleInputChange}
                         />
                      </div>
@@ -137,7 +165,7 @@ const EditPurchaseForm = memo((data) => {
                            //
                            type="Date"
                            name="poDate"
-                           value={data?.partyData?.[0]?.poDate || ""}
+                           value={formData?.poDate || ""}
                            // defaultValue={new Date().toISOString().split("T")[0]}
                            className={css.input}
                            onChange={handleInputChange}
@@ -154,7 +182,7 @@ const EditPurchaseForm = memo((data) => {
                         name="eWayBill"
                         onChange={handleInputChange}
                         className={css.input}
-                        value={data?.partyData?.[0]?.eWayBillNo || ""}
+                        value={formData?.eWayBillNo || ""}
                      />
                   </div>
                </div>
@@ -165,7 +193,7 @@ const EditPurchaseForm = memo((data) => {
                      <input
                         type="text"
                         placeholder="1"
-                        value={data.billNumber}
+                        value={formData?.billNumber}
                         className={css.invoiceNumInp}
                         onChange={handleInputChange}
                         name="billNumber"
@@ -179,13 +207,13 @@ const EditPurchaseForm = memo((data) => {
                         className={css.invoiceDateSelectInp}
                         onChange={handleInputChange}
                         name="billDate"
-                        value={
-                           data.billDate
-                              ? new Date(data.billDate)
-                                   .toISOString()
-                                   .split("T")[0]
-                              : ""
-                        }
+                        // value={
+                        //    formData.billDate
+                        //       ? new Date(data.billDate)
+                        //            .toISOString()
+                        //            .split("T")[0]
+                        //       : ""
+                        // }
                         // defaultValue={new Date().toISOString().split("T")[0]}
                         // readOnly
                      />
@@ -198,15 +226,15 @@ const EditPurchaseForm = memo((data) => {
                         className={css.invoiceDateSelectInp}
                         onChange={handleInputChange}
                         name="time"
-                        value={
-                           data.time instanceof Date && !isNaN(data.time)
-                              ? data.time.toLocaleTimeString("en-US", {
-                                   hour: "2-digit",
-                                   minute: "2-digit",
-                                   hour12: false,
-                                })
-                              : ""
-                        }
+                        // value={
+                        //    formData.time instanceof Date && !isNaN(formData.time)
+                        //       ? formData.time.toLocaleTimeString("en-US", {
+                        //            hour: "2-digit",
+                        //            minute: "2-digit",
+                        //            hour12: false,
+                        //         })
+                        //       : ""
+                        // }
 
                         // readOnly
                      />
@@ -216,7 +244,7 @@ const EditPurchaseForm = memo((data) => {
                      <p>Payment Terms</p>
                      <select
                         name="paymentTerms"
-                        value={data.paymentTerms}
+                        value={formData.paymentTerms}
                         onChange={handleInputChange}
                      >
                         <option value="">Due On Recipt</option>
@@ -233,13 +261,13 @@ const EditPurchaseForm = memo((data) => {
                         placeholder="Due Date"
                         className={css.invoiceDateSelectInp}
                         onChange={handleInputChange}
-                        value={
-                           data.dueDate
-                              ? new Date(data.dueDate)
-                                   .toISOString()
-                                   .split("T")[0]
-                              : ""
-                        }
+                        // value={
+                        //    formData.dueDate
+                        //       ? new Date(formData.dueDate)
+                        //            .toISString()
+                        //            .split("T")[0]
+                        //       : ""
+                        // }
                         name="dueDate"
                      />
                   </div>
@@ -251,7 +279,7 @@ const EditPurchaseForm = memo((data) => {
                         id=""
                         className={css.invoiceDateSelectInp}
                         onChange={handleInputChange}
-                        value={data?.placeofSupply}
+                        value={formData?.placeofSupply}
                      >
                         <option value="">State</option>
                         {sortedStates.map((state) => (
@@ -315,7 +343,7 @@ const EditPurchaseForm = memo((data) => {
                      </tr>
                   </thead>
                   <tbody>
-                     {data?.sale?.map((item, ind) => (
+                     {formData?.sale?.map((item, ind) => (
                         <tr
                            key={ind}
                            style={{
@@ -334,7 +362,7 @@ const EditPurchaseForm = memo((data) => {
                            <td className={css.itemNameBody}>
                               <select
                                  name="category"
-                                 value={item?.category}
+                                 value={item?.id}
                                  className={css.selectTag}
                                  onChange={(e) => handleItemChange(e, ind)}
                               >
@@ -376,7 +404,7 @@ const EditPurchaseForm = memo((data) => {
                               <input
                                  type="text"
                                  name="itemName"
-                                 value={item?.mainName}
+                                 value={item?.itemName}
                                  className={css.tableInputs}
                                  onChange={(e) => handleItemChange(e, ind)}
                               />
@@ -489,7 +517,7 @@ const EditPurchaseForm = memo((data) => {
                                  type="number"
                                  name="discountpersant"
                                  onChange={(e) => handleItemChange(e, ind)}
-                                 value={item?.discountPercent}
+                                 value={item?.discountpersant}
                                  placeholder="0"
                                  className={css.tableInputs}
                               />

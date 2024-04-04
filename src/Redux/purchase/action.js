@@ -106,8 +106,8 @@ export const GetAllPurchaseBill = async (dispatch, startDate, endDate) => {
 };
 
 // Get Single Purchase Bill Data
-export const GetSinglePurchaseBillData = async (dispatch, itemId, toast) => {
-  // dispatch({ type: PURCHASE_REQUEST });
+export const GetSinglePurchaseBillData = async (dispatch, itemId, toast,setIsEditing) => {
+  dispatch({ type: PURCHASE_REQUEST });
 
   const token = localStorage.getItem("token");
   const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
@@ -122,6 +122,7 @@ export const GetSinglePurchaseBillData = async (dispatch, itemId, toast) => {
       }
     );
     console.log("Get Single Purchase bill Data:", response?.data);
+    setIsEditing(true)
     dispatch({
       type: GET_SINGLE_PURCHASEBILL_SUCCESS,
       payload: response.data,
@@ -130,7 +131,7 @@ export const GetSinglePurchaseBillData = async (dispatch, itemId, toast) => {
     dispatch({ type: PURCHASE_FAILURE });
     toast.closeAll();
     toast({
-      title: "Encountered an issue while printing the Invoice.",
+      title: "Encountered an issue while Editing the Invoice.",
       description: "Please try again later!",
       status: "error",
       position: "top",
@@ -140,11 +141,11 @@ export const GetSinglePurchaseBillData = async (dispatch, itemId, toast) => {
 };
 
 // Update Purchase Bill
-export const updatePurchaseBill = (_id, data) => (dispatch) => {
+export const updatePurchaseBill = (dispatch,_id, data)  => {
   dispatch({ type: PURCHASE_REQUEST });
   const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
   const token = localStorage.getItem("token");
-
+console.log(_id)
   axios
     .put(`${API_URL}/${firmId}/purchase/update/${_id}`, data, {
       headers: { Authorization: `Bearer ${token} ` },

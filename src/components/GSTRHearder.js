@@ -16,9 +16,9 @@ const GSTRHeader = ({
    setEndDate: propSetEndDate,
 }) => {
    const tableData = data;
-   const [startDate, setStartDate] = useState(propStartDate || '');
-   const [endDate, setEndDate] = useState(propEndDate || '');
-   
+   const [startDate, setStartDate] = useState(propStartDate || "");
+   const [endDate, setEndDate] = useState(propEndDate || "");
+
    const toast = useToast();
    const [loading, setLoading] = useState(false);
    const getMonthName = (monthNumber) => {
@@ -112,53 +112,17 @@ const GSTRHeader = ({
                const filteredHeaders = Object.keys(tableData[0]).filter(
                   (header) => header !== "_id"
                );
-               // Filter taxable and tax-free data
-               const taxableData = tableData.filter(
-                  (row) =>
-                     row["taxableValue"] !== null && row["taxableValue"] > 0
-               );
-               const taxFreeData = tableData.filter(
-                  (row) =>
-                     row["taxableValue"] === null || row["taxableValue"] === 0
-               );
-
-               // for b2b
-               // Construct data array with filtered taxable data
-               const filteredTaxableData = taxableData.map((row) =>
-                  filteredHeaders.map((header) => row[header])
-               );
-
-               // Calculate total number of recipients and total number of invoices
-               const uniquePartyNamesTax = [
-                  ...new Set(taxableData.map((row) => row.partyName)),
-               ];
-
-               const totalRecipientsTax = uniquePartyNamesTax.length;
-               const totalInvoicesTax = filteredTaxableData.length;
-
-               // Calculate total taxable value and total cess
-               const totalTaxableValue = filteredTaxableData.reduce(
-                  (acc, row) => acc + (row.taxableValue || 0),
-                  0
-               );
-               const totalCess = filteredTaxableData.reduce(
-                  (acc, row) => acc + (row.cess || 0),
-                  0
-               );
-
-               // for b2cl
-               // Construct data array with filtered tax-free data for b2CLsheet
-               const filteredTaxFreeData = taxFreeData.map((row) =>
-                  filteredHeaders.map((header) => row[header])
-               );
-
-               // Calculate total number of recipients and total number of invoices
-               const uniquePartyNamesTaxFree = [
-                  ...new Set(taxFreeData.map((row) => row.partyName)),
-               ];
-
-               const totalRecipientsTaxFree = uniquePartyNamesTaxFree.length;
-               const totalInvoicesTaxFree = filteredTaxFreeData.length;
+               // Filter data for b2b and b2c sheets
+               const b2bData = [];
+               const b2cData = [];
+               tableData.forEach((row) => {
+                  const rowData = filteredHeaders.map((header) => row[header]);
+                  if (row["gstNo"]) {
+                     b2bData.push(rowData);
+                  } else {
+                     b2cData.push(rowData);
+                  }
+               });
 
                // Fetch Excel file
                const response = await fetch(
@@ -180,7 +144,7 @@ const GSTRHeader = ({
                   "Help Instructions"
                );
 
-               // Create a worksheet with filtered headers and data
+               // Create sheets for b2b and b2c data
                const b2bsheet = XLSX.utils.aoa_to_sheet([
                   ["Summary of B2B"],
                   [""],
@@ -200,19 +164,19 @@ const GSTRHeader = ({
                      "Total Cess",
                   ],
                   [
-                     totalRecipientsTax,
+                     b2bData.length,
                      "",
-                     totalInvoicesTax,
-                     "",
-                     "",
+                     b2bData.length,
                      "",
                      "",
                      "",
                      "",
                      "",
                      "",
-                     totalTaxableValue,
-                     totalCess,
+                     "",
+                     "",
+                     b2bData.reduce((acc, row) => acc + (row[11] || 0), 0), // Total taxable value (index 11)
+                     b2bData.reduce((acc, row) => acc + (row[12] || 0), 0), // Total cess (index 12)
                   ],
                   [],
                   [
@@ -222,7 +186,7 @@ const GSTRHeader = ({
                      "State of Supply",
                      "Supplier",
                      "GSTIN NUMBER",
-                     "Type of Transection",
+                     "Type of Transaction",
                      "Mode of Payment",
                      "Total Amount",
                      "Total Balance",
@@ -230,11 +194,11 @@ const GSTRHeader = ({
                      "Taxable Amount",
                      "CESS",
                   ],
-                  ...filteredTaxableData,
+                  ...b2bData,
                ]);
 
                const b2CLsheet = XLSX.utils.aoa_to_sheet([
-                  ["Summary Fro B2CL"],
+                  ["Summary For B2CL"],
                   [
                      "No. Of Recipients",
                      "",
@@ -251,11 +215,9 @@ const GSTRHeader = ({
                      "Total Cess",
                   ],
                   [
-                     totalRecipientsTaxFree,
+                     b2cData.length,
                      "",
-                     totalInvoicesTaxFree,
-
-                     "",
+                     b2cData.length,
                      "",
                      "",
                      "",
@@ -263,8 +225,9 @@ const GSTRHeader = ({
                      "",
                      "",
                      "",
-                     0,
-                     0,
+                     "",
+                     b2cData.reduce((acc, row) => acc + (row[11] || 0), 0), // Total taxable value (index 11)
+                     b2cData.reduce((acc, row) => acc + (row[12] || 0), 0), // Total cess (index 12)
                   ],
                   [""],
                   [
@@ -274,7 +237,7 @@ const GSTRHeader = ({
                      "State of Supply",
                      "Supplier",
                      "GSTIN NUMBER",
-                     "Type of Transection",
+                     "Type of Transaction",
                      "Mode of Payment",
                      "Total Amount",
                      "Total Balance",
@@ -282,8 +245,7 @@ const GSTRHeader = ({
                      "Taxable Amount",
                      "CESS",
                   ],
-
-                  ...filteredTaxFreeData,
+                  ...b2cData,
                ]);
 
                const b2cs = XLSX.utils.aoa_to_sheet([
@@ -374,6 +336,7 @@ const GSTRHeader = ({
 
                const docs = workbookMine.Sheets["docs"];
 
+               // Append sheets to the workbook
                XLSX.utils.book_append_sheet(workbook, b2bsheet, "b2b");
                XLSX.utils.book_append_sheet(workbook, b2CLsheet, "b2cl");
                XLSX.utils.book_append_sheet(workbook, b2cs, "b2cs");
@@ -382,7 +345,8 @@ const GSTRHeader = ({
                XLSX.utils.book_append_sheet(workbook, hsn, "hsn");
                XLSX.utils.book_append_sheet(workbook, docs, "docs");
 
-               XLSX.writeFile(workbook, formattedFileName);
+               // Write the workbook to file
+                XLSX.writeFile(workbook, formattedFileName);
 
                setLoading(false);
             } catch (error) {
@@ -399,74 +363,141 @@ const GSTRHeader = ({
                   (header) => header !== "_id"
                );
 
-               // Construct data array with filtered data
-               const filteredData = tableData.map((row) =>
-                  filteredHeaders.map((header) => row[header])
-               );
-
-               // Fetch Excel file
-               const response = await fetch(
-                  process.env.PUBLIC_URL + "/GSTR1.xlsx"
-               );
-               const buffer = await response.arrayBuffer();
-
-               // Read existing workbook
-               const workbookMine = XLSX.read(buffer, { type: "array" });
-
-               // Create a new workbook
-               const workbook = XLSX.utils.book_new();
-
-               // Append "Help Instructions" sheet from existing workbook
-               const helpWorksheet = workbookMine.Sheets["Help Instructions"];
-               XLSX.utils.book_append_sheet(
-                  workbook,
-                  helpWorksheet,
-                  "Help Instructions"
-               );
-
-               // Create a worksheet with filtered headers and data
-               const b2bsheet = XLSX.utils.aoa_to_sheet([
-                  ["Summary Of Supplies From Registered Suppliers B2B(3)"],
-                  [""],
-                  [
-                     "",
-                     "",
-                     "",
-                     "",
-                     "",
-                     "",
-                     "",
-                     "",
-                     "",
-                     "",
-                     "",
-                     "Total Taxable Value",
-                     "Total Cess",
-                  ],
-                  [tableData.length, "", tableData.length],
-                  [],
-                  [
-                     "STATUS",
-                     "Invoice Number",
-                     "Invoice date",
-                     "PAYMENT TYPE",
-                     "Place Of Supply",
-                     "Receiver Name",
-                     "GSTIN/UIN of Recipient",
-                     "Invoice Type",
-                     "Invoice Value",
-                     "Remaining Amount",
-                     "Rate",
-                     "Taxable Value",
-                     "Cess Amount",
-
-                     "Reverse Charge",
-                     "Applicable % of Tax Rate",
-                     // "E-Commerce GSTIN",
-                  ],
-
-                  ...filteredData,
-               ]);
+                 // Filter data for b2b and b2c sheets
+                 const b2bData = [];
+                 const b2cData = [];
+                 tableData.forEach((row) => {
+                    const rowData = filteredHeaders.map((header) => row[header]);
+                    if (row["gstNo"]) {
+                       b2bData.push(rowData);
+                    } else {
+                       b2cData.push(rowData);
+                    }
+                 });
+  
+                 // Fetch Excel file
+                 const response = await fetch(
+                    process.env.PUBLIC_URL + "/GSTR1.xlsx"
+                 );
+                 const buffer = await response.arrayBuffer();
+  
+                 // Read existing workbook
+                 const workbookMine = XLSX.read(buffer, { type: "array" });
+  
+                 // Create a new workbook
+                 const workbook = XLSX.utils.book_new();
+  
+                 // Append "Help Instructions" sheet from existing workbook
+                 const helpWorksheet = workbookMine.Sheets["Help Instructions"];
+                 XLSX.utils.book_append_sheet(
+                    workbook,
+                    helpWorksheet,
+                    "Help Instructions"
+                 );
+  
+                 // Create sheets for b2b and b2c data
+                 const b2bsheet = XLSX.utils.aoa_to_sheet([
+                    ["Summary of B2B"],
+                    [""],
+                    [
+                       "No. Of Recipients",
+                       "",
+                       "No. Of Invoices",
+                       "",
+                       "",
+                       "",
+                       "",
+                       "",
+                       "",
+                       "",
+                       "",
+                       "Total Taxable Value",
+                       "Total Cess",
+                    ],
+                    [
+                       b2bData.length,
+                       "",
+                       b2bData.length,
+                       "",
+                       "",
+                       "",
+                       "",
+                       "",
+                       "",
+                       "",
+                       "",
+                       b2bData.reduce((acc, row) => acc + (row[11] || 0), 0), // Total taxable value (index 11)
+                       b2bData.reduce((acc, row) => acc + (row[12] || 0), 0), // Total cess (index 12)
+                    ],
+                    [],
+                    [
+                       "Status",
+                       "Invoice Number",
+                       "Date Of Invoice",
+                       "State of Supply",
+                       "Supplier",
+                       "GSTIN NUMBER",
+                       "Type of Transaction",
+                       "Mode of Payment",
+                       "Total Amount",
+                       "Total Balance",
+                       "Rate of GST",
+                       "Taxable Amount",
+                       "CESS",
+                    ],
+                    ...b2bData,
+                 ]);
+  
+                 const b2CLsheet = XLSX.utils.aoa_to_sheet([
+                    ["Summary For B2CL"],
+                    [
+                       "No. Of Recipients",
+                       "",
+                       "No. Of Invoices",
+                       "",
+                       "",
+                       "",
+                       "",
+                       "",
+                       "",
+                       "",
+                       "",
+                       "Total Taxable Value",
+                       "Total Cess",
+                    ],
+                    [
+                       b2cData.length,
+                       "",
+                       b2cData.length,
+                       "",
+                       "",
+                       "",
+                       "",
+                       "",
+                       "",
+                       "",
+                       "",
+                       b2cData.reduce((acc, row) => acc + (row[11] || 0), 0), // Total taxable value (index 11)
+                       b2cData.reduce((acc, row) => acc + (row[12] || 0), 0), // Total cess (index 12)
+                    ],
+                    [""],
+                    [
+                       "Status",
+                       "Invoice Number",
+                       "Date Of Invoice",
+                       "State of Supply",
+                       "Supplier",
+                       "GSTIN NUMBER",
+                       "Type of Transaction",
+                       "Mode of Payment",
+                       "Total Amount",
+                       "Total Balance",
+                       "Rate of GST",
+                       "Taxable Amount",
+                       "CESS",
+                    ],
+                    ...b2cData,
+                 ]);
 
                const cdnr = XLSX.utils.aoa_to_sheet([
                   ["Summary Fro CDNR"],
@@ -536,10 +567,15 @@ const GSTRHeader = ({
                   ][""],
                ]);
 
+               const docs = workbookMine.Sheets["docs"];
+
+               // Append sheets to the workbook
                XLSX.utils.book_append_sheet(workbook, b2bsheet, "b2b");
+               XLSX.utils.book_append_sheet(workbook, b2CLsheet, "b2cl");
                XLSX.utils.book_append_sheet(workbook, cdnr, "cdnr");
                XLSX.utils.book_append_sheet(workbook, exemp, "exemp");
                XLSX.utils.book_append_sheet(workbook, hsn, "hsnsum");
+               XLSX.utils.book_append_sheet(workbook, docs, "docs");
 
                XLSX.writeFile(workbook, formattedFileName);
 

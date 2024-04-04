@@ -38,6 +38,7 @@ const AddPartyForm = ({
       phoneNumber: "",
       state: "",
       email: "",
+      GSTType: "",
       billingAddress: "",
       shippingAddress: "",
       openingBalance: "",
@@ -54,13 +55,18 @@ const AddPartyForm = ({
    console.log(formData);
    // for mixing edit form data when used as edit party form
    useEffect(() => {
-    if (usedAsEditForm) {
-       setFormData((prev) => {
-          return { ...prev, ...editPartyData, asOfDate: new Date(editPartyData.asOfDate).toISOString().split("T")[0] };
-       });
-    }
- }, []);
- 
+      if (usedAsEditForm) {
+         setFormData((prev) => {
+            return {
+               ...prev,
+               ...editPartyData,
+               asOfDate: new Date(editPartyData.asOfDate)
+                  .toISOString()
+                  .split("T")[0],
+            };
+         });
+      }
+   }, []);
 
    // Handle Save Function
    const handleSubmit = (e) => {
@@ -71,6 +77,13 @@ const AddPartyForm = ({
             (field) => field.name !== ""
          ),
       };
+      if (
+         formData.GSTType == "" ||
+         formData.GSTType === "Unregistered/Consumer"
+      ) {
+         formData.gstNo = "";
+      }
+
       if (usedAsEditForm) {
          if (!loadingEdit) {
             // console.log("Update Party Data", partyFormData);
@@ -202,22 +215,30 @@ const AddPartyForm = ({
                      </label>
                   </div>
                   {/* GSTIN */}
-                  <div className={css.inputDiv}>
-                     <input
-                        type="text"
-                        name="gstNo"
-                        value={formData?.gstNo}
-                        onChange={handleInpChange}
-                        className={css.input}
-                     />
-                     <label
-                        className={
-                           formData?.gstNo ? css.activeLabel : css.inactiveLabel
-                        }
-                     >
-                        GSTIN
-                     </label>
-                  </div>
+                  {!(
+                     formData.GSTType === "" ||
+                     formData.GSTType == "Unregistered/Consumer"
+                  ) && (
+                     <div className={css.inputDiv}>
+                        <input
+                           type="text"
+                           name="gstNo"
+                           value={formData?.gstNo}
+                           onChange={handleInpChange}
+                           className={css.input}
+                           required
+                        />
+                        <label
+                           className={
+                              formData?.gstNo
+                                 ? css.activeLabel
+                                 : css.inactiveLabel
+                           }
+                        >
+                           GSTIN
+                        </label>
+                     </div>
+                  )}
                </div>
 
                {/* Changer */}
@@ -276,6 +297,29 @@ const AddPartyForm = ({
                   // GST & Address - Inputs
                   <div className={css.gstAddressOuter}>
                      <div className={css.leftSideGstAddressDiv}>
+                        {/* GST */}
+                        <div className={css.inputDiv}>
+                           <select
+                              id=""
+                              className={css.input}
+                              style={{ width: "225px" }}
+                              value={formData.GSTType}
+                              name="GSTType"
+                              onChange={handleInpChange}
+                              required
+                           >
+                              <option value="">GST Type</option>
+                              <option value="Unregistered/Consumer">
+                                 Unregistered/Consumer
+                              </option>
+                              <option value="Registered Business - Regular">
+                                 Registered Business - Regular
+                              </option>
+                              <option value="Registered Business - Composition">
+                                 Registered Business - Composition
+                              </option>
+                           </select>
+                        </div>
                         {/* State */}
                         <div className={css.inputDiv}>
                            <select

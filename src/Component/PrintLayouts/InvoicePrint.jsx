@@ -24,6 +24,7 @@ const InvoicePrint = ({ currPrintItem }) => {
       return foundItem?.itemName || "";
    };
 
+   const isFullyPaid = currPrintItem?.status;
    const calculateTotal = () => {
       const total = currPrintItem?.sale?.reduce((acc, item) => {
          const qty = item.qty || 0;
@@ -159,7 +160,7 @@ const InvoicePrint = ({ currPrintItem }) => {
             {/* Items Table */}
             <div
                className={css.TableOuterDiv}
-               style={{ height: "30vh", border: "1px solid black" }}
+               style={{ height: "fit-content", border: "1px solid black" }}
             >
                <table style={{ border: "1px solid black" }}>
                   {/* Table Headers */}
@@ -238,7 +239,7 @@ const InvoicePrint = ({ currPrintItem }) => {
                            )}
                         </td> */}
                         <td></td>
-                        <td>₹ {calculateTotal()}</td>
+                        <td>₹ {calculateTotal().toFixed(2)}</td>
                      </tr>
                   </tbody>
                </table>
@@ -275,32 +276,36 @@ const InvoicePrint = ({ currPrintItem }) => {
                      {/* Calculations for Subtotal, Discount, and Total */}
                      <div>
                         <h2>Sub Total</h2>
-                        <h2>₹ {calculateTotal()}</h2>
+                        <h2>₹ {calculateTotal().toFixed(2)}</h2>
                      </div>
                      <div>
                         <h2>Discount</h2>
                         <h2>
                            ₹
-                           {currPrintItem?.sale?.reduce(
-                              (total, item) =>
-                                 total + Number(item?.discountAmount),
-                              0
-                           )}
+                           {currPrintItem?.sale
+                              ?.reduce(
+                                 (total, item) =>
+                                    total + Number(item?.discountAmount),
+                                 0
+                              )
+                              .toFixed(2)}
                         </h2>
                      </div>
                      <div>
                         <h2>Discount(%)</h2>
                         <h2>
-                           {currPrintItem?.sale?.reduce((total, item) => {
-                              let discountPercentage =
-                                 +item?.discountpersant || 0;
-                              return (
-                                 total +
-                                 (discountPercentage
-                                    ? Number(discountPercentage)
-                                    : 0)
-                              );
-                           }, 0)}{" "}
+                           {currPrintItem?.sale
+                              ?.reduce((total, item) => {
+                                 let discountPercentage =
+                                    +item?.discountpersant || 0;
+                                 return (
+                                    total +
+                                    (discountPercentage
+                                       ? Number(discountPercentage)
+                                       : 0)
+                                 );
+                              }, 0)
+                              .toFixed(2)}{" "}
                            %
                         </h2>
                      </div>
@@ -315,16 +320,25 @@ const InvoicePrint = ({ currPrintItem }) => {
                         <h2>Total</h2>
                         <h2>
                            ₹{" "}
-                           {calculateTotal() -
+                           {(
+                              calculateTotal() -
                               currPrintItem?.sale?.reduce(
                                  (total, item) =>
                                     total + Number(item?.discountAmount),
                                  0
-                              )}
+                              )
+                           ).toFixed(2)}{" "}
                         </h2>
                      </div>
                   </div>
 
+                  <div>
+                     {isFullyPaid === "Paid" ? (
+                        <div className={css.watermark}>Paid</div>
+                     ) : (
+                        <div className={css.watermark}>Unpaid</div>
+                     )}
+                  </div>
                   {/* Signature Section */}
                   {storedPrintData?.showPrintSignatureText && (
                      <div className={css.SignOuterDiv}>
@@ -387,11 +401,9 @@ const InvoicePrint = ({ currPrintItem }) => {
                            Date:{" "}
                            {currPrintItem?.invoiceDate
                               ? FormatDate(currPrintItem?.invoiceDate)
-                              : "02-07-2019"}
+                              : "Not available"}
                         </h2>
-                        <h2>
-                           Invoice Amount : {currPrintItem?.total || "35.11"} ₹
-                        </h2>
+                        <h2>Invoice Amount : ₹ {currPrintItem?.total}</h2>
                      </div>
                      <div className={css.recieverSignOuterDiv}>
                         <div>Receiver's Seal & Sign</div>
