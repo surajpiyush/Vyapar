@@ -1,4 +1,4 @@
-import { API_URL } from "../store";
+import { API_URL, USER_DETAILS } from "../store";
 import {
   ADD_PURCHASE_ERROR,
   ADD_PURCHASE_LOADING,
@@ -48,7 +48,7 @@ export const AddPurchaseBill = async (
   dispatch({ type: ADD_PURCHASE_LOADING });
   toast.closeAll();
   const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
+  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
   try {
     const response = await axios.post(
@@ -106,11 +106,16 @@ export const GetAllPurchaseBill = async (dispatch, startDate, endDate) => {
 };
 
 // Get Single Purchase Bill Data
-export const GetSinglePurchaseBillData = async (dispatch, itemId, toast,setIsEditing) => {
+export const GetSinglePurchaseBillData = async (
+  dispatch,
+  itemId,
+  toast,
+  setIsEditing
+) => {
   dispatch({ type: PURCHASE_REQUEST });
 
   const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
+  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
   try {
     const response = await axios.get(
@@ -122,7 +127,7 @@ export const GetSinglePurchaseBillData = async (dispatch, itemId, toast,setIsEdi
       }
     );
     console.log("Get Single Purchase bill Data:", response?.data);
-    setIsEditing(true)
+    setIsEditing(true);
     dispatch({
       type: GET_SINGLE_PURCHASEBILL_SUCCESS,
       payload: response.data,
@@ -141,11 +146,11 @@ export const GetSinglePurchaseBillData = async (dispatch, itemId, toast,setIsEdi
 };
 
 // Update Purchase Bill
-export const updatePurchaseBill = (dispatch,_id, data)  => {
+export const updatePurchaseBill = (dispatch, _id, data) => {
   dispatch({ type: PURCHASE_REQUEST });
-  const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
+  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
   const token = localStorage.getItem("token");
-console.log(_id)
+  console.log(_id);
   axios
     .put(`${API_URL}/${firmId}/purchase/update/${_id}`, data, {
       headers: { Authorization: `Bearer ${token} ` },
@@ -164,7 +169,7 @@ console.log(_id)
 // Delete Purchase Bill
 export const deletePurchaseBill = (_id, toast) => (dispatch) => {
   dispatch({ type: PURCHASE_REQUEST });
-  const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
+  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
   const token = localStorage.getItem("token");
 
   axios
@@ -196,7 +201,7 @@ export const addPurchaseOrder = async (
   toast.closeAll();
   dispatch({ type: PURCHASE_REQUEST });
   const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
+  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
   try {
     const response = await axios.post(
@@ -229,7 +234,7 @@ export const addPurchaseOrder = async (
 // Get All Purchase Order
 export const GetAllPurchaseOrder = async (dispatch, startDate, endDate) => {
   dispatch({ type: GET_ALL_PURCHASE_ORDER_LOADING });
-  const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
+  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
   const token = localStorage.getItem("token");
 
   try {
@@ -260,7 +265,7 @@ export const UpdatePurchaseOrder = async (
 ) => {
   dispatch({ type: PURCHASE_REQUEST });
   toast.closeAll();
-  const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
+  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
   const token = localStorage.getItem("token");
 
   try {
@@ -296,7 +301,7 @@ export const UpdatePurchaseOrder = async (
 export const DeletePurchaseOrder = async (dispatch, itemId, toast) => {
   dispatch({ type: PURCHASE_REQUEST });
   toast.closeAll();
-  const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
+  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
   const token = localStorage.getItem("token");
 
   try {
@@ -331,7 +336,7 @@ export const addPayOut = async (dispatch, newItem, setOpenForm, toast) => {
   toast.closeAll();
   dispatch({ type: PURCHASE_REQUEST });
   const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
+  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
   try {
     const response = await axios.post(
@@ -364,7 +369,7 @@ export const addPayOut = async (dispatch, newItem, setOpenForm, toast) => {
 // Get All Payment Out
 export const GetAllPaymentOut = async (dispatch, startDate, endDate) => {
   dispatch({ type: GET_ALL_PAYMENT_OUT_LOADING });
-  const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
+  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
   const token = localStorage.getItem("token");
 
   try {
@@ -395,7 +400,7 @@ export const updatePayoutBill = async (
 ) => {
   toast.closeAll();
   dispatch({ type: PURCHASE_REQUEST });
-  const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
+  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
   const token = localStorage.getItem("token");
 
   try {
@@ -437,7 +442,7 @@ export const deletePayoutBill = async (
 ) => {
   toast.closeAll();
   dispatch({ type: PURCHASE_REQUEST });
-  const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
+  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
   const token = localStorage.getItem("token");
 
   try {
@@ -479,7 +484,7 @@ export const addPurchaseReturn = async (
   dispatch({ type: PURCHASE_REQUEST });
   toast.closeAll();
   const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
+  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
   try {
     const response = await axios.post(
@@ -512,7 +517,7 @@ export const addPurchaseReturn = async (
 // Get All Purchase Returns
 export const GetAllPurchaseReturns = async (dispatch, startDate, endDate) => {
   dispatch({ type: GET_PURCHASE_RETURN_LOADING });
-  const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
+  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
   const token = localStorage.getItem("token");
 
   try {
@@ -543,7 +548,7 @@ export const UpdatePurchaseReturn = async (
 ) => {
   dispatch({ type: PURCHASE_REQUEST });
   toast.closeAll();
-  const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
+  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
   const token = localStorage.getItem("token");
 
   try {
@@ -579,7 +584,7 @@ export const UpdatePurchaseReturn = async (
 export const DeletePurchaseReturn = async (dispatch, itemId, toast) => {
   dispatch({ type: PURCHASE_REQUEST });
   toast.closeAll();
-  const firmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
+  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
   const token = localStorage.getItem("token");
 
   try {

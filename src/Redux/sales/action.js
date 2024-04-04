@@ -1,5 +1,4 @@
-import { API_URL } from "../store";
-import { USER_DETAILS } from "../business/actionTypes";
+import { API_URL, USER_DETAILS } from "../store";
 import {
   IS_LOADING,
   IS_ERROR,

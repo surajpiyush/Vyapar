@@ -1,6 +1,6 @@
 import css from "./Sidebar.module.css";
 import Logo from "../../assets/Shop.svg";
-import { USER_DETAILS } from "../../Redux/business/actionTypes";
+import { USER_DETAILS } from "../../Redux/store";
 import {
   HomeIcon,
   DocumentIcon,

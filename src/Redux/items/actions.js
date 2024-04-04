@@ -1,5 +1,4 @@
-import { API_URL } from "../store";
-import { USER_DETAILS } from "../business/actionTypes";
+import { API_URL, USER_DETAILS } from "../store";
 import {
   GET_ITEM_SUCCESS,
   POST_ITEM_SUCCESS,

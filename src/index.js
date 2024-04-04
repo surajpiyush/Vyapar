@@ -15,7 +15,6 @@ import Marketing from "./pages/Marketing.jsx";
 import AuthPage from "./Page/Auth/AuthPage.jsx";
 import reportWebVitals from "./reportWebVitals";
 import Parties from "./Page/Parties/Parties.jsx";
-import PageNotFound from "./pages/PageNotFound.jsx";
 import AllTransaction from "./pages/AllTransactions.js";
 import CompaniesPage from "./Page/Firm/CompaniesPage.jsx";
 import AddCompanyPage from "./Page/Firm/AddCompanyPage.jsx";
@@ -36,6 +35,7 @@ import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { ChakraProvider } from "@chakra-ui/react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import NotFoundPage from "./Page/NotFoundPage/NotFoundPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -155,7 +155,7 @@ const router = createBrowserRouter([
       },
       { path: "/marketing", element: <Marketing /> },
 
-      { path: "*", element: <PageNotFound /> },
+      { path: "*", element: <NotFoundPage /> },
     ],
   },
 ]);

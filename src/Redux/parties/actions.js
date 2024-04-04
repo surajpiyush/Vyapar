@@ -1,5 +1,4 @@
-import { API_URL } from "../store";
-import { USER_DETAILS } from "../business/actionTypes";
+import { API_URL, USER_DETAILS } from "../store";
 import {
   FETCH_PARTIES_LOADING,
   FETCH_PARTIES_ERROR,

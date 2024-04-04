@@ -1,8 +1,8 @@
-import css from ".././styles/NotFoundPage.module.css";
+import css from "./NotFoundPage.module.css";
 
 import { useEffect, useState } from "react";
 
-const PageNotFound = () => {
+const NotFoundPage = () => {
   const [stars, setStars] = useState([]);
 
   useEffect(() => {
@@ -77,4 +77,4 @@ const PageNotFound = () => {
   );
 };
 
-export default PageNotFound;
+export default NotFoundPage;
