@@ -1,207 +1,280 @@
 /* Companies Page Css */
 .companyOuterDiv {
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: default;
-  background-color: rgb(249, 239, 252);
+  background-color: var(--LavenderWhite);
 }
 .compDivOuter {
-  height: fit-content;
+  margin: auto;
+  height: 85%;
+  width: 72.5%;
+  display: flex;
+  flex-direction: column;
 }
 .compTopDivOuter {
   background-color: var(--DeepBluishGrey);
-  padding: 10px 20px;
-  color: white;
-  width: 1000px;
-  border-radius: 10px 10px 0 0;
+  color: var(--pureWhite);
+  padding: 7.5px 17.5px 0px;
+  border-radius: 7.5px 7.5px 0 0;
 }
 .compTopHeaderDiv {
   display: flex;
   justify-content: space-between;
-  padding: 10px 0;
   align-items: center;
+  padding: 10px 0;
+  font-family: var(--Rob);
+  font-weight: 500;
+  margin-bottom: 12.5px;
 
   h4 {
-    font-size: 25px;
-    color: rgb(212, 212, 212);
+    font-size: 21px;
+    color: var(--pureWhite);
   }
 }
 .searchCompInpCss {
-  position: relative;
+  background: var(--CharcoalBlue);
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  border-radius: 50px;
+  gap: 7.5px;
+  padding: 7px 15px;
+
   input {
-    padding: 10px 10px 10px 30px;
+    height: 100%;
+    background: transparent;
     font-size: 14px;
+    font-family: var(--Ral);
     font-weight: 500;
-    border-radius: 10px;
+    width: 185px;
+  }
+  input::placeholder {
+    color: var(--greyG);
   }
   input:focus {
     outline: none;
   }
-
   svg {
-    left: 5px;
-    color: black;
-    top: 4px;
-    font-size: 25px;
+    color: var(--greyG);
+    font-size: 20px;
   }
 }
 .compLowerHeaderDiv {
   display: flex;
-  gap: 20px;
-  padding: 10px 0;
-  color: rgb(212, 212, 212);
   align-items: center;
-  justify-content: space-between;
+  gap: 40px;
+  font-family: var(--Rob);
+  font-weight: 500;
+  font-size: 14px;
 
-  /* div:nth-of-type(1) {
-  } */
+  div {
+    padding-bottom: 8px;
+  }
+  div:nth-of-type(1) {
+    color: var(--greyH);
+    cursor: default;
+  }
   div:nth-of-type(2) {
-    border-bottom: solid 2px white;
+    cursor: pointer;
+    border-bottom: solid 3px var(--pureWhite);
   }
 }
 .middleSectionOuter {
-  background-color: rgba(231, 231, 231, 0.582);
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  background: var(--greyishBlue);
+  flex-grow: 1;
+  height: 300px;
+  padding: 0px 17.5px;
 }
 .middleTopOuterDiv {
   display: flex;
   justify-content: space-between;
-  color: rgb(59, 59, 59);
+  color: var(--greyD);
+  font-family: var(--Rob);
+  padding: 22.5px 0px;
 
-  > div:nth-of-type(1) {
-    font-size: 18px;
-  }
-}
-.rightSideMiddleTop {
-  display: flex;
-  justify-content: flex-start;
-  gap: 20px;
-  align-items: center;
-
-  input {
-    padding: 4px;
-    /* max-width: 150px; */
+  > p:nth-of-type(1) {
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 400;
   }
 }
 .middleRefreshDiv {
-  background-color: rgb(185, 185, 185);
-  padding: 8px 10px;
-  font-size: 20px;
-  border-radius: 100%;
-  color: blue;
-  font-weight: 900;
+  cursor: pointer;
+  background: var(--blueC);
+  border-radius: 50%;
+  padding: 4px;
+
+  svg {
+    color: var(--blueB);
+    font-size: 22.5px;
+  }
 }
 .companyListContainer {
-  overflow-y: scroll;
-  height: 300px;
+  overflow: scroll;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 17.5px;
 }
 .compItenOuterDiv {
-  padding: 20px 20px;
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-  border-radius: 5px;
-  background-color: white;
-  margin: 20px 0;
+  background: var(--pureWhite);
+  box-shadow: var(--shadowF);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-family: var(--Rob);
+  border-radius: 2.5px;
+  padding: 15px 15px;
 
   h2 {
-    font-size: 20px;
-    color: rgb(46, 46, 46);
+    flex-grow: 1;
+    padding: 0;
+    margin: 0;
+    color: var(--DeepBluishGrey);
+    font-size: 16px;
+    font-weight: 400;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
+}
+.itemRightSideDiv {
+  display: flex;
+  align-items: center;
+  gap: 35px;
 }
 .itemSyncDiv {
   display: flex;
-  gap: 10px;
   align-items: center;
-  color: gray;
+  color: var(--greyG);
+  gap: 10px;
+  border-right: 2px solid var(--greyB);
+  padding: 4px 35px;
+  height: 100%;
 
   p {
-    font-size: 14px;
     padding: 0;
     margin: 0;
+    font-size: 12px;
+    font-weight: 400;
   }
-
   svg {
-    font-size: 30px;
+    font-size: 28px;
   }
 }
-.itemRightSideDivOuter {
+.itemRightSideBtnCont {
   display: flex;
-  gap: 10px;
   align-items: center;
+  font-family: var(--Rob);
+  gap: 15px;
 
   button {
-    padding: 8px 20px;
-    background-color: rgb(37, 52, 255);
-    color: white;
-    font-size: 17px;
-    border: none;
-    width: 100px;
-    border-radius: 10px;
     cursor: pointer;
+    border: 0.5px solid var(--mistyGrey);
+    color: var(--blueB);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 7.5px 40px;
+    border-radius: 5px;
+    transition: all 0.25s ease;
   }
 }
-.itemRightSideDivOuter button:hover {
-  background-color: rgb(103, 113, 255);
+.itemRightSideBtnCont button:hover {
+  color: var(--blueA);
 }
 .compDeleteIconCss {
   cursor: pointer;
-  font-size: 20px;
+  color: var(--greyG);
+  transition: all 0.25s ease;
+  font-size: 16px;
+}
+.compDeleteIconCss:hover {
+  color: var(--greyD);
 }
 .restoreOuterDivCont {
-  padding: 20px 20px;
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-  border-radius: 0 0 5px;
-  background-color: white;
+  background: var(--pureWhite);
+  border-top: 0.5px solid var(--mistyGrey);
+  font-family: var(--Rob);
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: 20px;
+  border-radius: 0 0 6px 6px;
+  gap: 15px;
+  padding: 10px 20px;
+  transition: all 0.25s ease;
 }
 .restoreBtnCss {
-  background-color: white;
-  border: solid 1px rgb(37, 37, 255);
-  color: blue;
-  font-weight: 400;
-  padding: 15px 20px;
-  border-radius: 10px;
-  font-size: 15px;
   cursor: pointer;
+  background-color: var(--pureWhite);
+  border: 0.5px solid var(--blueB);
+  color: var(--blueB);
+  padding: 10px 0px;
+  border-radius: 6px;
+  font-size: 14px;
   font-weight: 500;
+  width: 175px;
+  transition: all 0.25s ease;
 }
 .restoreBtnCss:hover {
-  scale: 1.1;
+  color: var(--blueA);
+  border: 0.5px solid var(--blueA);
 }
 .newCompBtnCss {
-  background-color: rgb(45, 45, 255);
-  color: white;
-  border: none;
-  padding: 15px 20px;
-  border-radius: 10px;
-  font-size: 15px;
   cursor: pointer;
+  background-color: var(--blueB);
+  border: 0.5px solid var(--blueB);
+  color: var(--pureWhite);
+  padding: 10px 0px;
+  border-radius: 6px;
+  font-size: 14px;
   font-weight: 500;
+  width: 175px;
+  transition: all 0.25s ease;
 }
 .newCompBtnCss:hover {
-  scale: 1.1;
+  background-color: var(--blueA);
+  border: 0.5px solid var(--blueA);
 }
 .companyFooter {
+  font-family: var(--Rob);
   background-color: transparent;
-  text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-top: 20px;
+
+  > * {
+    align-self: flex-end;
+  }
+
+  p {
+    padding: 0;
+    margin: 0;
+    width: fit-content;
+    display: block;
+  }
 }
 .companyFooter > p:nth-of-type(1) {
   cursor: pointer;
+  color: var(--blueB);
+  font-size: 14px;
+  font-weight: 400;
+  transition: all 0.25s ease;
+}
+.companyFooter > p:nth-of-type(1):hover {
   color: var(--blueA);
-  font-size: 16px;
-  margin: 20px 0px 3px;
 }
 .companyFooter > p:nth-of-type(2) {
   color: var(--greyA);
   font-size: 12px;
+  font-weight: 400;
 }
 
 /* Add Company Css */
