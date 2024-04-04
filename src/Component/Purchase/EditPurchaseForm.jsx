@@ -1,8 +1,10 @@
 import css from "../../styles/SalesStyles/SalesForms.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { TbArrowsMove as MoveIcon } from "react-icons/tb";
 import { updatePurchaseBill } from "../../Redux/purchase/action";
+import { FormatDate } from "../../Redux/sales/action";
+import { GetAllCategories } from "../../Redux/items/actions";
 const EditPurchaseForm = memo((data) => {
    const category = useSelector((state) => state.ItemReducer.category);
    const dispatch = useDispatch();
@@ -43,9 +45,12 @@ const EditPurchaseForm = memo((data) => {
       "Uttarakhand",
       "West Bengal",
    ];
-
+   useEffect(() => {
+      GetAllCategories(dispatch);
+      AmountCalculator();
+   }, []);
    const [formData, setFormData] = useState(data?.data);
-   console.log(formData.partyData);
+   console.log(formData);
 
    const handleInputChange = (e) => {
       const { name, value } = e.target;
@@ -54,7 +59,10 @@ const EditPurchaseForm = memo((data) => {
          name === "partyName" ||
          name === "phoneNumber" ||
          name === "gstNo" ||
-         name === "billingAddress"
+         name === "billingAddress" ||
+         name == "poNo" ||
+         name === "poDate" ||
+         name === "eWayBill"
       ) {
          setFormData((prev) => ({
             ...prev,
@@ -97,10 +105,72 @@ const EditPurchaseForm = memo((data) => {
 
    const handleUpdate = (e) => {
       e.preventDefault();
+      console.log(formData);
       // dispatch(updatePurchaseBill(formData._id, formData));
-      updatePurchaseBill(dispatch,formData._id,formData)
+      // updatePurchaseBill(dispatch,formData._id,formData)
       // setIsEditing(false);
    };
+
+   function AmountCalculator() {
+      data?.sale?.map((item) => {
+         const parseToNumber = (value) => (value ? parseFloat(value) : 0);
+         let amount = parseToNumber(item?.amount) || 0;
+         console.log(amount)
+
+         let taxAmount = parseToNumber(item?.taxAmount) || 0;
+         let discountPercent = parseToNumber(item?.discountpersant) || 0;
+         let discountAmount = parseToNumber(item?.discountAmount) || 0;
+         let taxPercent = 0;
+         if (item && item.taxPersant) {
+            const parts = item.taxPersant.split("@");
+            if (parts.length === 2) {
+               const numericValue = parseFloat(parts[1].trim());
+               if (!isNaN(numericValue)) {
+                  taxPercent = numericValue;
+               }
+            }
+         }
+         let pricePerUnit = parseToNumber(item?.priceUnit) || 0;
+         let qty = parseToNumber(item?.qty) || 0;
+
+         amount = qty * pricePerUnit;
+
+         if (discountPercent > 0) {
+            discountAmount = (amount * discountPercent) / 100;
+            amount -= discountAmount;
+         } else if (discountAmount > 0) {
+            discountPercent = (discountAmount / amount) * 100;
+            amount -= discountAmount;
+         }
+
+         if (taxPercent > 0) {
+            taxAmount = (amount * taxPercent) / 100;
+            amount += taxAmount;
+         } else if (taxAmount > 0) {
+            taxPercent = (taxAmount / amount) * 100;
+            amount += taxAmount;
+         }
+
+         return {
+            amount:
+               parseFloat(amount.toFixed(2)) == 0
+                  ? ""
+                  : parseFloat(amount.toFixed(2)),
+            taxAmount:
+               parseFloat(taxAmount.toFixed(2)) == 0
+                  ? ""
+                  : parseFloat(taxAmount.toFixed(2)),
+            discountPercent:
+               parseFloat(discountPercent.toFixed(2)) == 0
+                  ? ""
+                  : parseFloat(discountPercent.toFixed(2)),
+            discountAmount:
+               parseFloat(discountAmount.toFixed(2)) == 0
+                  ? ""
+                  : parseFloat(discountAmount.toFixed(2)),
+         };
+      });
+   }
 
    return (
       <form className={css.formOuter} onSubmit={handleUpdate}>
@@ -134,18 +204,20 @@ const EditPurchaseForm = memo((data) => {
                         className={css.input}
                      />
                   </div>
-                  <div className={css.inputDiv}>
-                     <label htmlFor="">GST Number</label>
-                     <input
-                        type="text"
-                        value={formData?.partyData?.[0]?.gstNo}
-                        name="gstNo"
-                        onChange={handleInputChange}
-                        className={css.input}
-                     />
-                  </div>
+                  {formData?.partyData?.[0]?.gstNo && (
+                     <div className={css.inputDiv}>
+                        <label htmlFor="">GST Number</label>
+                        <input
+                           type="text"
+                           value={formData?.partyData?.[0]?.gstNo}
+                           name="gstNo"
+                           onChange={handleInputChange}
+                           className={css.input}
+                        />
+                     </div>
+                  )}
                </div>
-               <div>
+               {/* <div>
                   <div>
                      <div className={css.inputDiv}>
                         <label htmlFor="PO No">PO No.</label>
@@ -154,7 +226,7 @@ const EditPurchaseForm = memo((data) => {
                            type="text"
                            name="poNo"
                            className={css.input}
-                           value={formData?.poNumber || ""}
+                           value={formData?.partyData?.[0].poNumber || ""}
                            onChange={handleInputChange}
                         />
                      </div>
@@ -185,7 +257,7 @@ const EditPurchaseForm = memo((data) => {
                         value={formData?.eWayBillNo || ""}
                      />
                   </div>
-               </div>
+               </div> */}
 
                <div className={css.rightSideCont}>
                   <div>
@@ -207,13 +279,7 @@ const EditPurchaseForm = memo((data) => {
                         className={css.invoiceDateSelectInp}
                         onChange={handleInputChange}
                         name="billDate"
-                        // value={
-                        //    formData.billDate
-                        //       ? new Date(data.billDate)
-                        //            .toISOString()
-                        //            .split("T")[0]
-                        //       : ""
-                        // }
+                        value={FormatDate(formData?.billDate)}
                         // defaultValue={new Date().toISOString().split("T")[0]}
                         // readOnly
                      />
@@ -226,21 +292,12 @@ const EditPurchaseForm = memo((data) => {
                         className={css.invoiceDateSelectInp}
                         onChange={handleInputChange}
                         name="time"
-                        // value={
-                        //    formData.time instanceof Date && !isNaN(formData.time)
-                        //       ? formData.time.toLocaleTimeString("en-US", {
-                        //            hour: "2-digit",
-                        //            minute: "2-digit",
-                        //            hour12: false,
-                        //         })
-                        //       : ""
-                        // }
-
+                        value={formData?.time}
                         // readOnly
                      />
                   </div>
 
-                  <div>
+                  {/* <div>
                      <p>Payment Terms</p>
                      <select
                         name="paymentTerms"
@@ -253,24 +310,26 @@ const EditPurchaseForm = memo((data) => {
                         <option value="net 45">Net 45</option>
                         <option value="net 60">Net 60</option>
                      </select>
-                  </div>
-                  <div>
-                     <p>Due Date</p>
-                     <input
-                        type="date"
-                        placeholder="Due Date"
-                        className={css.invoiceDateSelectInp}
-                        onChange={handleInputChange}
-                        // value={
-                        //    formData.dueDate
-                        //       ? new Date(formData.dueDate)
-                        //            .toISString()
-                        //            .split("T")[0]
-                        //       : ""
-                        // }
-                        name="dueDate"
-                     />
-                  </div>
+                  </div> */}
+                  {formData?.dueDate && (
+                     <div>
+                        <p>Due Date</p>
+                        <input
+                           type="date"
+                           placeholder="Due Date"
+                           className={css.invoiceDateSelectInp}
+                           onChange={handleInputChange}
+                           value={
+                              formData?.dueDate
+                                 ? new Date(formData.dueDate)
+                                      .toISOString()
+                                      .split("T")[0]
+                                 : ""
+                           }
+                           name="dueDate"
+                        />
+                     </div>
+                  )}
 
                   <div>
                      <p>State of supply</p>
@@ -372,24 +431,10 @@ const EditPurchaseForm = memo((data) => {
                                        No Categories Found
                                     </option>
                                  ) : (
-                                    category
-                                       .filter(
-                                          (categoryItem) =>
-                                             categoryItem._id === item.category
-                                       )
-                                       .map((filteredItem) => (
-                                          <option
-                                             value={filteredItem._id}
-                                             key={filteredItem._id}
-                                          >
-                                             {filteredItem?.categoryName}
-                                          </option>
-                                       ))
-                                 )}
-                                 {!category.some(
-                                    (categoryItem) =>
-                                       categoryItem._id === item.category
-                                 ) &&
+                                    category.some(
+                                       (categoryItem) =>
+                                          categoryItem._id === item.category
+                                    ) &&
                                     category.map((categoryItem) => (
                                        <option
                                           value={categoryItem._id}
@@ -397,7 +442,8 @@ const EditPurchaseForm = memo((data) => {
                                        >
                                           {categoryItem.categoryName}
                                        </option>
-                                    ))}
+                                    ))
+                                 )}
                               </select>
                            </td>
                            <td className={css.itemNameBody}>
@@ -525,7 +571,7 @@ const EditPurchaseForm = memo((data) => {
                                  type="number"
                                  name="discountAmount"
                                  onChange={(e) => handleItemChange(e, ind)}
-                                 value={item?.discountAmount}
+                                 value={AmountCalculator()?.discountAmount}
                                  placeholder="0"
                                  className={css.tableInputs}
                               />
@@ -563,7 +609,7 @@ const EditPurchaseForm = memo((data) => {
                                  </div>
                                  <input
                                     type="number"
-                                    value={item?.taxAmount}
+                                    value={AmountCalculator()?.taxAmount}
                                     onChange={(e) => handleItemChange(e, ind)}
                                     name="taxAmount"
                                     placeholder="0"
@@ -577,7 +623,7 @@ const EditPurchaseForm = memo((data) => {
                               <input
                                  type="number"
                                  onChange={(e) => handleItemChange(e, ind)}
-                                 value={item?.amount}
+                                 value={AmountCalculator()?.amount}
                                  name="amount"
                                  placeholder="0"
                                  className={css.tableInputs}
