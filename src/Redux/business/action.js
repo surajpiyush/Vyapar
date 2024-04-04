@@ -1,28 +1,29 @@
-import { API_URL } from "../store";
+import { API_URL, USER_DETAILS } from "../store";
 import {
   ISLOADING,
   ISERROR,
   SUCCESS,
-  USER_DETAILS,
   UPDATE_PROFILE_SUCCESS,
   FETCH_COMPANIES_SUCCESS,
-  COMPANYDELETE,
+  DELETE_FIRM_SUCCESS,
+  DELETE_FIRM_ERROR,
+  DELETE_FIRM_LOADING,
 } from "./actionTypes";
 import { REGULAR_PRINTER_DATA, THERMAL_PRINTER_DATA } from "../store";
 
 import axios from "axios";
 
 // Company Register Request ---- Didn't applied function curring due to thunk error in store.js
-export const FetchAllCompanies = async (dispatch) => {
+export const FetchAllCompanies = async (dispatch, toast) => {
   dispatch({ type: ISLOADING });
+  toast.closeAll();
   const token = localStorage.getItem("token");
 
   try {
     const response = await axios.get(`${API_URL}/firm_registration`, {
-      headers: {
-        Authorization: `Bearer ${token} `,
-      },
+      headers: { Authorization: `Bearer ${token} ` },
     });
+
     // console.log("Fetching All Companies Response:", response?.data);
     dispatch({
       type: FETCH_COMPANIES_SUCCESS,
@@ -30,8 +31,14 @@ export const FetchAllCompanies = async (dispatch) => {
     });
   } catch (error) {
     dispatch({ type: ISERROR });
+    toast({
+      title:
+        error?.response?.data?.message ||
+        error?.response?.data?.msg ||
+        "Something Went Wrong!",
+      status: "warning",
+    });
     console.log("Fetching All Companies Error Response:", error);
-    // alert(error?.response?.data?.message || "Something Went Wrong!");
   }
 };
 
@@ -50,10 +57,9 @@ export const AddBusinessLoginRequest = async (
 
   try {
     const response = await axios.post(`${API_URL}/firm_registration`, data, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: { Authorization: `Bearer ${token}` },
     });
+
     // console.log("Business Added Response", response?.data);
     let newCurrentCompanyData = response?.data?.FirmData;
     localStorage.setItem(USER_DETAILS, JSON.stringify(newCurrentCompanyData));
@@ -97,8 +103,7 @@ export const UpdateCompanyProfile = async (
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
   try {
-    // prettier-ignore
-    const response = await axios.put( // eslint-disable-line no-unused-vars
+    const response = await axios.put(
       `${API_URL}/firm_registration/${FirmId}`,
       data,
       {
@@ -108,6 +113,7 @@ export const UpdateCompanyProfile = async (
         },
       }
     );
+
     //  console.log("Update Firm Response", response?.data);
     const responseData = response?.data?.FirmData;
     const prevousUserLSData = JSON.parse(localStorage.getItem(USER_DETAILS));
@@ -138,28 +144,27 @@ export const UpdateCompanyProfile = async (
 };
 
 export const DeleteCompany = async (dispatch, id, toast) => {
+  dispatch({ type: DELETE_FIRM_LOADING });
+  toast.closeAll();
   const token = localStorage.getItem("token");
-  dispatch({ type: ISLOADING });
-  try {
-    const response = await axios.delete(
-      `${API_URL}/firm_registration/${id}`,
 
-      {
-        headers: {
-          Authorization: `Bearer ${token} `,
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
-    dispatch({ type: COMPANYDELETE });
+  try {
+    const response = await axios.delete(`${API_URL}/firm_registration/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token} `,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    dispatch({ type: DELETE_FIRM_SUCCESS });
     toast({
-      title: "Company Deleted Successful",
+      title: "Company Deleted Successfully",
       position: "top",
       status: "success",
     });
     // console.log(response);
   } catch (error) {
-    dispatch({ type: ISERROR });
+    dispatch({ type: DELETE_FIRM_ERROR });
     toast({
       title:
         error?.response?.data?.message ||
@@ -174,11 +179,12 @@ export const DeleteCompany = async (dispatch, id, toast) => {
 
 // Logout Function
 export const LOGOUT = (navigate, toast) => {
+  toast.closeAll();
   localStorage.removeItem("token");
   localStorage.removeItem("userId");
   localStorage.removeItem(USER_DETAILS);
   sessionStorage.removeItem(REGULAR_PRINTER_DATA);
   sessionStorage.removeItem(THERMAL_PRINTER_DATA);
-  toast({ title: "Logged Out!", status: "success", position: "top" });
+  toast({ title: "Logged Out!", status: "success" });
   navigate("/auth");
 };

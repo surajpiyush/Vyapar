@@ -1,7 +1,7 @@
 import css from "./Navbar.module.css";
 import Logo from "../../assets/Shop.svg";
 import { LOGOUT } from "../../Redux/business/action";
-import { USER_DETAILS } from "../../Redux/business/actionTypes";
+import { USER_DETAILS } from "../../Redux/store";
 import { RefreshIcon, CloseIcon2 } from "../../assets/Icons/ReactIcons";
 
 import { useState } from "react";

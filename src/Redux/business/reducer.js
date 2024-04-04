@@ -6,7 +6,9 @@ import {
   SET_CURRENT_COMPANY,
   UPDATE_PROFILE_SUCCESS,
   FETCH_COMPANIES_SUCCESS,
-  COMPANYDELETE,
+  DELETE_FIRM_SUCCESS,
+  DELETE_FIRM_LOADING,
+  DELETE_FIRM_ERROR,
 } from "./actionTypes";
 
 // Initial States
@@ -27,6 +29,10 @@ const initState = {
   currentCompanyName: "",
   currentEmail: "",
   phoneNumber: "",
+
+  // Delete Firm
+  DeleteFirmLoading: false,
+  DeleteFirmError: false,
 };
 
 // Reducer Function
@@ -87,13 +93,29 @@ export const reducer = (state = initState, { type, payload, name }) => {
         [name]: payload,
       };
     }
-    case COMPANYDELETE: {
-      return{
+    // Delete Firm
+    case DELETE_FIRM_LOADING: {
+      return {
         ...state,
-        isLoading:false,
-        toggleUpdate: !state.toggleUpdate,
-      }
+        DeleteFirmLoading: true,
+        DeleteFirmError: false,
+      };
     }
+    case DELETE_FIRM_ERROR: {
+      return {
+        ...state,
+        DeleteFirmLoading: false,
+        DeleteFirmError: true,
+      };
+    }
+    case DELETE_FIRM_SUCCESS: {
+      return {
+        ...state,
+        DeleteFirmLoading: false,
+        toggleUpdate: !state.toggleUpdate,
+      };
+    }
+
     default: {
       return state;
     }

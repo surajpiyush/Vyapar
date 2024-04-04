@@ -1,6 +1,6 @@
 import css from "./EditFirm.module.css";
 import { CloseIcon } from "../../assets/Icons/ReactIcons";
-import { USER_DETAILS } from "../../Redux/business/actionTypes";
+import { USER_DETAILS } from "../../Redux/store";
 import { UpdateCompanyProfile } from "../../Redux/business/action";
 
 import { useToast } from "@chakra-ui/react";

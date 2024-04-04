@@ -1,10 +1,12 @@
-import "../../Css/styles.css";
+//import "../../Css/styles.css";
+import css from "./Firm.module.css";
 import { AddBusinessLoginRequest } from "../../Redux/business/action";
 
 import { useState } from "react";
 import { useToast } from "@chakra-ui/react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import Loader2 from "../../Component/Loaders/Loader2";
 
 const AddCompanyPage = () => {
   const toast = useToast();
@@ -43,13 +45,9 @@ const AddCompanyPage = () => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      //className="Container1"
-      className="addBusinessFormOuter"
-    >
-      <h2 className="formHeading">ADD BUSINESS</h2>
-      <div className="inputCont">
+    <form onSubmit={handleSubmit} className={css.addBusinessFormOuter}>
+      <h2 className={css.formHeading}>ADD BUSINESS</h2>
+      <div className={css.inputCont}>
         <input
           type="text"
           name="companyName"
@@ -57,7 +55,6 @@ const AddCompanyPage = () => {
           value={formData?.companyName}
           onChange={handleChange}
           required
-          style={{ background: "transparent" }}
         />
         <input
           type="email"
@@ -65,7 +62,6 @@ const AddCompanyPage = () => {
           placeholder="Enter Email"
           value={formData?.email}
           onChange={handleChange}
-          style={{ background: "transparent" }}
           required
         />
         <input
@@ -74,14 +70,13 @@ const AddCompanyPage = () => {
           placeholder="Phone Number"
           value={formData?.phoneNumber}
           onChange={handleChange}
-          style={{ background: "transparent" }}
           required
         />
         <p>
           By clicking on the Login button I accept the
           <span>terms and conditions</span>
         </p>
-        <button type="submit" className="addBtn" disabled={isLoading}>
+        <button type="submit" className={css.addBtn} disabled={isLoading}>
           {isLoading ? "Loading" : "Login"}
         </button>
       </div>

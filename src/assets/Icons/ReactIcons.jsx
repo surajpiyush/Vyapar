@@ -36,6 +36,7 @@ import {
   PiToggleLeftFill as OpenToggleIcon,
   PiToggleRightThin as CloseToggleIcon,
   PiDotsThreeVerticalBold as VerticalDotsIcon,
+  PiDesktopTowerLight as DesktopIconOutline,
 } from "react-icons/pi";
 import {
   IoWallet as WalletIcon,
@@ -71,6 +72,7 @@ export {
   JsonIconOutline,
   SettingsIconOutline2,
   PrintIconOutline,
+  DesktopIconOutline,
   ExcelIcon,
   CalculatorIcon,
   ExcelIconOutline,
