@@ -46,6 +46,7 @@ export const getSaleReport =
         }
       )
       .then((res) => {
+        console.log("response in sale report :-",res.data.data)
         const { getSale, getSaleReturn } = res?.data?.data;
         const { totalTax, integratedTax, cessTax } = calculateTax(getSale);
         const {
@@ -89,6 +90,7 @@ export const getPurchaseReport =
         }
       )
       .then((res) => {
+        console.log("Purchase report response:-",res.data)
         dispatch({ type: GET_PURCHASEREPORT_SUCCESS, payload: res.data });
       })
       .catch((ERR) => {
@@ -115,6 +117,7 @@ export const getDayBookReport =
         }
       )
       .then((res) => {
+        console.log("Response in dayBook:-",res.data)
         dispatch({ type: GET_DAYBOOK_SUCCESS, payload: res.data });
       })
       .catch((ERR) => {
@@ -141,6 +144,7 @@ export const getAllTransections =
         }
       )
       .then((res) => {
+        console.log("All transaction")
         dispatch({ type: GET_ALLTRANSECTION_SUCCESS, payload: res.data });
       })
       .catch((ERR) => {
