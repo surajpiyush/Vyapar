@@ -1,4 +1,3 @@
-import * as XLSX from "xlsx";
 import css from "./Invoice.module.css";
 import InvoiceForm from "./InvoiceForm";
 import TableInvoice from "./TableInvoice";
@@ -10,6 +9,7 @@ import Setting from "../../../Component/Setting/Setting";
 import Loader3 from "../../../Component/Loaders/Loader3";
 import RPLayout1 from "../../../Component/PrintLayouts/RPLayout1";
 import RPLayout2 from "../../../Component/PrintLayouts/RPLayout2";
+import InvoicePrint from "../../../Component/PrintLayouts/InvoicePrint";
 import FirstTimeFormToggle from "../../../Component/FirmTimeForm/FirstTimeFormToggle";
 import { GetAllItems } from "../../../Redux/items/actions";
 import { REGULAR_PRINTER_DATA } from "../../../Redux/store";
@@ -34,9 +34,6 @@ import { useToast } from "@chakra-ui/react";
 import { useReactToPrint } from "react-to-print";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { IoMdCloseCircle as CloseIcon } from "react-icons/io";
-import InvoicePrint from "../../../Component/PrintLayouts/InvoicePrint";
-//import { IoCloseOutline as CrossIcon } from "react-icons/io5";
 
 export default function SalesInvoice() {
   const toast = useToast();
@@ -64,6 +61,9 @@ export default function SalesInvoice() {
   const toggleSingleInvoiceSuccess = useSelector(
     (state) => state.SalesReducer.toggleSingleInvoiceSuccess
   );
+  const toggleGetAllSalesDataSuccess = useSelector(
+    (state) => state.SalesReducer.toggleGetAllSalesDataSuccess
+  );
   const SingleInvoiceData = useSelector(
     (state) => state.SalesReducer.SingleInvoiceData
   );
@@ -76,22 +76,21 @@ export default function SalesInvoice() {
   }, [toggleItems]);
   // ********************************************************************************8
 
-  // Calculate paid and unpaid amounts from the data
-  const calculateAmounts = () => {
+  // Calculate Paid and Unpaid upon successfull getting data
+  useEffect(() => {
     let paid = 0;
     let unpaid = 0;
-
-    invoicesList.forEach((item) => {
-      paid += item.amount || 0;
-      unpaid += item.balanceDue || 0;
+    invoicesList?.forEach((item) => {
+      paid += item?.amount || 0;
+      unpaid += item?.balanceDue || 0;
     });
     setPaidAmount(paid);
     setUnpaidAmount(unpaid);
-  };
+  }, [toggleGetAllSalesDataSuccess]);
+
   // To fetch Invoices data
   useEffect(() => {
     GetAllSalesInvoice(dispatch, startDate, endDate);
-    calculateAmounts();
   }, [toggleSalesSuccess, startDate, endDate]);
 
   const formOpen = () => {
@@ -113,7 +112,7 @@ export default function SalesInvoice() {
 
   // Save Update function
   const handleSave = (updatedData) => {
-    updatedData.partyname = updatedData.partyName;
+    // updatedData.partyname = updatedData.partyName;
     // console.log("updatedData-", updatedData);
     dispatch(updateSalesInvoice(updatedData._id, updatedData));
     setIsEditing(false);
@@ -203,7 +202,7 @@ export default function SalesInvoice() {
                 }
               />
               <SettingsIconOutline2 onClick={() => setToggleSetting(true)} />
-              <CloseIcon onClick={() => setOpenForm(false)} />
+              <CrossIcon onClick={() => setOpenForm(false)} />
             </div>
           </div>
           <InvoiceForm

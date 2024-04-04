@@ -1,23 +1,23 @@
 import "./index.css";
 import App from "./App";
-import Sale from "./pages/Sale.js";
 import GSTR1 from "./pages/GSTR1.js";
 import GSTR2 from "./pages/GSTR2.js";
 import GSTR9 from "./pages/GSTR9.js";
 import GSTR3B from "./pages/GSTR3B.js";
 import Home from "./Page/Home/Home.jsx";
-import DayBook from "./pages/DayBook.js";
 import Items from "./Page/Items/Items.jsx";
 import CashFlow from "./pages/CashFlow.js";
-import Purchase from "./pages/Purchase.js";
 import HsnReport from "./pages/HsnReport.jsx";
 import Marketing from "./pages/Marketing.jsx";
+import Sale from "./Page/Reports/Sale/Sale.jsx";
 import AuthPage from "./Page/Auth/AuthPage.jsx";
 import reportWebVitals from "./reportWebVitals";
 import Parties from "./Page/Parties/Parties.jsx";
-import AllTransaction from "./pages/AllTransactions.js";
+import DayBook from "./Page/Reports/DayBook/DayBook.jsx";
 import CompaniesPage from "./Page/Firm/CompaniesPage.jsx";
+import Purchase from "./Page/Reports/Purchase/Purchase.jsx";
 import AddCompanyPage from "./Page/Firm/AddCompanyPage.jsx";
+import NotFoundPage from "./Page/NotFoundPage/NotFoundPage.jsx";
 import SalesOrder from "./pages/sales/salesOrder/SalesOrder.jsx";
 import PaymentOut from "./Page/Purchase/PaymentOut/PaymentOut.jsx";
 import SalesReturn from "./pages/sales/salesReturn/SalesReturn.jsx";
@@ -27,6 +27,7 @@ import PurchaseOrder from "./Page/Purchase/PurchaseOrder/PurchaseOrder.jsx";
 import SalesEstimates from "./pages/sales/salesEstimates/SalesEstimates.jsx";
 import SalesPaymentln from "./pages/sales/salesPaymentIn/SalesPaymentIn.jsx";
 import PurchaseReturn from "./Page/Purchase/PurchaseReturn/PurchaseReturn.jsx";
+import AllTransactions from "./Page/Reports/AllTransactions/AllTransactions.jsx";
 import SalesDeliveryChallan from "./pages/sales/salesDeliveryChallan/SalesDeliveryChallan.jsx";
 import { store } from "./Redux/store.js";
 
@@ -35,7 +36,6 @@ import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { ChakraProvider } from "@chakra-ui/react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import NotFoundPage from "./Page/NotFoundPage/NotFoundPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -127,7 +127,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/alltransactionreport",
-        element: <AllTransaction />,
+        element: <AllTransactions />,
       },
       {
         path: "/cashflowreport",

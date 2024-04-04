@@ -1,15 +1,121 @@
-import { API_URL } from "../store";
+import { API_URL, USER_DETAILS } from "../store";
 import {
-  GET_ALLTRANSECTION_SUCCESS,
+  GET_ALL_TRANSACTIONS_SUCCESS,
   GET_DAYBOOK_SUCCESS,
-  GET_PURCHASEREPORT_SUCCESS,
-  GET_SALEREPORT_SUCCESS,
+  GET_PURCHASE_REPORT_SUCCESS,
+  GET_SALE_REPORT_SUCCESS,
   REPORT_FAILURE,
   REPORT_REQUEST,
 } from "./actionTypes";
 
 import axios from "axios";
 
+// Get Sale Report
+export const GetSaleReport = async (dispatch, startDate, endDate) => {
+  dispatch({ type: REPORT_REQUEST });
+  const token = localStorage.getItem("token");
+  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+
+  try {
+    const response = await axios.get(
+      `${API_URL}/${firmId}/transctionReport/saleReport?startDate=${startDate}&endDate=${endDate}`,
+      { headers: { Authorization: `Bearer ${token} ` } }
+    );
+
+    // console.log("Getting Sale Report Response:", response?.data?.data);
+    const { getSale, getSaleReturn } = response?.data?.data;
+    const { totalTax, integratedTax, cessTax } = calculateTax(getSale);
+    const {
+      totalTax: RtotalTax,
+      integratedTax: RintegratedTax,
+      cessTax: RcessTax,
+    } = calculateTax(getSaleReturn);
+    dispatch({
+      type: GET_SALE_REPORT_SUCCESS,
+      payload: response?.data?.data || {},
+      tax: totalTax,
+      integratedTax,
+      cess: cessTax,
+      Rtax: RtotalTax,
+      RintegratedTax,
+      Rcess: RcessTax,
+    });
+  } catch (error) {
+    dispatch({ type: REPORT_FAILURE });
+    console.log("Getting Sale Report Error:", error);
+  }
+};
+
+// Get Purchase Report
+export const GetPurchaseReport = async (dispatch, startDate, endDate) => {
+  dispatch({ type: REPORT_REQUEST });
+  const token = localStorage.getItem("token");
+  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+
+  try {
+    const response = await axios.get(
+      `${API_URL}/${firmId}/transctionReport/purchaseReport?startDate=${startDate}&endDate=${endDate}`,
+      { headers: { Authorization: `Bearer ${token} ` } }
+    );
+
+    // console.log("Getting Purchase Report Response:", response?.data?.data);
+    dispatch({
+      type: GET_PURCHASE_REPORT_SUCCESS,
+      payload: response?.data?.data || {},
+    });
+  } catch (error) {
+    dispatch({ type: REPORT_FAILURE });
+    console.log("Getting Purchase Report Error:", error);
+  }
+};
+
+// Get All DayBooks
+export const GetDayBooks = async (dispatch, startDate, endDate) => {
+  dispatch({ type: REPORT_REQUEST });
+  const token = localStorage.getItem("token");
+  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+
+  try {
+    const response = await axios.get(
+      `${API_URL}/${firmId}/transctionReport/dayBookReport?startDate=${startDate}&endDate=${endDate}`,
+      { headers: { Authorization: `Bearer ${token} ` } }
+    );
+
+    //console.log("Getting All DayBooks Response:", response?.data?.data);
+    dispatch({
+      type: GET_DAYBOOK_SUCCESS,
+      payload: response?.data?.data || [],
+    });
+  } catch (error) {
+    dispatch({ type: REPORT_FAILURE });
+    console.log("Getting All DayBooks Error:", error);
+  }
+};
+
+// Get All Transactions
+export const GetAllTransactions = async (dispatch, startDate, endDate) => {
+  dispatch({ type: REPORT_REQUEST });
+  const token = localStorage.getItem("token");
+  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+
+  try {
+    const response = await axios.get(
+      `${API_URL}/${firmId}/transctionReport/allTractionReport?startDate=${startDate}&endDate=${endDate}`,
+      { headers: { Authorization: `Bearer ${token} ` } }
+    );
+
+    // console.log("Getting All Transactions Response:", response?.data?.data);
+    dispatch({
+      type: GET_ALL_TRANSACTIONS_SUCCESS,
+      payload: response?.data?.data || [],
+    });
+  } catch (error) {
+    dispatch({ type: REPORT_FAILURE });
+    console.log("Getting All Transactions Error:", error);
+  }
+};
+
+// Calculate Tax
 const calculateTax = (data) => {
   if (!Array.isArray(data) || data.length === 0) {
     return { totalTax: 0, integratedTax: 0, cessTax: 0 };
@@ -27,124 +133,3 @@ const calculateTax = (data) => {
 
   return { totalTax, integratedTax, cessTax };
 };
-
-export const getSaleReport =
-  ({ date }) =>
-  (dispatch) => {
-    const token = localStorage.getItem("token");
-    const FirmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
-
-    dispatch({ type: REPORT_REQUEST });
-
-    axios
-      .get(
-        `${API_URL}/${FirmId}/transctionReport/saleReport?startDate=${date.startDate}&endDate=${date.endDate}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then((res) => {
-        const { getSale, getSaleReturn } = res?.data?.data;
-        const { totalTax, integratedTax, cessTax } = calculateTax(getSale);
-        const {
-          totalTax: RtotalTax,
-          integratedTax: RintegratedTax,
-          cessTax: RcessTax,
-        } = calculateTax(getSaleReturn);
-
-        dispatch({
-          type: GET_SALEREPORT_SUCCESS,
-          payload: res.data,
-          tax: totalTax,
-          integratedTax,
-          cess: cessTax,
-          Rtax: RtotalTax,
-          RintegratedTax,
-          Rcess: RcessTax,
-        });
-      })
-      .catch((ERR) => {
-        console.log("error sale report:", ERR);
-        dispatch({ type: REPORT_FAILURE });
-      });
-  };
-
-export const getPurchaseReport =
-  ({ date }) =>
-  (dispatch) => {
-    const token = localStorage.getItem("token");
-    const FirmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
-
-    dispatch({ type: REPORT_REQUEST });
-
-    axios
-      .get(
-        `${API_URL}/${FirmId}/transctionReport/purchaseReport?startDate=${date.startDate}&endDate=${date.endDate}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then((res) => {
-        dispatch({ type: GET_PURCHASEREPORT_SUCCESS, payload: res.data });
-      })
-      .catch((ERR) => {
-        console.log(ERR);
-        dispatch({ type: REPORT_FAILURE });
-      });
-  };
-
-export const getDayBookReport =
-  ({ date }) =>
-  (dispatch) => {
-    const token = localStorage.getItem("token");
-    const FirmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
-
-    dispatch({ type: REPORT_REQUEST });
-
-    axios
-      .get(
-        `${API_URL}/${FirmId}/transctionReport/dayBookReport?startDate=${date.startDate}&endDate=${date.endDate}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then((res) => {
-        dispatch({ type: GET_DAYBOOK_SUCCESS, payload: res.data });
-      })
-      .catch((ERR) => {
-        console.log("error getDayBookReport:", ERR);
-        dispatch({ type: REPORT_FAILURE });
-      });
-  };
-
-export const getAllTransections =
-  ({ date }) =>
-  (dispatch) => {
-    const token = localStorage.getItem("token");
-    const FirmId = JSON.parse(localStorage.getItem("USER_DETAILS"))?._id;
-
-    dispatch({ type: REPORT_REQUEST });
-
-    axios
-      .get(
-        `${API_URL}/${FirmId}/transctionReport/allTractionReport?startDate=${date.startDate}&endDate=${date.endDate}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then((res) => {
-        dispatch({ type: GET_ALLTRANSECTION_SUCCESS, payload: res.data });
-      })
-      .catch((ERR) => {
-        console.log("getAllTransections", ERR);
-        dispatch({ type: REPORT_FAILURE });
-      });
-  };

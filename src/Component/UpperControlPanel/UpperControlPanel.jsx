@@ -338,10 +338,11 @@ const UpperControlPanel = ({
             <h2>Paid</h2>
             <h3>
               ₹{" "}
-              {(paidAmount - unpaidAmount < 0
+              {/* {(paidAmount - unpaidAmount < 0
                 ? 0.0
                 : paidAmount - unpaidAmount
-              ).toFixed(2)}
+              ).toFixed(2)} */}
+              {paidAmount.toFixed()}
             </h3>
           </div>
           <div className={css.mathmaticalSigns}>+</div>
@@ -358,7 +359,7 @@ const UpperControlPanel = ({
             style={{ backgroundColor: "var(--GoldenBeige)" }}
           >
             <h2>Total</h2>
-            <h3>₹ {paidAmount.toFixed(2)}</h3>
+            <h3>₹ {(paidAmount + unpaidAmount).toFixed(2)}</h3>
           </div>
         </div>
       )}
