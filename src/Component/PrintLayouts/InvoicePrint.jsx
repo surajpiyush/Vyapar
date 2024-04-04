@@ -31,16 +31,17 @@ const InvoicePrint = ({ currPrintItem }) => {
          const priceUnit = item.priceUnit || 0;
          const discountAmount = item.discountAmount || 0;
          const taxPercent = item.taxPersant
-            ? item.taxPersant.replace("GST@", "")
+            ? parseFloat(item.taxPersant.split("@")[1]) || 0
             : 0;
          const priceWithTax =
             Number(priceUnit) + Number(priceUnit) * (Number(taxPercent) / 100);
          const amount = priceWithTax * qty;
+         console.log(taxPercent);
          return acc + amount;
       }, 0);
       return total || 0;
    };
-
+   console.log(currPrintItem);
    return (
       <div
          className={css.OuterRP1}
@@ -190,8 +191,8 @@ const InvoicePrint = ({ currPrintItem }) => {
                         const qty = saleItem?.qty || 0;
                         const priceUnit = saleItem?.priceUnit || 0;
                         const discountAmount = saleItem?.discountAmount || 0;
-                        const taxPercent = saleItem?.taxPersant
-                           ? saleItem.taxPersant.replace("GST@", "")
+                        const taxPercent = saleItem.taxPersant
+                           ? parseFloat(saleItem.taxPersant.split("@")[1]) || 0
                            : 0;
                         const taxAmount =
                            priceUnit * (taxPercent / 100) * qty || 0;

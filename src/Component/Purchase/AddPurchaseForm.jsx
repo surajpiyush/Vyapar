@@ -22,6 +22,7 @@ const AddPurchaseForm = memo(
       setShowItemForm,
       getAllItemsLoading,
       items,
+      stateChanged = false
    }) => {
       const dispatch = useDispatch();
       const loadingAllItems = useSelector(
@@ -404,21 +405,29 @@ const AddPurchaseForm = memo(
                         value={item.taxPersant}
                         onChange={(e) => handleTableInputChange(e, ind)}
                      >
-                        <option value="">None</option>
-                        <option value="IGST@0">IGST@0%</option>
-                        <option value="GST@0">GST@0%</option>
-                        <option value="IGST@0.25">IGST@0.25%</option>
-                        <option value="GST@0.25">GST@0.25%</option>
-                        <option value="IGST@3">IGST@3%</option>
-                        <option value="GST@3">GST@3%</option>
-                        <option value="IGST@5">IGST@5%</option>
-                        <option value="GST@5">GST@5%</option>
-                        <option value="IGST@12">IGST@12%</option>
-                        <option value="GST@12">GST@12%</option>
-                        <option value="IGST@18">IGST@18%</option>
-                        <option value="GST@18">GST@18%</option>
-                        <option value="IGST@28">IGST@28%</option>
-                        <option value="GST@28">GST@28%</option>
+                         {stateChanged ? (
+                        <>
+                           <option value="">None</option>
+                           <option value="IGST@0">IGST@0%</option>
+                           <option value="IGST@0.25">IGST@0.25%</option>
+                           <option value="IGST@3">IGST@3%</option>
+                           <option value="IGST@5">IGST@5%</option>
+                           <option value="IGST@12">IGST@12%</option>
+                           <option value="IGST@18">IGST@18%</option>
+                           <option value="IGST@28">IGST@28%</option>
+                        </>
+                     ) : (
+                        <>
+                           <option value="">None</option>
+                           <option value="GST@0">GST@0%</option>
+                           <option value="GST@0.25">GST@0.25%</option>
+                           <option value="GST@3">GST@3%</option>
+                           <option value="GST@5">GST@5%</option>
+                           <option value="GST@12">GST@12%</option>
+                           <option value="GST@18">GST@18%</option>
+                           <option value="GST@28">GST@28%</option>
+                        </>
+                     )}
                      </select>
                   </div>
                   <input

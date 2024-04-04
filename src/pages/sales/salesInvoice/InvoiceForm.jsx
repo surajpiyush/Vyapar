@@ -59,6 +59,7 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
   const [paymentArr, setPaymentArr] = useState([{ types: "Cash", amount: 0 }]);
   const [confirmModel, setConfirmModel] = useState(false);
   const [temp, setTemp] = useState("");
+  const [stateChanged,setStateChanged] = useState(false)
   function generateInvoiceNumber() {
     const currentDate = new Date();
     const monthNames = [
@@ -85,7 +86,6 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
     const minutes = currentDate.getMinutes();
     const date = currentDate.getDate();
     const sec = currentDate.getSeconds();
-    console.log(monthIndex);
     // Format the invoice number
     const invoiceNumber = `${date}${hours}${minutes}${sec}/${month}/${previousYear}-${
       Number(previousYear) + 1
@@ -204,7 +204,7 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
     // GetSingleInvoiceData(dispatch, e?._id, toast);
     PostSalesInvoice(dispatch, data, setOpenForm, toast);
 
-    console.log("invoiceData", data);
+    // console.log("invoiceData", data);
   };
 
   // for fetching all parties list on form mount
@@ -245,6 +245,11 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
   // Input Change Function
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    if(name === "stateOfSupply" && currentCustomerData?.state !== value ){
+      setStateChanged(true)
+    }else{
+      setStateChanged(false)
+    }
     setInvoiceData((prev) => {
       return { ...prev, [name]: value };
     });
@@ -564,6 +569,7 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
                     setShowItemsListMenu={setShowItemsListMenu}
                     setShowAddItemsForm={setShowAddItemsForm}
                     key={ind}
+                    stateChanged = {stateChanged}
                   />
                 );
               })}

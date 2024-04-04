@@ -57,6 +57,7 @@ const FormCreditNote = ({ setOpenForm, setToggleSetting }) => {
   const [showItemForm, setShowAddItemsForm] = useState(false);
   const [receiveAmount, setReceiveAmount] = useState("");
   const [balanceAmount, setBalanceAmount] = useState("");
+  const [stateChanged,setStateChanged] = useState(false)
 
   function genweateReturnNumber() {
     const currentDate = new Date();
@@ -222,6 +223,9 @@ const FormCreditNote = ({ setOpenForm, setToggleSetting }) => {
   // Input Change Function
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    if(name === "stateOfSupply" && currentCustomerData?.state !== value ){
+      setStateChanged(true)
+    }
     setOrderData((prev) => {
       return { ...prev, [name]: value };
     });
@@ -505,6 +509,7 @@ const FormCreditNote = ({ setOpenForm, setToggleSetting }) => {
                     setShowItemsListMenu={setShowItemsListMenu}
                     setShowAddItemsForm={setShowAddItemsForm}
                     key={ind}
+                    stateChanged={stateChanged}
                   />
                 );
               })}

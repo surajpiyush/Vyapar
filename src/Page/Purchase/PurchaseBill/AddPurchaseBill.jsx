@@ -67,6 +67,7 @@ const AddPurchaseBillForm = ({ setOpenForm }) => {
    const [showItemForm, setShowItemForm] = useState(false);
    const [balanceAmount, setBalanceAmount] = useState(0);
    const [paymentArr, setPaymentArr] = useState([{ types: "Cash", amount: 0 }]);
+   const [stateChanged,setStateChanged] = useState(false)
    const [invoiceItems, setInvoiceItems] = useState([
       {
          category: "",
@@ -292,6 +293,11 @@ const AddPurchaseBillForm = ({ setOpenForm }) => {
             value = new Date().toISOString().split("T")[0];
          }
       }
+      if(name === "stateOfSupply" && currentCustomerData?.state !== value ){
+         setStateChanged(true)
+       }else{
+         setStateChanged(false)
+       }
       setInvoiceData((prev) => {
          return { ...prev, [name]: value };
       });
@@ -303,7 +309,9 @@ const AddPurchaseBillForm = ({ setOpenForm }) => {
          ...invoiceItems[index],
          itemName: itemDetail?._id,
          mainName: itemDetail?.itemName,
-         taxPersant: itemDetail?.taxRate.split("%")[0] || "",
+         taxPersant: stateChanged
+            ? `I${itemDetail?.taxRate.split("%")[0] || ""}`
+            : itemDetail?.taxRate.split("%")[0] || "",
          qty: Number(itemDetail?.stock?.openingQuantity) || 0,
          priceUnit: itemDetail?.stock?.atPrice || 0,
          unit: itemDetail?.seleteUnit?.baseUnit || "",
@@ -691,6 +699,7 @@ const AddPurchaseBillForm = ({ setOpenForm }) => {
                               showItemsListMenu={showItemsListMenu}
                               indexSaleItem={indexSaleItem}
                               key={ind}
+                              stateChanged={stateChanged}
                            />
                         );
                      })}

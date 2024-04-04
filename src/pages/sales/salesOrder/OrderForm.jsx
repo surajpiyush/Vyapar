@@ -56,6 +56,7 @@ const OrderForm = ({ setOpenForm, setToggleSetting }) => {
   const [rowFooterData, setRowFooterData] = useState({});
   const [showItemForm, setShowAddItemsForm] = useState(false);
   const [balanceAmount, setBalanceAmount] = useState("");
+  const [stateChanged,setStateChanged] = useState(false)
 
   function generateOrderNumber() {
     const currentDate = new Date();
@@ -219,6 +220,9 @@ const OrderForm = ({ setOpenForm, setToggleSetting }) => {
   // Input Change Function
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    if(name === "stateOfSupply" && currentCustomerData?.state !== value ){
+      setStateChanged(true)
+    }
     setOrderData((prev) => {
       return { ...prev, [name]: value };
     });
@@ -509,6 +513,7 @@ const OrderForm = ({ setOpenForm, setToggleSetting }) => {
                     setShowItemsListMenu={setShowItemsListMenu}
                     setShowAddItemsForm={setShowAddItemsForm}
                     key={ind}
+                    stateChanged={stateChanged}
                   />
                 );
               })}
