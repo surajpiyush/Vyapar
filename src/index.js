@@ -22,7 +22,6 @@ import AddCompanyPage from "./Page/Firm/AddCompanyPage.jsx";
 import SalesOrder from "./pages/sales/salesOrder/SalesOrder.jsx";
 import PaymentOut from "./Page/Purchase/PaymentOut/PaymentOut.jsx";
 import SalesReturn from "./pages/sales/salesReturn/SalesReturn.jsx";
-// import Purchaseorderpage from "./Page/Purchase/Purchaseorderpage.jsx";
 import SalesInvoice from "./pages/sales/salesInvoice/SalesInvoice.jsx";
 import PurchaseBill from "./Page/Purchase/PurchaseBill/PurchaseBill.jsx";
 import PurchaseOrder from "./Page/Purchase/PurchaseOrder/PurchaseOrder.jsx";
@@ -71,25 +70,6 @@ const router = createBrowserRouter([
         path: "/items",
         element: <Items />,
       },
-      // Puchase Routes
-      {
-        path: "/purchasebill",
-        element: <PurchaseBill />,
-      },
-      {
-        path: "/paymentout",
-        element: <PaymentOut />,
-      },
-      {
-        path: "/purchaseorder",
-        element: <PurchaseOrder />,
-        // element: <Purchaseorderpage />,
-      },
-      {
-        path: "/purchasereturn",
-        element: <PurchaseReturn />,
-      },
-
       // Sales Routes
       {
         path: "/invoices",
@@ -115,6 +95,24 @@ const router = createBrowserRouter([
         path: "/salereturn",
         element: <SalesReturn />,
       },
+      // Puchase Routes
+      {
+        path: "/purchasebill",
+        element: <PurchaseBill />,
+      },
+      {
+        path: "/paymentout",
+        element: <PaymentOut />,
+      },
+      {
+        path: "/purchaseorder",
+        element: <PurchaseOrder />,
+      },
+      {
+        path: "/purchasereturn",
+        element: <PurchaseReturn />,
+      },
+      // Reports Routes
       {
         path: "/salereport",
         element: <Sale />,
@@ -156,6 +154,7 @@ const router = createBrowserRouter([
         element: <HsnReport />,
       },
       { path: "/marketing", element: <Marketing /> },
+
       { path: "*", element: <PageNotFound /> },
     ],
   },
@@ -164,7 +163,7 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
-    <ChakraProvider>
+    <ChakraProvider toastOptions={{ defaultOptions: { position: "top" } }}>
       <RouterProvider router={router} />
     </ChakraProvider>
   </Provider>
