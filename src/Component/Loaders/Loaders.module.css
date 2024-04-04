@@ -54,6 +54,7 @@
   transform: translateY(30px);
   box-sizing: border-box;
   animation: animloader 2s ease infinite;
+  font-family: var(--Rob);
 }
 .loader2::after,
 .loader2::before {
@@ -91,7 +92,7 @@
 }
 
 /******************
-    Loader 1 Css 
+    Loader 3 Css 
 *******************/
 .Loader3Outer {
   width: 100%;
@@ -102,8 +103,11 @@
   align-items: center;
   position: relative;
   justify-content: center;
+  font-family: var(--Rob);
 
   h2 {
+    padding: 0;
+    margin: 0;
     color: var(--pureWhite);
     font-size: 16px;
     font-weight: 400;

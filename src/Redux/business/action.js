@@ -143,26 +143,24 @@ export const UpdateCompanyProfile = async (
   }
 };
 
-export const DeleteCompany = async (dispatch, id, toast) => {
-  dispatch({ type: DELETE_FIRM_LOADING });
+// Delete Firm
+export const DeleteCompany = async (dispatch, firmId, toast) => {
   toast.closeAll();
+  dispatch({ type: DELETE_FIRM_LOADING });
   const token = localStorage.getItem("token");
 
   try {
-    const response = await axios.delete(`${API_URL}/firm_registration/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token} `,
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const response = await axios.delete(
+      `${API_URL}/firm_registration/${firmId}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
 
+    // console.log("Delete Firm Response:", response);
     dispatch({ type: DELETE_FIRM_SUCCESS });
     toast({
-      title: "Company Deleted Successfully",
-      position: "top",
+      title: "Company Deleted",
       status: "success",
     });
-    // console.log(response);
   } catch (error) {
     dispatch({ type: DELETE_FIRM_ERROR });
     toast({
@@ -170,10 +168,9 @@ export const DeleteCompany = async (dispatch, id, toast) => {
         error?.response?.data?.message ||
         error?.response?.data?.msg ||
         "Something Went Wrong!",
-      position: "top",
       status: "error",
     });
-    console.log("error in deketeing :-", error);
+    console.log("Delete Firm Error", error);
   }
 };
 
