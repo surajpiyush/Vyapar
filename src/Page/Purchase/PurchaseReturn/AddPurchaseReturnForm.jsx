@@ -97,7 +97,7 @@ const AddPurchaseReturnForm = ({ setOpenForm }) => {
 
       billNumber: "",
 
-      billDate: new Date(),
+      billDate: new Date().toISOString().split("T")[0],
       time: new Date().toLocaleTimeString("en-US", {
          hour: "2-digit",
          minute: "2-digit",

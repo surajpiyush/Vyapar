@@ -89,7 +89,7 @@ const AddPurchaseBillForm = ({ setOpenForm }) => {
          batchNo: 1,
          modelNo: 123,
          expDate: "2025-02-16",
-         mfgDate: new Date(),
+         mfgDate: new Date().toISOString().split("T")[0],
          customField: "Custom field 1",
          size: "Large",
          serialNo: "SN001",

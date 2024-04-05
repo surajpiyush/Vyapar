@@ -32,7 +32,10 @@ const PaymentOut = () => {
   const dispatch = useDispatch();
   const [openForm, setOpenForm] = useState(false);
   const [toggleSetting, setToggleSetting] = useState(false);
-  const [startDate, setStartDate] = useState("2024-02-01");
+  const currentDate = new Date();
+  const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+  const formattedStartDate = startOfMonth.toISOString().split("T")[0];
+  const [startDate, setStartDate] = useState(formattedStartDate);
   const [endDate, setEndDate] = useState(
     new Date().toISOString().split("T")[0]
   );
