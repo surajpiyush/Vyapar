@@ -1,7 +1,5 @@
 import "./index.css";
 import App from "./App";
-import GSTR1 from "./pages/GSTR1.js";
-import GSTR2 from "./pages/GSTR2.js";
 import GSTR9 from "./pages/GSTR9.js";
 import GSTR3B from "./pages/GSTR3B.js";
 import Home from "./Page/Home/Home.jsx";
@@ -13,6 +11,8 @@ import Sale from "./Page/Reports/Sale/Sale.jsx";
 import AuthPage from "./Page/Auth/AuthPage.jsx";
 import reportWebVitals from "./reportWebVitals";
 import Parties from "./Page/Parties/Parties.jsx";
+import GSTR1 from "./Page/Reports/GSTR1/GSRT1.jsx";
+import GSTR2 from "./Page/Reports/GSTR2/GSTR2.jsx";
 import DayBook from "./Page/Reports/DayBook/DayBook.jsx";
 import CompaniesPage from "./Page/Firm/CompaniesPage.jsx";
 import Purchase from "./Page/Reports/Purchase/Purchase.jsx";

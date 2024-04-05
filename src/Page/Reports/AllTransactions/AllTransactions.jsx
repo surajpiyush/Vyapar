@@ -36,7 +36,6 @@ const AllTransactions = () => {
   const toast = useToast();
   const dispatch = useDispatch();
   let printComponentRef = useRef();
-  const [openForm, setOpenForm] = useState(false);
   const [toggleSetting, setToggleSetting] = useState(false);
   const [transactionData, setTransactionData] = useState([]);
   const [startDate, setStartDate] = useState("2024-02-01");

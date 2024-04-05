@@ -150,9 +150,8 @@
   background-color: var(--blueA);
 }
 
-
 @media print {
   .navOuterDiv {
     display: none;
   }
-} 
+}

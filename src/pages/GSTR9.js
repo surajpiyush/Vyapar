@@ -1,17 +1,35 @@
-import GSTRHearder from "../components/GSTRHearder";
+import { USER_DETAILS } from "../Redux/store";
+import ReportUpperControlPanel from "../Component/UpperControlPanel/ReportUpperControlPanel";
 
 import { useState } from "react";
 
 const GSTR9 = () => {
   const [isChecked, setIsChecked] = useState(false);
-  const companyName = JSON.parse(localStorage.getItem("USER_DETAILS"))?.companyName;
+  const [nonTaxExempted, setNonTaxExempted] = useState(false);
+  const [startDate, setStartDate] = useState("2024-02-01");
+  const [endDate, setEndDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
+  const companyName = JSON.parse(
+    localStorage.getItem(USER_DETAILS)
+  )?.companyName;
   const check = () => {
     setIsChecked(!isChecked);
   };
 
   return (
     <div>
-      <GSTRHearder isChecked={isChecked} check={check} data={['Nothing to download']} />
+      <ReportUpperControlPanel
+        title="GSTR9 REPORT"
+        startDate={startDate}
+        setStartDate={setStartDate}
+        endDate={endDate}
+        setEndDate={setEndDate}
+        nonTaxExempted={nonTaxExempted}
+        setNonTaxExempted={setNonTaxExempted}
+        showJson={false}
+        data={["Nothing to download"]}
+      />
       <div>
         <div>
           <span

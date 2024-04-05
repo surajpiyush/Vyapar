@@ -92,6 +92,7 @@
 }
 ::-webkit-scrollbar {
   width: 6px;
+  height: 6px;
 }
 
 /***************
@@ -119,5 +120,6 @@
 }
 .outletOuterDiv {
   flex-grow: 1;
-  /* overflow: hidden; */
+  border-top: 1px solid var(--greyF);
+  overflow: hidden;
 }

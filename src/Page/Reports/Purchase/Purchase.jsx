@@ -63,7 +63,6 @@ const Purchase = () => {
   const SingleInvoiceData = useSelector(
     (store) => store.SalesReducer.SingleInvoiceData
   );
-  const [confirmModel, setConfirmModel] = useState(true);
 
   //   This useEffect is written to get all items data to extract item names ********************************
   useEffect(() => {

@@ -1,0 +1,149 @@
+.Outer {
+  width: 100%;
+  min-height: 100%;
+  max-height: 100%;
+  background-color: var(--pureWhite);
+  padding: 10px;
+}
+
+/* Toggle Section Css */
+.navOuter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--greyF);
+  height: 45px;
+}
+.navOptions {
+  text-align: center;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: var(--Rob);
+  font-weight: 600;
+  height: 100%;
+  transition: all 0.25s ease;
+}
+
+/****************
+  ** Content Css **
+  *****************/
+.ContentOuter {
+  width: 82.7vw;
+  display: flex;
+  flex-direction: column;
+  margin: 10px auto 0px;
+  background: var(--pureWhite);
+  height: 60vh;
+  overflow: auto;
+}
+.contentTableOuterDiv {
+  width: 100%;
+  flex-grow: 1;
+  font-family: var(--Rob);
+
+  table {
+    width: 100%;
+  }
+  table thead {
+    background: var(--greyF);
+  }
+  table thead th div {
+    cursor: default;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 0px 5px;
+    white-space: nowrap;
+    color: var(--greyA);
+  }
+  .upperTableHeader {
+    text-align: center;
+    div {
+      height: 37.5px;
+      display: grid;
+      place-content: center;
+      place-items: center;
+    }
+  }
+  .lowerTableHeader {
+    div {
+      height: 37.5px;
+      border: 1px solid var(--greyC);
+      min-width: 170px;
+    }
+  }
+  table tbody td {
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    border: 0.5px solid var(--greyC);
+    font-size: 13px;
+    font-weight: 500;
+    height: 37.5px;
+    padding: 5px;
+    color: var(--ShadowStone);
+  }
+}
+.actionDivContent {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: fit-content;
+  margin: auto;
+
+  svg {
+    cursor: pointer;
+    color: var(--greyD);
+    transition: all 0.25s ease;
+  }
+  svg:hover {
+    color: var(--DeepBluishGrey);
+  }
+}
+.noDataDiv {
+  font-family: var(--Rob);
+  width: 100%;
+  min-height: 80%;
+  display: grid;
+  place-content: center;
+  place-items: center;
+  cursor: default;
+
+  p {
+    padding: 0;
+    margin: 0;
+    font-size: 13.5px;
+    font-weight: 400;
+    color: var(--greyA);
+  }
+}
+
+/* ============ */
+@media print {
+  .TableOuter {
+    width: 100%;
+    overflow-x: auto;
+    rotate: 90;
+    border: 1px solid blue;
+    page-break-inside: avoid;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  tbody,
+  thead {
+    border: 1px solid rgb(255, 0, 0);
+    padding: 8px;
+  }
+}

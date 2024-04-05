@@ -1,0 +1,142 @@
+.topNavOuter {
+  width: 100%;
+  background: var(--pureWhite);
+  border-radius: 6px;
+  font-family: var(--Rob);
+}
+/* Upper Css */
+.navTopADiv {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 15px 20px;
+}
+.leftSideUpperPart {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+.navFirmsSelectTag {
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 0px 7.5px;
+  height: 25px;
+  color: var(--blueB);
+  background: var(--greyishBlue);
+  box-shadow: var(--shadowF);
+  font-size: 11.5px;
+  font-weight: 500;
+}
+.inpContDiv {
+  cursor: default;
+  display: flex;
+  background: var(--greyishBlue);
+  border: 0.5px solid var(--mistyGrey);
+  gap: 5px;
+  overflow: hidden;
+  border-radius: 4px;
+  padding: 7.5px 12.5px;
+
+  > p:nth-of-type(1) {
+    cursor: default;
+    padding: 0;
+    margin: 0;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--greyD);
+    white-space: nowrap;
+  }
+  input {
+    background: transparent;
+    cursor: pointer;
+    color: var(--greyD);
+    font-size: 12.5px;
+    font-weight: 400;
+    width: 100px;
+    padding-bottom: 6px;
+    border-bottom: 0.5px solid var(--greyE);
+  }
+  input:focus {
+    outline: none;
+  }
+}
+.rightSideUpperPart {
+  display: flex;
+  align-items: center;
+  gap: 17.5px;
+}
+.rightSideUpperPart div {
+  cursor: pointer;
+  display: grid;
+  place-content: center;
+  place-items: center;
+  box-shadow: var(--shadowG);
+  background: var(--pureWhite);
+  transition: all 0.25s ease;
+  border-radius: 50%;
+  padding: 7.5px;
+
+  svg {
+    margin: auto;
+    font-size: 18px;
+  }
+}
+.jsonIconDiv {
+  svg {
+    color: var(--VividOrange);
+  }
+}
+.excelIconDiv {
+  svg {
+    color: var(--EmeraldGreen);
+  }
+}
+.printIconDiv {
+  svg {
+    color: var(--blueA);
+  }
+}
+
+/* Lower Css */
+.navTopBDiv {
+  /* max-width: 95%; */
+  cursor: default;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7.5px 20px 15px;
+
+  > p:nth-of-type(1) {
+    cursor: default;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--DeepBluishGrey);
+    white-space: nowrap;
+  }
+}
+.checkBoxInpDiv {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+
+  label {
+    cursor: default;
+    padding: 0;
+    margin: 0;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--DeepBluishGrey);
+    white-space: nowrap;
+  }
+
+  input {
+    cursor: pointer;
+    width: 17.5px;
+    height: 17.5px;
+  }
+}
