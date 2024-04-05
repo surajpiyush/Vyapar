@@ -16,6 +16,7 @@ const salesSlice = createSlice({
     // INVOICE
     toggleSalesSuccess: false,
     invoicesList: [],
+    toggleGetAllSalesDataSuccess: false,
 
     // ESTIMATES
     toggleEstimates: false,
@@ -77,6 +78,7 @@ const salesSlice = createSlice({
     GET_SALES_INVOICE_SUCCESS: (state, action) => {
       state.isLoading = false;
       state.invoicesList = action.payload;
+      state.toggleGetAllSalesDataSuccess = !state.toggleGetAllSalesDataSuccess;
     },
     DELETE_SALES_INVOICE_SUCCESS: (state, action) => {
       const updatedinvoicesList = state.invoicesList.filter(

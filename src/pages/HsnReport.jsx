@@ -1,6 +1,5 @@
 import css from "../styles/reportsStyles/hsnReportStyles.module.css";
-import SaleDashboardHeader from "../components/SaleDashboardHeader";
-import { getSaleReport } from "../Redux/report/action";
+import { GetSaleReport } from "../Redux/report/action";
 
 import * as XLSX from "xlsx";
 import { VscGraph } from "react-icons/vsc";
@@ -20,6 +19,9 @@ const HsnReport = () => {
   const totalSaleTaxReturn = useSelector(
     (state) => state.ReportReducer.totalSaleTaxReturn
   );
+  const toggleSalesSuccess = useSelector(
+    (state) => state.SalesReducer.toggleSalesSuccess
+  );
   const saleReturnArr = useSelector(
     (state) => state.ReportReducer.saleReportData.getSaleReturn
   );
@@ -36,12 +38,13 @@ const HsnReport = () => {
 
   // for fetching report data
   useEffect(() => {
-    dispatch(getSaleReport({ date: { startDate, endDate } }));
-  }, [startDate, endDate]);
+    GetSaleReport(dispatch, startDate, endDate);
+    // dispatch(getSaleReport({ date: { startDate, endDate } }));
+  }, [toggleSalesSuccess, startDate, endDate]);
 
   // for fetching the array data after getting a successfull response
   useEffect(() => {
-    if (saleReturnArr && saleInvoiceArr ) {
+    if (saleReturnArr && saleInvoiceArr) {
       setData([...saleReturnArr, ...saleInvoiceArr]);
     }
   }, [isLoading]);
