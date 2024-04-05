@@ -1,6 +1,7 @@
 import css from "./Items.module.css";
 import AddItemForm from "./AddItemForm";
 import party from "../../assets/Images/party.jpg";
+import Loader3 from "../../Component/Loaders/Loader3";
 import Setting from "../../Component/Setting/Setting";
 import UnitForm from "../../components/addForm/UnitForm";
 import UnitsTable from "../../components/TableData/UnitsTable";
@@ -13,17 +14,19 @@ import {
   GetAllCategories,
   GetAllItems,
   GetAllUnits,
-  getitems,
 } from "../../Redux/items/actions";
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Loader3 from "../../Component/Loaders/Loader3";
 
 export default function Items() {
   const dispatch = useDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [adjustItem, setAdjustItem] = useState(false);
-  const [currPage, setCurrPage] = useState("PRODUCTS");
+  const [currPage, setCurrPage] = useState(
+    searchParams.get("true") || "PRODUCTS"
+  );
   const [showUnitForm, setShowUnitForm] = useState(false);
   const [toggleSetting, setToggleSetting] = useState(false);
   const [showAddItemForm, setShowAddItemForm] = useState(false);
@@ -68,6 +71,10 @@ export default function Items() {
   useEffect(() => {
     GetAllUnits(dispatch);
   }, [newUnitAddedToggle]);
+
+  useEffect(() => {
+    setSearchParams({ true: currPage });
+  }, [currPage]);
 
   return (
     <div>

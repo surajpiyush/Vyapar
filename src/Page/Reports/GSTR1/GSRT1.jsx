@@ -6,16 +6,20 @@ import ReportUpperControlPanel from "../../../Component/UpperControlPanel/Report
 import { GetSaleReport } from "../../../Redux/report/action";
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 const GSRT1 = () => {
   const dispatch = useDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
   const isLoading = useSelector((store) => store.ReportReducer.isLoading);
   const saleData = useSelector((store) => store.ReportReducer.saleReportData);
   const saleReturnData = useSelector(
     (store) => store.ReportReducer.saleReturnData
   );
-  const [currSection, setCurrSection] = useState("Sale");
+  const [currSection, setCurrSection] = useState(
+    searchParams.get("true") || "Sale"
+  );
   const [nonTaxExempted, setNonTaxExempted] = useState(false);
   const [startDate, setStartDate] = useState("2024-02-01");
   const [endDate, setEndDate] = useState(
@@ -26,6 +30,10 @@ const GSRT1 = () => {
   useEffect(() => {
     GetSaleReport(dispatch, startDate, endDate);
   }, [startDate, endDate]);
+
+  useEffect(() => {
+    setSearchParams({ true: currSection });
+  }, [currSection]);
 
   return isLoading ? (
     <Loader3

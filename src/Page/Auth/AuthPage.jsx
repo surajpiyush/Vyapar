@@ -4,7 +4,7 @@ import { API_URL } from "../../Redux/store";
 
 import axios from "axios";
 import { useToast } from "@chakra-ui/react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { IoLockOpenOutline as PasswordIcon } from "react-icons/io5";
 import { MdOutlineMailOutline as MailIcon } from "react-icons/md";
@@ -16,7 +16,6 @@ const backGroundImg =
 
 const AuthPage = () => {
   const toast = useToast();
-  const location = useLocation();
   const navigate = useNavigate();
   const [showRegister, setShowRegister] = useState(false);
   const [states, setStates] = useState({
