@@ -2,7 +2,7 @@ import css from "../../../styles/SalesStyles/SalesForms.module.css";
 import FormItemsRowTable from "../../../Component/FormItemsRowTable";
 import { GetAllItems } from "../../../Redux/items/actions";
 import { FetchAllParties } from "../../../Redux/parties/actions";
-import { PostEstimates } from "../../../Redux/sales/action";
+import { PostEstimates, generateInvoiceNumber } from "../../../Redux/sales/action";
 
 import { useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
@@ -43,38 +43,7 @@ const EstimateForm = ({ setOpenForm, setToggleSetting }) => {
    const [topMarginAddDescInp, setTopMarginAddDescInp] = useState("0px");
    const [stateChanged, setStateChanged] = useState(false);
 
-   function generateInvoiceNumber() {
-      const currentDate = new Date();
-      const previousYear = (currentDate.getFullYear() - 1).toString().slice(-2);
-      const monthNames = [
-         "jan",
-         "fev",
-         "mar",
-         "apr",
-         "may",
-         "jun",
-         "jul",
-         "aug",
-         "sep",
-         "oct",
-         "nov",
-         "dec",
-      ];
-      const monthIndex = currentDate.getMonth();
-      const month = monthNames[monthIndex];
-      const hours = currentDate.getHours();
-      const minutes = currentDate.getMinutes();
-      const date = currentDate.getDate();
-      const sec = currentDate.getSeconds();
-
-      // Format the invoice number
-      const invoiceNumber = `${date}.${hours}.${minutes}.${sec}/${month}/${previousYear}${
-         Number(previousYear) + 1
-      }`;
-
-      return invoiceNumber;
-   }
-
+   
    const [tableRowsArr, setTableRowsArr] = useState([
       {
          itemName: "",
@@ -93,7 +62,7 @@ const EstimateForm = ({ setOpenForm, setToggleSetting }) => {
       type: "Estimate",
       status: "Pending",
       customerName: "",
-      refNo: estimatesList.length + 1,
+      refNo: generateInvoiceNumber(true),
       invoiceDate: new Date().toISOString().split("T")[0],
       stateOfSupply: "",
       priceUnitWithTax: false,
@@ -206,7 +175,7 @@ const EstimateForm = ({ setOpenForm, setToggleSetting }) => {
       setOpenForm(false);
       setToggleSetting(true);
    };
-
+console.log(estimateData?.refNo)
    return (
       <form onSubmit={handleSubmit} className={css.formOuter}>
          {showItemForm && <AddItemForm CloseForm={setShowAddItemsForm} />}

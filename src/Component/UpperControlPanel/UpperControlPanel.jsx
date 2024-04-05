@@ -281,22 +281,35 @@ const UpperControlPanel = ({
             <option value="This Year">This Year</option>
             <option value="Custom">Custom</option>
           </select>
-          <div className={css.divContainingDateInps}>
-            <h3>Between</h3>
-            <div>
-              <input
-                type="date"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-              />
-              <p>To</p>
-              <input
-                type="date"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-              />
+          {window.location.pathname !== "/daybookreport" ? (
+            <div className={css.divContainingDateInps}>
+              <h3>Between</h3>
+              <div>
+                <input
+                  type="date"
+                  value={endDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                />
+                <p>To</p>
+                <input
+                  type="date"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                />
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className={css.divContainingDateInps}>
+              <h3>Select The Day</h3>
+              <div>
+                <input
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                />
+              </div>
+            </div>
+          )}
           <select defaultValue="ALL FIRMS" className={css.navFirmsSelectTag}>
             <option value="ALL FIRMS">ALL FIRMS</option>
           </select>

@@ -106,7 +106,7 @@ export const reducer = (
       return {
         ...state,
         dayBookData: payload,
-        toggleGetDayBooksSuccess: false,
+        toggleGetDayBooksSuccess: !state.toggleGetDayBooksSuccess,
         isLoading: false,
       };
     }

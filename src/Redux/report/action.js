@@ -70,18 +70,18 @@ export const GetPurchaseReport = async (dispatch, startDate, endDate) => {
 };
 
 // Get All DayBooks
-export const GetDayBooks = async (dispatch, startDate, endDate) => {
+export const GetDayBooks = async (dispatch, date) => {
   dispatch({ type: REPORT_REQUEST });
   const token = localStorage.getItem("token");
   const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
   try {
     const response = await axios.get(
-      `${API_URL}/${firmId}/transctionReport/dayBookReport?startDate=${startDate}&endDate=${endDate}`,
+      `${API_URL}/${firmId}/transctionReport/dayBookReport?date=${date}`,
       { headers: { Authorization: `Bearer ${token} ` } }
     );
 
-    //console.log("Getting All DayBooks Response:", response?.data?.data);
+    console.log("Getting All DayBooks Response:", response?.data?.data);
     dispatch({
       type: GET_DAYBOOK_SUCCESS,
       payload: response?.data?.data || [],

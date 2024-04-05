@@ -60,39 +60,7 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
   const [confirmModel, setConfirmModel] = useState(false);
   const [temp, setTemp] = useState("");
   const [stateChanged,setStateChanged] = useState(false)
-  function generateInvoiceNumber() {
-    const currentDate = new Date();
-    const monthNames = [
-      "JAN",
-      "FEB",
-      "MAR",
-      "APR",
-      "MAY",
-      "JUN",
-      "JUL",
-      "AUG",
-      "SEP",
-      "OCT",
-      "NOV",
-      "DEC",
-    ];
-    const monthIndex = currentDate.getMonth();
-    const month = monthNames[monthIndex];
-    const previousYear =
-      monthIndex < 3
-        ? (currentDate.getFullYear() - 1).toString().slice(-2)
-        : currentDate.getFullYear().toString().slice(-2);
-    const hours = currentDate.getHours();
-    const minutes = currentDate.getMinutes();
-    const date = currentDate.getDate();
-    const sec = currentDate.getSeconds();
-    // Format the invoice number
-    const invoiceNumber = `${date}${hours}${minutes}${sec}/${month}/${previousYear}-${
-      Number(previousYear) + 1
-    }`;
-
-    return invoiceNumber;
-  }
+  
 
   // Example usage
   //   const invoiceNumber = generateInvoiceNumber();
