@@ -3,7 +3,7 @@ import AddItemForm from "../../../Page/Items/AddItemForm";
 import FormItemsRowTable from "../../../Component/FormItemsRowTable";
 import { GetAllItems } from "../../../Redux/items/actions";
 import { FetchAllParties } from "../../../Redux/parties/actions";
-import { PostDeliveryChallan } from "../../../Redux/sales/action";
+import { PostDeliveryChallan, generateInvoiceNumber } from "../../../Redux/sales/action";
 
 import { useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
@@ -44,38 +44,7 @@ const FormDeliveryChallan = ({ setOpenForm, setToggleSetting }) => {
   const [showItemForm, setShowAddItemsForm] = useState(false);
   const [balanceAmount, setBalanceAmount] = useState("");
   const [stateChanged,setStateChanged] = useState(false)
-
-  function generateChallanNumber() {
-    const currentDate = new Date();
-    const previousYear = (currentDate.getFullYear() - 1).toString().slice(-2);
-    const monthNames = [
-      "JAN",
-      "FEB",
-      "MAR",
-      "APR",
-      "MAY",
-      "JUN",
-      "JUL",
-      "AUG",
-      "SEP",
-      "OCT",
-      "NOV",
-      "DEC",
-    ];
-    const monthIndex = currentDate.getMonth();
-    const month = monthNames[monthIndex];
-    const hours = currentDate.getHours();
-    const minutes = currentDate.getMinutes();
-    const date = currentDate.getDate();
-    const sec = currentDate.getSeconds();
-
-    // Format the invoice number
-    const challanNumber = `${date}${hours}${minutes}${sec}/${month}/${previousYear}-${
-      Number(previousYear) + 1
-    }`;
-
-    return challanNumber;
-  }
+      
 
   const [tableRowsArr, setTableRowsArr] = useState([
     {
@@ -98,7 +67,7 @@ const FormDeliveryChallan = ({ setOpenForm, setToggleSetting }) => {
     billingName: "",
     phoneNumber: "",
     billingAddress: "",
-    challanNumber: generateChallanNumber(),
+    challanNumber: generateInvoiceNumber(),
     invoiceDate: new Date().toISOString().split("T")[0],
     dueDate: new Date().toISOString().split("T")[0],
     stateOfSupply: "",
@@ -329,7 +298,7 @@ const FormDeliveryChallan = ({ setOpenForm, setToggleSetting }) => {
             <div>
               <p>Challan No.</p>
               <input
-                type="number"
+                // type="number"
                 name="challanNumber"
                 value={orderData?.challanNumber}
                 onChange={handleInputChange}
