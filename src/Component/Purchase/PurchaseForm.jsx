@@ -77,7 +77,7 @@ const PurchaseForm = ({
          itemName: itemDetail?._id,
          mainName: itemDetail?.itemName,
          taxPersant: itemDetail?.taxRate.split("%")[0] || "",
-         qty: itemDetail?.stock?.openingQuantity || 0,
+         // qty: itemDetail?.stock?.openingQuantity || 0,
          priceUnit: itemDetail?.stock?.atPrice || 0,
          unit: itemDetail?.seleteUnit?.baseUnit || "",
          itemHsn: itemDetail?.itemHsn || "",
@@ -177,7 +177,8 @@ const PurchaseForm = ({
                               handleMenuItemClick(foundItem);
                            }}
                         >
-                           {foundItem?.itemName}
+                           {foundItem?.itemName}{" "}(
+                           {foundItem?.stock?.openingQuantity})
                         </MenuItem>
                      ))}
                </MenuList>

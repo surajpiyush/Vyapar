@@ -250,7 +250,8 @@ const AddPurchaseForm = memo(
                                  setShowItemsListMenu(false);
                               }}
                            >
-                              {itemList?.itemName}
+                              {itemList?.itemName}{"  "}
+                              ({itemList?.stock?.openingQuantity})
                            </MenuItem>
                         ))}
                   </MenuList>
@@ -297,7 +298,7 @@ const AddPurchaseForm = memo(
                      type="number"
                      className={css.tableInputs}
                      name="count"
-                     // value={item?.count}
+                     value={item?.count}
                      onChange={(e) => handleTableInputChange(e, ind)}
                      placeholder="0"
                   /> 
@@ -308,7 +309,7 @@ const AddPurchaseForm = memo(
                   required
                   type="number"
                   name="qty"
-                  value={item?.qty}
+                  // value={item?.qty}
                   onChange={(e) => handleTableInputChange(e, ind)}
                   placeholder="0"
                   className={css.tableInputs}
