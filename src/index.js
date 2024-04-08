@@ -1,12 +1,11 @@
 import "./index.css";
 import App from "./App";
-import GSTR9 from "./pages/GSTR9.js";
-// import GSTR3B from "./pages/GSTR3B.js";
+import GSTR9 from "./Page/Reports/GSTR9/GSTR9.jsx";
 import GSTR3B from "./Page/Reports/GSTR3B/GSTR3B.jsx";
 import Home from "./Page/Home/Home.jsx";
 import Items from "./Page/Items/Items.jsx";
-import Marketing from "./pages/Marketing.jsx";
 import Sale from "./Page/Reports/Sale/Sale.jsx";
+import Marketing from "./Page/Marketing/Marketing.jsx";
 import SaleHSN from "./Page/Reports/SaleHSN/SaleHSN.jsx";
 import CashFlow from "./Page/Reports/CashFlow/CashFlow.jsx";
 import AuthPage from "./Page/Auth/AuthPage.jsx";
@@ -154,6 +153,7 @@ const router = createBrowserRouter([
         path: "/salehsnreport",
         element: <SaleHSN />,
       },
+      // Marketing
       { path: "/marketing", element: <Marketing /> },
 
       { path: "*", element: <NotFoundPage /> },

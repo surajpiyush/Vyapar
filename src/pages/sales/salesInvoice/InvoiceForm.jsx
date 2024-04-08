@@ -144,11 +144,10 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
       ...invoiceData,
       priceUnitWithTax: invoiceData?.priceUnitWithTax == "true",
       sale: tableRowsArr,
-      // balance: Number(balanceAmount) ? Number(balanceAmount) : balanceAmount,
-      balance: Number(balanceAmount) ? Number(balanceAmount) : balanceAmount,
+      balance: toggleRoundOff ? balanceAmount : balanceAmount.toFixed(),
       total: toggleRoundOff
-        ? Math.round(rowFooterData?.totalAmount)
-        : rowFooterData?.totalAmount,
+        ? Math.round(Number(rowFooterData?.totalAmount))
+        : Number(rowFooterData?.totalAmount)?.toFixed(2),
       paymentType: paymentArr,
       // paymentType: [
       //   { types: paymentTypeSelectTag, amount: 0 },
@@ -165,7 +164,7 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
     setConfirmModel(true);
     setTemp(data);
 
-    // PostSalesInvoice(dispatch, data, setOpenForm, toast);
+    PostSalesInvoice(dispatch, data, setOpenForm, toast);
     console.log("invoiceData", data);
   };
 
@@ -753,8 +752,8 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
                   placeholder="0"
                   value={
                     toggleRoundOff
-                      ? rowFooterData.totalAmount -
-                        Math.round(rowFooterData.totalAmount)
+                      ? rowFooterData?.totalAmount -
+                        Math.round(rowFooterData?.totalAmount)
                       : ""
                   }
                   disabled

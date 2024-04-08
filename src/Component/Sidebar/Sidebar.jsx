@@ -302,6 +302,7 @@ const SidebarItems = [
     icon: <WhatsAppOutlineIcon />,
     name: "WhatsApp Marketing",
     rightSideIcon: "whtsAppMarketing",
+    to: "/marketing",
   },
   {
     icon: <BackupRestoreIcon />,
