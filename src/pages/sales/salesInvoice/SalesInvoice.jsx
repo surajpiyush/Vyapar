@@ -36,32 +36,40 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function SalesInvoice() {
-   const toast = useToast();
-   const dispatch = useDispatch();
-   let printComponentRef = useRef();
-   const [isEditing, setIsEditing] = useState(false);
-   const [editedData, setEditedData] = useState(null);
-   const [openForm, setOpenForm] = useState(false);
-   const [toggleSetting, setToggleSetting] = useState(false);
-   const currentDate = new Date();
-   const startOfMonth = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth(),
-      1
-   );
-   const formattedStartDate = startOfMonth.toISOString().split("T")[0];
-   const [startDate, setStartDate] = useState(formattedStartDate);
-   const [endDate, setEndDate] = useState(
-      new Date().toISOString().split("T")[0]
-   );
-   const [paidAmount, setPaidAmount] = useState(0);
-   const [unpaidAmount, setUnpaidAmount] = useState(0);
-   const toggleSalesSuccess = useSelector(
-      (state) => state.SalesReducer.toggleSalesSuccess
-   );
-   const isLoading = useSelector((state) => state.SalesReducer.isLoading);
-   const toggleItems = useSelector((state) => state.ItemReducer.toggleItems);
-   const invoicesList = useSelector((state) => state.SalesReducer.invoicesList);
+  const toast = useToast();
+  const dispatch = useDispatch();
+  let printComponentRef = useRef();
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedData, setEditedData] = useState(null);
+  const [openForm, setOpenForm] = useState(false);
+  const [toggleSetting, setToggleSetting] = useState(false);
+  const currentDate = new Date();
+  const startOfMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    1
+  );
+  const formattedStartDate = startOfMonth.toISOString().split("T")[0];
+  const [startDate, setStartDate] = useState(formattedStartDate);
+  const [endDate, setEndDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
+  const [paidAmount, setPaidAmount] = useState(0);
+  const [unpaidAmount, setUnpaidAmount] = useState(0);
+  const toggleSalesSuccess = useSelector(
+    (state) => state.SalesReducer.toggleSalesSuccess
+  );
+  const isLoading = useSelector((state) => state.SalesReducer.isLoading);
+  const toggleItems = useSelector((state) => state.ItemReducer.toggleItems);
+  const invoicesList = useSelector((state) => state.SalesReducer.invoicesList);
+
+  
+
+  //   This useEffect is written to get all items data to extract item names ********************************
+  useEffect(() => {
+    GetAllItems(dispatch);
+  }, [toggleItems]);
+  // ********************************************************************************8
 
    const loadingSingleInvoice = useSelector(
       (state) => state.SalesReducer.loadingSingleInvoice
@@ -100,6 +108,10 @@ export default function SalesInvoice() {
    useEffect(() => {
       GetAllSalesInvoice(dispatch, startDate, endDate);
    }, [toggleSalesSuccess, startDate, endDate]);
+  useEffect(() => {
+    console.log("invoicesList", invoicesList);
+  }, [invoicesList]);
+
 
    const formOpen = () => {
       setOpenForm(true);

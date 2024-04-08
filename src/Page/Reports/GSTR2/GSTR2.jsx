@@ -21,13 +21,13 @@ const GSTR2 = () => {
     new Date().toISOString().split("T")[0]
   );
 
-  //   Report sale/saleReturn Data
+  // fetch gstr2 Data
   useEffect(() => {
     GetPurchaseReport(dispatch, startDate, endDate);
   }, [startDate, endDate]);
 
   return isLoading ? (
-    <Loader3 text={`Loading GSTR2`} />
+    <Loader3 text="Loading GSTR2" />
   ) : (
     <div className={css.Outer}>
       {/* Upper Control Panel */}
@@ -43,6 +43,7 @@ const GSTR2 = () => {
         data={purchaseReportData}
       />
 
+      {/* Content */}
       <div className={css.ContentOuter}>
         <div className={css.contentTableOuterDiv}>
           <table>
