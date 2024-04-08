@@ -55,7 +55,7 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
   const [activeRowIndex, setActiveRowIndex] = useState(0);
   const [rowFooterData, setRowFooterData] = useState({});
   const [showItemForm, setShowAddItemsForm] = useState(false);
-  const [balanceAmount, setBalanceAmount] = useState("");
+  const [balanceAmount, setBalanceAmount] = useState(0);
   const [paymentArr, setPaymentArr] = useState([{ types: "Cash", amount: 0 }]);
   const [confirmModel, setConfirmModel] = useState(false);
   const [temp, setTemp] = useState("");
@@ -144,7 +144,8 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
       ...invoiceData,
       priceUnitWithTax: invoiceData?.priceUnitWithTax == "true",
       sale: tableRowsArr,
-      balance: balanceAmount,
+      // balance: Number(balanceAmount) ? Number(balanceAmount) : balanceAmount,
+      balance: Number(balanceAmount) ? Number(balanceAmount) : balanceAmount,
       total: toggleRoundOff
         ? Math.round(rowFooterData?.totalAmount)
         : rowFooterData?.totalAmount,
@@ -164,8 +165,8 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
     setConfirmModel(true);
     setTemp(data);
 
-    PostSalesInvoice(dispatch, data, setOpenForm, toast);
-    // console.log("invoiceData", data);
+    // PostSalesInvoice(dispatch, data, setOpenForm, toast);
+    console.log("invoiceData", data);
   };
 
   // for fetching all parties list on form mount
@@ -373,7 +374,6 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
                 onChange={handleInputChange}
                 className={css.input}
                 style={{ height: "110px", width: "230px" }}
-                required
               />
               <label
                 htmlFor=""

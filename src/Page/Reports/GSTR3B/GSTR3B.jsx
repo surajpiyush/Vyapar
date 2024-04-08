@@ -150,7 +150,7 @@ const GSTR3B = () => {
             charge
           </p>
 
-          <table className={css.contentTableOuterDiv}>
+          <table className={css.reportTableCss}>
             <thead>
               <tr>
                 {[
@@ -200,7 +200,7 @@ const GSTR3B = () => {
             composition dealer and UIN holders
           </p>
 
-          <table className={css.contentTableOuterDiv}>
+          <table className={css.reportTableCss}>
             <thead>
               <tr>
                 {table2UpperHead?.map((headerItem, headerInd) => (
@@ -250,7 +250,7 @@ const GSTR3B = () => {
         <div className={css.childContentParentDiv}>
           <p>3. Details of eligible Input Tax Credit</p>
 
-          <table className={css.contentTableOuterDiv}>
+          <table className={css.reportTableCss}>
             <thead>
               <tr>
                 {table3Head?.map((headerItem, headerInd) => (
@@ -394,7 +394,7 @@ const GSTR3B = () => {
         <div className={css.childContentParentDiv}>
           <p>4. Details of exempt, nil-rated and non-GST inward supplies</p>
 
-          <table className={css.contentTableOuterDiv}>
+          <table className={css.reportTableCss}>
             <thead>
               <tr>
                 {table3Head?.map((headerItem, headerInd) => (
