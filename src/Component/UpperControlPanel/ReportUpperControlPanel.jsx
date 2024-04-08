@@ -157,8 +157,8 @@ const ReportUpperControlPanel = ({
             "",
             "",
             "",
-            b2bData.reduce((acc, row) => acc + (row[11] || 0), 0), // Total taxable value (index 11)
-            b2bData.reduce((acc, row) => acc + (row[12] || 0), 0), // Total cess (index 12)
+            b2bData.reduce((acc, row) => acc + (row[11] || 0), 0),
+            b2bData.reduce((acc, row) => acc + Number(row[12] || 0), 0),
           ],
           [],
           [
@@ -208,8 +208,8 @@ const ReportUpperControlPanel = ({
             "",
             "",
             "",
-            b2cData.reduce((acc, row) => acc + (row[11] || 0), 0), // Total taxable value (index 11)
-            b2cData.reduce((acc, row) => acc + (row[12] || 0), 0), // Total cess (index 12)
+            b2cData.reduce((acc, row) => acc + (row[11] || 0), 0),
+            b2cData.reduce((acc, row) => acc + Number(row[12] || 0), 0),
           ],
           [""],
           [
@@ -267,7 +267,25 @@ const ReportUpperControlPanel = ({
         const exemp = XLSX.utils.aoa_to_sheet([
           ["Summary For Nil rated,"],
           ["exempted and non GST outward supplies (8)"],
-          ["", "Total Nill Value", "Total Css", ""],
+          [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "Total Nill Value",
+            "Total Css",
+            "",
+          ],
+          ["", "", "", "", "", "", "", "", "", "", "", "", "0", "0", ""],
+
           [""],
           [
             "Status",
@@ -360,7 +378,7 @@ const ReportUpperControlPanel = ({
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
               >
-                {generateOptions()}
+                {generateFinancialYearOptions()}
               </select>
             </div>
           ) : (
@@ -435,7 +453,7 @@ const ReportUpperControlPanel = ({
 
 export default ReportUpperControlPanel;
 
-const generateOptions = () => {
+const generateFinancialYearOptions = () => {
   const currentYear = new Date().getFullYear();
   const options = [];
   for (let i = 1; i <= 6; i++) {
