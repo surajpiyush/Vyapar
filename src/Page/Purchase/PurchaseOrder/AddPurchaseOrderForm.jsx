@@ -308,7 +308,7 @@ const AddPurchaseOrderForm = ({ setOpenForm }) => {
          taxPersant: stateChanged
             ? `I${itemDetail?.taxRate.split("%")[0] || ""}`
             : itemDetail?.taxRate.split("%")[0] || "",
-         qty: Number(itemDetail?.stock?.openingQuantity) || 0,
+         // qty: Number(itemDetail?.stock?.openingQuantity) || 0,
          priceUnit: itemDetail?.stock?.atPrice || 0,
          unit: itemDetail?.seleteUnit?.baseUnit || "",
          hsnCode: itemDetail?.itemHsn || "",
