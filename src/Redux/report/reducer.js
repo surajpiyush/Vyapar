@@ -30,10 +30,15 @@ const initialState = {
   allTransactionsData: [],
   toggleGetAllTransactionsSuccess: false,
 
+  // Cash Flow
+  allCashFlowData: [],
+
+  // Sale HSN
   totalSaleTax: 0,
+  totalSaleTaxReturn: 0,
+
   integratedTax: 0,
   cessTax: 0,
-  totalSaleTaxReturn: 0,
   integratedTaxReturn: 0,
   cessTaxReturn: 0,
 
@@ -75,11 +80,11 @@ export const reducer = (
         saleReportData: payload?.getSale || [],
         saleReturnData: payload?.getSaleReturn || [],
         isLoading: false,
-
         totalSaleTax: tax,
+        totalSaleTaxReturn: Rtax,
+
         integratedTax: integratedTax,
         cessTax: cess,
-        totalSaleTaxReturn: Rtax,
         integratedTaxReturn: RintegratedTax,
         cessTaxReturn: Rcess,
         purchasetotalSaleTax: purchasetax,

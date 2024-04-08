@@ -4,10 +4,10 @@ import GSTR9 from "./pages/GSTR9.js";
 import GSTR3B from "./pages/GSTR3B.js";
 import Home from "./Page/Home/Home.jsx";
 import Items from "./Page/Items/Items.jsx";
-import CashFlow from "./pages/CashFlow.js";
-import HsnReport from "./pages/HsnReport.jsx";
 import Marketing from "./pages/Marketing.jsx";
 import Sale from "./Page/Reports/Sale/Sale.jsx";
+import SaleHSN from "./Page/Reports/SaleHSN/SaleHSN.jsx";
+import CashFlow from "./Page/Reports/CashFlow/CashFlow.jsx";
 import AuthPage from "./Page/Auth/AuthPage.jsx";
 import reportWebVitals from "./reportWebVitals";
 import Parties from "./Page/Parties/Parties.jsx";
@@ -151,7 +151,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/salehsnreport",
-        element: <HsnReport />,
+        element: <SaleHSN />,
       },
       { path: "/marketing", element: <Marketing /> },
 
