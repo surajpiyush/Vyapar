@@ -220,7 +220,6 @@ const Sale = () => {
             <thead>
               <tr>
                 {[
-                  // "#",
                   "DATE",
                   "INVOICE NO.",
                   "PARTY NAME",
@@ -228,8 +227,6 @@ const Sale = () => {
                   "PAYMENT TYPE",
                   "AMOUNT",
                   "BALANCE",
-                  // "DUE DATE",
-                  // "STATUS",
                   // "ACTION",
                 ].map((item, ind) => (
                   <th key={item + ind}>

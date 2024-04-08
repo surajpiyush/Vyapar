@@ -5,27 +5,12 @@ import Loader3 from "../../../Component/Loaders/Loader3";
 import RPLayout1 from "../../../Component/PrintLayouts/RPLayout1";
 import RPLayout2 from "../../../Component/PrintLayouts/RPLayout2";
 import InvoicePrint from "../../../Component/PrintLayouts/InvoicePrint";
-import AddPurchaseBill from "../../Purchase/PurchaseBill/AddPurchaseBill";
 import UpperControlPanel from "../../../Component/UpperControlPanel/UpperControlPanel";
-import { GetAllItems } from "../../../Redux/items/actions";
 import { REGULAR_PRINTER_DATA } from "../../../Redux/store";
 import { TOGGLE_FALSE_INVOICE_SUCCESS } from "../../../Redux/sales/reducer";
 import { FormatDate } from "../../../Redux/sales/action";
-import {
-  CloseIcon2,
-  DeleteIcon2,
-  EditIcon,
-  PrintIcon2,
-  PlusIcon2,
-  SearchIcon,
-  CalculatorIcon,
-  SettingsIconOutline2,
-  CrossIcon,
-} from "../../../assets/Icons/ReactIcons";
-import {
-  GetAllTransactions,
-  GetPurchaseReport,
-} from "../../../Redux/report/action";
+import { SearchIcon } from "../../../assets/Icons/ReactIcons";
+import { GetAllTransactions } from "../../../Redux/report/action";
 
 import { useToast } from "@chakra-ui/react";
 import { useReactToPrint } from "react-to-print";
@@ -214,7 +199,6 @@ const AllTransactions = () => {
                   "DATE",
                   "REF NO.",
                   "PARTY NAME",
-                  // "CATEGORY NAME",
                   "TYPE",
                   "TOTAL",
                   "RECEIVED",
