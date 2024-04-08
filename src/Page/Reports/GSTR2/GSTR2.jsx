@@ -12,6 +12,9 @@ const GSTR2 = () => {
   const purchaseReportData = useSelector(
     (store) => store.ReportReducer.saleReportData
   );
+  // const purchaseReportData = useSelector(
+  //   (store) => store.ReportReducer.purchaseReportData
+  // );
   const [nonTaxExempted, setNonTaxExempted] = useState(false);
   const [startDate, setStartDate] = useState("2024-02-01");
   const [endDate, setEndDate] = useState(
