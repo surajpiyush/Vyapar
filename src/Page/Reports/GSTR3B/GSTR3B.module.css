@@ -22,6 +22,7 @@
 .childContentParentDiv {
   cursor: default;
   font-family: var(--Rob);
+  margin-bottom: 20px;
 
   > p:nth-of-type(1) {
     padding: 0;
@@ -80,6 +81,37 @@
     height: 37.5px;
     padding: 5px;
     color: var(--ShadowStone);
+  }
+}
+.reportTableCss {
+  font-family: var(--Rob);
+  box-shadow: var(--shadowD);
+  border-collapse: collapse;
+  width: 100%;
+  border-radius: 15px;
+
+  th {
+    text-align: left;
+    background: #a6a3a3;
+    padding: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 80px;
+  }
+
+  td {
+    padding: 8px;
+    background-color: #cee6f3;
+    border: 1px solid #6eb8e1;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  tbody tr:hover {
+    background-color: #ddd;
   }
 }
 .actionDivContent {
