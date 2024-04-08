@@ -89,10 +89,18 @@ const ReportUpperControlPanel = ({
             // Filter data for b2b and b2c sheets
             const b2bData = [];
             const b2cData = [];
+            const exemptData = [];
+
             data.forEach((row) => {
                const rowData = filteredHeaders.map((header) => row[header]);
                if (row["gstNo"]) {
                   b2bData.push(rowData);
+               } else if (
+                  row["taxRate"] == undefined ||
+                  row["taxRate"] == null ||
+                  row["taxRate"] == 0
+               ) {
+                  exemptData.push(rowData);
                } else {
                   b2cData.push(rowData);
                }
@@ -100,11 +108,11 @@ const ReportUpperControlPanel = ({
 
             // Calculate total number of recipients and total number of invoices
             const uniquePartyNamesB2B = [
-               ...new Set(b2bData.map((row) => row.partyName)),
+               ...new Set(b2bData.map((row) => row[4])),
             ];
 
             const uniquePartyNamesB2C = [
-               ...new Set(b2cData.map((row) => row.partyName)),
+               ...new Set(b2cData.map((row) => row[4])),
             ];
 
             // Fetch Excel file
@@ -267,8 +275,22 @@ const ReportUpperControlPanel = ({
                ["exempted and non GST outward supplies (8)"],
                ["", "Total Nill Value", "Total Css", ""],
                [""],
-
-               [""],
+               [
+                  "Status",
+                  "Invoice Number",
+                  "Date Of Invoice",
+                  "State of Supply",
+                  "Supplier",
+                  "GSTIN NUMBER",
+                  "Type of Transaction",
+                  "Mode of Payment",
+                  "Total Amount",
+                  "Total Balance",
+                  "Rate of GST",
+                  "Taxable Amount",
+                  "CESS",
+               ],
+               ...exemptData,
             ]);
 
             const hsn = XLSX.utils.aoa_to_sheet([
@@ -329,7 +351,6 @@ const ReportUpperControlPanel = ({
          }
       }
    };
-
    return (
       <div className={css.topNavOuter}>
          {/* Upper */}
