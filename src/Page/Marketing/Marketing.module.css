@@ -1,19 +1,25 @@
 .Outer {
   min-height: 100%;
   max-height: 100%;
+  display: grid;
+  place-content: center;
+  place-items: center;
 }
-.picCtn {
+.InnerDiv {
+  /* border: 1px solid red; */
+}
+.ImgContDiv {
   position: relative;
   height: 300px;
   padding-right: 20rem;
-}
 
-.picCtn > img {
-  position: absolute;
-  top: 0;
-  left: calc(50% - 100px);
-  opacity: 0;
-  animation: display 10s infinite;
+  img {
+    position: absolute;
+    top: 0;
+    left: calc(50% - 100px);
+    opacity: 0;
+    animation: display 10s infinite;
+  }
 }
 
 img:nth-child(2) {

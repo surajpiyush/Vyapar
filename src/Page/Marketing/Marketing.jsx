@@ -10,32 +10,39 @@ const Marketing = () => {
   };
   return (
     <div className={css.Outer}>
-      <div className={css.picCtn}>
-        <img src="https://picsum.photos/200/300?t=1" alt="" class="pic" />
-        <img src="https://picsum.photos/200/300?t=2" alt="" class="pic" />
-        <img src="https://picsum.photos/200/300?t=3" alt="" class="pic" />
-        <img src="https://picsum.photos/200/300?t=4" alt="" class="pic" />
-        <img src="https://picsum.photos/200/300?t=5" alt="" class="pic" />
+      <div className={css.InnerDiv}>
+        <div className={css.ImgContDiv}>
+          <img src="https://picsum.photos/200/300?t=1" alt="" class="pic" />
+          <img src="https://picsum.photos/200/300?t=2" alt="" class="pic" />
+          <img src="https://picsum.photos/200/300?t=3" alt="" class="pic" />
+          <img src="https://picsum.photos/200/300?t=4" alt="" class="pic" />
+          <img src="https://picsum.photos/200/300?t=5" alt="" class="pic" />
+        </div>
+
+        <section className="container mt-4 text-center">
+          <h2>Maximize Reach with WhatsApp Marketing</h2>
+          <p>
+            Seamlessly share greetings, offers, business cards, and
+            announcements with your customers to grow your business
+            relationships.
+          </p>
+        </section>
+
+        <section className="container mt-4 text-center">
+          <h2>Chat with Us on WhatsApp</h2>
+          <p>
+            Have a question or need assistance? Feel free to reach out to us on
+            WhatsApp. Click the button below to start a conversation.
+          </p>
+          <button
+            className={css.button}
+            variant="success"
+            onClick={openWhatsApp}
+          >
+            <span>Chat on WhatsApp</span>
+          </button>
+        </section>
       </div>
-
-      <section className="container mt-4 text-center">
-        <h2>Maximize Reach with WhatsApp Marketing</h2>
-        <p>
-          Seamlessly share greetings, offers, business cards, and announcements
-          with your customers to grow your business relationships.
-        </p>
-      </section>
-
-      <section className="container mt-4 text-center">
-        <h2>Chat with Us on WhatsApp</h2>
-        <p>
-          Have a question or need assistance? Feel free to reach out to us on
-          WhatsApp. Click the button below to start a conversation.
-        </p>
-        <button className={css.button} variant="success" onClick={openWhatsApp}>
-          <span>Chat on WhatsApp</span>
-        </button>
-      </section>
     </div>
   );
 };
