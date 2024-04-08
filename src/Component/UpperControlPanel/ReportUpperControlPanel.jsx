@@ -375,7 +375,7 @@ const ReportUpperControlPanel = ({
          <div className={css.navTopADiv}>
             <div className={css.leftSideUpperPart}>
                <select
-                  defaultValue="ALL FIRMS"
+                  defaultValue="ALL FIRMS"  
                   className={css.navFirmsSelectTag}
                >
                   <option value="ALL FIRMS">ALL FIRMS</option>

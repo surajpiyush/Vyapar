@@ -37,137 +37,141 @@ import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { ChakraProvider } from "@chakra-ui/react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import Expenses from "./Page/Expenses/Expenses.jsx";
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-    children: [
-      {
-        path: "/",
-        element: <Home />,
-      },
-      // Auth Routes
-      {
-        path: "/auth",
-        element: <AuthPage />,
-      },
-      // Firm / Company Routes
-      {
-        path: "/companies",
-        element: <CompaniesPage />,
-      },
-      {
-        path: "/addCompany",
-        element: <AddCompanyPage />,
-      },
-      // Party Routes
-      {
-        path: "/parties",
-        element: <Parties />,
-      },
-      // Items/Products Routes
-      {
-        path: "/items",
-        element: <Items />,
-      },
-      // Sales Routes
-      {
-        path: "/invoices",
-        element: <SalesInvoice />,
-      },
-      {
-        path: "/estimates",
-        element: <SalesEstimates />,
-      },
-      {
-        path: "/paymentin",
-        element: <SalesPaymentln />,
-      },
-      {
-        path: "/saleorder",
-        element: <SalesOrder />,
-      },
-      {
-        path: "/deliverychallan",
-        element: <SalesDeliveryChallan />,
-      },
-      {
-        path: "/salereturn",
-        element: <SalesReturn />,
-      },
-      // Puchase Routes
-      {
-        path: "/purchasebill",
-        element: <PurchaseBill />,
-      },
-      {
-        path: "/paymentout",
-        element: <PaymentOut />,
-      },
-      {
-        path: "/purchaseorder",
-        element: <PurchaseOrder />,
-      },
-      {
-        path: "/purchasereturn",
-        element: <PurchaseReturn />,
-      },
-      // Reports Routes
-      {
-        path: "/salereport",
-        element: <Sale />,
-      },
-      {
-        path: "/purchasereport",
-        element: <Purchase />,
-      },
-      {
-        path: "/daybookreport",
-        element: <DayBook />,
-      },
-      {
-        path: "/alltransactionreport",
-        element: <AllTransactions />,
-      },
-      {
-        path: "/cashflowreport",
-        element: <CashFlow />,
-      },
-      {
-        path: "/gstr1report",
-        element: <GSTR1 />,
-      },
-      {
-        path: "/gstr2report",
-        element: <GSTR2 />,
-      },
-      {
-        path: "/gstr3breport",
-        element: <GSTR3B />,
-      },
-      {
-        path: "/gstr9report",
-        element: <GSTR9 />,
-      },
-      {
-        path: "/salehsnreport",
-        element: <SaleHSN />,
-      },
-      { path: "/marketing", element: <Marketing /> },
+   {
+      path: "/",
+      element: <App />,
+      children: [
+         {
+            path: "/",
+            element: <Home />,
+         },
+         // Auth Routes
+         {
+            path: "/auth",
+            element: <AuthPage />,
+         },
+         // Firm / Company Routes
+         {
+            path: "/companies",
+            element: <CompaniesPage />,
+         },
+         {
+            path: "/addCompany",
+            element: <AddCompanyPage />,
+         },
+         // Party Routes
+         {
+            path: "/parties",
+            element: <Parties />,
+         },
+         // Items/Products Routes
+         {
+            path: "/items",
+            element: <Items />,
+         },
+         // Sales Routes
+         {
+            path: "/invoices",
+            element: <SalesInvoice />,
+         },
+         {
+            path: "/estimates",
+            element: <SalesEstimates />,
+         },
+         {
+            path: "/paymentin",
+            element: <SalesPaymentln />,
+         },
+         {
+            path: "/saleorder",
+            element: <SalesOrder />,
+         },
+         {
+            path: "/deliverychallan",
+            element: <SalesDeliveryChallan />,
+         },
+         {
+            path: "/salereturn",
+            element: <SalesReturn />,
+         },
+         // Puchase Routes
+         {
+            path: "/purchasebill",
+            element: <PurchaseBill />,
+         },
+         {
+            path: "/paymentout",
+            element: <PaymentOut />,
+         },
+         {
+            path: "/purchaseorder",
+            element: <PurchaseOrder />,
+         },
+         {
+            path: "/purchasereturn",
+            element: <PurchaseReturn />,
+         },
+         // Reports Routes
+         {
+            path: "/salereport",
+            element: <Sale />,
+         },
+         {
+            path: "/purchasereport",
+            element: <Purchase />,
+         },
+         {
+            path: "/daybookreport",
+            element: <DayBook />,
+         },
+         {
+            path: "/alltransactionreport",
+            element: <AllTransactions />,
+         },
+         {
+            path: "/cashflowreport",
+            element: <CashFlow />,
+         },
+         {
+            path: "/gstr1report",
+            element: <GSTR1 />,
+         },
+         {
+            path: "/gstr2report",
+            element: <GSTR2 />,
+         },
+         {
+            path: "/gstr3breport",
+            element: <GSTR3B />,
+         },
+         {
+            path: "/gstr9report",
+            element: <GSTR9 />,
+         },
+         {
+            path: "/salehsnreport",
+            element: <SaleHSN />,
+         },
+         { path: "/marketing", element: <Marketing /> },
+         
+         // Expenses
+         { path: "/expenses", element: <Expenses /> },
 
-      { path: "*", element: <NotFoundPage /> },
-    ],
-  },
+         { path: "*", element: <NotFoundPage /> },
+      ],
+   },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <Provider store={store}>
-    <ChakraProvider toastOptions={{ defaultOptions: { position: "top" } }}>
-      <RouterProvider router={router} />
-    </ChakraProvider>
-  </Provider>
+   <Provider store={store}>
+      <ChakraProvider toastOptions={{ defaultOptions: { position: "top" } }}>
+         <RouterProvider router={router} />
+      </ChakraProvider>
+   </Provider>
 );
 
 reportWebVitals();
