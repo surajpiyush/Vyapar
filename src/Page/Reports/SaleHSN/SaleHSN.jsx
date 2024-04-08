@@ -51,10 +51,6 @@ const SaleHSN = () => {
     setData([...saleReturnArr, ...saleInvoiceArr]);
   }, [toggleGetSaleReportSuccess]);
 
-  useEffect(() => {
-    console.log("data", data);
-  }, [data]);
-
   // Half tax calculator
   function GetHalfTaxValue(taxPercent) {
     const numericValue = parseFloat(taxPercent) / 2;
