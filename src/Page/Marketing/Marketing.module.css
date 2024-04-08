@@ -4,55 +4,85 @@
   display: grid;
   place-content: center;
   place-items: center;
+  overflow: auto;
 }
 .InnerDiv {
-  /* border: 1px solid red; */
+  cursor: default;
+  font-family: var(--Rob);
 }
 .ImgContDiv {
   position: relative;
-  height: 300px;
-  padding-right: 20rem;
+  overflow: hidden;
+  margin: auto;
+  display: grid;
+  place-content: center;
+  place-items: center;
+  object-fit: cover;
+  border-radius: 50px;
+  height: 280px;
+  width: 625px;
+  margin-bottom: 30px;
 
   img {
     position: absolute;
-    top: 0;
-    left: calc(50% - 100px);
     opacity: 0;
+    object-fit: cover;
     animation: display 10s infinite;
+  }
+  img:nth-child(2) {
+    animation-delay: 2s;
+  }
+  img:nth-child(3) {
+    animation-delay: 5s;
+  }
+  img:nth-child(4) {
+    animation-delay: 8s;
+  }
+  img:nth-child(5) {
+    animation-delay: 11s;
+  }
+}
+.TextDivs {
+  text-align: center;
+  margin-top: 20px;
+
+  h2 {
+    margin: 0;
+    padding: 0;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--ShadowStone);
+  }
+  p {
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--greyI);
   }
 }
 
-img:nth-child(2) {
-  animation-delay: 2s;
-}
-img:nth-child(3) {
-  animation-delay: 5s;
-}
-img:nth-child(4) {
-  animation-delay: 8s;
-}
-img:nth-child(5) {
-  animation-delay: 11s;
-}
-
-.button {
-  background-color: #ff0000; /* Change the background color to red */
-  border: none;
-  width: 250px;
-  border-radius: 5px;
-  color: #fff;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
+.ChatBtnCss {
+  margin: 20px auto 0px;
   cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-}
+  display: flex;
+  align-items: center;
+  color: var(--pureWhite);
+  background: var(--WhatsAppGreen);
+  box-shadow: var(--shadowD);
+  gap: 7.5px;
+  font-size: 17.5px;
+  font-weight: 400;
+  padding: 7.5px 20px;
+  border-radius: 5px;
+  transition: all 0.25s ease;
 
-.button:hover {
-  background-color: #ff5733; /* Change the background color on hover */
+  svg {
+    font-size: 20px;
+  }
+}
+.ChatBtnCss:hover {
+  background: var(--VividSpringGreen);
 }
 
 @keyframes display {

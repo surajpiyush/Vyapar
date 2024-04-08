@@ -273,7 +273,12 @@ const SidebarItems = [
     ],
   },
   { icon: <RemoteDeviceIcon />, name: "Quick Billing", rightSideIcon: "none" },
-  { icon: <WalletIcon />, name: "Expenses", rightSideIcon: "none" ,to: "/expenses" },
+  {
+    icon: <WalletIcon />,
+    name: "Expenses",
+    rightSideIcon: "none",
+    to: "/expenses",
+  },
   { icon: <BankIcon />, name: "Cash & Bank", rightSideIcon: "arrowDown" },
   {
     icon: <ShopIconFilled />,

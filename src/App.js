@@ -9,6 +9,7 @@ import {
   THERMAL_PRINTER_DATA,
 } from "./Redux/store.js";
 
+import "bootstrap/dist/css/bootstrap.min.css";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
