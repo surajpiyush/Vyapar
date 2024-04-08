@@ -212,7 +212,6 @@ code {
   align-items: center;
   margin-right: 10px;
   cursor: pointer;
-  
 }
 
 .sale-dashboard-icon p {
@@ -333,19 +332,15 @@ code {
   background-color: #cee6f3;
   border: 1px solid #6eb8e1;
 }
-
 /* Alternate row background color */
 .excel-like-table tbody tr:nth-child(even) {
   background-color: #f2f2f2;
 }
-
 /* Hover effect */
 .excel-like-table tbody tr:hover {
   background-color: #ddd;
 }
-
 /* Cash Flow */
-
 .cashflow-Opening-Cash {
   display: flex;
   flex-direction: row;

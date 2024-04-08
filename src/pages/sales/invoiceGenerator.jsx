@@ -10,7 +10,7 @@ import { CloseIcon } from "../../assets/Icons/ReactIcons";
 const InvoiceGenerator = ({ invoiceData, setConfirmModel = false }) => {
   const [printMode, setPrintMode] = useState(true);
   let printComponentRef = useRef();
-  console.log(invoiceData);
+  // console.log(invoiceData);
 
   // Function to generate PDF
   const generatePDF = () => {

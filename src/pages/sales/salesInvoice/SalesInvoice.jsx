@@ -44,9 +44,13 @@ export default function SalesInvoice() {
   const [openForm, setOpenForm] = useState(false);
   const [toggleSetting, setToggleSetting] = useState(false);
   const currentDate = new Date();
-  const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+  const startOfMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    1
+  );
   const formattedStartDate = startOfMonth.toISOString().split("T")[0];
-  const [startDate, setStartDate] = useState(formattedStartDate);  
+  const [startDate, setStartDate] = useState(formattedStartDate);
   const [endDate, setEndDate] = useState(
     new Date().toISOString().split("T")[0]
   );
@@ -72,7 +76,7 @@ export default function SalesInvoice() {
   );
   const [confirmModel, setConfirmModel] = useState(true);
   const [temp, setTemp] = useState("");
-  //   console.log(invoicesList);
+
   //   This useEffect is written to get all items data to extract item names ********************************
   useEffect(() => {
     GetAllItems(dispatch);
@@ -95,6 +99,10 @@ export default function SalesInvoice() {
   useEffect(() => {
     GetAllSalesInvoice(dispatch, startDate, endDate);
   }, [toggleSalesSuccess, startDate, endDate]);
+
+  useEffect(() => {
+    console.log("invoicesList", invoicesList);
+  }, [invoicesList]);
 
   const formOpen = () => {
     setOpenForm(true);

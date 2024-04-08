@@ -145,6 +145,7 @@ const GSTR3B = () => {
             GSTR 3 REPORT
           </span>
         </div>
+
         {/* table 1 */}
         <div style={{ margin: "20px 20px" }}>
           <h5 style={{ margin: "20px 20px" }}>

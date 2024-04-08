@@ -59,8 +59,7 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
   const [paymentArr, setPaymentArr] = useState([{ types: "Cash", amount: 0 }]);
   const [confirmModel, setConfirmModel] = useState(false);
   const [temp, setTemp] = useState("");
-  const [stateChanged,setStateChanged] = useState(false)
-  
+  const [stateChanged, setStateChanged] = useState(false);
 
   // Example usage
   //   const invoiceNumber = generateInvoiceNumber();
@@ -145,10 +144,7 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
       ...invoiceData,
       priceUnitWithTax: invoiceData?.priceUnitWithTax == "true",
       sale: tableRowsArr,
-      balance:
-        balanceAmount || toggleRoundOff
-          ? Math.round(rowFooterData?.totalAmount)
-          : rowFooterData?.totalAmount,
+      balance: balanceAmount,
       total: toggleRoundOff
         ? Math.round(rowFooterData?.totalAmount)
         : rowFooterData?.totalAmount,
@@ -168,10 +164,7 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
     setConfirmModel(true);
     setTemp(data);
 
-    // setOpenForm(false);
-    // GetSingleInvoiceData(dispatch, e?._id, toast);
     PostSalesInvoice(dispatch, data, setOpenForm, toast);
-
     // console.log("invoiceData", data);
   };
 
@@ -213,10 +206,10 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
   // Input Change Function
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if(name === "stateOfSupply" && currentCustomerData?.state !== value ){
-      setStateChanged(true)
-    }else{
-      setStateChanged(false)
+    if (name === "stateOfSupply" && currentCustomerData?.state !== value) {
+      setStateChanged(true);
+    } else {
+      setStateChanged(false);
     }
     setInvoiceData((prev) => {
       return { ...prev, [name]: value };
@@ -263,6 +256,15 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
   const handleDeletePayType = (ind) => {
     const newPaymentArr = paymentArr.filter((_, index) => ind != index);
     setPaymentArr(newPaymentArr);
+  };
+
+  //   Add payment type option
+  const handleAddPayType = () => {
+    let newObj = {
+      types: "Cash",
+      amount: 0,
+    };
+    setPaymentArr((prev) => [...prev, newObj]);
   };
   return (
     <form onSubmit={handleSubmit} className={css.formOuter}>
@@ -537,7 +539,7 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
                     setShowItemsListMenu={setShowItemsListMenu}
                     setShowAddItemsForm={setShowAddItemsForm}
                     key={ind}
-                    stateChanged = {stateChanged}
+                    stateChanged={stateChanged}
                   />
                 );
               })}

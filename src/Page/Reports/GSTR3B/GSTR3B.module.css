@@ -10,13 +10,26 @@
   ** Content Css **
   *****************/
 .ContentOuter {
-  width: 82.5vw;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  margin: 10px auto 0px;
+  margin: 0px auto 0px;
   background: var(--pureWhite);
-  height: 66vh;
+  height: 69.75vh;
   overflow: auto;
+  padding: 20px;
+}
+.childContentParentDiv {
+  cursor: default;
+  font-family: var(--Rob);
+
+  > p:nth-of-type(1) {
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--DeepBluishGrey);
+  }
 }
 .contentTableOuterDiv {
   width: 100%;
