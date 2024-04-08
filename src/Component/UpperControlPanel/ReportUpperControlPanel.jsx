@@ -83,13 +83,13 @@ const ReportUpperControlPanel = ({
                return { ...prev, excelLoading: true };
             });
             const formattedFileName = `GSTR1_${formattedStartDate}_${formattedEndDate}_09AEIPT7331R1ZJ.xlsx`;
-            const filteredHeaders = Object.keys(tableData[0]).filter(
+            const filteredHeaders = Object.keys(data[0]).filter(
                (header) => header !== "_id"
             );
             // Filter data for b2b and b2c sheets
             const b2bData = [];
             const b2cData = [];
-            tableData.forEach((row) => {
+            data.forEach((row) => {
                const rowData = filteredHeaders.map((header) => row[header]);
                if (row["gstNo"]) {
                   b2bData.push(rowData);
