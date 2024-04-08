@@ -88,7 +88,7 @@ const FormItemsRowTable = ({
          taxPersant: stateChanged
             ? `I${itemDetail?.taxRate.split("%")[0] || ""}`
             : itemDetail?.taxRate.split("%")[0] || "",
-         qty: itemDetail?.stock?.openingQuantity || 0,
+         // qty: itemDetail?.stock?.openingQuantity || 0,
          priceUnit: itemDetail?.stock?.atPrice || 0,
          unit: itemDetail?.seleteUnit?.baseUnit || "",
          itemHsn: itemDetail?.itemHsn || "",
@@ -188,7 +188,8 @@ const FormItemsRowTable = ({
                               handleMenuItemClick(foundItem);
                            }}
                         >
-                           {foundItem?.itemName}
+                           {foundItem?.itemName} {" "} 
+                           ({foundItem?.stock?.openingQuantity})
                         </MenuItem>
                      ))}
                </MenuList>
@@ -198,7 +199,7 @@ const FormItemsRowTable = ({
             <input
                type="number"
                name="qty"
-               value={item?.qty}
+               // value={item?.qty}
                onChange={(e) => handleInputChange(e, ind)}
                placeholder="0"
                className={css.tableInputs}

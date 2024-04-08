@@ -41,7 +41,8 @@ const InvoicePrint = ({ currPrintItem }) => {
     }, 0);
     return total || 0;
   };
-  //   console.log(currPrintItem);
+    console.log(currPrintItem);
+    console.log(storedPrintData)
   return (
     <div
       className={css.OuterRP1}
@@ -83,6 +84,9 @@ const InvoicePrint = ({ currPrintItem }) => {
             )}
             {storedPrintData?.showEmail && (
               <h2>Email: {storedPrintData?.email}</h2>
+            )}
+            {storedPrintData?.gstinNumber && (
+              <h2>GSTIN/UIN: {storedPrintData?.gstinNumber}</h2>
             )}
           </div>
 
@@ -129,6 +133,9 @@ const InvoicePrint = ({ currPrintItem }) => {
             )}
             {storedPrintData?.showBusinessAddress && (
               <h2>{currPrintItem?.billingAddress}</h2>
+            )}
+            {storedPrintData?.showBusinessAddress && (
+              <h2>{currPrintItem?.partyData[0]?.gstNo}</h2>
             )}
             {storedPrintData?.showPhoneNumber && (
               <h2>Contact No.: {currPrintItem?.phoneNumber}</h2>
