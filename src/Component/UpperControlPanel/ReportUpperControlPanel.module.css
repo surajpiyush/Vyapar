@@ -47,6 +47,7 @@
     color: var(--greyD);
     white-space: nowrap;
   }
+  select,
   input {
     background: transparent;
     cursor: pointer;
@@ -57,6 +58,7 @@
     padding-bottom: 6px;
     border-bottom: 0.5px solid var(--greyE);
   }
+  select:focus,
   input:focus {
     outline: none;
   }

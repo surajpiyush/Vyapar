@@ -103,6 +103,7 @@ const GSTR3B = () => {
     },
   ];
   const table2UpperHead = [
+    "",
     "Supplies Made To Unregistered Persons",
     "Supplies Made To Composition Taxable Persons",
     "Supplies Made To UIN Holders",
@@ -138,7 +139,7 @@ const GSTR3B = () => {
         nonTaxExempted={nonTaxExempted}
         setNonTaxExempted={setNonTaxExempted}
         showJson={false}
-        data={purchaseReportData}
+        data={["Nothing to download"]}
       />
 
       {/* Content */}
@@ -150,7 +151,7 @@ const GSTR3B = () => {
             charge
           </p>
 
-          <table className={css.reportTableCss}>
+          <table className={css.contentTableOuterDiv}>
             <thead>
               <tr>
                 {[
@@ -171,22 +172,26 @@ const GSTR3B = () => {
               {tableData1?.map((item) => (
                 <tr key={item.id}>
                   <td>
-                    <div>{item.natureOfSupplies}</div>
+                    <div>{item?.natureOfSupplies}</div>
                   </td>
                   <td>
-                    <div>{item.taxableValue}</div>
+                    <div style={{ textAlign: "right" }}>
+                      {item?.taxableValue}
+                    </div>
                   </td>
                   <td>
-                    <div>{item.integratedTax}</div>
+                    <div style={{ textAlign: "right" }}>
+                      {item?.integratedTax}
+                    </div>
                   </td>
                   <td>
-                    <div>{item.centralTax}</div>
+                    <div style={{ textAlign: "right" }}>{item?.centralTax}</div>
                   </td>
                   <td>
-                    <div>{item.stateTax}</div>
+                    <div style={{ textAlign: "right" }}>{item?.stateTax}</div>
                   </td>
                   <td>
-                    <div>{item.Cess}</div>
+                    <div style={{ textAlign: "right" }}>{item?.Cess}</div>
                   </td>
                 </tr>
               ))}
@@ -200,12 +205,23 @@ const GSTR3B = () => {
             composition dealer and UIN holders
           </p>
 
-          <table className={css.reportTableCss}>
+          <table className={css.contentTableOuterDiv}>
             <thead>
               <tr>
                 {table2UpperHead?.map((headerItem, headerInd) => (
-                  <th key={headerItem + headerInd}>
-                    <div>{headerItem}</div>
+                  <th
+                    colSpan={headerInd != 0 && 2}
+                    key={headerItem + headerInd}
+                  >
+                    <div
+                      style={{
+                        display: "grid",
+                        placeContent: "center",
+                        placeItems: "center",
+                      }}
+                    >
+                      {headerItem}
+                    </div>
                   </th>
                 ))}
               </tr>
@@ -250,7 +266,7 @@ const GSTR3B = () => {
         <div className={css.childContentParentDiv}>
           <p>3. Details of eligible Input Tax Credit</p>
 
-          <table className={css.reportTableCss}>
+          <table className={css.contentTableOuterDiv}>
             <thead>
               <tr>
                 {table3Head?.map((headerItem, headerInd) => (
@@ -261,9 +277,7 @@ const GSTR3B = () => {
               </tr>
             </thead>
             <tbody>
-              <h6 style={{ margin: "10px 0" }}>
-                (A) ITC Available (whether in full or part)
-              </h6>
+              <h6>(A) ITC Available (whether in full or part)</h6>
               <tr>
                 <td>
                   <div>(1) Import of goods</div>
@@ -352,7 +366,7 @@ const GSTR3B = () => {
                   <div>{0}</div>
                 </td>
               </tr>
-              <h6 style={{ margin: "10px 0" }}>(D) Ineleigible ITC</h6>
+              <h6>(D) Ineleigible ITC</h6>
               <tr>
                 <td>
                   <div>(1) As per section 17(5)</div>
@@ -394,7 +408,7 @@ const GSTR3B = () => {
         <div className={css.childContentParentDiv}>
           <p>4. Details of exempt, nil-rated and non-GST inward supplies</p>
 
-          <table className={css.reportTableCss}>
+          <table className={css.contentTableOuterDiv}>
             <thead>
               <tr>
                 {table3Head?.map((headerItem, headerInd) => (
