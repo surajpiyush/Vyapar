@@ -14,7 +14,7 @@ import { useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-export default function CategoryForm({
+export default function ExpenseCategoryForm({
   func,
   useAsUpdateForm = false,
   clickedItem = {},

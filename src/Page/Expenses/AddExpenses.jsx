@@ -23,18 +23,26 @@ import { ImCheckboxUnchecked as EmptyCheckedBox } from "react-icons/im";
 import { IoIosArrowDown as ArrowDown } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { AddPurchaseBill, getPurchaseBill } from "../../Redux/purchase/action";
+import { CloseToggleIcon, OpenToggleIcon } from "../../assets/Icons/ReactIcons";
+import { FetchAllExpensesCategory } from "../../Redux/expenses/actions";
+import ExpenseItemRow from "./ExpenseItemRow";
+import ExpenseCategoryForm from "../../components/addForm/ExpenseCategoryForm";
 
 const AddExpenses = ({ setOpenForm }) => {
    const toast = useToast();
    const dispatch = useDispatch();
-   const isLoading = useSelector((state) => state.SalesReducer.isLoading);
+   const isLoading = useSelector((state) => state.ExpenseReducer.isLoading);
+   const categoryList = useSelector(
+      (store) => store.ExpenseReducer.expenseCategory
+   );
+   const partiesData = useSelector((state) => state.PartiesReducer.partiesData);
    const partiesLoading = useSelector(
       (state) => state.PartiesReducer.isLoading
    );
+
    const togglePartiesData = useSelector(
       (state) => state.PartiesReducer.togglePartiesData
    );
-   const partiesData = useSelector((state) => state.PartiesReducer.partiesData);
    const toggleItems = useSelector((state) => state.ItemReducer.toggleItems);
    const getAllItemsLoading = useSelector(
       (state) => state.ItemReducer.getAllItemsLoading
@@ -64,6 +72,10 @@ const AddExpenses = ({ setOpenForm }) => {
    const [balanceAmount, setBalanceAmount] = useState(0);
    const [paymentArr, setPaymentArr] = useState([{ types: "Cash", amount: 0 }]);
    const [stateChanged, setStateChanged] = useState(false);
+
+   // -------
+   const [gst, setGst] = useState(false);
+   const [showAddCategoryForm, setShowAddCategoryForm] = useState(false);
    const [expenseItems, setExpenseItems] = useState([
       {
          itemName: "",
@@ -138,48 +150,68 @@ const AddExpenses = ({ setOpenForm }) => {
       "West Bengal",
    ];
 
+   const handleAddCategoryClick = () => {
+      setShowAddCategoryForm(true);
+      console.log("FHKN");
+   };
+
+   useEffect(() => {
+      // console.log(currentCustomerData);
+      let obj = {
+         customerName: currentCustomerData?._id || "",
+         stateOfSupply: currentCustomerData?.state || "",
+      };
+      setExpenseData((prev) => {
+         return { ...prev, ...obj };
+      });
+   }, [currentCustomerData]);
+
    // Update total footer values
-   //    useEffect(() => {
-   //       let footerObj = {
-   //          totalQty: 0,
-   //          totalDiscountAmount: 0,
-   //          totalTaxAmount: 0,
-   //          totalAmount: 0,
-   //       };
-   //       expenseItems?.forEach((item) => {
-   //          if (Number(item?.qty)) {
-   //             footerObj.totalQty += Number(item?.qty);
-   //          }
-   //          if (Number(item?.discountAmount)) {
-   //             footerObj.totalDiscountAmount += Number(item?.discountAmount);
-   //          }
-   //          if (Number(item?.taxAmount)) {
-   //             footerObj.totalTaxAmount += Number(item?.taxAmount);
-   //          }
-   //          if (Number(item?.amount)) {
-   //             footerObj.totalAmount += Number(item?.amount);
-   //             expenseData.total = +footerObj.totalAmount;
-   //          }
-   //       });
-   //       footerObj.totalDiscountAmount = footerObj.totalDiscountAmount.toFixed(2);
-   //       footerObj.totalTaxAmount = footerObj.totalTaxAmount.toFixed(2);
-   //       footerObj.totalAmount = footerObj.totalAmount.toFixed(2);
-   //       setRowFooterData(footerObj);
-   //    }, [
-   //       expenseItems[indexSaleItem]?.qty,
-   //       expenseItems[indexSaleItem]?.priceUnit,
-   //       expenseItems[indexSaleItem]?.discountpersant,
-   //       expenseItems[indexSaleItem]?.discountAmount,
-   //       expenseItems[indexSaleItem]?.taxPersant,
-   //       expenseItems[indexSaleItem]?.taxAmount,
-   //       expenseItems[indexSaleItem]?.amount,
-   //    ]);
+   useEffect(() => {
+      let footerObj = {
+         totalQty: 0,
+         totalDiscountAmount: 0,
+         totalTaxAmount: 0,
+         totalAmount: 0,
+      };
+      expenseItems?.forEach((item) => {
+         if (Number(item?.qty)) {
+            footerObj.totalQty += Number(item?.qty);
+         }
+         if (Number(item?.discountAmount)) {
+            footerObj.totalDiscountAmount += Number(item?.discountAmount);
+         }
+         if (Number(item?.taxAmount)) {
+            footerObj.totalTaxAmount += Number(item?.taxAmount);
+         }
+         if (Number(item?.amount)) {
+            footerObj.totalAmount += Number(item?.amount);
+            expenseData.total = +footerObj.totalAmount;
+         }
+      });
+      footerObj.totalDiscountAmount = footerObj.totalDiscountAmount.toFixed(2);
+      footerObj.totalTaxAmount = footerObj.totalTaxAmount.toFixed(2);
+      footerObj.totalAmount = footerObj.totalAmount.toFixed(2);
+      setRowFooterData(footerObj);
+   }, [
+      expenseItems[indexSaleItem]?.qty,
+      expenseItems[indexSaleItem]?.priceUnit,
+      expenseItems[indexSaleItem]?.discountpersant,
+      expenseItems[indexSaleItem]?.discountAmount,
+      expenseItems[indexSaleItem]?.taxPersant,
+      expenseItems[indexSaleItem]?.taxAmount,
+      expenseItems[indexSaleItem]?.amount,
+   ]);
 
    //   Handle Save
+
    const handleSubmit = (e) => {
       e.preventDefault();
    };
-
+   useEffect(() => {
+      FetchAllExpensesCategory(dispatch);
+      FetchAllParties(dispatch);
+   }, []);
    // To Show Reference Input
    useEffect(() => {
       if (paymentTypeSelectTag == "Cheque") {
@@ -247,6 +279,7 @@ const AddExpenses = ({ setOpenForm }) => {
       );
       // expenseData.balanceAmount = balanceAmount;
    }, [expenseData?.recived, toggleRoundOff, rowFooterData?.totalAmount]);
+
    // Add Row Function
    const handleAddRow = (e) => {
       e.stopPropagation();
@@ -271,29 +304,69 @@ const AddExpenses = ({ setOpenForm }) => {
 
    return (
       <form onSubmit={handleSubmit} className={css.formOuter}>
+         {showItemForm && <ExpenseCategoryForm func={setShowItemForm} />}
          <div className={css.topheader}>
             <p>Expense</p>
+            {"  "}
+            <p>GST</p>
+            {gst ? (
+               <CloseToggleIcon onClick={() => setGst(false)} />
+            ) : (
+               <OpenToggleIcon onClick={() => setGst(true)} />
+            )}
          </div>
          <div className={css.ContentContainerDiv}>
             {/* Middle  */}
             <div className={css.middleOuter}>
                <div className={css.leftSideCont}>
+                  {gst && (
+                     <div className={css.selectOuter}>
+                        <select
+                           name="partyName"
+                           value={currentCustomerData?._id}
+                           onChange={(e) => {
+                              e.stopPropagation();
+                              const currentPartyData = partiesData.filter(
+                                 (item) => item._id == e.target.value
+                              );
+                              if (currentPartyData.length > 0) {
+                                 setCurrentCustomerData(currentPartyData[0]);
+                              }
+                              handleInputChange(e);
+                           }}
+                           className={css.selectTag}
+                           required
+                        >
+                           <option value="">"Search by Name/Phone"</option>
+                           {partiesLoading ? (
+                              <option value="">Loading Parties</option>
+                           ) : (
+                              partiesData?.map((item, ind) => (
+                                 <option value={item._id} key={ind + item._id}>
+                                    {item?.partyName}
+                                 </option>
+                              ))
+                           )}
+                        </select>
+                     </div>
+                  )}
                   <div className={css.selectOuter}>
-                     <select
-                        name="partyName"
-                        className={css.selectTag}
-                        required
-                     >
-                        {/* <option value="">"Search by Name/Phone"</option>
-                        {partiesLoading ? (
-                           <option value="">Loading Parties</option>
-                        ) : (
-                           partiesData?.map((item, ind) => (
+                     <select name="category" className={css.selectTag} required>
+                        <option value="">"Category"</option>
+                        <option onClick={handleAddCategoryClick}>
+                           Add category
+                        </option>
+                        {isLoading ? (
+                           <option value="">Loading Category</option>
+                        ) : categoryList.length ? (
+                           categoryList?.map((item, ind) => (
                               <option value={item._id} key={ind + item._id}>
-                                 {item?.partyName}
+                                 {item?.categoryName}
                               </option>
                            ))
-                        )} */}
+                        ) : (
+                           <option value="">No Category found</option>
+                        )}
                      </select>
                   </div>
                </div>
@@ -312,52 +385,56 @@ const AddExpenses = ({ setOpenForm }) => {
                         // readOnly
                      />
                   </div>
-
-                  <div>
-                     <p>Payment Terms</p>
-                     <select
-                        required
-                        name="paymentTerms"
-                        onChange={(e) => handleInputChange(e)}
-                     >
-                        <option value="">Due On Recipt</option>
-                        <option value="net 15">Net 15</option>
-                        <option value="net 30">Net 30</option>
-                        <option value="net 45">Net 45</option>
-                        <option value="net 60">Net 60</option>
-                     </select>
-                  </div>
-                  <div>
-                     <p>Due Date</p>
-                     <input
-                        required
-                        type="date"
-                        placeholder="Due Date"
-                        className={css.invoiceDateSelectInp}
-                        onChange={(e) => handleInputChange(e)}
-                        value={expenseData?.dueDate}
-                        name="dueDate"
-                     />
-                  </div>
-
-                  <div>
-                     <p>State of supply</p>
-                     <select
-                        name="stateOfSupply"
-                        id=""
-                        className={css.invoiceDateSelectInp}
-                        onChange={(e) => handleInputChange(e)}
-                        value={expenseData?.stateOfSupply}
-                        required
-                     >
-                        <option value="">State</option>
-                        {sortedStates.map((state) => (
-                           <option key={state} value={state}>
-                              {state}
-                           </option>
-                        ))}
-                     </select>
-                  </div>
+                  {gst && (
+                     <div>
+                        <p>Payment Terms</p>
+                        <select
+                           required
+                           name="paymentTerms"
+                           onChange={(e) => handleInputChange(e)}
+                        >
+                           <option value="">Due On Recipt</option>
+                           <option value="net 15">Net 15</option>
+                           <option value="net 30">Net 30</option>
+                           <option value="net 45">Net 45</option>
+                           <option value="net 60">Net 60</option>
+                        </select>
+                     </div>
+                  )}
+                  {gst && (
+                     <div>
+                        <p>Due Date</p>
+                        <input
+                           required
+                           type="date"
+                           placeholder="Due Date"
+                           className={css.invoiceDateSelectInp}
+                           onChange={(e) => handleInputChange(e)}
+                           value={expenseData?.dueDate}
+                           name="dueDate"
+                        />
+                     </div>
+                  )}
+                  {gst && (
+                     <div>
+                        <p>State of supply</p>
+                        <select
+                           name="stateOfSupply"
+                           id=""
+                           className={css.invoiceDateSelectInp}
+                           onChange={(e) => handleInputChange(e)}
+                           value={expenseData?.stateOfSupply}
+                           required
+                        >
+                           <option value="">State</option>
+                           {sortedStates.map((state) => (
+                              <option key={state} value={state}>
+                                 {state}
+                              </option>
+                           ))}
+                        </select>
+                     </div>
+                  )}
                </div>
             </div>
             {/* Items Section */}
@@ -370,25 +447,29 @@ const AddExpenses = ({ setOpenForm }) => {
                      <tr>
                         <th className={css.serialNumberHead}>#</th>
                         <th className={css.itemNameHead}>ITEM</th>
-                        <th className={css.unitHead}>HSN CODE</th>
+                        {gst && <th className={css.unitHead}>HSN CODE</th>}
                         <th className={css.qtyHead}>QTY</th>
                         <th className={css.priceUnitHead}>
                            <p>PRICE/UNIT</p>
                         </th>
-                        <th className={css.discountHead}>
-                           <p>Discount</p>
-                           <div>
-                              <p className={css.precentageIconHead}>%</p>
-                              <p className={css.amountHead}>AMOUNT</p>
-                           </div>
-                        </th>
-                        <th className={css.taxHead}>
-                           <p>TAX</p>
-                           <div>
-                              <p className={css.precentageIconHead}>%</p>
-                              <p className={css.amountHead}>AMOUNT</p>
-                           </div>
-                        </th>
+                        {gst && (
+                           <th className={css.discountHead}>
+                              <p>Discount</p>
+                              <div>
+                                 <p className={css.precentageIconHead}>%</p>
+                                 <p className={css.amountHead}>AMOUNT</p>
+                              </div>
+                           </th>
+                        )}
+                        {gst && (
+                           <th className={css.taxHead}>
+                              <p>TAX</p>
+                              <div>
+                                 <p className={css.precentageIconHead}>%</p>
+                                 <p className={css.amountHead}>AMOUNT</p>
+                              </div>
+                           </th>
+                        )}
                         <th className={css.amountHead}>
                            <div>
                               <p>Amount</p>
@@ -398,16 +479,30 @@ const AddExpenses = ({ setOpenForm }) => {
                      </tr>
                   </thead>
                   <tbody>
-                     <tr className={css.addRowTr}>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td className={css.addRowChildTd}></td>
-                        <td className={css.addRowChildTd}></td>
-                        <td className={css.addRowChildTd}></td>
-                     </tr>
+                     {expenseItems?.map((item, ind) => {
+                        return (
+                           <ExpenseItemRow
+                              ind={ind}
+                              item={item}
+                              expenseItems={expenseItems}
+                              Expand
+                              Down
+                              setExpenseItems={setExpenseItems}
+                              handleDeleteRow={handleDeleteRow}
+                              handleMenuItemClick={handleMenuItemClick}
+                              setShowItemsListMenu={setShowItemsListMenu}
+                              setShowItemForm={setShowItemForm}
+                              setIndexSaleItem={setIndexSaleItem}
+                              items={items}
+                              getAllItemsLoading={getAllItemsLoading}
+                              showItemsListMenu={showItemsListMenu}
+                              indexSaleItem={indexSaleItem}
+                              key={ind}
+                              stateChanged={stateChanged}
+                              gst={gst}
+                           />
+                        );
+                     })}
                      <tr className={css.addRowTr}>
                         <td></td>
                         <td>
@@ -418,19 +513,21 @@ const AddExpenses = ({ setOpenForm }) => {
                               <p>Total</p>
                            </div>
                         </td>
-                        <td></td>
-                        <td></td>
-
+                        {gst && <td></td>}
                         <td className={css.addRowChildTd}>
                            {rowFooterData?.totalQty}
                         </td>
-
-                        <td className={css.addRowChildTd}>
-                           {rowFooterData?.totalDiscountAmount}
-                        </td>
-                        <td className={css.addRowChildTd}>
-                           {rowFooterData?.totalTaxAmount}
-                        </td>
+                        <td></td>
+                        {gst && (
+                           <td className={css.addRowChildTd}>
+                              {rowFooterData?.totalDiscountAmount}
+                           </td>
+                        )}
+                        {gst && (
+                           <td className={css.addRowChildTd}>
+                              {rowFooterData?.totalTaxAmount}
+                           </td>
+                        )}
                         <td className={css.addRowChildTd}>
                            {rowFooterData?.totalAmount}
                         </td>
@@ -619,7 +716,6 @@ const AddExpenses = ({ setOpenForm }) => {
 
                <div className={css.bottomRightSideCont}>
                   <div className={css.rightSideUpperInputsDiv}>
-               
                      <div className={css.roundOffDiv}>
                         {toggleRoundOff ? (
                            <CheckedBox
@@ -668,47 +764,45 @@ const AddExpenses = ({ setOpenForm }) => {
                         />
                      </div>
                   </div>
-                
-                     <div className={css.bottomRecievedOuterDiv}>
-                        <div className={css.totalBottomDiv}>
-                           <p>Received</p>
-                           <input
-                              type="number"
-                              placeholder="0"
-                              disabled={!toggleReceived}
-                              value={expenseData?.recived}
-                              name="recived"
-                              onChange={handleInputChange}
-                           />
-                        </div>
-                        {toggleReceived ? (
-                           <CheckedBox
-                              onClick={(e) => {
-                                 e.stopPropagation();
-                                 setToggleReceived((prev) => !prev);
-                              }}
-                              className={css.checkedInpRoundOff}
-                           />
-                        ) : (
-                           <EmptyCheckedBox
-                              className={css.unCheckedInpRoundOff}
-                              onClick={(e) => {
-                                 e.stopPropagation();
-                                 setToggleReceived((prev) => !prev);
-                              }}
-                           />
-                        )}
+
+                  <div className={css.bottomRecievedOuterDiv}>
+                     <div className={css.totalBottomDiv}>
+                        <p>Received</p>
+                        <input
+                           type="number"
+                           placeholder="0"
+                           disabled={!toggleReceived}
+                           value={expenseData?.recived}
+                           name="recived"
+                           onChange={handleInputChange}
+                        />
                      </div>
-            
-              
-                     <div className={css.bottomBalanceOuterDiv}>
-                        <div>
-                           <span></span>
-                           <p>Balance</p>
-                           <p>{balanceAmount}</p>
-                        </div>
+                     {toggleReceived ? (
+                        <CheckedBox
+                           onClick={(e) => {
+                              e.stopPropagation();
+                              setToggleReceived((prev) => !prev);
+                           }}
+                           className={css.checkedInpRoundOff}
+                        />
+                     ) : (
+                        <EmptyCheckedBox
+                           className={css.unCheckedInpRoundOff}
+                           onClick={(e) => {
+                              e.stopPropagation();
+                              setToggleReceived((prev) => !prev);
+                           }}
+                        />
+                     )}
+                  </div>
+
+                  <div className={css.bottomBalanceOuterDiv}>
+                     <div>
+                        <span></span>
+                        <p>Balance</p>
+                        <p>{balanceAmount}</p>
                      </div>
-          
+                  </div>
                </div>
             </div>
          </div>
