@@ -1,5 +1,6 @@
 .formOuter {
   width: 100%;
+  min-height: 100vh;
   max-height: 100vh;
 }
 
@@ -16,19 +17,20 @@
 .topheader p:nth-of-type(1) {
   font-size: 16px;
   font-weight: 500;
-  /* padding: 3px 0px 0px 0px; */
+  margin: 0;
   line-height: 14px;
 }
 .topheader div:nth-of-type(1) {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 3px 0px 0px 10px;
+  padding: 0px 0px 0px 10px;
+  height: 90%;
   border-left: 0.5px solid var(--greyA);
 
   h4 {
+    margin: 0;
     font-size: 13px;
-
     font-weight: 500;
   }
 }
@@ -72,6 +74,7 @@
   width: fit-content;
 }
 .rightSideCont > div > p {
+  margin: 0;
   font-weight: 400;
   color: var(--greyA);
   font-size: 12px;
@@ -245,6 +248,10 @@
     }
   }
 
+  thead p {
+    margin: 0;
+  }
+
   tbody {
     background-color: white;
 
@@ -367,6 +374,7 @@
   }
   p {
     font-size: 13px;
+    margin: 0;
   }
   svg {
     cursor: pointer;
@@ -555,6 +563,7 @@
   }
 
   p {
+    margin: 0;
     font-size: 14px;
     font-weight: 400;
     padding-right: 10px;
@@ -664,6 +673,7 @@
   transition: border 0.1s ease-in, background-color 0.1s ease-in;
 
   p {
+    margin: 0;
     font-size: 12px;
     font-weight: 400;
   }
@@ -757,6 +767,7 @@
   gap: 12px;
 
   p {
+    margin: 0;
     font-size: 11px;
     font-weight: 300;
     color: var(--greyA);
@@ -795,6 +806,7 @@
   margin-left: 20px;
 
   p {
+    margin: 0;
     color: var(--greyA);
     font-size: 14px;
     font-weight: 500;
@@ -833,6 +845,7 @@
   }
 
   p:nth-of-type(1) {
+    margin: 0;
     margin-right: 40px;
   }
 }
@@ -882,6 +895,7 @@
   cursor: pointer;
 
   p {
+    margin: 0;
     height: 100%;
     border-right: 0.5px solid var(--blueB);
     text-align: center;
