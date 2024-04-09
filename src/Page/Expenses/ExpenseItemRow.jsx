@@ -8,7 +8,7 @@ import { TbArrowsMove as MoveIcon } from "react-icons/tb";
 import { GetAllCategories } from "../../Redux/items/actions";
 
 const AddPurchaseForm = memo(
-   ({
+   ({   
       ind,
       item,
       expenseItems,
