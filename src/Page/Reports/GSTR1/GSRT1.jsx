@@ -34,7 +34,8 @@ const GSRT1 = () => {
   useEffect(() => {
     setSearchParams({ true: currSection });
   }, [currSection]);
-
+  console.log(saleData)
+console.log(saleReturnData) 
   return isLoading ? (
     <Loader3
       text={`Loading ${currSection == "Sale" ? "Sales" : "Sale Returns"} GSTR1`}

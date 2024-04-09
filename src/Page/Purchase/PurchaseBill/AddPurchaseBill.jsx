@@ -239,7 +239,7 @@ const AddPurchaseBillForm = ({ setOpenForm }) => {
         balanceAmount: Number(balanceAmount),
         sale: saleData,
       };
-      // console.log("Purchase Data", purchaseBillData);
+      console.log("Purchase Data", purchaseBillData);
       AddPurchaseBill(dispatch, purchaseBillData, setOpenForm, toast);
     }
   };

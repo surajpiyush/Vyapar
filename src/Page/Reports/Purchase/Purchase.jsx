@@ -79,13 +79,13 @@ const Purchase = () => {
     let paid = 0;
     let unpaid = 0;
     purchaseReportData?.forEach((item) => {
-      paid += item?.amount || 0;
+      paid += item?.amount - item?.balanceDue || 0;
       unpaid += item?.balanceDue || 0;
     });
     setPaidAmount(paid);
     setUnpaidAmount(unpaid);
   }, [toggleGetPurchaseReportSuccess]);
-
+console.log(purchaseReportData)
   // To fetch Invoices data
   useEffect(() => {
     GetPurchaseReport(dispatch, startDate, endDate);
@@ -191,6 +191,8 @@ const Purchase = () => {
         data={purchaseReportData}
         paidAmount={paidAmount}
         unpaidAmount={unpaidAmount}
+        fileName = {"Purchase_Report"}
+
       />
 
       {/* Middle */}

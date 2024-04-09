@@ -50,7 +50,7 @@ const ReportUpperControlPanel = ({
          // Create a link element to trigger the download
          const link = document.createElement("a");
          link.href = URL.createObjectURL(blob);
-         link.download = "purchaseData.json";
+         link.download = `${title}.json`;
          // Append the link to the document and trigger the click
          document.body.appendChild(link);
          link.click();
@@ -82,7 +82,7 @@ const ReportUpperControlPanel = ({
             setPrintClickStates((prev) => {
                return { ...prev, excelLoading: true };
             });
-            const formattedFileName = `GSTR1_${formattedStartDate}_${formattedEndDate}_09AEIPT7331R1ZJ.xlsx`;
+            const formattedFileName = `${title}_${formattedStartDate}_${formattedEndDate}_09AEIPT7331R1ZJ.xlsx`;
             const filteredHeaders = Object.keys(data[0]).filter(
                (header) => header !== "_id"
             );

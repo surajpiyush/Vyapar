@@ -75,12 +75,12 @@ const SaleTable = ({ saleData }) => {
                   </td>
                   <td>
                     <div style={{ textAlign: "right" }}>
-                      {item?.taxRate || "-"}
+                      {item?.taxRate || " "}
                     </div>
                   </td>
                   <td>
                     <div style={{ textAlign: "right" }}>
-                      {item?.cess || "-"}
+                      {item?.cess || 0}
                     </div>
                   </td>
                   <td>
