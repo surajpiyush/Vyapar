@@ -146,24 +146,34 @@ export const GetSinglePurchaseBillData = async (
 };
 
 // Update Purchase Bill
-export const updatePurchaseBill = (dispatch, _id, data) => {
+export const UpdatePurchaseBill = async (
+  dispatch,
+  itemId,
+  data,
+  toast,
+  setIsEditing
+) => {
   dispatch({ type: PURCHASE_REQUEST });
+  toast.closeAll();
   const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
   const token = localStorage.getItem("token");
-  console.log(_id);
-  axios
-    .put(`${API_URL}/${firmId}/purchase/update/${_id}`, data, {
-      headers: { Authorization: `Bearer ${token} ` },
-    })
-    .then((res) => {
-      console.log("Update Purchase Bill Response:", res);
-      dispatch({ type: UPDATE_PURCHASEBILL_SUCCESS });
-      alert(res?.data?.msg);
-    })
-    .catch((err) => {
-      dispatch({ type: PURCHASE_FAILURE });
-      console.error("Update Purchase Bill Error:", err);
-    });
+
+  try {
+    const response = await axios.put(
+      `${API_URL}/${firmId}/purchase/update/${itemId}`,
+      data,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    // console.log("Update Purchase Bill Response:", res);
+    dispatch({ type: UPDATE_PURCHASEBILL_SUCCESS });
+    toast({ title: "Bill Updated", status: "success" });
+    setIsEditing(false);
+  } catch (error) {
+    dispatch({ type: PURCHASE_FAILURE });
+    toast({ title: "Something Went Wrong", status: "error" });
+    console.error("Update Purchase Bill Error:", error);
+  }
 };
 
 // Delete Purchase Bill

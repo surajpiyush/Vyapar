@@ -1,4 +1,4 @@
-import css from "../../../styles/SalesStyles/SalesForms.module.css";
+import css from "../SalesForms.module.css";
 import FormItemsRowTable from "../../../Component/FormItemsRowTable";
 import { GetAllItems } from "../../../Redux/items/actions";
 import { FetchAllParties } from "../../../Redux/parties/actions";

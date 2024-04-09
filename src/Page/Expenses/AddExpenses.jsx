@@ -40,6 +40,7 @@ const AddExpenses = ({ setOpenForm }) => {
       (state) => state.PartiesReducer.isLoading
    );
 
+
    const togglePartiesData = useSelector(
       (state) => state.PartiesReducer.togglePartiesData
    );
@@ -152,7 +153,7 @@ const AddExpenses = ({ setOpenForm }) => {
 
    const handleAddCategoryClick = () => {
       setShowAddCategoryForm(true);
-      console.log("FHKN");
+      console.log("FHKN")
    };
 
    useEffect(() => {
@@ -167,50 +168,50 @@ const AddExpenses = ({ setOpenForm }) => {
    }, [currentCustomerData]);
 
    // Update total footer values
-   useEffect(() => {
-      let footerObj = {
-         totalQty: 0,
-         totalDiscountAmount: 0,
-         totalTaxAmount: 0,
-         totalAmount: 0,
-      };
-      expenseItems?.forEach((item) => {
-         if (Number(item?.qty)) {
-            footerObj.totalQty += Number(item?.qty);
-         }
-         if (Number(item?.discountAmount)) {
-            footerObj.totalDiscountAmount += Number(item?.discountAmount);
-         }
-         if (Number(item?.taxAmount)) {
-            footerObj.totalTaxAmount += Number(item?.taxAmount);
-         }
-         if (Number(item?.amount)) {
-            footerObj.totalAmount += Number(item?.amount);
-            expenseData.total = +footerObj.totalAmount;
-         }
-      });
-      footerObj.totalDiscountAmount = footerObj.totalDiscountAmount.toFixed(2);
-      footerObj.totalTaxAmount = footerObj.totalTaxAmount.toFixed(2);
-      footerObj.totalAmount = footerObj.totalAmount.toFixed(2);
-      setRowFooterData(footerObj);
-   }, [
-      expenseItems[indexSaleItem]?.qty,
-      expenseItems[indexSaleItem]?.priceUnit,
-      expenseItems[indexSaleItem]?.discountpersant,
-      expenseItems[indexSaleItem]?.discountAmount,
-      expenseItems[indexSaleItem]?.taxPersant,
-      expenseItems[indexSaleItem]?.taxAmount,
-      expenseItems[indexSaleItem]?.amount,
-   ]);
+      useEffect(() => {
+         let footerObj = {
+            totalQty: 0,
+            totalDiscountAmount: 0,
+            totalTaxAmount: 0,
+            totalAmount: 0,
+         };
+         expenseItems?.forEach((item) => {
+            if (Number(item?.qty)) {
+               footerObj.totalQty += Number(item?.qty);
+            }
+            if (Number(item?.discountAmount)) {
+               footerObj.totalDiscountAmount += Number(item?.discountAmount);
+            }
+            if (Number(item?.taxAmount)) {
+               footerObj.totalTaxAmount += Number(item?.taxAmount);
+            }
+            if (Number(item?.amount)) {
+               footerObj.totalAmount += Number(item?.amount);
+               expenseData.total = +footerObj.totalAmount;
+            }
+         });
+         footerObj.totalDiscountAmount = footerObj.totalDiscountAmount.toFixed(2);
+         footerObj.totalTaxAmount = footerObj.totalTaxAmount.toFixed(2);
+         footerObj.totalAmount = footerObj.totalAmount.toFixed(2);
+         setRowFooterData(footerObj);
+      }, [
+         expenseItems[indexSaleItem]?.qty,
+         expenseItems[indexSaleItem]?.priceUnit,
+         expenseItems[indexSaleItem]?.discountpersant,
+         expenseItems[indexSaleItem]?.discountAmount,
+         expenseItems[indexSaleItem]?.taxPersant,
+         expenseItems[indexSaleItem]?.taxAmount,
+         expenseItems[indexSaleItem]?.amount,
+      ]);
 
    //   Handle Save
-
+  
    const handleSubmit = (e) => {
       e.preventDefault();
    };
    useEffect(() => {
       FetchAllExpensesCategory(dispatch);
-      FetchAllParties(dispatch);
+      FetchAllParties(dispatch)
    }, []);
    // To Show Reference Input
    useEffect(() => {
@@ -247,6 +248,7 @@ const AddExpenses = ({ setOpenForm }) => {
          return { ...prev, [name]: value };
       });
    };
+   
 
    // Found items list click handler
    const handleMenuItemClick = (index, itemDetail) => {
@@ -304,7 +306,9 @@ const AddExpenses = ({ setOpenForm }) => {
 
    return (
       <form onSubmit={handleSubmit} className={css.formOuter}>
-         {showItemForm && <ExpenseCategoryForm func={setShowItemForm} />}
+      {showItemForm && (
+        <ExpenseCategoryForm func = {setShowItemForm} />
+      )}
          <div className={css.topheader}>
             <p>Expense</p>
             {"  "}
@@ -321,33 +325,33 @@ const AddExpenses = ({ setOpenForm }) => {
                <div className={css.leftSideCont}>
                   {gst && (
                      <div className={css.selectOuter}>
-                        <select
-                           name="partyName"
-                           value={currentCustomerData?._id}
-                           onChange={(e) => {
-                              e.stopPropagation();
-                              const currentPartyData = partiesData.filter(
-                                 (item) => item._id == e.target.value
-                              );
-                              if (currentPartyData.length > 0) {
-                                 setCurrentCustomerData(currentPartyData[0]);
-                              }
-                              handleInputChange(e);
-                           }}
-                           className={css.selectTag}
-                           required
-                        >
-                           <option value="">"Search by Name/Phone"</option>
-                           {partiesLoading ? (
-                              <option value="">Loading Parties</option>
-                           ) : (
-                              partiesData?.map((item, ind) => (
-                                 <option value={item._id} key={ind + item._id}>
-                                    {item?.partyName}
-                                 </option>
-                              ))
-                           )}
-                        </select>
+                     <select
+                        name="partyName"
+                        value={currentCustomerData?._id}
+                        onChange={(e) => {
+                           e.stopPropagation();
+                           const currentPartyData = partiesData.filter(
+                              (item) => item._id == e.target.value
+                           );
+                           if (currentPartyData.length > 0) {
+                              setCurrentCustomerData(currentPartyData[0]);
+                           }
+                           handleInputChange(e);
+                        }}
+                        className={css.selectTag}
+                        required
+                     >
+                        <option value="">"Search by Name/Phone"</option>
+                        {partiesLoading ? (
+                           <option value="">Loading Parties</option>
+                        ) : (
+                           partiesData?.map((item, ind) => (
+                              <option value={item._id} key={ind + item._id}>
+                                 {item?.partyName}
+                              </option>
+                           ))
+                        )}
+                     </select>
                      </div>
                   )}
                   <div className={css.selectOuter}>
@@ -479,7 +483,7 @@ const AddExpenses = ({ setOpenForm }) => {
                      </tr>
                   </thead>
                   <tbody>
-                     {expenseItems?.map((item, ind) => {
+                  {expenseItems?.map((item, ind) => {
                         return (
                            <ExpenseItemRow
                               ind={ind}
@@ -496,7 +500,7 @@ const AddExpenses = ({ setOpenForm }) => {
                               items={items}
                               getAllItemsLoading={getAllItemsLoading}
                               showItemsListMenu={showItemsListMenu}
-                              indexSaleItem={indexSaleItem}
+                              indexSaleItem={indexSaleItem} 
                               key={ind}
                               stateChanged={stateChanged}
                               gst={gst}

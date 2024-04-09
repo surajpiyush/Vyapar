@@ -17,6 +17,7 @@ import {
 } from "react-icons/bs";
 import {
   TbReport as DocumentIcon,
+  TbArrowsMove as MoveIcon,
   TbDeviceRemote as RemoteDeviceIcon,
   TbTriangleSquareCircleFilled as ShapesIconFilled,
 } from "react-icons/tb";
@@ -64,11 +65,13 @@ import {
   MdOutlineSettingsBackupRestore as BackupRestoreIcon,
   MdOutlineSettings as SettingsIconOutline2,
   MdModeEdit as EditIcon,
+  MdDelete as DeleteIcon3,
 } from "react-icons/md";
 
 // ------------------------------- EXPORTS ---------------------------------
 export {
   PrintIcon2,
+  DeleteIcon3,
   JsonIconOutline,
   SettingsIconOutline2,
   PrintIconOutline,
@@ -81,6 +84,7 @@ export {
   ShapesIconFilled,
   RemoteDeviceIcon,
   WhatsAppOutlineIcon,
+  MoveIcon,
   ShopIconFilled,
   CartIconFilled,
   BackupRestoreIcon,

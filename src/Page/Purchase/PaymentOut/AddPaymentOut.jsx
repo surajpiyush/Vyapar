@@ -1,3 +1,5 @@
+import css from "../../../pages/sales/SalesForms.module.css";
+
 import {
   Button,
   Menu,
@@ -14,7 +16,7 @@ import { HiMiniDocumentText as AddDocumentIcon } from "react-icons/hi2";
 import { IoIosArrowDown as ArrowDown } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { addPayOut, GetAllPaymentOut } from "../../../Redux/purchase/action";
-import css from "../../../styles/SalesStyles/SalesForms.module.css";
+
 //import "./Paymentouts.css";
 
 //import ItemsForm from "../../../components/addForm/ItemsForm";

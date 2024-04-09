@@ -1,4 +1,4 @@
-import css from "../../../styles/SalesStyles/SalesForms.module.css";
+import css from "../SalesForms.module.css";
 import InvoiceGenerator from "../invoiceGenerator";
 import AddItemForm from "../../../Page/Items/AddItemForm";
 import FormItemsRowTable from "../../../Component/FormItemsRowTable";
@@ -8,7 +8,6 @@ import {
   PostSalesInvoice,
   generateInvoiceNumber,
 } from "../../../Redux/sales/action";
-import { GetSingleInvoiceData } from "../../../Redux/sales/action";
 
 import {
   Button,
