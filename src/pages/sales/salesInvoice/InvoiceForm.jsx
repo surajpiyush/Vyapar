@@ -159,12 +159,10 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
       //   },
       // ],
     };
-
     setConfirmModel(true);
     setTemp(data);
-
     PostSalesInvoice(dispatch, data, setOpenForm, toast);
-    console.log("invoiceData", data);
+    console.log("Invoice Data", data);
   };
 
   // for fetching all parties list on form mount
@@ -272,7 +270,7 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
         <div>
           <h4
             style={{
-              color: invoiceData.type == "Credit" ? "var(--blueA)" : "black",
+              color: invoiceData?.type == "Credit" ? "var(--blueA)" : "black",
             }}
           >
             Credit

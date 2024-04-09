@@ -260,19 +260,6 @@
   }
 }
 
-/* Form Css */
-
-.formOuter {
-  background-color: var(--greyB);
-  width: 100%;
-  height: 100vh;
-  position: fixed;
-  z-index: 1500;
-  top: 0;
-  left: 0;
-  cursor: default;
-}
-
 /* Header Nav */
 .headerNavOuter {
   width: 100%;
@@ -295,7 +282,17 @@
   border-bottom: 5px solid transparent;
 }
 
-/* Top Upper Nav */
+/* Form Css */
+.formOuter {
+  cursor: default;
+  background-color: var(--greyB);
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  z-index: 1500;
+  top: 0;
+  left: 0;
+}
 .upperNav {
   display: flex;
   align-items: center;
@@ -306,7 +303,7 @@
 .upperNav > div:nth-of-type(1) {
   display: flex;
   align-items: center;
-  flex: 1;
+  flex-grow: 1;
   height: 100%;
 }
 .upperNav > div:nth-of-type(1) > p {
@@ -315,6 +312,7 @@
   justify-content: space-between;
   width: 200px;
   height: 100%;
+  margin: 0;
   padding: 0px 10px;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
@@ -326,7 +324,7 @@
   }
 }
 .upperNav > div:nth-of-type(1) > .activeForm {
-  background-color: white;
+  background-color: var(--pureWhite);
 }
 .upperNav > div:nth-of-type(2) {
   display: flex;
