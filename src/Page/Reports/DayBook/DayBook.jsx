@@ -178,6 +178,7 @@ const DayBook = () => {
             showPaymentData={false}
             showPrintOptions={true}
             data={dayBooksData}
+            fileName={"Day_Book_Report"}
          />
 
          {/* Middle */}

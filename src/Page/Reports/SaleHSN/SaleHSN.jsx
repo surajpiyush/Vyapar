@@ -40,6 +40,7 @@ const SaleHSN = () => {
   const saleInvoiceArr = useSelector(
     (state) => state.ReportReducer.saleReturnData
   );
+  
 
   // To fetch Invoices data
   useEffect(() => {
@@ -51,15 +52,7 @@ const SaleHSN = () => {
     setData([...saleReturnArr, ...saleInvoiceArr]);
   }, [toggleGetSaleReportSuccess]);
 
-  // Half tax calculator
-  function GetHalfTaxValue(taxPercent) {
-    const numericValue = parseFloat(taxPercent) / 2;
-    if (Number.isInteger(numericValue)) {
-      return numericValue.toFixed(0); // Return as a whole number
-    } else {
-      return numericValue.toFixed(2); // Return as a decimal with maximum two decimal places
-    }
-  }
+  console.log(data)
 
   return loadingSaleHSN ? (
     <Loader3 text="Loading Sale HSN Report" />

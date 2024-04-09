@@ -72,13 +72,14 @@ const PurchaseBill = () => {
       let paid = 0;
       let unpaid = 0;
       PurchaseBillData?.forEach((item) => {
-         paid += item?.amount || 0;
+         paid += item?.amount - item?.balanceDue || 0;
          unpaid += item?.balanceDue || 0;
       });
       setPaidAmount(paid);
       setUnpaidAmount(unpaid);
    }, [getAllPurchaseBillSuccess]);
 
+// console.log(PurchaseBillData)
    // To Get All Purchase Bill Data
    useEffect(() => {
       GetAllPurchaseBill(dispatch, startDate, endDate);

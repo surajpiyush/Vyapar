@@ -143,7 +143,7 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
       ...invoiceData,
       priceUnitWithTax: invoiceData?.priceUnitWithTax == "true",
       sale: tableRowsArr,
-      balance: toggleRoundOff ? balanceAmount : balanceAmount.toFixed(),
+      balance: toggleRoundOff ? balanceAmount : balanceAmount,
       total: toggleRoundOff
         ? Math.round(Number(rowFooterData?.totalAmount))
         : Number(rowFooterData?.totalAmount)?.toFixed(2),

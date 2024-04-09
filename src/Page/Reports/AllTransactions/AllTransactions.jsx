@@ -85,7 +85,7 @@ const AllTransactions = () => {
     extractedData?.sort((a, b) => new Date(a.date) - new Date(b.date));
     setTransactionData(extractedData);
   }, [toggleGetAllTransactionsSuccess]);
-
+console.log(transactionData)
   // To fetch Invoices data
   useEffect(() => {
     GetAllTransactions(dispatch, startDate, endDate);
@@ -174,6 +174,8 @@ const AllTransactions = () => {
         showPaymentData={false}
         showPrintOptions={true}
         data={transactionData}
+        fileName = {"All_Transaction_Report"}
+        
       />
 
       {/* Middle */}

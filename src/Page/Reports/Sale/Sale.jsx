@@ -70,15 +70,15 @@ const Sale = () => {
   // ********************************************************************************8
 
   // useEffect(() => {
-  //   console.log("saleReport", saleReport);
-  // }, [saleReport]);
-
+    // }, [saleReport]);
+    
+      console.log("saleReport", saleReport);
   // Calculate Paid and Unpaid upon successfull getting data
   useEffect(() => {
     let paid = 0;
     let unpaid = 0;
     saleReport?.forEach((item) => {
-      paid += item?.amount || 0;
+      paid += item?.amount - item?.balanceDue || 0;
       unpaid += item?.balanceDue || 0;
     });
     setPaidAmount(paid);
@@ -193,6 +193,7 @@ const Sale = () => {
         data={saleReport}
         paidAmount={paidAmount}
         unpaidAmount={unpaidAmount}
+        fileName = {"Sale_Report"}
       />
 
       {/* Middle */}
