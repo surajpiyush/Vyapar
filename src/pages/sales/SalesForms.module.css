@@ -1028,3 +1028,137 @@
 .checkbox_wrapper_14 *:after {
   box-sizing: inherit;
 }
+
+/* Category Css */
+.cateOuterCont {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.menuOuter {
+  position: absolute;
+  z-index: 1600;
+  background-color: var(--pureWhite);
+  border: 0.5px solid var(--greyF);
+  box-shadow: var(--shadowF);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 5px;
+  width: 100%;
+  max-height: 140px;
+  margin-top: 36px;
+
+  .topCateItemDiv {
+    cursor: pointer;
+    color: var(--blueB);
+    display: flex;
+    align-items: center;
+    text-align: center;
+    gap: 12.5px;
+    padding: 8px 25px;
+
+    h3 {
+      font-size: 13.5px;
+      font-weight: 400;
+      padding: 0;
+      margin: 0;
+    }
+
+    svg {
+      font-size: 12.5px;
+    }
+  }
+
+  .topCateItemDiv:hover {
+    background-color: var(--greyishBlue);
+  }
+}
+.cateItemContDiv {
+  flex-grow: 1;
+  overflow: auto;
+}
+.cateItemCss {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 8px 23px;
+
+  input[type="checkbox"] {
+    width: 17.5px;
+    height: 17.5px;
+    cursor: pointer;
+    background-color: transparent;
+  }
+
+  h3 {
+    padding: 0;
+    margin: 0;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--greyA);
+  }
+}
+.cateItemCss:hover {
+  background-color: var(--greyishBlue);
+}
+.menuInpCss {
+  border: 0.5px solid var(--greyC);
+  background-color: transparent;
+  z-index: 50;
+  height: 35px;
+  border-radius: 5px;
+  width: 220px;
+  padding: 0px 10px;
+  display: flex;
+  align-items: center;
+
+  h3 {
+    font-size: 14px;
+    font-weight: 400;
+    padding: 0;
+    margin: 0;
+  }
+}
+.menuInpCss:focus {
+  outline: none;
+  border: 0.5px solid var(--blueB);
+  z-index: 50;
+}
+.inactiveMenuLabel {
+  position: absolute;
+  pointer-events: none;
+  white-space: nowrap;
+  width: 85%;
+  z-index: 100;
+  margin-left: 8px;
+  font-size: 14px;
+  margin-top: 34px;
+  font-size: 13.5px;
+  font-weight: 400;
+  background: transparent;
+  color: var(--greyG);
+  transform: translateY(-26.5px);
+  transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.activeMenuLabel {
+  position: absolute;
+  pointer-events: none;
+  z-index: 100;
+  white-space: nowrap;
+  width: fit-content;
+  margin-left: 3px;
+  font-size: 14px;
+  margin-top: 36.5px;
+  letter-spacing: 0.5px;
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 1px;
+  padding: 0px 5px;
+  border-radius: 5px;
+  color: var(--blueB);
+  background-color: var(--pureWhite);
+  transform: translateY(-45px) scale(0.9);
+  transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}

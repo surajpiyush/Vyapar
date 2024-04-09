@@ -2,137 +2,178 @@ import { API_URL, USER_DETAILS } from "../store";
 
 import axios from "axios";
 import {
-  ERROR_DELETE_EXPENSE,
-   FETCH_EXPENSES_ERROR,
-   FETCH_EXPENSES_LOADING,
-   FETCH_EXPENSES_SUCCESS,
-   LOADING_DELETE_EXPENSE,
-   SAVE_EXPENSE_ERROR,
-   SAVE_EXPENSE_LOADING,
-   SAVE_EXPENSE_SUCCESS,
-   SUCCESS_DELETE_EXPENSE,
+  ADD_CATEGORY_LOADING,
+  ADD_CATEGORY_ERROR,
+  ADD_CATEGORY_SUCCESS,
+  GET_ALL_CATEGORIES_LOADING,
+  GET_ALL_CATEGORIES_ERROR,
+  GET_ALL_CATEGORIES_SUCCESS,
+  ADD_ITEM_LOADING,
+  ADD_ITEM_ERROR,
+  ADD_ITEM_SUCCESS,
+  GET_ALL_ITEMS_LOADING,
+  GET_ALL_ITEMS_ERROR,
+  GET_ALL_ITEMS_SUCCESS,
+  ADD_EXPENSE_SUCCESS,
+  ADD_EXPENSE_ERROR,
+  ADD_EXPENSE_LOADING,
 } from "./actionTypes";
 
-// ----------------------- Fetch All Expense Data Function ---- Didn't applied function curring due to thunk error in store.js
-export const FetchAllExpensesCategory = async (dispatch) => {
-   dispatch({ type: FETCH_EXPENSES_LOADING });
-   const token = localStorage.getItem("token");
-   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+// ------------------------------- CATEGORY -----------------------------------
+// Add Category
+export const AddExpenseCategory = async (dispatch, data, closeForm, toast) => {
+  toast.closeAll();
+  dispatch({ type: ADD_CATEGORY_LOADING });
+  const token = localStorage.getItem("token");
+  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
-   try {
-      const response = await axios.get(`${API_URL}/${FirmId}/expenseCategory/allExpenseCategory`, {
-         headers: {
-            Authorization: `Bearer ${token} `,
-         },
-      });
+  try {
+    const response = await axios.post(
+      `${API_URL}/${FirmId}/expenseCategory/createCategoryName`,
+      data,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
 
-       console.log("Fetch All Expense Response", response?.data); 
-      dispatch({ type: FETCH_EXPENSES_SUCCESS, payload: response?.data?.data });
-   } catch (error) {
-      dispatch({ type: FETCH_EXPENSES_ERROR });
-      console.error("Getting All Expense Data Error:", error);
-   }
+    console.log("Add Expense Category Response:", response);
+    dispatch({ type: ADD_CATEGORY_SUCCESS });
+    toast({
+      title: "Expense Category Added!",
+      status: "success",
+    });
+    closeForm(false);
+  } catch (error) {
+    toast({
+      title:
+        error?.response?.data?.msg ||
+        error?.response?.data?.message ||
+        "Something Went Wrong!",
+      status: "error",
+    });
+    dispatch({ type: ADD_CATEGORY_ERROR });
+    console.log("Error Adding Expense Category:", error);
+  }
 };
 
-// ------------------------- Save Expense Function ---- Didn't applied function curring due to thunk error in store.js
-export const SaveExpense = async (dispatch, data, CloseForm, toast) => {
-   toast.closeAll();
-   dispatch({ type: SAVE_EXPENSE_LOADING });
-   const token = localStorage.getItem("token");
-   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+// Get All Categories
+export const GetAllExpenseCategories = async (dispatch) => {
+  dispatch({ type: GET_ALL_CATEGORIES_LOADING });
+  const token = localStorage.getItem("token");
+  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
-   try {
-      const response = await axios.post(`${API_URL}/${FirmId}/expenseCategory/createCategoryName`, data, {
-         headers: {
-            Authorization: `Bearer ${token} `,
-         },
-      });
-      // console.log("Save Party Response:", response?.data);
-      dispatch({ type: SAVE_EXPENSE_SUCCESS });
-      toast({
-         title: "Party Successfully Added!",
-         status: "success",
-         position: "top",
-      });
-      CloseForm(false);
-   } catch (error) {
-      toast({
-         title:
-            error?.response?.data?.msg ||
-            error?.response?.data?.message ||
-            "Something Went Wrong!",
-         status: "error",
-         position: "top",
-      });
-      dispatch({ type: SAVE_EXPENSE_ERROR });
-      console.log("Saving Party Error Response:", error);
-   }
+  try {
+    const response = await axios.get(
+      `${API_URL}/${FirmId}/expenseCategory/allExpenseCategory`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    console.log("Getting All Expense Categories Response", response?.data);
+    dispatch({
+      type: GET_ALL_CATEGORIES_SUCCESS,
+      payload: response?.data?.data || [],
+    });
+  } catch (error) {
+    dispatch({ type: GET_ALL_CATEGORIES_ERROR });
+    console.error("Getting All Expense Categories Error:", error);
+  }
 };
 
-// Delete Party Request ************************
-export const DeleteParty = async (
-   dispatch,
-   expenseId,
-   setShowEditFirm,
-   toast
+// ------------------------------- ITEM -----------------------------------
+// Add Item
+export const AddExpenseItem = async (dispatch, data, closeForm, toast) => {
+  toast.closeAll();
+  dispatch({ type: ADD_ITEM_LOADING });
+  const token = localStorage.getItem("token");
+  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+
+  try {
+    const response = await axios.post(
+      `${API_URL}/${FirmId}/expenseItem/createItemName`,
+      data,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    console.log("Add Expense Item Response:", response);
+    dispatch({ type: ADD_ITEM_SUCCESS });
+    toast({
+      title: "Expense Item Added!",
+      status: "success",
+    });
+    closeForm(false);
+  } catch (error) {
+    toast({
+      title:
+        error?.response?.data?.msg ||
+        error?.response?.data?.message ||
+        "Something Went Wrong!",
+      status: "error",
+    });
+    dispatch({ type: ADD_ITEM_ERROR });
+    console.log("Error Adding Expense Item:", error);
+  }
+};
+
+// Get All Categories
+export const GetAllExpenseItems = async (dispatch) => {
+  dispatch({ type: GET_ALL_ITEMS_LOADING });
+  const token = localStorage.getItem("token");
+  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+
+  try {
+    const response = await axios.get(
+      `${API_URL}/${FirmId}/expenseItem/allExpenseItem`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    console.log("Getting All Expense Items Response", response?.data);
+    dispatch({
+      type: GET_ALL_ITEMS_SUCCESS,
+      payload: response?.data?.data || [],
+    });
+  } catch (error) {
+    dispatch({ type: GET_ALL_ITEMS_ERROR });
+    console.error("Getting All Expense Items Error:", error);
+  }
+};
+
+// ------------------------------- EXPENSE -----------------------------------
+// Add Expense
+export const AddExpense = async (
+  dispatch,
+  withGST,
+  data,
+  setOpenForm,
+  toast
 ) => {
-   toast.closeAll();
-   dispatch({ type: LOADING_DELETE_EXPENSE });
-   const token = localStorage.getItem("token");
-   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  toast.closeAll();
+  dispatch({ type: ADD_EXPENSE_LOADING });
+  const token = localStorage.getItem("token");
+  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
-   try {
-      const response = await axios.delete(
-         `${API_URL}/${FirmId}/expense/delete/${expenseId}`,
-         {
-            headers: {
-               Authorization: `Bearer ${token} `,
-            },
-         }
-      );
-      console.log("Delete Expense Response:", response?.data);
-      dispatch({ type: SUCCESS_DELETE_EXPENSE });
-      setShowEditFirm(false);
-      toast({
-         title: "Expense Deleted",
-         status: "success",
-         position: "top",
-      });
-   } catch (error) {
-      dispatch({ type: ERROR_DELETE_EXPENSE});
-      console.log("Deleting Expense Error:", error);
-      toast({
-         title:
-            error?.response?.data?.msg ||
-            error?.response?.data?.message ||
-            "Something Went Wrong!",
-         status: "error",
-         position: "top",
-      });
-   }
+  try {
+    const response = await axios.post(
+      withGST
+        ? `${API_URL}/${FirmId}/expenseWithGst/createExpenseWithGst`
+        : `${API_URL}/${FirmId}/expenseWithOutGst/createExpenseWithOutGst`,
+      data,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    console.log("Add Expense Response:", response);
+    dispatch({ type: ADD_EXPENSE_SUCCESS });
+    toast({
+      title: "Expense Added!",
+      status: "success",
+    });
+    setOpenForm(false);
+  } catch (error) {
+    toast({
+      title:
+        error?.response?.data?.msg ||
+        error?.response?.data?.message ||
+        "Something Went Wrong!",
+      status: "error",
+    });
+    dispatch({ type: ADD_EXPENSE_ERROR });
+    console.log("Error Adding Expense:", error);
+  }
 };
-
-// Get Current Party Data *********************************************************
-// export const GetCurrentPartyData = (partyId) => async (dispatch) => {
-//    dispatch({ type: LOADING_GET_CURRENT_PARTY });
-//    const token = localStorage.getItem("token");
-//    const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
-
-//    try {
-//       const response = await axios.get(
-//          `${API_URL}/${FirmId}/party/${partyId}`,
-//          {
-//             headers: { Authorization: `Bearer ${token} ` },
-//          }
-//       );
-
-//       // console.log("Get Current Party Data Response", response?.data?.data);
-//       dispatch({
-//          type: SUCCESS_GET_CURRENT_PARTY,
-//          payload: response?.data?.data,
-//       });
-//    } catch (error) {
-//       dispatch({ type: ERROR_GET_CURRENT_PARTY });
-//       console.error("Error Getting Current Party Data:", error);
-//    }
-// };

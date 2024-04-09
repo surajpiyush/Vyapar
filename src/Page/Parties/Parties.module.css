@@ -24,11 +24,9 @@
 
 .Outer {
   width: 100%;
-  min-height: 100%;
-  max-height: 100%;
   background-color: var(--bluishGrey);
   padding: 10px;
-  height: 81vh;
+  height: 80.9vh;
 }
 
 /****************

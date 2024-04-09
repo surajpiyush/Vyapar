@@ -12,12 +12,12 @@ import {
   PlusIconThin,
   MinusCircleIcon,
 } from "../../assets/Icons/ReactIcons";
-import { RiDeleteBinLine as DeleteIcon } from "react-icons/ri";
-import { ImSpinner3 as SpinnerIcon } from "react-icons/im";
 
 import { useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { RiDeleteBinLine as DeleteIcon } from "react-icons/ri";
+import { ImSpinner3 as SpinnerIcon } from "react-icons/im";
 
 const AddItemForm = ({
   CloseForm,
@@ -51,7 +51,7 @@ const AddItemForm = ({
   const categoriesList = useSelector((store) => store.ItemReducer.category);
   const [currInps, setCurrInps] = useState("Pricing");
   const [currCategoryName, setCurrCategoryName] = useState("");
-  const [showAddCategoryFom, setShowAddCategoryFom] = useState(false);
+  const [showAddCategoryForm, setShowAddCategoryForm] = useState(false);
   const [showCategoryMenu, setShowCategoryMenu] = useState(false);
   const [showWholeSalePrice, setShowWholeSalePrice] = useState(false);
   const [formData, setFormData] = useState({
@@ -88,7 +88,7 @@ const AddItemForm = ({
         return { ...prev, ...clickedItemData };
       });
     }
-    console.log("clickedItemData", clickedItemData);
+    // console.log("clickedItemData", clickedItemData);
   }, []);
 
   //   for fetching Units List
@@ -210,7 +210,7 @@ const AddItemForm = ({
       }}
       className={css.FormOuterParent}
     >
-      {showAddCategoryFom && <CategoryForm func={setShowAddCategoryFom} />}
+      {showAddCategoryForm && <CategoryForm func={setShowAddCategoryForm} />}
 
       <form
         onSubmit={handleSubmit}
@@ -356,7 +356,7 @@ const AddItemForm = ({
                   className={css.menuOuter}
                 >
                   <div
-                    onClick={() => setShowAddCategoryFom(true)}
+                    onClick={() => setShowAddCategoryForm(true)}
                     className={css.topCateItemDiv}
                   >
                     <PlusIconThin />

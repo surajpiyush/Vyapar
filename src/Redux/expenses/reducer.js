@@ -1,109 +1,132 @@
-import { EDIT_EXPENSE_ERROR, EDIT_EXPENSE_LOADING, ERROR_DELETE_EXPENSE, ERROR_GET_CURRENT_EXPENSE, FETCH_EXPENSES_ERROR, FETCH_EXPENSES_LOADING, FETCH_EXPENSES_SUCCESS, LOADING_DELETE_EXPENSE, LOADING_GET_CURRENT_EXPENSE, SUCCESS_DELETE_EXPENSE, SUCCESS_EDIT_EXPENSE, SUCCESS_GET_CURRENT_EXPENSE } from "./actionTypes";
-
+import {
+  ADD_CATEGORY_LOADING,
+  ADD_CATEGORY_ERROR,
+  ADD_CATEGORY_SUCCESS,
+  GET_ALL_CATEGORIES_LOADING,
+  GET_ALL_CATEGORIES_ERROR,
+  GET_ALL_CATEGORIES_SUCCESS,
+  ADD_ITEM_LOADING,
+  ADD_ITEM_ERROR,
+  ADD_ITEM_SUCCESS,
+  GET_ALL_ITEMS_LOADING,
+  GET_ALL_ITEMS_ERROR,
+  GET_ALL_ITEMS_SUCCESS,
+  ADD_EXPENSE_LOADING,
+  ADD_EXPENSE_ERROR,
+  ADD_EXPENSE_SUCCESS,
+} from "./actionTypes";
 
 const initialState = {
-  expenseData: [],
   isLoading: false,
-  isFailed: false,
   isError: false,
 
-  expenseCategory:[],
+  // ----------------------------- CATEGORY ----------------------------------
+  // Add Category
+  loadingAddCategory: false,
+  errorAddCategory: false,
+  toggleAddCategorySuccess: false,
 
-currentExpense:"",
-  // Get Current Party data states
-  currentExpenseTansection: [],
-  loadingGetCurrentExpenseData: false,
-  errorGetCurrentExpenseData: false,
+  // Get All Categories
+  categoryData: [],
+  toggleGetAllCategoriesSuccess: false,
 
-  // Edit Expense states
-  loadingEdit: false,
-  errorEdit: false,
+  // ----------------------------- ITEM -------------------------------------
+  // Add Item
+  loadingAddItem: false,
+  errorAddItem: false,
+  toggleAddItemSuccess: false,
 
-  //   Delete Expense states
-  loadingDeleteExpense: false,
-  errorDeleteExpense: false,
+  // Get All Items
+  itemsData: [],
+  toggleGetAllItemsSuccess: false,
+
+  // ----------------------------- EXPENSE -------------------------------------
+  // Add Expense
+  loadingAddExpense: false,
+  errorAddExpense: false,
+  toggleAddExpenseSuccess: false,
 };
 
-export const reducer = (state = initialState, { type, payload, name }) => {
+export const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case FETCH_EXPENSES_LOADING:
+    // ----------------------------- CATEGORY ----------------------------------
+    // Add Category
+    case ADD_CATEGORY_LOADING: {
+      return { ...state, loadingAddCategory: true, errorAddCategory: false };
+    }
+    case ADD_CATEGORY_ERROR: {
+      return { ...state, loadingAddCategory: false, errorAddCategory: true };
+    }
+    case ADD_CATEGORY_SUCCESS: {
+      return {
+        ...state,
+        loadingAddCategory: false,
+        toggleAddCategorySuccess: !state.toggleAddCategorySuccess,
+      };
+    }
+    // Get All Categories
+    case GET_ALL_CATEGORIES_LOADING: {
       return { ...state, isLoading: true, isError: false };
-    case FETCH_EXPENSES_ERROR:
+    }
+    case GET_ALL_CATEGORIES_ERROR: {
       return { ...state, isLoading: false, isError: true };
-    case FETCH_EXPENSES_SUCCESS:
+    }
+    case GET_ALL_CATEGORIES_SUCCESS: {
       return {
         ...state,
+        categoryData: payload,
         isLoading: false,
-        currentExpense: payload[0]?._id || "",
-        expenseCategory: payload,
-      };
-    
-       
-    // Get Current Party actions
-    case LOADING_GET_CURRENT_EXPENSE:
-      return {
-        ...state,
-        loadingGetCurrentExpenseData: true,
-        errorGetCurrentExpenseData: false,
-      };
-    case ERROR_GET_CURRENT_EXPENSE:
-      return {
-        ...state,
-        loadingGetCurrentExpenseData: false,
-        errorGetCurrentExpenseData: true,
-      };
-    case SUCCESS_GET_CURRENT_EXPENSE:
-      return {
-        ...state,
-        loadingGetCurrentExpenseData: false,
-        currentExpenseTansection: payload,
-      };
-
-    // Edit Expense actions
-    case EDIT_EXPENSE_LOADING: {
-      return {
-        ...state,
-        loadingEdit: true,
-        errorEdit: false,
-      };
-    }
-    case EDIT_EXPENSE_ERROR: {
-      return {
-        ...state,
-        loadingEdit: false,
-        errorEdit: true,
-      };
-    }
-    case SUCCESS_EDIT_EXPENSE: {
-      return {
-        ...state,
-        loadingEdit: false,
-        // toggleExpensesData: !state.togglePartiesData,
+        toggleGetAllCategoriesSuccess: !state.toggleGetAllCategoriesSuccess,
       };
     }
 
-    // Delete Party actions
-    case LOADING_DELETE_EXPENSE: {
+    // ----------------------------- ITEM ----------------------------------
+    // Add Item
+    case ADD_ITEM_LOADING: {
+      return { ...state, loadingAddItem: true, errorAddItem: false };
+    }
+    case ADD_ITEM_ERROR: {
+      return { ...state, loadingAddItem: false, errorAddItem: true };
+    }
+    case ADD_ITEM_SUCCESS: {
       return {
         ...state,
-        loadingDeleteExpense: true,
-        errorDeleteExpense: false,
+        loadingAddItem: false,
+        toggleAddItemSuccess: !state.toggleAddItemSuccess,
       };
     }
-    case ERROR_DELETE_EXPENSE: {
+    // Get All Items
+    case GET_ALL_ITEMS_LOADING: {
+      return { ...state, isLoading: true, isError: false };
+    }
+    case GET_ALL_ITEMS_ERROR: {
+      return { ...state, isLoading: false, isError: true };
+    }
+    case GET_ALL_ITEMS_SUCCESS: {
       return {
         ...state,
-        loadingDeleteExpense: false,
-        errorDeleteExpense: true,
+        itemsData: payload,
+        isLoading: false,
+        toggleGetAllItemsSuccess: !state.toggleGetAllItemsSuccess,
       };
     }
-    case SUCCESS_DELETE_EXPENSE: {
+
+    // ----------------------------- EXPENSE ----------------------------------
+    // Add Expense
+    case ADD_EXPENSE_LOADING: {
+      return { ...state, loadingAddExpense: true, errorAddExpense: false };
+    }
+    case ADD_EXPENSE_ERROR: {
+      return { ...state, loadingAddExpense: false, errorAddExpense: true };
+    }
+    case ADD_EXPENSE_SUCCESS: {
       return {
         ...state,
-        loadingDeleteExpense: false,
-        // toggleExpensesData: !state.togglePartiesData,
+        loadingAddExpense: false,
+        toggleAddExpenseSuccess: !state.toggleAddExpenseSuccess,
       };
     }
+
     default:
       return state;
   }
