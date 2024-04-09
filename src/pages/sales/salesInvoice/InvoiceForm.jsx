@@ -1,4 +1,4 @@
-import css from "../../../styles/SalesStyles/SalesForms.module.css";
+import css from "../SalesForms.module.css";
 import InvoiceGenerator from "../invoiceGenerator";
 import AddItemForm from "../../../Page/Items/AddItemForm";
 import FormItemsRowTable from "../../../Component/FormItemsRowTable";

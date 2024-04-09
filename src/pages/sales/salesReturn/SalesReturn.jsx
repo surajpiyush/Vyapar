@@ -42,9 +42,13 @@ export default function SalesReturn() {
   const [openForm, setOpenForm] = useState(false);
   const [toggleSetting, setToggleSetting] = useState(false);
   const currentDate = new Date();
-  const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+  const startOfMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    1
+  );
   const formattedStartDate = startOfMonth.toISOString().split("T")[0];
-  const [startDate, setStartDate] = useState(formattedStartDate);  
+  const [startDate, setStartDate] = useState(formattedStartDate);
   const [endDate, setEndDate] = useState(
     new Date().toISOString().split("T")[0]
   );

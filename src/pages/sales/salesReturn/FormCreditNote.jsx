@@ -1,4 +1,4 @@
-import css from "../../../styles/SalesStyles/SalesForms.module.css";
+import css from "../SalesForms.module.css";
 import AddItemForm from "../../../Page/Items/AddItemForm";
 import FormItemsRowTable from "../../../Component/FormItemsRowTable";
 import { GetAllItems } from "../../../Redux/items/actions";
@@ -57,7 +57,7 @@ const FormCreditNote = ({ setOpenForm, setToggleSetting }) => {
   const [showItemForm, setShowAddItemsForm] = useState(false);
   const [receiveAmount, setReceiveAmount] = useState("");
   const [balanceAmount, setBalanceAmount] = useState("");
-  const [stateChanged,setStateChanged] = useState(false)
+  const [stateChanged, setStateChanged] = useState(false);
 
   function genweateReturnNumber() {
     const currentDate = new Date();
@@ -192,8 +192,7 @@ const FormCreditNote = ({ setOpenForm, setToggleSetting }) => {
 
   // for fetching all items list on form mount
   useEffect(() => {
-   
-    GetAllItems(dispatch)
+    GetAllItems(dispatch);
   }, [toggleItems]);
 
   // for updating Firm Data
@@ -223,8 +222,8 @@ const FormCreditNote = ({ setOpenForm, setToggleSetting }) => {
   // Input Change Function
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if(name === "stateOfSupply" && currentCustomerData?.state !== value ){
-      setStateChanged(true)
+    if (name === "stateOfSupply" && currentCustomerData?.state !== value) {
+      setStateChanged(true);
     }
     setOrderData((prev) => {
       return { ...prev, [name]: value };
@@ -684,21 +683,13 @@ const FormCreditNote = ({ setOpenForm, setToggleSetting }) => {
                 <p>ADD DESCRIPTION</p>
               </div>
             )}
-            <div
-             
-              className={css.addDecriptionDiv}
-              style={{ width: "150px" }}
-            >
-            <input type="file" />
+            <div className={css.addDecriptionDiv} style={{ width: "150px" }}>
+              <input type="file" />
               <AddCameraIcon />
               <p>ADD IMAGE</p>
             </div>
-            <div
-             
-              className={css.addDecriptionDiv}
-              style={{ width: "150px" }}
-            >
-            <input type="file" />
+            <div className={css.addDecriptionDiv} style={{ width: "150px" }}>
+              <input type="file" />
               <AddDocumentIcon />
               <p>ADD DOCUMENT</p>
             </div>
