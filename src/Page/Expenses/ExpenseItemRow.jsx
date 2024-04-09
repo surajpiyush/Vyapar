@@ -1,4 +1,4 @@
-import css from "../../styles/SalesStyles/SalesForms.module.css";
+import css from "../../pages/sales/SalesForms.module.css";
 
 import { useDispatch, useSelector } from "react-redux";
 import { memo, useEffect, useState } from "react";

@@ -1,4 +1,5 @@
-import css from "../../styles/SalesStyles/SalesForms.module.css";
+// import css from "../../styles/SalesStyles/SalesForms.module.css";
+import css from "../../pages/sales/SalesForms.module.css";
 import AddItemForm from "../../Page/Items/AddItemForm";
 import AddPurchaseForm from "../../Component/Purchase/AddPurchaseForm";
 import { GetAllItems } from "../../Redux/items/actions";
