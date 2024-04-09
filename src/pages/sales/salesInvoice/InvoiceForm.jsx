@@ -8,7 +8,6 @@ import {
   PostSalesInvoice,
   generateInvoiceNumber,
 } from "../../../Redux/sales/action";
-import { GetSingleInvoiceData } from "../../../Redux/sales/action";
 
 import {
   Button,
