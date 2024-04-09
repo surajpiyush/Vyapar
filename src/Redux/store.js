@@ -8,23 +8,24 @@ import { reducer as PartiesReducer } from "./parties/reducer";
 import { reducer as PurchaseReducer } from "./purchase/reducer";
 import { reducer as ReportReducer } from "./report/reducer";
 import { reducer as SettingReducer } from "./setting/reducer";
-
+import { reducer as ExpenseReducer } from "./expenses/reducer";
 const rootReducer = combineReducers({
-  ItemReducer,
-  PartiesReducer,
-  BusinessReducer,
-  SalesReducer,
-  PurchaseReducer,
-  ReportReducer,
-  SettingReducer,
+   ItemReducer,
+   PartiesReducer,
+   BusinessReducer,
+   SalesReducer,
+   PurchaseReducer,
+   ReportReducer,
+   SettingReducer,
+   ExpenseReducer,
 });
 
 // Enhance store with Redux DevTools Extension
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export const store = createStore(
-  rootReducer,
-  composeEnhancers(applyMiddleware(thunk))
+   rootReducer,
+   composeEnhancers(applyMiddleware(thunk))
 );
 
 // ------------------ API URL -----------------
