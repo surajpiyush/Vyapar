@@ -36,6 +36,7 @@ import {
 import ExpenseItemRow from "./ExpenseItemRow";
 import CategoryForm from "./CategoryForm";
 import ItemForm from "./ItemForm";
+import WithOutGstItemRow from "./WithOutGstItemRow";
 
 const AddExpenses = ({ setOpenForm }) => {
   const toast = useToast();
@@ -50,11 +51,12 @@ const AddExpenses = ({ setOpenForm }) => {
   const categoryData = useSelector(
     (store) => store.ExpenseReducer.categoryData
   );
+  const items = useSelector((state) => state.ExpenseReducer.itemsData);
+
   const partiesData = useSelector(
     (state) => state.PartiesReducer.partiesData || []
   );
   const partiesLoading = useSelector((state) => state.PartiesReducer.isLoading);
-
   const togglePartiesData = useSelector(
     (state) => state.PartiesReducer.togglePartiesData
   );
@@ -62,7 +64,6 @@ const AddExpenses = ({ setOpenForm }) => {
   const getAllItemsLoading = useSelector(
     (state) => state.ItemReducer.getAllItemsLoading
   );
-  const items = useSelector((state) => state.ItemReducer.allItems);
   const allPurchaseBills = useSelector(
     (store) => store.PurchaseReducer.purchaseBillData
   );
@@ -92,6 +93,7 @@ const AddExpenses = ({ setOpenForm }) => {
 
   // -------
   const [withGST, setWithGST] = useState(false);
+  const [currItemIndex, setCurrItemIndex] = useState(0);
   const [showAddCategoryForm, setShowAddCategoryForm] = useState(false);
   const [expenseItems, setExpenseItems] = useState([
     {
@@ -108,25 +110,32 @@ const AddExpenses = ({ setOpenForm }) => {
   ]);
 
   const [expenseData, setExpenseData] = useState({
-    partyName: "",
-    billDate: new Date().toISOString().split("T")[0],
-    paymentTerms: "",
-    dueDate: new Date().toISOString().split("T")[0],
-    stateOfSupply: "",
-    sale: [],
-    addDescription: "Additional description here",
-    discount: {
-      discountPersent: 0,
-      discountAmount: 0,
-    },
-    tax: {
-      tax: "",
-      taxamount: 0,
-    },
-    roundOff: 0,
+    // Without GST
+    date: new Date().toISOString().split("T")[0],
+    category: "",
+    addDescription: "",
     total: 0,
-    paid: 0,
-    balance: 0,
+    roundOff: 0,
+    expItem: [{ itemName: "", qty: 1, priceUnit: 0, amount: 0 }],
+    paymentType: [{ types: "", amount: "" }],
+
+    //
+    // partyName: "",
+    // billDate: new Date().toISOString().split("T")[0],
+    // paymentTerms: "",
+    // dueDate: new Date().toISOString().split("T")[0],
+    // stateOfSupply: "",
+    // sale: [],
+    // discount: {
+    //   discountPersent: 0,
+    //   discountAmount: 0,
+    // },
+    // tax: {
+    //   tax: "",
+    //   taxamount: 0,
+    // },
+    // paid: 0,
+    // balance: 0,
   });
 
   const sortedStates = [
@@ -262,13 +271,14 @@ const AddExpenses = ({ setOpenForm }) => {
 
   // Found items list click handler
   const handleMenuItemClick = (index, itemDetail) => {
+    console.log("taxRate", itemDetail?.taxRate);
     let currSaleItem = {
       ...expenseItems[index],
       itemName: itemDetail?._id,
       mainName: itemDetail?.itemName,
-      taxPersant: stateChanged
-        ? `I${itemDetail?.taxRate.split("%")[0] || ""}`
-        : itemDetail?.taxRate.split("%")[0] || "",
+      // taxPersant: stateChanged
+      //   ? `I${itemDetail?.taxRate.split("%")[0] || ""}`
+      //   : itemDetail?.taxRate.split("%")[0] || "",
       priceUnit: itemDetail?.stock?.atPrice || 0,
       hsnCode: itemDetail?.itemHsn || "",
     };
@@ -317,9 +327,16 @@ const AddExpenses = ({ setOpenForm }) => {
   // Submit Function
   const handleSubmit = (e) => {
     e.preventDefault();
-    toast({ title: "Expense Work Under Development", status: "warning" });
-    // console.log("expenseData", expenseData);
-    // AddExpense(dispatch, withGST, expenseData, setOpenForm, toast);
+    let formData = {
+      ...expenseData,
+      [withGST ? "expenseCategory" : "expCat"]: expenseData?.category,
+    };
+    if (withGST) {
+      toast({ title: "Expense Work Under Development", status: "warning" });
+    } else {
+      // AddExpense(dispatch, withGST, expenseData, setOpenForm, toast);
+    }
+    console.log("expenseData", formData);
   };
 
   return (
@@ -395,6 +412,7 @@ const AddExpenses = ({ setOpenForm }) => {
                 </select>
               </div>
             )}
+            {/* Category */}
             <div
               onClick={(e) => {
                 e.stopPropagation();
@@ -451,7 +469,7 @@ const AddExpenses = ({ setOpenForm }) => {
                               setExpenseData((prev) => {
                                 return { ...prev, category: item?._id };
                               });
-                              setCurrCategoryName(item?.categoryName);
+                              setCurrCategoryName(item?.expName);
                               setShowCategoryMenu(false);
                             }
                           }}
@@ -463,7 +481,7 @@ const AddExpenses = ({ setOpenForm }) => {
                             checked={expenseData?.category == item?._id}
                             onChange={() => ""}
                           />
-                          <h3>{item?.categoryName}</h3>
+                          <h3>{item?.expName}</h3>
                         </div>
                       ))}
                     </div>
@@ -471,35 +489,18 @@ const AddExpenses = ({ setOpenForm }) => {
                 </div>
               )}
             </div>
-            {/* <div className={css.selectOuter}>
-              <select name="category" className={css.selectTag} required>
-                <option value="">"Category"</option>
-                <option onClick={handleAddCategoryClick}>Add category</option>
-                {isLoading ? (
-                  <option value="">Loading Category</option>
-                ) : categoryList.length ? (
-                  categoryList?.map((item, ind) => (
-                    <option value={item._id} key={ind + item._id}>
-                      {item?.categoryName}
-                    </option>
-                  ))
-                ) : (
-                  <option value="">No Category found</option>
-                )}
-              </select>
-            </div> */}
           </div>
 
           <div className={css.rightSideCont}>
             <div>
-              <p>Bill Date</p>
+              <p>{withGST ? "Bill Date" : "Date"}</p>
               <input
                 type="date"
-                placeholder="Invoice Date"
+                value={expenseData.billDate}
                 className={css.invoiceDateSelectInp}
                 onChange={(e) => handleInputChange(e)}
-                name="billDate"
-                value={expenseData.billDate}
+                name="date"
+                placeholder="Date"
                 // defaultValue={new Date().toISOString().split("T")[0]}
                 // readOnly
               />
@@ -556,11 +557,9 @@ const AddExpenses = ({ setOpenForm }) => {
             )}
           </div>
         </div>
+
         {/* Items Section */}
         <div className={css.ItemsOuter}>
-          <br />
-          <br />
-          <br />
           <table>
             <thead>
               <tr>
@@ -600,26 +599,36 @@ const AddExpenses = ({ setOpenForm }) => {
             <tbody>
               {expenseItems?.map((item, ind) => {
                 return (
-                  <ExpenseItemRow
-                    ind={ind}
-                    item={item}
-                    expenseItems={expenseItems}
-                    Expand
-                    Down
-                    setExpenseItems={setExpenseItems}
-                    handleDeleteRow={handleDeleteRow}
-                    handleMenuItemClick={handleMenuItemClick}
-                    setShowItemsListMenu={setShowItemsListMenu}
-                    setShowItemForm={setShowItemForm}
-                    setIndexSaleItem={setIndexSaleItem}
-                    items={items}
-                    getAllItemsLoading={getAllItemsLoading}
-                    showItemsListMenu={showItemsListMenu}
-                    indexSaleItem={indexSaleItem}
-                    key={ind}
-                    stateChanged={stateChanged}
-                    withGST={withGST}
-                  />
+                  <>
+                    <WithOutGstItemRow
+                      ind={ind}
+                      item={item}
+                      currItemIndex={currItemIndex}
+                      setCurrItemIndex={setCurrItemIndex}
+                      handleDeleteRow={handleDeleteRow}
+                      key={ind + item?._id}
+                    />
+                    <ExpenseItemRow
+                      ind={ind}
+                      item={item}
+                      expenseItems={expenseItems}
+                      Expand
+                      Down
+                      setExpenseItems={setExpenseItems}
+                      handleDeleteRow={handleDeleteRow}
+                      handleMenuItemClick={handleMenuItemClick}
+                      setShowItemsListMenu={setShowItemsListMenu}
+                      setShowItemForm={setShowItemForm}
+                      setIndexSaleItem={setIndexSaleItem}
+                      items={items}
+                      getAllItemsLoading={getAllItemsLoading}
+                      showItemsListMenu={showItemsListMenu}
+                      indexSaleItem={indexSaleItem}
+                      key={ind}
+                      stateChanged={stateChanged}
+                      withGST={withGST}
+                    />
+                  </>
                 );
               })}
               <tr className={css.addRowTr}>
@@ -915,6 +924,7 @@ const AddExpenses = ({ setOpenForm }) => {
           </div>
         </div>
       </div>
+
       {/* Footer */}
       <div className={css.FooterOuter}>
         <button disabled={addPurchaseLoading} type="submit">

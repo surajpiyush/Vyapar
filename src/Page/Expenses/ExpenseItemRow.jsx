@@ -1,11 +1,10 @@
 import css from "../../pages/sales/SalesForms.module.css";
+import { GetAllCategories } from "../../Redux/items/actions";
+import { DeleteIcon3, MoveIcon } from "../../assets/Icons/ReactIcons";
 
 import { useDispatch, useSelector } from "react-redux";
 import { memo, useEffect, useState } from "react";
 import { Menu, MenuList, MenuItem, MenuDivider } from "@chakra-ui/react";
-import { MdDelete as DeleteIcon } from "react-icons/md";
-import { TbArrowsMove as MoveIcon } from "react-icons/tb";
-import { GetAllCategories } from "../../Redux/items/actions";
 
 const AddPurchaseForm = memo(
   ({
@@ -26,28 +25,24 @@ const AddPurchaseForm = memo(
     gst = false,
   }) => {
     const dispatch = useDispatch();
-    const loadingAllItems = useSelector(
-      (state) => state.ItemReducer.getAllItemsLoading
-    );
-    const itemsList = useSelector((state) => state.ItemReducer.items);
-    const category = useSelector((state) => state.ItemReducer.category);
-    const setting = useSelector((state) => state.SettingReducer.transaction);
-    // console.log(setting);
+    const isLoading = useSelector((state) => state.ExpenseReducer.isLoading);
+    const itemsList = useSelector((state) => state.ExpenseReducer.itemsData);
+    const category = useSelector((state) => state.ExpenseReducer.categoryData);
     const [foundItems, setFoundItems] = useState([]);
 
-    useEffect(() => {
-      dispatch(GetAllCategories);
-    }, []);
+    // useEffect(() => {
+    //   dispatch(GetAllCategories);
+    // }, []);
 
-    //   useEffect(() => {
-    //      const regex = new RegExp(item?.itemName, "i");
-    //      const itemsArr = Array.isArray(itemsList) ? itemsList : [];
-    //      const found = itemsArr?.filter((ite) => regex.test(ite.itemName));
-    //      if (item?.itemName.length < 1) {
-    //         return setFoundItems(items);
-    //      }
-    //      setFoundItems(found);
-    //   }, [item?.itemName, itemsList]);
+    useEffect(() => {
+      const regex = new RegExp(item?.itemName, "i");
+      const itemsArr = Array.isArray(itemsList) ? itemsList : [];
+      const found = itemsArr?.filter((ite) => regex.test(ite.itemName));
+      if (item?.itemName.length < 1) {
+        return setFoundItems(items);
+      }
+      setFoundItems(found);
+    }, [item?.itemName, itemsList]);
 
     function AmountCalculator() {
       const parseToNumber = (value) => (value ? parseFloat(value) : 0);
@@ -56,8 +51,8 @@ const AddPurchaseForm = memo(
       let discountPercent = parseToNumber(item?.discountpersant) || 0;
       let discountAmount = parseToNumber(item?.discountAmount) || 0;
       let taxPercent = 0;
-      if (item && item.taxPersant) {
-        const parts = item.taxPersant.split("@");
+      if (item && item.taxRate) {
+        const parts = item?.taxRate.split("@");
         if (parts.length === 2) {
           const numericValue = parseFloat(parts[1].trim());
           if (!isNaN(numericValue)) {
@@ -138,7 +133,6 @@ const AddPurchaseForm = memo(
       item.discountpersant,
       item.taxPersant,
     ]);
-    //   console.log(item);
 
     return (
       <tr
@@ -154,7 +148,7 @@ const AddPurchaseForm = memo(
           <div>
             <MoveIcon className={css.serialIconsBody} />
             <p>{ind + 1}</p>
-            <DeleteIcon
+            <DeleteIcon3
               onClick={(e) => handleDeleteRow(e, ind)}
               className={css.serialIconsBody}
             />
@@ -202,7 +196,7 @@ const AddPurchaseForm = memo(
               </MenuItem>
               <MenuDivider />
               {getAllItemsLoading && <MenuItem>Loading Items...</MenuItem>}
-              {loadingAllItems && foundItems.length <= 0 && (
+              {isLoading && foundItems.length <= 0 && (
                 <MenuItem style={{ color: "red" }}>No Items Found!</MenuItem>
               )}
               {!getAllItemsLoading &&
@@ -215,7 +209,6 @@ const AddPurchaseForm = memo(
                     }}
                   >
                     {itemList?.itemName}
-                    {"  "}({itemList?.stock?.openingQuantity})
                   </MenuItem>
                 ))}
             </MenuList>
