@@ -47,9 +47,9 @@ const CategoryForm = ({
       if (usedAsEditForm) {
         //   UpdateCategory(dispatch, formData?._id, formData, setShowForm, toast);
       } else {
-        //  console.log("Category Data:", formData);
         AddExpenseCategory(dispatch, formData, setShowForm, toast);
       }
+      // console.log("Category Data:", formData);
     } else {
       toast({ title: "Category Name cannot be empty!", status: "warning" });
     }

@@ -461,7 +461,7 @@ const AddExpenses = ({ setOpenForm }) => {
                           <input
                             type="checkbox"
                             checked={expenseData?.category == item?._id}
-                            onChange={null}
+                            onChange={() => ""}
                           />
                           <h3>{item?.categoryName}</h3>
                         </div>

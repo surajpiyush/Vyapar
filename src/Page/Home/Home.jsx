@@ -1,4 +1,6 @@
 import css from "./Home.module.css";
+import Loader4 from "../../Component/Loaders/Loader4";
+import { API_URL, USER_DETAILS } from "../../Redux/store";
 import {
   WalletIcon,
   RupeesIcon,
@@ -10,9 +12,12 @@ import {
   OpenToggleIcon,
 } from "../../assets/Icons/ReactIcons";
 
-import { useState } from "react";
+import axios from "axios";
+import { useToast } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 
 const Home = () => {
+  const toast = useToast();
   const [privacyToggle, setPrivacyToggle] = useState(false);
   const [isMonthModelOpenForSale, setIsMonthModelOpenForSale] = useState(false);
   const [isMonthModelOpenForPurchase, setIsMonthModelOpenForPurchase] =
@@ -21,9 +26,53 @@ const Home = () => {
     useState(false);
   const [ismonthmodelopenForExpenses, setIsmonthmodelopenForExpenses] =
     useState(false);
+  const [homeStates, setHomeStates] = useState({
+    isLoading: false,
+    isError: false,
+    data: {},
+  });
+
+  // Fetch Home Data
+  const FetchHomeData = async () => {
+    toast.closeAll();
+    setHomeStates((prev) => {
+      return { ...prev, isLoading: true, isError: false };
+    });
+    const token = localStorage.getItem("token");
+    const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+
+    try {
+      const response = await axios.get(`${API_URL}/${FirmId}/home-page`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      console.log("Fetch Home Data Response:", response);
+      setHomeStates((prev) => {
+        return { ...prev, isLoading: false, data: response?.data || {} };
+      });
+    } catch (error) {
+      toast({
+        title:
+          error?.response?.data?.msg ||
+          error?.response?.data?.message ||
+          "Something Went Wrong!",
+        status: "error",
+      });
+      setHomeStates((prev) => {
+        return { ...prev, isLoading: false, isError: true };
+      });
+      console.log("Error Fetching Home Data:", error);
+    }
+  };
+
+  useEffect(() => {
+    FetchHomeData();
+  }, []);
 
   return (
     <div className={css.homeOuter}>
+      {homeStates?.isLoading && <Loader4 />}
+
       {/* Home.jsx */}
       <div className={css.leftSideOuter}>
         <div className={css.homeContainerDiv1}>
