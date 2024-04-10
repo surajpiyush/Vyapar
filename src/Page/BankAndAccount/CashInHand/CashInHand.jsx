@@ -1,4 +1,8 @@
-import { FilterIcon, PlusIcon2, SearchIcon } from "../../../assets/Icons/ReactIcons";
+import {
+   FilterIcon,
+   PlusIcon2,
+   SearchIcon,
+} from "../../../assets/Icons/ReactIcons";
 import css from "../../../pages/sales/salesEstimates/Estimate.module.css";
 import React from "react";
 
@@ -31,21 +35,16 @@ export const CashInHand = () => {
                <table>
                   <thead>
                      <tr>
-                        {[
-                           "",
-                           "TYPE",
-                           "NAME",
-                           "DATE",
-                           "AMOUNT",
-                           "",
-                          
-                        ].map((item, ind) => (
-                           <th key={item + ind}>
-                              <div>{item}
-                              <FilterIcon/>
-                              </div>
-                           </th>
-                        ))}
+                        {["", "TYPE", "NAME", "DATE", "AMOUNT", ""].map(
+                           (item, ind) => (
+                              <th key={item + ind}>
+                                 <div>
+                                    {item}
+                                    <FilterIcon />
+                                 </div>
+                              </th>
+                           )
+                        )}
                      </tr>
                   </thead>
 

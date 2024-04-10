@@ -62,16 +62,16 @@ const AddBankAccount = ({
    // Handle Save Function
    const handleSubmit = (e) => {
       e.preventDefault();
-
-      if (usedAsEditForm) {
-         if (!loadingEdit) {
-            UpdateParty(dispatch, formData?._id, formData, CloseForm, toast);
-         }
-      } else {
-         if (!postPartyLoading) {
-            SaveParty(dispatch, formData, CloseForm, toast);
-         }
-      }
+// console.log(formData)
+      // if (usedAsEditForm) {
+      //    if (!loadingEdit) {
+      //       UpdateParty(dispatch, formData?._id, formData, CloseForm, toast);
+      //    }
+      // } else {
+      //    if (!postPartyLoading) {
+      //       SaveParty(dispatch, formData, CloseForm, toast);
+      //    }
+      // }
    };
 
    //   Delete Party Function

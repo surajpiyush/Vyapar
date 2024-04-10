@@ -101,7 +101,7 @@ const SaleReturn = ({ saleReturnData }) => {
                   </td>
                   <td>
                     <div style={{ textAlign: "right" }}>
-                      ₹{item?.taxableValue || 0}
+                      ₹{item?.total - item?.taxableValue || 0}
                     </div>
                   </td>
                   <td>
@@ -113,7 +113,7 @@ const SaleReturn = ({ saleReturnData }) => {
                     <div style={{ textAlign: "right" }}>
                       ₹
                       {Number(item?.taxableValue)
-                        ? Math.floor(Number(item?.taxableValue) / 2)
+                        ? (Number(item?.taxableValue) / 2).toFixed(2)
                         : 0}
                     </div>
                   </td>
@@ -121,7 +121,7 @@ const SaleReturn = ({ saleReturnData }) => {
                     <div style={{ textAlign: "right" }}>
                       ₹
                       {Number(item?.taxableValue)
-                        ? Math.floor(Number(item?.taxableValue) / 2)
+                        ? (Number(item?.taxableValue) / 2).toFixed(2)
                         : 0}
                     </div>
                   </td>
