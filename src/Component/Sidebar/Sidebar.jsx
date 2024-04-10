@@ -333,7 +333,7 @@ const SidebarItems = [
       { name: "Import Parties", to: "/parties" },
       { name: "Import To Tally", to: "/" },
       { name: "Export To Tally", to: "/" },
-      { name: "Export Items", to: "/" },
+      { name: "Export Items", to: "/exportItem" },
       { name: "Verify My Data", to: "/" },
       { name: "Recycle Bin", to: "/" },
       { name: "Close Financial Year", to: "/" },

@@ -37,6 +37,7 @@ import { Provider } from "react-redux";
 import { ChakraProvider } from "@chakra-ui/react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Expenses from "./Page/Expenses/Expenses.jsx";
+import ExportItem from "./Page/Utilities/ExportItem/ExportItem.jsx";
 
 const router = createBrowserRouter([
    {
@@ -155,10 +156,12 @@ const router = createBrowserRouter([
             element: <SaleHSN />,
          },
          { path: "/marketing", element: <Marketing /> },
-         
+
          // Expenses
          { path: "/expenses", element: <Expenses /> },
 
+         // Utilites
+         { path: "/exportItem", element: <ExportItem /> },
 
          { path: "*", element: <NotFoundPage /> },
       ],
