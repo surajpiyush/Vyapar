@@ -15,30 +15,18 @@ import CategoryForm from "./CategoryForm";
 
 const Item = ({ showAddForm }) => {
   const dispatch = useDispatch();
-  const selectedItemData = useSelector(
-    (store) => store.ItemReducer.selectedItemData
-  );
+  const itemsData = useSelector((store) => store.ExpenseReducer.itemsData);
+  const isLoading = useSelector((store) => store.ExpenseReducer.isLoading);
+
+  // const clickedItemData = useSelector(
+  //   (store) => store.ItemReducer.clickedItemData
+  // );
   const selectedItemTransactionData = useSelector(
     (store) => store.ItemReducer.selectedItemTransactionData
-  );
-  // ItemsList
-  const itemsList = useSelector((store) => store.ItemReducer.items);
-  // Get All Items Loading
-  const getAllItemsLoading = useSelector(
-    (store) => store.ItemReducer.getAllItemsLoading
-  );
-  // Get Selected Items Loading
-  const loadingGetSelectedItemData = useSelector(
-    (store) => store.ItemReducer.loadingGetSelectedItemData
   );
 
   const [showEditItemForm, setShowEditItemForm] = useState(false);
   const [clickedItemData, setClickedItemData] = useState({});
-
-  const handleStatusToggle = (index) => {
-    const updatedTableData = [...selectedItemTransactionData];
-    updatedTableData[index].status = !updatedTableData[index].status;
-  };
 
   return (
     <div className={css.ContentOuter}>
@@ -78,9 +66,9 @@ const Item = ({ showAddForm }) => {
                 </th>
               </tr>
             </thead>
-            {!getAllItemsLoading && (
+            {!isLoading && (
               <tbody>
-                {itemsList?.map((e, index) => (
+                {itemsData?.map((e, index) => (
                   <tr
                     key={e?._id + index}
                     onClick={() => {
@@ -93,10 +81,10 @@ const Item = ({ showAddForm }) => {
                     <td>{e?.itemName}</td>
                     <td>
                       <span>
-                        {e?.stock?.openingQuantity || 0}
+                        {e?.total || 0}
                         <VerticalDotsIcon
                           onClick={() => {
-                            setShowEditItemForm(true);
+                            // setShowEditItemForm(true);
                           }}
                         />
                       </span>
@@ -111,35 +99,24 @@ const Item = ({ showAddForm }) => {
 
       {/* Right Side Content */}
       <div className={css.RightSideDivOuter}>
-        {/* {!loadingGetSelectedItemData && selectedItemData?.itemName && (
-      <div className={css.PartyDetailsOuter}>
-        <div>
-          <h5>
-            {selectedItemData?.itemName ? selectedItemData?.itemName : ""}
-          </h5>
-          <p>
-            {selectedItemData?.salePrice?.price &&
-              `Sales Price: ₹${selectedItemData?.salePrice?.price}`}
-          </p>
-          <p>
-            Stock Quantity:{" "}
-            {selectedItemData?.stock?.openingQuantity ||
-              selectedItemData?.ReservedQuantity ||
-              1}
-          </p>
-        </div>
-        <div>
-          <p>
-            {selectedItemData?.purchasePrice?.price &&
-              `Purchase Price: ₹${selectedItemData?.purchasePrice?.price}`}
-          </p>
-          <p>
-            {selectedItemData?.StockValue &&
-              `Stock Value: ₹${selectedItemData?.StockValue}`}
-          </p>
-        </div>
-      </div>
-    )} */}
+        {clickedItemData?.itemName && (
+          <div className={css.PartyDetailsOuter}>
+            <div>
+              <h5>{clickedItemData?.itemName || ""}</h5>
+            </div>
+            <div>
+              <p>
+                Total :{" "}
+                <span>
+                  ₹
+                  {clickedItemData?.total
+                    ? Number(clickedItemData?.total).toFixed(2)
+                    : Number(0).toFixed(2)}
+                </span>
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* <div className={css.rightSideTableCss}>
       <table>

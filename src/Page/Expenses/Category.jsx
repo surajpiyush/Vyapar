@@ -1,4 +1,5 @@
 import css from "./Expenses.module.css";
+import CategoryForm from "./CategoryForm";
 import AddItemForm from "../Items/AddItemForm";
 import { GetSelectedItemData } from "../../Redux/items/actions";
 import {
@@ -11,34 +12,20 @@ import {
 
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import CategoryForm from "./CategoryForm";
+import { GetSelectedCateData } from "../../Redux/expenses/actions";
 
 const Category = ({ showAddForm }) => {
   const dispatch = useDispatch();
-  const selectedItemData = useSelector(
-    (store) => store.ItemReducer.selectedItemData
+  const categoryData = useSelector(
+    (store) => store.ExpenseReducer.categoryData
   );
-  const selectedItemTransactionData = useSelector(
-    (store) => store.ItemReducer.selectedItemTransactionData
-  );
-  // ItemsList
-  const itemsList = useSelector((store) => store.ItemReducer.items);
-  // Get All Items Loading
-  const getAllItemsLoading = useSelector(
-    (store) => store.ItemReducer.getAllItemsLoading
-  );
-  // Get Selected Items Loading
-  const loadingGetSelectedItemData = useSelector(
-    (store) => store.ItemReducer.loadingGetSelectedItemData
+  const isLoading = useSelector((store) => store.ExpenseReducer.isLoading);
+  const loadingGetSelectedCategory = useSelector(
+    (store) => store.ExpenseReducer.loadingGetSelectedCategory
   );
 
   const [showEditItemForm, setShowEditItemForm] = useState(false);
   const [clickedItemData, setClickedItemData] = useState({});
-
-  const handleStatusToggle = (index) => {
-    const updatedTableData = [...selectedItemTransactionData];
-    updatedTableData[index].status = !updatedTableData[index].status;
-  };
 
   return (
     <div className={css.ContentOuter}>
@@ -78,25 +65,25 @@ const Category = ({ showAddForm }) => {
                 </th>
               </tr>
             </thead>
-            {!getAllItemsLoading && (
+            {!isLoading && (
               <tbody>
-                {itemsList?.map((e, index) => (
+                {categoryData?.map((e, index) => (
                   <tr
                     key={e?._id + index}
                     onClick={() => {
                       setClickedItemData(e);
-                      //   if (!loadingGetSelectedItemData) {
-                      //     GetSelectedItemData(dispatch, e?._id);
-                      //   }
+                      if (!loadingGetSelectedCategory) {
+                        GetSelectedCateData(dispatch, e?._id);
+                      }
                     }}
                   >
-                    <td>{e?.itemName}</td>
+                    <td>{e?.expName}</td>
                     <td>
                       <span>
-                        {e?.stock?.openingQuantity || 0}
+                        {e?.count || 0}
                         <VerticalDotsIcon
                           onClick={() => {
-                            setShowEditItemForm(true);
+                            // setShowEditItemForm(true);
                           }}
                         />
                       </span>
@@ -111,37 +98,36 @@ const Category = ({ showAddForm }) => {
 
       {/* Right Side Content */}
       <div className={css.RightSideDivOuter}>
-        {/* {!loadingGetSelectedItemData && selectedItemData?.itemName && (
+        {clickedItemData?.expName && (
           <div className={css.PartyDetailsOuter}>
             <div>
-              <h5>
-                {selectedItemData?.itemName ? selectedItemData?.itemName : ""}
-              </h5>
-              <p>
-                {selectedItemData?.salePrice?.price &&
-                  `Sales Price: ₹${selectedItemData?.salePrice?.price}`}
-              </p>
-              <p>
-                Stock Quantity:{" "}
-                {selectedItemData?.stock?.openingQuantity ||
-                  selectedItemData?.ReservedQuantity ||
-                  1}
-              </p>
+              <h5>{clickedItemData?.expName || ""}</h5>
+              <p>{clickedItemData?.expType}</p>
             </div>
             <div>
               <p>
-                {selectedItemData?.purchasePrice?.price &&
-                  `Purchase Price: ₹${selectedItemData?.purchasePrice?.price}`}
+                Total :{" "}
+                <span>
+                  ₹
+                  {clickedItemData?.count
+                    ? Number(clickedItemData?.count).toFixed(2)
+                    : Number(0).toFixed(2)}
+                </span>
               </p>
               <p>
-                {selectedItemData?.StockValue &&
-                  `Stock Value: ₹${selectedItemData?.StockValue}`}
+                Total :{" "}
+                <span>
+                  ₹
+                  {clickedItemData?.balance
+                    ? Number(clickedItemData?.balance).toFixed(2)
+                    : Number(0).toFixed(2)}
+                </span>
               </p>
             </div>
           </div>
-        )} */}
+        )}
 
-        {/* <div className={css.rightSideTableCss}>
+        <div className={css.rightSideTableCss}>
           <table>
             <thead>
               <tr>
@@ -170,7 +156,6 @@ const Category = ({ showAddForm }) => {
                     Quantity <FilterIcon />
                   </div>
                 </th>
-
                 <th>
                   <div>
                     Status <FilterIcon />
@@ -179,7 +164,7 @@ const Category = ({ showAddForm }) => {
               </tr>
             </thead>
             <tbody>
-              {!loadingGetSelectedItemData &&
+              {/* {!loadingGetSelectedCategory &&
               selectedItemTransactionData?.purchaseBill ? (
                 Object.keys(selectedItemTransactionData).map((key, index) =>
                   selectedItemTransactionData[key].map((e, innerIndex) => (
@@ -203,19 +188,19 @@ const Category = ({ showAddForm }) => {
                 )
               ) : (
                 <tr id={css.noDataCell}>
-                  {!loadingGetSelectedItemData && (
+                  {!loadingGetSelectedCategory && (
                     <td colSpan="6">No Transaction Data Available</td>
                   )}
                 </tr>
-              )}
+              )} */}
             </tbody>
           </table>
-          {loadingGetSelectedItemData && (
+          {loadingGetSelectedCategory && (
             <div className={css.rightSideTableSpinnerCss}>
               <BasicSpinnerIcon />
             </div>
           )}
-        </div> */}
+        </div>
       </div>
     </div>
   );

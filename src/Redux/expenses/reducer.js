@@ -14,6 +14,12 @@ import {
   ADD_EXPENSE_LOADING,
   ADD_EXPENSE_ERROR,
   ADD_EXPENSE_SUCCESS,
+  GET_SELECTED_CATE_DATA_LOADING,
+  GET_SELECTED_CATE_DATA_ERROR,
+  GET_SELECTED_CATE_DATA_SUCCESS,
+  GET_SELECTED_ITEM_LOADING,
+  GET_SELECTED_ITEM_ERROR,
+  GET_SELECTED_ITEM_SUCCESS,
 } from "./actionTypes";
 
 const initialState = {
@@ -30,6 +36,11 @@ const initialState = {
   categoryData: [],
   toggleGetAllCategoriesSuccess: false,
 
+  // Get Selected Category Data
+  loadingGetSelectedCategory: false,
+  errorGetSelectedCategory: false,
+  selectedCateExpenseData: [],
+
   // ----------------------------- ITEM -------------------------------------
   // Add Item
   loadingAddItem: false,
@@ -39,6 +50,11 @@ const initialState = {
   // Get All Items
   itemsData: [],
   toggleGetAllItemsSuccess: false,
+
+  // Get Selected Item Data
+  loadingGetSelectedItem: false,
+  errorGetSelectedItem: false,
+  selectedItemExpenseData: [],
 
   // ----------------------------- EXPENSE -------------------------------------
   // Add Expense
@@ -79,6 +95,28 @@ export const reducer = (state = initialState, { type, payload }) => {
         toggleGetAllCategoriesSuccess: !state.toggleGetAllCategoriesSuccess,
       };
     }
+    // Get Selected Category Data
+    case GET_SELECTED_CATE_DATA_LOADING: {
+      return {
+        ...state,
+        loadingGetSelectedCategory: true,
+        errorGetSelectedCategory: false,
+      };
+    }
+    case GET_SELECTED_CATE_DATA_ERROR: {
+      return {
+        ...state,
+        loadingGetSelectedCategory: false,
+        errorGetSelectedCategory: true,
+      };
+    }
+    case GET_SELECTED_CATE_DATA_SUCCESS: {
+      return {
+        ...state,
+        selectedCateExpenseData: payload,
+        loadingGetSelectedCategory: false,
+      };
+    }
 
     // ----------------------------- ITEM ----------------------------------
     // Add Item
@@ -108,6 +146,28 @@ export const reducer = (state = initialState, { type, payload }) => {
         itemsData: payload,
         isLoading: false,
         toggleGetAllItemsSuccess: !state.toggleGetAllItemsSuccess,
+      };
+    }
+    // Get Selected Item Data
+    case GET_SELECTED_ITEM_LOADING: {
+      return {
+        ...state,
+        loadingGetSelectedItem: true,
+        errorGetSelectedItem: false,
+      };
+    }
+    case GET_SELECTED_ITEM_ERROR: {
+      return {
+        ...state,
+        loadingGetSelectedItem: false,
+        errorGetSelectedItem: true,
+      };
+    }
+    case GET_SELECTED_ITEM_SUCCESS: {
+      return {
+        ...state,
+        selectedItemExpenseData: payload,
+        loadingGetSelectedItem: false,
       };
     }
 
