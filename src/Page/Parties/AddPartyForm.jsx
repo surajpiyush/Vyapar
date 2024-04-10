@@ -29,7 +29,10 @@ const AddPartyForm = ({
    const loadingDeleteParty = useSelector(
       (state) => state.PartiesReducer.loadingDeleteParty
    );
-
+   const loadingEdit = useSelector((state) => state.PartiesReducer.loadingEdit);
+   const [currInps, setCurrInps] = useState("GST & Address");
+   const [creditLimitToggle, setCreditLimitToggle] = useState(false);
+   const [disableShippingAddress, setDisableShippingAddress] = useState(true);
    const [formData, setFormData] = useState({
       partyName: "",
       phoneNumber: "",
@@ -47,59 +50,27 @@ const AddPartyForm = ({
          { name: "", value: "", editable: false },
          { name: "", value: "", editable: false },
       ],
+      // GSTType: "",
    });
-
-   const states = [
-      "Andaman and Nicobar Islands",
-      "Andhra Pradesh",
-      "Arunachal Pradesh",
-      "Assam",
-      "Bihar",
-      "Chandigarh",
-      "Chhattisgarh",
-      "Dadra and Nagar Haveli",
-      "Daman and Diu",
-      "Delhi",
-      "Goa",
-      "Gujarat",
-      "Haryana",
-      "Himachal Pradesh",
-      "Jharkhand",
-      "Karnataka",
-      "Kerala",
-      "Lakshadweep",
-      "Madhya Pradesh",
-      "Maharashtra",
-      "Manipur",
-      "Meghalaya",
-      "Mizoram",
-      "Nagaland",
-      "Odisha",
-      "Puducherry",
-      "Punjab",
-      "Rajasthan",
-      "Sikkim",
-      "Tamil Nadu",
-      "Telangana",
-      "Tripura",
-      "Uttar Pradesh",
-      "Uttarakhand",
-      "West Bengal",
-   ];
-   const [disableShippingAddress, setDisableShippingAddress] = useState(true);
-   const [creditLimitToggle, setCreditLimitToggle] = useState(false);
-
-   const [currInps, setCurrInps] = useState("GST & Address");
-   const loadingEdit = useSelector((state) => state.PartiesReducer.loadingEdit);
+   console.log(formData);
+   // for mixing edit form data when used as edit party form
+   useEffect(() => {
+      if (usedAsEditForm) {
+         setFormData((prev) => {
+            return {
+               ...prev,
+               ...editPartyData,
+               asOfDate: new Date(editPartyData.asOfDate)
+                  .toISOString()
+                  .split("T")[0],
+            };
+         });
+      }
+   }, []);
 
    // Handle Save Function
    const handleSubmit = (e) => {
       e.preventDefault();
-      // Validate form fields
-      if (!validateForm()) {
-         return;
-      }
-
       let partyFormData = {
          ...formData,
          additionalField: formData?.additionalField.filter(
@@ -107,7 +78,7 @@ const AddPartyForm = ({
          ),
       };
       if (
-         formData.GSTType === "" ||
+         formData.GSTType == "" ||
          formData.GSTType === "Unregistered/Consumer"
       ) {
          formData.gstNo = "";
@@ -115,6 +86,7 @@ const AddPartyForm = ({
 
       if (usedAsEditForm) {
          if (!loadingEdit) {
+            // console.log("Update Party Data", partyFormData);
             UpdateParty(
                dispatch,
                partyFormData?._id,
@@ -125,27 +97,13 @@ const AddPartyForm = ({
          }
       } else {
          if (!postPartyLoading) {
+            // console.log("Add New Party Data", partyFormData);
             SaveParty(dispatch, partyFormData, CloseForm, toast);
          }
       }
    };
 
-   // Validate form fields
-   const validateForm = () => {
-      if (formData.phoneNumber.trim().length !== 10) {
-         toast({
-            title: "Error",
-            description: "Please enter a 10-digit mobile number.",
-            status: "error",
-            duration: 5000,
-            isClosable: true,
-         });
-      }
-
-      return true;
-   };
-
-   // Delete Party Function
+   //   Delete Party Function
    const handleDelete = () => {
       DeleteParty(dispatch, formData?._id, CloseForm, toast);
    };
@@ -167,7 +125,7 @@ const AddPartyForm = ({
          } else {
             let obj = {
                ...item,
-               [name]: type === "checkbox" ? e.target.checked : e.target.value,
+               [name]: type == "checkbox" ? e.target.checked : e.target.value,
             };
             return obj;
          }
@@ -245,7 +203,6 @@ const AddPartyForm = ({
                         value={formData?.phoneNumber}
                         onChange={handleInpChange}
                         className={css.input}
-                        required
                      />
                      <label
                         className={
@@ -254,13 +211,13 @@ const AddPartyForm = ({
                               : css.inactiveLabel
                         }
                      >
-                        Phone Number*
+                        Phone Number
                      </label>
                   </div>
                   {/* GSTIN */}
                   {!(
                      formData.GSTType === "" ||
-                     formData.GSTType === "Unregistered/Consumer"
+                     formData.GSTType == "Unregistered/Consumer"
                   ) && (
                      <div className={css.inputDiv}>
                         <input
@@ -289,11 +246,11 @@ const AddPartyForm = ({
                   <div
                      style={{
                         color:
-                           currInps === "GST & Address"
+                           currInps == "GST & Address"
                               ? "var(--blueB)"
                               : "var(--greyH)",
                         borderColor:
-                           currInps === "GST & Address"
+                           currInps == "GST & Address"
                               ? "var(--blueB)"
                               : "transparent",
                      }}
@@ -305,11 +262,11 @@ const AddPartyForm = ({
                   <div
                      style={{
                         color:
-                           currInps === "Credit & Balance"
+                           currInps == "Credit & Balance"
                               ? "var(--blueB)"
                               : "var(--greyH)",
                         borderColor:
-                           currInps === "Credit & Balance"
+                           currInps == "Credit & Balance"
                               ? "var(--blueB)"
                               : "transparent",
                      }}
@@ -321,11 +278,11 @@ const AddPartyForm = ({
                   <div
                      style={{
                         color:
-                           currInps === "Additional Fields"
+                           currInps == "Additional Fields"
                               ? "var(--blueB)"
                               : "var(--greyH)",
                         borderColor:
-                           currInps === "Additional Fields"
+                           currInps == "Additional Fields"
                               ? "var(--blueB)"
                               : "transparent",
                      }}
@@ -336,7 +293,7 @@ const AddPartyForm = ({
                   </div>
                </div>
 
-               {currInps === "GST & Address" ? (
+               {currInps == "GST & Address" ? (
                   // GST & Address - Inputs
                   <div className={css.gstAddressOuter}>
                      <div className={css.leftSideGstAddressDiv}>
@@ -351,7 +308,7 @@ const AddPartyForm = ({
                               onChange={handleInpChange}
                               required
                            >
-                              <option value="">GST Type*</option>
+                              <option value="">GST Type</option>
                               <option value="Unregistered/Consumer">
                                  Unregistered/Consumer
                               </option>
@@ -379,12 +336,59 @@ const AddPartyForm = ({
                               value={formData?.state}
                               onChange={handleInpChange}
                               className={css.input}
-                              required
                            >
                               <option value="">Select State</option>
-                              {states.map((state) => (
-                                 <option value={state}>{state}</option>
-                              ))}
+                              <option value="Andaman and Nicobar Islands">
+                                 Andaman and Nicobar Islands
+                              </option>
+                              <option value="Andhra Pradesh">
+                                 Andhra Pradesh
+                              </option>
+                              <option value="Arunachal Pradesh">
+                                 Arunachal Pradesh
+                              </option>
+                              <option value="Assam">Assam</option>
+                              <option value="Bihar">Bihar</option>
+                              <option value="Chandigarh">Chandigarh</option>
+                              <option value="Chhattisgarh">Chhattisgarh</option>
+                              <option value="Dadra and Nagar Haveli">
+                                 Dadra and Nagar Haveli
+                              </option>
+                              <option value="Daman and Diu">
+                                 Daman and Diu
+                              </option>
+                              <option value="Delhi">Delhi</option>
+                              <option value="Goa">Goa</option>
+                              <option value="Gujarat">Gujarat</option>
+                              <option value="Haryana">Haryana</option>
+                              <option value="Himachal Pradesh">
+                                 Himachal Pradesh
+                              </option>
+                              <option value="Jharkhand">Jharkhand</option>
+                              <option value="Karnataka">Karnataka</option>
+                              <option value="Kerala">Kerala</option>
+                              <option value="Lakshadweep">Lakshadweep</option>
+                              <option value="Madhya Pradesh">
+                                 Madhya Pradesh
+                              </option>
+                              <option value="Maharashtra">Maharashtra</option>
+                              <option value="Manipur">Manipur</option>
+                              <option value="Meghalaya">Meghalaya</option>
+                              <option value="Mizoram">Mizoram</option>
+                              <option value="Nagaland">Nagaland</option>
+                              <option value="Odisha">Odisha</option>
+                              <option value="Puducherry">Puducherry</option>
+                              <option value="Punjab">Punjab</option>
+                              <option value="Rajasthan">Rajasthan</option>
+                              <option value="Sikkim">Sikkim</option>
+                              <option value="Tamil Nadu">Tamil Nadu</option>
+                              <option value="Telangana">Telangana</option>
+                              <option value="Tripura">Tripura</option>
+                              <option value="Uttar Pradesh">
+                                 Uttar Pradesh
+                              </option>
+                              <option value="Uttarakhand">Uttarakhand</option>
+                              <option value="West Bengal">West Bengal</option>
                            </select>
                            <label
                               className={
@@ -404,7 +408,6 @@ const AddPartyForm = ({
                               value={formData?.email}
                               onChange={handleInpChange}
                               className={css.input}
-                              required
                            />
                            <label
                               className={
@@ -413,7 +416,7 @@ const AddPartyForm = ({
                                     : css.inactiveLabel
                               }
                            >
-                              Email*
+                              Email
                            </label>
                         </div>
                      </div>
@@ -479,7 +482,7 @@ const AddPartyForm = ({
                         </div>
                      </div>
                   </div>
-               ) : currInps === "Credit & Balance" ? (
+               ) : currInps == "Credit & Balance" ? (
                   // Credit & Balance - Inputs
                   <div>
                      <div className={css.creditAndBalUpperInpDiv}>
