@@ -38,6 +38,11 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Expenses from "./Page/Expenses/Expenses.jsx";
 import ExportItem from "./Page/Utilities/ExportItem/ExportItem.jsx";
+import BankAccount from "./Page/BankAndAccount/BankAccount/BankAccount.jsx";
+import { CashInHand } from "./Page/BankAndAccount/CashInHand/CashInHand.jsx";
+import Cheques from "./Page/BankAndAccount/Cheques/Cheques.jsx";
+import LoanAccount from "./Page/BankAndAccount/LoanAccount/LoanAccount.jsx";
+import FixedAssets from "./Page/BankAndAccount/FixedAssets/FixedAssets.jsx";
 
 const router = createBrowserRouter([
    {
@@ -162,6 +167,14 @@ const router = createBrowserRouter([
 
          // Utilites
          { path: "/exportItem", element: <ExportItem /> },
+
+         // Cash Bank And Assets
+
+         { path: "/bankAccount", element: <BankAccount /> },
+         { path: "/cashInHand", element: <CashInHand /> },
+         {path:"/cheques", element : <Cheques />},
+         {path:"/loanAccounts", element : <LoanAccount />},
+         {path:"/fixedAssets", element : <FixedAssets/>},
 
          { path: "*", element: <NotFoundPage /> },
       ],
