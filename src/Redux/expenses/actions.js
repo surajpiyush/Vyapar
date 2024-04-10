@@ -17,6 +17,12 @@ import {
   ADD_EXPENSE_SUCCESS,
   ADD_EXPENSE_ERROR,
   ADD_EXPENSE_LOADING,
+  GET_SELECTED_CATE_DATA_SUCCESS,
+  GET_SELECTED_CATE_DATA_ERROR,
+  GET_SELECTED_CATE_DATA_LOADING,
+  GET_SELECTED_ITEM_LOADING,
+  GET_SELECTED_ITEM_ERROR,
+  GET_SELECTED_ITEM_SUCCESS,
 } from "./actionTypes";
 
 // ------------------------------- CATEGORY -----------------------------------
@@ -77,6 +83,29 @@ export const GetAllExpenseCategories = async (dispatch) => {
   }
 };
 
+// Get Selected Category Data
+export const GetSelectedCateData = async (dispatch, cateId) => {
+  dispatch({ type: GET_SELECTED_CATE_DATA_LOADING });
+  const token = localStorage.getItem("token");
+  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+
+  try {
+    const response = await axios.get(
+      `${API_URL}/${FirmId}/expenseCategory/expensesById/${cateId}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    console.log("Get Selected Category Data Response", response?.data);
+    dispatch({
+      type: GET_SELECTED_CATE_DATA_SUCCESS,
+      payload: response?.data?.data?.Expenses || [],
+    });
+  } catch (error) {
+    dispatch({ type: GET_SELECTED_CATE_DATA_ERROR });
+    console.error("Getting Selected Category Data Error:", error);
+  }
+};
+
 // ------------------------------- ITEM -----------------------------------
 // Add Item
 export const AddExpenseItem = async (dispatch, data, closeForm, toast) => {
@@ -132,6 +161,29 @@ export const GetAllExpenseItems = async (dispatch) => {
   } catch (error) {
     dispatch({ type: GET_ALL_ITEMS_ERROR });
     console.error("Getting All Expense Items Error:", error);
+  }
+};
+
+// Get Selected Item Data
+export const GetSelectedItemData = async (dispatch, itemId) => {
+  dispatch({ type: GET_SELECTED_ITEM_LOADING });
+  const token = localStorage.getItem("token");
+  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+
+  try {
+    const response = await axios.get(
+      `${API_URL}/${FirmId}/expenseItem/expensesById/${itemId}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    console.log("Get Selected Item Data Response", response?.data);
+    dispatch({
+      type: GET_SELECTED_ITEM_SUCCESS,
+      payload: response?.data?.data?.Expenses || [],
+    });
+  } catch (error) {
+    dispatch({ type: GET_SELECTED_ITEM_ERROR });
+    console.error("Getting Selected Item Data Error:", error);
   }
 };
 

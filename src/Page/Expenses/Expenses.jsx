@@ -150,7 +150,7 @@ const Expenses = () => {
           )}
         </div>
       ) : (
-        // CATEGORY
+        // ITEM
         <div className={css.Outer}>
           {isLoading ? (
             <Loader3 text="Loading Expense Items" />

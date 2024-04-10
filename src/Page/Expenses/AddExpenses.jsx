@@ -318,7 +318,7 @@ const AddExpenses = ({ setOpenForm }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     toast({ title: "Expense Work Under Development", status: "warning" });
-    console.log("expenseData", expenseData);
+    // console.log("expenseData", expenseData);
     // AddExpense(dispatch, withGST, expenseData, setOpenForm, toast);
   };
 
