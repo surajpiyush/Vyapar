@@ -78,7 +78,7 @@ const ItemForm = ({
       } else {
         AddExpenseItem(dispatch, ItemData, setShowForm, toast);
       }
-      // console.log("Add Item Data", ItemData);
+      console.log("Add Expense Item Data", ItemData);
     } else {
       toast({ title: "Item Name cannot be Empty", status: "warning" });
     }
