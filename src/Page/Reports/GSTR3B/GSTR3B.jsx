@@ -34,6 +34,17 @@ const GSTR3B = () => {
   const tax = saleTax / 2 || 0;
   const taxReturn = saleTaxReturn / 2 || 0;
 
+// Function to gather data
+  const getDataForDownload = () => {
+    return {
+      tableData1,
+      table2Data,
+      table2UpperHead,
+      table2LowerHead,
+      table3Head,
+    };
+  };
+
   const tableData1 = [
     {
       id: 1,
@@ -139,7 +150,7 @@ const GSTR3B = () => {
         nonTaxExempted={nonTaxExempted}
         setNonTaxExempted={setNonTaxExempted}
         showJson={false}
-        data={["Nothing to download"]}
+        data={getDataForDownload}
       />
 
       {/* Content */}

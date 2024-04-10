@@ -134,7 +134,7 @@ const GSTR2 = () => {
                               </td>
                               <td>
                                  <div style={{ textAlign: "right" }}>
-                                    ₹{item?.taxableValue || 0}
+                                    ₹{item?.amount - item?.taxableValue || 0}
                                  </div>
                               </td>
                               <td>
