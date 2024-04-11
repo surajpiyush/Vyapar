@@ -1,44 +1,31 @@
 import css from "./Expenses.module.css";
-import AddItemForm from "../Items/AddItemForm";
-import { GetSelectedItemData } from "../../Redux/items/actions";
+import { GetSelectedItemData } from "../../Redux/expenses/actions";
 import {
-  FilterIcon,
-  BasicSpinnerIcon,
-  SearchIconBlackBg,
-  VerticalDotsIcon,
   PlusIcon2,
+  FilterIcon,
+  SearchIcon,
+  BasicSpinnerIcon,
+  VerticalDotsIcon,
+  SearchIconBlackBg,
 } from "../../assets/Icons/ReactIcons";
 
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import CategoryForm from "./CategoryForm";
 
 const Item = ({ showAddForm }) => {
   const dispatch = useDispatch();
   const itemsData = useSelector((store) => store.ExpenseReducer.itemsData);
   const isLoading = useSelector((store) => store.ExpenseReducer.isLoading);
-
-  // const clickedItemData = useSelector(
-  //   (store) => store.ItemReducer.clickedItemData
-  // );
-  const selectedItemTransactionData = useSelector(
-    (store) => store.ItemReducer.selectedItemTransactionData
+  const loadingGetSelectedItem = useSelector(
+    (store) => store.ExpenseReducer.loadingGetSelectedItem
   );
-
-  const [showEditItemForm, setShowEditItemForm] = useState(false);
+  const selectedItemExpenseData = useSelector(
+    (store) => store.ExpenseReducer.selectedItemExpenseData
+  );
   const [clickedItemData, setClickedItemData] = useState({});
 
   return (
     <div className={css.ContentOuter}>
-      {/* Edit Item Form */}
-      {showEditItemForm && (
-        <AddItemForm
-          clickedItemData={clickedItemData}
-          usedAsEditForm={true}
-          CloseForm={setShowEditItemForm}
-        />
-      )}
-
       {/* Left Side Content */}
       <div className={css.partiesLeftSideDiv}>
         <div className={css.addBtnDivOuter}>
@@ -53,7 +40,7 @@ const Item = ({ showAddForm }) => {
           </button>
         </div>
 
-        {/* Left Side Parties Table */}
+        {/* Left Side Item Details Table */}
         <div className={css.leftSideTableCss}>
           <table>
             <thead>
@@ -73,9 +60,9 @@ const Item = ({ showAddForm }) => {
                     key={e?._id + index}
                     onClick={() => {
                       setClickedItemData(e);
-                      //   if (!loadingGetSelectedItemData) {
-                      //     GetSelectedItemData(dispatch, e?._id);
-                      //   }
+                      if (!loadingGetSelectedItem) {
+                        GetSelectedItemData(dispatch, e?._id);
+                      }
                     }}
                   >
                     <td>{e?.itemName}</td>
@@ -118,81 +105,75 @@ const Item = ({ showAddForm }) => {
           </div>
         )}
 
-        {/* <div className={css.rightSideTableCss}>
-      <table>
-        <thead>
-          <tr>
-            <th>
-              <div>
-                Type <FilterIcon />
-              </div>
-            </th>
-            <th>
-              <div>
-                Invoice/Ref <FilterIcon />
-              </div>
-            </th>
-            <th>
-              <div>
-                Name <FilterIcon />
-              </div>
-            </th>
-            <th>
-              <div>
-                Date <FilterIcon />
-              </div>
-            </th>
-            <th>
-              <div>
-                Quantity <FilterIcon />
-              </div>
-            </th>
-
-            <th>
-              <div>
-                Status <FilterIcon />
-              </div>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {!loadingGetSelectedItemData &&
-          selectedItemTransactionData?.purchaseBill ? (
-            Object.keys(selectedItemTransactionData).map((key, index) =>
-              selectedItemTransactionData[key].map((e, innerIndex) => (
-                <tr key={index + e?.type + innerIndex}>
-                  <td>{e.type}</td>
-                  <td>{e.invoiceOrRefNo}</td>
-                  <td>{e.name}</td>
-                  <td>{new Date(e.date).toLocaleDateString()}</td>
-                  <td>{e.quantity}</td>
-
-                  <td>
-                    <button
-                      style={{ border: "none" }}
-                      onClick={() => handleStatusToggle(index)}
-                    >
-                      {e.status ? "Paid" : "Unpaid"}
-                    </button>
-                  </td>
-                </tr>
-              ))
-            )
-          ) : (
-            <tr id={css.noDataCell}>
-              {!loadingGetSelectedItemData && (
-                <td colSpan="6">No Transaction Data Available</td>
-              )}
-            </tr>
-          )}
-        </tbody>
-      </table>
-      {loadingGetSelectedItemData && (
-        <div className={css.rightSideTableSpinnerCss}>
-          <BasicSpinnerIcon />
+        <div className={css.leftSideDivSaleOuter}>
+          <div className={css.saleOrderSearchDiv}>
+            <SearchIcon />
+            <div>
+              <input type="text" />
+            </div>
+          </div>
         </div>
-      )}
-    </div> */}
+
+        <div className={css.rightSideTableCss}>
+          <table>
+            <thead>
+              <tr>
+                {[
+                  "DATE",
+                  "PARTY",
+                  "PAYMENT TYPE",
+                  "AMOUNT",
+                  "BALANCE",
+                  "DUE DATE",
+                  "STATUS",
+                ].map((headItem, headInd) => (
+                  <th key={headItem + headInd}>
+                    <div>{headItem}</div>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {!loadingGetSelectedItem &&
+                selectedItemExpenseData.length > 0 &&
+                selectedItemExpenseData?.map((item, index) => (
+                  <tr key={item?._id + index}>
+                    <td>
+                      {item?.date
+                        ? new Date(item?.date).toLocaleDateString()
+                        : ""}
+                    </td>
+                    <td>{item?.partyName || ""}</td>
+                    <td>{item?.paymentType?.types || ""}</td>
+                    <td style={{ textAlign: "right" }}>
+                      {item?.amount ? `₹${item?.amount}` : ""}
+                    </td>
+                    <td style={{ textAlign: "right" }}>
+                      {item?.balance ? `₹${item?.balance}` : ""}
+                    </td>
+                    <td>
+                      {item?.dueDate
+                        ? new Date(item?.dueDate).toLocaleDateString()
+                        : ""}
+                    </td>
+                    <td>{item?.status || ""}</td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+          {loadingGetSelectedItem ? (
+            <div className={css.rightSideTableSpinnerCss}>
+              <BasicSpinnerIcon />
+            </div>
+          ) : (
+            !loadingGetSelectedItem &&
+            selectedItemExpenseData.length <= 0 && (
+              <div className={css.rightSideTableSpinnerCss}>
+                <h2>No Transaction Data Available</h2>
+              </div>
+            )
+          )}
+        </div>
       </div>
     </div>
   );

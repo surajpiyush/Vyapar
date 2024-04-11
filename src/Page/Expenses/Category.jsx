@@ -1,19 +1,16 @@
 import css from "./Expenses.module.css";
-import CategoryForm from "./CategoryForm";
-import AddItemForm from "../Items/AddItemForm";
-import { GetSelectedItemData } from "../../Redux/items/actions";
+import { GetSelectedCateData } from "../../Redux/expenses/actions";
 import {
-  FilterIcon,
-  BasicSpinnerIcon,
-  SearchIconBlackBg,
-  VerticalDotsIcon,
   PlusIcon2,
+  FilterIcon,
   SearchIcon,
+  BasicSpinnerIcon,
+  VerticalDotsIcon,
+  SearchIconBlackBg,
 } from "../../assets/Icons/ReactIcons";
 
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { GetSelectedCateData } from "../../Redux/expenses/actions";
 
 const Category = ({ showAddForm }) => {
   const dispatch = useDispatch();
@@ -27,22 +24,10 @@ const Category = ({ showAddForm }) => {
   const selectedCateExpenseData = useSelector(
     (store) => store.ExpenseReducer.selectedCateExpenseData
   );
-  // const selectedCateExpenseData = [{ amount: 500 }, { amount: 500 }];
-
-  const [showEditItemForm, setShowEditItemForm] = useState(false);
   const [clickedItemData, setClickedItemData] = useState({});
 
   return (
     <div className={css.ContentOuter}>
-      {/* Edit Item Form */}
-      {showEditItemForm && (
-        <AddItemForm
-          clickedItemData={clickedItemData}
-          usedAsEditForm={true}
-          CloseForm={setShowEditItemForm}
-        />
-      )}
-
       {/* Left Side Content */}
       <div className={css.partiesLeftSideDiv}>
         <div className={css.addBtnDivOuter}>
@@ -57,7 +42,7 @@ const Category = ({ showAddForm }) => {
           </button>
         </div>
 
-        {/* Left Side Parties Table */}
+        {/* Left Side Category Details Table */}
         <div className={css.leftSideTableCss}>
           <table>
             <thead>
