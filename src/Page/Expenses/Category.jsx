@@ -8,6 +8,7 @@ import {
   SearchIconBlackBg,
   VerticalDotsIcon,
   PlusIcon2,
+  SearchIcon,
 } from "../../assets/Icons/ReactIcons";
 
 import { useState } from "react";
@@ -23,6 +24,10 @@ const Category = ({ showAddForm }) => {
   const loadingGetSelectedCategory = useSelector(
     (store) => store.ExpenseReducer.loadingGetSelectedCategory
   );
+  const selectedCateExpenseData = useSelector(
+    (store) => store.ExpenseReducer.selectedCateExpenseData
+  );
+  // const selectedCateExpenseData = [{ amount: 500 }, { amount: 500 }];
 
   const [showEditItemForm, setShowEditItemForm] = useState(false);
   const [clickedItemData, setClickedItemData] = useState({});
@@ -127,78 +132,73 @@ const Category = ({ showAddForm }) => {
           </div>
         )}
 
+        <div className={css.leftSideDivSaleOuter}>
+          <div className={css.saleOrderSearchDiv}>
+            <SearchIcon />
+            <div>
+              <input type="text" />
+            </div>
+          </div>
+        </div>
+
         <div className={css.rightSideTableCss}>
           <table>
             <thead>
               <tr>
-                <th>
-                  <div>
-                    Type <FilterIcon />
-                  </div>
-                </th>
-                <th>
-                  <div>
-                    Invoice/Ref <FilterIcon />
-                  </div>
-                </th>
-                <th>
-                  <div>
-                    Name <FilterIcon />
-                  </div>
-                </th>
-                <th>
-                  <div>
-                    Date <FilterIcon />
-                  </div>
-                </th>
-                <th>
-                  <div>
-                    Quantity <FilterIcon />
-                  </div>
-                </th>
-                <th>
-                  <div>
-                    Status <FilterIcon />
-                  </div>
-                </th>
+                {[
+                  "DATE",
+                  "PARTY",
+                  "PAYMENT TYPE",
+                  "AMOUNT",
+                  "BALANCE",
+                  "DUE DATE",
+                  "STATUS",
+                ].map((headItem, headInd) => (
+                  <th key={headItem + headInd}>
+                    <div>{headItem}</div>
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody>
-              {/* {!loadingGetSelectedCategory &&
-              selectedItemTransactionData?.purchaseBill ? (
-                Object.keys(selectedItemTransactionData).map((key, index) =>
-                  selectedItemTransactionData[key].map((e, innerIndex) => (
-                    <tr key={index + e?.type + innerIndex}>
-                      <td>{e.type}</td>
-                      <td>{e.invoiceOrRefNo}</td>
-                      <td>{e.name}</td>
-                      <td>{new Date(e.date).toLocaleDateString()}</td>
-                      <td>{e.quantity}</td>
-
-                      <td>
-                        <button
-                          style={{ border: "none" }}
-                          onClick={() => handleStatusToggle(index)}
-                        >
-                          {e.status ? "Paid" : "Unpaid"}
-                        </button>
-                      </td>
-                    </tr>
-                  ))
-                )
-              ) : (
-                <tr id={css.noDataCell}>
-                  {!loadingGetSelectedCategory && (
-                    <td colSpan="6">No Transaction Data Available</td>
-                  )}
-                </tr>
-              )} */}
+              {!loadingGetSelectedCategory &&
+                selectedCateExpenseData.length > 0 &&
+                selectedCateExpenseData?.map((item, index) => (
+                  <tr key={item?._id + index}>
+                    <td>
+                      {item?.date
+                        ? new Date(item?.date).toLocaleDateString()
+                        : ""}
+                    </td>
+                    <td>{item?.partyName || ""}</td>
+                    <td>{item?.paymentType?.types || ""}</td>
+                    <td style={{ textAlign: "right" }}>
+                      {item?.amount ? `₹${item?.amount}` : ""}
+                    </td>
+                    <td style={{ textAlign: "right" }}>
+                      {item?.balance ? `₹${item?.balance}` : ""}
+                    </td>
+                    <td>
+                      {item?.dueDate
+                        ? new Date(item?.dueDate).toLocaleDateString()
+                        : ""}
+                    </td>
+                    <td>{item?.status || ""}</td>
+                  </tr>
+                ))}
             </tbody>
           </table>
-          {loadingGetSelectedCategory && (
+          {loadingGetSelectedCategory ? (
             <div className={css.rightSideTableSpinnerCss}>
               <BasicSpinnerIcon />
             </div>
+          ) : (
+            !loadingGetSelectedCategory &&
+            selectedCateExpenseData.length <= 0 && (
+              <div className={css.rightSideTableSpinnerCss}>
+                <h2>No Transaction Data Available</h2>
+              </div>
+            )
           )}
         </div>
       </div>

@@ -108,7 +108,7 @@ export const GetAllItems = async (dispatch) => {
       headers: { Authorization: `Bearer ${token} ` },
     });
 
-    console.log("Get All Items Response:", response.data);
+    // console.log("Get All Items Response:", response.data);
     dispatch({ type: SUCCESS_GET_ALL_ITEMS, payload: response?.data?.data });
   } catch (error) {
     dispatch({ type: ERROR_GET_ALL_ITEMS });

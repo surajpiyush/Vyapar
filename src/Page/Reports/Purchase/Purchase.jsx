@@ -85,7 +85,7 @@ const Purchase = () => {
     setPaidAmount(paid);
     setUnpaidAmount(unpaid);
   }, [toggleGetPurchaseReportSuccess]);
-console.log(purchaseReportData)
+
   // To fetch Invoices data
   useEffect(() => {
     GetPurchaseReport(dispatch, startDate, endDate);
@@ -191,8 +191,7 @@ console.log(purchaseReportData)
         data={purchaseReportData}
         paidAmount={paidAmount}
         unpaidAmount={unpaidAmount}
-        fileName = {"Purchase_Report"}
-
+        fileName={"Purchase_Report"}
       />
 
       {/* Middle */}

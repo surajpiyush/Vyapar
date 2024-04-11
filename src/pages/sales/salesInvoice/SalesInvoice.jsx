@@ -106,9 +106,10 @@ export default function SalesInvoice() {
   useEffect(() => {
     GetAllSalesInvoice(dispatch, startDate, endDate);
   }, [toggleSalesSuccess, startDate, endDate]);
-  useEffect(() => {
-    console.log("invoicesList", invoicesList);
-  }, [invoicesList]);
+
+  // useEffect(() => {
+  //   console.log("invoicesList", invoicesList);
+  // }, [invoicesList]);
 
   const formOpen = () => {
     setOpenForm(true);

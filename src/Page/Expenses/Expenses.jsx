@@ -22,7 +22,7 @@ import {
 } from "../../assets/Icons/ReactIcons";
 
 import { useToast } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -32,7 +32,7 @@ const Expenses = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [openForm, setOpenForm] = useState(false);
   const [currPage, setCurrPage] = useState(
-    searchParams.get("true") || "CATEGORY"
+    searchParams.get("true") || "category"
   );
   const isLoading = useSelector((state) => state.ExpenseReducer.isLoading);
   const categoryData = useSelector(
@@ -45,22 +45,31 @@ const Expenses = () => {
   const toggleAddItemSuccess = useSelector(
     (state) => state.ExpenseReducer.toggleAddItemSuccess
   );
+  const toggleAddExpenseSuccess = useSelector(
+    (state) => state.ExpenseReducer.toggleAddExpenseSuccess
+  );
 
   // Fetch All Expense Categories
   useEffect(() => {
     GetAllExpenseCategories(dispatch);
-  }, [toggleAddCategorySuccess]);
+  }, [toggleAddCategorySuccess, toggleAddExpenseSuccess]);
 
-  // Fetch All Expense Item
+  // Fetch All Expense Items
   useEffect(() => {
     GetAllExpenseItems(dispatch);
-  }, [toggleAddItemSuccess]);
+  }, [toggleAddItemSuccess, toggleAddExpenseSuccess]);
 
   useEffect(() => {
     setSearchParams({ true: currPage });
   }, [currPage]);
 
-  return (
+  return isLoading ? (
+    <Loader3
+      text={`Loading Expense ${
+        currPage == "category" ? "Categories" : "Items"
+      }`}
+    />
+  ) : (
     <div>
       {/* Form */}
       {openForm && (
@@ -100,13 +109,13 @@ const Expenses = () => {
         <div
           className={css.navOptions}
           onClick={() => {
-            setCurrPage("CATEGORY");
+            setCurrPage("category");
           }}
           style={{
             borderColor:
-              currPage == "CATEGORY" ? "var(--blueB)" : "transparent",
+              currPage == "category" ? "var(--blueB)" : "transparent",
             color:
-              currPage == "CATEGORY" ? "var(--DeepBluishGrey)" : "var(--greyG)",
+              currPage == "category" ? "var(--DeepBluishGrey)" : "var(--greyG)",
           }}
         >
           CATEGORY
@@ -114,29 +123,22 @@ const Expenses = () => {
         <div
           className={css.navOptions}
           onClick={() => {
-            setCurrPage("ITEM");
+            setCurrPage("item");
           }}
           style={{
-            borderColor: currPage == "ITEM" ? "var(--blueB)" : "transparent",
+            borderColor: currPage == "item" ? "var(--blueB)" : "transparent",
             color:
-              currPage == "ITEM" ? "var(--DeepBluishGrey)" : "var(--greyG)",
+              currPage == "item" ? "var(--DeepBluishGrey)" : "var(--greyG)",
           }}
         >
           ITEM
         </div>
       </div>
 
-      {currPage == "CATEGORY" ? (
+      {currPage == "category" ? (
         // Category
         <div className={css.Outer}>
-          {isLoading ? (
-            <Loader3 text="Loading Expense Categories" />
-          ) : categoryData.length > 0 ? (
-            // <ExpensesTable
-            //   func={(val) => {
-            //     setOpenForm(val);
-            //   }}
-            // />
+          {categoryData.length > 0 ? (
             <Category showAddForm={setOpenForm} />
           ) : (
             <FirstTimeFormToggle
@@ -152,14 +154,7 @@ const Expenses = () => {
       ) : (
         // ITEM
         <div className={css.Outer}>
-          {isLoading ? (
-            <Loader3 text="Loading Expense Items" />
-          ) : itemsData.length > 0 ? (
-            // <ExpensesItemTable
-            //   func={(val) => {
-            //     setOpenForm(val);
-            //   }}
-            // />
+          {itemsData.length > 0 ? (
             <Item showAddForm={setOpenForm} />
           ) : (
             <FirstTimeFormToggle

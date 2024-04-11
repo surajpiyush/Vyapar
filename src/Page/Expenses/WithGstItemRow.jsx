@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { memo, useEffect, useState } from "react";
 import { Menu, MenuList, MenuItem, MenuDivider } from "@chakra-ui/react";
 
-const AddPurchaseForm = memo(
+const WithGstItemRow = memo(
   ({
     ind,
     item,
@@ -341,4 +341,4 @@ const AddPurchaseForm = memo(
   }
 );
 
-export default AddPurchaseForm;
+export default WithGstItemRow;

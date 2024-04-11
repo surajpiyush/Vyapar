@@ -162,7 +162,7 @@ const InvoiceForm = ({ setOpenForm, setToggleSetting }) => {
     setConfirmModel(true);
     setTemp(data);
     PostSalesInvoice(dispatch, data, setOpenForm, toast);
-    console.log("Invoice Data", data);
+    // console.log("Invoice Data", data);
   };
 
   // for fetching all parties list on form mount

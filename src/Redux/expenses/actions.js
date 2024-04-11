@@ -65,6 +65,7 @@ export const GetAllExpenseCategories = async (dispatch) => {
   dispatch({ type: GET_ALL_CATEGORIES_LOADING });
   const token = localStorage.getItem("token");
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  // console.log(FirmId);
 
   try {
     const response = await axios.get(

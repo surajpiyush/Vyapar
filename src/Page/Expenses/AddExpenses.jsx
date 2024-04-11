@@ -33,7 +33,7 @@ import {
   GetAllExpenseCategories,
   GetAllExpenseItems,
 } from "../../Redux/expenses/actions";
-import ExpenseItemRow from "./ExpenseItemRow";
+import WithGstItemRow from "./WithGstItemRow";
 import CategoryForm from "./CategoryForm";
 import ItemForm from "./ItemForm";
 import WithOutGstItemRow from "./WithOutGstItemRow";
@@ -42,6 +42,9 @@ const AddExpenses = ({ setOpenForm }) => {
   const toast = useToast();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.ExpenseReducer.isLoading);
+  const loadingAddExpense = useSelector(
+    (state) => state.ExpenseReducer.loadingAddExpense
+  );
   const toggleAddItemSuccess = useSelector(
     (state) => state.ExpenseReducer.toggleAddItemSuccess
   );
@@ -52,7 +55,6 @@ const AddExpenses = ({ setOpenForm }) => {
     (store) => store.ExpenseReducer.categoryData
   );
   const items = useSelector((state) => state.ExpenseReducer.itemsData);
-
   const partiesData = useSelector(
     (state) => state.PartiesReducer.partiesData || []
   );
@@ -60,17 +62,9 @@ const AddExpenses = ({ setOpenForm }) => {
   const togglePartiesData = useSelector(
     (state) => state.PartiesReducer.togglePartiesData
   );
-  const toggleItems = useSelector((state) => state.ItemReducer.toggleItems);
   const getAllItemsLoading = useSelector(
     (state) => state.ItemReducer.getAllItemsLoading
   );
-  const allPurchaseBills = useSelector(
-    (store) => store.PurchaseReducer.purchaseBillData
-  );
-  const addPurchaseLoading = useSelector(
-    (store) => store.PurchaseReducer.addPurchaseLoading
-  );
-  const setting = useSelector((state) => state.SettingReducer.transaction);
 
   const [currentCustomerData, setCurrentCustomerData] = useState({});
   const [toggleDesc, setToggleDesc] = useState(false);
@@ -97,15 +91,17 @@ const AddExpenses = ({ setOpenForm }) => {
   const [showAddCategoryForm, setShowAddCategoryForm] = useState(false);
   const [expenseItems, setExpenseItems] = useState([
     {
+      // Without GST
       itemName: "",
-      hsnCode: "",
-      qty: 0,
+      qty: "",
       priceUnit: 0,
+      amount: "",
+
+      hsnCode: "",
       discountAmount: 0,
       discountpersant: 0,
       taxPersant: 0,
       taxAmount: 0,
-      amount: 0,
     },
   ]);
 
@@ -116,7 +112,6 @@ const AddExpenses = ({ setOpenForm }) => {
     addDescription: "",
     total: 0,
     roundOff: 0,
-    expItem: [{ itemName: "", qty: 1, priceUnit: 0, amount: 0 }],
     paymentType: [{ types: "", amount: "" }],
 
     //
@@ -229,8 +224,8 @@ const AddExpenses = ({ setOpenForm }) => {
   ]);
 
   useEffect(() => {
-    GetAllExpenseCategories(dispatch);
-    GetAllExpenseItems(dispatch);
+    // GetAllExpenseCategories(dispatch);
+    // GetAllExpenseItems(dispatch);
     FetchAllParties(dispatch);
   }, [toggleAddItemSuccess, toggleAddCategorySuccess]);
   // To Show Reference Input
@@ -271,16 +266,16 @@ const AddExpenses = ({ setOpenForm }) => {
 
   // Found items list click handler
   const handleMenuItemClick = (index, itemDetail) => {
-    console.log("taxRate", itemDetail?.taxRate);
+    // console.log("itemDetail", itemDetail);
     let currSaleItem = {
       ...expenseItems[index],
       itemName: itemDetail?._id,
+      priceUnit: itemDetail?.price || 0,
+      hsnCode: itemDetail?.itemHsn || "",
       mainName: itemDetail?.itemName,
       // taxPersant: stateChanged
       //   ? `I${itemDetail?.taxRate.split("%")[0] || ""}`
       //   : itemDetail?.taxRate.split("%")[0] || "",
-      priceUnit: itemDetail?.stock?.atPrice || 0,
-      hsnCode: itemDetail?.itemHsn || "",
     };
     let newSaleData = expenseItems.map((ite, ind) =>
       ind == index ? currSaleItem : ite
@@ -307,13 +302,14 @@ const AddExpenses = ({ setOpenForm }) => {
     e.stopPropagation();
     let newRowData = {
       itemName: "",
-      hsnCode: "",
-      qty: 0,
+      qty: "",
       priceUnit: 0,
+      amount: "",
+
+      hsnCode: "",
       discountAmount: 0,
       discountpersant: 0,
       taxPersant: "",
-      amount: 0,
     };
     setExpenseItems((prev) => [...prev, newRowData]);
   };
@@ -327,16 +323,22 @@ const AddExpenses = ({ setOpenForm }) => {
   // Submit Function
   const handleSubmit = (e) => {
     e.preventDefault();
-    let formData = {
-      ...expenseData,
-      [withGST ? "expenseCategory" : "expCat"]: expenseData?.category,
-    };
-    if (withGST) {
-      toast({ title: "Expense Work Under Development", status: "warning" });
-    } else {
-      // AddExpense(dispatch, withGST, expenseData, setOpenForm, toast);
+    if (!loadingAddExpense) {
+      let formData = {
+        ...expenseData,
+        [withGST ? "expenseCategory" : "expCat"]: expenseData?.category,
+        expItem: expenseItems,
+      };
+      if (withGST) {
+        toast({
+          title: "Adding Expense With Gst is under development!",
+          status: "warning",
+        });
+      } else {
+        AddExpense(dispatch, withGST, expenseData, setOpenForm, toast);
+      }
+      console.log("expenseData", formData);
     }
-    console.log("expenseData", formData);
   };
 
   return (
@@ -597,40 +599,46 @@ const AddExpenses = ({ setOpenForm }) => {
               </tr>
             </thead>
             <tbody>
-              {expenseItems?.map((item, ind) => {
-                return (
-                  <>
-                    <WithOutGstItemRow
-                      ind={ind}
-                      item={item}
-                      currItemIndex={currItemIndex}
-                      setCurrItemIndex={setCurrItemIndex}
-                      handleDeleteRow={handleDeleteRow}
-                      key={ind + item?._id}
-                    />
-                    <ExpenseItemRow
-                      ind={ind}
-                      item={item}
-                      expenseItems={expenseItems}
-                      Expand
-                      Down
-                      setExpenseItems={setExpenseItems}
-                      handleDeleteRow={handleDeleteRow}
-                      handleMenuItemClick={handleMenuItemClick}
-                      setShowItemsListMenu={setShowItemsListMenu}
-                      setShowItemForm={setShowItemForm}
-                      setIndexSaleItem={setIndexSaleItem}
-                      items={items}
-                      getAllItemsLoading={getAllItemsLoading}
-                      showItemsListMenu={showItemsListMenu}
-                      indexSaleItem={indexSaleItem}
-                      key={ind}
-                      stateChanged={stateChanged}
-                      withGST={withGST}
-                    />
-                  </>
-                );
-              })}
+              {expenseItems?.map((item, ind) =>
+                withGST ? (
+                  <WithGstItemRow
+                    ind={ind}
+                    item={item}
+                    items={items}
+                    expenseItems={expenseItems}
+                    setExpenseItems={setExpenseItems}
+                    showItemsListMenu={showItemsListMenu}
+                    setShowItemsListMenu={setShowItemsListMenu}
+                    indexSaleItem={indexSaleItem}
+                    setIndexSaleItem={setIndexSaleItem}
+                    setShowItemForm={setShowItemForm}
+                    handleDeleteRow={handleDeleteRow}
+                    handleMenuItemClick={handleMenuItemClick}
+                    key={item?._id + ind}
+                  />
+                ) : (
+                  <WithOutGstItemRow
+                    ind={ind}
+                    item={item}
+                    expenseItems={expenseItems}
+                    Expand
+                    Down
+                    setExpenseItems={setExpenseItems}
+                    handleDeleteRow={handleDeleteRow}
+                    handleMenuItemClick={handleMenuItemClick}
+                    setShowItemsListMenu={setShowItemsListMenu}
+                    setShowItemForm={setShowItemForm}
+                    setIndexSaleItem={setIndexSaleItem}
+                    items={items}
+                    getAllItemsLoading={getAllItemsLoading}
+                    showItemsListMenu={showItemsListMenu}
+                    indexSaleItem={indexSaleItem}
+                    stateChanged={stateChanged}
+                    withGST={withGST}
+                    key={ind + item?._id}
+                  />
+                )
+              )}
               <tr className={css.addRowTr}>
                 <td></td>
                 <td>
@@ -927,8 +935,8 @@ const AddExpenses = ({ setOpenForm }) => {
 
       {/* Footer */}
       <div className={css.FooterOuter}>
-        <button disabled={addPurchaseLoading} type="submit">
-          {addPurchaseLoading ? "Saving" : "Save"}
+        <button disabled={loadingAddExpense} type="submit">
+          {loadingAddExpense ? "Saving" : "Save"}
         </button>
         {/* <div
           className={css.shareBtn}
