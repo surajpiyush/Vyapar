@@ -120,31 +120,15 @@ export default function PartiesTable({ func }) {
           <table>
             <thead>
               <tr>
-                <th>
-                  <div>
-                    Type <FilterIcon />
-                  </div>
-                </th>
-                <th>
-                  <div>
-                    Number <FilterIcon />
-                  </div>
-                </th>
-                <th>
-                  <div>
-                    Date <FilterIcon />
-                  </div>
-                </th>
-                <th>
-                  <div>
-                    Total <FilterIcon />
-                  </div>
-                </th>
-                <th>
-                  <div>
-                    Balance <FilterIcon />
-                  </div>
-                </th>
+                {["Type", "Number", "Date", "Total", "Balance"].map(
+                  (headItem, headInd) => (
+                    <th key={headItem + headInd}>
+                      <div>
+                        {headItem} <FilterIcon />
+                      </div>
+                    </th>
+                  )
+                )}
               </tr>
             </thead>
             <tbody>

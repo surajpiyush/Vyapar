@@ -144,7 +144,7 @@ const Item = ({ showAddForm }) => {
                         : ""}
                     </td>
                     <td>{item?.partyName || ""}</td>
-                    <td>{item?.paymentType?.types || ""}</td>
+                    <td>{item?.paymentType[0]?.types || ""}</td>
                     <td style={{ textAlign: "right" }}>
                       {item?.amount ? `₹${item?.amount}` : ""}
                     </td>

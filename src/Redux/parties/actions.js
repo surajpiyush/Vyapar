@@ -32,7 +32,7 @@ export const FetchAllParties = async (dispatch) => {
       },
     });
 
-    //  console.log("Fetch All Parties Response", response?.data);
+    // console.log("Fetch All Parties Response", response?.data);
     dispatch({ type: FETCH_PARTIES_SUCCESS, payload: response?.data?.data });
   } catch (error) {
     dispatch({ type: FETCH_PARTIES_ERROR });

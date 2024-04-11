@@ -9,7 +9,7 @@ import {
   SearchIconBlackBg,
 } from "../../assets/Icons/ReactIcons";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const Category = ({ showAddForm }) => {
@@ -105,7 +105,7 @@ const Category = ({ showAddForm }) => {
                 </span>
               </p>
               <p>
-                Total :{" "}
+                Balance :{" "}
                 <span>
                   ₹
                   {clickedItemData?.balance
@@ -156,7 +156,7 @@ const Category = ({ showAddForm }) => {
                         : ""}
                     </td>
                     <td>{item?.partyName || ""}</td>
-                    <td>{item?.paymentType?.types || ""}</td>
+                    <td>{item?.paymentType[0]?.types || ""}</td>
                     <td style={{ textAlign: "right" }}>
                       {item?.amount ? `₹${item?.amount}` : ""}
                     </td>

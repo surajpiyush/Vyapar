@@ -79,7 +79,6 @@ const AddExpenses = ({ setOpenForm }) => {
   const [rowFooterData, setRowFooterData] = useState({});
   const [showItemForm, setShowItemForm] = useState(false);
   const [balanceAmount, setBalanceAmount] = useState(0);
-  const [paymentArr, setPaymentArr] = useState([{ types: "Cash", amount: 0 }]);
   const [stateChanged, setStateChanged] = useState(false);
   const [showAddCateForm, setShowAddCateForm] = useState(false);
   const [showCategoryMenu, setShowCategoryMenu] = useState(false);
@@ -87,7 +86,7 @@ const AddExpenses = ({ setOpenForm }) => {
 
   // -------
   const [withGST, setWithGST] = useState(false);
-  const [currItemIndex, setCurrItemIndex] = useState(0);
+  const [paymentArr, setPaymentArr] = useState([{ types: "Cash", amount: 0 }]);
   const [showAddCategoryForm, setShowAddCategoryForm] = useState(false);
   const [expenseItems, setExpenseItems] = useState([
     {
@@ -97,11 +96,14 @@ const AddExpenses = ({ setOpenForm }) => {
       priceUnit: 0,
       amount: "",
 
+      // With GST
       hsnCode: "",
-      discountAmount: 0,
-      discountpersant: 0,
-      taxPersant: 0,
-      taxAmount: 0,
+      quantity: "",
+      discountPersent: "",
+      discountAmount: "",
+      taxRate: "",
+      taxAmount: "",
+      amount: "",
     },
   ]);
 
@@ -112,7 +114,6 @@ const AddExpenses = ({ setOpenForm }) => {
     addDescription: "",
     total: 0,
     roundOff: 0,
-    paymentType: [{ types: "", amount: "" }],
 
     //
     // partyName: "",
@@ -328,15 +329,15 @@ const AddExpenses = ({ setOpenForm }) => {
         ...expenseData,
         [withGST ? "expenseCategory" : "expCat"]: expenseData?.category,
         expItem: expenseItems,
+        paymentType: paymentArr,
       };
       if (withGST) {
-        toast({
-          title: "Adding Expense With Gst is under development!",
+        return toast({
+          title: "Adding Expense with GST is under developement!",
           status: "warning",
         });
-      } else {
-        AddExpense(dispatch, withGST, expenseData, setOpenForm, toast);
       }
+      AddExpense(dispatch, withGST, formData, setOpenForm, toast);
       console.log("expenseData", formData);
     }
   };

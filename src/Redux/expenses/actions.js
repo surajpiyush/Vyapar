@@ -99,7 +99,7 @@ export const GetSelectedCateData = async (dispatch, cateId) => {
     console.log("Get Selected Category Data Response", response?.data);
     dispatch({
       type: GET_SELECTED_CATE_DATA_SUCCESS,
-      payload: response?.data?.data?.Expenses || [],
+      payload: response?.data?.data[0]?.Expenses,
     });
   } catch (error) {
     dispatch({ type: GET_SELECTED_CATE_DATA_ERROR });
@@ -180,7 +180,7 @@ export const GetSelectedItemData = async (dispatch, itemId) => {
     console.log("Get Selected Item Data Response", response?.data);
     dispatch({
       type: GET_SELECTED_ITEM_SUCCESS,
-      payload: response?.data?.data?.Expenses || [],
+      payload: response?.data?.data[0]?.Expenses || [],
     });
   } catch (error) {
     dispatch({ type: GET_SELECTED_ITEM_ERROR });
@@ -201,15 +201,14 @@ export const AddExpense = async (
   dispatch({ type: ADD_EXPENSE_LOADING });
   const token = localStorage.getItem("token");
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const PostExpenseAPI = withGST
+    ? `${API_URL}/${FirmId}/expenseWithGst/createExpenseWithGst`
+    : `${API_URL}/${FirmId}/expenseWithOutGst/createExpenseWithOutGst`;
 
   try {
-    const response = await axios.post(
-      withGST
-        ? `${API_URL}/${FirmId}/expenseWithGst/createExpenseWithGst`
-        : `${API_URL}/${FirmId}/expenseWithOutGst/createExpenseWithOutGst`,
-      data,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+    const response = await axios.post(PostExpenseAPI, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
     console.log("Add Expense Response:", response);
     dispatch({ type: ADD_EXPENSE_SUCCESS });

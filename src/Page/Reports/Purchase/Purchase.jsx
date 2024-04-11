@@ -219,7 +219,6 @@ const Purchase = () => {
             <thead>
               <tr>
                 {[
-                  // "#",
                   "DATE",
                   "INVOICE NO.",
                   "PARTY NAME",
@@ -227,9 +226,6 @@ const Purchase = () => {
                   "PAYMENT TYPE",
                   "AMOUNT",
                   "BALANCE",
-                  // "DUE DATE",
-                  // "STATUS",
-                  // "ACTION",
                 ].map((item, ind) => (
                   <th key={item + ind}>
                     <div>{item}</div>
@@ -242,9 +238,6 @@ const Purchase = () => {
               <tbody>
                 {purchaseReportData?.map((item, ind) => (
                   <tr key={ind + item?._id}>
-                    {/* <td>
-                      <div>{ind + 1}</div>
-                    </td> */}
                     <td>
                       <div>{FormatDate(item?.invoiceDate)}</div>
                     </td>
