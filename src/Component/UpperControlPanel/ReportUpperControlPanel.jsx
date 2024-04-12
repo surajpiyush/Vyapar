@@ -133,7 +133,7 @@ const ReportUpperControlPanel = ({
             );
 
             // Create sheets for b2b and b2c data
-            const b2bsheet = XLSX.utils.aoa_to_sheet([
+            const b2bsheet = [
                ["Summary of B2B"],
                [""],
                [
@@ -183,7 +183,7 @@ const ReportUpperControlPanel = ({
                   "CESS",
                ],
                ...b2bData,
-            ]);
+            ];
 
             const b2CLsheet = XLSX.utils.aoa_to_sheet([
                ["Summary For B2CL"],

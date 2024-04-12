@@ -1,3 +1,4 @@
+import * as XLSX from "xlsx";
 import css from "./DayBook.module.css";
 import Loader2 from "../../../Component/Loaders/Loader2";
 import Setting from "../../../Component/Setting/Setting";
@@ -6,7 +7,9 @@ import RPLayout1 from "../../../Component/PrintLayouts/RPLayout1";
 import RPLayout2 from "../../../Component/PrintLayouts/RPLayout2";
 import InvoicePrint from "../../../Component/PrintLayouts/InvoicePrint";
 import AddPurchaseBill from "../../Purchase/PurchaseBill/AddPurchaseBill";
-import UpperControlPanel from "../../../Component/UpperControlPanel/UpperControlPanel";
+import UpperControlPanel, {
+   GetMonthName,
+} from "../../../Component/UpperControlPanel/UpperControlPanel";
 import { GetAllItems } from "../../../Redux/items/actions";
 import { REGULAR_PRINTER_DATA } from "../../../Redux/store";
 import { TOGGLE_FALSE_INVOICE_SUCCESS } from "../../../Redux/sales/reducer";
@@ -35,7 +38,8 @@ const DayBook = () => {
    let printComponentRef = useRef();
    const [openForm, setOpenForm] = useState(false);
    const [toggleSetting, setToggleSetting] = useState(false);
-   const [startDate, setStartDate] = useState(
+
+   const [endDate, setEndDate] = useState(
       new Date().toISOString().split("T")[0]
    );
    const [paidAmount, setPaidAmount] = useState(0);
@@ -106,11 +110,148 @@ const DayBook = () => {
 
    // To fetch Invoices data
    useEffect(() => {
-      GetDayBooks(dispatch, startDate);
-   }, [startDate]);
+      GetDayBooks(dispatch, endDate);
+   }, [endDate]);
 
    const formOpen = () => {
       setOpenForm(true);
+   };
+
+   // ***************** Download Excel For ********************************
+   const excelDownload = async () => {
+      const endDateParts = endDate.split("-");
+
+      const formattedendDate = `${endDateParts[2]}-${GetMonthName(
+         endDateParts[1]
+      )}`;
+
+      const formattedFileName = `DayBook_Report_Data_${formattedendDate}_09AEIPT7331R1ZJ.xlsx`;
+
+      const workbook = XLSX.utils.book_new();
+
+      // Current date and time
+      const currentDate = new Date();
+      const formattedCurrentDateTime = `${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}`;
+      const currentDateRow = ["Report generated on:", formattedCurrentDateTime];
+
+      const dayBooksDataData = dayBooksData.map((item) => [
+         // Name	Ref No	Type	Total	Money In	Money Out	Description
+         item?.name,
+         item?.refNo,
+         item?.type,
+         item?.total,
+         item?.moneyIn,
+         item?.moneyOut,
+         item?.description,
+      ]);
+
+      const tableData2 = dayBooksData.map((item) => [
+         item?.invoiceDate, // Date
+         item?.invoiceNumber, // Invoice No./Txn No.
+         item?.partyName, // Party Name
+         item.itemName, // Item Name
+         item.itemCode, // Item Code
+         "", // HSN/SAC (add your value here)
+         item.category, // Category
+         "", // MRP (add your value here)
+         "", // Batch No. (add your value here)
+         "", // Exp. Date (add your value here)
+         "", // Mfg. Date (add your value here)
+         "", // Model No. (add your value here)
+         "", // Count (add your value here)
+         item.description, // Description
+         "", // Size (add your value here)
+         "", // Quantity (add your value here)
+         "", // Unit (add your value here)
+         "", // UnitPrice (add your value here)
+         "", // Discount Percent (add your value here)
+         "", // Discount (add your value here)
+         "", // Tax Percent (add your value here)
+         "", // Tax (add your value here)
+         "", // Cess (add your value here)
+         item?.transactionType, // Transaction Type
+         "", // Amount (add your value here)
+      ]);
+
+      // Calculate totals
+      const totalRow = dayBooksDataData.reduce(
+         (acc, curr) => {
+            acc[3] += Number(curr[3]); // Total Amount
+            acc[4] += Number(curr[4]);
+            acc[5] += Number(curr[5]);
+            return acc;
+         },
+         [, "Total", "", "", 0, "", 0, 0, "", "", ""]
+      );
+
+      const worksheet = XLSX.utils.aoa_to_sheet([
+         [...currentDateRow],
+         [""],
+         [
+            "Name",
+            "Ref No.",
+            "Type",
+            "Total",
+            "Money In",
+            "Money Out",
+            "Description",
+         ],
+         ...dayBooksDataData,
+         [], // Empty row
+         ["", "", "", "", "", "", "", "", "", "", "", "", ""], // Empty row for totals
+      ]);
+      const worksheet2 = XLSX.utils.aoa_to_sheet([
+         [...currentDateRow],
+         [""],
+         [
+            "Date",
+            "Invoice No./Txn No.",
+            "Party Name",
+            "Item Name",
+            "Item Code",
+            "HSN/SAC",
+            "Category",
+            "MRP",
+            "Batch No.",
+            "Exp. Date",
+            "Mfg. Date",
+            "Model No.",
+            "Count",
+            "Description",
+            "Size",
+            "Quantity",
+            "Unit",
+            "UnitPrice",
+            "Discount Percent",
+            "Discount",
+            "Tax Percent",
+            "Tax",
+            "Cess",
+            "Transaction Type",
+            "Amount",
+         ],
+         ...tableData2,
+         [], // Empty row
+         ["", "", "", "", "", "", "", "", "", "", "", "", ""], // Empty row for totals
+         ["Total:"], // Label for total row
+      ]);
+
+      // Calculate totals for the second sheet
+      const totalRow2 = tableData2.reduce(
+         (acc, curr) => {
+            // Add your logic to calculate totals for the second sheet here
+            return acc;
+         }
+         //  [, , , "Total", "", "", 0, "", 0, 0, "", "", ""]
+      );
+
+      // Append total rows to each worksheet
+      XLSX.utils.sheet_add_aoa(worksheet, [totalRow], { origin: -1 });
+      XLSX.utils.sheet_add_aoa(worksheet2, [totalRow2], { origin: -1 });
+
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Day Book Report");
+      XLSX.utils.book_append_sheet(workbook, worksheet2, "Item Details");
+      XLSX.writeFile(workbook, formattedFileName);
    };
 
    // ***************************** Print ************************************
@@ -171,14 +312,15 @@ const DayBook = () => {
 
          {/* Top Nav */}
          <UpperControlPanel
-            startDate={startDate}
-            endDate={startDate}
-            setStartDate={setStartDate}
-            setEndDate={setStartDate}
+            startDate={endDate}
+            endDate={endDate}
+            setStartDate={setEndDate}
+            setEndDate={setEndDate}
             showPaymentData={false}
             showPrintOptions={true}
             data={dayBooksData}
             fileName={"Day_Book_Report"}
+            excelDownload={excelDownload}
          />
 
          {/* Middle */}
