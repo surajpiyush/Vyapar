@@ -36,7 +36,7 @@ export const FetchAllCompanies = async (dispatch) => {
     dispatch({ type: ISERROR });
     toast.dismiss();
     if (error?.response?.data?.tokenExpired) {
-      return toast.warning("Session expired. Please log in again.");
+      return toast.info("Session expired. Please log in again.");
     }
   }
 };
@@ -72,9 +72,13 @@ export const AddBusinessLoginRequest = async (
     console.log("Error Adding New Business:", error);
     dispatch({ type: ISERROR });
     if (error?.response?.data?.tokenExpired) {
-      return toast.warning("Session expired. Please log in again.");
+      return toast.info("Session expired. Please log in again.");
     }
-    toast.error("Failed to save your new business.");
+    toast.error(
+      error?.response?.data?.message ||
+        error?.response?.data?.msg ||
+        "Failed to save your new business."
+    );
   }
 };
 
@@ -114,9 +118,13 @@ export const UpdateCompanyProfile = async (dispatch, data, setShowEditFirm) => {
     console.log("Error Updating Profile:", error);
     dispatch({ type: ISERROR });
     if (error?.response?.data?.tokenExpired) {
-      return toast.warning("Session expired. Please log in again.");
+      return toast.info("Session expired. Please log in again.");
     }
-    toast.error("Error occurred while updating profile.");
+    toast.error(
+      error?.response?.data?.message ||
+        error?.response?.data?.msg ||
+        "Error occurred while updating profile."
+    );
   }
 };
 
@@ -139,7 +147,7 @@ export const DeleteCompany = async (dispatch, firmId) => {
     console.log("Error Deleting Firm:", error);
     dispatch({ type: DELETE_FIRM_ERROR });
     if (error?.response?.data?.tokenExpired) {
-      return toast.warning("Session expired. Please log in again.");
+      return toast.info("Session expired. Please log in again.");
     }
     toast.error("Failed to remove your business.");
   }

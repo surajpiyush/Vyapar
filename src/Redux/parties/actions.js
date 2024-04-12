@@ -32,9 +32,7 @@ export const FetchAllParties = async (dispatch) => {
 
   try {
     const response = await axios.get(`${API_URL}/${FirmId}/party/getAllData`, {
-      headers: {
-        Authorization: `Bearer ${token} `,
-      },
+      headers: { Authorization: `Bearer ${token} ` },
     });
 
     // console.log("Fetch All Parties Response", response?.data);
@@ -44,49 +42,38 @@ export const FetchAllParties = async (dispatch) => {
     dispatch({ type: FETCH_PARTIES_ERROR });
     toast.dismiss();
     if (error?.response?.data?.tokenExpired) {
-      return toast.warning("Session Expired! Please Login again.");
+      return toast.info("Session Expired! Please Login again.");
     }
-    toast.error(
-      error?.response?.data?.message ||
-        error?.response?.data?.msg ||
-        "Something Went Wrong!"
-    );
   }
 };
 
 // ------------------------- Save Party Function ---- Didn't applied function curring due to thunk error in store.js
-export const SaveParty = async (dispatch, data, CloseForm, toast) => {
-  toast.closeAll();
+export const SaveParty = async (dispatch, data, CloseForm) => {
+  toast.dismiss();
   dispatch({ type: SAVE_PARTY_LOADING });
   const token = localStorage.getItem("token");
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
   // console.log(("data party:-",data))
+
   try {
-    // prettier-ignore
-    const response = await axios.post(`${API_URL}/${FirmId}/party`, data, { // eslint-disable-line no-unused-vars
-       headers: {
-         Authorization: `Bearer ${token} `,
-       },
-     });
-    // console.log("Save Party Response:", response?.data);
-    dispatch({ type: SAVE_PARTY_SUCCESS });
-    toast({
-      title: "Party Successfully Added!",
-      status: "success",
-      position: "top",
+    const response = await axios.post(`${API_URL}/${FirmId}/party`, data, {
+      headers: { Authorization: `Bearer ${token} ` },
     });
+    // console.log("Add Party Response:", response?.data);
+    dispatch({ type: SAVE_PARTY_SUCCESS });
+    toast.success("New party added.");
     CloseForm(false);
   } catch (error) {
-    toast({
-      title:
-        error?.response?.data?.msg ||
-        error?.response?.data?.message ||
-        "Something Went Wrong!",
-      status: "error",
-      position: "top",
-    });
+    console.log("Error Adding Party:", error);
     dispatch({ type: SAVE_PARTY_ERROR });
-    console.log("Saving Party Error Response:", error);
+    if (error?.response?.data?.tokenExpired) {
+      return toast.info("Session Expired! Please Login again.");
+    }
+    toast.error(
+      error?.response?.data?.message ||
+        error?.response?.data?.msg ||
+        "Encountered an error while adding party."
+    );
   }
 };
 
@@ -95,10 +82,9 @@ export const UpdateParty = async (
   dispatch,
   partyId,
   updatedPartyData,
-  setShowEditFirm,
-  toast
+  setShowEditFirm
 ) => {
-  toast.closeAll();
+  toast.dismiss();
   dispatch({ type: EDIT_PARTY_LOADING });
   const token = localStorage.getItem("token");
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
@@ -107,11 +93,7 @@ export const UpdateParty = async (
     const response = await axios.patch(
       `${API_URL}/${FirmId}/party/update/${partyId}`,
       updatedPartyData,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+      { headers: { Authorization: `Bearer ${token}` } }
     );
     // console.log("Update Party Response:", response.data);
     dispatch({
@@ -119,34 +101,25 @@ export const UpdateParty = async (
       payload: response.data,
     });
     dispatch({ type: SUCCESS_EDIT_PARTY });
-    toast({
-      title: "Party Updated",
-      status: "success",
-      position: "top",
-    });
+    toast.success("Success! Party changes saved.");
     setShowEditFirm(false);
   } catch (error) {
-    toast({
-      title:
-        error?.response?.data?.msg ||
-        error?.response?.data?.message ||
-        "Something Went Wrong!",
-      status: "error",
-      position: "top",
-    });
-    dispatch({ type: EDIT_PARTY_ERROR });
     console.error("Error Updating Party:", error);
+    dispatch({ type: EDIT_PARTY_ERROR });
+    if (error?.response?.data?.tokenExpired) {
+      return toast.info("Session Expired! Please Login again.");
+    }
+    toast.error(
+      error?.response?.data?.message ||
+        error?.response?.data?.msg ||
+        "Issue encountered while updating party."
+    );
   }
 };
 
 // Delete Party Request ************************
-export const DeleteParty = async (
-  dispatch,
-  partyId,
-  setShowEditFirm,
-  toast
-) => {
-  toast.closeAll();
+export const DeleteParty = async (dispatch, partyId, setShowEditFirm) => {
+  toast.dismiss();
   dispatch({ type: LOADING_DELETE_PARTY });
   const token = localStorage.getItem("token");
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
@@ -154,31 +127,19 @@ export const DeleteParty = async (
   try {
     const response = await axios.delete(
       `${API_URL}/${FirmId}/party/delete/${partyId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token} `,
-        },
-      }
+      { headers: { Authorization: `Bearer ${token} ` } }
     );
-    console.log("Delete Party Response:", response?.data);
+    // console.log("Delete Party Response:", response?.data);
     dispatch({ type: SUCCESS_DELETE_PARTY });
     setShowEditFirm(false);
-    toast({
-      title: "Party Deleted",
-      status: "success",
-      position: "top",
-    });
+    toast.success("Party removed from your list.");
   } catch (error) {
-    dispatch({ type: ERROR_DELETE_PARTY });
     console.log("Deleting Party Error:", error);
-    toast({
-      title:
-        error?.response?.data?.msg ||
-        error?.response?.data?.message ||
-        "Something Went Wrong!",
-      status: "error",
-      position: "top",
-    });
+    dispatch({ type: ERROR_DELETE_PARTY });
+    if (error?.response?.data?.tokenExpired) {
+      return toast.info("Session Expired! Please Login again.");
+    }
+    toast.error("Couldn't delete the party.");
   }
 };
 
@@ -199,7 +160,11 @@ export const GetCurrentPartyData = (partyId) => async (dispatch) => {
       payload: response?.data?.data,
     });
   } catch (error) {
-    dispatch({ type: ERROR_GET_CURRENT_PARTY });
     console.error("Error Getting Current Party Data:", error);
+    dispatch({ type: ERROR_GET_CURRENT_PARTY });
+    toast.dismiss();
+    if (error?.response?.data?.tokenExpired) {
+      return toast.info("Session Expired! Please Login again.");
+    }
   }
 };

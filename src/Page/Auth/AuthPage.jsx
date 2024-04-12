@@ -80,8 +80,6 @@ const AuthPage = () => {
       toast.error(
         error?.response?.data?.message ||
           error?.response?.data?.msg ||
-          error?.response?.message ||
-          error?.message ||
           "Issue encountered during sign up."
       );
     }
@@ -128,8 +126,6 @@ const AuthPage = () => {
       toast.error(
         error?.response?.data?.message ||
           error?.response?.data?.msg ||
-          error?.response?.message ||
-          error?.message ||
           "Error encountered during login, please retry."
       );
     }

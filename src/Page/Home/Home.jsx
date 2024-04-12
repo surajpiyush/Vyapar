@@ -58,7 +58,7 @@ const Home = () => {
       });
       toast.dismiss();
       if (error?.response?.data?.tokenExpired) {
-        return toast.warning("Session expired. Please log in again.");
+        return toast.info("Session expired. Please log in again.");
       }
     }
   };
