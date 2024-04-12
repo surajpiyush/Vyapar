@@ -11,15 +11,12 @@ import {
   CloseToggleIcon,
   OpenToggleIcon,
 } from "../../assets/Icons/ReactIcons";
-import { LOGOUT } from "../../Redux/business/action";
 
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const Home = () => {
-  const navigate = useNavigate();
   const [privacyToggle, setPrivacyToggle] = useState(false);
   const [isMonthModelOpenForSale, setIsMonthModelOpenForSale] = useState(false);
   const [isMonthModelOpenForPurchase, setIsMonthModelOpenForPurchase] =
@@ -50,7 +47,7 @@ const Home = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      console.log("Fetch Home Data Response:", response);
+      // console.log("Fetch Home Data Response:", response);
       setHomeStates((prev) => {
         return { ...prev, isLoading: false, data: response?.data || {} };
       });
@@ -61,14 +58,8 @@ const Home = () => {
       });
       toast.dismiss();
       if (error?.response?.data?.tokenExpired) {
-        toast.warning("Session Expired! Please Login again.");
-        return LOGOUT(navigate);
+        return toast.warning("Session expired. Please log in again.");
       }
-      toast.error(
-        error?.response?.data?.msg ||
-          error?.response?.data?.message ||
-          "Encountered an issue while fetching data!"
-      );
     }
   };
 

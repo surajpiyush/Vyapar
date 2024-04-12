@@ -36,14 +36,8 @@ export const FetchAllCompanies = async (dispatch) => {
     dispatch({ type: ISERROR });
     toast.dismiss();
     if (error?.response?.data?.tokenExpired) {
-      toast.warning("Session Expired! Please Login again.");
-      return LOGOUT();
+      return toast.warning("Session expired. Please log in again.");
     }
-    toast.error(
-      error?.response?.data?.message ||
-        error?.response?.data?.msg ||
-        "Something Went Wrong!"
-    );
   }
 };
 
@@ -72,20 +66,15 @@ export const AddBusinessLoginRequest = async (
       email: "",
       phoneNumber: "",
     });
-    toast.success("Business Added ✔️");
+    toast.success("New business added.");
     navigate("/");
   } catch (error) {
     console.log("Error Adding New Business:", error);
     dispatch({ type: ISERROR });
     if (error?.response?.data?.tokenExpired) {
-      toast.warning("Session Expired! Please Login again.");
-      return LOGOUT();
+      return toast.warning("Session expired. Please log in again.");
     }
-    toast.error(
-      error?.response?.data?.message ||
-        error?.response?.data?.msg ||
-        "Something Went Wrong!"
-    );
+    toast.error("Failed to save your new business.");
   }
 };
 
@@ -109,7 +98,7 @@ export const UpdateCompanyProfile = async (dispatch, data, setShowEditFirm) => {
     );
 
     //  console.log("Update Firm Response", response?.data);
-    toast.success("Profile Updated ✔️");
+    toast.success("Changes saved successfully.");
     const responseData = response?.data?.FirmData;
     const prevousUserLSData = JSON.parse(localStorage.getItem(USER_DETAILS));
     const newUserLSData = {
@@ -125,14 +114,9 @@ export const UpdateCompanyProfile = async (dispatch, data, setShowEditFirm) => {
     console.log("Error Updating Profile:", error);
     dispatch({ type: ISERROR });
     if (error?.response?.data?.tokenExpired) {
-      toast.warning("Session Expired! Please Login again.");
-      return LOGOUT();
+      return toast.warning("Session expired. Please log in again.");
     }
-    toast.error(
-      error?.response?.data?.message ||
-        error?.response?.data?.msg ||
-        "Something went wrong while updating profile!"
-    );
+    toast.error("Error occurred while updating profile.");
   }
 };
 
@@ -150,19 +134,14 @@ export const DeleteCompany = async (dispatch, firmId) => {
 
     // console.log("Delete Firm Response:", response);
     dispatch({ type: DELETE_FIRM_SUCCESS });
-    toast.success("Company Deleted ✔️");
+    toast.success("Business successfully removed.");
   } catch (error) {
     console.log("Error Deleting Firm:", error);
     dispatch({ type: DELETE_FIRM_ERROR });
     if (error?.response?.data?.tokenExpired) {
-      toast.warning("Session Expired! Please Login again.");
-      return LOGOUT();
+      return toast.warning("Session expired. Please log in again.");
     }
-    toast.error(
-      error?.response?.data?.message ||
-        error?.response?.data?.msg ||
-        "Something went wrong while deleting profile!"
-    );
+    toast.error("Failed to remove your business.");
   }
 };
 
@@ -175,7 +154,7 @@ export const LOGOUT = (navigate, showToast = false) => {
   sessionStorage.removeItem(THERMAL_PRINTER_DATA);
   if (showToast) {
     toast.dismiss();
-    toast.success("Logged Out!");
+    toast.success("You've been logged out.");
   }
   navigate("/auth");
 };
