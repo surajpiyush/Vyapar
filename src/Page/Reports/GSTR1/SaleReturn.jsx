@@ -33,6 +33,7 @@ const SaleReturn = ({ saleReturnData }) => {
             <tr className={css.lowerTableHeader}>
               {/* Lower Header */}
               {[
+                "#",
                 "GSTIN/UIN",
                 "Party Name",
                 "Invoice NO.",
@@ -60,6 +61,9 @@ const SaleReturn = ({ saleReturnData }) => {
             <tbody>
               {saleReturnData?.map((item, ind) => (
                 <tr key={ind + item?._id}>
+                <td>
+                  <div>{ind+1}</div>
+                </td>
                   <td>
                     <div>{item?.gstNo || item?.Data[0]?.gstNo || "-"}</div>
                   </td>
