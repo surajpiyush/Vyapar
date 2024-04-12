@@ -19,7 +19,7 @@ export default function ExpenseCategoryForm({
   useAsUpdateForm = false,
   clickedItem = {},
 }) {
-  const toast = useToast();
+  // const toast = useToast();
   const dispatch = useDispatch();
   const loadingUpdate = useSelector((state) => state.ItemReducer.loadingUpdate);
   const loadingDelete = useSelector((state) => state.ItemReducer.loadingDelete);
@@ -37,22 +37,22 @@ export default function ExpenseCategoryForm({
   }, []);
 
   const closeForm = () => {
-    //  console.log("Working");
     func(false);
   };
 
+  // Submit
   const handleSubmit = (e) => {
     e.preventDefault();
     if (useAsUpdateForm) {
-      UpdateCategory(dispatch, formData?._id, formData, func, toast);
+      UpdateCategory(dispatch, formData?._id, formData, func);
     } else {
-      AddNewCategory(dispatch, formData, closeForm, toast);
+      AddNewCategory(dispatch, formData, func);
     }
   };
 
   // Delete Category
   const handleDelete = () => {
-    DeleteCategory(dispatch, formData?._id, func, toast);
+    DeleteCategory(dispatch, formData?._id, func);
   };
 
   return (

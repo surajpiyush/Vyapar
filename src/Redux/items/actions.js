@@ -40,62 +40,13 @@ import {
   LOADING_UPDATE_CATEGORY,
   SUCCESS_UPDATE_CATEGORY,
   ERROR_UPDATE_CATEGORY,
+  SUCCESS_DELETE_CATEGORY,
+  LOADING_DELETE_CATEGORY,
+  ERROR_DELETE_CATEGORY,
 } from "./actionTypes";
 
 import axios from "axios";
-
-// Add Item **********************************************************
-export const AddItem = async (dispatch, newItem, closeForm, toast) => {
-  toast.closeAll();
-  dispatch({ type: ITEM_REQUEST });
-  const token = localStorage.getItem("token");
-  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
-
-  try {
-    const response = await axios.post(
-      `${API_URL}/${FirmId}/insertItem`,
-      newItem,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-
-    // console.log("Adding Item Response:", response?.data);
-    dispatch({ type: POST_ITEM_SUCCESS });
-    toast({
-      title: "Item Added Successfully",
-      status: "success",
-      position: "top",
-    });
-    closeForm(false);
-  } catch (error) {
-    toast({
-      title: "Something Went Wrong!",
-      description: error?.response?.data?.msg || "",
-      status: "error",
-      position: "top",
-    });
-    dispatch({ type: ITEM_FAILURE });
-    console.log("Adding Items Error:", error);
-  }
-};
-
-// Get Item *********************************
-export const getitems = async (dispatch) => {
-  dispatch({ type: ITEM_REQUEST });
-  const token = localStorage.getItem("token");
-  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
-
-  try {
-    const response = await axios.get(`${API_URL}/${FirmId}/item/allItemData`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    // console.log("Get items response:", response?.data);
-    dispatch({ type: GET_ITEM_SUCCESS, payload: response?.data?.data });
-  } catch (error) {
-    dispatch({ type: ITEM_FAILURE });
-    console.log("Getting Items Data Error:", error);
-  }
-};
+import { toast } from "react-toastify";
 
 // Get All Items List ********************************
 export const GetAllItems = async (dispatch) => {
@@ -111,8 +62,44 @@ export const GetAllItems = async (dispatch) => {
     // console.log("Get All Items Response:", response.data);
     dispatch({ type: SUCCESS_GET_ALL_ITEMS, payload: response?.data?.data });
   } catch (error) {
-    dispatch({ type: ERROR_GET_ALL_ITEMS });
     console.log("Getting All Items Error:", error);
+    dispatch({ type: ERROR_GET_ALL_ITEMS });
+    toast.dismiss();
+    if (error?.response?.data?.tokenExpired) {
+      return toast.info("Session Expired! Please Login again.");
+    }
+  }
+};
+
+// Add Item **********************************************************
+export const AddItem = async (dispatch, newItem, closeForm) => {
+  toast.dismiss();
+  dispatch({ type: ITEM_REQUEST });
+  const token = localStorage.getItem("token");
+  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+
+  try {
+    const response = await axios.post(
+      `${API_URL}/${FirmId}/insertItem`,
+      newItem,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    // console.log("Adding Item Response:", response?.data);
+    dispatch({ type: POST_ITEM_SUCCESS });
+    toast.success("Item added.");
+    closeForm(false);
+  } catch (error) {
+    console.log("Adding New Item Error:", error);
+    dispatch({ type: ITEM_FAILURE });
+    if (error?.response?.data?.tokenExpired) {
+      return toast.info("Session Expired! Please Login again.");
+    }
+    toast.error(
+      error?.response?.data?.message ||
+        error?.response?.data?.msg ||
+        "Failed to save item."
+    );
   }
 };
 
@@ -137,28 +124,12 @@ export const GetSelectedItemData = async (dispatch, itemId) => {
       },
     });
   } catch (error) {
-    dispatch({ type: ERROR_GET_SELECTED_ITEM });
     console.log("Getting Selected Item Data Error:", error);
-  }
-};
-
-// Get Single Item ***************************************
-export const GetSingleItem = async (dispatch, itemId) => {
-  dispatch({ type: LOADING_SINGLE_ITEM });
-  const token = localStorage.getItem("token");
-  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
-
-  try {
-    const response = await axios.get(
-      `${API_URL}/${FirmId}/sale/getInvoice/${itemId}`,
-      { headers: { Authorization: `Bearer ${token} ` } }
-    );
-
-    // console.log("Getting Single Item Response:", response);
-    dispatch({ type: SUCCESS_SINGLE_ITEM, payload: response?.data?.data });
-  } catch (error) {
-    dispatch({ type: ERROR_SINGLE_ITEM });
-    console.log("Getting Single Item Error:", error);
+    dispatch({ type: ERROR_GET_SELECTED_ITEM });
+    toast.dismiss();
+    if (error?.response?.data?.tokenExpired) {
+      return toast.info("Session Expired! Please Login again.");
+    }
   }
 };
 
@@ -167,11 +138,10 @@ export const UpdateItem = async (
   dispatch,
   itemId,
   updatedData,
-  setShowEditFirm,
-  toast
+  setShowEditFirm
 ) => {
+  toast.dismiss();
   dispatch({ type: LOADING_UPDATE_ITEM });
-  toast.closeAll();
   const token = localStorage.getItem("token");
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
@@ -184,30 +154,26 @@ export const UpdateItem = async (
 
     // console.log("Update Item Response:", response.data);
     dispatch({ type: SUCCESS_UPDATE_ITEM });
-    toast({
-      title: "Item Updated",
-      status: "success",
-      position: "top",
-    });
+    toast.success("Item details updated.");
     setShowEditFirm(false);
   } catch (error) {
-    toast({
-      title:
-        error?.response?.data?.msg ||
-        error?.response?.data?.message ||
-        "Something Went Wrong!",
-      status: "error",
-      position: "top",
-    });
-    dispatch({ type: ERROR_UPDATE_ITEM });
     console.error("Updating Item Error:", error);
+    dispatch({ type: ERROR_UPDATE_ITEM });
+    if (error?.response?.data?.tokenExpired) {
+      return toast.info("Session Expired! Please Login again.");
+    }
+    toast.error(
+      error?.response?.data?.message ||
+        error?.response?.data?.msg ||
+        "Failed to modify the item."
+    );
   }
 };
 
 // Delete Item ************************
-export const DeleteItem = async (dispatch, partyId, setShowEditFirm, toast) => {
+export const DeleteItem = async (dispatch, partyId, setShowEditFirm) => {
   dispatch({ type: LOADING_DELETE_ITEM });
-  toast.closeAll();
+  toast.dismiss();
   const token = localStorage.getItem("token");
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
@@ -219,65 +185,19 @@ export const DeleteItem = async (dispatch, partyId, setShowEditFirm, toast) => {
 
     // console.log("Delete Item Response:", response?.data);
     dispatch({ type: SUCCESS_DELETE_ITEM });
-    toast({
-      title: "Item Deleted!",
-      status: "success",
-      position: "top",
-    });
+    toast.success("Item removed from your list.");
     setShowEditFirm(false);
   } catch (error) {
-    toast({
-      title:
-        error?.response?.data?.msg ||
-        error?.response?.data?.message ||
-        "Something Went Wrong!",
-      status: "error",
-      position: "top",
-    });
-    dispatch({ type: ERROR_DELETE_ITEM });
     console.log("Deleting Item Error:", error);
+    dispatch({ type: ERROR_DELETE_ITEM });
+    if (error?.response?.data?.tokenExpired) {
+      return toast.info("Session Expired! Please Login again.");
+    }
+    toast.error("Couldn't delete the item.");
   }
 };
 
 //  -------------------------------- Category -----------------------------
-// Add New Category
-export const AddNewCategory = async (
-  dispatch,
-  categoryData,
-  closeForm,
-  toast
-) => {
-  dispatch({ type: ADD_CATEGORY_LOADING });
-  toast.closeAll();
-  const token = localStorage.getItem("token");
-  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
-
-  try {
-    const response = await axios.post(
-      `${API_URL}/${FirmId}/createCategoryName`,
-      categoryData,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-
-    // console.log("Adding Category Response:", response?.data);
-    dispatch({ type: ADD_CATEGORY_SUCCESS });
-    toast({
-      title: "Category Added!",
-      status: "success",
-      position: "top",
-    });
-    closeForm(false);
-  } catch (error) {
-    toast({
-      title: error?.response?.data?.msg || "Something Went Wrong!",
-      status: "error",
-      position: "top",
-    });
-    dispatch({ type: ADD_CATEGORY_ERROR });
-    console.log("Adding Category Error:", error);
-  }
-};
-
 // Get All Categories
 export const GetAllCategories = async (dispatch) => {
   dispatch({ type: GET_All_CATEGORIES_LOADING });
@@ -296,8 +216,44 @@ export const GetAllCategories = async (dispatch) => {
       payload: response?.data?.data,
     });
   } catch (error) {
-    dispatch({ type: GET_All_CATEGORIES_ERROR });
     console.log("Getting All Categories Error:", error);
+    dispatch({ type: GET_All_CATEGORIES_ERROR });
+    toast.dismiss();
+    if (error?.response?.data?.tokenExpired) {
+      return toast.info("Session Expired! Please Login again.");
+    }
+  }
+};
+
+// Add New Category
+export const AddNewCategory = async (dispatch, categoryData, closeForm) => {
+  dispatch({ type: ADD_CATEGORY_LOADING });
+  toast.dismiss();
+  const token = localStorage.getItem("token");
+  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+
+  try {
+    const response = await axios.post(
+      `${API_URL}/${FirmId}/createCategoryName`,
+      categoryData,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    // console.log("Adding Category Response:", response?.data);
+    dispatch({ type: ADD_CATEGORY_SUCCESS });
+    toast.success("Category added.");
+    closeForm(false);
+  } catch (error) {
+    console.log("Adding Category Error:", error);
+    dispatch({ type: ADD_CATEGORY_ERROR });
+    if (error?.response?.data?.tokenExpired) {
+      return toast.info("Session Expired! Please Login again.");
+    }
+    toast.error(
+      error?.response?.data?.message ||
+        error?.response?.data?.msg ||
+        "Failed to add category."
+    );
   }
 };
 
@@ -306,11 +262,10 @@ export const UpdateCategory = async (
   dispatch,
   itemId,
   updatedData,
-  setShowEditFirm,
-  toast
+  setShowEditFirm
 ) => {
-  toast.closeAll();
   dispatch({ type: LOADING_UPDATE_CATEGORY });
+  toast.dismiss();
   const token = localStorage.getItem("token");
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
@@ -324,34 +279,25 @@ export const UpdateCategory = async (
     // console.log("Update Category Response:", response.data);
     dispatch({ type: SUCCESS_UPDATE_CATEGORY });
     setShowEditFirm(false);
-    toast({
-      title: "Category Updated",
-      status: "success",
-      position: "top",
-    });
+    toast.success("Category updated.");
   } catch (error) {
+    console.error("Updating Category Error:", error);
     dispatch({ type: ERROR_UPDATE_CATEGORY });
-    toast({
-      title:
+    if (error?.response?.data?.tokenExpired) {
+      return toast.info("Session Expired! Please Login again.");
+    }
+    toast.error(
+      error?.response?.data?.message ||
         error?.response?.data?.msg ||
-        error?.response?.data?.message ||
-        "Something Went Wrong!",
-      status: "error",
-      position: "top",
-    });
-    console.error("Error Updating Category:", error);
+        "Failed to update the category."
+    );
   }
 };
 
 // Delete Category
-export const DeleteCategory = async (
-  dispatch,
-  partyId,
-  setShowEditFirm,
-  toast
-) => {
-  toast.closeAll();
-  dispatch({ type: LOADING_DELETE_ITEM });
+export const DeleteCategory = async (dispatch, partyId, setShowEditFirm) => {
+  dispatch({ type: LOADING_DELETE_CATEGORY });
+  toast.dismiss();
   const token = localStorage.getItem("token");
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
@@ -362,61 +308,20 @@ export const DeleteCategory = async (
     );
 
     // console.log("Delete Item Response:", response?.data);
-    dispatch({ type: SUCCESS_DELETE_ITEM });
+    dispatch({ type: SUCCESS_DELETE_CATEGORY });
     setShowEditFirm(false);
-    toast({
-      title: "Item Deleted",
-      status: "success",
-      position: "top",
-    });
+    toast.success("Category removed from your list.");
   } catch (error) {
-    dispatch({ type: ERROR_DELETE_ITEM });
-    console.log("Deleting Item Error:", error);
-    toast({
-      title:
-        error?.response?.data?.msg ||
-        error?.response?.data?.message ||
-        "Something Went Wrong!",
-      status: "error",
-      position: "top",
-    });
+    console.log("Deleting Category Error:", error);
+    dispatch({ type: ERROR_DELETE_CATEGORY });
+    if (error?.response?.data?.tokenExpired) {
+      return toast.info("Session Expired! Please Login again.");
+    }
+    toast.error("Couldn't delete the category.");
   }
 };
 
 // ----------------------------------- Unit ---------------------------------
-// Add New Unit
-export const AddNewUnit = async (dispatch, unitData, closeForm, toast) => {
-  dispatch({ type: ADDING_UNIT_LOADING });
-  toast.closeAll();
-  const token = localStorage.getItem("token");
-  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
-
-  try {
-    const response = await axios.post(
-      `${API_URL}/${FirmId}/createUnitName`,
-      unitData,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-
-    // console.log("Adding Item Response:", response?.data);
-    dispatch({ type: ADDING_UNIT_SUCCESS });
-    toast({
-      title: "Unit Added!",
-      status: "success",
-      position: "top",
-    });
-    closeForm(false);
-  } catch (error) {
-    toast({
-      title: error?.response?.data?.msg || "Something Went Wrong!",
-      status: "error",
-      position: "top",
-    });
-    dispatch({ type: ADDING_UNIT_ERROR });
-    console.log("Adding Unit Error", error);
-  }
-};
-
 // Get All Units
 export const GetAllUnits = async (dispatch) => {
   dispatch({ type: GET_ALL_UNITS_LOADING });
@@ -432,8 +337,44 @@ export const GetAllUnits = async (dispatch) => {
     // console.log("Get All Units response:", response?.data);
     dispatch({ type: GET_ALL_UNITS_SUCCESS, payload: response?.data?.data });
   } catch (error) {
+    console.log("Getting All Units Error:", error);
     dispatch({ type: GET_ALL_UNITS_ERROR });
-    console.log("Error Getting All Units:", error);
+    toast.dismiss();
+    if (error?.response?.data?.tokenExpired) {
+      return toast.info("Session Expired! Please Login again.");
+    }
+  }
+};
+
+// Add New Unit
+export const AddNewUnit = async (dispatch, unitData, closeForm) => {
+  dispatch({ type: ADDING_UNIT_LOADING });
+  toast.dismiss();
+  const token = localStorage.getItem("token");
+  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+
+  try {
+    const response = await axios.post(
+      `${API_URL}/${FirmId}/createUnitName`,
+      unitData,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    // console.log("Adding Item Response:", response?.data);
+    dispatch({ type: ADDING_UNIT_SUCCESS });
+    toast.success("Unit added.");
+    closeForm(false);
+  } catch (error) {
+    console.log("Adding Unit Error:", error);
+    dispatch({ type: ADDING_UNIT_ERROR });
+    if (error?.response?.data?.tokenExpired) {
+      return toast.info("Session Expired! Please Login again.");
+    }
+    toast.error(
+      error?.response?.data?.message ||
+        error?.response?.data?.msg ||
+        "Failed to add unit."
+    );
   }
 };
 
@@ -442,11 +383,10 @@ export const UpdateUnit = async (
   dispatch,
   itemId,
   updatedData,
-  setShowEditFirm,
-  toast
+  setShowEditFirm
 ) => {
-  toast.closeAll();
   dispatch({ type: LOADING_UPDATE_UNIT });
+  toast.dismiss();
   const token = localStorage.getItem("token");
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
@@ -457,32 +397,28 @@ export const UpdateUnit = async (
       { headers: { Authorization: `Bearer ${token}` } }
     );
 
-    // console.log("Update Category Response:", response.data);
+    // console.log("Update Unit Response:", response.data);
     dispatch({ type: SUCCESS_UPDATE_UNIT });
+    toast.success("Unit updated.");
     setShowEditFirm(false);
-    toast({
-      title: "Unit Updated",
-      status: "success",
-      position: "top",
-    });
   } catch (error) {
+    console.error("Updating Unit Error:", error);
     dispatch({ type: ERROR_UPDATE_UNIT });
-    toast({
-      title:
+    if (error?.response?.data?.tokenExpired) {
+      return toast.info("Session Expired! Please Login again.");
+    }
+    toast.error(
+      error?.response?.data?.message ||
         error?.response?.data?.msg ||
-        error?.response?.data?.message ||
-        "Something Went Wrong!",
-      status: "error",
-      position: "top",
-    });
-    console.error("Error Updating Category:", error);
+        "Failed to update the unit."
+    );
   }
 };
 
 // Delete Unit
-export const DeleteUnit = async (dispatch, unittId, setShowEditFirm, toast) => {
-  toast.closeAll();
+export const DeleteUnit = async (dispatch, unittId, setShowEditFirm) => {
   dispatch({ type: LOADING_DELETE_UNIT });
+  toast.dismiss();
   const token = localStorage.getItem("token");
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
@@ -495,21 +431,13 @@ export const DeleteUnit = async (dispatch, unittId, setShowEditFirm, toast) => {
     // console.log("Delete Item Response:", response?.data);
     dispatch({ type: SUCCESS_DELETE_UNIT });
     setShowEditFirm(false);
-    toast({
-      title: "Unit Deleted",
-      status: "success",
-      position: "top",
-    });
+    toast.success("Unit removed from your list.");
   } catch (error) {
-    dispatch({ type: ERROR_DELETE_UNIT });
     console.log("Deleting Item Error:", error);
-    toast({
-      title:
-        error?.response?.data?.msg ||
-        error?.response?.data?.message ||
-        "Something Went Wrong!",
-      status: "error",
-      position: "top",
-    });
+    dispatch({ type: ERROR_DELETE_UNIT });
+    if (error?.response?.data?.tokenExpired) {
+      return toast.info("Session Expired! Please Login again.");
+    }
+    toast.error("Couldn't delete the unit.");
   }
 };

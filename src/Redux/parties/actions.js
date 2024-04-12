@@ -1,4 +1,3 @@
-import { LOGOUT } from "../business/action";
 import { API_URL, USER_DETAILS } from "../store";
 import {
   FETCH_PARTIES_LOADING,

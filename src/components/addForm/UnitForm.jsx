@@ -6,7 +6,6 @@ import {
   BasicSpinnerIcon,
 } from "../../assets/Icons/ReactIcons";
 
-import { useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -15,7 +14,6 @@ export default function UnitForm({
   editUnitData = {},
   usedAsEditForm = false,
 }) {
-  const toast = useToast();
   const dispatch = useDispatch();
   const loadingUpdate = useSelector((state) => state.ItemReducer.loadingUpdate);
   const loadingDelete = useSelector((state) => state.ItemReducer.loadingDelete);
@@ -53,20 +51,20 @@ export default function UnitForm({
     e.preventDefault();
     if (usedAsEditForm) {
       if (!loadingUpdate) {
+        UpdateUnit(dispatch, formData?._id, formData, func);
         // console.log("Update Unit Data:", formData);
-        UpdateUnit(dispatch, formData?._id, formData, closeForm, toast);
       }
     } else {
       if (!loadingAddUnit) {
+        AddNewUnit(dispatch, formData, func);
         // console.log("Add Unit Data:", formData);
-        AddNewUnit(dispatch, formData, closeForm, toast);
       }
     }
   };
 
   //   Delete Item Function
   const handleDelete = () => {
-    DeleteUnit(dispatch, formData?._id, closeForm, toast);
+    DeleteUnit(dispatch, formData?._id, func);
   };
 
   return (

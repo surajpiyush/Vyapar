@@ -13,7 +13,6 @@ import {
   MinusCircleIcon,
 } from "../../assets/Icons/ReactIcons";
 
-import { useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RiDeleteBinLine as DeleteIcon } from "react-icons/ri";
@@ -24,7 +23,6 @@ const AddItemForm = ({
   usedAsEditForm = false,
   clickedItemData = {},
 }) => {
-  const toast = useToast();
   const dispatch = useDispatch();
   const isLoading = useSelector((store) => store.ItemReducer.isLoading);
   const newUnitAddedToggle = useSelector(
@@ -39,12 +37,6 @@ const AddItemForm = ({
     (store) => store.ItemReducer.newCategoryAddedToggle
   );
   const loadingUpdate = useSelector((store) => store.ItemReducer.loadingUpdate);
-  const loadingGetSelectedItemData = useSelector(
-    (store) => store.ItemReducer.loadingGetSelectedItemData
-  );
-  const selectedItemData = useSelector(
-    (store) => store.ItemReducer.selectedItemData
-  );
   const loadingGetAllCategories = useSelector(
     (store) => store.ItemReducer.loadingGetAllCategories
   );
@@ -189,9 +181,9 @@ const AddItemForm = ({
       };
 
       if (usedAsEditForm) {
-        UpdateItem(dispatch, ItemData?._id, ItemData, CloseForm, toast);
+        UpdateItem(dispatch, ItemData?._id, ItemData, CloseForm);
       } else {
-        AddItem(dispatch, ItemData, CloseForm, toast);
+        AddItem(dispatch, ItemData, CloseForm);
       }
       // console.log("Add Item Data", clickedItemData);
     }
@@ -199,7 +191,7 @@ const AddItemForm = ({
 
   //   Delete Item Function
   const handleDelete = () => {
-    DeleteItem(dispatch, formData?._id, CloseForm, toast);
+    DeleteItem(dispatch, formData?._id, CloseForm);
   };
 
   return (
