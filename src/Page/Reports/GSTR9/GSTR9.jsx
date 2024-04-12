@@ -51,7 +51,7 @@ const GSTR9 = () => {
                   <div>Financial Year</div>
                 </td>
                 <td>
-                  <div>2022-2023</div>
+                  <div>2024-2025</div>
                 </td>
               </tr>
               <tr>
@@ -71,7 +71,7 @@ const GSTR9 = () => {
                   <div>Financial Year</div>
                 </td>
                 <td>
-                  <div>2022-2023</div>
+                  <div>2024-2025</div>
                 </td>
               </tr>
               <tr>

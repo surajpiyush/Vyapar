@@ -23,14 +23,16 @@ const UpperControlPanel = ({
    unpaidAmount = 0,
    data = [],
    fileName = "",
-   excelDownload
+   excelDownload,
+   filterOption = [],
+   filterOptions = [],
+   setFilterOption = () => {},
 }) => {
    const [printClickStates, setPrintClickStates] = useState({
       JsonLoading: false,
       excelLoading: false,
       printLoading: false,
    });
-  
 
    // Convert to JSON
    const ConvertToJSON = () => {
@@ -317,6 +319,19 @@ const UpperControlPanel = ({
                >
                   <option value="ALL FIRMS">ALL FIRMS</option>
                </select>
+               {window.location.pathname === "/alltransactionreport" && (
+                  <select
+                     value={filterOption}
+                     onChange={(e) => setFilterOption(e.target.value)}
+                     className={css.navFirmsSelectTag}
+                  >
+                     {filterOptions.map((opt, index) => (
+                        <option key={index} value={opt}>
+                           {opt}
+                        </option>
+                     ))}
+                  </select>
+               )}
             </div>
             {showPrintOptions && (
                <div className={css.rightSideUpperPart}>

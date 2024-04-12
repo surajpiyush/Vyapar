@@ -1,4 +1,3 @@
-import * as XLSX from "xlsx";
 import css from "./AllTransactions.module.css";
 import Loader2 from "../../../Component/Loaders/Loader2";
 import Setting from "../../../Component/Setting/Setting";
@@ -30,6 +29,8 @@ const AllTransactions = () => {
    const [endDate, setEndDate] = useState(
       new Date().toISOString().split("T")[0]
    );
+   const [filterOption, setFilterOption] = useState("All Transaction");
+   const [filteredData, setFilteredData] = useState([]);
    const LoadingGetAllTransactions = useSelector(
       (store) => store.ReportReducer.isLoading
    );
@@ -48,6 +49,26 @@ const AllTransactions = () => {
    const SingleInvoiceData = useSelector(
       (store) => store.SalesReducer.SingleInvoiceData
    );
+   const filterOptions = [
+      "All Transaction",
+      "Sale",
+      "Purchase",
+      "Payment-In",
+      "Payment-Out",
+      "Credit Note",
+      "Debit Note",
+      "Sale Order",
+      "Purchase Order",
+      "Estimate",
+      "Delivery Challan",
+      "Expense",
+      "Party to Party [Received]",
+      "Party to Party [Paid]",
+      "Manufacturer",
+      "Sale FA",
+      "Purchase FA",
+      "Sale [Cancelled]",
+   ];
 
    useEffect(() => {
       const extractedData = allTransactionsData?.flatMap((data) => [
@@ -88,11 +109,25 @@ const AllTransactions = () => {
       extractedData?.sort((a, b) => new Date(a.date) - new Date(b.date));
       setTransactionData(extractedData);
    }, [toggleGetAllTransactionsSuccess]);
-   console.log(transactionData);
+   //  console.log(transactionData);
    // To fetch Invoices data
    useEffect(() => {
       GetAllTransactions(dispatch, startDate, endDate);
    }, [startDate, endDate]);
+
+   // *********&************&********************
+   useEffect(() => {
+      // Filter logic based on filterOption
+      if (filterOption === "All Transaction") {
+         setFilteredData(transactionData);
+      } else {
+         const filtered = transactionData.filter(
+            (item) => item.type === filterOption
+         );
+         setFilteredData(filtered);
+         console.log(filtered);
+      }
+   }, [transactionData, filterOption]);
 
    // ***************************** Print ************************************
    const handlePrint = useReactToPrint({
@@ -121,26 +156,6 @@ const AllTransactions = () => {
    }, [toggleSingleInvoiceSuccess]);
    // *********************************************************************************
 
-   const filterOptions = [
-      "All Transaction",
-      "Sale",
-      "Purchase",
-      "Payment-In",
-      "Payment-Out",
-      "Credit Note",
-      "Debit Note",
-      "Sale Order",
-      "Purchase Order",
-      "Estimate",
-      "Delivery Challan",
-      "Expense",
-      "Party to Party [Received]",
-      "Party to Party [Paid]",
-      "Manufacturer",
-      "Sale FA",
-      "Purchase FA",
-      "Sale [Cancelled]",
-   ];
    return LoadingGetAllTransactions ? (
       <Loader3 text="Loading All Transactions" />
    ) : (
@@ -178,6 +193,9 @@ const AllTransactions = () => {
             showPrintOptions={false}
             data={transactionData}
             fileName={"All_Transaction_Report"}
+            filterOption={filterOption}
+            filterOptions={filterOptions}
+            setFilterOption={setFilterOption}
          />
 
          {/* Middle */}
@@ -216,52 +234,53 @@ const AllTransactions = () => {
                      </tr>
                   </thead>
 
-                  {!LoadingGetAllTransactions &&
-                     transactionData?.length > 0 && (
-                        <tbody>
-                           {transactionData?.map((item, ind) => (
-                              <tr key={ind + item?._id}>
-                                 <td>
-                                    <div>{ind + 1}</div>
-                                 </td>
-                                 <td>
-                                    <div>{FormatDate(item?.date)}</div>
-                                 </td>
-                                 <td>
-                                    <div>{item?.refNo}</div>
-                                 </td>
-                                 <td>
-                                    <div>{item?.name}</div>
-                                 </td>
-                                 <td>
-                                    <div>{item?.type}</div>
-                                 </td>
-                                 <td>
-                                    <div style={{ textAlign: "right" }}>
-                                       ₹{item?.total || 0}
-                                    </div>
-                                 </td>
-                                 <td>
-                                    <div style={{ textAlign: "right" }}>
-                                       ₹{item?.recived || 0}
-                                    </div>
-                                 </td>
-                                 <td>
-                                    <div style={{ textAlign: "right" }}>
-                                       ₹{item?.balance || 0}
-                                    </div>
-                                 </td>
-                              </tr>
-                           ))}
-                        </tbody>
-                     )}
+                  {!LoadingGetAllTransactions && filteredData?.length > 0 && (
+                     <tbody>
+                        {filteredData?.map((item, ind) => (
+                           <tr key={ind + item?._id}>
+                              <td>
+                                 <div>{ind + 1}</div>
+                              </td>
+                              <td>
+                                 <div>{FormatDate(item?.date)}</div>
+                              </td>
+                              <td>
+                                 <div>{item?.refNo}</div>
+                              </td>
+                              <td>
+                                 <div>{item?.name}</div>
+                              </td>
+                              <td>
+                                 <div>{item?.type}</div>
+                              </td>
+                              <td>
+                                 <div style={{ textAlign: "right" }}>
+                                    ₹{item?.total || 0}
+                                 </div>
+                              </td>
+                              <td>
+                                 <div style={{ textAlign: "right" }}>
+                                    ₹{item?.recived || 0}
+                                 </div>
+                              </td>
+                              <td>
+                                 <div style={{ textAlign: "right" }}>
+                                    ₹{item?.balance || 0}
+                                 </div>
+                              </td>
+                           </tr>
+                        ))}
+                     </tbody>
+                  )}
                </table>
-               {!LoadingGetAllTransactions && transactionData?.length <= 0 && (
-                  <div className={css.noDataDiv}>
-                     <p>No data is available for All Transactions.</p>
-                     <p>Please try again after making relevant changes.</p>
-                  </div>
-               )}
+               {!LoadingGetAllTransactions &&
+                  (transactionData?.length <= 0 ||
+                     filteredData?.length <= 0) && (
+                     <div className={css.noDataDiv}>
+                        <p>No data is available for {filterOption}.</p>
+                        <p>Please try again after making relevant changes.</p>
+                     </div>
+                  )}
             </div>
          </div>
       </div>

@@ -30,6 +30,7 @@ const SaleTable = ({ saleData }) => {
             <tr className={css.lowerTableHeader}>
               {/* Lower Header */}
               {[
+                "#",
                 "GSTIN/UIN",
                 "Party Name",
                 "Invoice NO.",
@@ -54,6 +55,9 @@ const SaleTable = ({ saleData }) => {
             <tbody>
               {saleData?.map((item, ind) => (
                 <tr key={ind + item?._id}>
+                <td>
+                  {ind+1}
+                </td>
                   <td>
                     <div>{item?.gstNo || "-"}</div>
                   </td>
