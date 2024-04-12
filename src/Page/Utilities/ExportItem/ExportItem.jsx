@@ -49,9 +49,28 @@ const ExportItem = () => {
          "Secondary Unit": item.seleteUnit?.secondaryUnit,
       }));
 
+      const tableData2 = allItems.map((item) => ({
+         "Item Name": item.itemName,
+         "Item Code": item.itemCode,
+         Description: item.description,
+         Category: item.category,
+         HSN: item.itemHsn,
+         "Sale Price": item.salePrice?.salePrice,
+         "Purchase Price": item.purchasePrice?.purchasePrice,
+         "Discount Type": item.salePrice?.discountType,
+         "Sale Discount": item.salePrice?.disOnSale,
+         "Current Stock": item.stock?.openingQuantity,
+         "Min Stock": item.stock?.minStockToMaintain,
+         "Item Location": item.stock?.location,
+         "Tax Rate": item.taxRate,
+         "Base Unit": item.seleteUnit?.baseUnit,
+         "Secondary Unit": item.seleteUnit?.secondaryUnit,
+      }));
       const worksheet = XLSX.utils.json_to_sheet(tableData);
+      const worksheet2 = XLSX.utils.json_to_sheet(tableData2);
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, "Items");
+      XLSX.utils.book_append_sheet(workbook, worksheet2, "Item2");
       XLSX.writeFile(workbook, "items.xlsx");
    };
 
