@@ -66,7 +66,11 @@ const AuthPage = () => {
         return { ...prev, isLoading: false, toggle: !prev.toggle };
       });
 
-      toast.success(userName ? `Hello! ${userName}` : "LogIn Successfull!");
+      toast.success(
+        userName
+          ? `Welcome, ${userName}! Sign up successful.`
+          : "Welcome! Signup successful."
+      );
       navigate("/companies");
     } catch (error) {
       console.log("Signup Error:", error);
@@ -76,8 +80,9 @@ const AuthPage = () => {
       toast.error(
         error?.response?.data?.message ||
           error?.response?.data?.msg ||
+          error?.response?.message ||
           error?.message ||
-          "Encountered an issue, Please try again later!"
+          "Issue encountered during sign up."
       );
     }
   };
@@ -109,7 +114,11 @@ const AuthPage = () => {
       setStates((prev) => {
         return { ...prev, isLoading: false, toggle: !prev.toggle };
       });
-      toast.success(userName ? `Hello! ${userName}` : "LogIn Successfull!");
+      toast.success(
+        userName
+          ? `Welcome back, ${userName}! Login successful`
+          : "Login successful! Welcome!"
+      );
       navigate("/companies");
     } catch (error) {
       console.log("Login Error:", error);
@@ -119,8 +128,9 @@ const AuthPage = () => {
       toast.error(
         error?.response?.data?.message ||
           error?.response?.data?.msg ||
+          error?.response?.message ||
           error?.message ||
-          "Encountered an issue, Please try again later!"
+          "Error encountered during login, please retry."
       );
     }
   };
