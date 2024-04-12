@@ -10,17 +10,19 @@ import {
 } from "./Redux/store.js";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 export const ignoreRoutes = ["/auth", "/companies", "/addCompany"];
 
 function App() {
   const navigate = useNavigate();
   const location = useLocation();
-  const firmUpdate = useSelector((state) => state.BusinessReducer.toggleUpdate);
   const [showEditFirm, setShowEditFirm] = useState(false);
+  const firmUpdate = useSelector((state) => state.BusinessReducer.toggleUpdate);
 
   // Regular printer data
   const regularPrinterData = {
@@ -152,6 +154,12 @@ function App() {
           <Outlet />
         </div>
       )}
+
+      <ToastContainer
+        pauseOnFocusLoss={false}
+        theme="colored"
+        position="top-center"
+      />
     </div>
   );
 }

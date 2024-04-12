@@ -5,11 +5,10 @@ import { USER_DETAILS } from "../../Redux/store";
 import { RefreshIcon, CloseIcon2 } from "../../assets/Icons/ReactIcons";
 
 import { useState } from "react";
-import { useToast } from "@chakra-ui/react";
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-  const toast = useToast();
   const navigate = useNavigate();
   const [inpVal, setInpVal] = useState(
     JSON.parse(localStorage.getItem(USER_DETAILS))?.companyName || ""
@@ -20,11 +19,8 @@ const Navbar = () => {
   // Save Name Function
   const handleSubmit = (e) => {
     e.preventDefault();
-    toast({
-      title: "Feature Under Development",
-      status: "info",
-      position: "top",
-    });
+    toast.dismiss();
+    toast.info("Feature Under Development");
   };
 
   // Change Company Click
@@ -61,7 +57,7 @@ const Navbar = () => {
           </div>
           <div>Help</div>
           {/* <div>Shotcuts</div> */}
-          <div onClick={() => LOGOUT(navigate, toast)}>Logout</div>
+          <div onClick={() => LOGOUT(navigate, true)}>Logout</div>
           <div onClick={() => window.location.reload()}>
             <RefreshIcon />
           </div>

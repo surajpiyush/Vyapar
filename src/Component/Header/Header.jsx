@@ -7,13 +7,11 @@ import {
   SettingsIconFilled,
 } from "../../assets/Icons/ReactIcons";
 
+import { toast } from "react-toastify";
 import { useState } from "react";
-import { useToast } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { redirect } from "react-router-dom";
 
 const Header = () => {
-  const toast = useToast();
-  const navigate = useNavigate();
   const [searchInp, setSearchInp] = useState("");
   const [toggleSetting, setToggleSetting] = useState(false);
 
@@ -48,14 +46,13 @@ const Header = () => {
               <button
                 type="button"
                 onClick={() => {
-                  if (item === "Add Sale") navigate("/invoices");
-                  else if (item === "Add Purchase") navigate("/purchasebill");
-                  else if (item === "Add More")
-                    toast({
-                      title: "Feature currently in development",
-                      status: "info",
-                      position: "top",
+                  if (item === "Add Sale") redirect("/invoices");
+                  else if (item === "Add Purchase") redirect("/purchasebill");
+                  else if (item === "Add More") {
+                    toast.info("Feature currently in development", {
+                      position: "top-center",
                     });
+                  }
                 }}
               >
                 <PlusIcon2 /> {item}

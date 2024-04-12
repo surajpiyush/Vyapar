@@ -355,7 +355,7 @@ const AddExpenses = ({ setOpenForm }) => {
 
       <div className={css.topheader}>
         <p>Expense</p>
-        <div>
+        {/* <div>
           <h4
             style={{
               color: withGST ? "var(--blueA)" : "black",
@@ -377,7 +377,7 @@ const AddExpenses = ({ setOpenForm }) => {
               className={css.switch}
             />
           </div>
-        </div>
+        </div> */}
       </div>
 
       <div className={css.ContentContainerDiv}>

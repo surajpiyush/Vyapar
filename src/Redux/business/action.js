@@ -12,12 +12,14 @@ import {
 import { REGULAR_PRINTER_DATA, THERMAL_PRINTER_DATA } from "../store";
 
 import axios from "axios";
+import { toast } from "react-toastify";
 
-// Company Register Request ---- Didn't applied function curring due to thunk error in store.js
-export const FetchAllCompanies = async (dispatch, toast) => {
+// Company Register Request
+export const FetchAllCompanies = async (dispatch) => {
   dispatch({ type: ISLOADING });
-  toast.closeAll();
   const token = localStorage.getItem("token");
+  // const token =
+  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWM1Y2ZjNTA5YjM0Y2E4YTAxODc0OTciLCJpYXQiOjE3MTI3NDE2NTAsImV4cCI6MTcxMjgyODA1MH0.ez_9ADGx3uKF1ivIFnKn7E2tm1zC9f0oixDtaT-jv-o";
 
   try {
     const response = await axios.get(`${API_URL}/firm_registration`, {
@@ -30,28 +32,29 @@ export const FetchAllCompanies = async (dispatch, toast) => {
       payload: response?.data?.data,
     });
   } catch (error) {
-    dispatch({ type: ISERROR });
-    toast({
-      title:
-        error?.response?.data?.message ||
-        error?.response?.data?.msg ||
-        "Something Went Wrong!",
-      status: "warning",
-    });
     console.log("Fetching All Companies Error Response:", error);
+    dispatch({ type: ISERROR });
+    toast.dismiss();
+    if (error?.response?.data?.tokenExpired) {
+      toast.warning("Session Expired! Please Login again.");
+      return LOGOUT();
+    }
+    toast.error(
+      error?.response?.data?.message ||
+        error?.response?.data?.msg ||
+        "Something Went Wrong!"
+    );
   }
 };
 
-// New Company Add Request ---- Didn't applied function curring due to thunk error in store.js
+// Add New Company
 export const AddBusinessLoginRequest = async (
   dispatch,
   data,
-  toast,
-  navigate,
-  location,
-  setFormdata
+  setFormdata,
+  navigate
 ) => {
-  toast.closeAll();
+  toast.dismiss();
   dispatch({ type: ISLOADING });
   const token = localStorage.getItem("token");
 
@@ -69,36 +72,27 @@ export const AddBusinessLoginRequest = async (
       email: "",
       phoneNumber: "",
     });
-    toast({
-      title: "Business Added ✔️",
-      status: "success",
-      position: "top",
-    });
+    toast.success("Business Added ✔️");
     navigate("/");
   } catch (error) {
-    dispatch({ type: ISERROR });
-    toast({
-      title:
-        error?.response?.data?.message ||
-        error?.response?.data?.msg ||
-        "Something Went Wrong!",
-      status: "error",
-      position: "top",
-    });
     console.log("Error Adding New Business:", error);
+    dispatch({ type: ISERROR });
+    if (error?.response?.data?.tokenExpired) {
+      toast.warning("Session Expired! Please Login again.");
+      return LOGOUT();
+    }
+    toast.error(
+      error?.response?.data?.message ||
+        error?.response?.data?.msg ||
+        "Something Went Wrong!"
+    );
   }
 };
 
 // Update Company Profile ---- Didn't applied function curring due to thunk error in store.js
-export const UpdateCompanyProfile = async (
-  dispatch,
-  data,
-  toast,
-  setShowEditFirm
-) => {
-  // console.log("Sent Updated firm data", data);
+export const UpdateCompanyProfile = async (dispatch, data, setShowEditFirm) => {
+  toast.dismiss();
   dispatch({ type: ISLOADING });
-  toast.closeAll();
   const token = localStorage.getItem("token");
   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
@@ -115,6 +109,7 @@ export const UpdateCompanyProfile = async (
     );
 
     //  console.log("Update Firm Response", response?.data);
+    toast.success("Profile Updated ✔️");
     const responseData = response?.data?.FirmData;
     const prevousUserLSData = JSON.parse(localStorage.getItem(USER_DETAILS));
     const newUserLSData = {
@@ -125,27 +120,25 @@ export const UpdateCompanyProfile = async (
     // console.log("newUserLSData", newUserLSData);
     localStorage.setItem(USER_DETAILS, JSON.stringify(newUserLSData));
     dispatch({ type: UPDATE_PROFILE_SUCCESS });
-    toast({
-      title: "Profile Updated",
-      position: "top",
-      status: "success",
-    });
     setShowEditFirm(false);
   } catch (error) {
-    toast({
-      title: "Something went wrong while updating profile!",
-      description: error?.response?.data?.message || error?.response?.data?.msg,
-      position: "top",
-      status: "error",
-    });
+    console.log("Error Updating Profile:", error);
     dispatch({ type: ISERROR });
-    console.log("Updating Profile Error Response:", error);
+    if (error?.response?.data?.tokenExpired) {
+      toast.warning("Session Expired! Please Login again.");
+      return LOGOUT();
+    }
+    toast.error(
+      error?.response?.data?.message ||
+        error?.response?.data?.msg ||
+        "Something went wrong while updating profile!"
+    );
   }
 };
 
 // Delete Firm
-export const DeleteCompany = async (dispatch, firmId, toast) => {
-  toast.closeAll();
+export const DeleteCompany = async (dispatch, firmId) => {
+  toast.dismiss();
   dispatch({ type: DELETE_FIRM_LOADING });
   const token = localStorage.getItem("token");
 
@@ -157,31 +150,32 @@ export const DeleteCompany = async (dispatch, firmId, toast) => {
 
     // console.log("Delete Firm Response:", response);
     dispatch({ type: DELETE_FIRM_SUCCESS });
-    toast({
-      title: "Company Deleted",
-      status: "success",
-    });
+    toast.success("Company Deleted ✔️");
   } catch (error) {
+    console.log("Error Deleting Firm:", error);
     dispatch({ type: DELETE_FIRM_ERROR });
-    toast({
-      title:
-        error?.response?.data?.message ||
+    if (error?.response?.data?.tokenExpired) {
+      toast.warning("Session Expired! Please Login again.");
+      return LOGOUT();
+    }
+    toast.error(
+      error?.response?.data?.message ||
         error?.response?.data?.msg ||
-        "Something Went Wrong!",
-      status: "error",
-    });
-    console.log("Delete Firm Error", error);
+        "Something went wrong while deleting profile!"
+    );
   }
 };
 
 // Logout Function
-export const LOGOUT = (navigate, toast) => {
-  toast.closeAll();
+export const LOGOUT = (navigate, showToast = false) => {
   localStorage.removeItem("token");
   localStorage.removeItem("userId");
   localStorage.removeItem(USER_DETAILS);
   sessionStorage.removeItem(REGULAR_PRINTER_DATA);
   sessionStorage.removeItem(THERMAL_PRINTER_DATA);
-  toast({ title: "Logged Out!", status: "success" });
+  if (showToast) {
+    toast.dismiss();
+    toast.success("Logged Out!");
+  }
   navigate("/auth");
 };
