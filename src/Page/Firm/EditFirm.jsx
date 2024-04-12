@@ -3,12 +3,10 @@ import { CloseIcon } from "../../assets/Icons/ReactIcons";
 import { USER_DETAILS } from "../../Redux/store";
 import { UpdateCompanyProfile } from "../../Redux/business/action";
 
-import { useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const EditFirm = ({ setShowEditFirm }) => {
-  const toast = useToast();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.BusinessReducer.isLoading);
   const toggleUpdate = useSelector(
@@ -63,7 +61,7 @@ const EditFirm = ({ setShowEditFirm }) => {
       newFormDataToSend.append(key, value);
     });
     //console.log("Update Form Data", companyData);
-    UpdateCompanyProfile(dispatch, companyData, toast, setShowEditFirm);
+    UpdateCompanyProfile(dispatch, companyData, setShowEditFirm);
   };
 
   return (

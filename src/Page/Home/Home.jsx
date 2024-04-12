@@ -11,13 +11,15 @@ import {
   CloseToggleIcon,
   OpenToggleIcon,
 } from "../../assets/Icons/ReactIcons";
+import { LOGOUT } from "../../Redux/business/action";
 
 import axios from "axios";
-import { useToast } from "@chakra-ui/react";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const Home = () => {
-  const toast = useToast();
+  const navigate = useNavigate();
   const [privacyToggle, setPrivacyToggle] = useState(false);
   const [isMonthModelOpenForSale, setIsMonthModelOpenForSale] = useState(false);
   const [isMonthModelOpenForPurchase, setIsMonthModelOpenForPurchase] =
@@ -34,11 +36,13 @@ const Home = () => {
 
   // Fetch Home Data
   const FetchHomeData = async () => {
-    toast.closeAll();
     setHomeStates((prev) => {
       return { ...prev, isLoading: true, isError: false };
     });
     const token = localStorage.getItem("token");
+    // const token =
+    //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWM1Y2ZjNTA5YjM0Y2E4YTAxODc0OTciLCJpYXQiOjE3MTI3NDE2NTAsImV4cCI6MTcxMjgyODA1MH0.ez_9ADGx3uKF1ivIFnKn7E2tm1zC9f0oixDtaT-jv-o";
+
     const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
 
     try {
@@ -51,17 +55,20 @@ const Home = () => {
         return { ...prev, isLoading: false, data: response?.data || {} };
       });
     } catch (error) {
-      toast({
-        title:
-          error?.response?.data?.msg ||
-          error?.response?.data?.message ||
-          "Something Went Wrong!",
-        status: "error",
-      });
+      console.log("Error Fetching Home Data:", error);
       setHomeStates((prev) => {
         return { ...prev, isLoading: false, isError: true };
       });
-      console.log("Error Fetching Home Data:", error);
+      toast.dismiss();
+      if (error?.response?.data?.tokenExpired) {
+        toast.warning("Session Expired! Please Login again.");
+        return LOGOUT(navigate);
+      }
+      toast.error(
+        error?.response?.data?.msg ||
+          error?.response?.data?.message ||
+          "Encountered an issue while fetching data!"
+      );
     }
   };
 

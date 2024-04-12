@@ -16,15 +16,12 @@ import {
 } from "../../assets/Icons/ReactIcons";
 
 import { useEffect, useState } from "react";
-import { useToast } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const CompaniesPage = () => {
-  const toast = useToast();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const allCompaniesData = useSelector(
     (state) => state.BusinessReducer.allCompaniesData
   );
@@ -39,7 +36,7 @@ const CompaniesPage = () => {
   const [clickedCompData, setClickedCompData] = useState({});
 
   useEffect(() => {
-    FetchAllCompanies(dispatch, toast);
+    FetchAllCompanies(dispatch);
   }, [toggleUpdate]);
 
   // Open A company Function
@@ -51,12 +48,12 @@ const CompaniesPage = () => {
 
   // handle Refresh
   const handleRefresh = () => {
-    FetchAllCompanies(dispatch, toast);
+    FetchAllCompanies(dispatch);
   };
 
   // Delete Firm
   const handleDeleteCompany = (firmId) => {
-    DeleteCompany(dispatch, firmId, toast);
+    DeleteCompany(dispatch, firmId);
   };
 
   return (
@@ -142,7 +139,7 @@ const CompaniesPage = () => {
             </button>
           </section>
           <section className={css.companyFooter}>
-            <p onClick={() => LOGOUT(navigate, toast)}>Logout</p>
+            <p onClick={() => LOGOUT(navigate, true)}>Logout</p>
             <p>Logging out will stop syncing data</p>
           </section>
         </div>
