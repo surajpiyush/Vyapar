@@ -52,6 +52,7 @@ const AddPaymentOutForm = ({ setOpenForm }) => {
   const payOutList = useSelector(
     (store) => store.PurchaseReducer.paymentOutData
   );
+
   const [data, setData] = useState({
     type: "Purchase-Out",
     status: "Pending",
@@ -70,6 +71,16 @@ const AddPaymentOutForm = ({ setOpenForm }) => {
     total: totalAmount,
   });
 
+  const [fileInputs, setFileInputs] = useState({
+    image: false,
+    document: false,
+  });
+
+  const handleFileChange = (inputType, event) => {
+    const updatedFileInputs = { ...fileInputs };
+    updatedFileInputs[inputType] = event.target.files.length > 0;
+    setFileInputs(updatedFileInputs);
+  };
   // Submit Request Function
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -443,16 +454,28 @@ const AddPaymentOutForm = ({ setOpenForm }) => {
                 <p>ADD DESCRIPTION</p>
               </div>
             )}
-            <div className={css.addDecriptionDiv} style={{ width: "150px" }}>
-              <input type="file" />
-              <AddCameraIcon />
-              <p>ADD IMAGE</p>
-            </div>
-            <div className={css.addDecriptionDiv} style={{ width: "150px" }}>
-              <input type="file" />
-              <AddDocumentIcon />
-              <p>ADD DOCUMENT</p>
-            </div>
+            <div
+                     className={css.addDecriptionDiv}
+                     style={{ width: fileInputs.image ? "350px" : "150px" }}
+                  >
+                     <AddCameraIcon />
+                     <input
+                        type="file"
+                        onChange={(e) => handleFileChange("image", e)}
+                     />
+                     <p>ADD IMAGE</p>
+                  </div>
+                  <div
+                     className={css.addDecriptionDiv}
+                     style={{ width: fileInputs.document ? "350px" : "150px" }}
+                  >
+                     <input
+                        type="file"
+                        onChange={(e) => handleFileChange("document", e)}
+                     />
+                     <AddDocumentIcon />
+                     <p>ADD DOCUMENT</p>
+                  </div>
           </div>
         </div>
       </div>

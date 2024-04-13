@@ -29,6 +29,8 @@ export default function PartiesTable({ func }) {
   const [showEditForm, setShowEditForm] = useState(false);
   const [editPartyData, setEditPartyData] = useState({});
 
+  // console.log("editPartyData in partiesData:- ",editPartyData)
+
   const openForm = () => {
     func(true);
   };

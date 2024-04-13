@@ -38,7 +38,7 @@ const AddPartyForm = ({
     phoneNumber: "",
     state: "",
     email: "",
-    GSTType: "",
+    gstType: "",
     billingAddress: "",
     shippingAddress: "",
     openingBalance: "",
@@ -50,12 +50,13 @@ const AddPartyForm = ({
       { name: "", value: "", editable: false },
       { name: "", value: "", editable: false },
     ],
-    // GSTType: "",
+    // gstType: "",
   });
 
   // for mixing edit form data when used as edit party form
   useEffect(() => {
     if (usedAsEditForm) {
+      // console.log(editPartyData)
       setFormData((prev) => {
         return {
           ...prev,
@@ -78,8 +79,8 @@ const AddPartyForm = ({
       ),
     };
     if (
-      formData?.GSTType == "" ||
-      formData?.GSTType === "Unregistered/Consumer"
+      formData?.gstType == "" ||
+      formData?.gstType === "Unregistered/Consumer"
     ) {
       formData.gstNo = "";
     }
@@ -91,8 +92,8 @@ const AddPartyForm = ({
       }
     } else {
       if (!postPartyLoading) {
-        SaveParty(dispatch, partyFormData, CloseForm);
         // console.log("Add New Party Data", partyFormData);
+        SaveParty(dispatch, partyFormData, CloseForm);
       }
     }
   };
@@ -206,8 +207,8 @@ const AddPartyForm = ({
             </div>
             {/* GSTIN */}
             {!(
-              formData.GSTType === "" ||
-              formData.GSTType == "Unregistered/Consumer"
+              formData.gstType === "" ||
+              formData.gstType == "Unregistered/Consumer"
             ) && (
               <div className={css.inputDiv}>
                 <input
@@ -281,14 +282,14 @@ const AddPartyForm = ({
             // GST & Address - Inputs
             <div className={css.gstAddressOuter}>
               <div className={css.leftSideGstAddressDiv}>
-                {/* GST */}
+                {/* GST TYPE*/}
                 <div className={css.inputDiv}>
                   <select
                     id=""
                     className={css.input}
                     style={{ width: "225px" }}
-                    value={formData.GSTType}
-                    name="GSTType"
+                    value={formData.gstType}
+                    name="gstType"
                     onChange={handleInpChange}
                     required
                   >
@@ -305,7 +306,7 @@ const AddPartyForm = ({
                   </select>
                   <label
                     className={
-                      formData?.GSTType ? css.activeLabel : css.inactiveLabel
+                      formData?.gstType ? css.activeLabel : css.inactiveLabel
                     }
                   >
                     GST Type*

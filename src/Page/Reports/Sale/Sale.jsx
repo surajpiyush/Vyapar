@@ -115,19 +115,19 @@ const Sale = () => {
       const currentDateRow = ["Report generated on:", formattedCurrentDateTime];
 
       const saleReportData = saleReport.map((item) => [
-         item?.invoiceDate,
-         "",
-         item?.invoiceNumber,
-         item?.partyName,
-         "",
-         item?.transactionType,
-         item?.amount,
-         item?.paymentType[0],
+         item?.invoiceDate || "",
+         item?.orderNumber || "",
+         item?.invoiceNumber || "",
+         item?.partyName || "",
+         item?.phoneNumber || "",
+         item?.transactionType || "",
+         item?.amount || "",
+         item?.paymentType[0] || "",
          (item?.amount - item?.balanceDue).toFixed(2),
-         item?.balanceDue,
-         item?.dueDate,
-         item?.status,
-         item?.description,
+         item?.balanceDue || "",
+         item?.dueDate || "",
+         item?.status || "",
+         item?.description || "",
       ]);
 
       const tableData2 = saleReport.map((item) => [

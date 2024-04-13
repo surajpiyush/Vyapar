@@ -295,6 +295,17 @@ const AddPurchaseOrderForm = ({ setOpenForm }) => {
     });
   };
 
+  const [fileInputs, setFileInputs] = useState({
+    image: false,
+    document: false,
+  });
+
+  const handleFileChange = (inputType, event) => {
+    const updatedFileInputs = { ...fileInputs };
+    updatedFileInputs[inputType] = event.target.files.length > 0;
+    setFileInputs(updatedFileInputs);
+  };
+
   // Found items list click handler
   const handleMenuItemClick = (index, itemDetail) => {
     // console.log(itemDetail);
@@ -306,7 +317,7 @@ const AddPurchaseOrderForm = ({ setOpenForm }) => {
         ? `I${itemDetail?.taxRate.split("%")[0] || ""}`
         : itemDetail?.taxRate.split("%")[0] || "",
       // qty: Number(itemDetail?.stock?.openingQuantity) || 0,
-      priceUnit: itemDetail?.stock?.atPrice || 0,
+      priceUnit: itemDetail?.purchasePrice?.purchasePrice || 0,
       unit: itemDetail?.seleteUnit?.baseUnit || "",
       hsnCode: itemDetail?.itemHsn || "",
       itemCode: itemDetail?.itemCode || "",
@@ -803,16 +814,28 @@ const AddPurchaseOrderForm = ({ setOpenForm }) => {
                 <p>ADD DESCRIPTION</p>
               </div>
             )}
-            <div className={css.addDecriptionDiv} style={{ width: "150px" }}>
-              <input type="file" />
-              <AddCameraIcon />
-              <p>ADD IMAGE</p>
-            </div>
-            <div className={css.addDecriptionDiv} style={{ width: "150px" }}>
-              <input type="file" />
-              <AddDocumentIcon />
-              <p>ADD DOCUMENT</p>
-            </div>
+            <div
+                     className={css.addDecriptionDiv}
+                     style={{ width: fileInputs.image ? "350px" : "150px" }}
+                  >
+                     <AddCameraIcon />
+                     <input
+                        type="file"
+                        onChange={(e) => handleFileChange("image", e)}
+                     />
+                     <p>ADD IMAGE</p>
+                  </div>
+                  <div
+                     className={css.addDecriptionDiv}
+                     style={{ width: fileInputs.document ? "350px" : "150px" }}
+                  >
+                     <input
+                        type="file"
+                        onChange={(e) => handleFileChange("document", e)}
+                     />
+                     <AddDocumentIcon />
+                     <p>ADD DOCUMENT</p>
+                  </div>
           </div>
 
           <div className={css.bottomRightSideCont}>
