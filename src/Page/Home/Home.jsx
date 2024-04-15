@@ -15,8 +15,11 @@ import {
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { LOGOUT } from "../../Redux/business/action";
 
 const Home = () => {
+  const navigate = useNavigate();
   const [privacyToggle, setPrivacyToggle] = useState(false);
   const [isMonthModelOpenForSale, setIsMonthModelOpenForSale] = useState(false);
   const [isMonthModelOpenForPurchase, setIsMonthModelOpenForPurchase] =
@@ -58,6 +61,7 @@ const Home = () => {
       });
       toast.dismiss();
       if (error?.response?.data?.tokenExpired) {
+        LOGOUT(navigate, true)
         return toast.info("Session expired. Please log in again.");
       }
     }
