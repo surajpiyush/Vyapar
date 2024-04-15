@@ -17,6 +17,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RiDeleteBinLine as DeleteIcon } from "react-icons/ri";
 import { ImSpinner3 as SpinnerIcon } from "react-icons/im";
+import { useNavigate } from "react-router-dom";
 
 const AddItemForm = ({
    CloseForm,
@@ -24,6 +25,7 @@ const AddItemForm = ({
    clickedItemData = {},
 }) => {
    const dispatch = useDispatch();
+   const navigate = useNavigate();
    const isLoading = useSelector((store) => store.ItemReducer.isLoading);
    const newUnitAddedToggle = useSelector(
       (store) => store.ItemReducer.newUnitAddedToggle
@@ -93,12 +95,12 @@ const AddItemForm = ({
 
    //   for fetching Units List
    useEffect(() => {
-      GetAllUnits(dispatch);
+      GetAllUnits(dispatch, navigate);
    }, [newUnitAddedToggle]);
 
    //   for fetching Categories List
    useEffect(() => {
-      GetAllCategories(dispatch);
+      GetAllCategories(dispatch, navigate);
    }, [newCategoryAddedToggle]);
 
    // Input change handler
@@ -189,9 +191,9 @@ const AddItemForm = ({
          };
          // console.log("data for the item :-",ItemData)
          if (usedAsEditForm) {
-            UpdateItem(dispatch, ItemData?._id, ItemData, CloseForm);
+            UpdateItem(dispatch, ItemData?._id, ItemData, CloseForm, navigate);
          } else {
-            AddItem(dispatch, ItemData, CloseForm);
+            AddItem(dispatch, ItemData, CloseForm, navigate);
          }
          // console.log("Add Item Data", clickedItemData);
       }
@@ -199,7 +201,7 @@ const AddItemForm = ({
 
    //   Delete Item Function
    const handleDelete = () => {
-      DeleteItem(dispatch, formData?._id, CloseForm);
+      DeleteItem(dispatch, formData?._id, CloseForm, navigate);
    };
 
    return (

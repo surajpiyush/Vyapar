@@ -9,9 +9,11 @@ import { FetchAllParties } from "../../Redux/parties/actions";
 
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function Parties() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const isLoading = useSelector((state) => state.PartiesReducer.isLoading);
   const togglePartiesData = useSelector(
     (state) => state.PartiesReducer.togglePartiesData
@@ -23,7 +25,7 @@ export default function Parties() {
 
   // Fetch All Parties
   useEffect(() => {
-    FetchAllParties(dispatch);
+    FetchAllParties(dispatch, navigate);
   }, [togglePartiesData]);
 
   const dataFromChild = (val) => {

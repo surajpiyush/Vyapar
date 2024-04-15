@@ -10,9 +10,11 @@ import {
 
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function PartiesTable({ func }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const isLoadingParties = useSelector(
     (state) => state.PartiesReducer.isLoading
   );
@@ -72,7 +74,7 @@ export default function PartiesTable({ func }) {
                     onClick={() => {
                       setEditPartyData(item);
                       if (!loadingGetCurrentPartyData) {
-                        dispatch(GetCurrentPartyData(item._id));
+                        dispatch(GetCurrentPartyData(item._id,navigate));
                       }
                     }}
                   >

@@ -72,7 +72,7 @@ export const AddBusinessLoginRequest = async (
     console.log("Error Adding New Business:", error);
     dispatch({ type: ISERROR });
     if (error?.response?.data?.tokenExpired) {
-      navigate("/auth")
+      // navigate("/auth")
       return toast.info("Session expired. Please log in again.");
     }
     toast.error(

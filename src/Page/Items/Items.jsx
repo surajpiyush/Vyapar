@@ -17,11 +17,12 @@ import {
 } from "../../Redux/items/actions";
 
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function Items() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [adjustItem, setAdjustItem] = useState(false);
   const [currPage, setCurrPage] = useState(
@@ -59,17 +60,17 @@ export default function Items() {
 
   // Fetch Items Data
   useEffect(() => {
-    GetAllItems(dispatch);
+    GetAllItems(dispatch,navigate);
   }, [toggleItems]);
 
   // To Fetch All Categories
   useEffect(() => {
-    GetAllCategories(dispatch);
+    GetAllCategories(dispatch,navigate);
   }, [newCategoryAddedToggle]);
 
   // To Fetch All Units
   useEffect(() => {
-    GetAllUnits(dispatch);
+    GetAllUnits(dispatch,navigate);
   }, [newUnitAddedToggle]);
 
   useEffect(() => {

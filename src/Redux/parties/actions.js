@@ -1,5 +1,3 @@
-import { useNavigate } from "react-router-dom";
-import { LOGOUT } from "../business/action";
 import { API_URL, USER_DETAILS } from "../store";
 import {
    FETCH_PARTIES_LOADING,
@@ -21,13 +19,24 @@ import {
 
 import axios from "axios";
 import { toast } from "react-toastify";
+import { LOGOUT } from "../business/action";
+
+// token expire logout automatically
+const handleTokenExpiration = (error, navigate) => {
+   if (error?.response?.data?.tokenExpired) {
+      LOGOUT(navigate, true);
+      toast.info("Session Expired! Please Login again.");
+      return true;
+   }
+   return false;
+};
 
 // ----------------------- Fetch All Parties Data Function ---- Didn't applied function curring due to thunk error in store.js
-export const FetchAllParties = async (dispatch) => {
+export const FetchAllParties = async (dispatch, navigate) => {
    dispatch({ type: FETCH_PARTIES_LOADING });
    const token = localStorage.getItem("token");
    const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
-   const navigate = useNavigate();
+
    // const token =
    //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWM1Y2ZjNTA5YjM0Y2E4YTAxODc0OTciLCJpYXQiOjE3MTI3NDE2NTAsImV4cCI6MTcxMjgyODA1MH0.ez_9ADGx3uKF1ivIFnKn7E2tm1zC9f0oixDtaT-jv-o";
 
@@ -45,21 +54,20 @@ export const FetchAllParties = async (dispatch) => {
       console.error("Getting All Parties Data Error:", error);
       dispatch({ type: FETCH_PARTIES_ERROR });
       toast.dismiss();
-      if (error?.response?.data?.tokenExpired) {
-         LOGOUT(navigate, true);
-         return toast.info("Session Expired! Please Login again.");
+      if (handleTokenExpiration(error, navigate)) {
+         return;
       }
    }
 };
 
 // ------------------------- Save Party Function ---- Didn't applied function curring due to thunk error in store.js
-export const SaveParty = async (dispatch, data, CloseForm) => {
+export const SaveParty = async (dispatch, data, CloseForm,navigate) => {
    toast.dismiss();
    dispatch({ type: SAVE_PARTY_LOADING });
    const token = localStorage.getItem("token");
    const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
    // console.log(("data party:-",data))
-   const navigate = useNavigate();
+
    try {
       const response = await axios.post(`${API_URL}/${FirmId}/party`, data, {
          headers: { Authorization: `Bearer ${token} ` },
@@ -71,9 +79,8 @@ export const SaveParty = async (dispatch, data, CloseForm) => {
    } catch (error) {
       console.log("Error Adding Party:", error);
       dispatch({ type: SAVE_PARTY_ERROR });
-      if (error?.response?.data?.tokenExpired) {
-         LOGOUT(navigate, true);
-         return toast.info("Session Expired! Please Login again.");
+      if (handleTokenExpiration(error,navigate)) {
+         return;
       }
       toast.error(
          error?.response?.data?.message ||
@@ -88,7 +95,8 @@ export const UpdateParty = async (
    dispatch,
    partyId,
    updatedPartyData,
-   setShowEditFirm
+   setShowEditFirm,
+   navigate
 ) => {
    toast.dismiss();
    dispatch({ type: EDIT_PARTY_LOADING });
@@ -112,8 +120,8 @@ export const UpdateParty = async (
    } catch (error) {
       console.error("Error Updating Party:", error);
       dispatch({ type: EDIT_PARTY_ERROR });
-      if (error?.response?.data?.tokenExpired) {
-         return toast.info("Session Expired! Please Login again.");
+      if (handleTokenExpiration(error,navigate)) {
+         return;
       }
       toast.error(
          error?.response?.data?.message ||
@@ -124,7 +132,7 @@ export const UpdateParty = async (
 };
 
 // Delete Party Request ************************
-export const DeleteParty = async (dispatch, partyId, setShowEditFirm) => {
+export const DeleteParty = async (dispatch, partyId, setShowEditFirm,navigate) => {
    toast.dismiss();
    dispatch({ type: LOADING_DELETE_PARTY });
    const token = localStorage.getItem("token");
@@ -142,15 +150,15 @@ export const DeleteParty = async (dispatch, partyId, setShowEditFirm) => {
    } catch (error) {
       console.log("Deleting Party Error:", error);
       dispatch({ type: ERROR_DELETE_PARTY });
-      if (error?.response?.data?.tokenExpired) {
-         return toast.info("Session Expired! Please Login again.");
+      if (handleTokenExpiration(error,navigate)) {
+         return;
       }
       toast.error("Couldn't delete the party.");
    }
 };
 
 // Get Current Party Data *********************************************************
-export const GetCurrentPartyData = (partyId) => async (dispatch) => {
+export const GetCurrentPartyData = (partyId,navigate) => async (dispatch) => {
    dispatch({ type: LOADING_GET_CURRENT_PARTY });
    const token = localStorage.getItem("token");
    const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
@@ -172,8 +180,8 @@ export const GetCurrentPartyData = (partyId) => async (dispatch) => {
       console.error("Error Getting Current Party Data:", error);
       dispatch({ type: ERROR_GET_CURRENT_PARTY });
       toast.dismiss();
-      if (error?.response?.data?.tokenExpired) {
-         return toast.info("Session Expired! Please Login again.");
+      if (handleTokenExpiration(error,navigate)) {
+         return;
       }
    }
 };

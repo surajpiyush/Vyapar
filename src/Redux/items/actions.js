@@ -1,5 +1,3 @@
-import { useNavigate } from "react-router-dom";
-import { LOGOUT } from "../business/action";
 import { API_URL, USER_DETAILS } from "../store";
 import {
    GET_ITEM_SUCCESS,
@@ -49,13 +47,24 @@ import {
 
 import axios from "axios";
 import { toast } from "react-toastify";
+import { LOGOUT } from "../business/action";
+
+// token expire logout automatically
+const handleTokenExpiration = (error, navigate) => {
+   if (error?.response?.data?.tokenExpired) {
+      LOGOUT(navigate, true);
+      toast.info("Session Expired! Please Login again.");
+      return true;
+   }
+   return false;
+};
 
 // Get All Items List ********************************
-export const GetAllItems = async (dispatch) => {
+export const GetAllItems = async (dispatch, navigate) => {
    dispatch({ type: LOADING_GET_ALL_ITEMS });
    const token = localStorage.getItem("token");
    const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
-   const navigate = useNavigate();
+
    try {
       const response = await axios.get(
          `${API_URL}/${FirmId}/item/allItemData`,
@@ -70,15 +79,14 @@ export const GetAllItems = async (dispatch) => {
       console.log("Getting All Items Error:", error);
       dispatch({ type: ERROR_GET_ALL_ITEMS });
       toast.dismiss();
-      if (error?.response?.data?.tokenExpired) {
-         LOGOUT(navigate, true);
-         return toast.info("Session Expired! Please Login again.");
+      if (handleTokenExpiration(error, navigate)) {
+         return;
       }
    }
 };
 
 // Add Item **********************************************************
-export const AddItem = async (dispatch, newItem, closeForm) => {
+export const AddItem = async (dispatch, newItem, closeForm, navigate) => {
    toast.dismiss();
    dispatch({ type: ITEM_REQUEST });
    const token = localStorage.getItem("token");
@@ -98,8 +106,8 @@ export const AddItem = async (dispatch, newItem, closeForm) => {
    } catch (error) {
       console.log("Adding New Item Error:", error);
       dispatch({ type: ITEM_FAILURE });
-      if (error?.response?.data?.tokenExpired) {
-         return toast.info("Session Expired! Please Login again.");
+      if (handleTokenExpiration(error, navigate)) {
+         return;
       }
       toast.error(
          error?.response?.data?.message ||
@@ -110,7 +118,7 @@ export const AddItem = async (dispatch, newItem, closeForm) => {
 };
 
 // Get Single Item ***************************************
-export const GetSelectedItemData = async (dispatch, itemId) => {
+export const GetSelectedItemData = async (dispatch, itemId, navigate) => {
    dispatch({ type: LOADING_GET_SELECTED_ITEM });
    const token = localStorage.getItem("token");
    const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
@@ -133,8 +141,8 @@ export const GetSelectedItemData = async (dispatch, itemId) => {
       console.log("Getting Selected Item Data Error:", error);
       dispatch({ type: ERROR_GET_SELECTED_ITEM });
       toast.dismiss();
-      if (error?.response?.data?.tokenExpired) {
-         return toast.info("Session Expired! Please Login again.");
+      if (handleTokenExpiration(error, navigate)) {
+         return;
       }
    }
 };
@@ -144,7 +152,8 @@ export const UpdateItem = async (
    dispatch,
    itemId,
    updatedData,
-   setShowEditFirm
+   setShowEditFirm,
+   navigate
 ) => {
    toast.dismiss();
    dispatch({ type: LOADING_UPDATE_ITEM });
@@ -165,8 +174,8 @@ export const UpdateItem = async (
    } catch (error) {
       console.error("Updating Item Error:", error);
       dispatch({ type: ERROR_UPDATE_ITEM });
-      if (error?.response?.data?.tokenExpired) {
-         return toast.info("Session Expired! Please Login again.");
+      if (handleTokenExpiration(error, navigate)) {
+         return;
       }
       toast.error(
          error?.response?.data?.message ||
@@ -177,7 +186,12 @@ export const UpdateItem = async (
 };
 
 // Delete Item ************************
-export const DeleteItem = async (dispatch, partyId, setShowEditFirm) => {
+export const DeleteItem = async (
+   dispatch,
+   partyId,
+   setShowEditFirm,
+   navigate
+) => {
    dispatch({ type: LOADING_DELETE_ITEM });
    toast.dismiss();
    const token = localStorage.getItem("token");
@@ -196,8 +210,8 @@ export const DeleteItem = async (dispatch, partyId, setShowEditFirm) => {
    } catch (error) {
       console.log("Deleting Item Error:", error);
       dispatch({ type: ERROR_DELETE_ITEM });
-      if (error?.response?.data?.tokenExpired) {
-         return toast.info("Session Expired! Please Login again.");
+      if (handleTokenExpiration(error, navigate)) {
+         return;
       }
       toast.error("Couldn't delete the item.");
    }
@@ -205,7 +219,7 @@ export const DeleteItem = async (dispatch, partyId, setShowEditFirm) => {
 
 //  -------------------------------- Category -----------------------------
 // Get All Categories
-export const GetAllCategories = async (dispatch) => {
+export const GetAllCategories = async (dispatch, navigate) => {
    dispatch({ type: GET_All_CATEGORIES_LOADING });
    const token = localStorage.getItem("token");
    const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
@@ -225,14 +239,19 @@ export const GetAllCategories = async (dispatch) => {
       console.log("Getting All Categories Error:", error);
       dispatch({ type: GET_All_CATEGORIES_ERROR });
       toast.dismiss();
-      if (error?.response?.data?.tokenExpired) {
-         return toast.info("Session Expired! Please Login again.");
+      if (handleTokenExpiration(error, navigate)) {
+         return;
       }
    }
 };
 
 // Add New Category
-export const AddNewCategory = async (dispatch, categoryData, closeForm) => {
+export const AddNewCategory = async (
+   dispatch,
+   categoryData,
+   closeForm,
+   navigate
+) => {
    dispatch({ type: ADD_CATEGORY_LOADING });
    toast.dismiss();
    const token = localStorage.getItem("token");
@@ -252,8 +271,8 @@ export const AddNewCategory = async (dispatch, categoryData, closeForm) => {
    } catch (error) {
       console.log("Adding Category Error:", error);
       dispatch({ type: ADD_CATEGORY_ERROR });
-      if (error?.response?.data?.tokenExpired) {
-         return toast.info("Session Expired! Please Login again.");
+      if (handleTokenExpiration(error, navigate)) {
+         return;
       }
       toast.error(
          error?.response?.data?.message ||
@@ -268,7 +287,8 @@ export const UpdateCategory = async (
    dispatch,
    itemId,
    updatedData,
-   setShowEditFirm
+   setShowEditFirm,
+   navigate
 ) => {
    dispatch({ type: LOADING_UPDATE_CATEGORY });
    toast.dismiss();
@@ -289,8 +309,8 @@ export const UpdateCategory = async (
    } catch (error) {
       console.error("Updating Category Error:", error);
       dispatch({ type: ERROR_UPDATE_CATEGORY });
-      if (error?.response?.data?.tokenExpired) {
-         return toast.info("Session Expired! Please Login again.");
+      if (handleTokenExpiration(error, navigate)) {
+         return;
       }
       toast.error(
          error?.response?.data?.message ||
@@ -301,7 +321,7 @@ export const UpdateCategory = async (
 };
 
 // Delete Category
-export const DeleteCategory = async (dispatch, partyId, setShowEditFirm) => {
+export const DeleteCategory = async (dispatch, partyId, setShowEditFirm,navigate) => {
    dispatch({ type: LOADING_DELETE_CATEGORY });
    toast.dismiss();
    const token = localStorage.getItem("token");
@@ -320,16 +340,16 @@ export const DeleteCategory = async (dispatch, partyId, setShowEditFirm) => {
    } catch (error) {
       console.log("Deleting Category Error:", error);
       dispatch({ type: ERROR_DELETE_CATEGORY });
-      if (error?.response?.data?.tokenExpired) {
-         return toast.info("Session Expired! Please Login again.");
-      }
+      if (handleTokenExpiration(error, navigate)) {
+        return;
+     }
       toast.error("Couldn't delete the category.");
    }
 };
 
 // ----------------------------------- Unit ---------------------------------
 // Get All Units
-export const GetAllUnits = async (dispatch) => {
+export const GetAllUnits = async (dispatch,navigate) => {
    dispatch({ type: GET_ALL_UNITS_LOADING });
    const token = localStorage.getItem("token");
    const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
@@ -346,14 +366,14 @@ export const GetAllUnits = async (dispatch) => {
       console.log("Getting All Units Error:", error);
       dispatch({ type: GET_ALL_UNITS_ERROR });
       toast.dismiss();
-      if (error?.response?.data?.tokenExpired) {
-         return toast.info("Session Expired! Please Login again.");
-      }
+      if (handleTokenExpiration(error, navigate)) {
+        return;
+     }
    }
 };
 
 // Add New Unit
-export const AddNewUnit = async (dispatch, unitData, closeForm) => {
+export const AddNewUnit = async (dispatch, unitData, closeForm,navigate) => {
    dispatch({ type: ADDING_UNIT_LOADING });
    toast.dismiss();
    const token = localStorage.getItem("token");
@@ -373,9 +393,9 @@ export const AddNewUnit = async (dispatch, unitData, closeForm) => {
    } catch (error) {
       console.log("Adding Unit Error:", error);
       dispatch({ type: ADDING_UNIT_ERROR });
-      if (error?.response?.data?.tokenExpired) {
-         return toast.info("Session Expired! Please Login again.");
-      }
+      if (handleTokenExpiration(error, navigate)) {
+        return;
+     }
       toast.error(
          error?.response?.data?.message ||
             error?.response?.data?.msg ||
@@ -389,7 +409,8 @@ export const UpdateUnit = async (
    dispatch,
    itemId,
    updatedData,
-   setShowEditFirm
+   setShowEditFirm,
+   navigate
 ) => {
    dispatch({ type: LOADING_UPDATE_UNIT });
    toast.dismiss();
@@ -410,9 +431,9 @@ export const UpdateUnit = async (
    } catch (error) {
       console.error("Updating Unit Error:", error);
       dispatch({ type: ERROR_UPDATE_UNIT });
-      if (error?.response?.data?.tokenExpired) {
-         return toast.info("Session Expired! Please Login again.");
-      }
+      if (handleTokenExpiration(error, navigate)) {
+        return;
+     }
       toast.error(
          error?.response?.data?.message ||
             error?.response?.data?.msg ||
@@ -422,7 +443,7 @@ export const UpdateUnit = async (
 };
 
 // Delete Unit
-export const DeleteUnit = async (dispatch, unittId, setShowEditFirm) => {
+export const DeleteUnit = async (dispatch, unittId, setShowEditFirm,navigate) => {
    dispatch({ type: LOADING_DELETE_UNIT });
    toast.dismiss();
    const token = localStorage.getItem("token");
@@ -441,9 +462,9 @@ export const DeleteUnit = async (dispatch, unittId, setShowEditFirm) => {
    } catch (error) {
       console.log("Deleting Item Error:", error);
       dispatch({ type: ERROR_DELETE_UNIT });
-      if (error?.response?.data?.tokenExpired) {
-         return toast.info("Session Expired! Please Login again.");
-      }
+      if (handleTokenExpiration(error, navigate)) {
+        return;
+     }
       toast.error("Couldn't delete the unit.");
    }
 };
