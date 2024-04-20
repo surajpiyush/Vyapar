@@ -60,21 +60,54 @@ const GSRT1 = () => {
       const b2bData = [];
       const b2cData = [];
       const exemptData = [];
+      const cdnrData = [];
+      const hsnData = [];
+
+      saleReturnData.forEach((row) => {
+         const rowData = filteredHeaders.map((header) => row[header]);
+         if (
+            row["transactionType"] === "Credit Note" ||
+            row["transactionType"] === "Debit Note"
+         ) {
+            cdnrData.push(rowData);
+         }
+      });
 
       data.forEach((row) => {
          const rowData = filteredHeaders.map((header) => row[header]);
+
+         // Check if GST number exists
          if (row["gstNo"]) {
             b2bData.push(rowData);
-         } else if (
+         }
+
+         // Check if taxRate is undefined, null, or 0
+         if (
             row["taxRate"] == undefined ||
             row["taxRate"] == null ||
-            row["taxRate"] == 0
+            row["taxRate"] == "gst@0" ||
+            "igst@0"
          ) {
             exemptData.push(rowData);
-         } else {
+         }
+
+         // Check if transactionType is "Credit Note" or "Debit Note"
+         if (
+            row["transactionType"] === "Credit Note" ||
+            row["transactionType"] === "Debit Note"
+         ) {
+            cdnrData.push(rowData);
+         }
+
+         // Check if HSN code exists
+         if (row["hsnCode"]) {
+            hsnData.push(row);
+         }
+         if (!row["gstNo"]) {
             b2cData.push(rowData);
          }
       });
+
       // Calculate total number of recipients and total number of invoices
       const uniquePartyNamesB2B = [...new Set(b2bData.map((row) => row[4]))];
 
@@ -94,51 +127,79 @@ const GSRT1 = () => {
          helpWorksheet,
          "Help Instructions"
       );
-
       const b2b = b2bData.map((row) => [
-         row[6], // Assuming index 0 contains gstNo
-         row[5], // Assuming index 1 contains partyName
+         row[6], // Assuming index 6 contains gstNo
+         row[5], // Assuming index 5 contains partyName
          row[1], // Assuming index 2 contains invoiceNumber
-         row[2], // Assuming index 3 contains invoiceDate
+         new Date(row[2]).toISOString().split("T")[0], // Assuming index 3 contains invoiceDate
          row[9], // Assuming index 4 contains amount
          row[4], // Assuming index 5 contains stateOfSupply
          "", // Empty field
-         row[11], // Assuming index 7 contains taxRate
          row[7], // Assuming index 8 contains transactionType
          "", // Empty field
-         (row[9] - row[10]).toFixed(2), // Assuming index 11 contains balanceDue
-         0, // Default value
-         "", // Empty field
+         row[11], // Assuming index 7 contains taxRate
+         (Number(row[9]) - Number(row[10])).toFixed(2), // Assuming index 11 contains balanceDue
+         row[14], // Assuming index 14 contain css value
       ]);
+
       const b2c = b2cData.map((row) => [
          //Invoice Number	Invoice date	Invoice Value	Place Of Supply	Applicable % of Tax Rate	Rate	Taxable Value	Cess Amount	E-Commerce GSTIN
 
-         row[1], // Assuming index 2 contains invoiceNumber
-         row[2], // Assuming index 3 contains invoiceDate
-         row[9], // Assuming index 4 contains amount
-         row[4], // Assuming index 5 contains stateOfSupply
-         "", // Empty field
-         row[11], // Assuming index 7 contains taxRate
-         (row[9] - row[10]).toFixed(2), // Assuming index 11 contains balanceDue
-         row[9], // Assuming index 4 contains amount
-         row[6], // Assuming index 0 contains gstNo
+         row[1], // Assuming index 1 contains invoiceNumber
+         new Date(row[2]).toISOString().split("T")[0], // Assuming index 3 contains invoiceDate
+         row[9], // Assuming index 9 contains amount
+         row[3], // Assuming index 4 contains stateOfSupply
+         row[11], // Assuming index 11 contains taxRate
+         (Number(row[9]) - Number(row[10])).toFixed(2), // Taxable value
+         row[14], // Assuming index 14 contains cess amount
+         "", // Assuming index 0 contains gstNo
       ]);
+
       const excempt = exemptData.map((row) => [
          row[6], // Assuming index 0 contains gstNo
          row[5], // Assuming index 1 contains partyName
          row[1], // Assuming index 2 contains invoiceNumber
-         row[2], // Assuming index 3 contains invoiceDate
+         new Date(row[2]).toISOString().split("T")[0], // Assuming index 3 contains invoiceDate
          row[9], // Assuming index 4 contains amount
-         row[4], // Assuming index 5 contains stateOfSupply
+         row[3], // Assuming index 5 contains stateOfSupply
          "", // Empty field
          row[11], // Assuming index 7 contains taxRate
          row[7], // Assuming index 8 contains transactionType
+         "", // Empty field
+         Number(row[9]).toFixed(2), // Taxable value// Assuming index 11 contains balanceDue
+         0, // Default value
+      ]);
+      console.log(cdnrData);
+      const cdnr = cdnrData.map((row) => [
+         row[6], // Assuming index 0 contains gstNo
+         row[5], // Assuming index 1 contains partyName
+         row[1], // Assuming index 2 contains invoiceNumber
+         "",
+         "",
+         new Date(row[2]).toISOString().split("T")[0], // Assuming index 3 contains invoiceDate
+         "",
+         "",
+         row[4], // Assuming index 3 contains stateOfSupply
+         row[9], // Assuming index 4 contains amount
+         (Number(row[9]) - Number(row[10])).toFixed(2), // Taxable value
+         0, // Default value
+         "", // Empty field
+      ]);
+
+      const hsn = hsnData.map((row) => [
+         "",
+         "",
+         "",
+         "",
+         "",
+         "",
          "", // Empty field
          (row[9] - row[10]).toFixed(2), // Assuming index 11 contains balanceDue
          0, // Default value
          "", // Empty field
       ]);
-      
+
+      // console.log(b2b);
       // Create sheets for b2b and b2c data
       const b2bsheet = XLSX.utils.aoa_to_sheet([
          ["Summary of B2B"],
@@ -176,13 +237,13 @@ const GSRT1 = () => {
          [],
          [
             "GSTIN/UIN of Recipient",
-            "Receiver Name",
+            "Name of Recipient",
             "Invoice Number",
             "Invoice date",
             "Invoice Value",
-            "Place Of Supply",
+            "Place Of Supply(POS)",
             "Reverse Charge",
-            "Applicable % of Tax Rate",
+            // "Applicable % of Tax Rate",
             "Invoice Type",
             "E-Commerce GSTIN",
             "Rate",
@@ -229,12 +290,12 @@ const GSRT1 = () => {
             "Invoice Number",
             "Date Of Invoice",
             "Invoice Value",
-            "Place of Supply",
-            "Applicable % of Tax Rate",
+            "Place of Supply (POS)",
+            // "Applicable % of Tax Rate",
             "Rate",
             "Taxable Value",
-            "CESS Amount",
-            "GSTIN NUMBER",
+            "Cess Amount",
+            "E-Commerce GSTIN",
          ],
          ...b2c,
       ]);
@@ -255,22 +316,28 @@ const GSRT1 = () => {
          [""],
       ]);
 
-      const cdnr = XLSX.utils.aoa_to_sheet([
+      const cdnrsheet = XLSX.utils.aoa_to_sheet([
          ["Summary For CDNR(9B)"],
          ["", "", "", "", "", "", "", "", "", "", ""],
          [
-            "Invoice Number",
-            "Invoice Date",
-            "Invoice Value",
+            "GSTIN/UIN of Recipient",
+            "Name of Recipient",
+            "Invoice/Advance Receipt Number",
+            "Invoice/Advance Receipt date",
+            "Note/Refund Voucher Number",
+            "Note/ Refund Voucher date",
+            "Document Type",
+            "Reason For Issuing document",
             "Place of Supply",
-            "Applicable %",
+            "Note/Refund Voucher value",
             "Rate",
-            "Taxable Value",
-            "Cess Amount",
-            "E-Commerce GSTIN",
+            "Taxable value",
+            " Cess Amount",
+            "Pre GST",
          ],
 
          [""],
+         ...cdnr,
       ]);
 
       const exemp = XLSX.utils.aoa_to_sheet([
@@ -307,14 +374,14 @@ const GSRT1 = () => {
             "Applicable % of Tax Rate",
             "Invoice Type",
             "E-Commerce GSTIN",
-            "Rate",
+
             "Taxable Value",
             "Cess Amount",
          ],
          ...excempt,
       ]);
 
-      const hsn = XLSX.utils.aoa_to_sheet([
+      const hsnsheet = XLSX.utils.aoa_to_sheet([
          ["Summary for HSN"],
          [
             "",
@@ -334,9 +401,10 @@ const GSRT1 = () => {
          [""],
          [
             "HSN",
-            "	Description	UQC",
+            "Description",
+            "UQC",
             "Total Quantity",
-            "Total Value	Rate",
+            "Total Value",
             "Taxable Value",
             "Integrated Tax Amount",
             "Central Tax Amount",
@@ -344,7 +412,7 @@ const GSRT1 = () => {
             "Cess Amount",
          ],
 
-         [""],
+         ...hsn,
       ]);
 
       const docs = workbookMine.Sheets["docs"];
@@ -353,9 +421,9 @@ const GSRT1 = () => {
       XLSX.utils.book_append_sheet(workbook, b2bsheet, "b2b");
       XLSX.utils.book_append_sheet(workbook, b2CLsheet, "b2cl");
       XLSX.utils.book_append_sheet(workbook, b2cs, "b2cs");
-      XLSX.utils.book_append_sheet(workbook, cdnr, "cdnr");
+      XLSX.utils.book_append_sheet(workbook, cdnrsheet, "cdnr");
       XLSX.utils.book_append_sheet(workbook, exemp, "exemp");
-      XLSX.utils.book_append_sheet(workbook, hsn, "hsn");
+      XLSX.utils.book_append_sheet(workbook, hsnsheet, "hsn");
       XLSX.utils.book_append_sheet(workbook, docs, "docs");
 
       // Write the workbook to file
