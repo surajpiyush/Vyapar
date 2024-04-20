@@ -118,9 +118,9 @@ const Home = () => {
                         <div>
                            <h3 className={css.bigAmountText}>
                               ₹{" "}
-                              {homeStates.data.saleOrders
-                                 ? homeStates.data.saleOrders[0].saleOrders[0]
-                                      .openOrderAmount
+                              {homeStates?.data?.saleOrders
+                                 ? homeStates?.data?.saleOrders[0]
+                                      ?.saleOrders[0]?.openOrderAmount || "00.00"
                                  : 0}
                            </h3>
                            <p className={css.SaleAmountText}>
@@ -157,15 +157,17 @@ const Home = () => {
 
                         <h3 className={css.mediumAmountText}>
                            ₹{" "}
-                           {homeStates.data.expenseTotal
+                           {homeStates?.data?.expenseTotal
                               ? Number(
-                                   homeStates?.data.expenseTotal[0]
-                                      .expWithoutGst[0].expGstT
-                                ) +
-                                (Number(
                                    homeStates?.data?.expenseTotal[0]
-                                      ?.expWithGst[0]
-                                )?.expGstT || 0)
+                                      ?.expWithoutGst[0]?.expGstT
+                                ) ||
+                                0 +
+                                   Number(
+                                      homeStates?.data?.expenseTotal[0]
+                                         ?.expWithGst[0]
+                                   )?.expGstT ||
+                                   "00.00"
                               : 0 || 0}
                         </h3>
                         <aside className={css.expensesHeadingAside2}>
@@ -205,8 +207,9 @@ const Home = () => {
                         <div className={css.bottomAmountDiv}>
                            <h3 className={css.mediumAmountText}>
                               ₹{" "}
-                              {homeStates.data.youPay
-                                 ? homeStates.data.youPay[0].Purchase[0].youPay
+                              {homeStates?.data?.youPay
+                                 ? homeStates?.data?.youPay[0]?.Purchase[0]
+                                      ?.youPay || "00.00"
                                  : 0}
                            </h3>
                         </div>
@@ -227,9 +230,9 @@ const Home = () => {
                         </div>
                         <h3 className={css.mediumAmountText}>
                            ₹{" "}
-                           {homeStates.data.purchaseOrder
-                              ? homeStates.data.purchaseOrder[0]
-                                   .purchaseOrder[0].openOrderAmount
+                           {homeStates?.data?.purchaseOrder
+                              ? homeStates?.data?.purchaseOrder[0]
+                                    ?.purchaseOrder[0]?.openOrderAmount || "00.00"
                               : 0}
                         </h3>
                      </aside>
