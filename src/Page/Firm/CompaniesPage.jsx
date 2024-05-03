@@ -41,7 +41,7 @@ const CompaniesPage = () => {
 
   // Open A company Function
   const handleCompanyClick = (item) => {
-    localStorage.setItem(USER_DETAILS, JSON.stringify(item));
+    sessionStorage.setItem(USER_DETAILS, JSON.stringify(item));
     dispatch({ type: SET_CURRENT_COMPANY, payload: item });
     navigate("/");
   };

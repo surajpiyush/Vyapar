@@ -62,8 +62,8 @@ const handleTokenExpiration = (error, navigate) => {
 // Get All Items List ********************************
 export const GetAllItems = async (dispatch, navigate) => {
    dispatch({ type: LOADING_GET_ALL_ITEMS });
-   const token = localStorage.getItem("token");
-   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+   const token = sessionStorage.getItem("token");
+   const FirmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
    try {
       const response = await axios.get(
@@ -89,8 +89,8 @@ export const GetAllItems = async (dispatch, navigate) => {
 export const AddItem = async (dispatch, newItem, closeForm, navigate) => {
    toast.dismiss();
    dispatch({ type: ITEM_REQUEST });
-   const token = localStorage.getItem("token");
-   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+   const token = sessionStorage.getItem("token");
+   const FirmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
    try {
       const response = await axios.post(
@@ -120,8 +120,8 @@ export const AddItem = async (dispatch, newItem, closeForm, navigate) => {
 // Get Single Item ***************************************
 export const GetSelectedItemData = async (dispatch, itemId, navigate) => {
    dispatch({ type: LOADING_GET_SELECTED_ITEM });
-   const token = localStorage.getItem("token");
-   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+   const token = sessionStorage.getItem("token");
+   const FirmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
    try {
       const response = await axios.get(
@@ -157,8 +157,8 @@ export const UpdateItem = async (
 ) => {
    toast.dismiss();
    dispatch({ type: LOADING_UPDATE_ITEM });
-   const token = localStorage.getItem("token");
-   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+   const token = sessionStorage.getItem("token");
+   const FirmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
    try {
       const response = await axios.patch(
@@ -194,8 +194,8 @@ export const DeleteItem = async (
 ) => {
    dispatch({ type: LOADING_DELETE_ITEM });
    toast.dismiss();
-   const token = localStorage.getItem("token");
-   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+   const token = sessionStorage.getItem("token");
+   const FirmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
    try {
       const response = await axios.delete(
@@ -221,8 +221,8 @@ export const DeleteItem = async (
 // Get All Categories
 export const GetAllCategories = async (dispatch, navigate) => {
    dispatch({ type: GET_All_CATEGORIES_LOADING });
-   const token = localStorage.getItem("token");
-   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+   const token = sessionStorage.getItem("token");
+   const FirmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
    try {
       const response = await axios.get(
@@ -254,8 +254,8 @@ export const AddNewCategory = async (
 ) => {
    dispatch({ type: ADD_CATEGORY_LOADING });
    toast.dismiss();
-   const token = localStorage.getItem("token");
-   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+   const token = sessionStorage.getItem("token");
+   const FirmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
    try {
       const response = await axios.post(
@@ -292,8 +292,8 @@ export const UpdateCategory = async (
 ) => {
    dispatch({ type: LOADING_UPDATE_CATEGORY });
    toast.dismiss();
-   const token = localStorage.getItem("token");
-   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+   const token = sessionStorage.getItem("token");
+   const FirmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
    try {
       const response = await axios.patch(
@@ -324,8 +324,8 @@ export const UpdateCategory = async (
 export const DeleteCategory = async (dispatch, partyId, setShowEditFirm,navigate) => {
    dispatch({ type: LOADING_DELETE_CATEGORY });
    toast.dismiss();
-   const token = localStorage.getItem("token");
-   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+   const token = sessionStorage.getItem("token");
+   const FirmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
    try {
       const response = await axios.delete(
@@ -351,8 +351,8 @@ export const DeleteCategory = async (dispatch, partyId, setShowEditFirm,navigate
 // Get All Units
 export const GetAllUnits = async (dispatch,navigate) => {
    dispatch({ type: GET_ALL_UNITS_LOADING });
-   const token = localStorage.getItem("token");
-   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+   const token = sessionStorage.getItem("token");
+   const FirmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
    try {
       const response = await axios.get(
@@ -376,8 +376,8 @@ export const GetAllUnits = async (dispatch,navigate) => {
 export const AddNewUnit = async (dispatch, unitData, closeForm,navigate) => {
    dispatch({ type: ADDING_UNIT_LOADING });
    toast.dismiss();
-   const token = localStorage.getItem("token");
-   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+   const token = sessionStorage.getItem("token");
+   const FirmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
    try {
       const response = await axios.post(
@@ -414,8 +414,8 @@ export const UpdateUnit = async (
 ) => {
    dispatch({ type: LOADING_UPDATE_UNIT });
    toast.dismiss();
-   const token = localStorage.getItem("token");
-   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+   const token = sessionStorage.getItem("token");
+   const FirmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
    try {
       const response = await axios.patch(
@@ -446,8 +446,8 @@ export const UpdateUnit = async (
 export const DeleteUnit = async (dispatch, unittId, setShowEditFirm,navigate) => {
    dispatch({ type: LOADING_DELETE_UNIT });
    toast.dismiss();
-   const token = localStorage.getItem("token");
-   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+   const token = sessionStorage.getItem("token");
+   const FirmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
    try {
       const response = await axios.delete(

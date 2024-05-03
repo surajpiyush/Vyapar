@@ -35,6 +35,7 @@ const AddPartyForm = ({
    const [currInps, setCurrInps] = useState("GST & Address");
    const [creditLimitToggle, setCreditLimitToggle] = useState(false);
    const [disableShippingAddress, setDisableShippingAddress] = useState(true);
+   const [isValid, setIsValid] = useState(true);
    const [formData, setFormData] = useState({
       partyName: "",
       phoneNumber: "",
@@ -105,9 +106,21 @@ const AddPartyForm = ({
       DeleteParty(dispatch, formData?._id, CloseForm,navigate);
    };
 
+
+   const handleGstChange = (event) => {
+            let { name, value } = event.target;  
+                   
+      setFormData((prev) => {
+         return { ...prev, [name]: value };
+      });
+
+  };
+
+
+
    // Input Change Function
    const handleInpChange = (e) => {
-      let { name, value } = e.target;
+      let { name, value } = e.target;        
       setFormData((prev) => {
          return { ...prev, [name]: value };
       });
@@ -192,11 +205,12 @@ const AddPartyForm = ({
                         Party Name*
                      </label>
                   </div>
-                  {/* Phone Number */}
+              {/* Phone Number */}
                   <div className={css.inputDiv}>
                      <input
                         type="number"
                         name="phoneNumber"
+                        maxLength={10}
                         value={formData?.phoneNumber}
                         onChange={handleInpChange}
                         className={css.input}
@@ -221,8 +235,8 @@ const AddPartyForm = ({
                            type="text"
                            name="gstNo"
                            value={formData?.gstNo}
-                           onChange={handleInpChange}
-                           className={css.input}
+                           onChange={handleGstChange}
+                           className={css.input}                           
                            required
                         />
                         <label

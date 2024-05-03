@@ -31,7 +31,7 @@ const AuthPage = () => {
 
   //   Checking token
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     if (token) {
       navigate("/companies");
     }
@@ -52,8 +52,8 @@ const AuthPage = () => {
       );
       //console.log("SignUp Response", res?.data);
       const userName = res?.data?.companyData?.name || "";
-      localStorage.setItem("token", res?.data?.companyData?.token);
-      localStorage.setItem("userId", res?.data?.companyData?.userId);
+      sessionStorage.setItem("token", res?.data?.companyData?.token);
+      sessionStorage.setItem("userId", res?.data?.companyData?.userId);
 
       setInpVal({
         name: "",
@@ -100,8 +100,8 @@ const AuthPage = () => {
       });
       // console.log("LogIn Response", res?.data);
       const userName = res?.data?.result?.name;
-      localStorage.setItem("token", res?.data?.result?.token);
-      localStorage.setItem("userId", res?.data?.result?.userId);
+      sessionStorage.setItem("token", res?.data?.result?.token);
+      sessionStorage.setItem("userId", res?.data?.result?.userId);
 
       setInpVal({
         name: "",

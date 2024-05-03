@@ -30,7 +30,7 @@ const EditFirm = ({ setShowEditFirm }) => {
 
   // UseEffect to set current company data on edit company profile mount
   useEffect(() => {
-    const userDetailLS = JSON.parse(localStorage.getItem(USER_DETAILS));
+    const userDetailLS = JSON.parse(sessionStorage.getItem(USER_DETAILS));
     setCompanyData((prev) => {
       return {
         ...prev,

@@ -40,7 +40,7 @@ const Sidebar = ({ setShowEditFirm }) => {
 
   // To set the current firm data
   useEffect(() => {
-    const UserDetails = JSON.parse(localStorage.getItem(USER_DETAILS));
+    const UserDetails = JSON.parse(sessionStorage.getItem(USER_DETAILS));
     setProfileData(UserDetails);
   }, [toggleUpdate]);
 

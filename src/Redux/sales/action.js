@@ -38,8 +38,8 @@ import axios from "axios";
 export const PostSalesInvoice = async (dispatch, data, setOpenForm, toast) => {
   toast.closeAll();
   dispatch(IS_LOADING());
-  const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const firmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
   try {
     // prettier-ignore
     const response = await axios.post( // eslint-disable-line no-unused-vars
@@ -76,8 +76,8 @@ export const PostSalesInvoice = async (dispatch, data, setOpenForm, toast) => {
 // Get All Sales Invoice Request
 export const GetAllSalesInvoice = async (dispatch, startDate, endDate) => {
   dispatch(IS_LOADING());
-  const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const firmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
   // console.log("firmid", firmId);
   try {
@@ -97,8 +97,8 @@ export const GetAllSalesInvoice = async (dispatch, startDate, endDate) => {
 // Get Single Invoice Data Request
 export const GetSingleInvoiceData = async (dispatch, itemId, toast) => {
   dispatch(LOADING_SINGLE_INVOICE());
-  const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const firmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
   try {
     const response = await axios.get(
@@ -127,8 +127,8 @@ export const GetSingleInvoiceData = async (dispatch, itemId, toast) => {
 // Delete the invoice
 export const deleteSalesInvoice = async (dispatch, _id) => {
   dispatch(IS_LOADING());
-  const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const firmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
   try {
     const response = await axios.delete(
       `${API_URL}/${firmId}/sale/delete/${_id}`,
@@ -150,8 +150,8 @@ export const deleteSalesInvoice = async (dispatch, _id) => {
 // Update the Invoice
 export const updateSalesInvoice = (_id, data) => (dispatch) => {
   dispatch(IS_LOADING());
-  const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const firmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
   axios
     .put(`${API_URL}/${firmId}/sale/update/${_id}`, data, {
@@ -176,8 +176,8 @@ export const updateSalesInvoice = (_id, data) => (dispatch) => {
 export const PostEstimates = async (dispatch, data, setOpenForm, toast) => {
   toast.closeAll();
   dispatch(IS_LOADING());
-  const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const firmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
   try {
     // prettier-ignore
     const response = await axios.post( // eslint-disable-line no-unused-vars
@@ -214,8 +214,8 @@ export const PostEstimates = async (dispatch, data, setOpenForm, toast) => {
 // Get All Estimates Request
 export const GetAllEstimates = async (dispatch, startDate, endDate) => {
   dispatch(IS_LOADING());
-  const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const firmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
   try {
     const response = await axios.get(
@@ -234,8 +234,8 @@ export const GetAllEstimates = async (dispatch, startDate, endDate) => {
 // Delete the invoice
 export const deleteAllEstimates = async (dispatch, _id) => {
   dispatch(IS_LOADING());
-  const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const firmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
   try {
     const response = await axios.delete(
       `${API_URL}/${firmId}/sale/saleEstimate/${_id}`,
@@ -258,8 +258,8 @@ export const deleteAllEstimates = async (dispatch, _id) => {
 // Update the Estimates
 export const updateAllEstimates = (_id, data) => (dispatch) => {
   dispatch(IS_LOADING());
-  const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const firmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
   axios
     .put(`${API_URL}/${firmId}/sale/saleEstimate/${_id}`, data, {
@@ -284,8 +284,8 @@ export const updateAllEstimates = (_id, data) => (dispatch) => {
 export const PostPaymentIn = async (dispatch, data, closeForm, toast) => {
   dispatch(IS_LOADING());
   toast.closeAll();
-  const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const firmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
   try {
     // prettier-ignore
     const response = await axios.post( // eslint-disable-line no-unused-vars
@@ -322,8 +322,8 @@ export const PostPaymentIn = async (dispatch, data, closeForm, toast) => {
 // Get All Payment-In Data Request
 export const GetAllPaymentIn = async (dispatch, startDate, endDate) => {
   dispatch(IS_LOADING());
-  const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const firmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
   try {
     const response = await axios.get(
       `${API_URL}/${firmId}/sale/salePaymentIn/getAll?startDate=${startDate}&endDate=${endDate}`,
@@ -344,8 +344,8 @@ export const GetAllPaymentIn = async (dispatch, startDate, endDate) => {
 // Delete the payment-in
 export const deletePaymentIn = async (dispatch, _id) => {
   dispatch(IS_LOADING());
-  const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const firmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
   try {
     const response = await axios.delete(
       `${API_URL}/${firmId}/sale/salePaymentIn/${_id}`,
@@ -368,8 +368,8 @@ export const deletePaymentIn = async (dispatch, _id) => {
 // Update the payment-in
 export const updatePaymentIn = (_id, data) => (dispatch) => {
   dispatch(IS_LOADING());
-  const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const firmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
   axios
     .put(`${API_URL}/${firmId}/sale/salePaymentIn/${_id}`, data, {
@@ -394,8 +394,8 @@ export const updatePaymentIn = (_id, data) => (dispatch) => {
 export const PostSaleOrder = async (dispatch, data, setOpenForm, toast) => {
   dispatch(IS_LOADING());
   toast.closeAll();
-  const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const firmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
   try {
     // prettier-ignore
     const response = await axios.post( // eslint-disable-line no-unused-vars
@@ -432,8 +432,8 @@ export const PostSaleOrder = async (dispatch, data, setOpenForm, toast) => {
 // Post Sale Order Request
 export const GetAllSaleOrders = async (dispatch, startDate, endDate) => {
   dispatch(IS_LOADING());
-  const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const firmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
   try {
     const response = await axios.get(
@@ -452,8 +452,8 @@ export const GetAllSaleOrders = async (dispatch, startDate, endDate) => {
 // Delete the sale Order
 export const deleteAllSaleOrder = async (dispatch, _id) => {
   dispatch(IS_LOADING());
-  const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const firmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
   try {
     const response = await axios.delete(
       `${API_URL}/${firmId}/sale/saleOrder/${_id}`,
@@ -476,8 +476,8 @@ export const deleteAllSaleOrder = async (dispatch, _id) => {
 // Update the sale Order
 export const updateAllSaleOrder = (_id, data) => (dispatch) => {
   dispatch(IS_LOADING());
-  const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const firmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
   axios
     .put(`${API_URL}/${firmId}/sale/saleOrder/${_id}`, data, {
@@ -507,8 +507,8 @@ export const PostDeliveryChallan = async (
 ) => {
   dispatch(IS_LOADING());
   toast.closeAll();
-  const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const firmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
   try {
     // prettier-ignore
     const response = await axios.post( // eslint-disable-line no-unused-vars
@@ -547,8 +547,8 @@ export const PostDeliveryChallan = async (
 // Get All Delivery Challans Request
 export const GetAllDeliveryChallans = async (dispatch, startDate, endDate) => {
   dispatch(IS_LOADING());
-  const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const firmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
   try {
     const response = await axios.get(
@@ -567,8 +567,8 @@ export const GetAllDeliveryChallans = async (dispatch, startDate, endDate) => {
 // Delete the delivery Challan
 export const deleteAllDeliveryChallan = async (dispatch, _id) => {
   dispatch(IS_LOADING());
-  const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const firmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
   try {
     const response = await axios.delete(
       `${API_URL}/${firmId}/sale/deliveryChallan/${_id}`,
@@ -591,8 +591,8 @@ export const deleteAllDeliveryChallan = async (dispatch, _id) => {
 // Update the delivery Challan
 export const updateAllDeliveryChallan = (_id, data) => (dispatch) => {
   dispatch(IS_LOADING());
-  const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const firmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
   axios
     .put(`${API_URL}/${firmId}/sale/deliveryChallan/${_id}`, data, {
@@ -617,8 +617,8 @@ export const updateAllDeliveryChallan = (_id, data) => (dispatch) => {
 export const PostCreditNote = async (dispatch, data, setOpenForm, toast) => {
   dispatch(IS_LOADING());
   toast.closeAll();
-  const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const firmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
   try {
     // prettier-ignore
     const response = await axios.post( // eslint-disable-line no-unused-vars
@@ -657,8 +657,8 @@ export const PostCreditNote = async (dispatch, data, setOpenForm, toast) => {
 // Get All Credit Notes Request
 export const GetAllCreditNotes = async (dispatch, startDate, endDate) => {
   dispatch(IS_LOADING());
-  const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const firmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
   try {
     const response = await axios.get(
       `${API_URL}/${firmId}/sale/saleReturnCredit/getAll?startDate=${startDate}&endDate=${endDate}`,
@@ -679,8 +679,8 @@ export const GetAllCreditNotes = async (dispatch, startDate, endDate) => {
 // Delete the sale Return Credit
 export const deleteAllCreditNotes = async (dispatch, _id) => {
   dispatch(IS_LOADING());
-  const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const firmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
   try {
     const response = await axios.delete(
       `${API_URL}/${firmId}/sale/saleReturnCredit/${_id}`,
@@ -703,8 +703,8 @@ export const deleteAllCreditNotes = async (dispatch, _id) => {
 // Update the sale Return Credit
 export const updateAllCreditNotes = (_id, data) => (dispatch) => {
   dispatch(IS_LOADING());
-  const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const firmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
   axios
     .put(`${API_URL}/${firmId}/sale/saleReturnCredit/${_id}`, data, {

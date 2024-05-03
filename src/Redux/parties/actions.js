@@ -34,8 +34,8 @@ const handleTokenExpiration = (error, navigate) => {
 // ----------------------- Fetch All Parties Data Function ---- Didn't applied function curring due to thunk error in store.js
 export const FetchAllParties = async (dispatch, navigate) => {
    dispatch({ type: FETCH_PARTIES_LOADING });
-   const token = localStorage.getItem("token");
-   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+   const token = sessionStorage.getItem("token");
+   const FirmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
    // const token =
    //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWM1Y2ZjNTA5YjM0Y2E4YTAxODc0OTciLCJpYXQiOjE3MTI3NDE2NTAsImV4cCI6MTcxMjgyODA1MH0.ez_9ADGx3uKF1ivIFnKn7E2tm1zC9f0oixDtaT-jv-o";
@@ -64,8 +64,8 @@ export const FetchAllParties = async (dispatch, navigate) => {
 export const SaveParty = async (dispatch, data, CloseForm,navigate) => {
    toast.dismiss();
    dispatch({ type: SAVE_PARTY_LOADING });
-   const token = localStorage.getItem("token");
-   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+   const token = sessionStorage.getItem("token");
+   const FirmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
    // console.log(("data party:-",data))
 
    try {
@@ -100,8 +100,8 @@ export const UpdateParty = async (
 ) => {
    toast.dismiss();
    dispatch({ type: EDIT_PARTY_LOADING });
-   const token = localStorage.getItem("token");
-   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+   const token = sessionStorage.getItem("token");
+   const FirmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
    try {
       const response = await axios.patch(
@@ -135,8 +135,8 @@ export const UpdateParty = async (
 export const DeleteParty = async (dispatch, partyId, setShowEditFirm,navigate) => {
    toast.dismiss();
    dispatch({ type: LOADING_DELETE_PARTY });
-   const token = localStorage.getItem("token");
-   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+   const token = sessionStorage.getItem("token");
+   const FirmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
    try {
       const response = await axios.delete(
@@ -160,8 +160,8 @@ export const DeleteParty = async (dispatch, partyId, setShowEditFirm,navigate) =
 // Get Current Party Data *********************************************************
 export const GetCurrentPartyData = (partyId,navigate) => async (dispatch) => {
    dispatch({ type: LOADING_GET_CURRENT_PARTY });
-   const token = localStorage.getItem("token");
-   const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+   const token = sessionStorage.getItem("token");
+   const FirmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
    try {
       const response = await axios.get(

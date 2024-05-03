@@ -30,8 +30,8 @@ import {
 export const AddExpenseCategory = async (dispatch, data, closeForm, toast) => {
   toast.closeAll();
   dispatch({ type: ADD_CATEGORY_LOADING });
-  const token = localStorage.getItem("token");
-  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const FirmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
   try {
     const response = await axios.post(
@@ -63,8 +63,8 @@ export const AddExpenseCategory = async (dispatch, data, closeForm, toast) => {
 // Get All Categories
 export const GetAllExpenseCategories = async (dispatch) => {
   dispatch({ type: GET_ALL_CATEGORIES_LOADING });
-  const token = localStorage.getItem("token");
-  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const FirmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
   // console.log(FirmId);
 
   try {
@@ -87,8 +87,8 @@ export const GetAllExpenseCategories = async (dispatch) => {
 // Get Selected Category Data
 export const GetSelectedCateData = async (dispatch, cateId) => {
   dispatch({ type: GET_SELECTED_CATE_DATA_LOADING });
-  const token = localStorage.getItem("token");
-  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const FirmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
   try {
     const response = await axios.get(
@@ -112,8 +112,8 @@ export const GetSelectedCateData = async (dispatch, cateId) => {
 export const AddExpenseItem = async (dispatch, data, closeForm, toast) => {
   toast.closeAll();
   dispatch({ type: ADD_ITEM_LOADING });
-  const token = localStorage.getItem("token");
-  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const FirmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
   try {
     const response = await axios.post(
@@ -145,8 +145,8 @@ export const AddExpenseItem = async (dispatch, data, closeForm, toast) => {
 // Get All Categories
 export const GetAllExpenseItems = async (dispatch) => {
   dispatch({ type: GET_ALL_ITEMS_LOADING });
-  const token = localStorage.getItem("token");
-  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const FirmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
   try {
     const response = await axios.get(
@@ -168,8 +168,8 @@ export const GetAllExpenseItems = async (dispatch) => {
 // Get Selected Item Data
 export const GetSelectedItemData = async (dispatch, itemId) => {
   dispatch({ type: GET_SELECTED_ITEM_LOADING });
-  const token = localStorage.getItem("token");
-  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const FirmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
   try {
     const response = await axios.get(
@@ -199,8 +199,8 @@ export const AddExpense = async (
 ) => {
   toast.closeAll();
   dispatch({ type: ADD_EXPENSE_LOADING });
-  const token = localStorage.getItem("token");
-  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const FirmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
   const PostExpenseAPI = withGST
     ? `${API_URL}/${FirmId}/expenseWithGst/createExpenseWithGst`
     : `${API_URL}/${FirmId}/expenseWithOutGst/createExpenseWithOutGst`;

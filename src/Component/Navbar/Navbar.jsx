@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 const Navbar = () => {
   const navigate = useNavigate();
   const [inpVal, setInpVal] = useState(
-    JSON.parse(localStorage.getItem(USER_DETAILS))?.companyName || ""
+    JSON.parse(sessionStorage.getItem(USER_DETAILS))?.companyName || ""
   );
   const [showRename, setShowRename] = useState(false);
   const [showCompanyMenu, setShowCompanyMenu] = useState(false);

@@ -203,6 +203,7 @@ const EditPurchaseForm = memo((data) => {
                 type="number"
                 value={formData?.partyData?.[0]?.phoneNumber}
                 name="phoneNumber"
+                maxlength="10"
                 onChange={handleInputChange}
                 className={css.input}
               />

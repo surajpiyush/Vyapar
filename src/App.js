@@ -8,16 +8,13 @@ import {
   REGULAR_PRINTER_DATA,
   THERMAL_PRINTER_DATA,
 } from "./Redux/store.js";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-
 export const ignoreRoutes = ["/auth", "/companies", "/addCompany"];
-
 function App() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -91,12 +88,12 @@ function App() {
   ];
   // to store printerdata in session storage
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     if (!token) {
       navigate("/auth");
     } else {
       const userDetailsData =
-        JSON.parse(localStorage.getItem(USER_DETAILS)) || {};
+        JSON.parse(sessionStorage.getItem(USER_DETAILS)) || {};
       const storedRegularPrinterData = JSON.parse(
         sessionStorage.getItem(REGULAR_PRINTER_DATA)
       );

@@ -12,7 +12,7 @@ const GSTR9 = () => {
   const [nonTaxExempted, setNonTaxExempted] = useState(false);
   const [financialYear, setFinancialYear] = useState("");
   const companyName = JSON.parse(
-    localStorage.getItem(USER_DETAILS)
+    sessionStorage.getItem(USER_DETAILS)
   )?.companyName;
 
   return (

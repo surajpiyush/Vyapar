@@ -101,13 +101,17 @@
   display: flex;
   gap: 6px;
   background-color: rgba(184, 184, 184, 0.21);
-  padding: 10px 20px;
+ 
   border-radius: 6px;
 }
 
-.SaleMonthDiv button {
+.SaleMonthDiv select {
+  background-color: rgba(184, 184, 184, 0.21);
   border: none;
+  padding: 5px 20px;
   font-size: 14px;
+  size: 25px;
+  border-radius: 6px
 }
 
 .SaleContent {
@@ -234,15 +238,15 @@
   font-size: 24px;
 }
 
-.purchaseHeadingAside2 {
+/* .purchaseHeadingAside2 {
   width: 100%;
-}
+} */
 
-.purchaseMonthDiv {
+.purchaseMonthDiv select {
   display: flex;
   gap: 6px;
-  background-color: rgba(184, 184, 184, 0.21);
-  padding: 10px 20px;
+  background-color: rgba(110, 91, 91, 0.21);
+  padding: 5px 20px;
   border-radius: 6px;
 }
 
@@ -383,21 +387,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 20px;
+ 
 }
 .expensesMonthDiv {
   display: flex;
   gap: 6px;
-  background-color: rgba(184, 184, 184, 0.21);
-  padding: 10px 30px;
+ 
+  
   border-radius: 6px;
 }
-.expensesMonthDiv button {
+.expensesMonthDiv select {
   border: none;
+  background-color: rgba(121, 100, 100, 0.21);
   font-size: 14px;
   display: flex;
   align-items: center;
-  padding: 5px 15px;
+  padding: 5px 20px;
+  size:25px;
+  border-radius: 6px
 }
 .expensesContent {
   display: flex;

@@ -877,7 +877,9 @@ const AddItemForm = ({
                   </button>
                )}
             </div>
-         </form>
+        
+        
+            </form>
       </div>
    );
 };

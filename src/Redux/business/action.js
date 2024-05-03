@@ -17,7 +17,7 @@ import { toast } from "react-toastify";
 // Company Register Request
 export const FetchAllCompanies = async (dispatch) => {
   dispatch({ type: ISLOADING });
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   // const token =
   //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWM1Y2ZjNTA5YjM0Y2E4YTAxODc0OTciLCJpYXQiOjE3MTI3NDE2NTAsImV4cCI6MTcxMjgyODA1MH0.ez_9ADGx3uKF1ivIFnKn7E2tm1zC9f0oixDtaT-jv-o";
 
@@ -50,7 +50,7 @@ export const AddBusinessLoginRequest = async (
 ) => {
   toast.dismiss();
   dispatch({ type: ISLOADING });
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
 
   try {
     const response = await axios.post(`${API_URL}/firm_registration`, data, {
@@ -59,7 +59,7 @@ export const AddBusinessLoginRequest = async (
 
     // console.log("Business Added Response", response?.data);
     let newCurrentCompanyData = response?.data?.FirmData;
-    localStorage.setItem(USER_DETAILS, JSON.stringify(newCurrentCompanyData));
+    sessionStorage.setItem(USER_DETAILS, JSON.stringify(newCurrentCompanyData));
     dispatch({ type: SUCCESS });
     setFormdata({
       companyName: "",
@@ -87,8 +87,8 @@ export const AddBusinessLoginRequest = async (
 export const UpdateCompanyProfile = async (dispatch, data, setShowEditFirm) => {
   toast.dismiss();
   dispatch({ type: ISLOADING });
-  const token = localStorage.getItem("token");
-  const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const FirmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
   try {
     const response = await axios.put(
@@ -105,14 +105,14 @@ export const UpdateCompanyProfile = async (dispatch, data, setShowEditFirm) => {
     //  console.log("Update Firm Response", response?.data);
     toast.success("Changes saved successfully.");
     const responseData = response?.data?.FirmData;
-    const prevousUserLSData = JSON.parse(localStorage.getItem(USER_DETAILS));
+    const prevousUserLSData = JSON.parse(sessionStorage.getItem(USER_DETAILS));
     const newUserLSData = {
       ...prevousUserLSData,
       ...data,
       ...responseData,
     };
     // console.log("newUserLSData", newUserLSData);
-    localStorage.setItem(USER_DETAILS, JSON.stringify(newUserLSData));
+    sessionStorage.setItem(USER_DETAILS, JSON.stringify(newUserLSData));
     dispatch({ type: UPDATE_PROFILE_SUCCESS });
     setShowEditFirm(false);
   } catch (error) {
@@ -133,7 +133,7 @@ export const UpdateCompanyProfile = async (dispatch, data, setShowEditFirm) => {
 export const DeleteCompany = async (dispatch, firmId) => {
   toast.dismiss();
   dispatch({ type: DELETE_FIRM_LOADING });
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
 
   try {
     const response = await axios.delete(
@@ -156,9 +156,9 @@ export const DeleteCompany = async (dispatch, firmId) => {
 
 // Logout Function
 export const LOGOUT = (navigate, showToast = false) => {
-  localStorage.removeItem("token");
-  localStorage.removeItem("userId");
-  localStorage.removeItem(USER_DETAILS);
+  sessionStorage.removeItem("token");
+  sessionStorage.removeItem("userId");
+  sessionStorage.removeItem(USER_DETAILS);
   sessionStorage.removeItem(REGULAR_PRINTER_DATA);
   sessionStorage.removeItem(THERMAL_PRINTER_DATA);
   if (showToast) {

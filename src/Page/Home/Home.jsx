@@ -48,11 +48,11 @@ const Home = () => {
       setHomeStates((prev) => {
          return { ...prev, isLoading: true, isError: false };
       });
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
       // const token =
       //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWM1Y2ZjNTA5YjM0Y2E4YTAxODc0OTciLCJpYXQiOjE3MTI3NDE2NTAsImV4cCI6MTcxMjgyODA1MH0.ez_9ADGx3uKF1ivIFnKn7E2tm1zC9f0oixDtaT-jv-o";
 
-      const FirmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+      const FirmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
       //  salStart, salEnd, expStart, expEnd, purSatart, purEnd
       try {
@@ -104,13 +104,12 @@ const Home = () => {
                      </aside>
                      <aside className={css.SaleHeadingAside2}>
                         <div className={css.SaleMonthDiv}>
-                           <button>This Month</button>
-                           {isMonthModelOpenForSale ? (
-                              <ArrowUpFilledIcon />
-                           ) : (
-                              <ArrowDownFilledIcon />
-                           )}
-                        </div>
+                        <select defaultValue="This Month" >
+                           <option value="This Month">This Month</option>
+                           <option value="Last Month">Last Month</option>
+                           <option value="Three Month">Three Month</option>
+                             </select>                          
+                              </div>
                      </aside>
                   </section>
                   <section className={css.SaleContent}>
@@ -172,14 +171,11 @@ const Home = () => {
                         </h3>
                         <aside className={css.expensesHeadingAside2}>
                            <div className={css.expensesMonthDiv}>
-                              <button>
-                                 This Month{" "}
-                                 {ismonthmodelopenForExpenses ? (
-                                    <ArrowUpFilledIcon />
-                                 ) : (
-                                    <ArrowDownFilledIcon />
-                                 )}
-                              </button>
+                           <select defaultValue="This Month" >
+                           <option value="This Month">This Month</option>
+                           <option value="Last Month">Last Month</option>
+                           <option value="Three Month">Three Month</option>
+                             </select>
                            </div>
                         </aside>
                      </aside>
@@ -238,12 +234,12 @@ const Home = () => {
                      </aside>
                      <aside className={css.purchaseHeadingAside2}>
                         <div className={css.purchaseMonthDiv}>
-                           <button>This Month</button>
-                           {isMonthModelOpenForPurchase ? (
-                              <ArrowUpFilledIcon />
-                           ) : (
-                              <ArrowDownFilledIcon />
-                           )}
+                        <select defaultValue="This Month" >
+                        <option value="This Month">This Month</option>
+                        <option value="Last Month">Last Month</option>
+                        <option value="Three Month">Three Month</option>
+                          </select>
+                          
                         </div>
                      </aside>
                   </section>

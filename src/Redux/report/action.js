@@ -13,8 +13,8 @@ import axios from "axios";
 // Get Sale Report
 export const GetSaleReport = async (dispatch, startDate, endDate) => {
   dispatch({ type: REPORT_REQUEST });
-  const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const firmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
   try {
     const response = await axios.get(
@@ -49,8 +49,8 @@ export const GetSaleReport = async (dispatch, startDate, endDate) => {
 // Get Purchase Report
 export const GetPurchaseReport = async (dispatch, startDate, endDate) => {
   dispatch({ type: REPORT_REQUEST });
-  const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const firmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
   try {
     const response = await axios.get(
@@ -72,8 +72,8 @@ export const GetPurchaseReport = async (dispatch, startDate, endDate) => {
 // Get All DayBooks
 export const GetDayBooks = async (dispatch, date) => {
   dispatch({ type: REPORT_REQUEST });
-  const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const firmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
   try {
     const response = await axios.get(
@@ -95,8 +95,8 @@ export const GetDayBooks = async (dispatch, date) => {
 // Get All Transactions
 export const GetAllTransactions = async (dispatch, startDate, endDate) => {
   dispatch({ type: REPORT_REQUEST });
-  const token = localStorage.getItem("token");
-  const firmId = JSON.parse(localStorage.getItem(USER_DETAILS))?._id;
+  const token = sessionStorage.getItem("token");
+  const firmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
   try {
     const response = await axios.get(
