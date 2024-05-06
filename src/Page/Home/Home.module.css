@@ -20,8 +20,8 @@
 .leftSideOuter {
   flex-grow: 1;
   overflow: auto;
-  padding: 0px 20px;
-  margin: 20px 0px;
+  padding: 0px 10px;
+  margin: 10px 0px;
 }
 .bigAmountText {
   padding: 0px;
@@ -70,7 +70,7 @@
 /* Sale.module.css */
 .SaleContainer {
   flex-grow: 1;
-  padding: 20px;
+  padding: 10px;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
   display: grid;
   gap: 10px;
@@ -167,9 +167,8 @@
 }
 
 .SaleContentAside2 div {
-  background-color: rgb(7, 189, 128);
-  width: 100%;
-  height: 2px;
+
+ 
   display: flex;
   align-items: center;
 }
@@ -246,7 +245,7 @@
   display: flex;
   gap: 6px;
   background-color: rgba(110, 91, 91, 0.21);
-  padding: 5px 20px;
+  padding: 5px 10px;
   border-radius: 6px;
 }
 
@@ -266,15 +265,14 @@
 .purchaseContentAside2 {
   display: grid;
   align-items: end;
-  padding-left: 10px;
+ 
   height: 100%;
   width: 100%;
 }
 
 .purchaseContentAside2 div {
-  background-color: rgb(7, 189, 128);
-  width: 100%;
-  height: 2px;
+ 
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -384,21 +382,22 @@
 }
 .expensesHeadingAside2 {
   /* width: 120px; */
+ 
   display: flex;
   align-items: center;
   justify-content: center;
  
 }
+
 .expensesMonthDiv {
   display: flex;
-  gap: 6px;
- 
-  
+  gap: 6px;  
   border-radius: 6px;
+  
 }
 .expensesMonthDiv select {
   border: none;
-  background-color: rgba(121, 100, 100, 0.21);
+  background-color: rgba(160, 146, 146, 0.21);
   font-size: 14px;
   display: flex;
   align-items: center;
@@ -409,8 +408,7 @@
 .expensesContent {
   display: flex;
   justify-content: space-between;
-  height: 200px;
-  width: 100%;
+  
 }
 .expensesContentAside2 {
   display: grid;
