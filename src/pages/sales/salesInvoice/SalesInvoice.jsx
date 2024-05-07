@@ -50,7 +50,12 @@ export default function SalesInvoice() {
 		currentDate.getMonth(),
 		1
 	);
+
+
+
+  
 	const formattedStartDate = startOfMonth.toISOString().split("T")[0];
+  console.log('this is formateSt',formattedStartDate)
 	const [startDate, setStartDate] = useState(formattedStartDate);
 	const [endDate, setEndDate] = useState(
 		new Date().toISOString().split("T")[0]
@@ -67,7 +72,7 @@ export default function SalesInvoice() {
   console.log('this is invoicesList',invoicesList)
 	//   This useEffect is written to get all items data to extract item names ********************************
 
-
+ 
 // Assuming data is an array of date-time values in the format "2024-05-03T00:00:00.000Z"
 
 // Function to filter data based on different time intervals
@@ -240,7 +245,42 @@ const filterDataByTime = (invoicesList, timeInterval) => {
     	setSelectedValue(e.target.value);
       
 	};
+useEffect(()=>{
   filteredData=filterDataByTime(invoicesList,selectedValue);
+   setItems(filteredData)
+},[selectedValue])
+
+// useEffect(() => {
+//   filteredData = invoicesList.filter(item => item.invoiceDate >= startDate && item.date <= endDate);
+//   setItems(filteredData)
+// }, [startDate, endDate]);
+
+
+
+useEffect(() => {
+    const filteredData = invoicesList.filter(item => {
+      // Convert item.invoiceDate to Date object
+      const invoiceDate = new Date(item.invoiceDate);
+	  console.log("this is invoiceDate",invoiceDate)
+      // Parse startDate and endDate to Date objects
+      const [startMonth, startDay, startYear] = startDate.split('/');
+      const [endMonth, endDay, endYear] = endDate.split('/');
+      const start = new Date(`${startMonth}/${startDay}/${startYear}`);
+      const end = new Date(`${endMonth}/${endDay}/${endYear}`);
+      // Compare dates
+      return invoiceDate >= start && invoiceDate <= end;
+    });
+    setItems(filteredData);
+console.log('thuis is itemdate',items)
+
+  }, [startDate, endDate]);
+
+
+
+
+
+
+
 
 	return isLoading ? (
 		<Loader3 text="Loading Sale Invoices" />
@@ -425,7 +465,7 @@ const filterDataByTime = (invoicesList, timeInterval) => {
 
 							<tbody>
 								{!isLoading &&
-							filteredData?.length>0 && filteredData?.map((item, ind) =>
+							items?.length>0 && items?.map((item, ind) =>
 										isEditing && editedData?._id === item._id ? (
 											<tr
 												style={{

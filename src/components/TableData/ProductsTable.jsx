@@ -21,6 +21,7 @@ export default function ProductsTable({ showAddForm }) {
   );
   // ItemsList
   const itemsList = useSelector((store) => store.ItemReducer.items);
+  console.log("this is ItemList",itemsList)
   // Get All Items Loading
   const getAllItemsLoading = useSelector(
     (store) => store.ItemReducer.getAllItemsLoading
@@ -29,7 +30,7 @@ export default function ProductsTable({ showAddForm }) {
   const loadingGetSelectedItemData = useSelector(
     (store) => store.ItemReducer.loadingGetSelectedItemData
   );
-
+  const [filteredItem,setFilteredItem]=useState(itemsList)
   const [showEditItemForm, setShowEditItemForm] = useState(false);
   const [clickedItemData, setClickedItemData] = useState({});
 
@@ -37,6 +38,20 @@ export default function ProductsTable({ showAddForm }) {
     const updatedTableData = [...selectedItemTransactionData];
     updatedTableData[index].status = !updatedTableData[index].status;
   };
+
+
+  const handleSearch=(e)=>{
+  const query= e.target.value
+if(query===''){
+  setFilteredItem(filteredItem)
+}else{
+  const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const regex = new RegExp(escapedQuery, 'i');
+const filtered = filteredItem.filter(item => regex.test(item.itemName));
+setFilteredItem(filtered)
+}
+
+  }
 
   return (
     <div className={css.ContentOuter}>
@@ -51,8 +66,8 @@ export default function ProductsTable({ showAddForm }) {
 
       {/* Left Side Content */}
       <div className={css.partiesLeftSideDiv}>
-        <div className={css.addBtnDivOuter}>
-          <SearchIconBlackBg />
+        
+          
           <button
             onClick={() => {
               showAddForm(true);
@@ -61,7 +76,7 @@ export default function ProductsTable({ showAddForm }) {
           >
             + Add Item
           </button>
-        </div>
+        <input style={{marginTop:'10px'}} onChange={handleSearch} placeholder="Search items.." />
 
         {/* Left Side Parties Table */}
         <div className={css.leftSideTableCss}>
@@ -69,16 +84,16 @@ export default function ProductsTable({ showAddForm }) {
             <thead>
               <tr>
                 <th>
-                  <div style={{ padding: "0px 30px" }}>ITEM</div>
+                  <div style={{ paddingRight: "110px" }}>ITEM</div>
                 </th>
                 <th>
-                  <div style={{ padding: "0px 30px" }}>QUANTITY</div>
+                  <div style={{ paddingLeft: "1px" }}>QUANTITY</div>
                 </th>
               </tr>
             </thead>
             {!getAllItemsLoading && (
               <tbody>
-                {itemsList?.map((e, index) => (
+                {filteredItem?.map((e, index) => (
                   <tr
                     key={e?._id + index}
                     onClick={() => {

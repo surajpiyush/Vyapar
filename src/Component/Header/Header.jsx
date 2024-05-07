@@ -10,11 +10,11 @@ import {
 import { toast } from "react-toastify";
 import { useState } from "react";
 import { redirect } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 const Header = () => {
   const [searchInp, setSearchInp] = useState("");
   const [toggleSetting, setToggleSetting] = useState(false);
-
+const navigate=useNavigate()
   return (
     <div className={css.HeaderContainer}>
       {toggleSetting && <Setting setToggleSetting={setToggleSetting} />}
@@ -46,8 +46,9 @@ const Header = () => {
               <button
                 type="button"
                 onClick={() => {
-                  if (item === "Add Sale") redirect("/invoices");
-                  else if (item === "Add Purchase") redirect("/purchasebill");
+                  console.log('add sale')
+                  if (item === "Add Sale")   navigate("/invoices");
+                  else if (item === "Add Purchase") navigate("/purchasebill");
                   else if (item === "Add More") {
                     toast.info("Feature currently in development", {
                       position: "top-center",

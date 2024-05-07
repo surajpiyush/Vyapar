@@ -36,6 +36,7 @@ const AddPartyForm = ({
    const [creditLimitToggle, setCreditLimitToggle] = useState(false);
    const [disableShippingAddress, setDisableShippingAddress] = useState(true);
    const [isValid, setIsValid] = useState(true);
+   const [error, setError] = useState(null);
    const [formData, setFormData] = useState({
       partyName: "",
       phoneNumber: "",
@@ -115,16 +116,32 @@ const AddPartyForm = ({
       });
 
   };
-
-
+const handleInpChange=(e)=>{
+   let{name,value}=e.target
+   setFormData((prev) => {
+      return { ...prev, [name]: value };
+   });
+}
 
    // Input Change Function
-   const handleInpChange = (e) => {
+   const handleInpPhoneChange = (e) => {
       let { name, value } = e.target;        
-      setFormData((prev) => {
-         return { ...prev, [name]: value };
-      });
+console.log("this is log",e.target.value)      
+
+if(value.length>10){
+   setError('Phone number should be max 10 digits.');     
+} else 
+{
+   setFormData((prev) => {
+      return { ...prev, [name]: value };
+   });
+   setError(null);
+
+
+
    };
+
+   }
 
    // Additional Field Input Change
    const addFieldInpChange = (e, fieldIndex) => {
@@ -212,9 +229,9 @@ const AddPartyForm = ({
                         name="phoneNumber"
                         maxLength={10}
                         value={formData?.phoneNumber}
-                        onChange={handleInpChange}
+                        onChange={handleInpPhoneChange}
                         className={css.input}
-                     />
+                     />  {error? <span style={{ fontSize:'10px', color:"red" }}>{error}</span>:null}
                      <label
                         className={
                            formData?.phoneNumber

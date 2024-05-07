@@ -15,6 +15,8 @@ import { useNavigate } from "react-router-dom";
 export default function PartiesTable({ func }) {
   const dispatch = useDispatch();
   const navigate = useNavigate()
+  const [searchQuery,setSearchQuery]=useState('')
+  
   const isLoadingParties = useSelector(
     (state) => state.PartiesReducer.isLoading
   );
@@ -37,6 +39,26 @@ export default function PartiesTable({ func }) {
     func(true);
   };
 
+  const [filteredData,setFilteredData]=useState(partiesData)
+  console.log("this is filtered ",filteredData)
+  const handleSearch=(e)=>{
+  const query=e.target.value
+  if(query==''){
+    setFilteredData(filteredData);
+  }
+  setSearchQuery(query)
+const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const regex = new RegExp(escapedQuery, 'i'); // 'i' flag for case-insensitive matching
+
+// Filter the data based on the regex pattern
+const filtered = filteredData.filter(item => regex.test(item.partyName));
+setFilteredData(filtered);
+
+
+// setFilteredData(filtered)
+  }
+  
+
   return (
     <div className={css.ContentOuter}>
       {/* Edit Party Form */}
@@ -50,25 +72,25 @@ export default function PartiesTable({ func }) {
 
       {/* Left Side Content */}
       <div className={css.partiesLeftSideDiv}>
-        <div className={css.addBtnDivOuter}>
-          <SearchIconBlackBg />
+        
+        
           <button className={css.addBtnCss} onClick={openForm}>
             + Add Party
           </button>
-        </div>
+          <input style={{marginTop:"10px", border:''}} type="text" placeholder="Search..." onChange={handleSearch} value={searchQuery}  />
 
         {/* Left Side Parties Table */}
         <div className={css.leftSideTableCss}>
           <table>
-            <thead>
-              <tr>
-                <th>PARTY</th>
-                <th>AMOUNT</th>
+            <thead >
+              <tr style={{ display: 'table-row', paddingLeft:"0px" }}>
+                <th style={{paddingLeft:"1px"}}>PARTY</th>
+                <th  style={{paddingRight:"1px"}}>AMOUNT</th>
               </tr>
             </thead>
             {!isLoadingParties && (
               <tbody>
-                {partiesData.map((item, ind) => (
+                {filteredData.map((item, ind) => (
                   <tr
                     key={ind + item._id}
                     onClick={() => {
