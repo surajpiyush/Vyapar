@@ -43,7 +43,7 @@ export default function SalesInvoice() {
 	const [editedData, setEditedData] = useState(null);
 	const [openForm, setOpenForm] = useState(false);
 	const [toggleSetting, setToggleSetting] = useState(false);
-  const [filter, setFilter] = useState('All');
+	const [filter, setFilter] = useState("All");
 	const currentDate = new Date();
 	const startOfMonth = new Date(
 		currentDate.getFullYear(),
@@ -51,11 +51,8 @@ export default function SalesInvoice() {
 		1
 	);
 
-
-
-  
 	const formattedStartDate = startOfMonth.toISOString().split("T")[0];
-  console.log('this is formateSt',formattedStartDate)
+	console.log("this is formateSt", formattedStartDate);
 	const [startDate, setStartDate] = useState(formattedStartDate);
 	const [endDate, setEndDate] = useState(
 		new Date().toISOString().split("T")[0]
@@ -68,73 +65,66 @@ export default function SalesInvoice() {
 	const isLoading = useSelector((state) => state.SalesReducer.isLoading);
 	const toggleItems = useSelector((state) => state.ItemReducer.toggleItems);
 	const invoicesList = useSelector((state) => state.SalesReducer.invoicesList);
-  const [items, setItems] = useState(invoicesList);
-  console.log('this is invoicesList',invoicesList)
-	//   This useEffect is written to get all items data to extract item names ********************************
 
- 
-// Assuming data is an array of date-time values in the format "2024-05-03T00:00:00.000Z"
+	console.log("this is invoicesList", invoicesList);
+	const filterDataByTime = (invoicesList, timeInterval) => {
+		const currentDate = new Date();
+		const currentMonth = currentDate.getMonth();
+		const currentYear = currentDate.getFullYear();
+		let startDate, endDate;
+		switch (timeInterval) {
+			case "This Month":
+				startDate = new Date(currentYear, currentMonth, 1);
+				endDate = new Date(currentYear, currentMonth + 1, 0);
+				break;
+			case "Last Month":
+				startDate = new Date(currentYear, currentMonth - 1, 1);
+				endDate = new Date(currentYear, currentMonth, 0);
+				break;
+			case "This Quarter":
+				// Calculate start date of the current quarter
+				startDate = new Date(currentYear, Math.floor(currentMonth / 3) * 3, 1);
+				// Calculate end date of the current quarter
+				endDate = new Date(
+					currentYear,
+					Math.floor(currentMonth / 3) * 3 + 3,
+					0
+				);
+				break;
+			case "This Year":
+				startDate = new Date(currentYear, 0, 1);
+				endDate = new Date(currentYear, 11, 31);
+				break;
+			// Add more cases for other time intervals if needed
+			default:
+				// Custom interval handling
+				// Assuming timeInterval is in the format "YYYY-MM-DD"
+				startDate = new Date(timeInterval);
+				// Assuming you want to filter for the whole day
+				endDate = new Date(
+					startDate.getFullYear(),
+					startDate.getMonth(),
+					startDate.getDate(),
+					23,
+					59,
+					59
+				);
+				break;
+		}
+		return invoicesList.filter((item) => {
+			const itemDate = new Date(item.invoiceDate);
+			return itemDate >= startDate && itemDate <= endDate;
+		});
+	};
 
-// Function to filter data based on different time intervals
-const filterDataByTime = (invoicesList, timeInterval) => {
-  const currentDate = new Date();
-  const currentMonth = currentDate.getMonth();
-  const currentYear = currentDate.getFullYear();
-
-  // Get the start and end date for the selected time interval
-  let startDate, endDate;
-  switch (timeInterval) {
-    case "This Month":
-      startDate = new Date(currentYear, currentMonth, 1);
-      endDate = new Date(currentYear, currentMonth + 1, 0);
-      break;
-    case "Last Month":
-      startDate = new Date(currentYear, currentMonth - 1, 1);
-      endDate = new Date(currentYear, currentMonth, 0);
-      break;
-    case "This Quarter":
-      // Calculate start date of the current quarter
-      startDate = new Date(currentYear, Math.floor(currentMonth / 3) * 3, 1);
-      // Calculate end date of the current quarter
-      endDate = new Date(currentYear, Math.floor(currentMonth / 3) * 3 + 3, 0);
-      break;
-    case "This Year":
-      startDate = new Date(currentYear, 0, 1);
-      endDate = new Date(currentYear, 11, 31);
-      break;
-    // Add more cases for other time intervals if needed
-    default:
-      // Custom interval handling
-      // Assuming timeInterval is in the format "YYYY-MM-DD"
-      startDate = new Date(timeInterval);
-      // Assuming you want to filter for the whole day
-      endDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), 23, 59, 59);
-      break;
-  }
-
-  // Filter data based on the selected time interval
-  return invoicesList.filter(item => {
-    const itemDate = new Date(item.invoiceDate);
-    return itemDate >= startDate && itemDate <= endDate;
-  });
-};
-
-// Example usage:
-
-
-
-
-
-
-
+	// Example usage:
 
 	useEffect(() => {
 		GetAllItems(dispatch);
 	}, [toggleItems]);
 	// ********************************************************************************8
 
-	const [selectedValue, setSelectedValue] = useState('This Month');
-
+	const [selectedValue, setSelectedValue] = useState();
 
 	const loadingSingleInvoice = useSelector(
 		(state) => state.SalesReducer.loadingSingleInvoice
@@ -145,8 +135,6 @@ const filterDataByTime = (invoicesList, timeInterval) => {
 	const toggleGetAllSalesDataSuccess = useSelector(
 		(state) => state.SalesReducer.toggleGetAllSalesDataSuccess
 	);
-
-
 
 	const SingleInvoiceData = useSelector(
 		(state) => state.SalesReducer.SingleInvoiceData
@@ -177,10 +165,6 @@ const filterDataByTime = (invoicesList, timeInterval) => {
 		GetAllSalesInvoice(dispatch, startDate, endDate);
 	}, [toggleSalesSuccess, startDate, endDate]);
 
-	// useEffect(() => {
-	//   console.log("invoicesList", invoicesList);
-	// }, [invoicesList]);
-
 	const formOpen = () => {
 		setOpenForm(true);
 	};
@@ -200,8 +184,6 @@ const filterDataByTime = (invoicesList, timeInterval) => {
 
 	// Save Update function
 	const handleSave = (updatedData) => {
-		// updatedData.partyname = updatedData.partyName;
-		// console.log("updatedData-", updatedData);
 		dispatch(updateSalesInvoice(updatedData._id, updatedData));
 		setIsEditing(false);
 		setEditedData(null);
@@ -213,6 +195,14 @@ const filterDataByTime = (invoicesList, timeInterval) => {
 		setIsEditing(false);
 		setEditedData(null);
 	};
+	const [items, setItems] = useState([]);
+
+	useEffect(() => {
+		setItems(invoicesList);
+	}, [invoicesList]);
+
+	console.log("this is new item list", items);
+	console.log("this is new invoicesList", invoicesList);
 
 	// ***************************** Print ************************************
 	const handlePrint = useReactToPrint({
@@ -240,47 +230,50 @@ const filterDataByTime = (invoicesList, timeInterval) => {
 		}
 	}, [toggleSingleInvoiceSuccess]);
 	// *********************************************************************************
-  let filteredData =[]
+	let filteredData = [];
 	const handleSelectChange = (e) => {
-    	setSelectedValue(e.target.value);
-      
+		setSelectedValue(e.target.value);
 	};
-useEffect(()=>{
-  filteredData=filterDataByTime(invoicesList,selectedValue);
-   setItems(filteredData)
-},[selectedValue])
+	useEffect(() => {
+		filteredData = filterDataByTime(invoicesList, selectedValue);
+		setItems(filteredData);
+	}, [selectedValue]);
 
-// useEffect(() => {
-//   filteredData = invoicesList.filter(item => item.invoiceDate >= startDate && item.date <= endDate);
-//   setItems(filteredData)
-// }, [startDate, endDate]);
+	// useEffect(() => {
+	//   filteredData = invoicesList.filter(item => item.invoiceDate >= startDate && item.date <= endDate);
+	//   setItems(filteredData)
+	// }, [startDate, endDate]);
 
+	useEffect(() => {
+		const filteredData = invoicesList.filter((item) => {
+			// Convert item.invoiceDate to Date object
+			const invoiceDate = new Date(item.invoiceDate);
+			console.log("this is invoiceDate", invoiceDate);
+			// Parse startDate and endDate to Date objects
+			const [startMonth, startDay, startYear] = startDate.split("/");
+			const [endMonth, endDay, endYear] = endDate.split("/");
+			const start = new Date(`${startMonth}/${startDay}/${startYear}`);
+			const end = new Date(`${endMonth}/${endDay}/${endYear}`);
+			// Compare dates
+			return invoiceDate >= start && invoiceDate <= end;
+		});
+		setItems(filteredData);
+		console.log("thuis is itemdate", items);
+	}, [startDate, endDate]);
 
-
-useEffect(() => {
-    const filteredData = invoicesList.filter(item => {
-      // Convert item.invoiceDate to Date object
-      const invoiceDate = new Date(item.invoiceDate);
-	  console.log("this is invoiceDate",invoiceDate)
-      // Parse startDate and endDate to Date objects
-      const [startMonth, startDay, startYear] = startDate.split('/');
-      const [endMonth, endDay, endYear] = endDate.split('/');
-      const start = new Date(`${startMonth}/${startDay}/${startYear}`);
-      const end = new Date(`${endMonth}/${endDay}/${endYear}`);
-      // Compare dates
-      return invoiceDate >= start && invoiceDate <= end;
-    });
-    setItems(filteredData);
-console.log('thuis is itemdate',items)
-
-  }, [startDate, endDate]);
-
-
-
-
-
-
-
+	const handleSearchTransaction = (e) => {
+		const query = e.target.value;
+		if (query === "") {
+			setItems(invoicesList);
+		} else {
+			const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+			const regex = new RegExp(escapedQuery, "i");
+			const filteredInvoice = invoicesList.filter((item) =>
+				regex.test(item.partyname)
+			);
+			setItems(filteredInvoice);
+		}
+	};
 
 	return isLoading ? (
 		<Loader3 text="Loading Sale Invoices" />
@@ -344,9 +337,6 @@ console.log('thuis is itemdate',items)
 				</div>
 			)}
 
-
-
-
 			{/* Top Nav */}
 			<div className={css.topNavOuter}>
 				<div className={css.navTopADiv}>
@@ -360,7 +350,6 @@ console.log('thuis is itemdate',items)
 						<option value="Last Month">Last Month</option>
 						<option value="This Quarter">This Quarter</option>
 						<option value="This Year">This Year</option>
-						<option value="Custom">Custom</option>
 					</select>
 
 					<div className={css.divContainingDateInps}>
@@ -425,7 +414,11 @@ console.log('thuis is itemdate',items)
 							<div className={css.saleOrderSearchDiv}>
 								<SearchIcon />
 								<div>
-									<input type="text" />
+									<input
+										type="text"
+										onChange={handleSearchTransaction}
+										placeholder="Search..."
+									/>
 								</div>
 							</div>
 						</div>
@@ -465,7 +458,7 @@ console.log('thuis is itemdate',items)
 
 							<tbody>
 								{!isLoading &&
-							items?.length>0 && items?.map((item, ind) =>
+									items?.map((item, ind) =>
 										isEditing && editedData?._id === item._id ? (
 											<tr
 												style={{

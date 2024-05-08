@@ -31,6 +31,7 @@ const AddPartyForm = ({
    const loadingDeleteParty = useSelector(
       (state) => state.PartiesReducer.loadingDeleteParty
    );
+   
    const loadingEdit = useSelector((state) => state.PartiesReducer.loadingEdit);
    const [currInps, setCurrInps] = useState("GST & Address");
    const [creditLimitToggle, setCreditLimitToggle] = useState(false);
@@ -106,7 +107,13 @@ const AddPartyForm = ({
    const handleDelete = () => {
       DeleteParty(dispatch, formData?._id, CloseForm,navigate);
    };
-
+   const validateGSTNumber = (input) => {
+      // Regular expression pattern for GST number validation
+      const gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}[Z]{1}[0-9A-Z]{1}$/;
+  
+      // Check if the input matches the pattern
+      return gstRegex.test(input);
+    };
 
    const handleGstChange = (event) => {
             let { name, value } = event.target;  
@@ -114,7 +121,7 @@ const AddPartyForm = ({
       setFormData((prev) => {
          return { ...prev, [name]: value };
       });
-
+      setIsValid(validateGSTNumber(value));
   };
 const handleInpChange=(e)=>{
    let{name,value}=e.target
@@ -231,7 +238,7 @@ if(value.length>10){
                         value={formData?.phoneNumber}
                         onChange={handleInpPhoneChange}
                         className={css.input}
-                     />  {error? <span style={{ fontSize:'10px', color:"red" }}>{error}</span>:null}
+                     />  {error? <p style={{ fontSize:'10px', color:"red" }}>{error}</p>:null}
                      <label
                         className={
                            formData?.phoneNumber
@@ -265,6 +272,8 @@ if(value.length>10){
                         >
                            GSTIN*
                         </label>
+                        {!isValid && <p style={{fontSize:"10px",fontWeight:'15px', font
+                        :"15px",  color: 'red' }}>Invalid GST Number</p>}
                      </div>
                   )}
                </div>

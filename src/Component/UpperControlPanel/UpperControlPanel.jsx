@@ -103,7 +103,7 @@ const UpperControlPanel = ({
                   <option value="Last Month">Last Month</option>
                   <option value="This Quarter">This Quarter</option>
                   <option value="This Year">This Year</option>
-                  <option value="Custom">Custom</option>
+              
                </select>
                {window.location.pathname !== "/daybookreport" ? (
                   <div className={css.divContainingDateInps}>

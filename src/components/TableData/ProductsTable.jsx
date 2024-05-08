@@ -2,7 +2,7 @@ import css from "../../Page/Items/Items.module.css";
 import AddItemForm from "../../Page/Items/AddItemForm";
 import { GetSelectedItemData } from "../../Redux/items/actions";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   FilterIcon,
@@ -39,15 +39,16 @@ export default function ProductsTable({ showAddForm }) {
     updatedTableData[index].status = !updatedTableData[index].status;
   };
 
+  useEffect(()=>{},[])
 
   const handleSearch=(e)=>{
   const query= e.target.value
 if(query===''){
-  setFilteredItem(filteredItem)
+  setFilteredItem(itemsList)
 }else{
   const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const regex = new RegExp(escapedQuery, 'i');
-const filtered = filteredItem.filter(item => regex.test(item.itemName));
+const filtered = itemsList.filter(item => regex.test(item.itemName));
 setFilteredItem(filtered)
 }
 

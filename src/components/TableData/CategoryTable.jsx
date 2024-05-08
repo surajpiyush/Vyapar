@@ -3,7 +3,7 @@ import CategoryForm from "../addForm/CategoryForm";
 import {
   FilterIcon,
   BasicSpinnerIcon,
-  SearchIconBlackBg,
+  
   VerticalDotsIcon,
 } from "../../assets/Icons/ReactIcons";
 
@@ -13,11 +13,28 @@ import { useSelector } from "react-redux";
 export default function CategoryTable({ showAddForm }) {
   // CategoryList
   const categoryList = useSelector((store) => store.ItemReducer.category);
+console.log("this is categoryList",categoryList)
+
   // Get Selected Category Loading
   const loadingGetSelectedCategoryData = false;
 
   const [showEditForm, setShowEditForm] = useState(false);
   const [currCate, setCurrCate] = useState({});
+  const [filtered,setFiltered]=useState(categoryList)
+
+  const handleCategorySearch = (e) => {
+    const query = e.target.value;
+  
+    if (query === '') {
+      setFiltered(categoryList); 
+    } else {
+      const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(escapedQuery, 'i');
+      const filteredCate = categoryList.filter(item => regex.test(item.categoryName));
+      setFiltered(filteredCate);
+    }
+  }
+  
 
   return (
     <div className={css.ContentOuter}>
@@ -32,9 +49,8 @@ export default function CategoryTable({ showAddForm }) {
 
       {/* Left Side Content */}
       <div className={css.partiesLeftSideDiv}>
-        <div className={css.addBtnDivOuter}>
-          <SearchIconBlackBg />
-          <button
+       
+             <button
             onClick={() => {
               showAddForm(true);
             }}
@@ -42,7 +58,9 @@ export default function CategoryTable({ showAddForm }) {
           >
             + Add Category
           </button>
-        </div>
+<input style={{marginTop:"10px"}} type="text" placeholder="Search categories..." onChange={handleCategorySearch} />
+
+       
 
         {/* Left Side Parties Table */}
         <div className={css.leftSideTableCss}>
@@ -59,7 +77,7 @@ export default function CategoryTable({ showAddForm }) {
             </thead>
 
             <tbody>
-              {categoryList?.map((e, index) => (
+              {filtered?.map((e, index) => (
                 <tr
                   key={e?._id + index}
                   onClick={() => {

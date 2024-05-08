@@ -42,12 +42,7 @@ export const FetchAllCompanies = async (dispatch) => {
 };
 
 // Add New Company
-export const AddBusinessLoginRequest = async (
-  dispatch,
-  data,
-  setFormdata,
-  navigate
-) => {
+export const AddBusinessLoginRequest = async (dispatch,data,setFormdata,navigate) => {
   toast.dismiss();
   dispatch({ type: ISLOADING });
   const token = sessionStorage.getItem("token");

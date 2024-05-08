@@ -33,7 +33,7 @@ export default function PartiesTable({ func }) {
   const [showEditForm, setShowEditForm] = useState(false);
   const [editPartyData, setEditPartyData] = useState({});
 
-  // console.log("editPartyData in partiesData:- ",editPartyData)
+ 
 
   const openForm = () => {
     func(true);
@@ -44,18 +44,13 @@ export default function PartiesTable({ func }) {
   const handleSearch=(e)=>{
   const query=e.target.value
   if(query==''){
-    setFilteredData(filteredData);
+    setFilteredData(partiesData);
   }
   setSearchQuery(query)
 const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-const regex = new RegExp(escapedQuery, 'i'); // 'i' flag for case-insensitive matching
-
-// Filter the data based on the regex pattern
-const filtered = filteredData.filter(item => regex.test(item.partyName));
+const regex = new RegExp(escapedQuery, 'i'); 
+const filtered = partiesData.filter(item => regex.test(item.partyName));
 setFilteredData(filtered);
-
-
-// setFilteredData(filtered)
   }
   
 
