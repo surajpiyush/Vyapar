@@ -31,20 +31,25 @@ export default function SalesPaymentIn() {
   const paymentInList = useSelector(
     (state) => state.SalesReducer.paymentInList
   );
-  // console.log(paymentInList);
+   console.log('paymentInList',paymentInList);
   const [openForm, setOpenForm] = useState(false);
   const [toggleSetting, setToggleSetting] = useState(false);
   const currentDate = new Date();
   const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
   const formattedStartDate = startOfMonth.toISOString().split("T")[0];
   const [startDate, setStartDate] = useState(formattedStartDate);  
+  const [selected,setSelected]=useState()
   const [endDate, setEndDate] = useState(
     new Date().toISOString().split("T")[0]
   );
-
+const[items,setItems]=useState([])
   const toast = useToast();
 
-  useEffect(() => {
+useEffect(()=>{
+  setItems(paymentInList)
+},[paymentInList])
+
+useEffect(() => {
     GetAllPaymentIn(dispatch, startDate, endDate);
   }, [togglePaymentIn, startDate, endDate]);
 
@@ -84,6 +89,85 @@ export default function SalesPaymentIn() {
     setEditedData(null);
   };
 
+const searchHandle=(e)=>{
+  const query=e.target.value
+  if(query===''){
+    setItems(paymentInList)
+  }else{
+    const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const regex = new RegExp(escapedQuery, "i");
+    const filteredInvoice = paymentInList.filter((item) =>
+      regex.test(item.partyName)
+    );
+    setItems(filteredInvoice);
+  }
+}
+
+
+  const handleSelect=(e)=>{
+    setSelected(e.target.value)
+  
+  }
+
+  const filterDataByTime = (paymentInList, timeInterval) => {
+		const currentDate = new Date();
+		const currentMonth = currentDate.getMonth();
+		const currentYear = currentDate.getFullYear();
+		let startDate, endDate;
+		switch (timeInterval) {
+			case "This Month":
+				startDate = new Date(currentYear, currentMonth, 1);
+				endDate = new Date(currentYear, currentMonth + 1, 0);
+				break;
+			case "Last Month":
+				startDate = new Date(currentYear, currentMonth - 1, 1);
+				endDate = new Date(currentYear, currentMonth, 0);
+				break;
+			case "This Quarter":
+				// Calculate start date of the current quarter
+				startDate = new Date(currentYear, Math.floor(currentMonth / 3) * 3, 1);
+				// Calculate end date of the current quarter
+				endDate = new Date(
+					currentYear,
+					Math.floor(currentMonth / 3) * 3 + 3,
+					0
+				);
+				break;
+			case "This Year":
+				startDate = new Date(currentYear, 0, 1);
+				endDate = new Date(currentYear, 11, 31);
+				break;
+        case "All":
+          return paymentInList
+		break;
+			default:
+				// Custom interval handling
+				// Assuming timeInterval is in the format "YYYY-MM-DD"
+				startDate = new Date(timeInterval);
+				// Assuming you want to filter for the whole day
+				endDate = new Date(
+					startDate.getFullYear(),
+					startDate.getMonth(),
+					startDate.getDate(),
+					23,
+					59,
+					59
+				);
+				break;
+		}
+		return paymentInList.filter((item) => {
+			const itemDate = new Date(item.date);
+			return itemDate >= startDate && itemDate <= endDate;
+		});
+	};
+
+  let filteredData=[]
+  useEffect(() => {
+    filteredData = filterDataByTime(paymentInList, selected);
+    setItems(filteredData);
+  }, [selected]);
+  
+
   return isLoading ? (
     <Loader3 text="Loading Payment-In" />
   ) : (
@@ -101,13 +185,13 @@ export default function SalesPaymentIn() {
       {/* Top Nav */}
       <div className={css.topNavOuter}>
         <div className={css.navTopADiv}>
-          <select defaultValue="This Month" className={css.monthSelectTag}>
-            <option value="All Sale Invoices">All Sale Invoices</option>
+          <select defaultValue="All" onChange={handleSelect} style={{backgroundColor:"#BFBFBF", borderRadius:"5px", padding:"3px 3px"}}>
+            <option value="All">All Sale Invoices</option>
             <option value="This Month">This Month</option>
             <option value="Last Month">Last Month</option>
             <option value="This Quarter">This Quarter</option>
             <option value="This Year">This Year</option>
-            <option value="Custom">Custom</option>
+          
           </select>
           <div className={css.divContainingDateInps}>
             <h3>Between</h3>
@@ -140,7 +224,7 @@ export default function SalesPaymentIn() {
               <div className={css.saleOrderSearchDiv}>
                 <SearchIcon />
                 <div>
-                  <input type="text" />
+                  <input type="text" placeholder="Search..."  onChange={searchHandle} />
                 </div>
               </div>
             </div>
@@ -178,7 +262,7 @@ export default function SalesPaymentIn() {
 
               <tbody>
                 {!isLoading &&
-                  paymentInList?.map((item, ind) =>
+                  items?.map((item, ind) =>
                     isEditing && editedData?._id === item._id ? (
                       <tr
                         style={{

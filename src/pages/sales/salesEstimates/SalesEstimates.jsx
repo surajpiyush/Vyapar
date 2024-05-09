@@ -34,14 +34,21 @@ export default function SalesEstimates() {
   const dispatch = useDispatch();
   const [openForm, setOpenForm] = useState(false);
   const [toggleSetting, setToggleSetting] = useState(false);
-  const currentDate = new Date();
+
   const[items,setItems]=useState([])
-  const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-  const formattedStartDate = startOfMonth.toISOString().split("T")[0];
-  const [startDate, setStartDate] = useState(formattedStartDate);  
-  const [endDate, setEndDate] = useState(
-    new Date().toISOString().split("T")[0]
-  );
+	const currentDate = new Date();
+	const startOfMonth = new Date(
+		currentDate.getFullYear(),
+		currentDate.getMonth(),
+		1
+	);
+
+	const formattedStartDate = startOfMonth.toISOString().split("T")[0];
+	console.log("this is formateSt", formattedStartDate);
+	const [startDate, setStartDate] = useState(formattedStartDate);
+	const [endDate, setEndDate] = useState(
+		new Date().toISOString().split("T")[0]
+	);
 const [selectedOption,setSelectedOption]=useState()
 
   const isLoading = useSelector((state) => state.SalesReducer.isLoading);
@@ -51,6 +58,11 @@ const [selectedOption,setSelectedOption]=useState()
   const estimatesList = useSelector(
     (state) => state.SalesReducer.estimatesList
   );
+
+  
+useEffect(()=>{
+  setItems(estimatesList)
+},[estimatesList])
 
   const filterDataByTime = (estimatesList, timeInterval) => {
 		const currentDate = new Date();
@@ -80,7 +92,8 @@ const [selectedOption,setSelectedOption]=useState()
 				startDate = new Date(currentYear, 0, 1);
 				endDate = new Date(currentYear, 11, 31);
 				break;
-			// Add more cases for other time intervals if needed
+			case "All":
+        return estimatesList;
 			default:
 				// Custom interval handling
 				// Assuming timeInterval is in the format "YYYY-MM-DD"
@@ -112,9 +125,9 @@ const handleSelectedOption=(e)=>{
 }
 let filteredData=[]
 useEffect(() => {
-  filteredData = filterDataByTime(invoicesList, selectedOption);
+  filteredData = filterDataByTime(estimatesList, selectedOption);
   setItems(filteredData);
-}, [selectedValue]);
+}, [selectedOption]);
 
   const formOpen = () => {
     setOpenForm(true);
@@ -123,6 +136,22 @@ useEffect(() => {
   const handleDelete = (id) => {
     deleteAllEstimates(dispatch, id);
   };
+
+console.log("this is estimate",estimatesList)
+const handleSearch=(e)=>{
+  const query=e.target.value
+if(query===''){
+  setItems(estimatesList)
+}
+else{
+  const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+			const regex = new RegExp(escapedQuery, "i");
+			const filteredInvoice = estimatesList.filter((item) =>
+				regex.test(item.partyName)
+			);
+			setItems(filteredInvoice);
+}
+}
 
   const handleEdit = (_id) => {
     const data = estimatesList.filter((e) => e._id == _id);
@@ -190,8 +219,8 @@ useEffect(() => {
       {/* Top Nav */}
       <div className={css.topNavOuter}>
         <div className={css.navTopADiv}>
-          <select value={selectedOption} onChange={handleSelectedOption} className={css.monthSelectTag}>
-            <option value="All Sale Invoices">All Sale Invoices</option>
+          <select value={selectedOption} onChange={handleSelectedOption} style={{backgroundColor:"#BFBFBF", padding:"4px 4px",borderRadius:"5px"}}>
+            <option value="All">All Sale Invoices</option>
             <option value="This Month">This Month</option>
             <option value="Last Month">Last Month</option>
             <option value="This Quarter">This Quarter</option>
@@ -199,7 +228,7 @@ useEffect(() => {
             
           </select>
           <div className={css.divContainingDateInps}>
-            <h3>Between</h3>
+            <h3 style={{backgroundColor:"#BFBFBF"}} >Between</h3>
             <div>
               <input
                 type="date"
@@ -221,7 +250,7 @@ useEffect(() => {
       </div>
 
       {/* Middle */}
-      {estimatesList?.length ? (
+      {items?.length ? (
         <div className={css.ContentOuter}>
           <div className={css.contentUpperNav}>
             <div className={css.leftSideDivSaleOuter}>
@@ -229,7 +258,7 @@ useEffect(() => {
               <div className={css.saleOrderSearchDiv}>
                 <SearchIcon />
                 <div>
-                  <input type="text" />
+                  <input type="text" onChange={handleSearch} placeholder="Search..." />
                 </div>
               </div>
             </div>
@@ -266,7 +295,7 @@ useEffect(() => {
 
               <tbody>
                 {!isLoading &&
-                  estimatesList?.map((item, ind) =>
+                  items?.map((item, ind) =>
                     isEditing && editedData?._id == item._id ? (
                       <tr
                         style={{

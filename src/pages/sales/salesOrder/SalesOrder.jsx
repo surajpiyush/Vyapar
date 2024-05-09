@@ -15,7 +15,7 @@ import { PlusIcon2 } from "../../../assets/Icons/ReactIcons";
 
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useToast } from "@chakra-ui/react";
+import { OrderedList, useToast } from "@chakra-ui/react";
 import { IoCalculator as CalculatorIcon } from "react-icons/io5";
 import { MdOutlineSettings as SettingIcon } from "react-icons/md";
 import { IoMdCloseCircle as CloseIcon } from "react-icons/io";
@@ -28,6 +28,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 export default function SalesOrder() {
   const [isEditing, setIsEditing] = useState(false);
   const [editedData, setEditedData] = useState(null);
+  const[selected,setSelected]=useState()
   const toast = useToast();
   const navigate = useNavigate();
   const location = useLocation();
@@ -39,7 +40,7 @@ export default function SalesOrder() {
   const saleOrderList = useSelector(
     (state) => state.SalesReducer.saleOrderList
   );
-
+const[items,setItems]=useState()
   const [openForm, setOpenForm] = useState(false);
   const [toggleSetting, setToggleSetting] = useState(false);
   const currentDate = new Date();
@@ -49,7 +50,8 @@ export default function SalesOrder() {
   const [endDate, setEndDate] = useState(
     new Date().toISOString().split("T")[0]
   );
-
+console.log('this si saleorder',saleOrderList)
+  useEffect(()=>{setItems(saleOrderList)},[saleOrderList])
   useEffect(() => {
     GetAllSaleOrders(dispatch, startDate, endDate);
   }, [toggleSaleOrder, startDate, endDate]);
@@ -69,6 +71,79 @@ export default function SalesOrder() {
     setEditedData(data[0]);
   };
 
+const handleSelected=(e)=>{
+  setSelected(e.target.value)
+}
+const filterDataByTime = (saleOrderList, timeInterval) => {
+  const currentDate = new Date();
+  const currentMonth = currentDate.getMonth();
+  const currentYear = currentDate.getFullYear();
+  let startDate, endDate;
+  switch (timeInterval) {
+    case "This Month":
+      startDate = new Date(currentYear, currentMonth, 1);
+      endDate = new Date(currentYear, currentMonth + 1, 0);
+      break;
+    case "Last Month":
+      startDate = new Date(currentYear, currentMonth - 1, 1);
+      endDate = new Date(currentYear, currentMonth, 0);
+      break;
+    case "This Quarter":
+      // Calculate start date of the current quarter
+      startDate = new Date(currentYear, Math.floor(currentMonth / 3) * 3, 1);
+      // Calculate end date of the current quarter
+      endDate = new Date(
+        currentYear,
+        Math.floor(currentMonth / 3) * 3 + 3,
+        0
+      );
+      break;
+    case "This Year":
+      startDate = new Date(currentYear, 0, 1);
+      endDate = new Date(currentYear, 11, 31);
+      break;
+    case "All":
+      return saleOrderList;
+    default:
+      // Custom interval handling
+      // Assuming timeInterval is in the format "YYYY-MM-DD"
+      startDate = new Date(timeInterval);
+      // Assuming you want to filter for the whole day
+      endDate = new Date(
+        startDate.getFullYear(),
+        startDate.getMonth(),
+        startDate.getDate(),
+        23,
+        59,
+        59
+      );
+      break;
+  }
+  return saleOrderList.filter((item) => {
+    const itemDate = new Date(item.date);
+    return itemDate >= startDate && itemDate <= endDate;
+  });
+};
+const handleSearch=(e)=>{
+  const query=e.target.value
+  if(query===''){
+    setItems(saleOrderList)
+  }else{
+    const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const regex = new RegExp(escapedQuery, "i");
+    const filteredInvoice = saleOrderList.filter((item) =>
+      regex.test(item.partyName)
+    );
+    setItems(filteredInvoice);
+  }
+}
+
+useEffect(()=>{
+  const data=filterDataByTime(saleOrderList,selected)
+  setItems(data)
+},[selected])
+
+
   const handleSave = (updatedData) => {
     updatedData.partyname = updatedData.partyName;
     // console.log("updatedData-", updatedData);
@@ -85,6 +160,8 @@ export default function SalesOrder() {
     setIsEditing(false);
     setEditedData(null);
   };
+
+console.log("this is items",items)
 
   return isLoading ? (
     <Loader3 text="Loading Sale Orders" />
@@ -131,13 +208,13 @@ export default function SalesOrder() {
         {/* Top Nav */}
         <div className={css.topNavOuter}>
           <div className={css.navTopADiv}>
-            <select defaultValue="This Month" className={css.monthSelectTag}>
-              <option value="All Sale Invoices">All Sale Invoices</option>
+            <select defaultValue="All" onChange={handleSelected} style={{backgroundColor:"#BFBFBF",padding:"4px 3px",borderRadius:"5px"}}>
+              <option value="All">All Sale Order</option>
               <option value="This Month">This Month</option>
               <option value="Last Month">Last Month</option>
               <option value="This Quarter">This Quarter</option>
               <option value="This Year">This Year</option>
-              <option value="Custom">Custom</option>
+             
             </select>
             <div className={css.divContainingDateInps}>
               <h3>Between</h3>
@@ -170,7 +247,7 @@ export default function SalesOrder() {
                 <div className={css.saleOrderSearchDiv}>
                   <SearchIcon />
                   <div>
-                    <input type="text" />
+                    <input type="text" onChange={handleSearch} placeholder="Search..." />
                   </div>
                 </div>
               </div>
@@ -209,7 +286,7 @@ export default function SalesOrder() {
 
                 <tbody>
                   {!isLoading &&
-                    saleOrderList?.map((item, ind) =>
+                    items?.map((item, ind) =>
                       isEditing && editedData?._id === item._id ? (
                         <tr
                           style={{

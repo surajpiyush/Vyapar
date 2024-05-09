@@ -35,10 +35,11 @@ export default function SalesReturn() {
   const toggleCreditNote = useSelector(
     (state) => state.SalesReducer.toggleCreditNote
   );
+  const[select,setSelect]=useState()
   const creditNotesList = useSelector(
     (state) => state.SalesReducer.creditNotesList
   );
-
+const[items,setItems]=useState()
   const [openForm, setOpenForm] = useState(false);
   const [toggleSetting, setToggleSetting] = useState(false);
   const currentDate = new Date();
@@ -52,6 +53,22 @@ export default function SalesReturn() {
   const [endDate, setEndDate] = useState(
     new Date().toISOString().split("T")[0]
   );
+  useEffect(()=>{setItems(creditNotesList)},[creditNotesList])
+console.log("this creditNotesList",creditNotesList)
+  const handleSearch=(e)=>{
+    const query=e.target.value
+  
+    if(query===''){
+      setItems(creditNotesList)
+    }else{
+      const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const regex = new RegExp(escapedQuery, "i");
+      const filteredInvoice = creditNotesList.filter((item) =>
+        regex.test(item.partyName)
+      );
+      setItems(filteredInvoice);
+    }
+  }
 
   useEffect(() => {
     GetAllCreditNotes(dispatch, startDate, endDate);
@@ -72,13 +89,62 @@ export default function SalesReturn() {
     setEditedData(data[0]);
   };
 
+const handleSelect=(e)=>{
+ setSelect(e.target.value)
+}
+const filterDataByTime = (creditNotesList, timeInterval) => {
+  const currentDate = new Date();
+  const currentMonth = currentDate.getMonth();
+  const currentYear = currentDate.getFullYear();
+  let startDate, endDate;
+  switch (timeInterval) {
+    case "This Month":
+      startDate = new Date(currentYear, currentMonth, 1);
+      endDate = new Date(currentYear, currentMonth + 1, 0);
+      break;
+    case "Last Month":
+      startDate = new Date(currentYear, currentMonth - 1, 1);
+      endDate = new Date(currentYear, currentMonth, 0);
+      break;
+    case "This Quarter":
+      startDate = new Date(currentYear, Math.floor(currentMonth / 3) * 3, 1);
+      endDate = new Date(
+        currentYear,
+        Math.floor(currentMonth / 3) * 3 + 3,
+        0
+      );
+      break;
+    case "This Year":
+      startDate = new Date(currentYear, 0, 1);
+      endDate = new Date(currentYear, 11, 31);
+      break;
+    case "All":
+      return creditNotesList;
+    default:
+      startDate = new Date(timeInterval);
+      endDate = new Date(
+        startDate.getFullYear(),
+        startDate.getMonth(),
+        startDate.getDate(),
+        23,
+        59,
+        59
+      );
+      break;
+  }
+  return creditNotesList.filter((item) => {
+    const itemDate = new Date(item.date);
+    return itemDate >= startDate && itemDate <= endDate;
+  });
+};
+
+useEffect(()=>{
+  const filteredData=filterDataByTime(creditNotesList,select)
+  console.log('thsis ',filteredData,select)
+  setItems(filteredData)
+},[select])
   const handleSave = (updatedData) => {
-    // Implement your logic to save the updated data to the backend
-    // You may use an API call or any other method here
-    console.log("updatedData-", updatedData);
     const id = updatedData._id;
-    // After saving, reset the state
-    // dispatch(updatePurchaseBill(updatedData._id, updatedData));
     setIsEditing(false);
     setEditedData(null);
     GetAllCreditNotes(dispatch, startDate, endDate);
@@ -89,7 +155,7 @@ export default function SalesReturn() {
     setIsEditing(false);
     setEditedData(null);
   };
-
+console.log('this is items',items)
   return isLoading ? (
     <Loader3 text="Loading Sale Returns" />
   ) : (
@@ -130,13 +196,13 @@ export default function SalesReturn() {
       {/* Top Nav */}
       <div className={css.topNavOuter}>
         <div className={css.navTopADiv}>
-          <select defaultValue="This Month" className={css.monthSelectTag}>
-            <option value="All Sale Invoices">All Sale Invoices</option>
+          <select defaultValue="All" style={{backgroundColor:"#BFBFBF",padding:"3px 3px",borderRadius:"5px"}} onChange={handleSelect}>
+            <option value="All">All Sale Return</option>
             <option value="This Month">This Month</option>
             <option value="Last Month">Last Month</option>
             <option value="This Quarter">This Quarter</option>
             <option value="This Year">This Year</option>
-            <option value="Custom">Custom</option>
+            
           </select>
           <div className={css.divContainingDateInps}>
             <h3>Between</h3>
@@ -169,7 +235,7 @@ export default function SalesReturn() {
               <div className={css.saleOrderSearchDiv}>
                 <SearchIcon />
                 <div>
-                  <input type="text" />
+                  <input type="text" onChange={handleSearch} placeholder="Search..."  />
                 </div>
               </div>
             </div>
@@ -208,7 +274,7 @@ export default function SalesReturn() {
 
               <tbody>
                 {!isLoading &&
-                  creditNotesList?.map((item, ind) =>
+                  items?.map((item, ind) =>
                     isEditing && editedData?._id === item._id ? (
                       <tr
                         style={{
