@@ -79,7 +79,7 @@ export const GetAllSalesInvoice = async (dispatch, startDate, endDate) => {
   const token = sessionStorage.getItem("token");
   const firmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
 
-  // console.log("firmid", firmId);
+  console.log("firmid", startDate,endDate);
   try {
     const response = await axios.get(
       `${API_URL}/${firmId}/sale/getAll?startDate=${startDate}&endDate=${endDate}`,
@@ -216,13 +216,13 @@ export const GetAllEstimates = async (dispatch, startDate, endDate) => {
   dispatch(IS_LOADING());
   const token = sessionStorage.getItem("token");
   const firmId = JSON.parse(sessionStorage.getItem(USER_DETAILS))?._id;
-
+console.log("this is sdaate",startDate,endDate)
   try {
     const response = await axios.get(
       `${API_URL}/${firmId}/sale/saleEstimate/getAll?startDate=${startDate}&endDate=${endDate}`,
       { headers: { Authorization: `Bearer ${token} ` } }
     );
-
+console.log("qgdyegdyeg",response?.data?.data)
     // console.log("Getting All Estimates Response:", response?.data);
     dispatch(GET_ESTIMATE_SUCCESS(response?.data?.data));
   } catch (error) {

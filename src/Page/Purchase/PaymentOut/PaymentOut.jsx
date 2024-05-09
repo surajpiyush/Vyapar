@@ -51,6 +51,26 @@ const PaymentOut = () => {
   const paymentOutData = useSelector(
     (store) => store?.PurchaseReducer?.paymentOutData
   );
+  console.log("this is paymentOutData",paymentOutData)
+  const[items,setItems]=useState()
+  useEffect(()=>{setItems(paymentOutData)},[paymentOutData])
+
+const handleSearch=(e)=>{
+  const query=e.target.value
+
+  if(query===''){
+    setItems(paymentOutData)
+  }else{
+    const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+			const regex = new RegExp(escapedQuery, "i");
+			const filteredInvoice = paymentOutData.filter((item) =>
+				regex.test(item.partyName)
+			);
+			setItems(filteredInvoice);
+  }
+
+}
+
 
   // To Get All Payment Out Data
   useEffect(() => {
@@ -145,7 +165,7 @@ const PaymentOut = () => {
               <div className={css.saleOrderSearchDiv}>
                 <SearchIcon />
                 <div>
-                  <input type="text" />
+                  <input type="text" onChange={handleSearch} placeholder="Search..." />
                 </div>
               </div>
             </div>
@@ -187,7 +207,7 @@ const PaymentOut = () => {
 
               <tbody>
                 {!getAllPaymentOutLoading &&
-                  paymentOutData?.map((item, ind) =>
+                  items?.map((item, ind) =>
                     isEditing && editedData?._id === item._id ? (
                       <tr
                         style={{

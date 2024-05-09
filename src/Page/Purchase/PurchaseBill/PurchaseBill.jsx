@@ -57,17 +57,35 @@ const PurchaseBill = () => {
    const getAllPurchaseBillSuccess = useSelector(
       (state) => state.PurchaseReducer.getAllPurchaseBillSuccess
    );
+
+   
    // Purchase Bill Data
    const PurchaseBillData = useSelector(
       (state) => state.PurchaseReducer.PurchaseBillData
    );
+   console.log("this is PurchaseBillData",PurchaseBillData)
    const singlePurchaseBillData = useSelector(
       (store) => store.PurchaseReducer.singlePurchseData
    );
    const [paidAmount, setPaidAmount] = useState(0);
    const [unpaidAmount, setUnpaidAmount] = useState(0);
+const[items,setItems]=useState()
 
-   // To Calculate Paid/Unpaid amounts on getAll Success request
+useEffect(()=>{setItems(PurchaseBillData)},[PurchaseBillData])
+
+const handleSearch=(e)=>{
+       const query=e.target.value
+   if(query===''){
+setItems(PurchaseBillData)
+   }else{
+      const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+			const regex = new RegExp(escapedQuery, "i");
+			const filteredInvoice = PurchaseBillData.filter((item) =>
+				regex.test(item.partyName)
+			);
+			setItems(filteredInvoice);
+   }
+      }
    useEffect(() => {
       let paid = 0;
       let unpaid = 0;
@@ -201,7 +219,7 @@ const PurchaseBill = () => {
                      <div className={css.saleOrderSearchDiv}>
                         <SearchIcon />
                         <div>
-                           <input type="text" />
+                           <input type="text"  onChange={handleSearch} placeholder="Search..." />
                         </div>
                      </div>
                   </div>
@@ -239,7 +257,7 @@ const PurchaseBill = () => {
 
                      <tbody>
                         {!getAllPurchaseLoading &&
-                           PurchaseBillData?.map((item, ind) => (
+                           items?.map((item, ind) => (
                               <tr key={item?._id + ind}>
                                  <td>
                                     {new Date(

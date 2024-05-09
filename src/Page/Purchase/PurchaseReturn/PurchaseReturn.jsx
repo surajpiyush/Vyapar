@@ -32,6 +32,7 @@ const PurchaseReturn = () => {
    const [isEditing, setIsEditing] = useState(false);
    const [editedData, setEditedData] = useState(null);
    const [toggleSetting, setToggleSetting] = useState(false);
+   const[items,setItems]=useState()
    const [openForm, setOpenForm] = useState(false);
    const currentDate = new Date();
    const startOfMonth = new Date(
@@ -60,6 +61,7 @@ const PurchaseReturn = () => {
    const purchaseReturnData = useSelector(
       (state) => state.PurchaseReducer.purchaseReturnData
    );
+   useEffect(()=>{setItems(purchaseReturnData)},[purchaseReturnData])
    const [paidAmount, setPaidAmount] = useState(0);
    const [unpaidAmount, setUnpaidAmount] = useState(0);
 
@@ -91,6 +93,24 @@ const PurchaseReturn = () => {
    const handleDelete = (id) => {
       DeletePurchaseReturn(dispatch, id, toast);
    };
+
+
+   const handleSearch=(e)=>{
+      const query=e.target.value
+    
+      if(query===''){
+        setItems(purchaseReturnData)
+      }else{
+        const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+             const regex = new RegExp(escapedQuery, "i");
+             const filteredInvoice = purchaseReturnData.filter((item) =>
+                regex.test(item.partyName)
+             );
+             setItems(filteredInvoice);
+      }
+    
+    }
+
 
    // Update Function
    const handleUpdate = (updatedData) => {
@@ -168,7 +188,7 @@ const PurchaseReturn = () => {
                      <div className={css.saleOrderSearchDiv}>
                         <SearchIcon />
                         <div>
-                           <input type="text" />
+                        <input type="text" onChange={handleSearch} placeholder="Search..." />
                         </div>
                      </div>
                   </div>
@@ -209,7 +229,7 @@ const PurchaseReturn = () => {
 
                      <tbody>
                         {!getAllPaymentReturnLoading &&
-                           purchaseReturnData?.map((item, ind) =>
+                           items?.map((item, ind) =>
                               isEditing && editedData?._id == item._id ? (
                                  <tr
                                     style={{

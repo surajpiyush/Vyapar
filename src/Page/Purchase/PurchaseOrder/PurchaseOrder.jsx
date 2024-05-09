@@ -38,16 +38,19 @@ const PurchaseOrder = () => {
    const purchaseOrderData = useSelector(
       (store) => store?.PurchaseReducer?.purchaseOrderData
    );
+   console.log("this is purchaseOrderData",purchaseOrderData)
    const [isEditing, setIsEditing] = useState(false);
    const [editedData, setEditedData] = useState(null);
    const [openForm, setOpenForm] = useState(false);
    const [toggleSetting, setToggleSetting] = useState(false);
+   const[items,setItems]=useState()
    const currentDate = new Date();
    const startOfMonth = new Date(
       currentDate.getFullYear(),
       currentDate.getMonth(),
       1
    );
+   useEffect(()=>{setItems(purchaseOrderData)},[purchaseOrderData])
    const formattedStartDate = startOfMonth.toISOString().split("T")[0];
    const [startDate, setStartDate] = useState(formattedStartDate);
    const [endDate, setEndDate] = useState(
@@ -87,6 +90,22 @@ const PurchaseOrder = () => {
       setIsEditing(false);
       setEditedData(null);
    };
+
+
+const handleSearch=(e)=>{
+  const query=e.target.value
+if(query===''){
+   setItems(purchaseOrderData)
+}else{
+   const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+			const regex = new RegExp(escapedQuery, "i");
+			const filteredInvoice = purchaseOrderData.filter((item) =>
+				regex.test(item.partyName)
+			);
+			setItems(filteredInvoice);
+}
+
+}
 
    return getAllPurchaseOrderLoading ? (
       <Loader3 text="Loading Purchase Orders" />
@@ -154,7 +173,7 @@ const PurchaseOrder = () => {
                         <div className={css.saleOrderSearchDiv}>
                            <SearchIcon />
                            <div>
-                              <input type="text" />
+                              <input type="text" onChange={handleSearch} placeholder="Search..."/>
                            </div>
                         </div>
                      </div>
@@ -194,7 +213,7 @@ const PurchaseOrder = () => {
                         </thead>
                         <tbody>
                            {!getAllPurchaseOrderLoading &&
-                              purchaseOrderData?.map((item, ind) =>
+                              items?.map((item, ind) =>
                                  isEditing && editedData?._id === item._id ? (
                                     <tr
                                        style={{
