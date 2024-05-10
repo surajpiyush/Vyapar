@@ -168,6 +168,24 @@ const searchHandle=(e)=>{
   }, [selected]);
   
 
+	useEffect(() => {
+		const filteredData = paymentInList.filter((item) => {
+			// Convert item.invoiceDate to Date object
+			const invoiceDate = new Date(item.date);
+			console.log("this is invoiceDate", invoiceDate);
+			// Parse startDate and endDate to Date objects
+			const [startMonth, startDay, startYear] = startDate.split("/");
+			const [endMonth, endDay, endYear] = endDate.split("/");
+			const start = new Date(`${startMonth}/${startDay}/${startYear}`);
+			const end = new Date(`${endMonth}/${endDay}/${endYear}`);
+			// Compare dates
+			return invoiceDate >= start && invoiceDate <= end;
+		});
+		setItems(filteredData);
+		console.log("thuis is itemdate", items);
+	}, [startDate, endDate]);
+
+
   return isLoading ? (
     <Loader3 text="Loading Payment-In" />
   ) : (

@@ -97,7 +97,7 @@ const UpperControlPanel = ({
       <div className={css.topNavOuter}>
          <div className={css.navTopADiv}>
             <div className={css.leftSideUpperPart}>
-               <select defaultValue="All" onChange={handleSelect}>
+               <select defaultValue="All" >
                   <option value="All">All Sale Invoices</option>
                   <option value="This Month">This Month</option>
                   <option value="Last Month">Last Month</option>

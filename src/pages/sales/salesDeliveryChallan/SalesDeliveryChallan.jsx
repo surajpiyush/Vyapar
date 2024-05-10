@@ -42,18 +42,14 @@ export default function SalesDeliveryChallan() {
 	const [openForm, setOpenForm] = useState(false);
 	const [toggleSetting, setToggleSetting] = useState(false);
 	const currentDate = new Date();
-	const startOfMonth = new Date(
-		currentDate.getFullYear(),
-		currentDate.getMonth(),
-		1
-	);
+	const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
 	const formattedStartDate = startOfMonth.toISOString().split("T")[0];
-	const [startDate, setStartDate] = useState(formattedStartDate);
+	const [startDate, setStartDate] = useState(formattedStartDate);  
+	const [endDate, setEndDate] = useState(
+	  new Date().toISOString().split("T")[0]
+	);
 	const [selected, setSelected] = useState();
 	const [items, setItems] = useState();
-	const [endDate, setEndDate] = useState(
-		new Date().toISOString().split("T")[0]
-	);
 	useEffect(() => {
 		setItems(deliveryChallanList);
 	}, [deliveryChallanList]);
@@ -158,6 +154,28 @@ const handleSearch=(e)=>{
 		filteredData = filterDataByTime(deliveryChallanList, selected);
 		setItems(filteredData);
 	}, [selected]);
+
+
+	useEffect(() => {
+		const filteredData = deliveryChallanList.filter((item) => {
+			// Convert item.invoiceDate to Date object
+			const invoiceDate = new Date(item.invoiceDate);
+			console.log("this is invoiceDate", invoiceDate);
+			// Parse startDate and endDate to Date objects
+			const [startMonth, startDay, startYear] = startDate.split("/");
+			const [endMonth, endDay, endYear] = endDate.split("/");
+			const start = new Date(`${startMonth}/${startDay}/${startYear}`);
+			const end = new Date(`${endMonth}/${endDay}/${endYear}`);
+			// Compare dates
+			return invoiceDate >= start && invoiceDate <= end;
+		});
+		setItems(filteredData);
+		console.log("thuis is itemdate", items);
+	}, [startDate, endDate]);
+
+
+console.log("this is iteshbsh",items)
+
 	return isLoading ? (
 		<Loader3 text="Loading Delivery Challans" />
 	) : (

@@ -95,7 +95,8 @@ export default function SalesInvoice() {
 				startDate = new Date(currentYear, 0, 1);
 				endDate = new Date(currentYear, 11, 31);
 				break;
-			// Add more cases for other time intervals if needed
+			case "All":
+				return invoicesList
 			default:
 				// Custom interval handling
 				// Assuming timeInterval is in the format "YYYY-MM-DD"
@@ -116,14 +117,9 @@ export default function SalesInvoice() {
 			return itemDate >= startDate && itemDate <= endDate;
 		});
 	};
-
-	// Example usage:
-
 	useEffect(() => {
 		GetAllItems(dispatch);
 	}, [toggleItems]);
-	// ********************************************************************************8
-
 	const [selectedValue, setSelectedValue] = useState();
 
 	const loadingSingleInvoice = useSelector(
@@ -141,14 +137,10 @@ export default function SalesInvoice() {
 	);
 	const [confirmModel, setConfirmModel] = useState(true);
 	const [temp, setTemp] = useState("");
-	//   console.log(invoicesList);
-	//   This useEffect is written to get all items data to extract item names ********************************
-	useEffect(() => {
+		useEffect(() => {
 		GetAllItems(dispatch);
 	}, [toggleItems]);
-	// ********************************************************************************8
 
-	// Calculate Paid and Unpaid upon successfull getting data
 	useEffect(() => {
 		let paid = 0;
 		let unpaid = 0;
@@ -200,10 +192,6 @@ export default function SalesInvoice() {
 	useEffect(() => {
 		setItems(invoicesList);
 	}, [invoicesList]);
-
-	console.log("this is new item list", items);
-	console.log("this is new invoicesList", invoicesList);
-
 	// ***************************** Print ************************************
 	const handlePrint = useReactToPrint({
 		content: () => printComponentRef.current,
@@ -345,7 +333,7 @@ export default function SalesInvoice() {
 						onChange={handleSelectChange}
 						className={css.monthSelectTag}
 					>
-						<option value="All Sale Invoices">All Sale Invoices</option>
+						<option value="All">All Sale Invoices</option>
 						<option value="This Month">This Month</option>
 						<option value="Last Month">Last Month</option>
 						<option value="This Quarter">This Quarter</option>

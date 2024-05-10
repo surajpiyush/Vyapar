@@ -70,8 +70,67 @@ const PurchaseBill = () => {
    const [paidAmount, setPaidAmount] = useState(0);
    const [unpaidAmount, setUnpaidAmount] = useState(0);
 const[items,setItems]=useState()
-
+const[select,setSelect]=useState()
 useEffect(()=>{setItems(PurchaseBillData)},[PurchaseBillData])
+
+const handleSelect=(e)=>{
+   setSelect(e.target.value)
+}
+
+const filterDataByTime = (PurchaseBillData, timeInterval) => {
+   const currentDate = new Date();
+   const currentMonth = currentDate.getMonth();
+   const currentYear = currentDate.getFullYear();
+   let startDate, endDate;
+   switch (timeInterval) {
+     case "This Month":
+       startDate = new Date(currentYear, currentMonth, 1);
+       endDate = new Date(currentYear, currentMonth + 1, 0);
+       break;
+     case "Last Month":
+       startDate = new Date(currentYear, currentMonth - 1, 1);
+       endDate = new Date(currentYear, currentMonth, 0);
+       break;
+     case "This Quarter":
+        startDate = new Date(currentYear, Math.floor(currentMonth / 3) * 3, 1);
+         endDate = new Date(
+         currentYear,
+         Math.floor(currentMonth / 3) * 3 + 3,
+         0
+       );
+       break;
+     case "This Year":
+       startDate = new Date(currentYear, 0, 1);
+       endDate = new Date(currentYear, 11, 31);
+       break;
+     case "All":
+       return PurchaseBillData;
+     default:
+       // Custom interval handling
+       // Assuming timeInterval is in the format "YYYY-MM-DD"
+       startDate = new Date(timeInterval);
+       // Assuming you want to filter for the whole day
+       endDate = new Date(
+         startDate.getFullYear(),
+         startDate.getMonth(),
+         startDate.getDate(),
+         23,
+         59,
+         59
+       );
+       break;
+   }
+   return PurchaseBillData.filter((item) => {
+     const itemDate = new Date(item.billDate);
+     return itemDate >= startDate && itemDate <= endDate;
+   });
+ };
+
+
+ useEffect(()=>{
+   const data=filterDataByTime(PurchaseBillData,select)
+   setItems(data)
+ },[select])
 
 const handleSearch=(e)=>{
        const query=e.target.value
@@ -128,6 +187,28 @@ setItems(PurchaseBillData)
          )
       );
    };
+
+
+	useEffect(() => {
+		const filteredData = PurchaseBillData.filter((item) => {
+			// Convert item.invoiceDate to Date object
+			const invoiceDate = new Date(item.billDate);
+			console.log("this is invoiceDate", invoiceDate);
+			// Parse startDate and endDate to Date objects
+			const [startMonth, startDay, startYear] = startDate.split("/");
+			const [endMonth, endDay, endYear] = endDate.split("/");
+			const start = new Date(`${startMonth}/${startDay}/${startYear}`);
+			const end = new Date(`${endMonth}/${endDay}/${endYear}`);
+			// Compare dates
+			return invoiceDate >= start && invoiceDate <= end;
+		});
+		setItems(filteredData);
+		console.log("thuis is itemdate", items);
+	}, [startDate, endDate]);
+ 
+
+
+   
 
    return getAllPurchaseLoading ? (
       <Loader3 text="Loading Purchase Bill" />
@@ -198,17 +279,72 @@ setItems(PurchaseBillData)
          )}
 
          {/* Top Nav */}
-         <UpperControlPanel
-            startDate={startDate}
-            endDate={endDate}
-            setStartDate={setStartDate}
-            setEndDate={setEndDate}
-            showPaymentData={true}
-            showPrintOptions={false}
-            data={PurchaseBillData}
-            paidAmount={paidAmount}
-            unpaidAmount={unpaidAmount}
-         />
+         <div className={css.topNavOuter}>
+				<div className={css.navTopADiv}>
+					<select
+						defaultValue="All"
+						onChange={handleSelect}
+						style={{backgroundColor:"#BFBFBF",padding:"3px 3px",borderRadius:"5px"}}
+					>
+						<option value="All">All Payment</option>
+						<option value="This Month">This Month</option>
+						<option value="Last Month">Last Month</option>
+						<option value="This Quarter">This Quarter</option>
+						<option value="This Year">This Year</option>
+					</select>
+
+					<div className={css.divContainingDateInps}>
+						<h3>Between</h3>
+						<div>
+							<input
+								type="date"
+								value={startDate}
+								onChange={(e) => setStartDate(e.target.value)}
+							/>
+							<p>To</p>
+							<input
+								type="date"
+								value={endDate}
+								onChange={(e) => setEndDate(e.target.value)}
+							/>
+						</div>
+					</div>
+					<select defaultValue="ALL FIRMS" className={css.navFirmsSelectTag}>
+						<option value="ALL FIRMS">ALL FIRMS</option>
+					</select>
+				</div>
+				<div className={css.navTopBDiv}>
+					<div
+						className={css.navCalculatedDivs}
+						style={{ background: "var(--SemiTransparentMint)" }}
+					>
+						<h2>Paid</h2>
+						<h3>
+							₹{" "}
+							{(paidAmount - unpaidAmount < 0
+								? 0.0
+								: paidAmount - unpaidAmount
+							).toFixed(2)}
+						</h3>
+					</div>
+					<div className={css.mathmaticalSigns}>+</div>
+					<div
+						className={css.navCalculatedDivs}
+						style={{ background: "var(--blueC)" }}
+					>
+						<h2>Unpaid</h2>
+						<h3>₹ {unpaidAmount.toFixed(2)}</h3>
+					</div>
+					<div className={css.mathmaticalSigns}>=</div>
+					<div
+						className={css.navCalculatedDivs}
+						style={{ backgroundColor: "var(--GoldenBeige)" }}
+					>
+						<h2>Total</h2>
+						<h3>₹ {paidAmount.toFixed(2)}</h3>
+					</div>
+				</div>
+			</div>
 
          {/* Middle */}
          {PurchaseBillData?.length > 0 ? (

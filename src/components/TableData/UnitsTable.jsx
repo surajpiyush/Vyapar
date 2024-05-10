@@ -7,7 +7,7 @@ import {
   VerticalDotsIcon,
 } from "../../assets/Icons/ReactIcons";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 export default function UnitsTable({ showAddForm }) {
@@ -15,9 +15,29 @@ export default function UnitsTable({ showAddForm }) {
   const unitList = useSelector((store) => store.ItemReducer.unit);
   // Loading Get Selected Unit Data
   const loadingGetSelectedItemData = false;
-
+const[items,setItems]=useState()
   const [showUnitForm, setShowUnitForm] = useState(false);
   const [editUnitData, setEditUnitData] = useState({});
+useEffect(()=>{setItems(unitList)},[unitList])
+
+console.log("this si unitList",unitList)
+const handleSearch=(e)=>{
+  const query=e.target.value
+
+if(query===''){
+setItems(unitList)
+}else{
+  const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const regex = new RegExp(escapedQuery, "i");
+    const filteredInvoice = unitList.filter((item) =>
+      regex.test(item.unitName)
+    );
+    setItems(filteredInvoice);
+}
+
+
+}
+
 
   return (
     <div className={css.ContentOuter}>
@@ -32,25 +52,23 @@ export default function UnitsTable({ showAddForm }) {
 
       {/* Left Side Content */}
       <div className={css.partiesLeftSideDiv}>
-        <div className={css.addBtnDivOuter}>
-          <SearchIconBlackBg />
-          <button
-            onClick={() => {
-              showAddForm(true);
-            }}
-            className={css.addBtnCss}
-          >
-            + Add Unit
-          </button>
-        </div>
-
+      <div style={{backgroundColor:"#FB8C00", display:"flex", justifyContent:"center",borderRadius:"5px",padding:"5px 3px", color:"white"}}>
+  <button
+    onClick={() => {
+      showAddForm(true);
+    }}
+  >
+    + Add Unit
+  </button>
+</div>
+        <input type="text" onChange={handleSearch} placeholder="Search items..." style={{padding:"5px 5px", border:"none"}}  />
         {/* Left Side Parties Table */}
         <div className={css.leftSideTableCss}>
           <table>
             <thead>
-              <tr>
-                <th>
-                  <div>FULLNAME</div>
+              <tr >
+                <th style={{marginRight:"15px",paddingRight:"45px"}} >
+                  <div >FULLNAME</div>
                 </th>
                 <th>
                   <div>SHORTNAME</div>
@@ -59,7 +77,7 @@ export default function UnitsTable({ showAddForm }) {
             </thead>
 
             <tbody>
-              {unitList?.map((unitItem, index) => (
+              {items?.map((unitItem, index) => (
                 <tr
                   key={index + unitItem?._id}
                   onClick={() => {
