@@ -33,10 +33,19 @@ import { useDispatch, useSelector } from "react-redux";
 const Sale = () => {
    const toast = useToast();
    const dispatch = useDispatch();
+   const [items,setItems]=useState()
    let printComponentRef = useRef();
    const [openForm, setOpenForm] = useState(false);
    const [toggleSetting, setToggleSetting] = useState(false);
-   const [startDate, setStartDate] = useState("2024-02-01");
+   const [select,setSelect]=useState()
+   const currentDate = new Date();
+   const startOfMonth = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      1
+   );
+   const formattedStartDate = startOfMonth.toISOString().split("T")[0];
+   const [startDate, setStartDate] = useState(formattedStartDate);
    const [endDate, setEndDate] = useState(
       new Date().toISOString().split("T")[0]
    );
@@ -52,6 +61,9 @@ const Sale = () => {
    const saleReport = useSelector(
       (store) => store.ReportReducer.saleReportData
    );
+   useEffect(()=>{setItems(saleReport)},[saleReport])
+console.log("this is sale reports",saleReport)
+
    const toggleGetSaleReportSuccess = useSelector(
       (store) => store.ReportReducer.toggleGetSaleReportSuccess
    );
@@ -65,6 +77,62 @@ const Sale = () => {
       (store) => store.SalesReducer.SingleInvoiceData
    );
    const [confirmModel, setConfirmModel] = useState(true);
+
+
+   const filterDataByTime = (saleReport, timeInterval) => {
+      const currentDate = new Date();
+      const currentMonth = currentDate.getMonth();
+      const currentYear = currentDate.getFullYear();
+      let startDate, endDate;
+      switch (timeInterval) {
+        case "This Month":
+          startDate = new Date(currentYear, currentMonth, 1);
+          endDate = new Date(currentYear, currentMonth + 1, 0);
+          break;
+        case "Last Month":
+          startDate = new Date(currentYear, currentMonth - 1, 1);
+          endDate = new Date(currentYear, currentMonth, 0);
+          break;
+        case "This Quarter":
+           startDate = new Date(currentYear, Math.floor(currentMonth / 3) * 3, 1);
+            endDate = new Date(
+            currentYear,
+            Math.floor(currentMonth / 3) * 3 + 3,
+            0
+          );
+          break;
+        case "This Year":
+          startDate = new Date(currentYear, 0, 1);
+          endDate = new Date(currentYear, 11, 31);
+          break;
+        case "All":
+          return saleReport;
+        default:
+           startDate = new Date(timeInterval);
+           endDate = new Date(
+            startDate.getFullYear(),
+            startDate.getMonth(),
+            startDate.getDate(),
+            23,
+            59,
+            59
+          );
+          break;
+      }
+      return saleReport.filter((item) => {
+        const itemDate = new Date(item.invoiceDate);
+        return itemDate >= startDate && itemDate <= endDate;
+      });
+    };
+
+
+useEffect(()=>{
+
+   const data=filterDataByTime(saleReport,select)
+    setItems(data)
+},[select])
+
+
 
    //   This useEffect is written to get all items data to extract item names ********************************
    useEffect(() => {
@@ -243,6 +311,12 @@ const Sale = () => {
       XLSX.writeFile(workbook, formattedFileName);
    };
 
+
+const handleSelect=(e)=>{
+   setSelect(e.target.value)
+}
+
+
    // ***************************** Print ************************************
    const handlePrint = useReactToPrint({
       content: () => printComponentRef.current,
@@ -269,6 +343,30 @@ const Sale = () => {
       }
    }, [toggleSingleInvoiceSuccess]);
    // *********************************************************************************
+
+
+	useEffect(() => {
+		const filteredData = saleReport.filter((item) => {
+			// Convert item.invoiceDate to Date object
+			const invoiceDate = new Date(item.invoiceDate);
+			console.log("this is invoiceDate", invoiceDate);
+			// Parse startDate and endDate to Date objects
+			const [startMonth, startDay, startYear] = startDate.split("/");
+			const [endMonth, endDay, endYear] = endDate.split("/");
+			const start = new Date(`${startMonth}/${startDay}/${startYear}`);
+			const end = new Date(`${endMonth}/${endDay}/${endYear}`);
+			// Compare dates
+			return invoiceDate >= start && invoiceDate <= end;
+		});
+		setItems(filteredData);
+		console.log("thuis is itemdate", items);
+	}, [startDate, endDate]);
+ 
+
+
+
+
+
 
    return LoadingGetSaleReport ? (
       <Loader3 text="Loading Sale Report" />
@@ -334,19 +432,72 @@ const Sale = () => {
          )}
 
          {/* Top Nav */}
-         <UpperControlPanel
-            startDate={startDate}
-            endDate={endDate}
-            setStartDate={setStartDate}
-            setEndDate={setEndDate}
-            showPaymentData={true}
-            showPrintOptions={true}
-            data={saleReport}
-            paidAmount={paidAmount}
-            unpaidAmount={unpaidAmount}
-            fileName={"Sale_Report"}
-            excelDownload={excelDownload}
-         />
+         <div className={css.topNavOuter}>
+				<div className={css.navTopADiv}>
+					<select
+						defaultValue="All"
+						onChange={handleSelect}
+						style={{backgroundColor:"#BFBFBF",padding:"3px 3px",borderRadius:"5px"}}
+					>
+						<option value="All">All Reports</option>
+						<option value="This Month">This Month</option>
+						<option value="Last Month">Last Month</option>
+						<option value="This Quarter">This Quarter</option>
+						<option value="This Year">This Year</option>
+					</select>
+
+					<div className={css.divContainingDateInps}>
+						<h3>Between</h3>
+						<div>
+							<input
+								type="date"
+								value={startDate}
+								onChange={(e) => setStartDate(e.target.value)}
+							/>
+							<p>To</p>
+							<input
+								type="date"
+								value={endDate}
+								onChange={(e) => setEndDate(e.target.value)}
+							/>
+						</div>
+					</div>
+					<select defaultValue="ALL FIRMS" className={css.navFirmsSelectTag}>
+						<option value="ALL FIRMS">ALL FIRMS</option>
+					</select>
+				</div>
+				<div className={css.navTopBDiv}>
+					<div
+						className={css.navCalculatedDivs}
+						style={{ background: "var(--SemiTransparentMint)" }}
+					>
+						<h2>Paid</h2>
+						<h3>
+							₹{" "}
+							{(paidAmount - unpaidAmount < 0
+								? 0.0
+								: paidAmount - unpaidAmount
+							).toFixed(2)}
+						</h3>
+					</div>
+					<div className={css.mathmaticalSigns}>+</div>
+					<div
+						className={css.navCalculatedDivs}
+						style={{ background: "var(--blueC)" }}
+					>
+						<h2>Unpaid</h2>
+						<h3>₹ {unpaidAmount.toFixed(2)}</h3>
+					</div>
+					<div className={css.mathmaticalSigns}>=</div>
+					<div
+						className={css.navCalculatedDivs}
+						style={{ backgroundColor: "var(--GoldenBeige)" }}
+					>
+						<h2>Total</h2>
+						<h3>₹ {paidAmount.toFixed(2)}</h3>
+					</div>
+				</div>
+			</div>
 
          {/* Middle */}
          <div className={css.ContentOuter}>
@@ -396,7 +547,7 @@ const Sale = () => {
 
                   {!LoadingGetSaleReport && saleReport?.length > 0 && (
                      <tbody>
-                        {saleReport?.map((item, ind) => (
+                        {items?.map((item, ind) => (
                            <tr key={ind + item?._id}>
                               <td>
                                  <div>{ind + 1}</div>
