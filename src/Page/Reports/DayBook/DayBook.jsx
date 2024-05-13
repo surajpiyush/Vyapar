@@ -31,6 +31,9 @@ import { useToast } from "@chakra-ui/react";
 import { useReactToPrint } from "react-to-print";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import JSONDownloadButton from "../../../components/json/DownloadJsonFormate";
+import ExcelDownloadButton from "../../../components/excel/DownloadExcel";
+import PDFDownloadButton from "../../../components/pdf/DownloadPdf";
 
 const DayBook = () => {
    const toast = useToast();
@@ -38,12 +41,25 @@ const DayBook = () => {
    let printComponentRef = useRef();
    const [openForm, setOpenForm] = useState(false);
    const [toggleSetting, setToggleSetting] = useState(false);
+	const [items, setItems] = useState();
 
+   const [paidAmount, setPaidAmount] = useState(0);
+   const [unpaidAmount, setUnpaidAmount] = useState(0);
+
+   const [select, setSelect] = useState();
+	const currentDate = new Date();
+	const startOfMonth = new Date(
+		currentDate.getFullYear(),
+		currentDate.getMonth(),
+		1
+	);
+	
+   const formattedStartDate = startOfMonth.toISOString().split("T")[0];
+	const [startDate, setStartDate] = useState(formattedStartDate);
    const [endDate, setEndDate] = useState(
       new Date().toISOString().split("T")[0]
    );
-   const [paidAmount, setPaidAmount] = useState(0);
-   const [unpaidAmount, setUnpaidAmount] = useState(0);
+
    const toggleAddPurchaseBill = useSelector(
       (store) => store.PurchaseReducer.toggleAddPurchaseBill
    );
@@ -67,7 +83,9 @@ const DayBook = () => {
       (store) => store.SalesReducer.SingleInvoiceData
    );
    const [dayBooksData, setDayBooksData] = useState([]);
-
+   useEffect(() => {
+		setItems(dayBooksData);
+	}, [dayBooksData]);
    useEffect(() => {
       const extractedData = dayBookDataReducer?.flatMap((data) => [
          ...(Array.isArray(data?.PuchaseBill[0]?.PuchaseBill)
@@ -112,6 +130,66 @@ const DayBook = () => {
    useEffect(() => {
       GetDayBooks(dispatch, endDate);
    }, [endDate]);
+
+
+
+	const filterDataByTime = (dayBooksData, timeInterval) => {
+		const currentDate = new Date();
+		const currentMonth = currentDate.getMonth();
+		const currentYear = currentDate.getFullYear();
+		let startDate, endDate;
+		switch (timeInterval) {
+			case "This Month":
+				startDate = new Date(currentYear, currentMonth, 1);
+				endDate = new Date(currentYear, currentMonth + 1, 0);
+				break;
+			case "Last Month":
+				startDate = new Date(currentYear, currentMonth - 1, 1);
+				endDate = new Date(currentYear, currentMonth, 0);
+				break;
+			case "This Quarter":
+				startDate = new Date(currentYear, Math.floor(currentMonth / 3) * 3, 1);
+				endDate = new Date(
+					currentYear,
+					Math.floor(currentMonth / 3) * 3 + 3,
+					0
+				);
+				break;
+			case "This Year":
+				startDate = new Date(currentYear, 0, 1);
+				endDate = new Date(currentYear, 11, 31);
+				break;
+			case "All":
+				return dayBooksData;
+			default:
+				startDate = new Date(timeInterval);
+				endDate = new Date(
+					startDate.getFullYear(),
+					startDate.getMonth(),
+					startDate.getDate(),
+					23,
+					59,
+					59
+				);
+				break;
+		}
+		return dayBooksData.filter((item) => {
+			const itemDate = new Date(item.invoiceDate);
+			return itemDate >= startDate && itemDate <= endDate;
+		});
+	};
+
+	useEffect(() => {
+		const data = filterDataByTime(dayBooksData, select);
+		setItems(data);
+	}, [select]);
+
+
+
+
+
+
+
 
    const formOpen = () => {
       setOpenForm(true);
@@ -253,6 +331,40 @@ const DayBook = () => {
       XLSX.utils.book_append_sheet(workbook, worksheet2, "Item Details");
       XLSX.writeFile(workbook, formattedFileName);
    };
+	useEffect(() => {
+		const filteredData = dayBooksData.filter((item) => {
+			// Convert item.invoiceDate to Date object
+			const invoiceDate = new Date(item.invoiceDate);
+			console.log("this is invoiceDate", invoiceDate);
+			// Parse startDate and endDate to Date objects
+			const [startMonth, startDay, startYear] = startDate.split("/");
+			const [endMonth, endDay, endYear] = endDate.split("/");
+			const start = new Date(`${startMonth}/${startDay}/${startYear}`);
+			const end = new Date(`${endMonth}/${endDay}/${endYear}`);
+			// Compare dates
+			return invoiceDate >= start && invoiceDate <= end;
+		});
+		setItems(filteredData);
+		console.log("thuis is itemdate", items);
+	}, [startDate, endDate]);
+
+   const handleSearch = (e) => {
+		const query = e.target.value;
+		if (query === "") {
+			setItems(dayBooksData);
+		} else {
+			const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+			const regex = new RegExp(escapedQuery, "i");
+			const filteredInvoice = dayBooksData.filter((item) =>
+				regex.test(item.name)
+			);
+			setItems(filteredInvoice);
+		}
+	};
+
+const handleSelect=(e)=>{
+   setSelect(e.target.value)
+}
 
    // ***************************** Print ************************************
    const handlePrint = useReactToPrint({
@@ -282,7 +394,14 @@ const DayBook = () => {
    // *********************************************************************************
 
    console.log(dayBooksData);
-
+   const relevantFields = [
+		"invoiceNumber",
+		"partyName",
+		"invoiceDate",
+		"amount",
+		"balanceDue",
+		"status",
+	];
    return LoadingGetDayBooks ? (
       <Loader3 text="Loading Day books" />
    ) : (
@@ -311,17 +430,110 @@ const DayBook = () => {
          )}
 
          {/* Top Nav */}
-         <UpperControlPanel
-            startDate={endDate}
-            endDate={endDate}
-            setStartDate={setEndDate}
-            setEndDate={setEndDate}
-            showPaymentData={false}
-            showPrintOptions={true}
-            data={dayBooksData}
-            fileName={"Day_Book_Report"}
-            excelDownload={excelDownload}
-         />
+         <div className={css.topNavOuter}>
+				<div className={css.navTopADiv}>
+					<select
+						defaultValue="All"
+						onChange={handleSelect}
+						style={{
+							backgroundColor: "#BFBFBF",
+							padding: "3px 3px",
+							borderRadius: "5px",
+						}}
+					>
+						<option value="All">All Reports</option>
+						<option value="This Month">This Month</option>
+						<option value="Last Month">Last Month</option>
+						<option value="This Quarter">This Quarter</option>
+						<option value="This Year">This Year</option>
+					</select>
+
+					<div className={css.divContainingDateInps}>
+						<h3>Between</h3>
+						<div>
+							<input
+								type="date"
+								value={startDate}
+								onChange={(e) => setStartDate(e.target.value)}
+							/>
+							<p>To</p>
+							<input
+								type="date"
+								value={endDate}
+								onChange={(e) => setEndDate(e.target.value)}
+							/>
+						</div>
+					</div>
+					<select defaultValue="ALL FIRMS" className={css.navFirmsSelectTag}>
+						<option value="ALL FIRMS">ALL FIRMS</option>
+					</select>
+					<div
+						style={{
+							display: "flex",
+							justifyContent: "space-around",
+							marginLeft: "250px",
+						}}
+					>
+						 <div style={{ marginRight: "30px" }}><JSONDownloadButton data={items} /><p style={{ fontSize: "10px", fontWeight: "bold" }}>
+								Json
+							</p></div>
+						<div style={{ marginRight: "10px" }}>
+							<ExcelDownloadButton data={items} />
+							<p style={{ fontSize: "10px", fontWeight: "bold" }}>
+								Excel Reports
+							</p>
+						</div>
+						<div style={{ marginLeft: "10px" }}>
+							<PDFDownloadButton
+								data={items}
+								fields={relevantFields}
+								title={"Sale Report"}
+								totalText="Total Purchanse"
+							/>
+							<p
+								style={{
+									fontSize: "10px",
+									fontWeight: "bold",
+									marginRight: "40px",
+								}}
+							>
+								Print
+							</p>
+						</div>
+					</div>
+				</div>
+				<div className={css.navTopBDiv}>
+					<div
+						className={css.navCalculatedDivs}
+						style={{ background: "var(--SemiTransparentMint)" }}
+					>
+						<h2>Paid</h2>
+						<h3>
+							₹{" "}
+							{(paidAmount - unpaidAmount < 0
+								? 0.0
+								: paidAmount - unpaidAmount
+							).toFixed(2)}
+						</h3>
+					</div>
+					<div className={css.mathmaticalSigns}>+</div>
+					<div
+						className={css.navCalculatedDivs}
+						style={{ background: "var(--blueC)" }}
+					>
+						<h2>Unpaid</h2>
+						<h3>₹ {unpaidAmount.toFixed(2)}</h3>
+					</div>
+					<div className={css.mathmaticalSigns}>=</div>
+					<div
+						className={css.navCalculatedDivs}
+						style={{ backgroundColor: "var(--GoldenBeige)" }}
+					>
+						<h2>Total</h2>
+						<h3>₹ {paidAmount.toFixed(2)}</h3>
+					</div>
+				</div>
+			</div>
 
          {/* Middle */}
          <div className={css.ContentOuter}>
@@ -331,7 +543,7 @@ const DayBook = () => {
                   <div className={css.saleOrderSearchDiv}>
                      <SearchIcon />
                      <div>
-                        <input type="text" />
+                        <input type="text" placeholder="Search.." onChange={handleSearch} />
                      </div>
                   </div>
                </div>
@@ -369,7 +581,7 @@ const DayBook = () => {
 
                   {!LoadingGetDayBooks && dayBooksData?.length > 0 && (
                      <tbody>
-                        {dayBooksData?.map((item, ind) => (
+                        {items?.map((item, ind) => (
                            <tr key={ind + item?._id}>
                               <td>
                                  <div>{item?.name}</div>
