@@ -456,11 +456,11 @@ const GSTR2 = () => {
 					}}
 				>
 					<div style={{ marginRight: "30px" }}>
-						<JSONDownloadButton data={items} />
+						<JSONDownloadButton data={purchaseReportData} />
 						<p style={{ fontSize: "10px", fontWeight: "bold" }}>Json</p>
 					</div>
 					<div style={{ marginRight: "10px" }}>
-						<ExcelDownloadButton data={items} />
+						<ExcelDownloadButton data={purchaseReportData} />
 						<p style={{ fontSize: "10px", fontWeight: "bold" }}>
 							Excel Reports
 						</p>
