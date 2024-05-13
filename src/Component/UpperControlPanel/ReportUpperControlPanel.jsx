@@ -11,6 +11,7 @@ import {
    JsonIconOutline,
    PrintIconOutline,
 } from "../../assets/Icons/ReactIcons";
+import ExcelDownloadButton from "../../components/excel/DownloadExcel";
 
 const ReportUpperControlPanel = ({
    title = "Please Provide title",
@@ -150,11 +151,7 @@ console.log(data)
                      onClick={DownloadExcelReport}
                      className={css.excelIconDiv}
                   >
-                     {printClickStates?.excelLoading ? (
-                        <BasicSpinnerIcon />
-                     ) : (
-                        <ExcelIconOutline />
-                     )}
+                    <ExcelDownloadButton/>
                   </div>
                </Tooltip>
                <Tooltip label="Print">
