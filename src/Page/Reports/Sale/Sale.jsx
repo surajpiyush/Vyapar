@@ -125,6 +125,21 @@ console.log("this is sale reports",saleReport)
       });
     };
 
+    const handleSearch=(e)=>{
+      const query=e.target.value
+  if(query===''){
+setItems(saleReport)
+  }else{
+     const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        const regex = new RegExp(escapedQuery, "i");
+        const filteredInvoice = saleReport.filter((item) =>
+           regex.test(item.partyName)
+        );
+        setItems(filteredInvoice);
+  }
+     }
+
+
 
 useEffect(()=>{
 
@@ -507,7 +522,7 @@ const handleSelect=(e)=>{
                   <div className={css.saleOrderSearchDiv}>
                      <SearchIcon />
                      <div>
-                        <input type="text" />
+                        <input type="text" onChange={handleSearch} placeholder="Search..." />
                      </div>
                   </div>
                </div>

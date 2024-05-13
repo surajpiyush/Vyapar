@@ -35,6 +35,8 @@ import { useDispatch, useSelector } from "react-redux";
 const Purchase = () => {
    const toast = useToast();
    const dispatch = useDispatch();
+   const [items,setItems]=useState()
+   const[select,setSelect]=useState()
    let printComponentRef = useRef();
    const [openForm, setOpenForm] = useState(false);
    const [toggleSetting, setToggleSetting] = useState(false);
@@ -66,7 +68,9 @@ const Purchase = () => {
    const SingleInvoiceData = useSelector(
       (store) => store.SalesReducer.SingleInvoiceData
    );
-
+useEffect(()=>{
+   setItems(purchaseReportData)
+},[purchaseReportData])
    //   This useEffect is written to get all items data to extract item names ********************************
    useEffect(() => {
       GetAllItems(dispatch);
@@ -97,6 +101,78 @@ const Purchase = () => {
    const formOpen = () => {
       setOpenForm(true);
    };
+
+   const handleSelect=(e)=>{
+       setSelect(e.target.value)
+   }
+
+   const handleSearch=(e)=>{
+      const query=e.target.value
+  if(query===''){
+setItems(purchaseReportData)
+  }else{
+     const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        const regex = new RegExp(escapedQuery, "i");
+        const filteredInvoice = purchaseReportData.filter((item) =>
+           regex.test(item.partyName)
+        );
+        setItems(filteredInvoice);
+  }
+     }
+
+     const filterDataByTime = (purchaseReportData, timeInterval) => {
+      const currentDate = new Date();
+      const currentMonth = currentDate.getMonth();
+      const currentYear = currentDate.getFullYear();
+      let startDate, endDate;
+      switch (timeInterval) {
+        case "This Month":
+          startDate = new Date(currentYear, currentMonth, 1);
+          endDate = new Date(currentYear, currentMonth + 1, 0);
+          break;
+        case "Last Month":
+          startDate = new Date(currentYear, currentMonth - 1, 1);
+          endDate = new Date(currentYear, currentMonth, 0);
+          break;
+        case "This Quarter":
+           startDate = new Date(currentYear, Math.floor(currentMonth / 3) * 3, 1);
+            endDate = new Date(
+            currentYear,
+            Math.floor(currentMonth / 3) * 3 + 3,
+            0
+          );
+          break;
+        case "This Year":
+          startDate = new Date(currentYear, 0, 1);
+          endDate = new Date(currentYear, 11, 31);
+          break;
+        case "All":
+          return purchaseReportData;
+        default:
+           startDate = new Date(timeInterval);
+           endDate = new Date(
+            startDate.getFullYear(),
+            startDate.getMonth(),
+            startDate.getDate(),
+            23,
+            59,
+            59
+          );
+          break;
+      }
+      return purchaseReportData.filter((item) => {
+        const itemDate = new Date(item.invoiceDate);
+        return itemDate >= startDate && itemDate <= endDate;
+      });
+    };
+
+
+
+     useEffect(()=>{
+
+      const data=filterDataByTime(purchaseReportData,select)
+       setItems(data)
+   },[select])
 
    // ***************** Download Excel For ********************************
    const excelDownload = async () => {
@@ -277,6 +353,26 @@ const Purchase = () => {
    }, [toggleSingleInvoiceSuccess]);
    // *********************************************************************************
 
+
+   useEffect(() => {
+		const filteredData = purchaseReportData.filter((item) => {
+			// Convert item.invoiceDate to Date object
+			const invoiceDate = new Date(item.invoiceDate);
+			console.log("this is invoiceDate", invoiceDate);
+			// Parse startDate and endDate to Date objects
+			const [startMonth, startDay, startYear] = startDate.split("/");
+			const [endMonth, endDay, endYear] = endDate.split("/");
+			const start = new Date(`${startMonth}/${startDay}/${startYear}`);
+			const end = new Date(`${endMonth}/${endDay}/${endYear}`);
+			// Compare dates
+			return invoiceDate >= start && invoiceDate <= end;
+		});
+		setItems(filteredData);
+		console.log("thuis is itemdate", items);
+	}, [startDate, endDate]);
+ 
+
+
    return LoadingGetPurchaseReport ? (
       <Loader3 text="Loading Sale Report" />
    ) : (
@@ -338,19 +434,73 @@ const Purchase = () => {
          )}
 
          {/* Top Nav */}
-         <UpperControlPanel
-            startDate={startDate}
-            endDate={endDate}
-            setStartDate={setStartDate}
-            setEndDate={setEndDate}
-            showPaymentData={true}
-            showPrintOptions={true}
-            data={purchaseReportData}
-            paidAmount={paidAmount}
-            unpaidAmount={unpaidAmount}
-            fileName={"Purchase_Report"}
-            excelDownload={excelDownload}
-         />
+         <div className={css.topNavOuter}>
+				<div className={css.navTopADiv}>
+					<select
+						defaultValue="All"
+						onChange={handleSelect}
+						style={{backgroundColor:"#BFBFBF",padding:"3px 3px",borderRadius:"5px"}}
+					>
+						<option value="All">All Reports</option>
+						<option value="This Month">This Month</option>
+						<option value="Last Month">Last Month</option>
+						<option value="This Quarter">This Quarter</option>
+						<option value="This Year">This Year</option>
+					</select>
+
+					<div className={css.divContainingDateInps}>
+						<h3>Between</h3>
+						<div>
+							<input
+								type="date"
+								value={startDate}
+								onChange={(e) => setStartDate(e.target.value)}
+							/>
+							<p>To</p>
+							<input
+								type="date"
+								value={endDate}
+								onChange={(e) => setEndDate(e.target.value)}
+							/>
+						</div>
+					</div>
+					<select defaultValue="ALL FIRMS" className={css.navFirmsSelectTag}>
+						<option value="ALL FIRMS">ALL FIRMS</option>
+					</select>
+				</div>
+				<div className={css.navTopBDiv}>
+					<div
+						className={css.navCalculatedDivs}
+						style={{ background: "var(--SemiTransparentMint)" }}
+					>
+						<h2>Paid</h2>
+						<h3>
+							₹{" "}
+							{(paidAmount - unpaidAmount < 0
+								? 0.0
+								: paidAmount - unpaidAmount
+							).toFixed(2)}
+						</h3>
+					</div>
+					<div className={css.mathmaticalSigns}>+</div>
+					<div
+						className={css.navCalculatedDivs}
+						style={{ background: "var(--blueC)" }}
+					>
+						<h2>Unpaid</h2>
+						<h3>₹ {unpaidAmount.toFixed(2)}</h3>
+					</div>
+					<div className={css.mathmaticalSigns}>=</div>
+					<div
+						className={css.navCalculatedDivs}
+						style={{ backgroundColor: "var(--GoldenBeige)" }}
+					>
+						<h2>Total</h2>
+						<h3>₹ {paidAmount.toFixed(2)}</h3>
+					</div>
+				</div>
+			</div>
+
 
          {/* Middle */}
          <div className={css.ContentOuter}>
@@ -360,7 +510,7 @@ const Purchase = () => {
                   <div className={css.saleOrderSearchDiv}>
                      <SearchIcon />
                      <div>
-                        <input type="text" />
+                        <input type="text" onChange={handleSearch} placeholder="Search..."/>
                      </div>
                   </div>
                </div>
@@ -399,7 +549,7 @@ const Purchase = () => {
                   {!LoadingGetPurchaseReport &&
                      purchaseReportData?.length > 0 && (
                         <tbody>
-                           {purchaseReportData?.map((item, ind) => (
+                           {items?.map((item, ind) => (
                               <tr key={ind + item?._id}>
                                  <td>
                                     <div>{FormatDate(item?.invoiceDate)}</div>
