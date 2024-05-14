@@ -257,6 +257,20 @@ console.log("this si items",item)
 			setItems(filteredInvoice);
 		}
 	};
+
+
+
+	useEffect(() => {
+		let paid = 0;
+		let unpaid = 0;
+		items?.forEach((item) => {
+			paid += item?.moneyIn || 0;
+			unpaid += item?.balanceDue || 0;
+		});
+		setPaidAmount(paid);
+		setUnpaidAmount(unpaid);
+	}, [toggleSingleInvoiceSuccess]);
+
 	return LoadingGetAllTransactions ? (
 		<Loader3 text="Loading All Transactions" />
 	) : (

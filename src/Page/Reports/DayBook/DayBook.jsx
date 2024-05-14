@@ -63,6 +63,7 @@ const DayBook = () => {
    const toggleAddPurchaseBill = useSelector(
       (store) => store.PurchaseReducer.toggleAddPurchaseBill
    );
+   
    const LoadingGetDayBooks = useSelector(
       (store) => store.ReportReducer.isLoading
    );
@@ -72,6 +73,9 @@ const DayBook = () => {
    const toggleGetDayBooksSuccess = useSelector(
       (store) => store.ReportReducer.toggleGetDayBooksSuccess
    );
+
+  
+
    const toggleItems = useSelector((store) => store.ItemReducer.toggleItems);
    const loadingSingleInvoice = useSelector(
       (store) => store.SalesReducer.loadingSingleInvoice
@@ -402,6 +406,19 @@ const handleSelect=(e)=>{
 		"balanceDue",
 		"status",
 	];
+
+
+   useEffect(() => {
+		let paid = 0;
+		let unpaid = 0;
+		items?.forEach((item) => {
+			paid += item?.moneyIn || 0;
+			unpaid += item?.balanceDue || 0;
+		});
+		setPaidAmount(paid);
+		setUnpaidAmount(unpaid);
+	}, [toggleGetDayBooksSuccess]);
+
    return LoadingGetDayBooks ? (
       <Loader3 text="Loading Day books" />
    ) : (

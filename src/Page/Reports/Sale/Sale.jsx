@@ -145,7 +145,9 @@ const Sale = () => {
 		let paid = 0;
 		let unpaid = 0;
 		saleReport?.forEach((item) => {
-			paid += item?.amount - item?.balanceDue || 0;
+			// paid += item?.amount - item?.balanceDue || 0;
+			// unpaid += item?.balanceDue || 0;
+			paid += item?.amount || 0;
 			unpaid += item?.balanceDue || 0;
 		});
 		setPaidAmount(paid);
@@ -366,6 +368,21 @@ const Sale = () => {
 		"status",
 	];
 
+const handleSearch=(e)=>{
+	const query=e.target.value
+	if(query===''){
+		setItems(saleReport)
+	}else{
+		const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const regex = new RegExp(escapedQuery, "i");
+    const filteredInvoice = saleReport.filter((item) =>
+      regex.test(item.partyName)
+    );
+    setItems(filteredInvoice);
+	}
+}
+
+
 	return LoadingGetSaleReport ? (
 		<Loader3 text="Loading Sale Report" />
 	) : (
@@ -541,7 +558,7 @@ const Sale = () => {
 						<div className={css.saleOrderSearchDiv}>
 							<SearchIcon />
 							<div>
-								<input type="text" />
+								<input type="text" placeholder="Search..." onChange={handleSearch} />
 							</div>
 						</div>
 					</div>

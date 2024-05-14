@@ -134,7 +134,22 @@ const filterDataByTime = (data, timeInterval) => {
 		const sdata = filterDataByTime(data, select);
 		setItems(sdata);
 	}, [select]);
-
+	useEffect(() => {
+		const filteredData = data.filter((item) => {
+			// Convert item.invoiceDate to Date object
+			const invoiceDate = new Date(item.invoiceDate);
+			console.log("this is invoiceDate", invoiceDate);
+			// Parse startDate and endDate to Date objects
+			const [startMonth, startDay, startYear] = startDate.split("/");
+			const [endMonth, endDay, endYear] = endDate.split("/");
+			const start = new Date(`${startMonth}/${startDay}/${startYear}`);
+			const end = new Date(`${endMonth}/${endDay}/${endYear}`);
+			// Compare dates
+			return invoiceDate >= start && invoiceDate <= end;
+		});
+		setItems(filteredData);
+		console.log("thuis is itemdate", items);
+	}, [startDate, endDate]);
 
 	const relevantFields = [
 		"amount",
@@ -150,115 +165,109 @@ const filterDataByTime = (data, timeInterval) => {
 	) : (
 		<div className={css.Outer}>
 			{/* Top Nav */}
-			<div style={{ display: "flex", flexDirection: "row" }}>
-				<select
-					defaultValue="All"
-					onChange={handleSelect}
-					style={{
-						backgroundColor: "#BFBFBF",
-						height: "40px",
-						borderRadius: "5px",
-						marginTop: "15px",
-					}}
-				>
-					<option value="All">All Reports</option>
-					<option value="This Month">This Month</option>
-					<option value="Last Month">Last Month</option>
-					<option value="This Quarter">This Quarter</option>
-					<option value="This Year">This Year</option>
-				</select>
-
-				<div
-					style={{
-						display: "flex",
-						flexDirection: "row",
-						justifyContent: "space-around",
-					}}
-				>
-					<div
+			<div className={css.topNavOuter}>
+				<div className={css.navTopADiv}>
+					<select
+						defaultValue="All"
+						onChange={handleSelect}
 						style={{
-							display: "flex",
-							flexDirection: "row",
-							justifyContent: "space-around",
+							backgroundColor: "#BFBFBF",
+							padding: "3px 3px",
+							borderRadius: "5px",
 						}}
 					>
-						<label
-							style={{
-								display: "flex",
-								backgroundColor: "#c4c2b9",
-								borderRadius: "5px",
-								margin: "10px 10px",
-							}}
-						>
-							<div
-								style={{
-									paddingTop: "15px",
-									paddingLeft: "10px",
-									paddingRight: "10px",
-									borderRadius: "5px",
-								}}
-							>
-								Between
-							</div>{" "}
+						<option value="All">All Reports</option>
+						<option value="This Month">This Month</option>
+						<option value="Last Month">Last Month</option>
+						<option value="This Quarter">This Quarter</option>
+						<option value="This Year">This Year</option>
+					</select>
+
+					<div className={css.divContainingDateInps}>
+						<h3>Between</h3>
+						<div>
 							<input
 								type="date"
 								value={startDate}
 								onChange={(e) => setStartDate(e.target.value)}
 							/>
-							<p
-								style={{
-									paddingTop: "15px",
-									paddingLeft: "15px",
-									paddingRight: "15px",
-									borderRadius: "5px",
-								}}
-							>
-								To
-							</p>{" "}
+							<p>To</p>
 							<input
 								type="date"
 								value={endDate}
 								onChange={(e) => setEndDate(e.target.value)}
 							/>
-						</label>
+						</div>
+					</div>
+					<select defaultValue="ALL FIRMS" className={css.navFirmsSelectTag}>
+						<option value="ALL FIRMS">ALL FIRMS</option>
+					</select>
+					<div
+						style={{
+							display: "flex",
+							justifyContent: "space-around",
+							marginLeft: "250px",
+						}}
+					>
+						 <div style={{ marginRight: "30px" }}><JSONDownloadButton data={items} /><p style={{ fontSize: "10px", fontWeight: "bold" }}>
+								Json
+							</p></div>
+						<div style={{ marginRight: "10px" }}>
+							<ExcelDownloadButton data={items} />
+							<p style={{ fontSize: "10px", fontWeight: "bold" }}>
+								Excel Reports
+							</p>
+						</div>
+						<div style={{ marginLeft: "10px" }}>
+							<PDFDownloadButton
+								data={items}
+								fields={relevantFields}
+								title={"Sale Report"}
+								totalText="Total Purchanse"
+							/>
+							<p
+								style={{
+									fontSize: "10px",
+									fontWeight: "bold",
+									marginRight: "40px",
+								}}
+							>
+								Print
+							</p>
+						</div>
 					</div>
 				</div>
-				<div
-					style={{
-						display: "flex",
-						justifyContent: "space-around",
-						marginLeft: "250px",
-					}}
-				>
-					<div style={{ marginRight: "30px" }}>
-						<JSONDownloadButton data={items} />
-						<p style={{ fontSize: "10px", fontWeight: "bold" }}>Json</p>
+				{/* <div className={css.navTopBDiv}>
+					<div
+						className={css.navCalculatedDivs}
+						style={{ background: "var(--SemiTransparentMint)" }}
+					>
+						<h2>Paid</h2>
+						<h3>
+							₹{" "}
+							{(paidAmount - unpaidAmount < 0
+								? 0.0
+								: paidAmount - unpaidAmount
+							).toFixed(2)}
+						</h3>
 					</div>
-					<div style={{ marginRight: "10px" }}>
-						<ExcelDownloadButton data={items} />
-						<p style={{ fontSize: "10px", fontWeight: "bold" }}>
-							Excel Reports
-						</p>
+					<div className={css.mathmaticalSigns}>+</div>
+					<div
+						className={css.navCalculatedDivs}
+						style={{ background: "var(--blueC)" }}
+					>
+						<h2>Unpaid</h2>
+						<h3>₹ {unpaidAmount.toFixed(2)}</h3>
 					</div>
-
-					<div style={{ marginLeft: "10px" }}>
-						<PDFDownloadButton
-							data={items}
-							fields={relevantFields}
-							title={"GSTR1 Report"}
-							totalText="Total GSTR1"
-						/>
-						<p
-							style={{
-								fontSize: "10px",
-								fontWeight: "bold",
-								marginLeft: "5px",
-							}}
-						>
-							Print
-						</p>
+					<div className={css.mathmaticalSigns}>=</div>
+					<div
+						className={css.navCalculatedDivs}
+						style={{ backgroundColor: "var(--GoldenBeige)" }}
+					>
+						<h2>Total</h2>
+						<h3>₹ {paidAmount.toFixed(2)}</h3>
 					</div>
-				</div>
+				</div> */}
 			</div>
 
 			{/* Middle */}

@@ -89,7 +89,7 @@ const Purchase = () => {
 		let paid = 0;
 		let unpaid = 0;
 		purchaseReportData?.forEach((item) => {
-			paid += item?.amount - item?.balanceDue || 0;
+			paid += item?.amount || 0;
 			unpaid += item?.balanceDue || 0;
 		});
 		setPaidAmount(paid);
