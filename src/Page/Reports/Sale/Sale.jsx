@@ -400,7 +400,7 @@ const Sale = () => {
 						<div>
 							<p className={css.activeForm}>
 								<span>Sale #1</span>
-								<CrossIcon />
+								
 							</p>
 						</div>
 						<div>

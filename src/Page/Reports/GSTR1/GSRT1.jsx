@@ -16,6 +16,9 @@ import JSONDownloadButton from "../../../components/json/DownloadJsonFormate";
 
 const GSRT1 = () => {
 	const dispatch = useDispatch();
+	// const companyName = JSON.parse(
+	// 	sessionStorage.getItem(USER_DETAILS)
+	//   )?.companyName;
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [select, setSelect] = useState();
 	const isLoading = useSelector((store) => store.ReportReducer.isLoading);
@@ -620,6 +623,7 @@ const GSRT1 = () => {
 							fields={relevantFields}
 							title={"GSTR1 Report"}
 							totalText="Total GSTR1"
+							// company={companyName}
 						/>
 						<p
 							style={{

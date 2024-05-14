@@ -20,36 +20,27 @@ const GSTR2 = () => {
 	// const purchaseReportData = useSelector(
 	//   (store) => store.ReportReducer.purchaseReportData
 	// );
-	const [select, setSelect] = useState();
+	
 	const [nonTaxExempted, setNonTaxExempted] = useState(false);
-	const [startDate, setStartDate] = useState("2024-02-01");
+	const [select, setSelect] = useState();
+	const currentDate = new Date();
+	const startOfMonth = new Date(
+		currentDate.getFullYear(),
+		currentDate.getMonth(),
+		1
+	);
+	const formattedStartDate = startOfMonth.toISOString().split("T")[0];
+	const [startDate, setStartDate] = useState(formattedStartDate);
 	const [endDate, setEndDate] = useState(
 		new Date().toISOString().split("T")[0]
 	);
-	const [items, setItems] = useState([]);
+	const [items, setItems] = useState();
 	console.log("this ssi", purchaseReportData);
 	useEffect(() => {
 		setItems(purchaseReportData);
 	}, [purchaseReportData]);
 	// fetch gstr2 Data
-	console.log("this items", items);
-	useEffect(() => {
-		const filteredData = purchaseReportData.filter((item) => {
-			// Convert item.invoiceDate to Date object
-			const invoiceDate = new Date(item.invoiceDate);
-			console.log("this is invoiceDate", invoiceDate);
-			// Parse startDate and endDate to Date objects
-			const [startMonth, startDay, startYear] = startDate.split("/");
-			const [endMonth, endDay, endYear] = endDate.split("/");
-			const start = new Date(`${startMonth}/${startDay}/${startYear}`);
-			const end = new Date(`${endMonth}/${endDay}/${endYear}`);
-			// Compare dates
-			return invoiceDate >= start && invoiceDate <= end;
-		});
-		setItems(filteredData);
-		console.log("thuis is itemdate", items);
-	}, [startDate, endDate]);
-
+	
 	const handleSelect = (e) => {
 		setSelect(e.target.value);
 	};
@@ -59,6 +50,7 @@ const GSTR2 = () => {
 	
 
 	const filterDataByTime = (purchaseReportData, timeInterval) => {
+		
 		const currentDate = new Date();
 		const currentMonth = currentDate.getMonth();
 		const currentYear = currentDate.getFullYear();
@@ -106,6 +98,7 @@ const GSTR2 = () => {
 
 	useEffect(() => {
 		const data = filterDataByTime(purchaseReportData, select);
+		console.log("this is data",data)
 		setItems(data);
 	}, [select]);
 
@@ -355,9 +348,11 @@ const GSTR2 = () => {
 
    useEffect(() => {
 		const filteredData = purchaseReportData.filter((item) => {
+
+			console.log("this is purchaseReportData", purchaseReportData);
 			// Convert item.invoiceDate to Date object
 			const invoiceDate = new Date(item.invoiceDate);
-			console.log("this is invoiceDate", invoiceDate);
+			
 			// Parse startDate and endDate to Date objects
 			const [startMonth, startDay, startYear] = startDate.split("/");
 			const [endMonth, endDay, endYear] = endDate.split("/");
@@ -369,6 +364,9 @@ const GSTR2 = () => {
 		setItems(filteredData);
 		console.log("thuis is itemdate", items);
 	}, [startDate, endDate]);
+
+
+console.log("this is items",items)
 
 	return isLoading ? (
 		<Loader3 text="Loading GSTR2" />
@@ -470,8 +468,8 @@ const GSTR2 = () => {
 						<PDFDownloadButton
 							data={purchaseReportData}
 							fields={relevantFields}
-							title={"Purchase Report"}
-							totalText="Total Purchase"
+							title={"GSTR2 Report"}
+							totalText="Total GSTR2"
 						/>
 						<p
 							style={{
@@ -541,7 +539,7 @@ const GSTR2 = () => {
 
 						{purchaseReportData?.length > 0 && (
 							<tbody>
-								{purchaseReportData?.map((item, ind) => (
+								{items?.map((item, ind) => (
 									<tr key={ind + item?._id}>
 										<td>
 											<div>{item?.gstNo || "-"}</div>
