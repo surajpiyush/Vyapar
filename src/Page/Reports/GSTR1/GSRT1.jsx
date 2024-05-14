@@ -583,8 +583,8 @@ const GSRT1 = () => {
 							<PDFDownloadButton
 								data={items}
 								fields={relevantFields}
-								title={"Sale Report"}
-								totalText="Total Purchanse"
+								title={"GSTR1 Report"}
+								totalText="GSTR1 Purchanse"
 							/>
 							<p
 								style={{

@@ -430,8 +430,8 @@ console.log("this is items",items)
 							<PDFDownloadButton
 								data={items}
 								fields={relevantFields}
-								title={"Sale Report"}
-								totalText="Total Purchanse"
+								title={"GSTR2 Report"}
+								totalText="GSTR2 Purchanse"
 							/>
 							<p
 								style={{
