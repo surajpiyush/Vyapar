@@ -291,8 +291,8 @@ const Home = () => {
 
 					{/* Purchase.jsx */}
 					<div className={css.purchaseContainer}>
-						<section className={css.purchaseHeading}>
-							<aside className={css.purchaseHeadingAside1}>
+						<div className={css.purchaseHeading}>
+							<div className={css.purchaseHeadingAside1}>
 								<div>
 									<DocumentIcon className={css.purchaseHeadingNotes} />
 									<div style={{ color: "GrayText" }}>Purchase</div>
@@ -306,7 +306,7 @@ const Home = () => {
 											: 0
 									}
 								/>
-							</aside>
+							</div>
 							<aside className={css.purchaseHeadingAside2}>
 								<div className={css.purchaseMonthDiv}>
 									<select defaultValue="This Month">
@@ -317,17 +317,14 @@ const Home = () => {
 									</select>
 								</div>
 							</aside>
-						</section>
-						<section className={css.purchaseContent}>
-							<aside className={css.purchaseContentAside2}>
-								<div
-									className="App"
-									style={{ width: "340px", height: "200px" }}
-								>
+						</div>
+						
+							
+								
 									<Line data={data} id="1" options={options}></Line>
-								</div>
-							</aside>
-						</section>
+								
+							
+						
 					</div>
 				</div>
 			</div>

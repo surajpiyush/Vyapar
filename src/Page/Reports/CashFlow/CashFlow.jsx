@@ -264,12 +264,12 @@ const CashFlow = () => {
         <div className={css.navTopADiv}>
           <div className={css.leftSideUpperPart}>
             <select defaultValue="This Month" className={css.monthSelectTag}>
-              <option value="All Sale Invoices">All Sale Invoices</option>
+              <option value="All">All Cash Flow</option>
               <option value="This Month">This Month</option>
               <option value="Last Month">Last Month</option>
               <option value="This Quarter">This Quarter</option>
               <option value="This Year">This Year</option>
-              <option value="Custom">Custom</option>
+        
             </select>
             <div className={css.divContainingDateInps}>
               <h3>Between</h3>
