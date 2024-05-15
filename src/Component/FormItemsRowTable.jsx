@@ -336,7 +336,7 @@ export default FormItemsRowTable;
 const Calculator = (item) => {
    //  console.log(item);
    const parseToNumber = (value) => (value ? parseFloat(value) : 0);
-
+console.log("this is sale invoice items",item)
    let amount = parseToNumber(item?.amount) || 0;
    let taxAmount = parseToNumber(item?.taxAmount) || 0;
    let discountPercent = parseToNumber(item?.discountpersant) || 0;

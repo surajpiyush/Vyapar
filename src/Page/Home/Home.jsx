@@ -29,6 +29,7 @@ import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LOGOUT } from "../../Redux/business/action";
+import SalePriceComponent from "../../components/numberFormate/NumberFormate";
 ChartJS.register(
 	Title,
 	Tooltip,
@@ -110,7 +111,8 @@ const Home = () => {
 		isError: false,
 		data: {},
 	});
-
+	const [select, setSelect] = useState();
+	const [items, setItems] = useState();
 	const [salStart, setSalStart] = useState("2024-02-01");
 	const [salEnd, setSalEnd] = useState(new Date().toISOString().split("T")[0]);
 	const [expStart, setExpStart] = useState("2024-02-01");
@@ -160,6 +162,8 @@ const Home = () => {
 		}
 	};
 
+	const handleSelect = () => {};
+
 	useEffect(() => {
 		FetchHomeData();
 	}, []);
@@ -180,7 +184,7 @@ const Home = () => {
 							</aside>
 							<aside className={css.SaleHeadingAside2}>
 								<div className={css.SaleMonthDiv}>
-									<select defaultValue="This Month">
+									<select defaultValue="This Month" onChange={handleSelect}>
 										<option value="This Month">This Month</option>
 										<option value="Last Month">Last Month</option>
 										<option value="Quarter Year">Quarter Year</option>
@@ -191,16 +195,19 @@ const Home = () => {
 						</section>
 						<section className={css.SaleContent}>
 							<aside className={css.SaleContentAside1}>
-								<div>
-									<h3 className={css.bigAmountText}>
-										₹{" "}
-										{homeStates?.data?.saleOrders
-											? homeStates?.data?.saleOrders[0]?.saleOrders[0]
-													?.openOrderAmount || "00.00"
-											: 0}
-									</h3>
-									<p className={css.SaleAmountText}>Total Sale (Feb)</p>
-								</div>
+								<h3 className={css.bigAmountText}>
+									<SalePriceComponent
+										salePrice={
+											homeStates?.data?.saleOrders
+												? homeStates?.data?.saleOrders[0]?.saleOrders[0]
+														?.openOrderAmount || "00.00"
+												: 0
+										}
+									/>
+									{}
+								</h3>
+								<p className={css.SaleAmountText}>Total Sale (Feb)</p>
+
 								<div className={css.SaleGrowthData}>
 									<div>
 										<UpArrowIcon2 className={css.SaleTopArrowIcon} />
@@ -210,12 +217,7 @@ const Home = () => {
 								</div>
 							</aside>
 							<aside className={css.SaleContentAside2}>
-								<div
-									className="App"
-									style={{ width: "350px", height: "300px" }}
-								>
-									<Line data={data} options={options}></Line>
-								</div>
+								<Line data={data} options={options}></Line>
 							</aside>
 						</section>
 					</div>
@@ -226,11 +228,21 @@ const Home = () => {
 							<aside className={css.expensesHeadingAside1}>
 								<div>
 									<WalletIcon className={css.expensesHeadingNotes} />
-									<h4>Expenses</h4>
+									<h5>Expenses</h5>
+									<aside className={css.expensesHeadingAside2}>
+										<div className={css.expensesMonthDiv}>
+											<select defaultValue="This Month">
+												<option value="This Month">This Month</option>
+												<option value="Last Month">Last Month</option>
+												<option value="Quarter Year">Quarter Year</option>
+												<option value="This Year">This Year</option>
+											</select>{" "}
+										</div>
+									</aside>
 								</div>
 								<div>
 									<h3 className={css.mediumAmountText}>
-										₹{" "}
+										<SalePriceComponent />
 										{homeStates?.data?.expenseTotal
 											? Number(
 													homeStates?.data?.expenseTotal[0]?.expWithoutGst[0]
@@ -243,23 +255,11 @@ const Home = () => {
 											  "00.00"
 											: 0 || 0}
 									</h3>
-									<aside className={css.expensesHeadingAside2}>
-										<div className={css.expensesMonthDiv}>
-											<select defaultValue="This Month">
-												<option value="This Month">This Month</option>
-												<option value="Last Month">Last Month</option>
-												<option value="Quarter Year">Quarter Year</option>
-												<option value="This Year">This Year</option>
-											</select>{" "}
-										</div>
-									</aside>
 								</div>
 							</aside>
 						</section>
 
-						<div className="App" style={{ width: "220px", height: "200px" }}>
-							<Line data={data} id="1" options={options}></Line>
-						</div>
+						<Line data={data} id="1" options={options}></Line>
 					</div>
 				</div>
 
@@ -273,13 +273,14 @@ const Home = () => {
 									<h3>{item.heading}</h3>
 								</div>
 								<div className={css.bottomAmountDiv}>
-									<h3 className={css.mediumAmountText}>
-										₹{" "}
-										{homeStates?.data?.youPay
-											? homeStates?.data?.youPay[0]?.Purchase[0]?.youPay ||
-											  "00.00"
-											: 0}
-									</h3>
+									<SalePriceComponent
+										salePrice={
+											homeStates?.data?.youPay
+												? homeStates?.data?.youPay[0]?.Purchase[0]?.youPay ||
+												  "00.00"
+												: 0
+										}
+									/>
 								</div>
 							</div>
 							<div className={css.bottomItemDiv4}>
@@ -294,15 +295,17 @@ const Home = () => {
 							<aside className={css.purchaseHeadingAside1}>
 								<div>
 									<DocumentIcon className={css.purchaseHeadingNotes} />
-									<h4>Purchase</h4>
+									<div style={{ color: "GrayText" }}>Purchase</div>
 								</div>
-								<h3 className={css.mediumAmountText}>
-									₹{" "}
-									{homeStates?.data?.purchaseOrder
-										? homeStates?.data?.purchaseOrder[0]?.purchaseOrder[0]
-												?.openOrderAmount || "00.00"
-										: 0}
-								</h3>
+
+								<SalePriceComponent
+									salePrice={
+										homeStates?.data?.purchaseOrder
+											? homeStates?.data?.purchaseOrder[0]?.purchaseOrder[0]
+													?.openOrderAmount || "00.00"
+											: 0
+									}
+								/>
 							</aside>
 							<aside className={css.purchaseHeadingAside2}>
 								<div className={css.purchaseMonthDiv}>
