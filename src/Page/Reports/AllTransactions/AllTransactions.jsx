@@ -83,12 +83,13 @@ const AllTransactions = () => {
 		transactionData?.forEach((item) => {
 console.log("this si items",item)
 
-			paid += item.total?item.total:0 
+			paid += item.total?item.total
+			:0 
 			unpaid += item?.balanceDue || 0;
 		});
 		setPaidAmount(paid);
 		setUnpaidAmount(unpaid);
-	}, [allTransactionsData]);
+	}, []);
 	useEffect(() => {
 		const extractedData = allTransactionsData?.flatMap((data) => [
 			...(Array.isArray(data?.PuchaseBill[0]?.PuchaseBill)

@@ -313,6 +313,9 @@ const SidebarItems = [
       { name: "GSTR 3B", to: "/gstr3breport" },
       { name: "GSTR 9", to: "/gstr9report" },
       { name: "Sale HSN", to: "/salehsnreport" },
+      { name: "Profit And Loss", to: "/ProfitLossReport" },
+      { name: "Bill Wise Profit", to: "/BillwiseProfit" },
+      { name: "Party Statement", to: "/PartyStatement" }
     ],
   },
   {

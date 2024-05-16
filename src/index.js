@@ -43,6 +43,9 @@ import { CashInHand } from "./Page/BankAndAccount/CashInHand/CashInHand.jsx";
 import Cheques from "./Page/BankAndAccount/Cheques/Cheques.jsx";
 import LoanAccount from "./Page/BankAndAccount/LoanAccount/LoanAccount.jsx";
 import FixedAssets from "./Page/BankAndAccount/FixedAssets/FixedAssets.jsx";
+import ProfitLossReport from "./Page/Reports/ProfitLoss/ProfitLoss.jsx";
+import BillwiseProfit from "./Page/Reports/Billwise Profit/BillwiseProfit.jsx";
+import PartyStatement from "./Page/Reports/PartyStatement/PartyStatement.jsx";
 
 const router = createBrowserRouter([
    {
@@ -137,8 +140,16 @@ const router = createBrowserRouter([
             element: <AllTransactions />,
          },
          {
+            path: "/BillwiseProfit",
+            element: <BillwiseProfit />,
+         },
+         {
             path: "/cashflowreport",
             element: <CashFlow />,
+         },
+         {
+            path: "/PartyStatement",
+            element: <PartyStatement />,
          },
          {
             path: "/gstr1report",
@@ -147,6 +158,10 @@ const router = createBrowserRouter([
          {
             path: "/gstr2report",
             element: <GSTR2 />,
+         },
+         {
+            path:"/ProfitLossReport",
+            element:<ProfitLossReport/>
          },
          {
             path: "/gstr3breport",

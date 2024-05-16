@@ -1,0 +1,19 @@
+.headers {
+    display: flex;
+    background-color: rgb(232, 236, 236);
+    padding-left: 1px;
+    height: 40px;
+    padding-top: 5px;
+    color: rgb(158, 147, 147);
+    
+}
+
+
+.divContainingDateInps{
+    margin-top: 20px;
+    background-color: rgb(228, 230, 231);
+    color: #f7f4f4;
+}
+.headerContainer{
+    background-color: #f7f4f4;
+}
