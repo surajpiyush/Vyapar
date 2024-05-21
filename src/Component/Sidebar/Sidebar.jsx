@@ -315,7 +315,8 @@ const SidebarItems = [
       { name: "Sale HSN", to: "/salehsnreport" },
       { name: "Profit And Loss", to: "/ProfitLossReport" },
       { name: "Bill Wise Profit", to: "/BillwiseProfit" },
-      { name: "Party Statement", to: "/PartyStatement" }
+      { name: "Party Statement", to: "/PartyStatement" },
+      { name: "All Parties ", to: "/AllParties" }
     ],
   },
   {

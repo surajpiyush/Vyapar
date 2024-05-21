@@ -47,6 +47,8 @@ const AddItemForm = ({
       (store) => store.ItemReducer.loadingGetAllCategories
    );
    const categoriesList = useSelector((store) => store.ItemReducer.category);
+console.log("this is  categoriesList",)
+
    const [currInps, setCurrInps] = useState("Pricing");
    const [currCategoryName, setCurrCategoryName] = useState("");
    const [showAddCategoryForm, setShowAddCategoryForm] = useState(false);
@@ -57,6 +59,7 @@ const AddItemForm = ({
       itemHsn: "",
       seleteUnit: { baseUnit: "", secondaryUnit: "" },
       category: "",
+      categoryName: "",
       itemCode: "",
       salePrice: {
          salePrice: "",
@@ -82,6 +85,7 @@ const AddItemForm = ({
 
    useEffect(() => {
       if (usedAsEditForm) {
+         console.log("clickedItemDafdsfwata", clickedItemData);
          setFormData((prev) => {
             return { ...prev, ...clickedItemData };
          });
@@ -189,8 +193,10 @@ const AddItemForm = ({
                minStockToMaintain: Number(formData?.stock?.minStockToMaintain),
             },
          };
-         // console.log("data for the item :-",ItemData)
+          console.log("data for the item :-",ItemData)
+
          if (usedAsEditForm) {
+            console.log("qdwefeg")
             UpdateItem(dispatch, ItemData?._id, ItemData, CloseForm, navigate);
          } else {
             AddItem(dispatch, ItemData, CloseForm, navigate);
@@ -198,6 +204,9 @@ const AddItemForm = ({
          // console.log("Add Item Data", clickedItemData);
       }
    };
+
+
+
 
    //   Delete Item Function
    const handleDelete = () => {
@@ -351,7 +360,7 @@ const AddItemForm = ({
                            onClick={() => setShowCategoryMenu(true)}
                            className={css.menuInpCss}
                         >
-                           <h3>{currCategoryName}</h3>
+                           <input type="text" value={formData.categoryName} />
                         </div>
                         <label
                            className={
@@ -394,19 +403,20 @@ const AddItemForm = ({
                                                    category: "",
                                                 };
                                              });
-                                             setCurrCategoryName("");
+                                             setCurrCategoryName(item.categoryName);
                                              setShowCategoryMenu(false);
                                           } else {
                                              setFormData((prev) => {
                                                 return {
                                                    ...prev,
                                                    category: item?._id,
+                                                   categoryName:item?.categoryName
                                                 };
                                              });
                                              setCurrCategoryName(
                                                 item?.categoryName
                                              );
-                                             setShowCategoryMenu(false);
+                                             setShowCategoryMenu(true);
                                           }
                                        }}
                                        className={css.cateItemCss}
@@ -416,9 +426,11 @@ const AddItemForm = ({
                                           type="checkbox"
                                           checked={
                                              formData?.category == item?._id
+                                           
                                           }
+                                      
                                        />
-                                       <h3>{item?.categoryName}</h3>
+                                       <h3>{item?.categoryName }</h3>
                                     </div>
                                  ))}
                               </div>

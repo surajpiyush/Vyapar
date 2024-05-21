@@ -46,6 +46,7 @@ import FixedAssets from "./Page/BankAndAccount/FixedAssets/FixedAssets.jsx";
 import ProfitLossReport from "./Page/Reports/ProfitLoss/ProfitLoss.jsx";
 import BillwiseProfit from "./Page/Reports/Billwise Profit/BillwiseProfit.jsx";
 import PartyStatement from "./Page/Reports/PartyStatement/PartyStatement.jsx";
+import AllParties from "./Page/Reports/AllParties/AllParties.jsx";
 
 const router = createBrowserRouter([
    {
@@ -150,6 +151,10 @@ const router = createBrowserRouter([
          {
             path: "/PartyStatement",
             element: <PartyStatement />,
+         },
+         {
+            path: "/AllParties",
+            element: <AllParties />,
          },
          {
             path: "/gstr1report",

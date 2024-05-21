@@ -556,7 +556,7 @@ const Purchase = () => {
 							<div>
 								<input
 									type="text"
-									onChange={handleSearch}
+									
 									placeholder="Search..."
 								/>
 							</div>

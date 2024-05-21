@@ -129,7 +129,7 @@ export const GetSelectedItemData = async (dispatch, itemId, navigate) => {
          { headers: { Authorization: `Bearer ${token} ` } }
       );
 
-      // console.log("Get Selected Item Data Response:", response?.data);
+       console.log("Get Selected Item Data Response:", response?.data);
       dispatch({
          type: SUCCESS_GET_SELECTED_ITEM,
          payload: {
@@ -167,7 +167,7 @@ export const UpdateItem = async (
          { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // console.log("Update Item Response:", response.data);
+       console.log("Update11 Item Response:", response.data);
       dispatch({ type: SUCCESS_UPDATE_ITEM });
       toast.success("Item details updated.");
       setShowEditFirm(false);

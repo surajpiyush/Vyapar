@@ -1,0 +1,32 @@
+.headers{
+    display: flex;
+ height: 100px;
+    flex-direction: row;
+   padding-top: 30px;
+   color: black;
+}
+.saleOrderSearchDiv {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 2px;
+    border: 1px solid var(--greyC);
+    text-align: left;
+    padding: 3px 8px;
+   width: 21%;
+   margin-left: 5px;
+    svg {
+      cursor: pointer;
+      font-size: 18px;
+      color: var(--greyC);
+    }
+  }
+  .saleOrderSearchDiv input {
+    border: none;
+    height: 100%;
+    color: var(--greyA);
+  }
+  .saleOrderSearchDiv input:focus {
+    outline: none;
+    flex: 2;
+  }
