@@ -47,6 +47,11 @@ import ProfitLossReport from "./Page/Reports/ProfitLoss/ProfitLoss.jsx";
 import BillwiseProfit from "./Page/Reports/Billwise Profit/BillwiseProfit.jsx";
 import PartyStatement from "./Page/Reports/PartyStatement/PartyStatement.jsx";
 import AllParties from "./Page/Reports/AllParties/AllParties.jsx";
+import BalanceSheet from "./Page/Reports/BalanceSheet/BalanceSheet.jsx";
+import PartyReportByItem from "./Page/Reports/PartyReportsByItem/PartyReportByItem.jsx";
+import SalePurchaseByParty from "./Page/Reports/salePurchasebyParty/SalePurchaseByParty.jsx";
+import PartyReportByPartyGroup from "./Page/Reports/PartyReportsByPartyGroup/PartyReportByPartyGroup.jsx";
+
 
 const router = createBrowserRouter([
    {
@@ -129,8 +134,26 @@ const router = createBrowserRouter([
             element: <Sale />,
          },
          {
+            path: "/PartyReportByItem",
+            element: <PartyReportByItem/>,
+         },
+        
+         {
+            path: "/SalePurchaseByParty",
+            element: <SalePurchaseByParty/>,
+         },
+         {
+            path: "/PartyReportByPartyGroup",
+            element: <PartyReportByPartyGroup/>,
+         },
+        
+         {
             path: "/purchasereport",
             element: <Purchase />,
+         },
+         {
+            path: "/BalanceSheet",
+            element: <BalanceSheet />,
          },
          {
             path: "/daybookreport",

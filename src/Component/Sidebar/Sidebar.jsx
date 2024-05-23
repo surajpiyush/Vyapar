@@ -316,7 +316,11 @@ const SidebarItems = [
       { name: "Profit And Loss", to: "/ProfitLossReport" },
       { name: "Bill Wise Profit", to: "/BillwiseProfit" },
       { name: "Party Statement", to: "/PartyStatement" },
-      { name: "All Parties ", to: "/AllParties" }
+      { name: "All Parties ", to: "/AllParties" },
+      { name: "Balance Sheet", to: "/BalanceSheet" },
+      { name: "Party Report By Item", to: "/PartyReportByItem" },
+      { name: "Sale Purchase By Party", to: "/SalePurchaseByParty" },
+      { name: "Sale Purchase By Party Group", to: "/PartyReportByPartyGroup" },
     ],
   },
   {
