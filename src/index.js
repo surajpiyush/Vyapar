@@ -51,6 +51,19 @@ import BalanceSheet from "./Page/Reports/BalanceSheet/BalanceSheet.jsx";
 import PartyReportByItem from "./Page/Reports/PartyReportsByItem/PartyReportByItem.jsx";
 import SalePurchaseByParty from "./Page/Reports/salePurchasebyParty/SalePurchaseByParty.jsx";
 import PartyReportByPartyGroup from "./Page/Reports/PartyReportsByPartyGroup/PartyReportByPartyGroup.jsx";
+import SACReports from "./Page/Reports/SAC Reports/SACReport.jsx";
+import StockSummery from "./Page/Reports/StockSummery/StockSummery.jsx";
+import LowStockSummery from "./Page/Reports/LowStockSummery/LowStockSummery.jsx";
+import StockDetail from "./Page/Reports/StockDetails/StockDetails.jsx";
+import ItemDetail from "./Page/Reports/ItemDetail/ItemDetail.jsx";
+import ItemReportByParty from "./Page/Reports/ItemReportByParty/ItemReportByParty.jsx";
+import ItemSerialReport from "./Page/Reports/ItemSerialReport/ItemSerialReport.jsx";
+import ItemBatchReport from "./Page/Reports/ItemBatchReport/ItemBatchReport.jsx";
+import ItemWiseProfitAndLoss from "./Page/Reports/ItemWiseProfitAndLoss/ItemWiseProfitAndLoss.jsx";
+import ItemWiseDiscount from "./Page/Reports/ItemWiseDiscount/ItemWiseDiscount.jsx";
+import SalePurchaseByPartyGroup from "./Page/Reports/SalePurchaseByPartyGroup/SalePurchseByPartyGroup.jsx";
+import SaleAndPurchaseReportByCategory from "./Page/Reports/purchaseAndSaleReportByCategory/SaleAndPurchaseReportByCategory.jsx";
+import StockSummerReportByItemCategory from "./Page/Reports/StockSummerReportByItemCategory/StockSummerReportByItemCategory.jsx";
 
 
 const router = createBrowserRouter([
@@ -132,6 +145,58 @@ const router = createBrowserRouter([
          {
             path: "/salereport",
             element: <Sale />,
+         },
+         {
+            path: "/ItemWiseProfitAndLoss",
+            element: <ItemWiseProfitAndLoss />,
+         },
+         {
+            path: "/SaleAndPurchaseReportByCategory",
+            element: <SaleAndPurchaseReportByCategory />,
+         },
+         {
+            path: "/StockSummerReportByItemCategory",
+            element: <StockSummerReportByItemCategory />,
+         },
+         {
+            path: "/SalePurchaseByPartyGroup",
+            element: <SalePurchaseByPartyGroup />,
+         },
+         {
+            path: "/ItemWiseDiscount",
+            element: <ItemWiseDiscount />,
+         },
+         {
+            path: "/SACReports",
+            element: <SACReports />,
+         },
+         {
+            path: "/ItemSerialReport",
+            element: <ItemSerialReport />,
+         },
+         {
+            path: "/StockSummery",
+            element: <StockSummery />,
+         },
+         {
+            path: "/ItemBatchReport",
+            element: <ItemBatchReport />,
+         },
+         {
+            path: "/ItemDetail",
+            element: <ItemDetail />,
+         },
+         {
+            path: "/LowStockSummery",
+            element: <LowStockSummery />,
+         },
+         {
+            path: "/ItemReportByParty",
+            element: <ItemReportByParty />,
+         },
+         {
+            path: "/StockDetail",
+            element: <StockDetail />,
          },
          {
             path: "/PartyReportByItem",

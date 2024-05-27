@@ -223,7 +223,7 @@ export default Sidebar;
 
 // Include all the Sidebar Links which has nested Links for other routes
 const linksWithNestedRoutes = [
-  "Sale",
+  "HSC",
   "Purchase",
   "Backup/Restore",
   "Reports",
@@ -321,6 +321,19 @@ const SidebarItems = [
       { name: "Party Report By Item", to: "/PartyReportByItem" },
       { name: "Sale Purchase By Party", to: "/SalePurchaseByParty" },
       { name: "Sale Purchase By Party Group", to: "/PartyReportByPartyGroup" },
+      { name: "SAC Reports", to: "/SACReports" },
+      { name: "Stock Summery", to: "/StockSummery" },
+      { name: "Low Stock Summery", to: "/LowStockSummery" },
+      { name: "Stock Detail", to: "/StockDetail" },
+      { name: "Item Detail", to: "/ItemDetail" },
+      { name: "Item Report By Party", to: "/ItemReportByParty" },
+      { name: "Item Serial Report", to: "/ItemSerialReport" },
+      { name: "Item Batch Report", to: "/ItemBatchReport" },
+      { name: "Item wise Profit and Loss", to: "/ItemWiseProfitAndLoss" },
+      { name: "Item wise Discount", to: "/ItemWiseDiscount" },
+      { name: "Sale Purchase By Party Group", to: "/SalePurchaseByPartyGroup" },
+      { name: "Sale / Purchase Report By Item Category", to: "/SaleAndPurchaseReportByCategory" },
+      { name: "Stock Summery Report By Item Category", to: "/StockSummerReportByItemCategory" },
     ],
   },
   {
